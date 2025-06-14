@@ -21,16 +21,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function abort_document_version_upload(
+abort_document_version_upload(
     DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "DELETE",
+    "/api/v1/documents/$(DocumentId)/versions/$(VersionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "DELETE",
-        "/api/v1/documents/$(DocumentId)/versions/$(VersionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function abort_document_version_upload(
     DocumentId,
     VersionId,
@@ -60,14 +58,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function activate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "POST",
-        "/api/v1/users/$(UserId)/activation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+activate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "POST",
+    "/api/v1/users/$(UserId)/activation";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function activate_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -97,17 +93,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"NotificationOptions"`: The notification options.
 """
-function add_resource_permissions(
+add_resource_permissions(
     Principals, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "POST",
+    "/api/v1/resources/$(ResourceId)/permissions",
+    Dict{String,Any}("Principals" => Principals);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "POST",
-        "/api/v1/resources/$(ResourceId)/permissions",
-        Dict{String,Any}("Principals" => Principals);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_resource_permissions(
     Principals,
     ResourceId,
@@ -148,17 +142,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   comment is visible only to the comment author and document owner and co-owners, or PUBLIC,
   where the comment is visible to document owners, co-owners, and contributors.
 """
-function create_comment(
+create_comment(
     DocumentId, Text, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "POST",
+    "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "POST",
-        "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_comment(
     DocumentId,
     Text,
@@ -193,17 +185,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionid"`: The ID of the version, if the custom metadata is being added to a document
   version.
 """
-function create_custom_metadata(
+create_custom_metadata(
     CustomMetadata, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "PUT",
+    "/api/v1/resources/$(ResourceId)/customMetadata",
+    Dict{String,Any}("CustomMetadata" => CustomMetadata);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "PUT",
-        "/api/v1/resources/$(ResourceId)/customMetadata",
-        Dict{String,Any}("CustomMetadata" => CustomMetadata);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_custom_metadata(
     CustomMetadata,
     ResourceId,
@@ -236,15 +226,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"Name"`: The name of the new folder.
 """
-function create_folder(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "POST",
-        "/api/v1/folders",
-        Dict{String,Any}("ParentFolderId" => ParentFolderId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_folder(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "POST",
+    "/api/v1/folders",
+    Dict{String,Any}("ParentFolderId" => ParentFolderId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_folder(
     ParentFolderId,
     params::AbstractDict{String};
@@ -276,17 +264,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function create_labels(
-    Labels, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+create_labels(Labels, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "PUT",
         "/api/v1/resources/$(ResourceId)/labels",
         Dict{String,Any}("Labels" => Labels);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_labels(
     Labels,
     ResourceId,
@@ -319,25 +304,23 @@ up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide.
 - `subscription_type`: The notification type.
 
 """
-function create_notification_subscription(
+create_notification_subscription(
     Endpoint,
     OrganizationId,
     Protocol,
     SubscriptionType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workdocs(
+    "POST",
+    "/api/v1/organizations/$(OrganizationId)/subscriptions",
+    Dict{String,Any}(
+        "Endpoint" => Endpoint,
+        "Protocol" => Protocol,
+        "SubscriptionType" => SubscriptionType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "POST",
-        "/api/v1/organizations/$(OrganizationId)/subscriptions",
-        Dict{String,Any}(
-            "Endpoint" => Endpoint,
-            "Protocol" => Protocol,
-            "SubscriptionType" => SubscriptionType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_notification_subscription(
     Endpoint,
     OrganizationId,
@@ -387,26 +370,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StorageRule"`: The amount of storage for the user.
 - `"TimeZoneId"`: The time zone ID of the user.
 """
-function create_user(
+create_user(
     GivenName,
     Password,
     Surname,
     Username;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workdocs(
+    "POST",
+    "/api/v1/users",
+    Dict{String,Any}(
+        "GivenName" => GivenName,
+        "Password" => Password,
+        "Surname" => Surname,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "POST",
-        "/api/v1/users",
-        Dict{String,Any}(
-            "GivenName" => GivenName,
-            "Password" => Password,
-            "Surname" => Surname,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user(
     GivenName,
     Password,
@@ -449,14 +430,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function deactivate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "DELETE",
-        "/api/v1/users/$(UserId)/activation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+deactivate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "DELETE",
+    "/api/v1/users/$(UserId)/activation";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function deactivate_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -485,16 +464,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function delete_comment(
+delete_comment(
     CommentId, DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "DELETE",
+    "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "DELETE",
-        "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_comment(
     CommentId,
     DocumentId,
@@ -530,16 +507,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionId"`: The ID of the version, if the custom metadata is being deleted from a
   document version.
 """
-function delete_custom_metadata(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+delete_custom_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "DELETE",
         "/api/v1/resources/$(ResourceId)/customMetadata";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_custom_metadata(
     ResourceId,
     params::AbstractDict{String};
@@ -568,14 +542,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function delete_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "DELETE",
-        "/api/v1/documents/$(DocumentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "DELETE",
+    "/api/v1/documents/$(DocumentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_document(
     DocumentId,
     params::AbstractDict{String};
@@ -606,20 +578,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function delete_document_version(
+delete_document_version(
     DocumentId,
     VersionId,
     deletePriorVersions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workdocs(
+    "DELETE",
+    "/api/v1/documentVersions/$(DocumentId)/versions/$(VersionId)",
+    Dict{String,Any}("deletePriorVersions" => deletePriorVersions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "DELETE",
-        "/api/v1/documentVersions/$(DocumentId)/versions/$(VersionId)",
-        Dict{String,Any}("deletePriorVersions" => deletePriorVersions);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_document_version(
     DocumentId,
     VersionId,
@@ -656,14 +626,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function delete_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "DELETE",
-        "/api/v1/folders/$(FolderId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "DELETE",
+    "/api/v1/folders/$(FolderId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_folder(
     FolderId,
     params::AbstractDict{String};
@@ -692,14 +660,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function delete_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
+delete_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "DELETE",
         "/api/v1/folders/$(FolderId)/contents";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_folder_contents(
     FolderId,
     params::AbstractDict{String};
@@ -730,14 +697,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deleteAll"`: Flag to request removal of all labels from the specified resource.
 - `"labels"`: List of labels to delete from the resource.
 """
-function delete_labels(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "DELETE",
-        "/api/v1/resources/$(ResourceId)/labels";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_labels(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "DELETE",
+    "/api/v1/resources/$(ResourceId)/labels";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_labels(
     ResourceId,
     params::AbstractDict{String};
@@ -763,16 +728,14 @@ Deletes the specified subscription from the specified organization.
 - `subscription_id`: The ID of the subscription.
 
 """
-function delete_notification_subscription(
+delete_notification_subscription(
     OrganizationId, SubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "DELETE",
+    "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "DELETE",
-        "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_notification_subscription(
     OrganizationId,
     SubscriptionId,
@@ -805,14 +768,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using administrative API actions, as in accessing the API using Amazon Web Services
   credentials.
 """
-function delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "DELETE",
-        "/api/v1/users/$(UserId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "DELETE",
+    "/api/v1/users/$(UserId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -854,11 +815,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pertaining to this user. This is an optional parameter and is only applicable for
   administrative API (SigV4) requests.
 """
-function describe_activities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET", "/api/v1/activities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET", "/api/v1/activities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_activities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -889,16 +848,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results. This marker was received from a
   previous call.
 """
-function describe_comments(
+describe_comments(
     DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "GET",
+    "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "GET",
-        "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_comments(
     DocumentId,
     VersionId,
@@ -936,16 +893,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 """
-function describe_document_versions(
-    DocumentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+describe_document_versions(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "GET",
         "/api/v1/documents/$(DocumentId)/versions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_document_versions(
     DocumentId,
     params::AbstractDict{String};
@@ -985,16 +939,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: The sorting criteria.
 - `"type"`: The type of items.
 """
-function describe_folder_contents(
-    FolderId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+describe_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "GET",
         "/api/v1/folders/$(FolderId)/contents";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_folder_contents(
     FolderId,
     params::AbstractDict{String};
@@ -1028,15 +979,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"organizationId"`: The ID of the organization.
 """
-function describe_groups(searchQuery; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET",
-        "/api/v1/groups",
-        Dict{String,Any}("searchQuery" => searchQuery);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_groups(searchQuery; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET",
+    "/api/v1/groups",
+    Dict{String,Any}("searchQuery" => searchQuery);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_groups(
     searchQuery,
     params::AbstractDict{String};
@@ -1068,16 +1017,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 """
-function describe_notification_subscriptions(
+describe_notification_subscriptions(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "GET",
+    "/api/v1/organizations/$(OrganizationId)/subscriptions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "GET",
-        "/api/v1/organizations/$(OrganizationId)/subscriptions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_notification_subscriptions(
     OrganizationId,
     params::AbstractDict{String};
@@ -1110,16 +1057,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call)
 - `"principalId"`: The ID of the principal to filter permissions by.
 """
-function describe_resource_permissions(
+describe_resource_permissions(
     ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "GET",
+    "/api/v1/resources/$(ResourceId)/permissions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "GET",
-        "/api/v1/resources/$(ResourceId)/permissions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_resource_permissions(
     ResourceId,
     params::AbstractDict{String};
@@ -1154,17 +1099,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 """
-function describe_root_folders(
-    Authentication; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+describe_root_folders(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "GET",
         "/api/v1/me/root",
         Dict{String,Any}("headers" => Dict{String,Any}("Authentication" => Authentication));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_root_folders(
     Authentication,
     params::AbstractDict{String};
@@ -1220,11 +1162,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: The sorting criteria.
 - `"userIds"`: The IDs of the users.
 """
-function describe_users(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET", "/api/v1/users"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_users(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs("GET", "/api/v1/users"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1251,15 +1190,14 @@ in the Amazon WorkDocs Developer Guide.
 - `authentication`: Amazon WorkDocs authentication token.
 
 """
-function get_current_user(Authentication; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
+get_current_user(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "GET",
         "/api/v1/me",
         Dict{String,Any}("headers" => Dict{String,Any}("Authentication" => Authentication));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_current_user(
     Authentication,
     params::AbstractDict{String};
@@ -1297,14 +1235,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
-function get_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET",
-        "/api/v1/documents/$(DocumentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET",
+    "/api/v1/documents/$(DocumentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_document(
     DocumentId,
     params::AbstractDict{String};
@@ -1340,14 +1276,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of levels in the hierarchy to return.
 - `"marker"`: This value is not supported.
 """
-function get_document_path(DocumentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET",
-        "/api/v1/documents/$(DocumentId)/path";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_document_path(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET",
+    "/api/v1/documents/$(DocumentId)/path";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_document_path(
     DocumentId,
     params::AbstractDict{String};
@@ -1380,16 +1314,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source document.
 - `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
-function get_document_version(
+get_document_version(
     DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "GET",
+    "/api/v1/documents/$(DocumentId)/versions/$(VersionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "GET",
-        "/api/v1/documents/$(DocumentId)/versions/$(VersionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_document_version(
     DocumentId,
     VersionId,
@@ -1420,14 +1352,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"includeCustomMetadata"`: Set to TRUE to include custom metadata in the response.
 """
-function get_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET",
-        "/api/v1/folders/$(FolderId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET",
+    "/api/v1/folders/$(FolderId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_folder(
     FolderId,
     params::AbstractDict{String};
@@ -1463,14 +1393,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of levels in the hierarchy to return.
 - `"marker"`: This value is not supported.
 """
-function get_folder_path(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET",
-        "/api/v1/folders/$(FolderId)/path";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_folder_path(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET",
+    "/api/v1/folders/$(FolderId)/path";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_folder_path(
     FolderId,
     params::AbstractDict{String};
@@ -1503,11 +1431,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user ID for the resource collection. This is a required field for
   accessing the API operation using IAM credentials.
 """
-function get_resources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "GET", "/api/v1/resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "GET", "/api/v1/resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1543,13 +1469,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the document.
 - `"ParentFolderId"`: The ID of the parent folder.
 """
-function initiate_document_version_upload(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+initiate_document_version_upload(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "POST", "/api/v1/documents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function initiate_document_version_upload(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1576,16 +1499,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function remove_all_resource_permissions(
+remove_all_resource_permissions(
     ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "DELETE",
+    "/api/v1/resources/$(ResourceId)/permissions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "DELETE",
-        "/api/v1/resources/$(ResourceId)/permissions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_all_resource_permissions(
     ResourceId,
     params::AbstractDict{String};
@@ -1616,16 +1537,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"type"`: The principal type of the resource.
 """
-function remove_resource_permission(
+remove_resource_permission(
     PrincipalId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "DELETE",
+    "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "DELETE",
-        "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_resource_permission(
     PrincipalId,
     ResourceId,
@@ -1655,16 +1574,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 """
-function restore_document_versions(
-    DocumentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workdocs(
+restore_document_versions(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workdocs(
         "POST",
         "/api/v1/documentVersions/restore/$(DocumentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function restore_document_versions(
     DocumentId,
     params::AbstractDict{String};
@@ -1703,11 +1619,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryText"`: The String to search for. Searches across different text fields based on
   request parameters. Use double quotes around the query string for exact phrase matches.
 """
-function search_resources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "POST", "/api/v1/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+search_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "POST", "/api/v1/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function search_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1739,14 +1653,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceState"`: The resource state of the document. Only ACTIVE and RECYCLED are
   supported.
 """
-function update_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "PATCH",
-        "/api/v1/documents/$(DocumentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "PATCH",
+    "/api/v1/documents/$(DocumentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_document(
     DocumentId,
     params::AbstractDict{String};
@@ -1779,16 +1691,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"VersionStatus"`: The status of the version.
 """
-function update_document_version(
+update_document_version(
     DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workdocs(
+    "PATCH",
+    "/api/v1/documents/$(DocumentId)/versions/$(VersionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workdocs(
-        "PATCH",
-        "/api/v1/documents/$(DocumentId)/versions/$(VersionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_document_version(
     DocumentId,
     VersionId,
@@ -1823,14 +1733,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceState"`: The resource state of the folder. Only ACTIVE and RECYCLED are
   accepted values from the API.
 """
-function update_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "PATCH",
-        "/api/v1/folders/$(FolderId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "PATCH",
+    "/api/v1/folders/$(FolderId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_folder(
     FolderId,
     params::AbstractDict{String};
@@ -1868,14 +1776,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeZoneId"`: The time zone ID of the user.
 - `"Type"`: The type of the user.
 """
-function update_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workdocs(
-        "PATCH",
-        "/api/v1/users/$(UserId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs(
+    "PATCH",
+    "/api/v1/users/$(UserId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

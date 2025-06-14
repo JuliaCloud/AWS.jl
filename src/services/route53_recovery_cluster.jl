@@ -28,16 +28,14 @@ control states     Working with routing controls in Route 53 ARC
   want to get the state for.
 
 """
-function get_routing_control_state(
+get_routing_control_state(
     RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = route53_recovery_cluster(
+    "GetRoutingControlState",
+    Dict{String,Any}("RoutingControlArn" => RoutingControlArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route53_recovery_cluster(
-        "GetRoutingControlState",
-        Dict{String,Any}("RoutingControlArn" => RoutingControlArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_routing_control_state(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -85,11 +83,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_routing_controls(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_cluster(
+list_routing_controls(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route53_recovery_cluster(
         "ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_routing_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -138,21 +135,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see  Override safety rules to reroute traffic in the Amazon Route 53
   Application Recovery Controller Developer Guide.
 """
-function update_routing_control_state(
+update_routing_control_state(
     RoutingControlArn,
     RoutingControlState;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = route53_recovery_cluster(
+    "UpdateRoutingControlState",
+    Dict{String,Any}(
+        "RoutingControlArn" => RoutingControlArn,
+        "RoutingControlState" => RoutingControlState,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route53_recovery_cluster(
-        "UpdateRoutingControlState",
-        Dict{String,Any}(
-            "RoutingControlArn" => RoutingControlArn,
-            "RoutingControlState" => RoutingControlState,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_control_state(
     RoutingControlArn,
     RoutingControlState,
@@ -211,18 +206,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see  Override safety rules to reroute traffic in the Amazon Route 53
   Application Recovery Controller Developer Guide.
 """
-function update_routing_control_states(
+update_routing_control_states(
     UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=global_aws_config()
+) = route53_recovery_cluster(
+    "UpdateRoutingControlStates",
+    Dict{String,Any}(
+        "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route53_recovery_cluster(
-        "UpdateRoutingControlStates",
-        Dict{String,Any}(
-            "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_control_states(
     UpdateRoutingControlStateEntries,
     params::AbstractDict{String};

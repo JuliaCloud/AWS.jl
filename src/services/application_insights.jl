@@ -17,23 +17,21 @@ Adds a workload to a component. Each component can have at most five workloads.
   escaped JSON of the configuration.
 
 """
-function add_workload(
+add_workload(
     ComponentName,
     ResourceGroupName,
     WorkloadConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "AddWorkload",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName,
+        "ResourceGroupName" => ResourceGroupName,
+        "WorkloadConfiguration" => WorkloadConfiguration,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "AddWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadConfiguration" => WorkloadConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_workload(
     ComponentName,
     ResourceGroupName,
@@ -89,11 +87,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value (Value). The maximum length of a tag key is 128 characters. The maximum length of a
   tag value is 256 characters.
 """
-function create_application(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
+create_application(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function create_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -114,23 +111,21 @@ Creates a custom component by grouping similar standalone instances to monitor.
 - `resource_list`: The list of resource ARNs that belong to the component.
 
 """
-function create_component(
+create_component(
     ComponentName,
     ResourceGroupName,
     ResourceList;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "CreateComponent",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName,
+        "ResourceGroupName" => ResourceGroupName,
+        "ResourceList" => ResourceList,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "CreateComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "ResourceList" => ResourceList,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_component(
     ComponentName,
     ResourceGroupName,
@@ -177,27 +172,25 @@ Adds an log pattern to a LogPatternSet.
 - `resource_group_name`: The name of the resource group.
 
 """
-function create_log_pattern(
+create_log_pattern(
     Pattern,
     PatternName,
     PatternSetName,
     Rank,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "CreateLogPattern",
+    Dict{String,Any}(
+        "Pattern" => Pattern,
+        "PatternName" => PatternName,
+        "PatternSetName" => PatternSetName,
+        "Rank" => Rank,
+        "ResourceGroupName" => ResourceGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "CreateLogPattern",
-        Dict{String,Any}(
-            "Pattern" => Pattern,
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "Rank" => Rank,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_log_pattern(
     Pattern,
     PatternName,
@@ -237,16 +230,13 @@ Removes the specified application from monitoring. Does not delete the applicati
 - `resource_group_name`: The name of the resource group.
 
 """
-function delete_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+delete_application(ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "DeleteApplication",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -277,18 +267,16 @@ status.
 - `resource_group_name`: The name of the resource group.
 
 """
-function delete_component(
+delete_component(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "DeleteComponent",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DeleteComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_component(
     ComponentName,
     ResourceGroupName,
@@ -324,23 +312,21 @@ Removes the specified log pattern from a LogPatternSet.
 - `resource_group_name`: The name of the resource group.
 
 """
-function delete_log_pattern(
+delete_log_pattern(
     PatternName,
     PatternSetName,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "DeleteLogPattern",
+    Dict{String,Any}(
+        "PatternName" => PatternName,
+        "PatternSetName" => PatternSetName,
+        "ResourceGroupName" => ResourceGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DeleteLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_log_pattern(
     PatternName,
     PatternSetName,
@@ -379,16 +365,13 @@ Describes the application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+describe_application(ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "DescribeApplication",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -420,18 +403,16 @@ Describes a component and lists the resources that are grouped together in a com
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_component(
+describe_component(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "DescribeComponent",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DescribeComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_component(
     ComponentName,
     ResourceGroupName,
@@ -469,18 +450,16 @@ Describes the monitoring configuration of the component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_component_configuration(
+describe_component_configuration(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "DescribeComponentConfiguration",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DescribeComponentConfiguration",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_component_configuration(
     ComponentName,
     ResourceGroupName,
@@ -520,23 +499,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecommendationType"`: The recommended configuration type.
 - `"WorkloadName"`: The name of the workload.
 """
-function describe_component_configuration_recommendation(
+describe_component_configuration_recommendation(
     ComponentName,
     ResourceGroupName,
     Tier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "DescribeComponentConfigurationRecommendation",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName,
+        "ResourceGroupName" => ResourceGroupName,
+        "Tier" => Tier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DescribeComponentConfigurationRecommendation",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "Tier" => Tier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_component_configuration_recommendation(
     ComponentName,
     ResourceGroupName,
@@ -577,23 +554,21 @@ Describe a specific log pattern from a LogPatternSet.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_log_pattern(
+describe_log_pattern(
     PatternName,
     PatternSetName,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "DescribeLogPattern",
+    Dict{String,Any}(
+        "PatternName" => PatternName,
+        "PatternSetName" => PatternSetName,
+        "ResourceGroupName" => ResourceGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DescribeLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_log_pattern(
     PatternName,
     PatternSetName,
@@ -632,16 +607,13 @@ Describes an anomaly or error with the application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_observation(
-    ObservationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+describe_observation(ObservationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "DescribeObservation",
         Dict{String,Any}("ObservationId" => ObservationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_observation(
     ObservationId,
     params::AbstractDict{String};
@@ -671,14 +643,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountId"`: The AWS account ID for the owner of the resource group affected by the
   problem.
 """
-function describe_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
+describe_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "DescribeProblem",
         Dict{String,Any}("ProblemId" => ProblemId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_problem(
     ProblemId,
     params::AbstractDict{String};
@@ -707,16 +678,14 @@ Describes the anomalies or errors associated with the problem.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_problem_observations(
+describe_problem_observations(
     ProblemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "DescribeProblemObservations",
+    Dict{String,Any}("ProblemId" => ProblemId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DescribeProblemObservations",
-        Dict{String,Any}("ProblemId" => ProblemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_problem_observations(
     ProblemId,
     params::AbstractDict{String};
@@ -747,23 +716,21 @@ Describes a workload and its configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the workload owner.
 """
-function describe_workload(
+describe_workload(
     ComponentName,
     ResourceGroupName,
     WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "DescribeWorkload",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName,
+        "ResourceGroupName" => ResourceGroupName,
+        "WorkloadId" => WorkloadId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "DescribeWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadId" => WorkloadId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_workload(
     ComponentName,
     ResourceGroupName,
@@ -802,11 +769,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -831,16 +797,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_components(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+list_components(ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "ListComponents",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_components(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -887,11 +850,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceGroupName"`: Resource group to which the application belongs.
 - `"StartTime"`: The start time of the event.
 """
-function list_configuration_history(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
+list_configuration_history(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_configuration_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -919,16 +881,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_log_pattern_sets(
+list_log_pattern_sets(
     ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "ListLogPatternSets",
+    Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "ListLogPatternSets",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_log_pattern_sets(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -963,16 +923,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of results.
 - `"PatternSetName"`: The name of the log pattern set.
 """
-function list_log_patterns(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+list_log_patterns(ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "ListLogPatterns",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_log_patterns(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1011,11 +968,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Visibility"`: Specifies whether or not you can view the problem. If not specified,
   visible and ignored problems are returned.
 """
-function list_problems(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_problems(; aws_config::AbstractAWSConfig=global_aws_config()) = application_insights(
+    "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_problems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1039,16 +994,13 @@ descriptor within a tag key.
   retrieve tag information for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1081,18 +1033,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_workloads(
+list_workloads(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "ListWorkloads",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "ListWorkloads",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_workloads(
     ComponentName,
     ResourceGroupName,
@@ -1128,23 +1078,21 @@ Remove workload from a component.
 - `workload_id`: The ID of the workload.
 
 """
-function remove_workload(
+remove_workload(
     ComponentName,
     ResourceGroupName,
     WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "RemoveWorkload",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName,
+        "ResourceGroupName" => ResourceGroupName,
+        "WorkloadId" => WorkloadId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "RemoveWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadId" => WorkloadId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_workload(
     ComponentName,
     ResourceGroupName,
@@ -1189,14 +1137,13 @@ tag values. A tag value acts as a descriptor within a tag key.
   characters. The maximum length of a tag value is 256 characters.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1232,16 +1179,13 @@ Remove one or more tags (keys and values) from a specified application.
   additional tag to remove, separated by an ampersand.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1287,16 +1231,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveSNSTopic"`:  Disassociates the SNS topic from the opsItem created for detected
   problems.
 """
-function update_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
+update_application(ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "UpdateApplication",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1329,18 +1270,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NewComponentName"`: The new name of the component.
 - `"ResourceList"`: The list of resource ARNs that belong to the component.
 """
-function update_component(
+update_component(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "UpdateComponent",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "UpdateComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_component(
     ComponentName,
     ResourceGroupName,
@@ -1388,18 +1327,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Monitor"`: Indicates whether the application component is monitored.
 - `"Tier"`: The tier of the application component.
 """
-function update_component_configuration(
+update_component_configuration(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_insights(
+    "UpdateComponentConfiguration",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "UpdateComponentConfiguration",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_component_configuration(
     ComponentName,
     ResourceGroupName,
@@ -1446,23 +1383,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank.
   Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
 """
-function update_log_pattern(
+update_log_pattern(
     PatternName,
     PatternSetName,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "UpdateLogPattern",
+    Dict{String,Any}(
+        "PatternName" => PatternName,
+        "PatternSetName" => PatternSetName,
+        "ResourceGroupName" => ResourceGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "UpdateLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_log_pattern(
     PatternName,
     PatternSetName,
@@ -1505,14 +1440,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   problem is removed from the default view, and all notifications for the problem are
   suspended. When VISIBLE is passed, the IGNORED action is reversed.
 """
-function update_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
+update_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_insights(
         "UpdateProblem",
         Dict{String,Any}("ProblemId" => ProblemId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_problem(
     ProblemId,
     params::AbstractDict{String};
@@ -1544,23 +1478,21 @@ Adds a workload to a component. Each component can have at most five workloads.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"WorkloadId"`: The ID of the workload.
 """
-function update_workload(
+update_workload(
     ComponentName,
     ResourceGroupName,
     WorkloadConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_insights(
+    "UpdateWorkload",
+    Dict{String,Any}(
+        "ComponentName" => ComponentName,
+        "ResourceGroupName" => ResourceGroupName,
+        "WorkloadConfiguration" => WorkloadConfiguration,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_insights(
-        "UpdateWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadConfiguration" => WorkloadConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_workload(
     ComponentName,
     ResourceGroupName,

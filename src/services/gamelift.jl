@@ -34,20 +34,18 @@ returned to SEARCHING to find a new match.     Learn more    Add FlexMatch to a 
   REQUIRES_ACCEPTANCE; otherwise this request will fail.
 
 """
-function accept_match(
+accept_match(
     AcceptanceType, PlayerIds, TicketId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "AcceptMatch",
+    Dict{String,Any}(
+        "AcceptanceType" => AcceptanceType,
+        "PlayerIds" => PlayerIds,
+        "TicketId" => TicketId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "AcceptMatch",
-        Dict{String,Any}(
-            "AcceptanceType" => AcceptanceType,
-            "PlayerIds" => PlayerIds,
-            "TicketId" => TicketId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_match(
     AcceptanceType,
     PlayerIds,
@@ -114,16 +112,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter is left empty, Amazon GameLift FleetIQ searches for an available game server
   in the specified game server group.
 """
-function claim_game_server(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+claim_game_server(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "ClaimGameServer",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function claim_game_server(
     GameServerGroupName,
     params::AbstractDict{String};
@@ -174,16 +169,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource management, access management and cost allocation. For more information, see
   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
 """
-function create_alias(
-    Name, RoutingStrategy; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+create_alias(Name, RoutingStrategy; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "CreateAlias",
         Dict{String,Any}("Name" => Name, "RoutingStrategy" => RoutingStrategy);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_alias(
     Name,
     RoutingStrategy,
@@ -236,10 +228,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value determines the type of fleet resources that you use for this build. If your game
   build contains multiple executables, they all must run on the same operating system. You
   must specify a valid operating system in this request. There is no default value. You can't
-  change a build's operating system later.  If you have active fleets using the Windows
-  Server 2012 operating system, you can continue to create new builds using this OS until
-  October 10, 2023, when Microsoft ends its support. All others must use Windows Server 2016
-  when creating new Windows-based builds.
+  change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on
+  6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on
+  AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server
+  SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK
+  version 5.
 - `"ServerSdkVersion"`: A server SDK version you used when integrating your game server
   build with Amazon GameLift. For more information see Integrate games with custom game
   servers. By default Amazon GameLift sets this value to 4.0.2.
@@ -260,9 +253,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Version"`: Version information associated with a build or script. Version strings don't
   need to be unique. You can change this value later.
 """
-function create_build(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("CreateBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_build(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("CreateBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_build(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -307,7 +299,11 @@ design guide     Create a container definition as a JSON file
 - `name`: A descriptive identifier for the container group definition. The name value must
   be unique in an Amazon Web Services Region.
 - `operating_system`: The platform that is used by containers in the container group
-  definition. All containers in a group must run on the same operating system.
+  definition. All containers in a group must run on the same operating system.  Amazon Linux
+  2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2
+  FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x.,
+  first update the game server build to server SDK 5.x, and then deploy to AL2023 instances.
+  See  Migrate to Amazon GameLift server SDK version 5.
 - `total_cpu_limit`: The maximum amount of CPU units to allocate to the container group.
   Set this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU units).
   All containers in the group share this memory. If you specify CPU limits for individual
@@ -329,27 +325,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource management, access management and cost allocation. For more information, see
   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
 """
-function create_container_group_definition(
+create_container_group_definition(
     ContainerDefinitions,
     Name,
     OperatingSystem,
     TotalCpuLimit,
     TotalMemoryLimit;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = gamelift(
+    "CreateContainerGroupDefinition",
+    Dict{String,Any}(
+        "ContainerDefinitions" => ContainerDefinitions,
+        "Name" => Name,
+        "OperatingSystem" => OperatingSystem,
+        "TotalCpuLimit" => TotalCpuLimit,
+        "TotalMemoryLimit" => TotalMemoryLimit,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateContainerGroupDefinition",
-        Dict{String,Any}(
-            "ContainerDefinitions" => ContainerDefinitions,
-            "Name" => Name,
-            "OperatingSystem" => OperatingSystem,
-            "TotalCpuLimit" => TotalCpuLimit,
-            "TotalMemoryLimit" => TotalMemoryLimit,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_container_group_definition(
     ContainerDefinitions,
     Name,
@@ -489,12 +483,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrated with server SDK version 5.x. For more information about using shared
   credentials, see  Communicate with other Amazon Web Services resources from your fleets.
 - `"Locations"`: A set of remote locations to deploy additional instances to and manage as
-  part of the fleet. This parameter can only be used when creating fleets in Amazon Web
-  Services Regions that support multiple locations. You can add any Amazon GameLift-supported
-  Amazon Web Services Region as a remote location, in the form of an Amazon Web Services
-  Region code, such as us-west-2 or Local Zone code. To create a fleet with instances in the
-  home Region only, don't set this parameter.  When using this parameter, Amazon GameLift
-  requires you to include your home location in the request.
+  a multi-location fleet. Use this parameter when creating a fleet in Amazon Web Services
+  Regions that support multiple locations. You can add any Amazon Web Services Region or
+  Local Zone that's supported by Amazon GameLift. Provide a list of one or more Amazon Web
+  Services Region codes, such as us-west-2, or Local Zone names. When using this parameter,
+  Amazon GameLift requires you to include your home location in the request. For a list of
+  supported Regions and Local Zones, see  Amazon GameLift service locations for managed
+  hosting.
 - `"LogPaths"`:  This parameter is no longer used. To specify where Amazon GameLift should
   store log files once a server process shuts down, use the Amazon GameLift server API
   ProcessReady() and specify one or more directory paths in logParameters. For more
@@ -540,14 +535,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource management, access management and cost allocation. For more information, see
   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
 """
-function create_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "CreateFleet",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "CreateFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -574,7 +567,7 @@ one or more locations.  If successful, this operation returns the list of added 
 with their status set to NEW. Amazon GameLift initiates the process of starting an instance
 in each added location. You can track the status of each new location by monitoring
 location creation events using DescribeFleetEvents.  Learn more   Setting up fleets
-Multi-location fleets
+Update fleet locations    Amazon GameLift service locations for managed hosting.
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to add locations to. You can use either the
@@ -584,16 +577,14 @@ Multi-location fleets
   location, in the form of an Amazon Web Services Region code such as us-west-2.
 
 """
-function create_fleet_locations(
+create_fleet_locations(
     FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "CreateFleetLocations",
+    Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateFleetLocations",
-        Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_fleet_locations(
     FleetId,
     Locations,
@@ -717,7 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Scaling group will always use the property value that is set with this request, even if the
   Auto Scaling group is updated directly.
 """
-function create_game_server_group(
+create_game_server_group(
     GameServerGroupName,
     InstanceDefinitions,
     LaunchTemplate,
@@ -725,21 +716,19 @@ function create_game_server_group(
     MinSize,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = gamelift(
+    "CreateGameServerGroup",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName,
+        "InstanceDefinitions" => InstanceDefinitions,
+        "LaunchTemplate" => LaunchTemplate,
+        "MaxSize" => MaxSize,
+        "MinSize" => MinSize,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateGameServerGroup",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName,
-            "InstanceDefinitions" => InstanceDefinitions,
-            "LaunchTemplate" => LaunchTemplate,
-            "MaxSize" => MaxSize,
-            "MinSize" => MinSize,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_game_server_group(
     GameServerGroupName,
     InstanceDefinitions,
@@ -842,16 +831,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A descriptive label that is associated with a game session. Session names do
   not need to be unique.
 """
-function create_game_session(
+create_game_session(
     MaximumPlayerSessionCount; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "CreateGameSession",
+    Dict{String,Any}("MaximumPlayerSessionCount" => MaximumPlayerSessionCount);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateGameSession",
-        Dict{String,Any}("MaximumPlayerSessionCount" => MaximumPlayerSessionCount);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_game_session(
     MaximumPlayerSessionCount,
     params::AbstractDict{String};
@@ -932,14 +919,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request remains in the queue. When a request exceeds this time, the game session placement
   changes to a TIMED_OUT status. By default, this property is set to 600.
 """
-function create_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+create_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "CreateGameSessionQueue",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_game_session_queue(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -962,19 +948,17 @@ Creates a custom location for use in an Anywhere fleet.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of labels to assign to the new matchmaking configuration resource. Tags
-  are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for
-  resource management, access management and cost allocation. For more information, see
-  Tagging Amazon Web Services Resources in the Amazon Web Services General Rareference.
+- `"Tags"`: A list of labels to assign to the new resource. Tags are developer-defined
+  key-value pairs. Tagging Amazon Web Services resources are useful for resource management,
+  access management, and cost allocation. For more information, see  Tagging Amazon Web
+  Services Resources in the Amazon Web Services General Rareference.
 """
-function create_location(LocationName; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "CreateLocation",
-        Dict{String,Any}("LocationName" => LocationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_location(LocationName; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "CreateLocation",
+    Dict{String,Any}("LocationName" => LocationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_location(
     LocationName,
     params::AbstractDict{String};
@@ -1069,25 +1053,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource management, access management and cost allocation. For more information, see
   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
 """
-function create_matchmaking_configuration(
+create_matchmaking_configuration(
     AcceptanceRequired,
     Name,
     RequestTimeoutSeconds,
     RuleSetName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = gamelift(
+    "CreateMatchmakingConfiguration",
+    Dict{String,Any}(
+        "AcceptanceRequired" => AcceptanceRequired,
+        "Name" => Name,
+        "RequestTimeoutSeconds" => RequestTimeoutSeconds,
+        "RuleSetName" => RuleSetName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateMatchmakingConfiguration",
-        Dict{String,Any}(
-            "AcceptanceRequired" => AcceptanceRequired,
-            "Name" => Name,
-            "RequestTimeoutSeconds" => RequestTimeoutSeconds,
-            "RuleSetName" => RuleSetName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_matchmaking_configuration(
     AcceptanceRequired,
     Name,
@@ -1142,16 +1124,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource management, access management and cost allocation. For more information, see
   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
 """
-function create_matchmaking_rule_set(
+create_matchmaking_rule_set(
     Name, RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "CreateMatchmakingRuleSet",
+    Dict{String,Any}("Name" => Name, "RuleSetBody" => RuleSetBody);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateMatchmakingRuleSet",
-        Dict{String,Any}("Name" => Name, "RuleSetBody" => RuleSetBody);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_matchmaking_rule_set(
     Name,
     RuleSetBody,
@@ -1196,16 +1176,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PlayerData"`: Developer-defined information related to a player. Amazon GameLift does
   not use this data, so it can be formatted as needed for use in the game.
 """
-function create_player_session(
+create_player_session(
     GameSessionId, PlayerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "CreatePlayerSession",
+    Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerId" => PlayerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreatePlayerSession",
-        Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerId" => PlayerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_player_session(
     GameSessionId,
     PlayerId,
@@ -1253,16 +1231,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data, so it can be formatted as needed for use in the game. Any player data strings for
   player IDs that are not included in the PlayerIds parameter are ignored.
 """
-function create_player_sessions(
+create_player_sessions(
     GameSessionId, PlayerIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "CreatePlayerSessions",
+    Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerIds" => PlayerIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreatePlayerSessions",
-        Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerIds" => PlayerIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_player_sessions(
     GameSessionId,
     PlayerIds,
@@ -1332,9 +1308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file name. It must be prepended with the string \"fileb://\" to indicate that the file data
   is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
 """
-function create_script(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_script(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_script(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1379,18 +1354,16 @@ create or delete the peering connection while the authorization is valid.   Rela
   peering in VPC Peering with Amazon GameLift Fleets.
 
 """
-function create_vpc_peering_authorization(
+create_vpc_peering_authorization(
     GameLiftAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "CreateVpcPeeringAuthorization",
+    Dict{String,Any}(
+        "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateVpcPeeringAuthorization",
-        Dict{String,Any}(
-            "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_vpc_peering_authorization(
     GameLiftAwsAccountId,
     PeerVpcId,
@@ -1448,23 +1421,21 @@ success or failure using DescribeFleetEvents .   Related actions   All APIs by t
   peering in VPC Peering with Amazon GameLift Fleets.
 
 """
-function create_vpc_peering_connection(
+create_vpc_peering_connection(
     FleetId,
     PeerVpcAwsAccountId,
     PeerVpcId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = gamelift(
+    "CreateVpcPeeringConnection",
+    Dict{String,Any}(
+        "FleetId" => FleetId,
+        "PeerVpcAwsAccountId" => PeerVpcAwsAccountId,
+        "PeerVpcId" => PeerVpcId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "CreateVpcPeeringConnection",
-        Dict{String,Any}(
-            "FleetId" => FleetId,
-            "PeerVpcAwsAccountId" => PeerVpcAwsAccountId,
-            "PeerVpcId" => PeerVpcId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_vpc_peering_connection(
     FleetId,
     PeerVpcAwsAccountId,
@@ -1503,14 +1474,12 @@ specify the alias ID to be deleted.  Related actions   All APIs by task
   the alias ID or ARN value.
 
 """
-function delete_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DeleteAlias",
-        Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DeleteAlias",
+    Dict{String,Any}("AliasId" => AliasId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_alias(
     AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1536,14 +1505,12 @@ specify the build ID.   Learn more    Upload a Custom Server Build   All APIs by
   or ARN value.
 
 """
-function delete_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DeleteBuild",
-        Dict{String,Any}("BuildId" => BuildId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DeleteBuild",
+    Dict{String,Any}("BuildId" => BuildId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_build(
     BuildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1570,16 +1537,13 @@ definition
   either the Name or ARN value.
 
 """
-function delete_container_group_definition(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+delete_container_group_definition(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DeleteContainerGroupDefinition",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_container_group_definition(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1609,14 +1573,12 @@ up Amazon GameLift Fleets
   ID or ARN value.
 
 """
-function delete_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DeleteFleet",
-        Dict{String,Any}("FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DeleteFleet",
+    Dict{String,Any}("FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_fleet(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1647,16 +1609,14 @@ GameLift fleets
   Amazon Web Services Region code, such as us-west-2.
 
 """
-function delete_fleet_locations(
+delete_fleet_locations(
     FleetId, Locations; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DeleteFleetLocations",
+    Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DeleteFleetLocations",
-        Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_fleet_locations(
     FleetId,
     Locations,
@@ -1709,16 +1669,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   utilization status, and the Amazon EC2 Auto Scaling group.     RETAIN – Does a safe
   delete of the game server group but retains the Amazon EC2 Auto Scaling group as is.
 """
-function delete_game_server_group(
+delete_game_server_group(
     GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DeleteGameServerGroup",
+    Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DeleteGameServerGroup",
-        Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_game_server_group(
     GameServerGroupName,
     params::AbstractDict{String};
@@ -1751,14 +1709,13 @@ specify the queue name.
   be unique within each Region. You can use either the queue ID or ARN value.
 
 """
-function delete_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+delete_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DeleteGameSessionQueue",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_game_session_queue(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1782,14 +1739,12 @@ information, see DeregisterCompute.
 - `location_name`: The location name of the custom location to be deleted.
 
 """
-function delete_location(LocationName; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DeleteLocation",
-        Dict{String,Any}("LocationName" => LocationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_location(LocationName; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DeleteLocation",
+    Dict{String,Any}("LocationName" => LocationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_location(
     LocationName,
     params::AbstractDict{String};
@@ -1818,16 +1773,13 @@ any active matchmaking tickets.
   configuration name or ARN value.
 
 """
-function delete_matchmaking_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+delete_matchmaking_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DeleteMatchmakingConfiguration",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_matchmaking_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1853,16 +1805,13 @@ configuration.   Learn more     Build a rule set
   either the rule set name or ARN value.
 
 """
-function delete_matchmaking_rule_set(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+delete_matchmaking_rule_set(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DeleteMatchmakingRuleSet",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_matchmaking_rule_set(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1890,16 +1839,13 @@ policies, use StopFleetActions. This operation suspends all policies for the fle
   names do not need to be unique.
 
 """
-function delete_scaling_policy(
-    FleetId, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+delete_scaling_policy(FleetId, Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DeleteScalingPolicy",
         Dict{String,Any}("FleetId" => FleetId, "Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_scaling_policy(
     FleetId,
     Name,
@@ -1935,14 +1881,12 @@ Realtime Servers   Related actions   All APIs by task
   the script ID or ARN value.
 
 """
-function delete_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DeleteScript",
-        Dict{String,Any}("ScriptId" => ScriptId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DeleteScript",
+    Dict{String,Any}("ScriptId" => ScriptId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_script(
     ScriptId,
     params::AbstractDict{String};
@@ -1976,18 +1920,16 @@ APIs by task
   peering in VPC Peering with Amazon GameLift Fleets.
 
 """
-function delete_vpc_peering_authorization(
+delete_vpc_peering_authorization(
     GameLiftAwsAccountId, PeerVpcId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DeleteVpcPeeringAuthorization",
+    Dict{String,Any}(
+        "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DeleteVpcPeeringAuthorization",
-        Dict{String,Any}(
-            "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_vpc_peering_authorization(
     GameLiftAwsAccountId,
     PeerVpcId,
@@ -2028,18 +1970,16 @@ task
 - `vpc_peering_connection_id`: A unique identifier for a VPC peering connection.
 
 """
-function delete_vpc_peering_connection(
+delete_vpc_peering_connection(
     FleetId, VpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DeleteVpcPeeringConnection",
+    Dict{String,Any}(
+        "FleetId" => FleetId, "VpcPeeringConnectionId" => VpcPeeringConnectionId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DeleteVpcPeeringConnection",
-        Dict{String,Any}(
-            "FleetId" => FleetId, "VpcPeeringConnectionId" => VpcPeeringConnectionId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_vpc_peering_connection(
     FleetId,
     VpcPeeringConnectionId,
@@ -2084,16 +2024,14 @@ deregistered and specify the compute name and the fleet ID.
   registered to.
 
 """
-function deregister_compute(
+deregister_compute(
     ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DeregisterCompute",
+    Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DeregisterCompute",
-        Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_compute(
     ComputeName,
     FleetId,
@@ -2131,18 +2069,16 @@ timestamp and reason.  Learn more   Amazon GameLift FleetIQ Guide
 - `game_server_id`: A custom string that uniquely identifies the game server to deregister.
 
 """
-function deregister_game_server(
+deregister_game_server(
     GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DeregisterGameServer",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DeregisterGameServer",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_game_server(
     GameServerGroupName,
     GameServerId,
@@ -2180,14 +2116,12 @@ APIs by task
   use either the alias ID or ARN value.
 
 """
-function describe_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeAlias",
-        Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeAlias",
+    Dict{String,Any}("AliasId" => AliasId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_alias(
     AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2212,14 +2146,12 @@ Upload a Custom Server Build   All APIs by task
   either the build ID or ARN value.
 
 """
-function describe_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeBuild",
-        Dict{String,Any}("BuildId" => BuildId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeBuild",
+    Dict{String,Any}("BuildId" => BuildId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_build(
     BuildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2255,16 +2187,13 @@ it's running on. The compute name is the container name.
   either the fleet ID or ARN value.
 
 """
-function describe_compute(
-    ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_compute(ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeCompute",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_compute(
     ComputeName,
     FleetId,
@@ -2300,16 +2229,14 @@ container group definition.  Learn more     Manage a container group definition
   for. You can use either the Name or ARN value.
 
 """
-function describe_container_group_definition(
+describe_container_group_definition(
     Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeContainerGroupDefinition",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeContainerGroupDefinition",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_container_group_definition(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2364,11 +2291,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: The name of a remote location to request instance limits for, in the form
   of an Amazon Web Services Region code such as us-west-2.
 """
-function describe_ec2_instance_limits(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+describe_ec2_instance_limits(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeEC2InstanceLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_ec2_instance_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2410,11 +2336,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beginning of the result set, do not specify a value. This parameter is ignored when the
   request specifies one or a list of fleet IDs.
 """
-function describe_fleet_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeFleetAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_fleet_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeFleetAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_fleet_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2459,11 +2383,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beginning of the result set, do not specify a value. This parameter is ignored when the
   request specifies one or a list of fleet IDs.
 """
-function describe_fleet_capacity(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeFleetCapacity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_fleet_capacity(; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeFleetCapacity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_fleet_capacity(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2506,14 +2428,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified end time. Format is a number expressed in Unix time as milliseconds (ex:
   \"1469498468.057\").
 """
-function describe_fleet_events(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+describe_fleet_events(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeFleetEvents",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_fleet_events(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2539,6 +2460,7 @@ set of sequential pages.  If successful, a LocationAttributes object is returned
 requested location. If the fleet does not have a requested location, no information is
 returned. This operation does not return the home Region. To get information on a fleet's
 home Region, call DescribeFleetAttributes.  Learn more   Setting up Amazon GameLift fleets
+  Amazon GameLift service locations for managed hosting
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to retrieve remote locations for. You can
@@ -2554,16 +2476,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_fleet_location_attributes(
+describe_fleet_location_attributes(
     FleetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeFleetLocationAttributes",
+    Dict{String,Any}("FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeFleetLocationAttributes",
-        Dict{String,Any}("FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_fleet_location_attributes(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2586,7 +2506,8 @@ container groups. Use this operation to retrieve capacity information for a flee
 location or home Region (you can also retrieve home Region capacity by calling
 DescribeFleetCapacity). To retrieve capacity data, identify a fleet and location.  If
 successful, a FleetCapacity object is returned for the requested fleet location.   Learn
-more   Setting up Amazon GameLift fleets   GameLift metrics for fleets
+more   Setting up Amazon GameLift fleets    Amazon GameLift service locations for managed
+hosting  GameLift metrics for fleets
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to request location capacity for. You can
@@ -2595,16 +2516,14 @@ more   Setting up Amazon GameLift fleets   GameLift metrics for fleets
   in the form of an Amazon Web Services Region code, such as us-west-2.
 
 """
-function describe_fleet_location_capacity(
+describe_fleet_location_capacity(
     FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeFleetLocationCapacity",
+    Dict{String,Any}("FleetId" => FleetId, "Location" => Location);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeFleetLocationCapacity",
-        Dict{String,Any}("FleetId" => FleetId, "Location" => Location);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_fleet_location_capacity(
     FleetId,
     Location,
@@ -2634,8 +2553,8 @@ current game hosting activity at the requested location. Use this operation to r
 utilization information for a fleet's remote location or home Region (you can also retrieve
 home Region utilization by calling DescribeFleetUtilization). To retrieve utilization data,
 identify a fleet and location.  If successful, a FleetUtilization object is returned for
-the requested fleet location.   Learn more   Setting up Amazon GameLift fleets   GameLift
-metrics for fleets
+the requested fleet location.   Learn more   Setting up Amazon GameLift fleets    Amazon
+GameLift service locations for managed hosting  GameLift metrics for fleets
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to request location utilization for. You
@@ -2644,16 +2563,14 @@ metrics for fleets
   location in the form of an Amazon Web Services Region code, such as us-west-2.
 
 """
-function describe_fleet_location_utilization(
+describe_fleet_location_utilization(
     FleetId, Location; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeFleetLocationUtilization",
+    Dict{String,Any}("FleetId" => FleetId, "Location" => Location);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeFleetLocationUtilization",
-        Dict{String,Any}("FleetId" => FleetId, "Location" => Location);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_fleet_location_utilization(
     FleetId,
     Location,
@@ -2700,16 +2617,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: A remote location to check for status of port setting updates. Use the
   Amazon Web Services Region code format, such as us-west-2.
 """
-function describe_fleet_port_settings(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_fleet_port_settings(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeFleetPortSettings",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_fleet_port_settings(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2753,11 +2667,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beginning of the result set, do not specify a value. This parameter is ignored when the
   request specifies one or a list of fleet IDs.
 """
-function describe_fleet_utilization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeFleetUtilization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_fleet_utilization(; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeFleetUtilization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_fleet_utilization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2786,18 +2698,16 @@ game server object is returned.   Learn more   Amazon GameLift FleetIQ Guide
   be retrieved.
 
 """
-function describe_game_server(
+describe_game_server(
     GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeGameServer",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeGameServer",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_game_server(
     GameServerGroupName,
     GameServerId,
@@ -2838,16 +2748,14 @@ Learn more   Amazon GameLift FleetIQ Guide
   name or ARN value.
 
 """
-function describe_game_server_group(
+describe_game_server_group(
     GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeGameServerGroup",
+    Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeGameServerGroup",
-        Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_game_server_group(
     GameServerGroupName,
     params::AbstractDict{String};
@@ -2898,16 +2806,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_game_server_instances(
+describe_game_server_instances(
     GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeGameServerInstances",
+    Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeGameServerInstances",
-        Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_game_server_instances(
     GameServerGroupName,
     params::AbstractDict{String};
@@ -2965,11 +2871,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are
   transitory).
 """
-function describe_game_session_details(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+describe_game_session_details(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeGameSessionDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_game_session_details(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2997,16 +2902,14 @@ games in development with low game session usage.
 - `placement_id`: A unique identifier for a game session placement to retrieve.
 
 """
-function describe_game_session_placement(
+describe_game_session_placement(
     PlacementId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "DescribeGameSessionPlacement",
+    Dict{String,Any}("PlacementId" => PlacementId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "DescribeGameSessionPlacement",
-        Dict{String,Any}("PlacementId" => PlacementId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_game_session_placement(
     PlacementId,
     params::AbstractDict{String};
@@ -3041,11 +2944,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_game_session_queues(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+describe_game_session_queues(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeGameSessionQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_game_session_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3099,11 +3001,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following states: ACTIVE, TERMINATED, ACTIVATING, and TERMINATING. The last two are
   transitory and used for only very brief periods of time.
 """
-function describe_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("DescribeGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_game_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3149,14 +3048,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_instances(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeInstances",
-        Dict{String,Any}("FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_instances(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeInstances",
+    Dict{String,Any}("FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_instances(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3188,14 +3085,13 @@ notification
   values.
 
 """
-function describe_matchmaking(TicketIds; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+describe_matchmaking(TicketIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeMatchmaking",
         Dict{String,Any}("TicketIds" => TicketIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_matchmaking(
     TicketIds,
     params::AbstractDict{String};
@@ -3237,15 +3133,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations
   that use this rule set.
 """
-function describe_matchmaking_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_matchmaking_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeMatchmakingConfigurations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_matchmaking_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3278,13 +3171,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function describe_matchmaking_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+describe_matchmaking_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeMatchmakingRuleSets";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_matchmaking_rule_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3334,11 +3226,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received, but the player did not connect and/or was not validated within the timeout limit
   (60 seconds).
 """
-function describe_player_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribePlayerSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_player_sessions(; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribePlayerSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_player_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3369,16 +3259,13 @@ Setting up Amazon GameLift fleets   Running multiple processes on a fleet
   can use either the fleet ID or ARN value.
 
 """
-function describe_runtime_configuration(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_runtime_configuration(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeRuntimeConfiguration",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_runtime_configuration(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3422,16 +3309,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating
   the policy. It should be removed and recreated.
 """
-function describe_scaling_policies(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_scaling_policies(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeScalingPolicies",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_scaling_policies(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3456,14 +3340,12 @@ Amazon GameLift Realtime Servers   Related actions   All APIs by task
   can use either the script ID or ARN value.
 
 """
-function describe_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "DescribeScript",
-        Dict{String,Any}("ScriptId" => ScriptId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "DescribeScript",
+    Dict{String,Any}("ScriptId" => ScriptId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_script(
     ScriptId,
     params::AbstractDict{String};
@@ -3489,15 +3371,12 @@ This includes those initiated and received by this account.   Related actions   
 task
 
 """
-function describe_vpc_peering_authorizations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_vpc_peering_authorizations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeVpcPeeringAuthorizations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_vpc_peering_authorizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3526,15 +3405,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FleetId"`: A unique identifier for the fleet. You can use either the fleet ID or ARN
   value.
 """
-function describe_vpc_peering_connections(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+describe_vpc_peering_connections(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "DescribeVpcPeeringConnections";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_vpc_peering_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3562,7 +3438,7 @@ EC2 Systems Manager User Guide.  Container fleets  With a container fleet (where
 type is CONTAINER), use these credentials and the target value with SSM to connect to the
 fleet instance where the container is running. After you're connected to the instance, use
 Docker commands to interact with the container.  Learn more     Remotely connect to fleet
-instances     Debug fleet issues      Remotely connect to a container fleet
+instances     Debug fleet issues
 
 # Arguments
 - `compute_name`: A unique identifier for the compute resource that you want to connect to.
@@ -3573,16 +3449,14 @@ instances     Debug fleet issues      Remotely connect to a container fleet
   want to connect to. You can use either the fleet ID or ARN value.
 
 """
-function get_compute_access(
+get_compute_access(
     ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "GetComputeAccess",
+    Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "GetComputeAccess",
-        Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_compute_access(
     ComputeName,
     FleetId,
@@ -3629,16 +3503,14 @@ Server SDK reference guides (for version 5.x)
 - `fleet_id`: A unique identifier for the fleet that the compute is registered to.
 
 """
-function get_compute_auth_token(
+get_compute_auth_token(
     ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "GetComputeAuthToken",
+    Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "GetComputeAuthToken",
-        Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_compute_auth_token(
     ComputeName,
     FleetId,
@@ -3673,16 +3545,13 @@ files that exceed this limit are not saved.   All APIs by task
 - `game_session_id`: A unique identifier for the game session to get logs for.
 
 """
-function get_game_session_log_url(
-    GameSessionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+get_game_session_log_url(GameSessionId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "GetGameSessionLogUrl",
         Dict{String,Any}("GameSessionId" => GameSessionId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_game_session_log_url(
     GameSessionId,
     params::AbstractDict{String};
@@ -3725,16 +3594,14 @@ to fleet instances   Debug fleet issues   Related actions   All APIs by task
   instance in any status.
 
 """
-function get_instance_access(
+get_instance_access(
     FleetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "GetInstanceAccess",
+    Dict{String,Any}("FleetId" => FleetId, "InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "GetInstanceAccess",
-        Dict{String,Any}("FleetId" => FleetId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_instance_access(
     FleetId,
     InstanceId,
@@ -3781,9 +3648,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy
   message embedded.
 """
-function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3817,9 +3683,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create new fleets for this build.    FAILED -- The game build upload failed. You cannot
   create new fleets for this build.
 """
-function list_builds(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_builds(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_builds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3860,14 +3725,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function list_compute(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "ListCompute",
-        Dict{String,Any}("FleetId" => FleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_compute(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "ListCompute",
+    Dict{String,Any}("FleetId" => FleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_compute(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3902,15 +3765,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     REPLICA -- Replica container groups run your game server application and supporting
   software. Replica groups might be deployed multiple times per fleet instance.
 """
-function list_container_group_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+list_container_group_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "ListContainerGroupDefinitions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_container_group_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3956,9 +3816,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to return only fleets using a specified script. Use either the script ID or ARN
   value.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3979,11 +3838,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_game_server_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "ListGameServerGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_game_server_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("ListGameServerGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_game_server_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4021,16 +3877,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve newest game servers first. If this parameter is left empty, game servers are
   returned in no particular order.
 """
-function list_game_servers(
-    GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+list_game_servers(GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "ListGameServers",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_game_servers(
     GameServerGroupName,
     params::AbstractDict{String};
@@ -4065,9 +3918,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 """
-function list_locations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_locations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4092,9 +3944,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, don't specify a value.
 """
-function list_scripts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListScripts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_scripts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("ListScripts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_scripts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4121,16 +3972,13 @@ Amazon Web Services Tagging Strategies   Related actions   All APIs by task
   Describe operation for the resource type.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -4241,16 +4089,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policy.
 - `"Threshold"`: Metric value used to trigger a scaling event.
 """
-function put_scaling_policy(
+put_scaling_policy(
     FleetId, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "PutScalingPolicy",
+    Dict{String,Any}("FleetId" => FleetId, "MetricName" => MetricName, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "PutScalingPolicy",
-        Dict{String,Any}("FleetId" => FleetId, "MetricName" => MetricName, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_scaling_policy(
     FleetId,
     MetricName,
@@ -4307,20 +4153,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DnsName"`: The DNS name of the compute resource. Amazon GameLift requires either a DNS
   name or IP address.
 - `"IpAddress"`: The IP address of the compute resource. Amazon GameLift requires either a
-  DNS name or IP address.
+  DNS name or IP address. When registering an Anywhere fleet, an IP address is required.
 - `"Location"`: The name of a custom location to associate with the compute resource being
-  registered.
+  registered. This parameter is required when registering a compute for an Anywhere fleet.
 """
-function register_compute(
-    ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+register_compute(ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "RegisterCompute",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function register_compute(
     ComputeName,
     FleetId,
@@ -4376,23 +4219,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. This data is passed to a game client or service when it requests information on game
   servers.
 """
-function register_game_server(
+register_game_server(
     GameServerGroupName,
     GameServerId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = gamelift(
+    "RegisterGameServer",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName,
+        "GameServerId" => GameServerId,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "RegisterGameServer",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName,
-            "GameServerId" => GameServerId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_game_server(
     GameServerGroupName,
     GameServerId,
@@ -4434,16 +4275,13 @@ in S3   All APIs by task
   the build ID or ARN value.
 
 """
-function request_upload_credentials(
-    BuildId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+request_upload_credentials(BuildId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "RequestUploadCredentials",
         Dict{String,Any}("BuildId" => BuildId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function request_upload_credentials(
     BuildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4469,14 +4307,12 @@ TerminalRoutingStrategyException.  Related actions   All APIs by task
   You can use either the alias ID or ARN value.
 
 """
-function resolve_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "ResolveAlias",
-        Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+resolve_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "ResolveAlias",
+    Dict{String,Any}("AliasId" => AliasId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function resolve_alias(
     AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4509,18 +4345,16 @@ Guide
 - `resume_actions`: The activity to resume for this game server group.
 
 """
-function resume_game_server_group(
+resume_game_server_group(
     GameServerGroupName, ResumeActions; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "ResumeGameServerGroup",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName, "ResumeActions" => ResumeActions
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "ResumeGameServerGroup",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName, "ResumeActions" => ResumeActions
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resume_game_server_group(
     GameServerGroupName,
     ResumeActions,
@@ -4632,11 +4466,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active sessions first: \"SortExpression\": \"creationTimeMillis ASC\". Results with a null
   value for the sort operand are returned at the end of the list.
 """
-function search_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "SearchGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+search_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift("SearchGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function search_game_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4670,16 +4501,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: The fleet location to restart fleet actions for. Specify a location in the
   form of an Amazon Web Services Region code, such as us-west-2.
 """
-function start_fleet_actions(
-    Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+start_fleet_actions(Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "StartFleetActions",
         Dict{String,Any}("Actions" => Actions, "FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_fleet_actions(
     Actions,
     FleetId,
@@ -4752,23 +4580,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This information is used to try to place the new game session where it can offer the best
   possible gameplay experience for the players.
 """
-function start_game_session_placement(
+start_game_session_placement(
     GameSessionQueueName,
     MaximumPlayerSessionCount,
     PlacementId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = gamelift(
+    "StartGameSessionPlacement",
+    Dict{String,Any}(
+        "GameSessionQueueName" => GameSessionQueueName,
+        "MaximumPlayerSessionCount" => MaximumPlayerSessionCount,
+        "PlacementId" => PlacementId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "StartGameSessionPlacement",
-        Dict{String,Any}(
-            "GameSessionQueueName" => GameSessionQueueName,
-            "MaximumPlayerSessionCount" => MaximumPlayerSessionCount,
-            "PlacementId" => PlacementId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_game_session_placement(
     GameSessionQueueName,
     MaximumPlayerSessionCount,
@@ -4845,16 +4671,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track
   the match backfill ticket status and retrieve match results.
 """
-function start_match_backfill(
+start_match_backfill(
     ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "StartMatchBackfill",
+    Dict{String,Any}("ConfigurationName" => ConfigurationName, "Players" => Players);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "StartMatchBackfill",
-        Dict{String,Any}("ConfigurationName" => ConfigurationName, "Players" => Players);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_match_backfill(
     ConfigurationName,
     Players,
@@ -4912,16 +4736,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track
   the matchmaking ticket status and retrieve match results.
 """
-function start_matchmaking(
+start_matchmaking(
     ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "StartMatchmaking",
+    Dict{String,Any}("ConfigurationName" => ConfigurationName, "Players" => Players);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "StartMatchmaking",
-        Dict{String,Any}("ConfigurationName" => ConfigurationName, "Players" => Players);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_matchmaking(
     ConfigurationName,
     Players,
@@ -4971,16 +4793,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: The fleet location to stop fleet actions for. Specify a location in the
   form of an Amazon Web Services Region code, such as us-west-2.
 """
-function stop_fleet_actions(
-    Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+stop_fleet_actions(Actions, FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "StopFleetActions",
         Dict{String,Any}("Actions" => Actions, "FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_fleet_actions(
     Actions,
     FleetId,
@@ -5010,16 +4829,14 @@ the placement ID values. If successful, the placement is moved to CANCELLED stat
 - `placement_id`: A unique identifier for a game session placement to stop.
 
 """
-function stop_game_session_placement(
+stop_game_session_placement(
     PlacementId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "StopGameSessionPlacement",
+    Dict{String,Any}("PlacementId" => PlacementId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "StopGameSessionPlacement",
-        Dict{String,Any}("PlacementId" => PlacementId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_game_session_placement(
     PlacementId,
     params::AbstractDict{String};
@@ -5053,14 +4870,12 @@ to a game client
 - `ticket_id`: A unique identifier for a matchmaking ticket.
 
 """
-function stop_matchmaking(TicketId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "StopMatchmaking",
-        Dict{String,Any}("TicketId" => TicketId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_matchmaking(TicketId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "StopMatchmaking",
+    Dict{String,Any}("TicketId" => TicketId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_matchmaking(
     TicketId,
     params::AbstractDict{String};
@@ -5100,18 +4915,16 @@ SuspendedActions.  Learn more   Amazon GameLift FleetIQ Guide
 - `suspend_actions`: The activity to suspend for this game server group.
 
 """
-function suspend_game_server_group(
+suspend_game_server_group(
     GameServerGroupName, SuspendActions; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "SuspendGameServerGroup",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName, "SuspendActions" => SuspendActions
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "SuspendGameServerGroup",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName, "SuspendActions" => SuspendActions
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function suspend_game_server_group(
     GameServerGroupName,
     SuspendActions,
@@ -5159,14 +4972,13 @@ All APIs by task
   lower than stated. See  Tagging Amazon Web Services Resources for tagging limits.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -5209,16 +5021,13 @@ Tagging Strategies   Related actions   All APIs by task
   resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -5260,14 +5069,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingStrategy"`: The routing configuration, including routing type and fleet target,
   for the alias.
 """
-function update_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "UpdateAlias",
-        Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "UpdateAlias",
+    Dict{String,Any}("AliasId" => AliasId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_alias(
     AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5299,14 +5106,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Version"`: Version information associated with a build or script. Version strings don't
   need to be unique.
 """
-function update_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "UpdateBuild",
-        Dict{String,Any}("BuildId" => BuildId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "UpdateBuild",
+    Dict{String,Any}("BuildId" => BuildId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_build(
     BuildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5350,14 +5155,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceCreationLimitPolicy"`: Policy settings that limit the number of game sessions
   an individual player can create over a span of time.
 """
-function update_fleet_attributes(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+update_fleet_attributes(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UpdateFleetAttributes",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_fleet_attributes(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5415,14 +5219,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MinSize"`: The minimum number of instances that are allowed in the specified fleet
   location. If this parameter is not set, the default is 0.
 """
-function update_fleet_capacity(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+update_fleet_capacity(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UpdateFleetCapacity",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_fleet_capacity(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5460,16 +5263,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InboundPermissionRevocations"`: A collection of port settings to be removed from the
   fleet resource.
 """
-function update_fleet_port_settings(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+update_fleet_port_settings(FleetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UpdateFleetPortSettings",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_fleet_port_settings(
     FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5518,18 +5318,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   gameplay. You can update a game server status from AVAILABLE to UTILIZED, but you can't
   change a the status from UTILIZED to AVAILABLE.
 """
-function update_game_server(
+update_game_server(
     GameServerGroupName, GameServerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "UpdateGameServer",
+    Dict{String,Any}(
+        "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "UpdateGameServer",
-        Dict{String,Any}(
-            "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_game_server(
     GameServerGroupName,
     GameServerId,
@@ -5604,16 +5402,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift
   to access your Amazon EC2 Auto Scaling groups.
 """
-function update_game_server_group(
+update_game_server_group(
     GameServerGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "UpdateGameServerGroup",
+    Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "UpdateGameServerGroup",
-        Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_game_server_group(
     GameServerGroupName,
     params::AbstractDict{String};
@@ -5662,16 +5458,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated
   during a scale-down event.
 """
-function update_game_session(
-    GameSessionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+update_game_session(GameSessionId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UpdateGameSession",
         Dict{String,Any}("GameSessionId" => GameSessionId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_game_session(
     GameSessionId,
     params::AbstractDict{String};
@@ -5729,14 +5522,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request remains in the queue. When a request exceeds this time, the game session placement
   changes to a TIMED_OUT status. By default, this property is set to 600.
 """
-function update_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
+update_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UpdateGameSessionQueue",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_game_session_queue(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5812,16 +5604,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You can use either the rule set name or ARN value. A matchmaking
   configuration can only use rule sets that are defined in the same Region.
 """
-function update_matchmaking_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return gamelift(
+update_matchmaking_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    gamelift(
         "UpdateMatchmakingConfiguration",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_matchmaking_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5860,18 +5649,14 @@ Setting up Amazon GameLift fleets
   and the number of processes to run concurrently.
 
 """
-function update_runtime_configuration(
+update_runtime_configuration(
     FleetId, RuntimeConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "UpdateRuntimeConfiguration",
+    Dict{String,Any}("FleetId" => FleetId, "RuntimeConfiguration" => RuntimeConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "UpdateRuntimeConfiguration",
-        Dict{String,Any}(
-            "FleetId" => FleetId, "RuntimeConfiguration" => RuntimeConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_runtime_configuration(
     FleetId,
     RuntimeConfiguration,
@@ -5931,14 +5716,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file name. It must be prepended with the string \"fileb://\" to indicate that the file data
   is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
 """
-function update_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift(
-        "UpdateScript",
-        Dict{String,Any}("ScriptId" => ScriptId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift(
+    "UpdateScript",
+    Dict{String,Any}("ScriptId" => ScriptId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_script(
     ScriptId,
     params::AbstractDict{String};
@@ -5968,16 +5751,14 @@ rule set
   string.
 
 """
-function validate_matchmaking_rule_set(
+validate_matchmaking_rule_set(
     RuleSetBody; aws_config::AbstractAWSConfig=global_aws_config()
+) = gamelift(
+    "ValidateMatchmakingRuleSet",
+    Dict{String,Any}("RuleSetBody" => RuleSetBody);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return gamelift(
-        "ValidateMatchmakingRuleSet",
-        Dict{String,Any}("RuleSetBody" => RuleSetBody);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function validate_matchmaking_rule_set(
     RuleSetBody,
     params::AbstractDict{String};

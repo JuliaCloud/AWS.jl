@@ -16,17 +16,15 @@ Use to get the active deployments from a device.
   deployments from.
 
 """
-function get_deployments(
+get_deployments(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker_edge(
+    "POST",
+    "/GetDeployments",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker_edge(
-        "POST",
-        "/GetDeployments",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_deployments(
     DeviceFleetName,
     DeviceName,
@@ -61,17 +59,15 @@ Use to check if a device is registered with SageMaker Edge Manager.
 - `device_name`: The unique name of the device you want to get the registration status from.
 
 """
-function get_device_registration(
+get_device_registration(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker_edge(
+    "POST",
+    "/GetDeviceRegistration",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker_edge(
-        "POST",
-        "/GetDeviceRegistration",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_device_registration(
     DeviceFleetName,
     DeviceName,
@@ -113,24 +109,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeploymentResult"`: Returns the result of a deployment on the device.
 - `"Models"`: Returns a list of models deployed on the the device.
 """
-function send_heartbeat(
+send_heartbeat(
     AgentVersion,
     DeviceFleetName,
     DeviceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker_edge(
+    "POST",
+    "/SendHeartbeat",
+    Dict{String,Any}(
+        "AgentVersion" => AgentVersion,
+        "DeviceFleetName" => DeviceFleetName,
+        "DeviceName" => DeviceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker_edge(
-        "POST",
-        "/SendHeartbeat",
-        Dict{String,Any}(
-            "AgentVersion" => AgentVersion,
-            "DeviceFleetName" => DeviceFleetName,
-            "DeviceName" => DeviceName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_heartbeat(
     AgentVersion,
     DeviceFleetName,

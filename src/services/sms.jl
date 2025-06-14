@@ -22,9 +22,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverGroups"`: The server groups to include in the application.
 - `"tags"`: The tags to be associated with the application.
 """
-function create_app(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("CreateApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_app(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("CreateApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_app(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -59,18 +58,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleName"`: The name of the IAM role to be used by the Server Migration Service.
 - `"runOnce"`: Indicates whether to run the replication job one time.
 """
-function create_replication_job(
+create_replication_job(
     seedReplicationTime, serverId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sms(
+    "CreateReplicationJob",
+    Dict{String,Any}("seedReplicationTime" => seedReplicationTime, "serverId" => serverId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sms(
-        "CreateReplicationJob",
-        Dict{String,Any}(
-            "seedReplicationTime" => seedReplicationTime, "serverId" => serverId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_replication_job(
     seedReplicationTime,
     serverId,
@@ -109,9 +104,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceTerminateApp"`: Indicates whether to terminate the stack corresponding to the
   application while deleting the application.
 """
-function delete_app(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("DeleteApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+delete_app(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("DeleteApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_app(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -128,15 +122,11 @@ Deletes the launch configuration for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function delete_app_launch_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+delete_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms(
+    "DeleteAppLaunchConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sms(
-        "DeleteAppLaunchConfiguration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app_launch_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -158,15 +148,12 @@ Deletes the replication configuration for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function delete_app_replication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+delete_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "DeleteAppReplicationConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_app_replication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -188,16 +175,14 @@ Deletes the validation configuration for the specified application.
 - `app_id`: The ID of the application.
 
 """
-function delete_app_validation_configuration(
+delete_app_validation_configuration(
     appId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sms(
+    "DeleteAppValidationConfiguration",
+    Dict{String,Any}("appId" => appId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sms(
-        "DeleteAppValidationConfiguration",
-        Dict{String,Any}("appId" => appId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app_validation_configuration(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -222,16 +207,14 @@ are not deleted.
 - `replication_job_id`: The ID of the replication job.
 
 """
-function delete_replication_job(
+delete_replication_job(
     replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sms(
+    "DeleteReplicationJob",
+    Dict{String,Any}("replicationJobId" => replicationJobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sms(
-        "DeleteReplicationJob",
-        Dict{String,Any}("replicationJobId" => replicationJobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_replication_job(
     replicationJobId,
     params::AbstractDict{String};
@@ -256,11 +239,8 @@ end
 Deletes all servers from your server catalog.
 
 """
-function delete_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms(
-        "DeleteServerCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("DeleteServerCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_server_catalog(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -283,16 +263,13 @@ a connector, it is no longer available to support replication jobs.
 - `connector_id`: The ID of the connector.
 
 """
-function disassociate_connector(
-    connectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+disassociate_connector(connectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "DisassociateConnector",
         Dict{String,Any}("connectorId" => connectorId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_connector(
     connectorId,
     params::AbstractDict{String};
@@ -320,9 +297,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application associated with the change set.
 - `"changesetFormat"`: The format for the change set.
 """
-function generate_change_set(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("GenerateChangeSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+generate_change_set(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GenerateChangeSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function generate_change_set(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -343,9 +319,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application associated with the CloudFormation template.
 - `"templateFormat"`: The format for generating the CloudFormation template.
 """
-function generate_template(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("GenerateTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+generate_template(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GenerateTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function generate_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -364,9 +339,8 @@ Retrieve information about the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function get_app(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("GetApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_app(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GetApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_app(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -383,11 +357,8 @@ Retrieves the application launch configuration associated with the specified app
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function get_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms(
-        "GetAppLaunchConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GetAppLaunchConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_app_launch_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -410,15 +381,12 @@ application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function get_app_replication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+get_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "GetAppReplicationConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_app_replication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -440,16 +408,13 @@ Retrieves information about a configuration for validating an application.
 - `app_id`: The ID of the application.
 
 """
-function get_app_validation_configuration(
-    appId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+get_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "GetAppValidationConfiguration",
         Dict{String,Any}("appId" => appId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_app_validation_configuration(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -471,14 +436,12 @@ Retrieves output from validating an application.
 - `app_id`: The ID of the application.
 
 """
-function get_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms(
-        "GetAppValidationOutput",
-        Dict{String,Any}("appId" => appId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms(
+    "GetAppValidationOutput",
+    Dict{String,Any}("appId" => appId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_app_validation_output(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -503,9 +466,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken value.
 - `"nextToken"`: The token for the next set of results.
 """
-function get_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("GetConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GetConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -528,9 +490,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 - `"replicationJobId"`: The ID of the replication job.
 """
-function get_replication_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("GetReplicationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_replication_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GetReplicationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_replication_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -555,16 +516,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken value.
 - `"nextToken"`: The token for the next set of results.
 """
-function get_replication_runs(
-    replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+get_replication_runs(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "GetReplicationRuns",
         Dict{String,Any}("replicationJobId" => replicationJobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_replication_runs(
     replicationJobId,
     params::AbstractDict{String};
@@ -597,9 +555,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 - `"vmServerAddressList"`: The server addresses.
 """
-function get_servers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("GetServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_servers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("GetServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -618,9 +575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service-linked role for Migration Hub in your account. Otherwise, the role that you provide
   must have the policy and trust policy described in the Migration Hub User Guide.
 """
-function import_app_catalog(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("ImportAppCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+import_app_catalog(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("ImportAppCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function import_app_catalog(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -638,11 +594,8 @@ all servers to import. This call returns immediately, but might take additional 
 retrieve all the servers.
 
 """
-function import_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms(
-        "ImportServerCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+import_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("ImportServerCatalog"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function import_server_catalog(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -664,9 +617,8 @@ Launches the specified application as a stack in CloudFormation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function launch_app(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("LaunchApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+launch_app(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("LaunchApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function launch_app(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -687,9 +639,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken value.
 - `"nextToken"`: The token for the next set of results.
 """
-function list_apps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("ListApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_apps(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("ListApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -710,16 +661,13 @@ successful.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"notificationContext"`: The notification information.
 """
-function notify_app_validation_output(
-    appId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+notify_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "NotifyAppValidationOutput",
         Dict{String,Any}("appId" => appId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function notify_app_validation_output(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -747,11 +695,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverGroupLaunchConfigurations"`: Information about the launch configurations for
   server groups in the application.
 """
-function put_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms(
-        "PutAppLaunchConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+put_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("PutAppLaunchConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function put_app_launch_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -775,15 +720,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverGroupReplicationConfigurations"`: Information about the replication
   configurations for server groups in the application.
 """
-function put_app_replication_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+put_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "PutAppReplicationConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_app_replication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -809,16 +751,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appValidationConfigurations"`: The configuration for application validation.
 - `"serverGroupValidationConfigurations"`: The configuration for instance validation.
 """
-function put_app_validation_configuration(
-    appId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+put_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "PutAppValidationConfiguration",
         Dict{String,Any}("appId" => appId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_app_validation_configuration(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -841,11 +780,8 @@ in the application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function start_app_replication(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms(
-        "StartAppReplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+start_app_replication(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("StartAppReplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function start_app_replication(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -870,16 +806,13 @@ Starts an on-demand replication run for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the replication run.
 """
-function start_on_demand_app_replication(
-    appId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sms(
+start_on_demand_app_replication(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms(
         "StartOnDemandAppReplication",
         Dict{String,Any}("appId" => appId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_on_demand_app_replication(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -907,16 +840,14 @@ There is a limit on the number of on-demand replications runs that you can reque
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the replication run.
 """
-function start_on_demand_replication_run(
+start_on_demand_replication_run(
     replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sms(
+    "StartOnDemandReplicationRun",
+    Dict{String,Any}("replicationJobId" => replicationJobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sms(
-        "StartOnDemandReplicationRun",
-        Dict{String,Any}("replicationJobId" => replicationJobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_on_demand_replication_run(
     replicationJobId,
     params::AbstractDict{String};
@@ -945,9 +876,8 @@ in the application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function stop_app_replication(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("StopAppReplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+stop_app_replication(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("StopAppReplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function stop_app_replication(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -966,9 +896,8 @@ Terminates the stack for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"appId"`: The ID of the application.
 """
-function terminate_app(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("TerminateApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+terminate_app(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("TerminateApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function terminate_app(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -993,9 +922,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverGroups"`: The server groups in the application to update.
 - `"tags"`: The tags to associate with the application.
 """
-function update_app(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sms("UpdateApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+update_app(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sms("UpdateApp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_app(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1028,16 +956,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   oldest is deleted after the maximum number is reached and a new AMI is created.
 - `"roleName"`: The name of the IAM role to be used by Server Migration Service.
 """
-function update_replication_job(
+update_replication_job(
     replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sms(
+    "UpdateReplicationJob",
+    Dict{String,Any}("replicationJobId" => replicationJobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sms(
-        "UpdateReplicationJob",
-        Dict{String,Any}("replicationJobId" => replicationJobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_replication_job(
     replicationJobId,
     params::AbstractDict{String};

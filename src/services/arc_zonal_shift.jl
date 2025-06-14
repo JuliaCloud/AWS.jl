@@ -17,14 +17,13 @@ a zonal shift started by a practice run with zonal autoshift.
 - `zonal_shift_id`: The internally-generated identifier of a zonal shift.
 
 """
-function cancel_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=global_aws_config())
-    return arc_zonal_shift(
+cancel_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    arc_zonal_shift(
         "DELETE",
         "/zonalshifts/$(zonalShiftId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_zonal_shift(
     zonalShiftId,
     params::AbstractDict{String};
@@ -48,8 +47,11 @@ autoshift. A practice run configuration includes specifications for blocked date
 blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice
 runs. The alarms that you specify are an outcome alarm, to monitor application health
 during practice runs and, optionally, a blocking alarm, to block practice runs from
-starting. For more information, see  Considerations when you configure zonal autoshift in
-the Amazon Route 53 Application Recovery Controller Developer Guide.
+starting. When a resource has a practice run configuration, Route 53 ARC starts zonal
+shifts for the resource weekly, to shift traffic for practice runs. Practice runs help you
+to ensure that shifting away traffic from an Availability Zone during an autoshift is safe
+for your application. For more information, see  Considerations when you configure zonal
+autoshift in the Amazon Route 53 Application Recovery Controller Developer Guide.
 
 # Arguments
 - `outcome_alarms`: The outcome alarm for practice runs is a required Amazon CloudWatch
@@ -58,10 +60,10 @@ the Amazon Route 53 Application Recovery Controller Developer Guide.
   from an Availability Zone during each weekly practice run. You should configure the alarm
   to go into an ALARM state if your application is impacted by the zonal shift, and you want
   to stop the zonal shift, to let traffic for the resource return to the Availability Zone.
-- `resource_identifier`: The identifier of the resource to shift away traffic for when a
-  practice run starts a zonal shift. The identifier is the Amazon Resource Name (ARN) for the
-  resource. At this time, supported resources are Network Load Balancers and Application Load
-  Balancers with cross-zone load balancing turned off.
+- `resource_identifier`: The identifier of the resource that Amazon Web Services shifts
+  traffic for with a practice run zonal shift. The identifier is the Amazon Resource Name
+  (ARN) for the resource. At this time, supported resources are Network Load Balancers and
+  Application Load Balancers with cross-zone load balancing turned off.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -83,19 +85,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   practice runs. This alarm blocks Route 53 ARC from starting practice run zonal shifts, and
   ends a practice run that's in progress, when the alarm is in an ALARM state.
 """
-function create_practice_run_configuration(
+create_practice_run_configuration(
     outcomeAlarms, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = arc_zonal_shift(
+    "POST",
+    "/configuration",
+    Dict{String,Any}(
+        "outcomeAlarms" => outcomeAlarms, "resourceIdentifier" => resourceIdentifier
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return arc_zonal_shift(
-        "POST",
-        "/configuration",
-        Dict{String,Any}(
-            "outcomeAlarms" => outcomeAlarms, "resourceIdentifier" => resourceIdentifier
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_practice_run_configuration(
     outcomeAlarms,
     resourceIdentifier,
@@ -134,16 +134,14 @@ runs must be configured for zonal autoshift to be enabled.
   resource.
 
 """
-function delete_practice_run_configuration(
+delete_practice_run_configuration(
     resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = arc_zonal_shift(
+    "DELETE",
+    "/configuration/$(resourceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return arc_zonal_shift(
-        "DELETE",
-        "/configuration/$(resourceIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_practice_run_configuration(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -152,6 +150,40 @@ function delete_practice_run_configuration(
     return arc_zonal_shift(
         "DELETE",
         "/configuration/$(resourceIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_autoshift_observer_notification_status()
+    get_autoshift_observer_notification_status(params::Dict{String,<:Any})
+
+Returns the status of autoshift observer notification. Autoshift observer notification
+enables you to be notified, through Amazon EventBridge, when there is an autoshift event
+for zonal autoshift. If the status is ENABLED, Route 53 ARC includes all autoshift events
+when you use the EventBridge pattern Autoshift In Progress. When the status is DISABLED,
+Route 53 ARC includes only autoshift events for autoshifts when one or more of your
+resources is included in the autoshift. For more information, see  Notifications for
+practice runs and autoshifts in the Amazon Route 53 Application Recovery Controller
+Developer Guide.
+
+"""
+get_autoshift_observer_notification_status(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+) = arc_zonal_shift(
+    "GET",
+    "/autoshift-observer-notification";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_autoshift_observer_notification_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return arc_zonal_shift(
+        "GET",
+        "/autoshift-observer-notification",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -170,22 +202,20 @@ start a zonal shift or configure zonal autoshift for Network Load Balancers and 
 Load Balancers with cross-zone load balancing turned off.
 
 # Arguments
-- `resource_identifier`: The identifier for the resource to shift away traffic for. The
-  identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported
-  resources are Network Load Balancers and Application Load Balancers with cross-zone load
-  balancing turned off.
+- `resource_identifier`: The identifier for the resource that Amazon Web Services shifts
+  traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this
+  time, supported resources are Network Load Balancers and Application Load Balancers with
+  cross-zone load balancing turned off.
 
 """
-function get_managed_resource(
+get_managed_resource(
     resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = arc_zonal_shift(
+    "GET",
+    "/managedresources/$(resourceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return arc_zonal_shift(
-        "GET",
-        "/managedresources/$(resourceIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_managed_resource(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -204,7 +234,9 @@ end
     list_autoshifts()
     list_autoshifts(params::Dict{String,<:Any})
 
-Returns the active autoshifts for a specified resource.
+Returns a list of autoshifts for an Amazon Web Services Region. By default, the call
+returns only ACTIVE autoshifts. Optionally, you can specify the status parameter to return
+COMPLETED autoshifts.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -215,11 +247,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 - `"status"`: The status of the autoshift.
 """
-function list_autoshifts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return arc_zonal_shift(
-        "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_autoshifts(; aws_config::AbstractAWSConfig=global_aws_config()) = arc_zonal_shift(
+    "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_autoshifts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -246,11 +276,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 """
-function list_managed_resources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return arc_zonal_shift(
+list_managed_resources(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    arc_zonal_shift(
         "GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_managed_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -269,9 +298,9 @@ end
 
 Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery
 Controller in your Amazon Web Services account in this Amazon Web Services Region.
-ListZonalShifts returns customer-started zonal shifts, as well as practice run zonal shifts
-that Route 53 ARC started on your behalf for zonal autoshift. The ListZonalShifts operation
-does not list autoshifts. For more information about listing autoshifts, see
+ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal
+shifts that Route 53 ARC started on your behalf for zonal autoshift. The ListZonalShifts
+operation does not list autoshifts. For more information about listing autoshifts, see
 \"&gt;ListAutoshifts.
 
 # Optional Parameters
@@ -288,11 +317,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was
   canceled.
 """
-function list_zonal_shifts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return arc_zonal_shift(
-        "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_zonal_shifts(; aws_config::AbstractAWSConfig=global_aws_config()) = arc_zonal_shift(
+    "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_zonal_shifts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -324,9 +351,10 @@ Availability Zone to complete. For more information, see Zonal shift in the Amaz
 Application Recovery Controller Developer Guide.
 
 # Arguments
-- `away_from`: The Availability Zone that traffic is moved away from for a resource when
-  you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the
-  resource is instead moved to other Availability Zones in the Amazon Web Services Region.
+- `away_from`: The Availability Zone (for example, use1-az1) that traffic is moved away
+  from for a resource when you start a zonal shift. Until the zonal shift expires or you
+  cancel it, traffic for the resource is instead moved to other Availability Zones in the
+  Amazon Web Services Region.
 - `comment`: A comment that you enter about the zonal shift. Only the latest comment is
   retained; no comment history is maintained. A new comment overwrites any existing comment
   string.
@@ -340,32 +368,30 @@ Application Recovery Controller Developer Guide.
    A lowercase letter m: To specify that the value is in minutes.    A lowercase letter h: To
   specify that the value is in hours.   For example: 20h means the zonal shift expires in 20
   hours. 120m means the zonal shift expires in 120 minutes (2 hours).
-- `resource_identifier`: The identifier for the resource to shift away traffic for. The
-  identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported
-  resources are Network Load Balancers and Application Load Balancers with cross-zone load
-  balancing turned off.
+- `resource_identifier`: The identifier for the resource that Amazon Web Services shifts
+  traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this
+  time, supported resources are Network Load Balancers and Application Load Balancers with
+  cross-zone load balancing turned off.
 
 """
-function start_zonal_shift(
+start_zonal_shift(
     awayFrom,
     comment,
     expiresIn,
     resourceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = arc_zonal_shift(
+    "POST",
+    "/zonalshifts",
+    Dict{String,Any}(
+        "awayFrom" => awayFrom,
+        "comment" => comment,
+        "expiresIn" => expiresIn,
+        "resourceIdentifier" => resourceIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return arc_zonal_shift(
-        "POST",
-        "/zonalshifts",
-        Dict{String,Any}(
-            "awayFrom" => awayFrom,
-            "comment" => comment,
-            "expiresIn" => expiresIn,
-            "resourceIdentifier" => resourceIdentifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_zonal_shift(
     awayFrom,
     comment,
@@ -389,6 +415,48 @@ function start_zonal_shift(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_autoshift_observer_notification_status(status)
+    update_autoshift_observer_notification_status(status, params::Dict{String,<:Any})
+
+Update the status of autoshift observer notification. Autoshift observer notification
+enables you to be notified, through Amazon EventBridge, when there is an autoshift event
+for zonal autoshift. If the status is ENABLED, Route 53 ARC includes all autoshift events
+when you use the EventBridge pattern Autoshift In Progress. When the status is DISABLED,
+Route 53 ARC includes only autoshift events for autoshifts when one or more of your
+resources is included in the autoshift. For more information, see  Notifications for
+practice runs and autoshifts in the Amazon Route 53 Application Recovery Controller
+Developer Guide.
+
+# Arguments
+- `status`: The status to set for autoshift observer notification. If the status is
+  ENABLED, Route 53 ARC includes all autoshift events when you use the Amazon EventBridge
+  pattern Autoshift In Progress. When the status is DISABLED, Route 53 ARC includes only
+  autoshift events for autoshifts when one or more of your resources is included in the
+  autoshift.
+
+"""
+update_autoshift_observer_notification_status(
+    status; aws_config::AbstractAWSConfig=global_aws_config()
+) = arc_zonal_shift(
+    "PUT",
+    "/autoshift-observer-notification",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_autoshift_observer_notification_status(
+    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return arc_zonal_shift(
+        "PUT",
+        "/autoshift-observer-notification",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -429,16 +497,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outcomeAlarms"`: Specify a new the Amazon CloudWatch alarm as the outcome alarm for
   practice runs.
 """
-function update_practice_run_configuration(
+update_practice_run_configuration(
     resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = arc_zonal_shift(
+    "PATCH",
+    "/configuration/$(resourceIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return arc_zonal_shift(
-        "PATCH",
-        "/configuration/$(resourceIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_practice_run_configuration(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -457,32 +523,38 @@ end
     update_zonal_autoshift_configuration(resource_identifier, zonal_autoshift_status)
     update_zonal_autoshift_configuration(resource_identifier, zonal_autoshift_status, params::Dict{String,<:Any})
 
-You can update the zonal autoshift status for a resource, to enable or disable zonal
-autoshift. When zonal autoshift is ENABLED, Amazon Web Services shifts away resource
-traffic from an Availability Zone, on your behalf, when Amazon Web Services determines that
-there's an issue in the Availability Zone that could potentially affect customers.
+The zonal autoshift configuration for a resource includes the practice run configuration
+and the status for running autoshifts, zonal autoshift status. When a resource has a
+practice run configuation, Route 53 ARC starts weekly zonal shifts for the resource, to
+shift traffic away from an Availability Zone. Weekly practice runs help you to make sure
+that your application can continue to operate normally with the loss of one Availability
+Zone. You can update the zonal autoshift autoshift status to enable or disable zonal
+autoshift. When zonal autoshift is ENABLED, you authorize Amazon Web Services to shift away
+resource traffic for an application from an Availability Zone during events, on your
+behalf, to help reduce time to recovery. Traffic is also shifted away for the required
+weekly practice runs.
 
 # Arguments
 - `resource_identifier`: The identifier for the resource that you want to update the zonal
   autoshift configuration for. The identifier is the Amazon Resource Name (ARN) for the
   resource.
 - `zonal_autoshift_status`: The zonal autoshift status for the resource that you want to
-  update the zonal autoshift configuration for.
+  update the zonal autoshift configuration for. Choose ENABLED to authorize Amazon Web
+  Services to shift away resource traffic for an application from an Availability Zone during
+  events, on your behalf, to help reduce time to recovery.
 
 """
-function update_zonal_autoshift_configuration(
+update_zonal_autoshift_configuration(
     resourceIdentifier,
     zonalAutoshiftStatus;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = arc_zonal_shift(
+    "PUT",
+    "/managedresources/$(resourceIdentifier)",
+    Dict{String,Any}("zonalAutoshiftStatus" => zonalAutoshiftStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return arc_zonal_shift(
-        "PUT",
-        "/managedresources/$(resourceIdentifier)",
-        Dict{String,Any}("zonalAutoshiftStatus" => zonalAutoshiftStatus);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_zonal_autoshift_configuration(
     resourceIdentifier,
     zonalAutoshiftStatus,
@@ -531,14 +603,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   letter h: To specify that the value is in hours.   For example: 20h means the zonal shift
   expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
 """
-function update_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=global_aws_config())
-    return arc_zonal_shift(
+update_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    arc_zonal_shift(
         "PATCH",
         "/zonalshifts/$(zonalShiftId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_zonal_shift(
     zonalShiftId,
     params::AbstractDict{String};

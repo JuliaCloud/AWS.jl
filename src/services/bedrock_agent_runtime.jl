@@ -5,23 +5,118 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    delete_agent_memory(agent_alias_id, agent_id)
+    delete_agent_memory(agent_alias_id, agent_id, params::Dict{String,<:Any})
+
+Deletes memory from the specified memory identifier.
+
+# Arguments
+- `agent_alias_id`: The unique identifier of an alias of an agent.
+- `agent_id`: The unique identifier of the agent to which the alias belongs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"memoryId"`: The unique identifier of the memory.
+"""
+delete_agent_memory(
+    agentAliasId, agentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock_agent_runtime(
+    "DELETE",
+    "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_agent_memory(
+    agentAliasId,
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_agent_memory(agent_alias_id, agent_id, memory_id, memory_type)
+    get_agent_memory(agent_alias_id, agent_id, memory_id, memory_type, params::Dict{String,<:Any})
+
+Gets the sessions stored in the memory of the agent.
+
+# Arguments
+- `agent_alias_id`: The unique identifier of an alias of an agent.
+- `agent_id`: The unique identifier of the agent to which the alias belongs.
+- `memory_id`: The unique identifier of the memory.
+- `memory_type`: The type of memory.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxItems"`: The maximum number of items to return in the response. If the total number
+  of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the maxItems value provided
+  in the request, enter the token returned in the nextToken field in the response in this
+  field to return the next batch of results.
+"""
+get_agent_memory(
+    agentAliasId,
+    agentId,
+    memoryId,
+    memoryType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock_agent_runtime(
+    "GET",
+    "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+    Dict{String,Any}("memoryId" => memoryId, "memoryType" => memoryType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_agent_memory(
+    agentAliasId,
+    agentId,
+    memoryId,
+    memoryType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("memoryId" => memoryId, "memoryType" => memoryType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     invoke_agent(agent_alias_id, agent_id, session_id)
     invoke_agent(agent_alias_id, agent_id, session_id, params::Dict{String,<:Any})
 
- The CLI doesn't support InvokeAgent.  Sends a prompt for the agent to process and respond
-to. Note the following fields for the request:   To continue the same conversation with an
-agent, use the same sessionId value in the request.   To activate trace enablement, turn
-enableTrace to true. Trace enablement helps you follow the agent's reasoning process that
-led it to the information it processed, the actions it took, and the final result it
-yielded. For more information, see Trace enablement.   End a conversation by setting
-endSession to true.   In the sessionState object, you can include attributes for the
-session or prompt or, if you configured an action group to return control, results from
-invocation of the action group.   The response is returned in the bytes field of the chunk
-object.   The attribution object contains citations for parts of the response.   If you set
-enableTrace to true in the request, you can trace the agent's steps and reasoning process
-that led it to the response.   If the action predicted was configured to return control,
-the response returns parameters for the action, elicited from the user, in the
-returnControl field.   Errors are also surfaced in the response.
+ The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.
+Sends a prompt for the agent to process and respond to. Note the following fields for the
+request:   To continue the same conversation with an agent, use the same sessionId value in
+the request.   To activate trace enablement, turn enableTrace to true. Trace enablement
+helps you follow the agent's reasoning process that led it to the information it processed,
+the actions it took, and the final result it yielded. For more information, see Trace
+enablement.   End a conversation by setting endSession to true.   In the sessionState
+object, you can include attributes for the session or prompt or, if you configured an
+action group to return control, results from invocation of the action group.   The response
+is returned in the bytes field of the chunk object.   The attribution object contains
+citations for parts of the response.   If you set enableTrace to true in the request, you
+can trace the agent's steps and reasoning process that led it to the response.   If the
+action predicted was configured to return control, the response returns parameters for the
+action, elicited from the user, in the returnControl field.   Errors are also surfaced in
+the response.
 
 # Arguments
 - `agent_alias_id`: The alias of the agent to use.
@@ -37,21 +132,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputText"`: The prompt text to send the agent.  If you include
   returnControlInvocationResults in the sessionState field, the inputText field will be
   ignored.
+- `"memoryId"`: The unique identifier of the agent memory.
 - `"sessionState"`: Contains parameters that specify various attributes of the session. For
   more information, see Control session context.  If you include
   returnControlInvocationResults in the sessionState field, the inputText field will be
   ignored.
 """
-function invoke_agent(
+invoke_agent(
     agentAliasId, agentId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock_agent_runtime(
+    "POST",
+    "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock_agent_runtime(
-        "POST",
-        "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function invoke_agent(
     agentAliasId,
     agentId,
@@ -63,6 +157,49 @@ function invoke_agent(
         "POST",
         "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    invoke_flow(flow_alias_identifier, flow_identifier, inputs)
+    invoke_flow(flow_alias_identifier, flow_identifier, inputs, params::Dict{String,<:Any})
+
+Invokes an alias of a flow to run the inputs that you specify and return the output of each
+node as a stream. If there's an error, the error is returned. For more information, see
+Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.  The CLI doesn't support
+streaming operations in Amazon Bedrock, including InvokeFlow.
+
+# Arguments
+- `flow_alias_identifier`: The unique identifier of the flow alias.
+- `flow_identifier`: The unique identifier of the flow.
+- `inputs`: A list of objects, each containing information about an input into the flow.
+
+"""
+invoke_flow(
+    flowAliasIdentifier,
+    flowIdentifier,
+    inputs;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock_agent_runtime(
+    "POST",
+    "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)",
+    Dict{String,Any}("inputs" => inputs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function invoke_flow(
+    flowAliasIdentifier,
+    flowIdentifier,
+    inputs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("inputs" => inputs), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -86,17 +223,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retrievalConfiguration"`: Contains configurations for the knowledge base query and
   retrieval process. For more information, see Query configurations.
 """
-function retrieve(
+retrieve(
     knowledgeBaseId, retrievalQuery; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock_agent_runtime(
+    "POST",
+    "/knowledgebases/$(knowledgeBaseId)/retrieve",
+    Dict{String,Any}("retrievalQuery" => retrievalQuery);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock_agent_runtime(
-        "POST",
-        "/knowledgebases/$(knowledgeBaseId)/retrieve",
-        Dict{String,Any}("retrievalQuery" => retrievalQuery);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function retrieve(
     knowledgeBaseId,
     retrievalQuery,
@@ -129,18 +264,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retrieveAndGenerateConfiguration"`: Contains configurations for the knowledge base
   query and retrieval process. For more information, see Query configurations.
 - `"sessionConfiguration"`: Contains details about the session with the knowledge base.
-- `"sessionId"`: The unique identifier of the session. Reuse the same value to continue the
-  same session with the knowledge base.
+- `"sessionId"`: The unique identifier of the session. When you first make a
+  RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must
+  reuse this value for all subsequent requests in the same conversational session. This value
+  allows Amazon Bedrock to maintain context and knowledge from previous interactions. You
+  can't explicitly set the sessionId yourself.
 """
-function retrieve_and_generate(input; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock_agent_runtime(
+retrieve_and_generate(input; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock_agent_runtime(
         "POST",
         "/retrieveAndGenerate",
         Dict{String,Any}("input" => input);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function retrieve_and_generate(
     input, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

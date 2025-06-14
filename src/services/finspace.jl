@@ -30,15 +30,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"superuserParameters"`: Configuration information for the superuser.
 - `"tags"`: Add tags to your FinSpace environment.
 """
-function create_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
-        "POST",
-        "/environment",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_environment(name; aws_config::AbstractAWSConfig=global_aws_config()) = finspace(
+    "POST",
+    "/environment",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -85,21 +83,19 @@ files by using an ordered list of change requests.
 - `environment_id`: A unique identifier of the kdb environment.
 
 """
-function create_kx_changeset(
+create_kx_changeset(
     changeRequests,
     clientToken,
     databaseName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
+    Dict{String,Any}("changeRequests" => changeRequests, "clientToken" => clientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
-        Dict{String,Any}("changeRequests" => changeRequests, "clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_changeset(
     changeRequests,
     clientToken,
@@ -196,7 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tickerplant, the location of the TP volume on the cluster will be available by using the
   global variable .aws.tp_log_path.
 """
-function create_kx_cluster(
+create_kx_cluster(
     azMode,
     clusterName,
     clusterType,
@@ -204,22 +200,20 @@ function create_kx_cluster(
     releaseLabel,
     vpcConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/clusters",
+    Dict{String,Any}(
+        "azMode" => azMode,
+        "clusterName" => clusterName,
+        "clusterType" => clusterType,
+        "releaseLabel" => releaseLabel,
+        "vpcConfiguration" => vpcConfiguration,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/clusters",
-        Dict{String,Any}(
-            "azMode" => azMode,
-            "clusterName" => clusterName,
-            "clusterType" => clusterType,
-            "releaseLabel" => releaseLabel,
-            "vpcConfiguration" => vpcConfiguration,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_cluster(
     azMode,
     clusterName,
@@ -269,20 +263,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs to label the kdb database. You can add up to 50 tags
   to your kdb database
 """
-function create_kx_database(
+create_kx_database(
     clientToken,
     databaseName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/databases",
+    Dict{String,Any}("clientToken" => clientToken, "databaseName" => databaseName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/databases",
-        Dict{String,Any}("clientToken" => clientToken, "databaseName" => databaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_database(
     clientToken,
     databaseName,
@@ -349,24 +341,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  A list of key-value pairs to label the dataview. You can add up to 50 tags to
   a dataview.
 """
-function create_kx_dataview(
+create_kx_dataview(
     azMode,
     clientToken,
     databaseName,
     dataviewName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews",
+    Dict{String,Any}(
+        "azMode" => azMode, "clientToken" => clientToken, "dataviewName" => dataviewName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews",
-        Dict{String,Any}(
-            "azMode" => azMode, "clientToken" => clientToken, "dataviewName" => dataviewName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_dataview(
     azMode,
     clientToken,
@@ -412,10 +402,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs to label the kdb environment. You can add up to 50
   tags to your kdb environment.
 """
-function create_kx_environment(
-    kmsKeyId, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+create_kx_environment(kmsKeyId, name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "POST",
         "/kx/environments",
         Dict{String,Any}(
@@ -424,7 +412,6 @@ function create_kx_environment(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_kx_environment(
     kmsKeyId,
     name,
@@ -461,6 +448,9 @@ Creates a new scaling group.
   the scaling group.
 - `host_type`:  The memory and CPU capabilities of the scaling group host on which FinSpace
   Managed kdb clusters will be placed. You can add one of the following values:
+  kx.sg.large – The host type with a configuration of 16 GiB memory and 2 vCPUs.
+  kx.sg.xlarge – The host type with a configuration of 32 GiB memory and 4 vCPUs.
+  kx.sg.2xlarge – The host type with a configuration of 64 GiB memory and 8 vCPUs.
   kx.sg.4xlarge – The host type with a configuration of 108 GiB memory and 16 vCPUs.
   kx.sg.8xlarge – The host type with a configuration of 216 GiB memory and 32 vCPUs.
   kx.sg.16xlarge – The host type with a configuration of 432 GiB memory and 64 vCPUs.
@@ -474,27 +464,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  A list of key-value pairs to label the scaling group. You can add up to 50
   tags to a scaling group.
 """
-function create_kx_scaling_group(
+create_kx_scaling_group(
     availabilityZoneId,
     clientToken,
     environmentId,
     hostType,
     scalingGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/scalingGroups",
+    Dict{String,Any}(
+        "availabilityZoneId" => availabilityZoneId,
+        "clientToken" => clientToken,
+        "hostType" => hostType,
+        "scalingGroupName" => scalingGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/scalingGroups",
-        Dict{String,Any}(
-            "availabilityZoneId" => availabilityZoneId,
-            "clientToken" => clientToken,
-            "hostType" => hostType,
-            "scalingGroupName" => scalingGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_scaling_group(
     availabilityZoneId,
     clientToken,
@@ -542,19 +530,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs to label the user. You can add up to 50 tags to a
   user.
 """
-function create_kx_user(
+create_kx_user(
     environmentId, iamRole, userName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/users",
+    Dict{String,Any}(
+        "iamRole" => iamRole, "userName" => userName, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/users",
-        Dict{String,Any}(
-            "iamRole" => iamRole, "userName" => userName, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_user(
     environmentId,
     iamRole,
@@ -606,28 +592,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  A list of key-value pairs to label the volume. You can add up to 50 tags to a
   volume.
 """
-function create_kx_volume(
+create_kx_volume(
     availabilityZoneIds,
     azMode,
     environmentId,
     volumeName,
     volumeType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "POST",
+    "/kx/environments/$(environmentId)/kxvolumes",
+    Dict{String,Any}(
+        "availabilityZoneIds" => availabilityZoneIds,
+        "azMode" => azMode,
+        "volumeName" => volumeName,
+        "volumeType" => volumeType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "POST",
-        "/kx/environments/$(environmentId)/kxvolumes",
-        Dict{String,Any}(
-            "availabilityZoneIds" => availabilityZoneIds,
-            "azMode" => azMode,
-            "volumeName" => volumeName,
-            "volumeType" => volumeType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_kx_volume(
     availabilityZoneIds,
     azMode,
@@ -668,16 +652,13 @@ Delete an FinSpace environment.
 - `environment_id`: The identifier for the FinSpace environment.
 
 """
-function delete_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "DELETE",
         "/environment/$(environmentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_environment(
     environmentId,
     params::AbstractDict{String};
@@ -706,17 +687,15 @@ Deletes a kdb cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function delete_kx_cluster(
+delete_kx_cluster(
     clusterName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "DELETE",
+    "/kx/environments/$(environmentId)/clusters/$(clusterName)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "DELETE",
-        "/kx/environments/$(environmentId)/clusters/$(clusterName)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_kx_cluster(
     clusterName,
     environmentId,
@@ -746,16 +725,14 @@ Deletes the specified nodes from a cluster.
 - `node_id`: A unique identifier for the node that you want to delete.
 
 """
-function delete_kx_cluster_node(
+delete_kx_cluster_node(
     clusterName, environmentId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "DELETE",
+    "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes/$(nodeId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "DELETE",
-        "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes/$(nodeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_kx_cluster_node(
     clusterName,
     environmentId,
@@ -785,20 +762,18 @@ You must copy any data out of the database before deleting it if the data is to 
 - `environment_id`: A unique identifier for the kdb environment.
 
 """
-function delete_kx_database(
+delete_kx_database(
     clientToken,
     databaseName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "DELETE",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)",
+    Dict{String,Any}("clientToken" => clientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "DELETE",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)",
-        Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_kx_database(
     clientToken,
     databaseName,
@@ -832,21 +807,19 @@ use by any cluster.
   delete the dataview.
 
 """
-function delete_kx_dataview(
+delete_kx_dataview(
     clientToken,
     databaseName,
     dataviewName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "DELETE",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
+    Dict{String,Any}("clientToken" => clientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "DELETE",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
-        Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_kx_dataview(
     clientToken,
     databaseName,
@@ -880,17 +853,14 @@ remove all the associated data and any services running in it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function delete_kx_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+delete_kx_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "DELETE",
         "/kx/environments/$(environmentId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_kx_environment(
     environmentId,
     params::AbstractDict{String};
@@ -923,17 +893,15 @@ scaling group until all the clusters running on it have been deleted.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function delete_kx_scaling_group(
+delete_kx_scaling_group(
     environmentId, scalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "DELETE",
+    "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "DELETE",
-        "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_kx_scaling_group(
     environmentId,
     scalingGroupName,
@@ -965,17 +933,14 @@ Deletes a user in the specified kdb environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function delete_kx_user(
-    environmentId, userName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+delete_kx_user(environmentId, userName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "DELETE",
         "/kx/environments/$(environmentId)/users/$(userName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_kx_user(
     environmentId,
     userName,
@@ -1010,17 +975,15 @@ irreversible.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function delete_kx_volume(
+delete_kx_volume(
     environmentId, volumeName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "DELETE",
+    "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "DELETE",
-        "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_kx_volume(
     environmentId,
     volumeName,
@@ -1048,14 +1011,13 @@ Returns the FinSpace environment object.
 - `environment_id`: The identifier of the FinSpace environment.
 
 """
-function get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
+get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/environment/$(environmentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_environment(
     environmentId,
     params::AbstractDict{String};
@@ -1082,19 +1044,17 @@ Returns information about a kdb changeset.
 - `environment_id`: A unique identifier for the kdb environment.
 
 """
-function get_kx_changeset(
+get_kx_changeset(
     changesetId,
     databaseName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets/$(changesetId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets/$(changesetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_changeset(
     changesetId,
     databaseName,
@@ -1122,16 +1082,14 @@ Retrieves information about a kdb cluster.
 - `environment_id`: A unique identifier for the kdb environment.
 
 """
-function get_kx_cluster(
+get_kx_cluster(
     clusterName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/clusters/$(clusterName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/clusters/$(clusterName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_cluster(
     clusterName,
     environmentId,
@@ -1162,17 +1120,15 @@ API using the same role that you have defined while creating a user.
   Guide.
 
 """
-function get_kx_connection_string(
+get_kx_connection_string(
     clusterName, environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/connectionString",
+    Dict{String,Any}("clusterName" => clusterName, "userArn" => userArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/connectionString",
-        Dict{String,Any}("clusterName" => clusterName, "userArn" => userArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_connection_string(
     clusterName,
     environmentId,
@@ -1206,16 +1162,14 @@ Returns database information for the specified environment ID.
 - `environment_id`: A unique identifier for the kdb environment.
 
 """
-function get_kx_database(
+get_kx_database(
     databaseName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_database(
     databaseName,
     environmentId,
@@ -1244,19 +1198,17 @@ end
   retrieve the dataview details.
 
 """
-function get_kx_dataview(
+get_kx_dataview(
     databaseName,
     dataviewName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_dataview(
     databaseName,
     dataviewName,
@@ -1283,16 +1235,13 @@ Retrieves all the information for the specified kdb environment.
 - `environment_id`: A unique identifier for the kdb environment.
 
 """
-function get_kx_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+get_kx_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/kx/environments/$(environmentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_kx_environment(
     environmentId,
     params::AbstractDict{String};
@@ -1318,16 +1267,14 @@ end
 - `scaling_group_name`: A unique identifier for the kdb scaling group.
 
 """
-function get_kx_scaling_group(
+get_kx_scaling_group(
     environmentId, scalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_scaling_group(
     environmentId,
     scalingGroupName,
@@ -1354,16 +1301,13 @@ Retrieves information about the specified kdb user.
 - `user_name`: A unique identifier for the user.
 
 """
-function get_kx_user(
-    environmentId, userName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+get_kx_user(environmentId, userName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/kx/environments/$(environmentId)/users/$(userName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_kx_user(
     environmentId,
     userName,
@@ -1391,16 +1335,14 @@ end
 - `volume_name`: A unique identifier for the volume.
 
 """
-function get_kx_volume(
+get_kx_volume(
     environmentId, volumeName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_kx_volume(
     environmentId,
     volumeName,
@@ -1429,11 +1371,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a previous request was truncated. To get the next set of pages, pass in the
   nextTokennextToken value from the response object of the previous page call.
 """
-function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
-        "GET", "/environment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace("GET", "/environment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1461,16 +1400,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_kx_changesets(
+list_kx_changesets(
     databaseName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_kx_changesets(
     databaseName,
     environmentId,
@@ -1501,16 +1438,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_kx_cluster_nodes(
+list_kx_cluster_nodes(
     clusterName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_kx_cluster_nodes(
     clusterName,
     environmentId,
@@ -1559,14 +1494,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_kx_clusters(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
+list_kx_clusters(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/kx/environments/$(environmentId)/clusters";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_kx_clusters(
     environmentId,
     params::AbstractDict{String};
@@ -1595,14 +1529,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_kx_databases(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
+list_kx_databases(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/kx/environments/$(environmentId)/databases";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_kx_databases(
     environmentId,
     params::AbstractDict{String};
@@ -1633,16 +1566,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`:  A token that indicates where a results page should begin.
 """
-function list_kx_dataviews(
+list_kx_dataviews(
     databaseName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_kx_dataviews(
     databaseName,
     environmentId,
@@ -1669,11 +1600,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_kx_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
-        "GET", "/kx/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_kx_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = finspace(
+    "GET", "/kx/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_kx_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1701,16 +1630,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`:  A token that indicates where a results page should begin.
 """
-function list_kx_scaling_groups(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+list_kx_scaling_groups(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/kx/environments/$(environmentId)/scalingGroups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_kx_scaling_groups(
     environmentId,
     params::AbstractDict{String};
@@ -1739,14 +1665,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_kx_users(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
-        "GET",
-        "/kx/environments/$(environmentId)/users";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_kx_users(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = finspace(
+    "GET",
+    "/kx/environments/$(environmentId)/users";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_kx_users(
     environmentId,
     params::AbstractDict{String};
@@ -1778,14 +1702,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumeType"`:  The type of file system volume. Currently, FinSpace only supports NAS_1
   volume type.
 """
-function list_kx_volumes(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
+list_kx_volumes(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/kx/environments/$(environmentId)/kxvolumes";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_kx_volumes(
     environmentId,
     params::AbstractDict{String};
@@ -1810,16 +1733,13 @@ A list of all tags for a resource.
 - `resource_arn`: The Amazon Resource Name of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1845,15 +1765,14 @@ Adds metadata tags to a FinSpace resource.
 - `tags`: One or more tags to be assigned to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1881,17 +1800,14 @@ Removes metadata tags from a FinSpace resource.
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1925,16 +1841,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"federationParameters"`:
 - `"name"`: The name of the environment.
 """
-function update_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "PUT",
         "/environment/$(environmentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_environment(
     environmentId,
     params::AbstractDict{String};
@@ -1975,17 +1888,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on the cluster. It must include the file name itself. For example, somedir/init.q. You
   cannot update this parameter for a NO_RESTART deployment.
 """
-function update_kx_cluster_code_configuration(
+update_kx_cluster_code_configuration(
     clusterName, code, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "PUT",
+    "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/code",
+    Dict{String,Any}("code" => code, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PUT",
-        "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/code",
-        Dict{String,Any}("code" => code, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_cluster_code_configuration(
     clusterName,
     code,
@@ -2028,17 +1939,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deploymentConfiguration"`:  The configuration that allows you to choose how you want to
   update the databases on a cluster.
 """
-function update_kx_cluster_databases(
+update_kx_cluster_databases(
     clusterName, databases, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "PUT",
+    "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/databases",
+    Dict{String,Any}("databases" => databases, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PUT",
-        "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/databases",
-        Dict{String,Any}("databases" => databases, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_cluster_databases(
     clusterName,
     databases,
@@ -2078,20 +1987,18 @@ Updates information for the given kdb database.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the database.
 """
-function update_kx_database(
+update_kx_database(
     clientToken,
     databaseName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "PUT",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)",
+    Dict{String,Any}("clientToken" => clientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PUT",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)",
-        Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_database(
     clientToken,
     databaseName,
@@ -2134,21 +2041,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   path for each volume. If you do not explicitly specify any database path for a volume, they
   are accessible from the cluster through the default S3/object store segment.
 """
-function update_kx_dataview(
+update_kx_dataview(
     clientToken,
     databaseName,
     dataviewName,
     environmentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = finspace(
+    "PUT",
+    "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
+    Dict{String,Any}("clientToken" => clientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PUT",
-        "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
-        Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_dataview(
     clientToken,
     databaseName,
@@ -2183,17 +2088,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the kdb environment.
 - `"name"`: The name of the kdb environment.
 """
-function update_kx_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return finspace(
+update_kx_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    finspace(
         "PUT",
         "/kx/environments/$(environmentId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_kx_environment(
     environmentId,
     params::AbstractDict{String};
@@ -2231,17 +2133,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transitGatewayConfiguration"`: Specifies the transit gateway and network configuration
   to connect the kdb environment to an internal network.
 """
-function update_kx_environment_network(
+update_kx_environment_network(
     environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "PUT",
+    "/kx/environments/$(environmentId)/network",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PUT",
-        "/kx/environments/$(environmentId)/network",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_environment_network(
     environmentId,
     params::AbstractDict{String};
@@ -2273,17 +2173,15 @@ Updates the user details. You can only update the IAM role associated with a use
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function update_kx_user(
+update_kx_user(
     environmentId, iamRole, userName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "PUT",
+    "/kx/environments/$(environmentId)/users/$(userName)",
+    Dict{String,Any}("iamRole" => iamRole, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PUT",
-        "/kx/environments/$(environmentId)/users/$(userName)",
-        Dict{String,Any}("iamRole" => iamRole, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_user(
     environmentId,
     iamRole,
@@ -2326,17 +2224,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nas1Configuration"`:  Specifies the configuration for the Network attached storage
   (NAS_1) file system volume.
 """
-function update_kx_volume(
+update_kx_volume(
     environmentId, volumeName; aws_config::AbstractAWSConfig=global_aws_config()
+) = finspace(
+    "PATCH",
+    "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return finspace(
-        "PATCH",
-        "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kx_volume(
     environmentId,
     volumeName,
