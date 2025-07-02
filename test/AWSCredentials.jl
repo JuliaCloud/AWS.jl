@@ -213,7 +213,6 @@ end
             """
             [profile test]
             output = json
-            region = us-east-1
 
             [profile test:dev]
             source_profile = test
@@ -226,8 +225,6 @@ end
             [profile test2]
             aws_access_key_id = WRONG_ACCESS_ID
             aws_secret_access_key = WRONG_ACCESS_KEY
-            output = json
-            region = us-east-1
 
             [profile test3]
             source_profile = test:dev
@@ -264,6 +261,7 @@ end
             "AWS_DEFAULT_PROFILE" => "test",
             "AWS_PROFILE" => nothing,
             "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_REGION" => "us-east-1",
         ) do
             @testset "Loading" begin
                 # Check credentials load

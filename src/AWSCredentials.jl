@@ -657,7 +657,7 @@ function aws_get_region(; profile=nothing, config=nothing, default=DEFAULT_REGIO
     @something(
         get(ENV, "AWS_REGION", nothing),
         get(ENV, "AWS_DEFAULT_REGION", nothing),
-        get(_aws_profile_config(config, profile; recursive=true), "region", nothing),
+        get(_aws_profile_config(config, profile), "region", nothing),
         @mock(IMDS.region()),
         Some(default),
     )
