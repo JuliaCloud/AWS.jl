@@ -41,10 +41,6 @@ Mocking.activate()
 include("patch.jl")
 include("resources/totp.jl")
 
-const TEST_MINIO = begin
-    all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
-end
-
 function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
@@ -63,6 +59,9 @@ testset_role(role_name) = "AWS.jl-$role_name"
 
 const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
 const RUN_INTEGRATION_TESTS = get(ENV, "RUN_INTEGRATION_TESTS", "true") == "true"
+const RUN_MINIO_INTEGRATION_TESTS = begin
+    all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
+end
 
 # Avoid the situation where we all tests are silently skipped. Most likely due to the wrong
 # environmental variables being used.
@@ -104,13 +103,15 @@ const RESOURCE_DIR = joinpath(@__DIR__, "resources")
             backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
             @testset "Backend: $(nameof(backend))" for backend in backends
                 AWS.DEFAULT_BACKEND[] = backend()
-                include("AWS.jl")
-                include("AWSCredentials.jl")
-                include("role.jl")
+                include("integration/AWS.jl")
+                include("integration/AWSCredentials.jl")
+                include("integration/role.jl")
                 include("issues.jl")
 
-                if TEST_MINIO
-                    include("minio.jl")
+                if RUN_MINIO_INTEGRATION_TESTS
+                    include("integration/minio.jl")
+                else
+                    @warn "Skipping MinIO integration tests"
                 end
             end
         else
