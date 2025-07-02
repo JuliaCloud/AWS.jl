@@ -59,8 +59,6 @@ if !RUN_UNIT_TESTS && !RUN_INTEGRATION_TESTS
     error("All tests have been disabled")
 end
 
-const AWS_CONFIG = Ref{AbstractAWSConfig}()
-
 @testset "AWS.jl" begin
     @testset "Unit Tests" begin
         if RUN_UNIT_TESTS
@@ -88,8 +86,6 @@ const AWS_CONFIG = Ref{AbstractAWSConfig}()
     # TODO: Some of these tests are actually unit tests and need to be refactored
     @testset "Integration Tests" begin
         if RUN_INTEGRATION_TESTS
-            AWS_CONFIG[] = AWSConfig()
-
             backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
             @testset "Backend: $(nameof(backend))" for backend in backends
                 AWS.DEFAULT_BACKEND[] = backend()

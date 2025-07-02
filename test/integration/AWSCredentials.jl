@@ -1,7 +1,8 @@
 @testset "Load Credentials" begin
-    user = aws_user_arn(AWS_CONFIG[])
+    config = global_aws_config()
+    user = aws_user_arn(config)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
-    AWS_CONFIG[].region = "us-east-1"
+    config.region = "us-east-1"
 
     @test_ecode("InvalidAction", AWSServices.iam("GetFoo"))
 
