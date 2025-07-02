@@ -66,6 +66,7 @@ const AWS_CONFIG = Ref{AbstractAWSConfig}()
     @testset "Unit Tests" begin
         if RUN_UNIT_TESTS
             include("unit/AWS.jl")
+            include("unit/AWSCredentials.jl")
         else
             @warn "Skipping unit tests"
         end
