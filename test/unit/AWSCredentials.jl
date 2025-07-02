@@ -26,86 +26,42 @@ end
 @testset "_aws_profile_config" begin
     using AWS: _aws_profile_config
 
-    @testset "non-recursive" begin
+    @testset "access" begin
         #! format: off
         buffer = IOBuffer(
             """
-            [profile test]
+            [profile A]
             output = json
             region = us-east-1
 
-            [profile test:dev]
-            source_profile = test
-            role_arn = arn:aws:iam::123456789000:role/Dev
+            [profile B]
+            role_arn = arn:aws:iam::123456789000:role/A
+            source_profile = A
             """
         )
         #! format: on
         ini = Inifile()
         read(ini, buffer)
 
-        # Only the fields from profile "test"
-        config = _aws_profile_config(ini, "test")
+        # Retrieve fields from profile "A"
+        config = _aws_profile_config(ini, "A")
         @test keys(config) ⊆ Set(["output", "region"])
         @test config["output"] == "json"
         @test config["region"] == "us-east-1"
 
-        # Only the fields from profile "test:dev"
-        config = _aws_profile_config(ini, "test:dev")
-        @test keys(config) ⊆ Set(["source_profile", "role_arn"])
-        @test config["source_profile"] == "test"
-        @test config["role_arn"] == "arn:aws:iam::123456789000:role/Dev"
-    end
+        # Ensure that mutating the returned dictionary does not mutated the contents of the
+        # `ini`
+        config["output"] = "yaml-stream"
+        section = sections(ini)["profile A"]
+        @test section["output"] == "json"
 
-    @testset "recursive" begin
-        #! format: off
-        buffer = IOBuffer(
-            """
-            [profile test]
-            output = json
-            region = us-east-1
-
-            [profile test:dev]
-            source_profile = test
-            role_arn = arn:aws:iam::123456789000:role/Dev
-
-            [profile test:sub-dev]
-            source_profile = test:dev
-            role_arn = arn:aws:iam::123456789000:role/SubDev
-            """
-        )
-        #! format: on
-        ini = Inifile()
-        read(ini, buffer)
-
-        # Only the fields from profile "test"
-        config = _aws_profile_config(ini, "test"; recursive=true)
-        @test keys(config) ⊆ Set(["output", "region"])
-        @test config["output"] == "json"
-        @test config["region"] == "us-east-1"
-
-        # Combine the profile "test:dev" section with fields from profile "test"
-        config = _aws_profile_config(ini, "test:dev"; recursive=true)
-        @test keys(config) ⊆ Set(["output", "region", "role_arn"])
-        @test config["output"] == "json"
-        @test config["region"] == "us-east-1"
-        @test config["role_arn"] == "arn:aws:iam::123456789000:role/Dev"
-
-        # Ensure we haven't mutated the contents of the `ini`
-        section = sections(ini)["profile test:dev"]
-        @test !haskey(section, "region")
-        @test !haskey(section, "output")
-
-        # Conflicting keys should use the first defined entry
-        config = _aws_profile_config(ini, "test:sub-dev"; recursive=true)
-        @test keys(config) ⊆ Set(["output", "region", "role_arn"])
-        @test config["output"] == "json"
-        @test config["region"] == "us-east-1"
-        @test config["role_arn"] == "arn:aws:iam::123456789000:role/SubDev"
-
-        # Ensure we haven't mutated the contents of the `ini`
-        section = sections(ini)["profile test:sub-dev"]
-        @test !haskey(section, "region")
-        @test !haskey(section, "output")
+        # Use of `source_profile` does not inherit properties from the source. This mirrors
+        # the AWS CLI (version v2.27.15) behavior for `region` which can be seen using
+        # `aws configure list --profile X`
+        config = _aws_profile_config(ini, "B")
+        @test keys(config) ⊆ Set(["role_arn", "source_profile"])
+        @test config["role_arn"] == "arn:aws:iam::123456789000:role/A"
+        @test config["source_profile"] == "A"
     end
 
     # AWS CLI (version v2.27.15) will use "profile default" over "default" when both are
@@ -300,7 +256,6 @@ end
             """
             [profile test]
             output = json
-            region = us-east-1
 
             [profile test:dev]
             source_profile = test
@@ -313,8 +268,6 @@ end
             [profile test2]
             aws_access_key_id = WRONG_ACCESS_ID
             aws_secret_access_key = WRONG_ACCESS_KEY
-            output = json
-            region = us-east-1
 
             [profile test3]
             source_profile = test:dev
@@ -351,6 +304,7 @@ end
             "AWS_DEFAULT_PROFILE" => "test",
             "AWS_PROFILE" => nothing,
             "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_REGION" => "us-east-1",
         ) do
             @testset "Loading" begin
                 # Check credentials load
