@@ -36,7 +36,7 @@
         @test config["role_arn"] == "arn:aws:iam::123456789000:role/Dev"
 
         # Ensure we haven't mutated the contents of the `ini`
-        section = sections(ini)["test:dev"]
+        section = sections(ini)["profile test:dev"]
         @test !haskey(section, "region")
         @test !haskey(section, "output")
 
@@ -48,7 +48,7 @@
         @test config["role_arn"] == "arn:aws:iam::123456789000:role/SubDev"
 
         # Ensure we haven't mutated the contents of the `ini`
-        section = sections(ini)["test:sub-dev"]
+        section = sections(ini)["profile test:sub-dev"]
         @test !haskey(section, "region")
         @test !haskey(section, "output")
     end
