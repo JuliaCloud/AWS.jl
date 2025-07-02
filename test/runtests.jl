@@ -39,7 +39,7 @@ using StableRNGs
 Mocking.activate()
 
 include("patch.jl")
-include("resources/totp.jl")
+include("resource/totp.jl")
 
 function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
