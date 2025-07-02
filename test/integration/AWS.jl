@@ -158,7 +158,9 @@
             expected_message = "Hello for AWS.jl"
 
             function _get_queue_url(queue_name)
-                result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName" => queue_name))
+                result = AWSServices.sqs(
+                    "GetQueueUrl", LittleDict("QueueName" => queue_name)
+                )
 
                 return result["QueueUrl"]
             end
@@ -206,7 +208,9 @@
                 )
 
                 # Receive Message
-                result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
+                result = AWSServices.sqs(
+                    "ReceiveMessage", LittleDict("QueueUrl" => queue_url)
+                )
                 message = only(result["Messages"])["Body"]
                 @test message == expected_message
             finally
@@ -219,7 +223,7 @@
 end
 
 @testset "JSON service" begin
-    @testset "Secrets Manager"
+    @testset "Secrets Manager" begin
         @test AWSServices.secrets_manager isa AWS.JSONService
 
         @testset "high-level" begin
@@ -288,8 +292,6 @@ end
         end
     end
 end
-
-
 
 @testset "Rest XML" begin
     @testset "S3" begin
@@ -392,7 +394,9 @@ end
 
                 # GET with parameters operation
                 max_keys = 1
-                result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
+                result = AWSServices.s3(
+                    "GET", "/$bucket_name", Dict("max_keys" => max_keys)
+                )
                 @test length([result["Contents"]]) == max_keys
 
                 # POST with parameters operation
@@ -483,7 +487,9 @@ end
 
             try
                 # POST
-                tags = Dict("Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
+                tags = Dict(
+                    "Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02")
+                )
 
                 for vault in vault_names
                     Glacier.add_tags_to_vault("-", vault, tags)
@@ -527,7 +533,9 @@ end
 
             try
                 # POST
-                tags = Dict("Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
+                tags = Dict(
+                    "Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02")
+                )
 
                 for vault in vault_names
                     AWSServices.glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)
