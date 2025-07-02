@@ -168,8 +168,8 @@ end
     access_key = "access-key"
     secret_key = "ssh... it is a secret"
 
-    creds = AWS.AWSCredentials(access_key, secret_key)
-    aws = AWS.AWSConfig(; creds, region="us-east-1")
+    creds = AWSCredentials(access_key, secret_key)
+    aws = AWSConfig(; creds, region="us-east-1")
 
     time = DateTime(2020)
     date = Dates.format(time, dateformat"yyyymmdd")
@@ -259,7 +259,7 @@ end
 end
 
 @testset "submit_request" begin
-    aws = AWSConfig(; creds=nothing)
+    aws = AWSConfig(; creds=nothing, region="us-east-1")
 
     function _expected_xml(body::AbstractString, dict_type::Type)
         parsed = parse_xml(body)
@@ -366,7 +366,7 @@ end
     end
 
     @testset "Custom throttling" begin
-        aws = AWSConfig(; creds=nothing, max_attempts=1)
+        aws = AWSConfig(; creds=nothing, region="us-east-1", max_attempts=1)
         @test AWS.max_attempts(aws) == 1
 
         request = Request(;
@@ -665,7 +665,7 @@ end
 @testset "generate_service_url" begin
     region = "us-east-2"
     resource = "/aws.jl-test---timestamp"
-    config = AWSConfig(; region, creds=nothing)
+    config = AWSConfig(; creds=nothing, region)
 
     request = Request(;
         service="service",
