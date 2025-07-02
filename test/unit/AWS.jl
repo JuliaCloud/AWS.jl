@@ -151,14 +151,11 @@ end
 end
 
 @testset "sign" begin
-    aws = AWS.AWSConfig(; region="us-east-1")
-
     access_key = "access-key"
     secret_key = "ssh... it is a secret"
 
-    aws.credentials.access_key_id = access_key
-    aws.credentials.secret_key = secret_key
-    aws.credentials.token = ""
+    creds = AWS.AWSCredentials(access_key secret_key)
+    aws = AWS.AWSConfig(; creds, region="us-east-1")
 
     time = DateTime(2020)
     date = Dates.format(time, dateformat"yyyymmdd")
