@@ -113,8 +113,12 @@
 end
 
 @testset "global config, kwargs" begin
-    creds = AWS.AWSCredentials("access-key", "secret")
-    region = "us-east-2"
+    # Fake AWS credentials as shown in the AWS documentation:
+    # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+    access_key_id = "AKIAIOSFODNN7EXAMPLE"
+    secret_access_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    creds = AWS.AWSCredentials(access_key_id, secret_access_key)
+    region = "us-example-1"
 
     old_config = isassigned(AWS.aws_config) ? AWS.aws_config[] : nothing
     try
@@ -131,7 +135,7 @@ end
 end
 
 @testset "set global aws config" begin
-    config = _fake_aws_config()
+    config = AWSConfig(; creds=nothing, region="us-example-2")
 
     old_config = isassigned(AWS.aws_config) ? AWS.aws_config[] : nothing
     try
@@ -255,7 +259,7 @@ end
 end
 
 @testset "submit_request" begin
-    aws = _fake_aws_config()
+    aws = AWSConfig(; creds=nothing)
 
     function _expected_xml(body::AbstractString, dict_type::Type)
         parsed = parse_xml(body)
@@ -362,7 +366,7 @@ end
     end
 
     @testset "Custom throttling" begin
-        aws = _fake_aws_config(; max_attempts=1)
+        aws = AWSConfig(; creds=nothing, max_attempts=1)
         @test AWS.max_attempts(aws) == 1
 
         request = Request(;
@@ -661,7 +665,7 @@ end
 @testset "generate_service_url" begin
     region = "us-east-2"
     resource = "/aws.jl-test---timestamp"
-    config = _fake_aws_config(; region)
+    config = AWSConfig(; region, creds=nothing)
 
     request = Request(;
         service="service",

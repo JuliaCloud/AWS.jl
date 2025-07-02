@@ -45,16 +45,6 @@ function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
-function _fake_aws_config(; kwargs...)
-    # Fake AWS credentials as shown in the AWS documentation:
-    # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
-    access_key_id = "AKIAIOSFODNN7EXAMPLE"
-    secret_access_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-    creds = AWS.AWSCredentials(access_key_id, secret_access_key)
-    region = "us-example-1"
-    return AWSConfig(; creds, region, kwargs...)
-end
-
 testset_role(role_name) = "AWS.jl-$role_name"
 
 const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
@@ -89,6 +79,7 @@ const RESOURCE_DIR = joinpath(@__DIR__, "resources")
                 include("unit/AWSConfig.jl")
                 include("unit/IMDS.jl")
                 include("unit/AWSCredentials.jl")
+                include("unit/issues.jl")
             end
         else
             @warn "Skipping unit tests"
@@ -106,7 +97,7 @@ const RESOURCE_DIR = joinpath(@__DIR__, "resources")
                 include("integration/AWS.jl")
                 include("integration/AWSCredentials.jl")
                 include("integration/role.jl")
-                include("issues.jl")
+                include("integration/issues.jl")
 
                 if RUN_MINIO_INTEGRATION_TESTS
                     include("integration/minio.jl")
