@@ -61,11 +61,17 @@ if !RUN_UNIT_TESTS && !RUN_INTEGRATION_TESTS
 end
 
 const AWS_CONFIG = Ref{AbstractAWSConfig}()
+const RESOURCE_DIR = joinpath(@__DIR__, "resources")
 
 @testset "AWS.jl" begin
     @testset "Unit Tests" begin
         if RUN_UNIT_TESTS
             include("unit/AWS.jl")
+            include("unit/AWSExceptions.jl")
+            include("unit/AWSMetadataUtilities.jl")
+            include("unit/test_pkg.jl")
+            include("unit/utilities.jl")
+            include("unit/AWSConfig.jl")
         else
             @warn "Skipping unit tests"
         end
@@ -75,12 +81,6 @@ const AWS_CONFIG = Ref{AbstractAWSConfig}()
     @testset "Integration Tests" begin
         if RUN_INTEGRATION_TESTS
             AWS_CONFIG[] = AWSConfig()
-
-            include("AWSExceptions.jl")
-            include("AWSMetadataUtilities.jl")
-            include("test_pkg.jl")
-            include("utilities.jl")
-            include("AWSConfig.jl")
 
             backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
             @testset "Backend: $(nameof(backend))" for backend in backends
