@@ -72,6 +72,8 @@ const RESOURCE_DIR = joinpath(@__DIR__, "resources")
             include("unit/test_pkg.jl")
             include("unit/utilities.jl")
             include("unit/AWSConfig.jl")
+            include("unit/IMDS.jl")
+            include("unit/AWSCredentials.jl")
         else
             @warn "Skipping unit tests"
         end
@@ -86,7 +88,6 @@ const RESOURCE_DIR = joinpath(@__DIR__, "resources")
             @testset "Backend: $(nameof(backend))" for backend in backends
                 AWS.DEFAULT_BACKEND[] = backend()
                 include("AWS.jl")
-                include("IMDS.jl")
                 include("AWSCredentials.jl")
                 include("role.jl")
                 include("issues.jl")

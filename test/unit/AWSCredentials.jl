@@ -18,27 +18,6 @@ const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
 http_header(h::Vector, k, d="") = get(Dict(h), k, d)
 http_header(args...) = HTTP.header(args...)
 
-@testset "Load Credentials" begin
-    user = aws_user_arn(AWS_CONFIG[])
-    @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
-    AWS_CONFIG[].region = "us-east-1"
-
-    @test_ecode("InvalidAction", AWSServices.iam("GetFoo"))
-
-    @test_ecode(
-        ["AccessDenied", "NoSuchEntity"],
-        AWSServices.iam("GetUser", Dict("UserName" => "notauser"))
-    )
-
-    @test_ecode("ValidationError", AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!")))
-
-    # Please note: If testing in a managed Corporate AWS environment, this can set off alarms...
-    @test_ecode(
-        ["AccessDenied", "EntityAlreadyExists"],
-        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
-    )
-end
-
 @testset "_role_session_name" begin
     @test AWS._role_session_name("prefix-", "name", "-suffix") == "prefix-name-suffix"
     @test AWS._role_session_name("a"^22, "b"^22, "c"^22) == "a"^22 * "b"^20 * "c"^22
@@ -68,7 +47,7 @@ end
 
     @testset "default profile" begin
         access_key_id = "assumed_access_key_id"
-        config_dir = joinpath(@__DIR__, "configs", "default-role")
+        config_dir = joinpath(@__DIR__, "..", "configs", "default-role")
 
         patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
@@ -89,7 +68,7 @@ end
 
     @testset "profile with role and MFA" begin
         access_key_id = "assumed_access_key_id"
-        config_dir = joinpath(@__DIR__, "configs", "role-with-mfa")
+        config_dir = joinpath(@__DIR__, "..", "configs", "role-with-mfa")
 
         mfa_token = "123456"
         sent_token = Ref("")

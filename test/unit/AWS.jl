@@ -113,27 +113,39 @@
 end
 
 @testset "global config, kwargs" begin
-    try
-        region = "us-east-2"
-        AWS.global_aws_config(; region=region)
+    creds = AWS.AWSCredentials("access-key", "secret")
+    region = "us-east-2"
 
-        @test AWS.global_aws_config().region == region
+    old_config = isassigned(AWS.aws_config) ? AWS.aws_config[] : nothing
+    try
+        AWS.global_aws_config(; creds, region)
+
+        result = AWS.global_aws_config()
+        @test result.region == region
+        @test result.credentials == creds
     finally
-        AWS.aws_config[] = AWSConfig()
+        if !isnothing(old_config)
+            AWS.aws_config[] = old_config
+        end
     end
 end
 
 @testset "set global aws config" begin
-    test_region = "test region"
-    expected = AWSConfig(; region=test_region)
+    creds = AWS.AWSCredentials("access-key", "secret")
+    region = "test region"
+    config = AWSConfig(; creds, region)
 
+    old_config = isassigned(AWS.aws_config) ? AWS.aws_config[] : nothing
     try
-        AWS.global_aws_config(expected)
-        result = AWS.global_aws_config()
+        AWS.global_aws_config(config)
 
-        @test result.region == test_region
+        result = AWS.global_aws_config()
+        @test result.region == region
+        @test result.credentials == creds
     finally
-        AWS.global_aws_config(AWSConfig())
+        if !isnothing(old_config)
+            AWS.aws_config[] = old_config
+        end
     end
 end
 
