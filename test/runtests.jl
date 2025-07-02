@@ -49,6 +49,16 @@ function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
+function _fake_aws_config(; kwargs...)
+    # Fake AWS credentials as shown in the AWS documentation:
+    # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+    access_key_id = "AKIAIOSFODNN7EXAMPLE"
+    secret_access_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    creds = AWS.AWSCredentials(access_key_id, secret_access_key)
+    region = "us-example-1"
+    return AWSConfig(; creds, region, kwargs...)
+end
+
 testset_role(role_name) = "AWS.jl-$role_name"
 
 const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
@@ -66,14 +76,21 @@ const RESOURCE_DIR = joinpath(@__DIR__, "resources")
 @testset "AWS.jl" begin
     @testset "Unit Tests" begin
         if RUN_UNIT_TESTS
-            include("unit/AWS.jl")
-            include("unit/AWSExceptions.jl")
-            include("unit/AWSMetadataUtilities.jl")
-            include("unit/test_pkg.jl")
-            include("unit/utilities.jl")
-            include("unit/AWSConfig.jl")
-            include("unit/IMDS.jl")
-            include("unit/AWSCredentials.jl")
+            # Force these tests to run without a valid AWS configuration being present
+            withenv(
+                [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
+                "AWS_CONFIG_FILE" => "/dev/null",
+                "AWS_SHARED_CREDENTIALS_FILE" => "/dev/null",
+            ) do
+                include("unit/AWS.jl")
+                include("unit/AWSExceptions.jl")
+                include("unit/AWSMetadataUtilities.jl")
+                include("unit/test_pkg.jl")
+                include("unit/utilities.jl")
+                include("unit/AWSConfig.jl")
+                include("unit/IMDS.jl")
+                include("unit/AWSCredentials.jl")
+            end
         else
             @warn "Skipping unit tests"
         end
