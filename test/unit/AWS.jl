@@ -154,7 +154,7 @@ end
     access_key = "access-key"
     secret_key = "ssh... it is a secret"
 
-    creds = AWS.AWSCredentials(access_key secret_key)
+    creds = AWS.AWSCredentials(access_key, secret_key)
     aws = AWS.AWSConfig(; creds, region="us-east-1")
 
     time = DateTime(2020)
