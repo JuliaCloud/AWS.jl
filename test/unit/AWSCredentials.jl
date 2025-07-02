@@ -48,13 +48,13 @@ end
         read(ini, buffer)
 
         # Only the fields from profile "test"
-        config = _aws_profile_config(ini, "test")
+        config = _aws_profile_config(ini, "test"; recursive=true)
         @test keys(config) ⊆ Set(["output", "region"])
         @test config["output"] == "json"
         @test config["region"] == "us-east-1"
 
         # Combine the profile "test:dev" section with fields from profile "test"
-        config = _aws_profile_config(ini, "test:dev")
+        config = _aws_profile_config(ini, "test:dev"; recursive=true)
         @test keys(config) ⊆ Set(["output", "region", "role_arn"])
         @test config["output"] == "json"
         @test config["region"] == "us-east-1"
@@ -66,7 +66,7 @@ end
         @test !haskey(section, "output")
 
         # Conflicting keys should use the first defined entry
-        config = _aws_profile_config(ini, "test:sub-dev")
+        config = _aws_profile_config(ini, "test:sub-dev"; recursive=true)
         @test keys(config) ⊆ Set(["output", "region", "role_arn"])
         @test config["output"] == "json"
         @test config["region"] == "us-east-1"

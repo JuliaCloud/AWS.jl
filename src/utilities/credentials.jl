@@ -35,7 +35,7 @@ function _get_ini_value(
     return value
 end
 
-function _aws_profile_config(ini::Inifile, profile::AbstractString)
+function _aws_profile_config(ini::Inifile, profile::AbstractString; recursive::Bool=false)
     # Prefer using "profile default" over "default"
     section_name = if profile != "default" || haskey(sections(ini), "profile default")
         "profile $profile"
@@ -44,27 +44,30 @@ function _aws_profile_config(ini::Inifile, profile::AbstractString)
     end
 
     content = copy(get(sections(ini), section_name, IniFile.HTSS()))
-    source_profile = pop!(content, "source_profile", nothing)
 
-    # Fallback on settings specified in the source profile
-    if !isnothing(source_profile)
-        content = merge(_aws_profile_config(ini, source_profile), content)
+    if recursive
+        source_profile = pop!(content, "source_profile", nothing)
+
+        # Fallback on settings specified in the source profile
+        if !isnothing(source_profile)
+            content = merge(_aws_profile_config(ini, source_profile; recursive), content)
+        end
     end
 
     return content
 end
 
-function _aws_profile_config(ini::Inifile, profile::Nothing)
-    return _aws_profile_config(ini, _aws_get_profile())
+function _aws_profile_config(ini::Inifile, profile::Nothing; kwargs...)
+    return _aws_profile_config(ini, _aws_get_profile(); kwargs...)
 end
 
-function _aws_profile_config(config_file::AbstractString, profile)
+function _aws_profile_config(config_file::AbstractString, profile; kwargs...)
     isfile(config_file) || return Dict()
-    return _aws_profile_config(read(Inifile(), config_file), profile)
+    return _aws_profile_config(read(Inifile(), config_file), profile; kwargs...)
 end
 
-function _aws_profile_config(config_file::Nothing, profile)
-    return _aws_profile_config(dot_aws_config_file(), profile)
+function _aws_profile_config(config_file::Nothing, profile; kwargs...)
+    return _aws_profile_config(dot_aws_config_file(), profile; kwargs...)
 end
 
 """
