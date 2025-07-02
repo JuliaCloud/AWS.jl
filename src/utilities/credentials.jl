@@ -37,11 +37,13 @@ end
 
 function _aws_profile_config(ini::Inifile, profile::AbstractString)
     # Prefer using "profile default" over "default"
-    if profile != "default" || haskey(sections(ini), "profile default")
-        profile = "profile $profile"
+    section_name = if profile != "default" || haskey(sections(ini), "profile default")
+        "profile $profile"
+    else
+        "default"
     end
 
-    content = copy(get(sections(ini), profile, IniFile.HTSS()))
+    content = copy(get(sections(ini), section_name, IniFile.HTSS()))
     source_profile = pop!(content, "source_profile", nothing)
 
     # Fallback on settings specified in the source profile
