@@ -26,7 +26,37 @@ end
 @testset "_aws_profile_config" begin
     using AWS: _aws_profile_config
 
-    @testset "source profile" begin
+    @testset "non-recursive" begin
+        #! format: off
+        buffer = IOBuffer(
+            """
+            [profile test]
+            output = json
+            region = us-east-1
+
+            [profile test:dev]
+            source_profile = test
+            role_arn = arn:aws:iam::123456789000:role/Dev
+            """
+        )
+        #! format: on
+        ini = Inifile()
+        read(ini, buffer)
+
+        # Only the fields from profile "test"
+        config = _aws_profile_config(ini, "test")
+        @test keys(config) ⊆ Set(["output", "region"])
+        @test config["output"] == "json"
+        @test config["region"] == "us-east-1"
+
+        # Only the fields from profile "test:dev"
+        config = _aws_profile_config(ini, "test:dev")
+        @test keys(config) ⊆ Set(["source_profile", "role_arn"])
+        @test config["source_profile"] == "test"
+        @test config["role_arn"] == "arn:aws:iam::123456789000:role/Dev"
+    end
+
+    @testset "recursive" begin
         #! format: off
         buffer = IOBuffer(
             """
