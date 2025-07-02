@@ -125,7 +125,7 @@ end
 
     @testset "default profile" begin
         access_key_id = "assumed_access_key_id"
-        config_dir = joinpath(@__DIR__, "..", "configs", "default-role")
+        config_dir = joinpath(@__DIR__, "..", "config", "default-role")
 
         patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
@@ -146,7 +146,7 @@ end
 
     @testset "profile with role and MFA" begin
         access_key_id = "assumed_access_key_id"
-        config_dir = joinpath(@__DIR__, "..", "configs", "role-with-mfa")
+        config_dir = joinpath(@__DIR__, "..", "config", "role-with-mfa")
 
         mfa_token = "123456"
         sent_token = Ref("")

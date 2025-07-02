@@ -60,7 +60,6 @@ if !RUN_UNIT_TESTS && !RUN_INTEGRATION_TESTS
 end
 
 const AWS_CONFIG = Ref{AbstractAWSConfig}()
-const RESOURCE_DIR = joinpath(@__DIR__, "resources")
 
 @testset "AWS.jl" begin
     @testset "Unit Tests" begin
