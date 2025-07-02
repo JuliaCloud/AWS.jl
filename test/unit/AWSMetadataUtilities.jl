@@ -311,7 +311,7 @@ end
     service_name = "sample_service"
     protocol = "rest-xml"
     operations = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "operations.json"))
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resources", "shapes.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
 
     expected_result = """
     \"\"\"
