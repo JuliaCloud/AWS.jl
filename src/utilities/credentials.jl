@@ -36,11 +36,22 @@ function _get_ini_value(
 end
 
 function _aws_profile_config(ini::Inifile, profile::AbstractString)
-    if profile != "default" || !haskey(sections(ini), "default")
-        profile = "profile $profile"
+    # Prefer using "profile default" over "default"
+    section_name = if profile != "default" || haskey(sections(ini), "profile default")
+        "profile $profile"
+    else
+        "default"
     end
 
-    return get(sections(ini), profile, Dict())
+    content = copy(get(sections(ini), section_name, IniFile.HTSS()))
+    source_profile = pop!(content, "source_profile", nothing)
+
+    # Fallback on settings specified in the source profile
+    if !isnothing(source_profile)
+        content = merge(_aws_profile_config(ini, source_profile), content)
+    end
+
+    return content
 end
 
 function _aws_profile_config(ini::Inifile, profile::Nothing)

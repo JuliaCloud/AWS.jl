@@ -50,6 +50,70 @@ end
     end
 end
 
+@testset "_aws_profile_config" begin
+    using AWS: _aws_profile_config
+
+    @testset "source profile" begin
+        buffer = IOBuffer(
+            """
+            [profile test]
+            output = json
+            region = us-east-1
+
+            [profile test:dev]
+            source_profile = test
+            role_arn = arn:aws:iam::123456789000:role/Dev
+
+            [profile test:sub-dev]
+            source_profile = test:dev
+            role_arn = arn:aws:iam::123456789000:role/SubDev
+            """
+        )
+        ini = Inifile()
+        read(ini, buffer)
+
+        # Basic profile
+        config = _aws_profile_config(ini, "test")
+        @test keys(config) ⊆ Set(["output", "region"])
+        @test config["output"] == "json"
+        @test config["region"] == "us-east-1"
+
+
+        config = _aws_profile_config(ini, "test:dev")
+        @test keys(config) ⊆ Set(["output", "region", "role_arn"])
+        @test config["output"] == "json"
+        @test config["region"] == "us-east-1"
+        @test config["role_arn"] == "arn:aws:iam::123456789000:role/Dev"
+
+        # Conflicting keys should use the first defined entry
+        config = _aws_profile_config(ini, "test:sub-dev")
+        @test keys(config) ⊆ Set(["output", "region", "role_arn"])
+        @test config["output"] == "json"
+        @test config["region"] == "us-east-1"
+        @test config["role_arn"] == "arn:aws:iam::123456789000:role/SubDev"
+    end
+
+    # AWS CLI (version v2.27.15) will use "profile default" over "default" when both are
+    # defined within the configuration. This is true when `AWS_PROFILE` is unset or
+    # `AWS_PROFILE="default".
+    @testset "default profile" begin
+        buffer = IOBuffer(
+            """
+            [default]
+            region = default-1
+
+            [profile default]
+            region = default-2
+            """
+        )
+        ini = Inifile()
+        read(ini, buffer)
+
+        config = _aws_profile_config(ini, "default")
+        @test config["region"] == "default-2"
+    end
+end
+
 @testset "_aws_get_role" begin
     profile = "foobar"
     ini = Inifile()
