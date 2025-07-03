@@ -60,9 +60,10 @@ if !RUN_UNIT_TESTS && !RUN_INTEGRATION_TESTS
 end
 
 @testset "AWS.jl" begin
+    # Unit tests do not requires access to an AWS account
     @testset "Unit Tests" begin
         if RUN_UNIT_TESTS
-            # Force these tests to run without a valid AWS configuration being present
+            # Force unit tests to run without a valid AWS configuration being present
             withenv(
                 [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
                 "AWS_CONFIG_FILE" => "/dev/null",
@@ -83,7 +84,7 @@ end
         end
     end
 
-    # TODO: Some of these tests are actually unit tests and need to be refactored
+    # Integration tests require access to an AWS account
     @testset "Integration Tests" begin
         if RUN_INTEGRATION_TESTS
             backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
