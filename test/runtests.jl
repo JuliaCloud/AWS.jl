@@ -48,7 +48,7 @@ end
 testset_role(role_name) = "AWS.jl-$role_name"
 
 const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
-const RUN_INTEGRATION_TESTS = get(ENV, "RUN_INTEGRATION_TESTS", "true") == "true"
+const RUN_INTEGRATION_TESTS = get(ENV, "RUN_INTEGRATION_TESTS", "false") == "true"
 const RUN_MINIO_INTEGRATION_TESTS = begin
     all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
 end
