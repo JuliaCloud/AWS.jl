@@ -37,7 +37,7 @@ jobs:
     env:
       RUN_UNIT_TESTS: "true"
       # Integration tests require OIDC which will fail when running on a PR from a fork.
-      RUN_INTEGRATION_TESTS: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
+      RUN_INTEGRATION_TESTS: "true"
     steps:
       - uses: actions/checkout@v4
       - name: Debug OIDC Claims
