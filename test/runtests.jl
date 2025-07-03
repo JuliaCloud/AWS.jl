@@ -38,14 +38,17 @@ using StableRNGs
 
 Mocking.activate()
 
+# Load all services once to avoid "replacing module" warnings
+@service Glacier
+@service IAM
+@service S3
+@service SQS
+@service STS
+@service Secrets_Manager
+
+include("utils.jl")
 include("patch.jl")
 include("resource/totp.jl")
-
-function _now_formatted()
-    return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
-end
-
-testset_role(role_name) = "AWS.jl-$role_name"
 
 const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
 const RUN_INTEGRATION_TESTS = get(ENV, "RUN_INTEGRATION_TESTS", "false") == "true"
