@@ -98,8 +98,81 @@
         end
     end
 
-    @testset "SQS" begin
-        @test AWSServices.sqs isa AWS.QueryService
+
+end
+
+@testset "JSON service" begin
+    @testset "Secrets Manager" begin
+        @test AWSServices.secrets_manager isa AWS.JSONService
+
+        @testset "high-level" begin
+            @service Secrets_Manager
+
+            secret_name = "aws-jl-test---" * _now_formatted()
+            secret_string = "sshhh it is a secret!"
+
+            function _get_secret_string(secret_name)
+                response = Secrets_Manager.get_secret_value(secret_name)
+
+                return response["SecretString"]
+            end
+
+            Secrets_Manager.create_secret(
+                secret_name,
+                LittleDict(
+                    "SecretString" => secret_string, "ClientRequestToken" => string(uuid4())
+                ),
+            )
+
+            try
+                @test _get_secret_string(secret_name) == secret_string
+            finally
+                Secrets_Manager.delete_secret(
+                    secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true")
+                )
+            end
+
+            @test_throws AWSException _get_secret_string(secret_name)
+        end
+
+        @testset "low-level" begin
+            secret_name = "aws-jl-test---" * _now_formatted()
+            secret_string = "sshhh it is a secret!"
+
+            function _get_secret_string(secret_name)
+                response = AWSServices.secrets_manager(
+                    "GetSecretValue", LittleDict("SecretId" => secret_name)
+                )
+
+                return response["SecretString"]
+            end
+
+            resp = AWSServices.secrets_manager(
+                "CreateSecret",
+                LittleDict(
+                    "Name" => secret_name,
+                    "SecretString" => secret_string,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+            )
+
+            try
+                @test _get_secret_string(secret_name) == secret_string
+            finally
+                AWSServices.secrets_manager(
+                    "DeleteSecret",
+                    LittleDict(
+                        "SecretId" => secret_name, "ForceDeleteWithoutRecovery" => "true"
+                    ),
+                )
+            end
+
+            @test_throws AWSException _get_secret_string(secret_name)
+        end
+    end
+
+     @testset "SQS" begin
+        @test AWSServices.sqs isa AWS.JSONService
 
         @testset "high-level" begin
             @service SQS
@@ -218,77 +291,6 @@
             end
 
             @test_throws AWSException _get_queue_url(queue_name)
-        end
-    end
-end
-
-@testset "JSON service" begin
-    @testset "Secrets Manager" begin
-        @test AWSServices.secrets_manager isa AWS.JSONService
-
-        @testset "high-level" begin
-            @service Secrets_Manager
-
-            secret_name = "aws-jl-test---" * _now_formatted()
-            secret_string = "sshhh it is a secret!"
-
-            function _get_secret_string(secret_name)
-                response = Secrets_Manager.get_secret_value(secret_name)
-
-                return response["SecretString"]
-            end
-
-            Secrets_Manager.create_secret(
-                secret_name,
-                LittleDict(
-                    "SecretString" => secret_string, "ClientRequestToken" => string(uuid4())
-                ),
-            )
-
-            try
-                @test _get_secret_string(secret_name) == secret_string
-            finally
-                Secrets_Manager.delete_secret(
-                    secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true")
-                )
-            end
-
-            @test_throws AWSException _get_secret_string(secret_name)
-        end
-
-        @testset "low-level" begin
-            secret_name = "aws-jl-test---" * _now_formatted()
-            secret_string = "sshhh it is a secret!"
-
-            function _get_secret_string(secret_name)
-                response = AWSServices.secrets_manager(
-                    "GetSecretValue", LittleDict("SecretId" => secret_name)
-                )
-
-                return response["SecretString"]
-            end
-
-            resp = AWSServices.secrets_manager(
-                "CreateSecret",
-                LittleDict(
-                    "Name" => secret_name,
-                    "SecretString" => secret_string,
-                    "ClientRequestToken" => string(uuid4()),
-                ),
-            )
-
-            try
-                @test _get_secret_string(secret_name) == secret_string
-            finally
-                AWSServices.secrets_manager(
-                    "DeleteSecret",
-                    LittleDict(
-                        "SecretId" => secret_name, "ForceDeleteWithoutRecovery" => "true"
-                    ),
-                )
-            end
-
-            @test_throws AWSException _get_secret_string(secret_name)
         end
     end
 end
