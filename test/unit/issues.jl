@@ -1,5 +1,3 @@
-@service S3
-
 # https://github.com/JuliaCloud/AWS.jl/issues/515
 @testset "issue 515" begin
     function _incomplete_patch(; data, num_attempts_to_fail=4)

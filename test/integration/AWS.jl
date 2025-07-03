@@ -3,8 +3,6 @@
         @test AWSServices.sts isa AWS.QueryService
 
         @testset "high-level" begin
-            @service STS
-
             response = STS.get_caller_identity()
             d = response["GetCallerIdentityResult"]
 
@@ -27,8 +25,6 @@
         @test AWSServices.iam isa AWS.QueryService
 
         @testset "high-level" begin
-            @service IAM
-
             policy_arn = ""
             expected_policy_name = "aws-jl-test---" * _now_formatted()
             expected_policy_document = LittleDict(
@@ -104,8 +100,6 @@ end
         @test AWSServices.secrets_manager isa AWS.JSONService
 
         @testset "high-level" begin
-            @service Secrets_Manager
-
             secret_name = "aws-jl-test---" * _now_formatted()
             secret_string = "sshhh it is a secret!"
 
@@ -173,8 +167,6 @@ end
         @test AWSServices.sqs isa AWS.JSONService
 
         @testset "high-level" begin
-            @service SQS
-
             queue_name = "aws-jl-test---" * _now_formatted()
             expected_message = "Hello for AWS.jl"
 
@@ -298,8 +290,6 @@ end
         @test AWSServices.s3 isa RestXMLService
 
         @testset "high-level" begin
-            @service S3
-
             bucket_name = "aws-jl-test---" * _now_formatted()
             file_name = string(uuid4())
 
@@ -421,8 +411,6 @@ end
         end
 
         @testset "additional operations" begin
-            @service S3
-
             bucket_name = "aws-jl-test---" * _now_formatted()
 
             # Testing a file name with various special & Unicode characters
@@ -475,8 +463,6 @@ end
         @test AWSServices.glacier isa RestJSONService
 
         @testset "high-level" begin
-            @service Glacier
-
             timestamp = _now_formatted()
             vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp"]
 

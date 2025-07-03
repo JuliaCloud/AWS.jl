@@ -1,18 +1,3 @@
-macro test_ecode(error_codes, expr)
-    quote
-        try
-            $expr
-            @test false
-        catch e
-            if e isa AWSException
-                @test e.code in [$error_codes;]
-            else
-                rethrow(e)
-            end
-        end
-    end
-end
-
 const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
 
 http_header(h::Vector, k, d="") = get(Dict(h), k, d)

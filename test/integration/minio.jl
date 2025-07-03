@@ -1,24 +1,3 @@
-@service S3
-struct MinioConfig <: AbstractAWSConfig
-    endpoint::String
-    region::String
-    creds
-end
-struct SimpleCredentials
-    access_key_id::String
-    secret_key::String
-    token::String
-end
-
-AWS.region(c::MinioConfig) = c.region
-AWS.credentials(c::MinioConfig) = c.creds
-AWS.check_credentials(c::SimpleCredentials) = c
-
-function AWS.generate_service_url(aws::MinioConfig, service::String, resource::String)
-    service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
-    return string(aws.endpoint, resource)
-end
-
 AWS.global_aws_config(
     MinioConfig(
         "http://127.0.0.1:9000",
