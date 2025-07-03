@@ -1,4 +1,4 @@
-path = joinpath(@__DIR__, "resources", "TestPkg")
+path = joinpath(@__DIR__, "..", "resource", "TestPkg")
 
 Pkg.develop(; path=path)
 VERSION >= v"1.8" && Pkg.precompile("TestPkg")
