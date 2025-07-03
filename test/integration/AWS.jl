@@ -97,8 +97,6 @@
             )
         end
     end
-
-
 end
 
 @testset "JSON service" begin
@@ -171,7 +169,7 @@ end
         end
     end
 
-     @testset "SQS" begin
+    @testset "SQS" begin
         @test AWSServices.sqs isa AWS.JSONService
 
         @testset "high-level" begin
