@@ -23,7 +23,7 @@ using Dates
 using Downloads
 using GitHub
 using HTTP
-using IniFile: Inifile
+using IniFile: Inifile, sections
 using JSON
 using OrderedCollections: LittleDict, OrderedDict
 using MbedTLS: digest, MD_SHA256, MD_MD5
@@ -66,6 +66,7 @@ const AWS_CONFIG = Ref{AbstractAWSConfig}()
     @testset "Unit Tests" begin
         if RUN_UNIT_TESTS
             include("unit/AWS.jl")
+            include("unit/AWSCredentials.jl")
         else
             @warn "Skipping unit tests"
         end
