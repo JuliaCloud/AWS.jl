@@ -70,15 +70,18 @@
         # Produces this warning:
         # WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored
         #! format: off
-        @eval module __service_lowercase
-            using AWS: @service
-            @service sts
+        err = @capture_err begin
+            @eval module __service_lowercase
+                using AWS: @service
+                @service sts
+            end
         end
         #! format: on
 
         @test :sts in names(__service_lowercase; all=true)
         @test __service_lowercase.sts isa Module
         @test_broken __service_lowercase.sts.sts isa AWS.Service
+        @test_broken isempty(err)
     end
 
     @testset "as" begin
