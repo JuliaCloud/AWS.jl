@@ -99,16 +99,20 @@
         ex = VERSION >= v"1.7" ? MethodError : LoadError
         @test_throws ex @macroexpand @service()
 
+        # These tests should always fail and never actually load a service. Ensure that we
+        # are using a service which has not already been loaded.
+        @test !(:Lambda in names(@__MODULE__; all=true))
+
         # Service ID is an expression
         ex = VERSION >= v"1.7" ? ArgumentError : LoadError
-        @test_throws ex @macroexpand @service STS.X
-        @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
+        @test_throws ex @macroexpand @service Lambda.X
+        @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
 
         # Module name is an expression
         ex = VERSION >= v"1.7" ? ArgumentError : LoadError
-        @test_throws ex @macroexpand @service STS as STS.X
-        @test !(:STS in names(@__MODULE__; all=true))
-        @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
+        @test_throws ex @macroexpand @service Lambda as Lambda.X
+        @test !(:Lambda in names(@__MODULE__; all=true))
+        @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
     end
 end
 
