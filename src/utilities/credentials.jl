@@ -25,19 +25,25 @@ end
 """
 Get the value for `key` in the `ini` file for a given `profile`.
 """
-_get_profile_value(ini::Inifile, profile::AbstractString, key::AbstractString; kwargs...) =
-    _get_ini_value(ini, "profile", profile, key; kwargs...)
+function _get_profile_value(ini::Inifile, profile, key; kwargs...)
+    return _get_ini_value(ini, "profile" => profile, key; kwargs...)
+end
 
 """
 Get the value for `key` in the `ini` file for a given `sso_session`.
 """
-_get_sso_session_value(ini::Inifile, sso_session::AbstractString, key::AbstractString; kwargs...) =
-    _get_ini_value(ini, "sso-session", sso_session, key; kwargs...)
+function _get_sso_session_value(ini::Inifile, sso_session, key; kwargs...)
+    return _get_ini_value(ini, "sso-session" => sso_session, key; kwargs...)
+end
 
 function _get_ini_value(
-    ini::Inifile, section_value::AbstractString, section_name::AbstractString, key::AbstractString; default_value=nothing
+    ini::Inifile,
+    section::Pair{<:AbstractString,<:AbstractString},
+    key::AbstractString;
+    default_value=nothing,
 )
-    value = get(ini, "$section_value $section_name", key)
+    section_type, section_name = section
+    value = get(ini, "$section_type $section_name", key)
     value === :notfound && (value = get(ini, section_name, key))
     value === :notfound && (value = default_value)
 
