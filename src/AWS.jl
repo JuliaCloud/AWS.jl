@@ -46,7 +46,8 @@ include("deprecated.jl")
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
-const user_agent = Ref{String}("AWS.jl/$(pkgversion(@__MODULE__))")
+const user_agent = Ref{String}("AWS.jl/$(pkgversion(@__MODULE__()))")
+const aws_config = Ref{AbstractAWSConfig}()
 
 """
     FeatureSet

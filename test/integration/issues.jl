@@ -1,5 +1,3 @@
-@service S3
-
 BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
 
 try

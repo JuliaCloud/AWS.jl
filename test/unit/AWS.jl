@@ -70,15 +70,18 @@
         # Produces this warning:
         # WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored
         #! format: off
-        @eval module __service_lowercase
-            using AWS: @service
-            @service sts
+        err = @capture_err begin
+            @eval module __service_lowercase
+                using AWS: @service
+                @service sts
+            end
         end
         #! format: on
 
         @test :sts in names(__service_lowercase; all=true)
         @test __service_lowercase.sts isa Module
         @test_broken __service_lowercase.sts.sts isa AWS.Service
+        @test_broken isempty(err)
     end
 
     @testset "as" begin
@@ -96,19 +99,20 @@
 
     # These uses of the `@service` macro should not create a module
     @testset "invalid syntax" begin
-        ex = MethodError
-        @test_throws ex @macroexpand @service()
+        @test_throws MethodError @macroexpand @service()
+
+        # These tests should always fail and never actually load a service. Ensure that we
+        # are using a service which has not already been loaded.
+        @test !(:Lambda in names(@__MODULE__; all=true))
 
         # Service ID is an expression
-        ex = ArgumentError
-        @test_throws ex @macroexpand @service STS.X
-        @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
+        @test_throws ArgumentError @macroexpand @service Lambda.X
+        @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
 
         # Module name is an expression
-        ex = ArgumentError
-        @test_throws ex @macroexpand @service STS as STS.X
-        @test !(:STS in names(@__MODULE__; all=true))
-        @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
+        @test_throws ArgumentError @macroexpand @service Lambda as Lambda.X
+        @test !(:Lambda in names(@__MODULE__; all=true))
+        @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
     end
 end
 
