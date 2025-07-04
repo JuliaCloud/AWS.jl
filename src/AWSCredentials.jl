@@ -226,7 +226,7 @@ function ec2_instance_credentials(profile::AbstractString)
 
     # Any profile except default must specify the credential_source as Ec2InstanceMetadata.
     if profile != "default"
-        source = _get_ini_value(ini, profile, "credential_source")
+        source = _get_profile_value(ini, profile, "credential_source")
         source == "Ec2InstanceMetadata" || return nothing
     end
 
@@ -248,7 +248,7 @@ function ec2_instance_credentials(profile::AbstractString)
     )
 
     # Look for a role to assume and return instance profile credentials if there is none.
-    role_arn = _get_ini_value(ini, profile, "role_arn")
+    role_arn = _get_profile_value(ini, profile, "role_arn")
     role_arn === nothing && return instance_profile_creds
 
     # Assume the role.
@@ -260,7 +260,7 @@ function ec2_instance_credentials(profile::AbstractString)
         )
     end
     params = Dict{String,Any}("RoleArn" => role_arn, "RoleSessionName" => role_session)
-    duration = _get_ini_value(ini, profile, "duration_seconds")
+    duration = _get_profile_value(ini, profile, "duration_seconds")
     if duration !== nothing
         params["DurationSeconds"] = parse(Int, duration)
     end
@@ -423,20 +423,15 @@ function sso_credentials(profile=nothing)
         settings = _aws_profile_config(ini, p)
         isempty(settings) && return nothing
 
-        # AWS IAM Identity Center authentication is not yet supported in AWS.jl
+        # IAM identity center authentication
+        # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-manual
         sso_session = get(settings, "sso_session", nothing)
-        if !isnothing(sso_session)
-            error(
-                "IAM Identity Center authentication is not yet supported by AWS.jl. " *
-                "See https://github.com/JuliaCloud/AWS.jl/issues/628",
-            )
-        end
 
-        # Legacy SSO configuration
+        # Legacy IAM identity center authentication
         # https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-legacy.html#sso-configure-profile-manual
         sso_start_url = get(settings, "sso_start_url", nothing)
 
-        if !isnothing(sso_start_url)
+        if !isnothing(sso_start_url) || !isnothing(sso_session)
             access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token; expiry=expiry)
         end
