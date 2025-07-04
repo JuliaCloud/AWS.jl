@@ -1,4 +1,5 @@
-name: Format suggestions
+---
+name: JuliaFormatter
 on:
   merge_group:
   pull_request:
@@ -11,10 +12,11 @@ permissions:
   pull-requests: write
 jobs:
   format:
+    name: Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@v1
+      - uses: julia-actions/setup-julia@v2
         with:
           version: "1"
       - uses: julia-actions/cache@v2
@@ -33,3 +35,6 @@ jobs:
         if: ${{ !cancelled() && github.event_name == 'pull_request' }}
         with:
           tool_name: JuliaFormatter
+          # Post results on all results and not just changed files:
+          # https://github.com/reviewdog/reviewdog#filter-mode
+          filter_mode: nofilter

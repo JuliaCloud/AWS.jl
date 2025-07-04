@@ -1,18 +1,20 @@
-name: AWS
+---
+name: Update API
 on:
   pull_request:
     paths:
-      - ".github/workflows/update_apis.yml"
+      - ".github/workflows/UpdateAPI.yaml"
   schedule:
     - cron: "0 6 * * *"  # Daily at 6 a.m. UTC
   workflow_dispatch:
 
 jobs:
-  update-apis:
+  update:
+    name: AWS API Definitions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@latest
+      - uses: julia-actions/setup-julia@v2
         with:
           version: "1"
       - uses: julia-actions/cache@v2

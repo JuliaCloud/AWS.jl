@@ -1,44 +1,3 @@
-function get_assumed_role(aws_config::AbstractAWSConfig=global_aws_config())
-    r = AWSServices.sts(
-        "GetCallerIdentity";
-        aws_config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-    result = parse(r)
-    arn = result["GetCallerIdentityResult"]["Arn"]
-    m = match(r":assumed-role/(?<role>[^/]+)", arn)
-    if m !== nothing
-        return m["role"]
-    else
-        error("Caller Identity ARN is not an assumed role: $arn")
-    end
-end
-
-get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
-
-function mfa_user_credentials(config::AbstractAWSConfig)
-    r = AWSServices.secrets_manager(
-        "GetSecretValue",
-        Dict("SecretId" => "AWS.jl-mfa-user-credentials");
-        aws_config=config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-    json = JSON.parse(parse(r)["SecretString"])
-    mfa_user_creds = AWSCredentials(json["access_key_id"], json["secret_access_key"])
-    mfa_user_cfg = AWSConfig(; creds=mfa_user_creds)
-
-    r = AWSServices.secrets_manager(
-        "GetSecretValue",
-        Dict("SecretId" => "AWS.jl-mfa-user-virtual-mfa-devices");
-        aws_config=config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-    json = JSON.parse(parse(r)["SecretString"])
-    mfa_devices = [(; mfa_serial=d["mfa_serial"], seed=d["seed"]) for d in json]
-
-    return mfa_user_cfg, mfa_devices
-end
-
 @testset "_whoami" begin
     user = AWS._whoami()
     @test user isa AbstractString
@@ -48,7 +7,7 @@ end
 @testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
     # use the lowest-level call with as many defaults as possible.
-    base_config = aws
+    base_config = global_aws_config()
     creds = assume_role_creds(base_config, testset_role("AssumeRoleTestset"))
     config = AWSConfig(; creds)
     @test get_assumed_role(config) == testset_role("AssumeRoleTestset")

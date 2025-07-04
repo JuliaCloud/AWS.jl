@@ -1,0 +1,109 @@
+---
+name: CI
+on:
+  merge_group:
+  pull_request:
+  push:
+    branches:
+      - master
+    tags: "*"
+  schedule:
+    - cron: "0 2 * * *"  # Daily at 2 a.m. UTC
+jobs:
+  test:
+    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
+    # These permissions are needed to:
+    # - Checking out the repository (`contents: read`)
+    # - Interact with GitHub's OIDC Token endpoint: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
+    # - Delete old caches: https://github.com/julia-actions/cache#usage
+    permissions:
+      actions: write
+      contents: read
+      id-token: write
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    continue-on-error: ${{ matrix.version == 'nightly' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - "min"  # Oldest supported version
+          - "lts"  # Long Term Stable
+          - "1"    # Latest Release
+        os:
+          - ubuntu-latest
+        arch:
+          - x64
+    env:
+      RUN_UNIT_TESTS: "true"
+      # Integration tests require OIDC which will fail when running on a PR from a fork.
+      RUN_INTEGRATION_TESTS: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Debug OIDC Claims
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' && runner.os == 'Linux' }}
+        uses: github/actions-oidc-debugger@main
+        with:
+          audience: sts.amazonaws.com
+      - name: Assume AWS role
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
+          aws-region: us-east-1
+      - name: MinIO server setup
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' && runner.os != 'Windows' }}
+        env:
+          MINIO_ACCESS_KEY: minio
+          MINIO_SECRET_KEY: minio123
+          MINIO_REGION_NAME: aregion
+        shell: bash
+        run: |
+          case "$RUNNER_OS" in
+            Linux)
+              host_os="linux-amd64"
+              ;;
+            macOS)
+              host_os="darwin-amd64"
+              ;;
+            *)
+              echo "$RUNNER_OS not supported" >&2
+              exit 1
+              ;;
+          esac
+          curl -sSLO "https://dl.minio.io/server/minio/release/${host_os}/minio"
+          mkdir data
+          chmod +x ./minio
+          ./minio server --compat --quiet data 2>&1 > minio.log &
+          env | grep ^MINIO_ | tee -a "$GITHUB_ENV"
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - uses: julia-actions/cache@v2
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
+
+  # Merge queues only wait for the required status checks to pass which are defined in the
+  # repository settings under the branch protection rules. Unfortunately, the required
+  # status checks for PRs and merge queues must be the identical even though the workflows
+  # themselves are triggered separately (i.e `pull_request` vs. `merge_group`).
+  #
+  # In order to have a status check which allows CI jobs to be skipped in PRs but must pass
+  # in the merge queue we'll make use of this separate workflow job. Additionally, this
+  # works around issues with using matrix jobs as required status checks. Finally, as
+  # required status checks are identified by the job name only some care should be taken to
+  # ensure the job name is unique across all workflows.
+  #
+  # For more information see:
+  # - https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue#configuring-continuous-integration-ci-workflows-for-merge-queues
+  # - https://github.com/orgs/community/discussions/103114#discussioncomment-8359045
+  status-check:
+    name: Status Check (CI)
+    if: ${{ always() && (github.event_name == 'pull_request' || github.event_name == 'merge_group') }}
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ github.event_name == 'merge_group' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')  || contains(needs.*.result, 'skipped')) }}
+        run: exit 1

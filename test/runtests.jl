@@ -18,12 +18,12 @@ using AWS.AWSMetadata:
     _wraplines,
     _validindex
 using Base64
-using Compat: mergewith
+using Compat: mergewith, pkgversion
 using Dates
 using Downloads
 using GitHub
 using HTTP
-using IniFile: Inifile
+using IniFile: Inifile, sections
 using JSON
 using OrderedCollections: LittleDict, OrderedDict
 using MbedTLS: digest, MD_SHA256, MD_MD5
@@ -38,39 +38,81 @@ using StableRNGs
 
 Mocking.activate()
 
-include("patch.jl")
-include("resources/totp.jl")
+# Load all services once to avoid "replacing module" warnings
+@service Glacier
+@service IAM
+@service S3
+@service SQS
+@service STS
+@service Secrets_Manager
 
-const TEST_MINIO = begin
+include("utils.jl")
+include("patch.jl")
+include("resource/totp.jl")
+
+const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
+const RUN_INTEGRATION_TESTS = get(ENV, "RUN_INTEGRATION_TESTS", "false") == "true"
+const RUN_MINIO_INTEGRATION_TESTS = begin
     all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
 end
 
-aws = AWSConfig()
-
-function _now_formatted()
-    return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
+# Avoid the situation where we all tests are silently skipped. Most likely due to the wrong
+# environmental variables being used.
+if !RUN_UNIT_TESTS && !RUN_INTEGRATION_TESTS
+    error("All tests have been disabled")
 end
 
-testset_role(role_name) = "AWS.jl-$role_name"
-
 @testset "AWS.jl" begin
-    include("AWSExceptions.jl")
-    include("AWSMetadataUtilities.jl")
-    include("test_pkg.jl")
-    include("utilities.jl")
-    include("AWSConfig.jl")
+    # Unit tests do not requires access to an AWS account
+    @testset "Unit Tests" begin
+        if RUN_UNIT_TESTS
+            # Force unit tests to run without a valid AWS configuration being present
+            withenv(
+                [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
+                "AWS_CONFIG_FILE" => "/dev/null",
+                "AWS_SHARED_CREDENTIALS_FILE" => "/dev/null",
+            ) do
+                include("unit/AWS.jl")
+                include("unit/AWSExceptions.jl")
+                include("unit/AWSMetadataUtilities.jl")
+                include("unit/test_pkg.jl")
+                include("unit/utilities.jl")
+                include("unit/AWSConfig.jl")
+                include("unit/IMDS.jl")
+                include("unit/AWSCredentials.jl")
+                include("unit/issues.jl")
+            end
+        else
+            @warn "Skipping unit tests"
+        end
+    end
 
-    backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
-    @testset "Backend: $(nameof(backend))" for backend in backends
-        AWS.DEFAULT_BACKEND[] = backend()
-        include("AWS.jl")
-        include("IMDS.jl")
-        include("AWSCredentials.jl")
-        include("role.jl")
-        include("issues.jl")
+    # Integration tests require access to an AWS account
+    @testset "Integration Tests" begin
+        if RUN_INTEGRATION_TESTS
+            config = AWSConfig()
+            backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
 
-        if TEST_MINIO
-            include("minio.jl")
+            @testset "Backend: $(nameof(backend))" for backend in backends
+                AWS.DEFAULT_BACKEND[] = backend()
+
+                # Reset the default AWS configuration as the unit tests may have messed with
+                # the global default.
+                global_aws_config(config)
+
+                include("integration/AWS.jl")
+                include("integration/AWSCredentials.jl")
+                include("integration/role.jl")
+                include("integration/issues.jl")
+
+                if RUN_MINIO_INTEGRATION_TESTS
+                    include("integration/minio.jl")
+                else
+                    @warn "Skipping MinIO integration tests"
+                end
+            end
+        else
+            @warn "Skipping integration tests"
         end
     end
 end

@@ -13,7 +13,7 @@ application version in the same call.
 
 # Arguments
 - `author`: The name of the author publishing the app.Minimum length=1. Maximum
-  length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
+  length=127.Pattern \"^\\[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
 - `description`: The description of the application.Minimum length=1. Maximum length=256
 - `name`: The name of the application that you want to publish.Minimum length=1. Maximum
   length=140Pattern: \"[a-zA-Z0-9-]+\";
@@ -617,7 +617,7 @@ Updates the specified application.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"author"`: The name of the author publishing the app.Minimum length=1. Maximum
-  length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
+  length=127.Pattern \"^\\[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
 - `"description"`: The description of the application.Minimum length=1. Maximum length=256
 - `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.

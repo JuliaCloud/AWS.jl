@@ -5,7 +5,7 @@ using Documenter
 pascal_snake_case(s) = join(titlecase.(split(s, "_")), "_")
 
 """
-    _generate_high_level_services_docs() -> Vector{Pair{String,String}}
+    _generate_high_level_services_docs(service_dir) -> Vector{Pair{String,String}}
 
 Generate a documentation page for each high-level AWS Service API, and
 return a `Vector` of `"service name" => "docs/src/services/service_name.md"` pairs.
@@ -13,9 +13,17 @@ return a `Vector` of `"service name" => "docs/src/services/service_name.md"` pai
 Documentation pages are created at `docs/src/services/{service_name}.md`, and
 populated with all docstrings from a module created with `@service Service_Name`.
 """
-function _generate_high_level_services_docs()
-    services_dir = joinpath(@__DIR__, "src", "services")
+function _generate_high_level_services_docs(
+    services_dir=joinpath(@__DIR__, "src", "services")
+)
     mkpath(services_dir)
+
+    # Remove service doc files to ensure old services that no longer exist are removed.
+    for path in readdir(services_dir; join=true)
+        if isfile(path) && endswith(path, ".md")
+            rm(path)
+        end
+    end
 
     services_pages = Pair{String,String}[]
     for jl_file in readdir(joinpath(pkgdir(AWS), "src", "services"))
@@ -33,48 +41,52 @@ function _generate_high_level_services_docs()
             write(
                 md,
                 """
-          ```@meta
-          CurrentModule = Main.$service_module
-          ```
+                ```@meta
+                CurrentModule = Main.$service_module
+                ```
 
-          # $service_name
+                # $service_name
 
-          This page documents function available when using the `$service_module`
-          module, created with [`@service $service_module`](@ref AWS.@service).
+                This page documents function available when using the `$service_module`
+                module, created with [`@service $service_module`](@ref AWS.@service).
 
-          ### Index
-          ```@index
-          Pages   = ["$md_file"]
-          Modules = [$service_module]
-          ```
+                ### Index
+                ```@index
+                Pages   = ["$md_file"]
+                Modules = [$service_module]
+                ```
 
-          ### Documentation
-          ```@autodocs
-          Modules = [$service_module]
-          ```
-          """,
+                ### Documentation
+                ```@autodocs
+                Modules = [$service_module]
+                ```
+                """,
             )
         end
         push!(services_pages, service_name => joinpath("services", md_file))
     end
+
     return services_pages
 end
+
+service_pages = _generate_high_level_services_docs()
 
 makedocs(;
     modules=[AWS],
     repo="https://github.com/JuliaCloud/AWS.jl/blob/{commit}{path}#{line}",
     sitename="AWS.jl",
     format=Documenter.HTML(;
-        prettyurls=false, canonical="https://juliacloud.github.io/AWS.jl"
+        canonical="https://juliacloud.github.io/AWS.jl",
+        prettyurls=false,
+        size_threshold_ignore=[last(page)::String for page in service_pages],
     ),
     pages=[
         "Home" => "index.md",
         "Backends" => "backends.md",
         "AWS" => "aws.md",
         "IMDS" => "imds.md",
-        "Services" => _generate_high_level_services_docs(),
+        "Services" => service_pages,
     ],
-    strict=true,
     checkdocs=:exports,
 )
 

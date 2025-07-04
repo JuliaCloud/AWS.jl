@@ -1,0 +1,48 @@
+name: Documenter
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "src/**"
+      - "Project.toml"
+      - ".github/workflows/Documenter.yml"
+  push:
+    tags: ["*"]
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "src/**"
+      - "Project.toml"
+      - ".github/workflows/Documenter.yml"
+  workflow_dispatch:
+jobs:
+  docs:
+    name: Build
+    # These permissions are needed to:
+    # - Deploying documentation: https://documenter.juliadocs.org/stable/man/hosting/#Permissions
+    # - Delete old caches: https://github.com/julia-actions/cache#usage
+    permissions:
+      actions: write
+      contents: write
+      statuses: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+      - uses: julia-actions/cache@v2
+      - name: Install dependencies
+        shell: julia --project=docs --color=yes {0}
+        run: |
+          using Pkg
+          Pkg.develop(PackageSpec(path=pwd()))
+          Pkg.instantiate()
+      - name: Build docs
+        uses: julia-actions/julia-docdeploy@v1
+        with:
+          install-package: false  # Avoid instantiating twice
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
