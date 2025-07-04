@@ -287,7 +287,15 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
         access_token = @mock _sso_cache_access_token(sso_start_url)
     end
 
-    headers = Dict{String,Any}("x-amz-sso_bearer_token" => access_token)
+    if isnothing(access_token)
+        help_url = "https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-login"
+        error(
+            "You must first sign in to a IAM Identity Center session via " *
+            "`aws sso login --profile $profile`. See $help_url for more details."
+        )
+    end
+
+    headers = Dict{String,String}("x-amz-sso_bearer_token" => access_token)
     tmp_config = AWSConfig(; creds=nothing, region=sso_region)
 
     # https://docs.aws.amazon.com/singlesignon/latest/PortalAPIReference/API_GetRoleCredentials.html

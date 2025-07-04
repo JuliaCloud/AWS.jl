@@ -149,7 +149,7 @@ end
 
 # Only testing the invalid code paths here. Valid code paths are tested elsewhere.
 @testset "_aws_get_sso_credential_details" begin
-    using AWS: _aws_get_sso_credential_details
+    using AWS: _aws_get_sso_credential_details, _sso_cache_access_token
 
     @testset "invalid SSO configuration" begin
         #! format: off
@@ -299,6 +299,41 @@ end
         )
         #! format: on
         @test_throws "`sso_region` is inconsistent" _aws_get_sso_credential_details("default", ini)
+    end
+
+    @testset "SSO login required" begin
+        # Ensure we don't accidentally use a valid session name
+        session_name = "___null___"
+        @test isnothing(_sso_cache_access_token(session_name))
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = $session_name
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session $session_name]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws "You must first sign in" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = $session_name
+            sso_region = us-east-1
+            sso_account_id = 111122223333
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        @test_throws "You must first sign in" _aws_get_sso_credential_details("default", ini)
     end
 end
 
