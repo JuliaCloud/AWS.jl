@@ -22,7 +22,7 @@ function delete_report_definition(
         "DeleteReportDefinition",
         Dict{String,Any}("ReportName" => ReportName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_report_definition(
@@ -36,7 +36,7 @@ function delete_report_definition(
             mergewith(_merge, Dict{String,Any}("ReportName" => ReportName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -53,7 +53,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_and_usage_report_service(
-        "DescribeReportDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeReportDefinitions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_report_definitions(
@@ -63,7 +65,7 @@ function describe_report_definitions(
         "DescribeReportDefinitions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -84,7 +86,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ReportName" => ReportName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -98,7 +100,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ReportName" => ReportName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -122,7 +124,7 @@ function modify_report_definition(
             "ReportDefinition" => ReportDefinition, "ReportName" => ReportName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_report_definition(
@@ -143,7 +145,7 @@ function modify_report_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -168,7 +170,7 @@ function put_report_definition(
         "PutReportDefinition",
         Dict{String,Any}("ReportDefinition" => ReportDefinition);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_report_definition(
@@ -184,7 +186,7 @@ function put_report_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -205,7 +207,7 @@ function tag_resource(ReportName, Tags; aws_config::AbstractAWSConfig=global_aws
         "TagResource",
         Dict{String,Any}("ReportName" => ReportName, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -222,7 +224,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -245,7 +247,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ReportName" => ReportName, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -264,6 +266,6 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

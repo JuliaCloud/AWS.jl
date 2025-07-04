@@ -23,7 +23,7 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()
         "CancelQuery",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_query(
@@ -33,7 +33,7 @@ function cancel_query(
         "CancelQuery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -104,7 +104,7 @@ function create_scheduled_query(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scheduled_query(
@@ -135,7 +135,7 @@ function create_scheduled_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -156,7 +156,7 @@ function delete_scheduled_query(
         "DeleteScheduledQuery",
         Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scheduled_query(
@@ -172,7 +172,7 @@ function delete_scheduled_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -187,7 +187,7 @@ for the duration of compute units used for your workloads.
 """
 function describe_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_query(
-        "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_account_settings(
@@ -197,7 +197,7 @@ function describe_account_settings(
         "DescribeAccountSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,14 +217,17 @@ how and when to use and implement DescribeEndpoints, see The Endpoint Discovery 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_query(
-        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return timestream_query(
-        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -245,7 +248,7 @@ function describe_scheduled_query(
         "DescribeScheduledQuery",
         Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_scheduled_query(
@@ -261,7 +264,7 @@ function describe_scheduled_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -291,7 +294,7 @@ function execute_scheduled_query(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function execute_scheduled_query(
@@ -314,7 +317,7 @@ function execute_scheduled_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -335,7 +338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_scheduled_queries(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_query(
-        "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_scheduled_queries(
@@ -345,7 +348,7 @@ function list_scheduled_queries(
         "ListScheduledQueries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -371,7 +374,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -385,7 +388,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,7 +414,7 @@ function prepare_query(QueryString; aws_config::AbstractAWSConfig=global_aws_con
         "PrepareQuery",
         Dict{String,Any}("QueryString" => QueryString);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function prepare_query(
@@ -425,7 +428,7 @@ function prepare_query(
             mergewith(_merge, Dict{String,Any}("QueryString" => QueryString), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -493,7 +496,7 @@ function query(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
         "Query",
         Dict{String,Any}("QueryString" => QueryString, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function query(
@@ -513,7 +516,7 @@ function query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -536,7 +539,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -555,7 +558,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -579,7 +582,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -598,7 +601,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,7 +627,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_query(
-        "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_account_settings(
@@ -634,7 +637,7 @@ function update_account_settings(
         "UpdateAccountSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -656,7 +659,7 @@ function update_scheduled_query(
         "UpdateScheduledQuery",
         Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn, "State" => State);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_scheduled_query(
@@ -677,6 +680,6 @@ function update_scheduled_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

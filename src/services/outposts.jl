@@ -23,7 +23,7 @@ function cancel_capacity_task(
         "POST",
         "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_capacity_task(
@@ -37,7 +37,7 @@ function cancel_capacity_task(
         "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -56,7 +56,7 @@ function cancel_order(OrderId; aws_config::AbstractAWSConfig=global_aws_config()
         "POST",
         "/orders/$(OrderId)/cancel";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_order(
@@ -67,7 +67,7 @@ function cancel_order(
         "/orders/$(OrderId)/cancel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -101,7 +101,7 @@ function create_order(
             "PaymentOption" => PaymentOption,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_order(
@@ -126,7 +126,7 @@ function create_order(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_c
         "/outposts",
         Dict{String,Any}("Name" => Name, "SiteId" => SiteId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_outpost(
@@ -170,7 +170,7 @@ function create_outpost(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "SiteId" => SiteId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function create_site(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "/sites",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_site(
@@ -215,7 +215,7 @@ function create_site(
         "/sites",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,7 +234,7 @@ function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/outposts/$(OutpostId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_outpost(
@@ -247,7 +247,7 @@ function delete_outpost(
         "/outposts/$(OutpostId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -263,7 +263,10 @@ Deletes the specified site.
 """
 function delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "DELETE", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/sites/$(SiteId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_site(
@@ -274,7 +277,7 @@ function delete_site(
         "/sites/$(SiteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -296,7 +299,7 @@ function get_capacity_task(
         "GET",
         "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_capacity_task(
@@ -310,7 +313,7 @@ function get_capacity_task(
         "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -329,7 +332,7 @@ function get_catalog_item(CatalogItemId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/catalog/item/$(CatalogItemId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_catalog_item(
@@ -342,7 +345,7 @@ function get_catalog_item(
         "/catalog/item/$(CatalogItemId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -366,7 +369,7 @@ function get_connection(ConnectionId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/connections/$(ConnectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connection(
@@ -379,7 +382,7 @@ function get_connection(
         "/connections/$(ConnectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -395,7 +398,10 @@ Gets information about the specified order.
 """
 function get_order(OrderId; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "GET", "/orders/$(OrderId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/orders/$(OrderId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_order(
@@ -406,7 +412,7 @@ function get_order(
         "/orders/$(OrderId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -425,7 +431,7 @@ function get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/outposts/$(OutpostId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_outpost(
@@ -438,7 +444,7 @@ function get_outpost(
         "/outposts/$(OutpostId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -463,7 +469,7 @@ function get_outpost_instance_types(
         "GET",
         "/outposts/$(OutpostId)/instanceTypes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_outpost_instance_types(
@@ -476,7 +482,7 @@ function get_outpost_instance_types(
         "/outposts/$(OutpostId)/instanceTypes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +511,7 @@ function get_outpost_supported_instance_types(
         "/outposts/$(OutpostId)/supportedInstanceTypes",
         Dict{String,Any}("OrderId" => OrderId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_outpost_supported_instance_types(
@@ -519,7 +525,7 @@ function get_outpost_supported_instance_types(
         "/outposts/$(OutpostId)/supportedInstanceTypes",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("OrderId" => OrderId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -535,7 +541,7 @@ Gets information about the specified Outpost site.
 """
 function get_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "GET", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_site(
@@ -546,7 +552,7 @@ function get_site(
         "/sites/$(SiteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -569,7 +575,7 @@ function get_site_address(
         "/sites/$(SiteId)/address",
         Dict{String,Any}("AddressType" => AddressType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_site_address(
@@ -585,7 +591,7 @@ function get_site_address(
             mergewith(_merge, Dict{String,Any}("AddressType" => AddressType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -613,7 +619,7 @@ function list_assets(OutpostId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/outposts/$(OutpostId)/assets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_assets(
@@ -626,7 +632,7 @@ function list_assets(
         "/outposts/$(OutpostId)/assets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -650,7 +656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_capacity_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "GET", "/capacity/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/capacity/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_capacity_tasks(
@@ -661,7 +667,7 @@ function list_capacity_tasks(
         "/capacity/tasks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -684,7 +690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_catalog_items(; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "GET", "/catalog/items"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/catalog/items"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_catalog_items(
@@ -695,7 +701,7 @@ function list_catalog_items(
         "/catalog/items",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -713,7 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_orders(; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "GET", "/list-orders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/list-orders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_orders(
@@ -724,7 +730,7 @@ function list_orders(
         "/list-orders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -748,14 +754,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_outposts(; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "GET", "/outposts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/outposts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_outposts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return outposts(
-        "GET", "/outposts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/outposts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -778,13 +784,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OperatingAddressStateOrRegionFilter"`: Filters the results by state or region.
 """
 function list_sites(; aws_config::AbstractAWSConfig=global_aws_config())
-    return outposts("GET", "/sites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return outposts(
+        "GET", "/sites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_sites(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return outposts(
-        "GET", "/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -805,7 +813,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -818,7 +826,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -848,7 +856,7 @@ function start_capacity_task(
         "/outposts/$(OutpostId)/capacity",
         Dict{String,Any}("InstancePools" => InstancePools, "OrderId" => OrderId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_capacity_task(
@@ -869,7 +877,7 @@ function start_capacity_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -909,7 +917,7 @@ function start_connection(
             "NetworkInterfaceDeviceIndex" => NetworkInterfaceDeviceIndex,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_connection(
@@ -934,7 +942,7 @@ function start_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -955,7 +963,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -969,7 +977,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -992,7 +1000,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1006,7 +1014,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1030,7 +1038,7 @@ function update_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_conf
         "PATCH",
         "/outposts/$(OutpostId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_outpost(
@@ -1043,7 +1051,7 @@ function update_outpost(
         "/outposts/$(OutpostId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1064,7 +1072,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config())
     return outposts(
-        "PATCH", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH",
+        "/sites/$(SiteId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_site(
@@ -1075,7 +1086,7 @@ function update_site(
         "/sites/$(SiteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1102,7 +1113,7 @@ function update_site_address(
         "/sites/$(SiteId)/address",
         Dict{String,Any}("Address" => Address, "AddressType" => AddressType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_site_address(
@@ -1123,7 +1134,7 @@ function update_site_address(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1181,7 +1192,7 @@ function update_site_rack_physical_properties(
         "PATCH",
         "/sites/$(SiteId)/rackPhysicalProperties";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_site_rack_physical_properties(
@@ -1192,6 +1203,6 @@ function update_site_rack_physical_properties(
         "/sites/$(SiteId)/rackPhysicalProperties",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

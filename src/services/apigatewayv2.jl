@@ -56,7 +56,7 @@ function create_api(name, protocolType; aws_config::AbstractAWSConfig=global_aws
         "/v2/apis",
         Dict{String,Any}("name" => name, "protocolType" => protocolType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_api(
@@ -76,7 +76,7 @@ function create_api(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -103,7 +103,7 @@ function create_api_mapping(
         "/v2/domainnames/$(domainName)/apimappings",
         Dict{String,Any}("apiId" => apiId, "stage" => stage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_api_mapping(
@@ -120,7 +120,7 @@ function create_api_mapping(
             mergewith(_merge, Dict{String,Any}("apiId" => apiId, "stage" => stage), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -200,7 +200,7 @@ function create_authorizer(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_authorizer(
@@ -226,7 +226,7 @@ function create_authorizer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -249,7 +249,7 @@ function create_deployment(apiId; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/v2/apis/$(apiId)/deployments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_deployment(
@@ -260,7 +260,7 @@ function create_deployment(
         "/v2/apis/$(apiId)/deployments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -286,7 +286,7 @@ function create_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws
         "/v2/domainnames",
         Dict{String,Any}("domainName" => domainName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain_name(
@@ -301,7 +301,7 @@ function create_domain_name(
             mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -420,7 +420,7 @@ function create_integration(
         "/v2/apis/$(apiId)/integrations",
         Dict{String,Any}("integrationType" => integrationType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_integration(
@@ -438,7 +438,7 @@ function create_integration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -488,7 +488,7 @@ function create_integration_response(
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses",
         Dict{String,Any}("integrationResponseKey" => integrationResponseKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_integration_response(
@@ -509,7 +509,7 @@ function create_integration_response(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -538,7 +538,7 @@ function create_model(
         "/v2/apis/$(apiId)/models",
         Dict{String,Any}("name" => name, "schema" => schema);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_model(
@@ -555,7 +555,7 @@ function create_model(
             mergewith(_merge, Dict{String,Any}("name" => name, "schema" => schema), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -598,7 +598,7 @@ function create_route(apiId, routeKey; aws_config::AbstractAWSConfig=global_aws_
         "/v2/apis/$(apiId)/routes",
         Dict{String,Any}("routeKey" => routeKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_route(
@@ -614,7 +614,7 @@ function create_route(
             mergewith(_merge, Dict{String,Any}("routeKey" => routeKey), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -644,7 +644,7 @@ function create_route_response(
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses",
         Dict{String,Any}("routeResponseKey" => routeResponseKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_route_response(
@@ -663,7 +663,7 @@ function create_route_response(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +699,7 @@ function create_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws
         "/v2/apis/$(apiId)/stages",
         Dict{String,Any}("stageName" => stageName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_stage(
@@ -715,7 +715,7 @@ function create_stage(
             mergewith(_merge, Dict{String,Any}("stageName" => stageName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -740,7 +740,7 @@ function create_vpc_link(name, subnetIds; aws_config::AbstractAWSConfig=global_a
         "/v2/vpclinks",
         Dict{String,Any}("name" => name, "subnetIds" => subnetIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vpc_link(
@@ -758,7 +758,7 @@ function create_vpc_link(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -782,7 +782,7 @@ function delete_access_log_settings(
         "DELETE",
         "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_access_log_settings(
@@ -796,7 +796,7 @@ function delete_access_log_settings(
         "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -815,7 +815,7 @@ function delete_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/v2/apis/$(apiId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_api(
@@ -826,7 +826,7 @@ function delete_api(
         "/v2/apis/$(apiId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -848,7 +848,7 @@ function delete_api_mapping(
         "DELETE",
         "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_api_mapping(
@@ -862,7 +862,7 @@ function delete_api_mapping(
         "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -884,7 +884,7 @@ function delete_authorizer(
         "DELETE",
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_authorizer(
@@ -898,7 +898,7 @@ function delete_authorizer(
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -917,7 +917,7 @@ function delete_cors_configuration(apiId; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/v2/apis/$(apiId)/cors";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cors_configuration(
@@ -928,7 +928,7 @@ function delete_cors_configuration(
         "/v2/apis/$(apiId)/cors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -950,7 +950,7 @@ function delete_deployment(
         "DELETE",
         "/v2/apis/$(apiId)/deployments/$(deploymentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_deployment(
@@ -964,7 +964,7 @@ function delete_deployment(
         "/v2/apis/$(apiId)/deployments/$(deploymentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -983,7 +983,7 @@ function delete_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws
         "DELETE",
         "/v2/domainnames/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain_name(
@@ -996,7 +996,7 @@ function delete_domain_name(
         "/v2/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1018,7 +1018,7 @@ function delete_integration(
         "DELETE",
         "/v2/apis/$(apiId)/integrations/$(integrationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_integration(
@@ -1032,7 +1032,7 @@ function delete_integration(
         "/v2/apis/$(apiId)/integrations/$(integrationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1058,7 +1058,7 @@ function delete_integration_response(
         "DELETE",
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_integration_response(
@@ -1073,7 +1073,7 @@ function delete_integration_response(
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1093,7 +1093,7 @@ function delete_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_c
         "DELETE",
         "/v2/apis/$(apiId)/models/$(modelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_model(
@@ -1107,7 +1107,7 @@ function delete_model(
         "/v2/apis/$(apiId)/models/$(modelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1127,7 +1127,7 @@ function delete_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_c
         "DELETE",
         "/v2/apis/$(apiId)/routes/$(routeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_route(
@@ -1141,7 +1141,7 @@ function delete_route(
         "/v2/apis/$(apiId)/routes/$(routeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1164,7 +1164,7 @@ function delete_route_request_parameter(
         "DELETE",
         "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_route_request_parameter(
@@ -1179,7 +1179,7 @@ function delete_route_request_parameter(
         "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1202,7 +1202,7 @@ function delete_route_response(
         "DELETE",
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_route_response(
@@ -1217,7 +1217,7 @@ function delete_route_response(
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1241,7 +1241,7 @@ function delete_route_settings(
         "DELETE",
         "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_route_settings(
@@ -1256,7 +1256,7 @@ function delete_route_settings(
         "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1277,7 +1277,7 @@ function delete_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws
         "DELETE",
         "/v2/apis/$(apiId)/stages/$(stageName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_stage(
@@ -1291,7 +1291,7 @@ function delete_stage(
         "/v2/apis/$(apiId)/stages/$(stageName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1310,7 +1310,7 @@ function delete_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/v2/vpclinks/$(vpcLinkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vpc_link(
@@ -1323,7 +1323,7 @@ function delete_vpc_link(
         "/v2/vpclinks/$(vpcLinkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1357,7 +1357,7 @@ function export_api(
         "/v2/apis/$(apiId)/exports/$(specification)",
         Dict{String,Any}("outputType" => outputType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_api(
@@ -1374,7 +1374,7 @@ function export_api(
             mergewith(_merge, Dict{String,Any}("outputType" => outputType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1390,7 +1390,7 @@ Gets an Api resource.
 """
 function get_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewayv2(
-        "GET", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_api(
@@ -1401,7 +1401,7 @@ function get_api(
         "/v2/apis/$(apiId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1423,7 +1423,7 @@ function get_api_mapping(
         "GET",
         "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_api_mapping(
@@ -1437,7 +1437,7 @@ function get_api_mapping(
         "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1461,7 +1461,7 @@ function get_api_mappings(domainName; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v2/domainnames/$(domainName)/apimappings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_api_mappings(
@@ -1474,7 +1474,7 @@ function get_api_mappings(
         "/v2/domainnames/$(domainName)/apimappings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1492,14 +1492,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_apis(; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewayv2(
-        "GET", "/v2/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_apis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return apigatewayv2(
-        "GET", "/v2/apis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/apis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1521,7 +1521,7 @@ function get_authorizer(
         "GET",
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_authorizer(
@@ -1535,7 +1535,7 @@ function get_authorizer(
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1559,7 +1559,7 @@ function get_authorizers(apiId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/v2/apis/$(apiId)/authorizers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_authorizers(
@@ -1570,7 +1570,7 @@ function get_authorizers(
         "/v2/apis/$(apiId)/authorizers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1592,7 +1592,7 @@ function get_deployment(
         "GET",
         "/v2/apis/$(apiId)/deployments/$(deploymentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_deployment(
@@ -1606,7 +1606,7 @@ function get_deployment(
         "/v2/apis/$(apiId)/deployments/$(deploymentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1630,7 +1630,7 @@ function get_deployments(apiId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/v2/apis/$(apiId)/deployments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_deployments(
@@ -1641,7 +1641,7 @@ function get_deployments(
         "/v2/apis/$(apiId)/deployments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1660,7 +1660,7 @@ function get_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/v2/domainnames/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_domain_name(
@@ -1673,7 +1673,7 @@ function get_domain_name(
         "/v2/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1691,7 +1691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewayv2(
-        "GET", "/v2/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_domain_names(
@@ -1702,7 +1702,7 @@ function get_domain_names(
         "/v2/domainnames",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1724,7 +1724,7 @@ function get_integration(
         "GET",
         "/v2/apis/$(apiId)/integrations/$(integrationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_integration(
@@ -1738,7 +1738,7 @@ function get_integration(
         "/v2/apis/$(apiId)/integrations/$(integrationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1764,7 +1764,7 @@ function get_integration_response(
         "GET",
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_integration_response(
@@ -1779,7 +1779,7 @@ function get_integration_response(
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1806,7 +1806,7 @@ function get_integration_responses(
         "GET",
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_integration_responses(
@@ -1820,7 +1820,7 @@ function get_integration_responses(
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1844,7 +1844,7 @@ function get_integrations(apiId; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/v2/apis/$(apiId)/integrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_integrations(
@@ -1855,7 +1855,7 @@ function get_integrations(
         "/v2/apis/$(apiId)/integrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1875,7 +1875,7 @@ function get_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/v2/apis/$(apiId)/models/$(modelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_model(
@@ -1889,7 +1889,7 @@ function get_model(
         "/v2/apis/$(apiId)/models/$(modelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1911,7 +1911,7 @@ function get_model_template(
         "GET",
         "/v2/apis/$(apiId)/models/$(modelId)/template";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_model_template(
@@ -1925,7 +1925,7 @@ function get_model_template(
         "/v2/apis/$(apiId)/models/$(modelId)/template",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1949,7 +1949,7 @@ function get_models(apiId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/v2/apis/$(apiId)/models";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_models(
@@ -1960,7 +1960,7 @@ function get_models(
         "/v2/apis/$(apiId)/models",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1980,7 +1980,7 @@ function get_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/v2/apis/$(apiId)/routes/$(routeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_route(
@@ -1994,7 +1994,7 @@ function get_route(
         "/v2/apis/$(apiId)/routes/$(routeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2017,7 +2017,7 @@ function get_route_response(
         "GET",
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_route_response(
@@ -2032,7 +2032,7 @@ function get_route_response(
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2059,7 +2059,7 @@ function get_route_responses(
         "GET",
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_route_responses(
@@ -2073,7 +2073,7 @@ function get_route_responses(
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2097,7 +2097,7 @@ function get_routes(apiId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/v2/apis/$(apiId)/routes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_routes(
@@ -2108,7 +2108,7 @@ function get_routes(
         "/v2/apis/$(apiId)/routes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2129,7 +2129,7 @@ function get_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/v2/apis/$(apiId)/stages/$(stageName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_stage(
@@ -2143,7 +2143,7 @@ function get_stage(
         "/v2/apis/$(apiId)/stages/$(stageName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2167,7 +2167,7 @@ function get_stages(apiId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/v2/apis/$(apiId)/stages";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_stages(
@@ -2178,7 +2178,7 @@ function get_stages(
         "/v2/apis/$(apiId)/stages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2197,7 +2197,7 @@ function get_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/v2/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_tags(
@@ -2210,7 +2210,7 @@ function get_tags(
         "/v2/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2229,7 +2229,7 @@ function get_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/v2/vpclinks/$(vpcLinkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vpc_link(
@@ -2242,7 +2242,7 @@ function get_vpc_link(
         "/v2/vpclinks/$(vpcLinkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2260,7 +2260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewayv2(
-        "GET", "/v2/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_vpc_links(
@@ -2271,7 +2271,7 @@ function get_vpc_links(
         "/v2/vpclinks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2298,7 +2298,7 @@ function import_api(body; aws_config::AbstractAWSConfig=global_aws_config())
         "/v2/apis",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_api(
@@ -2309,7 +2309,7 @@ function import_api(
         "/v2/apis",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2337,7 +2337,7 @@ function reimport_api(apiId, body; aws_config::AbstractAWSConfig=global_aws_conf
         "/v2/apis/$(apiId)",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reimport_api(
@@ -2351,7 +2351,7 @@ function reimport_api(
         "/v2/apis/$(apiId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2374,7 +2374,7 @@ function reset_authorizers_cache(
         "DELETE",
         "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reset_authorizers_cache(
@@ -2388,7 +2388,7 @@ function reset_authorizers_cache(
         "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2410,7 +2410,7 @@ function tag_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/v2/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2423,7 +2423,7 @@ function tag_resource(
         "/v2/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2446,7 +2446,7 @@ function untag_resource(
         "/v2/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2460,7 +2460,7 @@ function untag_resource(
         "/v2/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2510,7 +2510,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewayv2(
-        "PATCH", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH",
+        "/v2/apis/$(apiId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_api(
@@ -2521,7 +2524,7 @@ function update_api(
         "/v2/apis/$(apiId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2549,7 +2552,7 @@ function update_api_mapping(
         "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)",
         Dict{String,Any}("apiId" => apiId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_api_mapping(
@@ -2564,7 +2567,7 @@ function update_api_mapping(
         "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("apiId" => apiId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2636,7 +2639,7 @@ function update_authorizer(
         "PATCH",
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_authorizer(
@@ -2650,7 +2653,7 @@ function update_authorizer(
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2675,7 +2678,7 @@ function update_deployment(
         "PATCH",
         "/v2/apis/$(apiId)/deployments/$(deploymentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_deployment(
@@ -2689,7 +2692,7 @@ function update_deployment(
         "/v2/apis/$(apiId)/deployments/$(deploymentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2713,7 +2716,7 @@ function update_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws
         "PATCH",
         "/v2/domainnames/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_domain_name(
@@ -2726,7 +2729,7 @@ function update_domain_name(
         "/v2/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2844,7 +2847,7 @@ function update_integration(
         "PATCH",
         "/v2/apis/$(apiId)/integrations/$(integrationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_integration(
@@ -2858,7 +2861,7 @@ function update_integration(
         "/v2/apis/$(apiId)/integrations/$(integrationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2914,7 +2917,7 @@ function update_integration_response(
         "PATCH",
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_integration_response(
@@ -2929,7 +2932,7 @@ function update_integration_response(
         "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2956,7 +2959,7 @@ function update_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_c
         "PATCH",
         "/v2/apis/$(apiId)/models/$(modelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_model(
@@ -2970,7 +2973,7 @@ function update_model(
         "/v2/apis/$(apiId)/models/$(modelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3013,7 +3016,7 @@ function update_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_c
         "PATCH",
         "/v2/apis/$(apiId)/routes/$(routeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_route(
@@ -3027,7 +3030,7 @@ function update_route(
         "/v2/apis/$(apiId)/routes/$(routeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3057,7 +3060,7 @@ function update_route_response(
         "PATCH",
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_route_response(
@@ -3072,7 +3075,7 @@ function update_route_response(
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3107,7 +3110,7 @@ function update_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws
         "PATCH",
         "/v2/apis/$(apiId)/stages/$(stageName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_stage(
@@ -3121,7 +3124,7 @@ function update_stage(
         "/v2/apis/$(apiId)/stages/$(stageName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3143,7 +3146,7 @@ function update_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_con
         "PATCH",
         "/v2/vpclinks/$(vpcLinkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_vpc_link(
@@ -3156,6 +3159,6 @@ function update_vpc_link(
         "/v2/vpclinks/$(vpcLinkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

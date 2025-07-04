@@ -32,7 +32,7 @@ function put_events(
             "headers" => Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_events(
@@ -56,6 +56,6 @@ function put_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

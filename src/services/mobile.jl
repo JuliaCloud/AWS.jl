@@ -22,14 +22,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_project(; aws_config::AbstractAWSConfig=global_aws_config())
     return mobile(
-        "POST", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_project(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mobile(
-        "POST", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/projects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -48,7 +52,7 @@ function delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/projects/$(projectId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project(
@@ -61,7 +65,7 @@ function delete_project(
         "/projects/$(projectId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -80,7 +84,7 @@ function describe_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/bundles/$(bundleId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_bundle(
@@ -93,7 +97,7 @@ function describe_bundle(
         "/bundles/$(bundleId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -118,7 +122,7 @@ function describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_co
         "/project",
         Dict{String,Any}("projectId" => projectId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_project(
@@ -133,7 +137,7 @@ function describe_project(
             mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -157,7 +161,7 @@ function export_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config
         "POST",
         "/bundles/$(bundleId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_bundle(
@@ -170,7 +174,7 @@ function export_bundle(
         "/bundles/$(bundleId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -191,7 +195,7 @@ function export_project(projectId; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/exports/$(projectId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_project(
@@ -204,7 +208,7 @@ function export_project(
         "/exports/$(projectId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -222,13 +226,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to list more bundles.
 """
 function list_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile("GET", "/bundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return mobile(
+        "GET", "/bundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mobile(
-        "GET", "/bundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -247,14 +253,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
     return mobile(
-        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mobile(
-        "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -279,7 +285,7 @@ function update_project(projectId; aws_config::AbstractAWSConfig=global_aws_conf
         "/update",
         Dict{String,Any}("projectId" => projectId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_project(
@@ -294,6 +300,6 @@ function update_project(
             mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -36,7 +36,7 @@ function get_latest_configuration(
         "/configuration",
         Dict{String,Any}("configuration_token" => configuration_token);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_latest_configuration(
@@ -55,7 +55,7 @@ function get_latest_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -95,7 +95,7 @@ function start_configuration_session(
             "EnvironmentIdentifier" => EnvironmentIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_configuration_session(
@@ -120,6 +120,6 @@ function start_configuration_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

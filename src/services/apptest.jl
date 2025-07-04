@@ -28,7 +28,7 @@ function create_test_case(name, steps; aws_config::AbstractAWSConfig=global_aws_
             "name" => name, "steps" => steps, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_test_case(
@@ -50,7 +50,7 @@ function create_test_case(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -82,7 +82,7 @@ function create_test_configuration(
             "name" => name, "resources" => resources, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_test_configuration(
@@ -106,7 +106,7 @@ function create_test_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -138,7 +138,7 @@ function create_test_suite(
             "name" => name, "testCases" => testCases, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_test_suite(
@@ -162,7 +162,7 @@ function create_test_suite(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function delete_test_case(testCaseId; aws_config::AbstractAWSConfig=global_aws_c
         "DELETE",
         "/testcases/$(testCaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_test_case(
@@ -194,7 +194,7 @@ function delete_test_case(
         "/testcases/$(testCaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -215,7 +215,7 @@ function delete_test_configuration(
         "DELETE",
         "/testconfigurations/$(testConfigurationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_test_configuration(
@@ -228,7 +228,7 @@ function delete_test_configuration(
         "/testconfigurations/$(testConfigurationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -247,7 +247,7 @@ function delete_test_run(testRunId; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/testruns/$(testRunId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_test_run(
@@ -260,7 +260,7 @@ function delete_test_run(
         "/testruns/$(testRunId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -279,7 +279,7 @@ function delete_test_suite(testSuiteId; aws_config::AbstractAWSConfig=global_aws
         "DELETE",
         "/testsuites/$(testSuiteId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_test_suite(
@@ -292,7 +292,7 @@ function delete_test_suite(
         "/testsuites/$(testSuiteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -314,7 +314,7 @@ function get_test_case(testCaseId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/testcases/$(testCaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_test_case(
@@ -327,7 +327,7 @@ function get_test_case(
         "/testcases/$(testCaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -351,7 +351,7 @@ function get_test_configuration(
         "GET",
         "/testconfigurations/$(testConfigurationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_test_configuration(
@@ -364,7 +364,7 @@ function get_test_configuration(
         "/testconfigurations/$(testConfigurationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -390,7 +390,7 @@ function get_test_run_step(
         "GET",
         "/testruns/$(testRunId)/steps/$(stepName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_test_run_step(
@@ -404,7 +404,7 @@ function get_test_run_step(
         "/testruns/$(testRunId)/steps/$(stepName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -426,7 +426,7 @@ function get_test_suite(testSuiteId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/testsuites/$(testSuiteId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_test_suite(
@@ -439,7 +439,7 @@ function get_test_suite(
         "/testsuites/$(testSuiteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -460,7 +460,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -473,7 +473,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -491,14 +491,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_test_cases(; aws_config::AbstractAWSConfig=global_aws_config())
     return apptest(
-        "GET", "/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_test_cases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return apptest(
-        "GET", "/testcases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/testcases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -516,7 +520,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_test_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
     return apptest(
-        "GET", "/testconfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/testconfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_test_configurations(
@@ -527,7 +534,7 @@ function list_test_configurations(
         "/testconfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -552,7 +559,7 @@ function list_test_run_steps(testRunId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/testruns/$(testRunId)/steps";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_test_run_steps(
@@ -565,7 +572,7 @@ function list_test_run_steps(
         "/testruns/$(testRunId)/steps",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -591,7 +598,7 @@ function list_test_run_test_cases(
         "GET",
         "/testruns/$(testRunId)/testcases";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_test_run_test_cases(
@@ -604,7 +611,7 @@ function list_test_run_test_cases(
         "/testruns/$(testRunId)/testcases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,14 +631,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_test_runs(; aws_config::AbstractAWSConfig=global_aws_config())
     return apptest(
-        "GET", "/testruns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/testruns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_test_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return apptest(
-        "GET", "/testruns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/testruns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -649,14 +656,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_test_suites(; aws_config::AbstractAWSConfig=global_aws_config())
     return apptest(
-        "GET", "/testsuites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/testsuites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_test_suites(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return apptest(
-        "GET", "/testsuites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/testsuites",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +692,7 @@ function start_test_run(testSuiteId; aws_config::AbstractAWSConfig=global_aws_co
         "/testrun",
         Dict{String,Any}("testSuiteId" => testSuiteId, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_test_run(
@@ -702,7 +713,7 @@ function start_test_run(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -723,7 +734,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -737,7 +748,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -760,7 +771,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -774,7 +785,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -797,7 +808,7 @@ function update_test_case(testCaseId; aws_config::AbstractAWSConfig=global_aws_c
         "PATCH",
         "/testcases/$(testCaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_test_case(
@@ -810,7 +821,7 @@ function update_test_case(
         "/testcases/$(testCaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -837,7 +848,7 @@ function update_test_configuration(
         "PATCH",
         "/testconfigurations/$(testConfigurationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_test_configuration(
@@ -850,7 +861,7 @@ function update_test_configuration(
         "/testconfigurations/$(testConfigurationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +886,7 @@ function update_test_suite(testSuiteId; aws_config::AbstractAWSConfig=global_aws
         "PATCH",
         "/testsuites/$(testSuiteId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_test_suite(
@@ -888,6 +899,6 @@ function update_test_suite(
         "/testsuites/$(testSuiteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -35,7 +35,7 @@ function associate_member_to_farm(
             "principalType" => principalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_member_to_farm(
@@ -62,7 +62,7 @@ function associate_member_to_farm(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -99,7 +99,7 @@ function associate_member_to_fleet(
             "principalType" => principalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_member_to_fleet(
@@ -127,7 +127,7 @@ function associate_member_to_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -166,7 +166,7 @@ function associate_member_to_job(
             "principalType" => principalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_member_to_job(
@@ -195,7 +195,7 @@ function associate_member_to_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -232,7 +232,7 @@ function associate_member_to_queue(
             "principalType" => principalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_member_to_queue(
@@ -260,7 +260,7 @@ function associate_member_to_queue(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -283,7 +283,7 @@ function assume_fleet_role_for_read(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/read-roles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_fleet_role_for_read(
@@ -297,7 +297,7 @@ function assume_fleet_role_for_read(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/read-roles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -320,7 +320,7 @@ function assume_fleet_role_for_worker(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/fleet-roles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_fleet_role_for_worker(
@@ -335,7 +335,7 @@ function assume_fleet_role_for_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/fleet-roles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -358,7 +358,7 @@ function assume_queue_role_for_read(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/read-roles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_queue_role_for_read(
@@ -372,7 +372,7 @@ function assume_queue_role_for_read(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/read-roles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -394,7 +394,7 @@ function assume_queue_role_for_user(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/user-roles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_queue_role_for_user(
@@ -408,7 +408,7 @@ function assume_queue_role_for_user(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/user-roles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -433,7 +433,7 @@ function assume_queue_role_for_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/queue-roles",
         Dict{String,Any}("queueId" => queueId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_queue_role_for_worker(
@@ -449,7 +449,7 @@ function assume_queue_role_for_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/queue-roles",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queueId" => queueId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -480,7 +480,7 @@ function batch_get_job_entity(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/batchGetJobEntity",
         Dict{String,Any}("identifiers" => identifiers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_job_entity(
@@ -498,7 +498,7 @@ function batch_get_job_entity(
             mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -528,7 +528,7 @@ function copy_job_template(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/template",
         Dict{String,Any}("targetS3Location" => targetS3Location);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_job_template(
@@ -548,7 +548,7 @@ function copy_job_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -593,7 +593,7 @@ function create_budget(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_budget(
@@ -624,7 +624,7 @@ function create_budget(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -657,7 +657,7 @@ function create_farm(displayName; aws_config::AbstractAWSConfig=global_aws_confi
             "displayName" => displayName, "X-Amz-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_farm(
@@ -678,7 +678,7 @@ function create_farm(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -726,7 +726,7 @@ function create_fleet(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -755,7 +755,7 @@ function create_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -806,7 +806,7 @@ function create_job(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_job(
@@ -834,7 +834,7 @@ function create_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -870,7 +870,7 @@ function create_license_endpoint(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_license_endpoint(
@@ -896,7 +896,7 @@ function create_license_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -942,7 +942,7 @@ function create_monitor(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_monitor(
@@ -970,7 +970,7 @@ function create_monitor(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1012,7 +1012,7 @@ function create_queue(
             "displayName" => displayName, "X-Amz-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_queue(
@@ -1034,7 +1034,7 @@ function create_queue(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1076,7 +1076,7 @@ function create_queue_environment(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_queue_environment(
@@ -1104,7 +1104,7 @@ function create_queue_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1128,7 +1128,7 @@ function create_queue_fleet_association(
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations",
         Dict{String,Any}("fleetId" => fleetId, "queueId" => queueId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_queue_fleet_association(
@@ -1147,7 +1147,7 @@ function create_queue_fleet_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1181,7 +1181,7 @@ function create_storage_profile(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_storage_profile(
@@ -1206,7 +1206,7 @@ function create_storage_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1235,7 +1235,7 @@ function create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_worker(
@@ -1253,7 +1253,7 @@ function create_worker(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1273,7 +1273,7 @@ function delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_budget(
@@ -1287,7 +1287,7 @@ function delete_budget(
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1306,7 +1306,7 @@ function delete_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/2023-10-12/farms/$(farmId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_farm(
@@ -1317,7 +1317,7 @@ function delete_farm(
         "/2023-10-12/farms/$(farmId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1342,7 +1342,7 @@ function delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -1360,7 +1360,7 @@ function delete_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1381,7 +1381,7 @@ function delete_license_endpoint(
         "DELETE",
         "/2023-10-12/license-endpoints/$(licenseEndpointId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_license_endpoint(
@@ -1394,7 +1394,7 @@ function delete_license_endpoint(
         "/2023-10-12/license-endpoints/$(licenseEndpointId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1417,7 +1417,7 @@ function delete_metered_product(
         "DELETE",
         "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_metered_product(
@@ -1431,7 +1431,7 @@ function delete_metered_product(
         "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1452,7 +1452,7 @@ function delete_monitor(monitorId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/2023-10-12/monitors/$(monitorId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_monitor(
@@ -1465,7 +1465,7 @@ function delete_monitor(
         "/2023-10-12/monitors/$(monitorId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1485,7 +1485,7 @@ function delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_queue(
@@ -1499,7 +1499,7 @@ function delete_queue(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1522,7 +1522,7 @@ function delete_queue_environment(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_queue_environment(
@@ -1537,7 +1537,7 @@ function delete_queue_environment(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1560,7 +1560,7 @@ function delete_queue_fleet_association(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_queue_fleet_association(
@@ -1575,7 +1575,7 @@ function delete_queue_fleet_association(
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1597,7 +1597,7 @@ function delete_storage_profile(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_storage_profile(
@@ -1611,7 +1611,7 @@ function delete_storage_profile(
         "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1634,7 +1634,7 @@ function delete_worker(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_worker(
@@ -1649,7 +1649,7 @@ function delete_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1671,7 +1671,7 @@ function disassociate_member_from_farm(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/members/$(principalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_member_from_farm(
@@ -1685,7 +1685,7 @@ function disassociate_member_from_farm(
         "/2023-10-12/farms/$(farmId)/members/$(principalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1708,7 +1708,7 @@ function disassociate_member_from_fleet(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_member_from_fleet(
@@ -1723,7 +1723,7 @@ function disassociate_member_from_fleet(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1747,7 +1747,7 @@ function disassociate_member_from_job(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_member_from_job(
@@ -1763,7 +1763,7 @@ function disassociate_member_from_job(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1786,7 +1786,7 @@ function disassociate_member_from_queue(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_member_from_queue(
@@ -1801,7 +1801,7 @@ function disassociate_member_from_queue(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1821,7 +1821,7 @@ function get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_budget(
@@ -1835,7 +1835,7 @@ function get_budget(
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1854,7 +1854,7 @@ function get_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2023-10-12/farms/$(farmId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_farm(
@@ -1865,7 +1865,7 @@ function get_farm(
         "/2023-10-12/farms/$(farmId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1885,7 +1885,7 @@ function get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_fleet(
@@ -1899,7 +1899,7 @@ function get_fleet(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1920,7 +1920,7 @@ function get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_job(
@@ -1935,7 +1935,7 @@ function get_job(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1956,7 +1956,7 @@ function get_license_endpoint(
         "GET",
         "/2023-10-12/license-endpoints/$(licenseEndpointId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_license_endpoint(
@@ -1969,7 +1969,7 @@ function get_license_endpoint(
         "/2023-10-12/license-endpoints/$(licenseEndpointId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1989,7 +1989,7 @@ function get_monitor(monitorId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/2023-10-12/monitors/$(monitorId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_monitor(
@@ -2002,7 +2002,7 @@ function get_monitor(
         "/2023-10-12/monitors/$(monitorId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2022,7 +2022,7 @@ function get_queue(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_queue(
@@ -2036,7 +2036,7 @@ function get_queue(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2059,7 +2059,7 @@ function get_queue_environment(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_queue_environment(
@@ -2074,7 +2074,7 @@ function get_queue_environment(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2097,7 +2097,7 @@ function get_queue_fleet_association(
         "GET",
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_queue_fleet_association(
@@ -2112,7 +2112,7 @@ function get_queue_fleet_association(
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2136,7 +2136,7 @@ function get_session(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session(
@@ -2152,7 +2152,7 @@ function get_session(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2180,7 +2180,7 @@ function get_session_action(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions/$(sessionActionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session_action(
@@ -2196,7 +2196,7 @@ function get_session_action(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions/$(sessionActionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2229,7 +2229,7 @@ function get_sessions_statistics_aggregation(
         "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation",
         Dict{String,Any}("aggregationId" => aggregationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sessions_statistics_aggregation(
@@ -2245,7 +2245,7 @@ function get_sessions_statistics_aggregation(
             mergewith(_merge, Dict{String,Any}("aggregationId" => aggregationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2269,7 +2269,7 @@ function get_step(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_step(
@@ -2285,7 +2285,7 @@ function get_step(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2307,7 +2307,7 @@ function get_storage_profile(
         "GET",
         "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_storage_profile(
@@ -2321,7 +2321,7 @@ function get_storage_profile(
         "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2344,7 +2344,7 @@ function get_storage_profile_for_queue(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles/$(storageProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_storage_profile_for_queue(
@@ -2359,7 +2359,7 @@ function get_storage_profile_for_queue(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles/$(storageProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2389,7 +2389,7 @@ function get_task(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_task(
@@ -2406,7 +2406,7 @@ function get_task(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2429,7 +2429,7 @@ function get_worker(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_worker(
@@ -2444,7 +2444,7 @@ function get_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2467,7 +2467,7 @@ function list_available_metered_products(;
         "GET",
         "/2023-10-12/metered-products";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_available_metered_products(
@@ -2478,7 +2478,7 @@ function list_available_metered_products(
         "/2023-10-12/metered-products",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2503,7 +2503,7 @@ function list_budgets(farmId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2023-10-12/farms/$(farmId)/budgets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_budgets(
@@ -2514,7 +2514,7 @@ function list_budgets(
         "/2023-10-12/farms/$(farmId)/budgets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2538,7 +2538,7 @@ function list_farm_members(farmId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/2023-10-12/farms/$(farmId)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_farm_members(
@@ -2549,7 +2549,7 @@ function list_farm_members(
         "/2023-10-12/farms/$(farmId)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2568,7 +2568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_farms(; aws_config::AbstractAWSConfig=global_aws_config())
     return deadline(
-        "GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_farms(
@@ -2579,7 +2579,7 @@ function list_farms(
         "/2023-10-12/farms",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2606,7 +2606,7 @@ function list_fleet_members(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fleet_members(
@@ -2620,7 +2620,7 @@ function list_fleet_members(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2647,7 +2647,7 @@ function list_fleets(farmId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fleets(
@@ -2658,7 +2658,7 @@ function list_fleets(
         "/2023-10-12/farms/$(farmId)/fleets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2686,7 +2686,7 @@ function list_job_members(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_job_members(
@@ -2701,7 +2701,7 @@ function list_job_members(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2727,7 +2727,7 @@ function list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_jobs(
@@ -2741,7 +2741,7 @@ function list_jobs(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2762,7 +2762,7 @@ function list_license_endpoints(; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/2023-10-12/license-endpoints";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_license_endpoints(
@@ -2773,7 +2773,7 @@ function list_license_endpoints(
         "/2023-10-12/license-endpoints",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2799,7 +2799,7 @@ function list_metered_products(
         "GET",
         "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_metered_products(
@@ -2812,7 +2812,7 @@ function list_metered_products(
         "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2833,7 +2833,7 @@ function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2023-10-12/monitors";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_monitors(
@@ -2844,7 +2844,7 @@ function list_monitors(
         "/2023-10-12/monitors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2871,7 +2871,7 @@ function list_queue_environments(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_queue_environments(
@@ -2885,7 +2885,7 @@ function list_queue_environments(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2913,7 +2913,7 @@ function list_queue_fleet_associations(
         "GET",
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_queue_fleet_associations(
@@ -2924,7 +2924,7 @@ function list_queue_fleet_associations(
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2951,7 +2951,7 @@ function list_queue_members(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_queue_members(
@@ -2965,7 +2965,7 @@ function list_queue_members(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2994,7 +2994,7 @@ function list_queues(farmId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2023-10-12/farms/$(farmId)/queues";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_queues(
@@ -3005,7 +3005,7 @@ function list_queues(
         "/2023-10-12/farms/$(farmId)/queues",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3035,7 +3035,7 @@ function list_session_actions(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_session_actions(
@@ -3050,7 +3050,7 @@ function list_session_actions(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3078,7 +3078,7 @@ function list_sessions(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sessions(
@@ -3093,7 +3093,7 @@ function list_sessions(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3121,7 +3121,7 @@ function list_sessions_for_worker(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/sessions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sessions_for_worker(
@@ -3136,7 +3136,7 @@ function list_sessions_for_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/sessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3165,7 +3165,7 @@ function list_step_consumers(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/consumers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_step_consumers(
@@ -3181,7 +3181,7 @@ function list_step_consumers(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/consumers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3210,7 +3210,7 @@ function list_step_dependencies(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/dependencies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_step_dependencies(
@@ -3226,7 +3226,7 @@ function list_step_dependencies(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/dependencies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3254,7 +3254,7 @@ function list_steps(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_steps(
@@ -3269,7 +3269,7 @@ function list_steps(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3293,7 +3293,7 @@ function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/2023-10-12/farms/$(farmId)/storage-profiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_storage_profiles(
@@ -3304,7 +3304,7 @@ function list_storage_profiles(
         "/2023-10-12/farms/$(farmId)/storage-profiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3331,7 +3331,7 @@ function list_storage_profiles_for_queue(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_storage_profiles_for_queue(
@@ -3345,7 +3345,7 @@ function list_storage_profiles_for_queue(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3366,7 +3366,7 @@ function list_tags_for_resource(
         "GET",
         "/2023-10-12/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -3379,7 +3379,7 @@ function list_tags_for_resource(
         "/2023-10-12/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3408,7 +3408,7 @@ function list_tasks(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tasks(
@@ -3424,7 +3424,7 @@ function list_tasks(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3449,7 +3449,7 @@ function list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workers(
@@ -3463,7 +3463,7 @@ function list_workers(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3485,7 +3485,7 @@ function put_metered_product(
         "PUT",
         "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_metered_product(
@@ -3499,7 +3499,7 @@ function put_metered_product(
         "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3530,7 +3530,7 @@ function search_jobs(
         "/2023-10-12/farms/$(farmId)/search/jobs",
         Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_jobs(
@@ -3551,7 +3551,7 @@ function search_jobs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3583,7 +3583,7 @@ function search_steps(
         "/2023-10-12/farms/$(farmId)/search/steps",
         Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_steps(
@@ -3604,7 +3604,7 @@ function search_steps(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3636,7 +3636,7 @@ function search_tasks(
         "/2023-10-12/farms/$(farmId)/search/tasks",
         Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_tasks(
@@ -3657,7 +3657,7 @@ function search_tasks(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3688,7 +3688,7 @@ function search_workers(
         "/2023-10-12/farms/$(farmId)/search/workers",
         Dict{String,Any}("fleetIds" => fleetIds, "itemOffset" => itemOffset);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_workers(
@@ -3709,7 +3709,7 @@ function search_workers(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3755,7 +3755,7 @@ function start_sessions_statistics_aggregation(
             "statistics" => statistics,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_sessions_statistics_aggregation(
@@ -3785,7 +3785,7 @@ function start_sessions_statistics_aggregation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3808,7 +3808,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/2023-10-12/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3821,7 +3821,7 @@ function tag_resource(
         "/2023-10-12/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3844,7 +3844,7 @@ function untag_resource(
         "/2023-10-12/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3858,7 +3858,7 @@ function untag_resource(
         "/2023-10-12/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3894,7 +3894,7 @@ function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=global_aw
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_budget(
@@ -3912,7 +3912,7 @@ function update_budget(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3935,7 +3935,7 @@ function update_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
         "PATCH",
         "/2023-10-12/farms/$(farmId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_farm(
@@ -3946,7 +3946,7 @@ function update_farm(
         "/2023-10-12/farms/$(farmId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3977,7 +3977,7 @@ function update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet(
@@ -3995,7 +3995,7 @@ function update_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4029,7 +4029,7 @@ function update_job(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_job(
@@ -4048,7 +4048,7 @@ function update_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4073,7 +4073,7 @@ function update_monitor(monitorId; aws_config::AbstractAWSConfig=global_aws_conf
         "PATCH",
         "/2023-10-12/monitors/$(monitorId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_monitor(
@@ -4086,7 +4086,7 @@ function update_monitor(
         "/2023-10-12/monitors/$(monitorId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4123,7 +4123,7 @@ function update_queue(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_queue(
@@ -4141,7 +4141,7 @@ function update_queue(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4172,7 +4172,7 @@ function update_queue_environment(
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_queue_environment(
@@ -4191,7 +4191,7 @@ function update_queue_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4216,7 +4216,7 @@ function update_queue_fleet_association(
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_queue_fleet_association(
@@ -4232,7 +4232,7 @@ function update_queue_fleet_association(
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4270,7 +4270,7 @@ function update_session(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_session(
@@ -4296,7 +4296,7 @@ function update_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4334,7 +4334,7 @@ function update_step(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_step(
@@ -4360,7 +4360,7 @@ function update_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4391,7 +4391,7 @@ function update_storage_profile(
         "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_storage_profile(
@@ -4409,7 +4409,7 @@ function update_storage_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4448,7 +4448,7 @@ function update_task(
             "targetRunStatus" => targetRunStatus, "X-Amz-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_task(
@@ -4475,7 +4475,7 @@ function update_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4503,7 +4503,7 @@ function update_worker(
         "PATCH",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_worker(
@@ -4518,7 +4518,7 @@ function update_worker(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4545,7 +4545,7 @@ function update_worker_schedule(
         "PATCH",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/schedule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_worker_schedule(
@@ -4560,6 +4560,6 @@ function update_worker_schedule(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/schedule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

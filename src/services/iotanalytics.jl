@@ -32,7 +32,7 @@ function batch_put_message(
         "/messages/batch",
         Dict{String,Any}("channelName" => channelName, "messages" => messages);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_message(
@@ -52,7 +52,7 @@ function batch_put_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -75,7 +75,7 @@ function cancel_pipeline_reprocessing(
         "DELETE",
         "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_pipeline_reprocessing(
@@ -89,7 +89,7 @@ function cancel_pipeline_reprocessing(
         "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -118,7 +118,7 @@ function create_channel(channelName; aws_config::AbstractAWSConfig=global_aws_co
         "/channels",
         Dict{String,Any}("channelName" => channelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel(
@@ -133,7 +133,7 @@ function create_channel(
             mergewith(_merge, Dict{String,Any}("channelName" => channelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -179,7 +179,7 @@ function create_dataset(
         "/datasets",
         Dict{String,Any}("actions" => actions, "datasetName" => datasetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dataset(
@@ -199,7 +199,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -225,7 +225,7 @@ function create_dataset_content(
         "POST",
         "/datasets/$(datasetName)/content";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dataset_content(
@@ -238,7 +238,7 @@ function create_dataset_content(
         "/datasets/$(datasetName)/content",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -272,7 +272,7 @@ function create_datastore(datastoreName; aws_config::AbstractAWSConfig=global_aw
         "/datastores",
         Dict{String,Any}("datastoreName" => datastoreName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_datastore(
@@ -287,7 +287,7 @@ function create_datastore(
             mergewith(_merge, Dict{String,Any}("datastoreName" => datastoreName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -324,7 +324,7 @@ function create_pipeline(
             "pipelineActivities" => pipelineActivities, "pipelineName" => pipelineName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pipeline(
@@ -347,7 +347,7 @@ function create_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -366,7 +366,7 @@ function delete_channel(channelName; aws_config::AbstractAWSConfig=global_aws_co
         "DELETE",
         "/channels/$(channelName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel(
@@ -379,7 +379,7 @@ function delete_channel(
         "/channels/$(channelName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -399,7 +399,7 @@ function delete_dataset(datasetName; aws_config::AbstractAWSConfig=global_aws_co
         "DELETE",
         "/datasets/$(datasetName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset(
@@ -412,7 +412,7 @@ function delete_dataset(
         "/datasets/$(datasetName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -438,7 +438,7 @@ function delete_dataset_content(
         "DELETE",
         "/datasets/$(datasetName)/content";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset_content(
@@ -451,7 +451,7 @@ function delete_dataset_content(
         "/datasets/$(datasetName)/content",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +470,7 @@ function delete_datastore(datastoreName; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/datastores/$(datastoreName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_datastore(
@@ -483,7 +483,7 @@ function delete_datastore(
         "/datastores/$(datastoreName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -502,7 +502,7 @@ function delete_pipeline(pipelineName; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/pipelines/$(pipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pipeline(
@@ -515,7 +515,7 @@ function delete_pipeline(
         "/pipelines/$(pipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -539,7 +539,7 @@ function describe_channel(channelName; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/channels/$(channelName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel(
@@ -552,7 +552,7 @@ function describe_channel(
         "/channels/$(channelName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -571,7 +571,7 @@ function describe_dataset(datasetName; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/datasets/$(datasetName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dataset(
@@ -584,7 +584,7 @@ function describe_dataset(
         "/datasets/$(datasetName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -610,7 +610,7 @@ function describe_datastore(
         "GET",
         "/datastores/$(datastoreName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_datastore(
@@ -623,7 +623,7 @@ function describe_datastore(
         "/datastores/$(datastoreName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -636,14 +636,14 @@ Retrieves the current settings of the IoT Analytics logging options.
 """
 function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotanalytics(
-        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotanalytics(
-        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -662,7 +662,7 @@ function describe_pipeline(pipelineName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/pipelines/$(pipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_pipeline(
@@ -675,7 +675,7 @@ function describe_pipeline(
         "/pipelines/$(pipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -700,7 +700,7 @@ function get_dataset_content(datasetName; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/datasets/$(datasetName)/content";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dataset_content(
@@ -713,7 +713,7 @@ function get_dataset_content(
         "/datasets/$(datasetName)/content",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -731,14 +731,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotanalytics(
-        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotanalytics(
-        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -769,7 +769,7 @@ function list_dataset_contents(
         "GET",
         "/datasets/$(datasetName)/contents";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dataset_contents(
@@ -782,7 +782,7 @@ function list_dataset_contents(
         "/datasets/$(datasetName)/contents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -800,14 +800,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotanalytics(
-        "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotanalytics(
-        "GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -825,14 +825,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_datastores(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotanalytics(
-        "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotanalytics(
-        "GET", "/datastores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/datastores",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -850,14 +854,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotanalytics(
-        "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotanalytics(
-        "GET", "/pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/pipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +887,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -894,7 +902,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -919,7 +927,7 @@ function put_logging_options(
         "/logging",
         Dict{String,Any}("loggingOptions" => loggingOptions);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_logging_options(
@@ -934,7 +942,7 @@ function put_logging_options(
             mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -961,7 +969,7 @@ function run_pipeline_activity(
         "/pipelineactivities/run",
         Dict{String,Any}("payloads" => payloads, "pipelineActivity" => pipelineActivity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function run_pipeline_activity(
@@ -983,7 +991,7 @@ function run_pipeline_activity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1009,7 +1017,7 @@ function sample_channel_data(channelName; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/channels/$(channelName)/sample";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function sample_channel_data(
@@ -1022,7 +1030,7 @@ function sample_channel_data(
         "/channels/$(channelName)/sample",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1052,7 +1060,7 @@ function start_pipeline_reprocessing(
         "POST",
         "/pipelines/$(pipelineName)/reprocessing";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_pipeline_reprocessing(
@@ -1065,7 +1073,7 @@ function start_pipeline_reprocessing(
         "/pipelines/$(pipelineName)/reprocessing",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1087,7 +1095,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1107,7 +1115,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1130,7 +1138,7 @@ function untag_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1150,7 +1158,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1176,7 +1184,7 @@ function update_channel(channelName; aws_config::AbstractAWSConfig=global_aws_co
         "PUT",
         "/channels/$(channelName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel(
@@ -1189,7 +1197,7 @@ function update_channel(
         "/channels/$(channelName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1226,7 +1234,7 @@ function update_dataset(
         "/datasets/$(datasetName)",
         Dict{String,Any}("actions" => actions);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dataset(
@@ -1240,7 +1248,7 @@ function update_dataset(
         "/datasets/$(datasetName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("actions" => actions), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1270,7 +1278,7 @@ function update_datastore(datastoreName; aws_config::AbstractAWSConfig=global_aw
         "PUT",
         "/datastores/$(datastoreName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_datastore(
@@ -1283,7 +1291,7 @@ function update_datastore(
         "/datastores/$(datastoreName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1314,7 +1322,7 @@ function update_pipeline(
         "/pipelines/$(pipelineName)",
         Dict{String,Any}("pipelineActivities" => pipelineActivities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pipeline(
@@ -1332,6 +1340,6 @@ function update_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

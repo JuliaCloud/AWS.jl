@@ -44,7 +44,7 @@ function create_chime_webhook_configuration(
             "WebhookUrl" => WebhookUrl,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_chime_webhook_configuration(
@@ -73,7 +73,7 @@ function create_chime_webhook_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -127,7 +127,7 @@ function create_microsoft_teams_channel_configuration(
             "TenantId" => TenantId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_microsoft_teams_channel_configuration(
@@ -156,7 +156,7 @@ function create_microsoft_teams_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -205,7 +205,7 @@ function create_slack_channel_configuration(
             "SlackTeamId" => SlackTeamId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_slack_channel_configuration(
@@ -232,7 +232,7 @@ function create_slack_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -254,7 +254,7 @@ function delete_chime_webhook_configuration(
         "/delete-chime-webhook-configuration",
         Dict{String,Any}("ChatConfigurationArn" => ChatConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_chime_webhook_configuration(
@@ -273,7 +273,7 @@ function delete_chime_webhook_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -295,7 +295,7 @@ function delete_microsoft_teams_channel_configuration(
         "/delete-ms-teams-channel-configuration",
         Dict{String,Any}("ChatConfigurationArn" => ChatConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_microsoft_teams_channel_configuration(
@@ -314,7 +314,7 @@ function delete_microsoft_teams_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -341,7 +341,7 @@ function delete_microsoft_teams_configured_team(
         "/delete-ms-teams-configured-teams",
         Dict{String,Any}("TeamId" => TeamId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_microsoft_teams_configured_team(
@@ -352,7 +352,7 @@ function delete_microsoft_teams_configured_team(
         "/delete-ms-teams-configured-teams",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TeamId" => TeamId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -378,7 +378,7 @@ function delete_microsoft_teams_user_identity(
             "ChatConfigurationArn" => ChatConfigurationArn, "UserId" => UserId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_microsoft_teams_user_identity(
@@ -400,7 +400,7 @@ function delete_microsoft_teams_user_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -422,7 +422,7 @@ function delete_slack_channel_configuration(
         "/delete-slack-channel-configuration",
         Dict{String,Any}("ChatConfigurationArn" => ChatConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_slack_channel_configuration(
@@ -441,7 +441,7 @@ function delete_slack_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -473,7 +473,7 @@ function delete_slack_user_identity(
             "SlackUserId" => SlackUserId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_slack_user_identity(
@@ -498,7 +498,7 @@ function delete_slack_user_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -521,7 +521,7 @@ function delete_slack_workspace_authorization(
         "/delete-slack-workspace-authorization",
         Dict{String,Any}("SlackTeamId" => SlackTeamId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_slack_workspace_authorization(
@@ -536,7 +536,7 @@ function delete_slack_workspace_authorization(
             mergewith(_merge, Dict{String,Any}("SlackTeamId" => SlackTeamId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -563,7 +563,7 @@ function describe_chime_webhook_configurations(;
         "POST",
         "/describe-chime-webhook-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_chime_webhook_configurations(
@@ -574,7 +574,7 @@ function describe_chime_webhook_configurations(
         "/describe-chime-webhook-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -601,7 +601,7 @@ function describe_slack_channel_configurations(;
         "POST",
         "/describe-slack-channel-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_slack_channel_configurations(
@@ -612,7 +612,7 @@ function describe_slack_channel_configurations(
         "/describe-slack-channel-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -638,7 +638,7 @@ function describe_slack_user_identities(; aws_config::AbstractAWSConfig=global_a
         "POST",
         "/describe-slack-user-identities";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_slack_user_identities(
@@ -649,7 +649,7 @@ function describe_slack_user_identities(
         "/describe-slack-user-identities",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -673,7 +673,7 @@ function describe_slack_workspaces(; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/describe-slack-workspaces";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_slack_workspaces(
@@ -684,7 +684,7 @@ function describe_slack_workspaces(
         "/describe-slack-workspaces",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -700,7 +700,7 @@ function get_account_preferences(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/get-account-preferences";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_account_preferences(
@@ -711,7 +711,7 @@ function get_account_preferences(
         "/get-account-preferences",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -733,7 +733,7 @@ function get_microsoft_teams_channel_configuration(
         "/get-ms-teams-channel-configuration",
         Dict{String,Any}("ChatConfigurationArn" => ChatConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_microsoft_teams_channel_configuration(
@@ -752,7 +752,7 @@ function get_microsoft_teams_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -782,7 +782,7 @@ function list_microsoft_teams_channel_configurations(;
         "POST",
         "/list-ms-teams-channel-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_microsoft_teams_channel_configurations(
@@ -793,7 +793,7 @@ function list_microsoft_teams_channel_configurations(
         "/list-ms-teams-channel-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -819,7 +819,7 @@ function list_microsoft_teams_configured_teams(;
         "POST",
         "/list-ms-teams-configured-teams";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_microsoft_teams_configured_teams(
@@ -830,7 +830,7 @@ function list_microsoft_teams_configured_teams(
         "/list-ms-teams-configured-teams",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -858,7 +858,7 @@ function list_microsoft_teams_user_identities(;
         "POST",
         "/list-ms-teams-user-identities";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_microsoft_teams_user_identities(
@@ -869,7 +869,7 @@ function list_microsoft_teams_user_identities(
         "/list-ms-teams-user-identities",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -891,7 +891,7 @@ function list_tags_for_resource(
         "/list-tags-for-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -906,7 +906,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -927,7 +927,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -947,7 +947,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -970,7 +970,7 @@ function untag_resource(
         "/untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -990,7 +990,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1018,7 +1018,7 @@ function update_account_preferences(; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/update-account-preferences";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_account_preferences(
@@ -1029,7 +1029,7 @@ function update_account_preferences(
         "/update-account-preferences",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1062,7 +1062,7 @@ function update_chime_webhook_configuration(
         "/update-chime-webhook-configuration",
         Dict{String,Any}("ChatConfigurationArn" => ChatConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_chime_webhook_configuration(
@@ -1081,7 +1081,7 @@ function update_chime_webhook_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1119,7 +1119,7 @@ function update_microsoft_teams_channel_configuration(
             "ChannelId" => ChannelId, "ChatConfigurationArn" => ChatConfigurationArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_microsoft_teams_channel_configuration(
@@ -1141,7 +1141,7 @@ function update_microsoft_teams_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1182,7 +1182,7 @@ function update_slack_channel_configuration(
             "SlackChannelId" => SlackChannelId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_slack_channel_configuration(
@@ -1205,6 +1205,6 @@ function update_slack_channel_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

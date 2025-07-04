@@ -25,7 +25,7 @@ function batch_update_recommendation_resource_exclusion(
             "recommendationResourceExclusions" => recommendationResourceExclusions
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_recommendation_resource_exclusion(
@@ -46,7 +46,7 @@ function batch_update_recommendation_resource_exclusion(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -68,7 +68,7 @@ function get_organization_recommendation(
         "GET",
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_organization_recommendation(
@@ -81,7 +81,7 @@ function get_organization_recommendation(
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -102,7 +102,7 @@ function get_recommendation(
         "GET",
         "/v1/recommendations/$(recommendationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommendation(
@@ -115,7 +115,7 @@ function get_recommendation(
         "/v1/recommendations/$(recommendationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -137,14 +137,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_checks(; aws_config::AbstractAWSConfig=global_aws_config())
     return trustedadvisor(
-        "GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_checks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return trustedadvisor(
-        "GET", "/v1/checks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/checks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -172,7 +176,7 @@ function list_organization_recommendation_accounts(
         "GET",
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/accounts";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_organization_recommendation_accounts(
@@ -185,7 +189,7 @@ function list_organization_recommendation_accounts(
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/accounts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,7 +221,7 @@ function list_organization_recommendation_resources(
         "GET",
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/resources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_organization_recommendation_resources(
@@ -230,7 +234,7 @@ function list_organization_recommendation_resources(
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/resources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -262,7 +266,7 @@ function list_organization_recommendations(;
         "GET",
         "/v1/organization-recommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_organization_recommendations(
@@ -273,7 +277,7 @@ function list_organization_recommendations(
         "/v1/organization-recommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -302,7 +306,7 @@ function list_recommendation_resources(
         "GET",
         "/v1/recommendations/$(recommendationIdentifier)/resources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recommendation_resources(
@@ -315,7 +319,7 @@ function list_recommendation_resources(
         "/v1/recommendations/$(recommendationIdentifier)/resources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -341,7 +345,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
     return trustedadvisor(
-        "GET", "/v1/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recommendations(
@@ -352,7 +359,7 @@ function list_recommendations(
         "/v1/recommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -383,7 +390,7 @@ function update_organization_recommendation_lifecycle(
         "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/lifecycle",
         Dict{String,Any}("lifecycleStage" => lifecycleStage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_organization_recommendation_lifecycle(
@@ -399,7 +406,7 @@ function update_organization_recommendation_lifecycle(
             mergewith(_merge, Dict{String,Any}("lifecycleStage" => lifecycleStage), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -429,7 +436,7 @@ function update_recommendation_lifecycle(
         "/v1/recommendations/$(recommendationIdentifier)/lifecycle",
         Dict{String,Any}("lifecycleStage" => lifecycleStage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_recommendation_lifecycle(
@@ -445,6 +452,6 @@ function update_recommendation_lifecycle(
             mergewith(_merge, Dict{String,Any}("lifecycleStage" => lifecycleStage), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

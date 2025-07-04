@@ -33,7 +33,7 @@ function create_dataset(
         "CreateDataset",
         Dict{String,Any}("ClientToken" => ClientToken, "DatasetName" => DatasetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dataset(
@@ -54,7 +54,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -123,7 +123,7 @@ function create_inference_scheduler(
             "RoleArn" => RoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_inference_scheduler(
@@ -155,7 +155,7 @@ function create_inference_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function create_label(
             "StartTime" => StartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_label(
@@ -232,7 +232,7 @@ function create_label(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -264,7 +264,7 @@ function create_label_group(
         "CreateLabelGroup",
         Dict{String,Any}("ClientToken" => ClientToken, "LabelGroupName" => LabelGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_label_group(
@@ -285,7 +285,7 @@ function create_label_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -351,7 +351,7 @@ function create_model(
             "ModelName" => ModelName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_model(
@@ -375,7 +375,7 @@ function create_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -421,7 +421,7 @@ function create_retraining_scheduler(
             "RetrainingFrequency" => RetrainingFrequency,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_retraining_scheduler(
@@ -447,7 +447,7 @@ function create_retraining_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +470,7 @@ function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteDataset",
         Dict{String,Any}("DatasetName" => DatasetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset(
@@ -484,7 +484,7 @@ function delete_dataset(
             mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -506,7 +506,7 @@ function delete_inference_scheduler(
         "DeleteInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_inference_scheduler(
@@ -524,7 +524,7 @@ function delete_inference_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -548,7 +548,7 @@ function delete_label(
         "DeleteLabel",
         Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_label(
@@ -567,7 +567,7 @@ function delete_label(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -590,7 +590,7 @@ function delete_label_group(
         "DeleteLabelGroup",
         Dict{String,Any}("LabelGroupName" => LabelGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_label_group(
@@ -604,7 +604,7 @@ function delete_label_group(
             mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -625,7 +625,7 @@ function delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteModel",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_model(
@@ -639,7 +639,7 @@ function delete_model(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -661,7 +661,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -675,7 +675,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -697,7 +697,7 @@ function delete_retraining_scheduler(
         "DeleteRetrainingScheduler",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_retraining_scheduler(
@@ -711,7 +711,7 @@ function delete_retraining_scheduler(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -733,7 +733,7 @@ function describe_data_ingestion_job(
         "DescribeDataIngestionJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_ingestion_job(
@@ -743,7 +743,7 @@ function describe_data_ingestion_job(
         "DescribeDataIngestionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -763,7 +763,7 @@ function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_
         "DescribeDataset",
         Dict{String,Any}("DatasetName" => DatasetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dataset(
@@ -777,7 +777,7 @@ function describe_dataset(
             mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -799,7 +799,7 @@ function describe_inference_scheduler(
         "DescribeInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_inference_scheduler(
@@ -817,7 +817,7 @@ function describe_inference_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -839,7 +839,7 @@ function describe_label(
         "DescribeLabel",
         Dict{String,Any}("LabelGroupName" => LabelGroupName, "LabelId" => LabelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_label(
@@ -858,7 +858,7 @@ function describe_label(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +879,7 @@ function describe_label_group(
         "DescribeLabelGroup",
         Dict{String,Any}("LabelGroupName" => LabelGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_label_group(
@@ -893,7 +893,7 @@ function describe_label_group(
             mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -914,7 +914,7 @@ function describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeModel",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_model(
@@ -928,7 +928,7 @@ function describe_model(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -950,7 +950,7 @@ function describe_model_version(
         "DescribeModelVersion",
         Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_model_version(
@@ -969,7 +969,7 @@ function describe_model_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -991,7 +991,7 @@ function describe_resource_policy(
         "DescribeResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_resource_policy(
@@ -1005,7 +1005,7 @@ function describe_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1027,7 +1027,7 @@ function describe_retraining_scheduler(
         "DescribeRetrainingScheduler",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_retraining_scheduler(
@@ -1041,7 +1041,7 @@ function describe_retraining_scheduler(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1074,7 +1074,7 @@ function import_dataset(
             "ClientToken" => ClientToken, "SourceDatasetArn" => SourceDatasetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_dataset(
@@ -1095,7 +1095,7 @@ function import_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1142,7 +1142,7 @@ function import_model_version(
             "SourceModelVersionArn" => SourceModelVersionArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_model_version(
@@ -1166,7 +1166,7 @@ function import_model_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1187,7 +1187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_data_ingestion_jobs(
@@ -1197,7 +1197,7 @@ function list_data_ingestion_jobs(
         "ListDataIngestionJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1216,14 +1216,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lookoutequipment(
-        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1261,7 +1261,7 @@ function list_inference_events(
             "IntervalStartTime" => IntervalStartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_inference_events(
@@ -1285,7 +1285,7 @@ function list_inference_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1318,7 +1318,7 @@ function list_inference_executions(
         "ListInferenceExecutions",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_inference_executions(
@@ -1336,7 +1336,7 @@ function list_inference_executions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1359,7 +1359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_inference_schedulers(
@@ -1369,7 +1369,7 @@ function list_inference_schedulers(
         "ListInferenceSchedulers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1389,14 +1389,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_label_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_label_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lookoutequipment(
-        "ListLabelGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLabelGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1426,7 +1426,7 @@ function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=global_aws_co
         "ListLabels",
         Dict{String,Any}("LabelGroupName" => LabelGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_labels(
@@ -1440,7 +1440,7 @@ function list_labels(
             mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1477,7 +1477,7 @@ function list_model_versions(ModelName; aws_config::AbstractAWSConfig=global_aws
         "ListModelVersions",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_model_versions(
@@ -1491,7 +1491,7 @@ function list_model_versions(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1515,14 +1515,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_models(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lookoutequipment(
-        "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1544,7 +1544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_retraining_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_retraining_schedulers(
@@ -1554,7 +1554,7 @@ function list_retraining_schedulers(
         "ListRetrainingSchedulers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1585,7 +1585,7 @@ function list_sensor_statistics(
         "ListSensorStatistics",
         Dict{String,Any}("DatasetName" => DatasetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sensor_statistics(
@@ -1599,7 +1599,7 @@ function list_sensor_statistics(
             mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1621,7 +1621,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1635,7 +1635,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1670,7 +1670,7 @@ function put_resource_policy(
             "ResourcePolicy" => ResourcePolicy,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -1694,7 +1694,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1730,7 +1730,7 @@ function start_data_ingestion_job(
             "RoleArn" => RoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_data_ingestion_job(
@@ -1756,7 +1756,7 @@ function start_data_ingestion_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1777,7 +1777,7 @@ function start_inference_scheduler(
         "StartInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_inference_scheduler(
@@ -1795,7 +1795,7 @@ function start_inference_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1816,7 +1816,7 @@ function start_retraining_scheduler(
         "StartRetrainingScheduler",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_retraining_scheduler(
@@ -1830,7 +1830,7 @@ function start_retraining_scheduler(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1851,7 +1851,7 @@ function stop_inference_scheduler(
         "StopInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_inference_scheduler(
@@ -1869,7 +1869,7 @@ function stop_inference_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1890,7 +1890,7 @@ function stop_retraining_scheduler(
         "StopRetrainingScheduler",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_retraining_scheduler(
@@ -1904,7 +1904,7 @@ function stop_retraining_scheduler(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1930,7 +1930,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1949,7 +1949,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1972,7 +1972,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1991,7 +1991,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2015,7 +2015,7 @@ function update_active_model_version(
         "UpdateActiveModelVersion",
         Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_active_model_version(
@@ -2034,7 +2034,7 @@ function update_active_model_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2076,7 +2076,7 @@ function update_inference_scheduler(
         "UpdateInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_inference_scheduler(
@@ -2094,7 +2094,7 @@ function update_inference_scheduler(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2120,7 +2120,7 @@ function update_label_group(
         "UpdateLabelGroup",
         Dict{String,Any}("LabelGroupName" => LabelGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_label_group(
@@ -2134,7 +2134,7 @@ function update_label_group(
             mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2160,7 +2160,7 @@ function update_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config
         "UpdateModel",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_model(
@@ -2174,7 +2174,7 @@ function update_model(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2209,7 +2209,7 @@ function update_retraining_scheduler(
         "UpdateRetrainingScheduler",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_retraining_scheduler(
@@ -2223,6 +2223,6 @@ function update_retraining_scheduler(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

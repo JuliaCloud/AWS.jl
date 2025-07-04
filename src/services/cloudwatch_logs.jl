@@ -63,7 +63,7 @@ function associate_kms_key(kmsKeyId; aws_config::AbstractAWSConfig=global_aws_co
         "AssociateKmsKey",
         Dict{String,Any}("kmsKeyId" => kmsKeyId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_kms_key(
@@ -77,7 +77,7 @@ function associate_kms_key(
             mergewith(_merge, Dict{String,Any}("kmsKeyId" => kmsKeyId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -96,7 +96,7 @@ function cancel_export_task(taskId; aws_config::AbstractAWSConfig=global_aws_con
         "CancelExportTask",
         Dict{String,Any}("taskId" => taskId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_export_task(
@@ -106,7 +106,7 @@ function cancel_export_task(
         "CancelExportTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function create_delivery(
             "deliverySourceName" => deliverySourceName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_delivery(
@@ -176,7 +176,7 @@ function create_delivery(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -231,7 +231,7 @@ function create_export_task(
             "to" => to,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_export_task(
@@ -257,7 +257,7 @@ function create_export_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -318,7 +318,7 @@ function create_log_anomaly_detector(
         "CreateLogAnomalyDetector",
         Dict{String,Any}("logGroupArnList" => logGroupArnList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_log_anomaly_detector(
@@ -334,7 +334,7 @@ function create_log_anomaly_detector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -385,7 +385,7 @@ function create_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws
         "CreateLogGroup",
         Dict{String,Any}("logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_log_group(
@@ -399,7 +399,7 @@ function create_log_group(
             mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -427,7 +427,7 @@ function create_log_stream(
         "CreateLogStream",
         Dict{String,Any}("logGroupName" => logGroupName, "logStreamName" => logStreamName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_log_stream(
@@ -448,7 +448,7 @@ function create_log_stream(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -476,7 +476,7 @@ function delete_account_policy(
         "DeleteAccountPolicy",
         Dict{String,Any}("policyName" => policyName, "policyType" => policyType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_account_policy(
@@ -495,7 +495,7 @@ function delete_account_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -518,7 +518,7 @@ function delete_data_protection_policy(
         "DeleteDataProtectionPolicy",
         Dict{String,Any}("logGroupIdentifier" => logGroupIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_protection_policy(
@@ -534,7 +534,7 @@ function delete_data_protection_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -557,7 +557,7 @@ function delete_delivery(id; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteDelivery",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_delivery(
@@ -567,7 +567,7 @@ function delete_delivery(
         "DeleteDelivery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -593,7 +593,7 @@ function delete_delivery_destination(
         "DeleteDeliveryDestination",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_delivery_destination(
@@ -603,7 +603,7 @@ function delete_delivery_destination(
         "DeleteDeliveryDestination",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -626,7 +626,7 @@ function delete_delivery_destination_policy(
         "DeleteDeliveryDestinationPolicy",
         Dict{String,Any}("deliveryDestinationName" => deliveryDestinationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_delivery_destination_policy(
@@ -644,7 +644,7 @@ function delete_delivery_destination_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -667,7 +667,7 @@ function delete_delivery_source(name; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteDeliverySource",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_delivery_source(
@@ -677,7 +677,7 @@ function delete_delivery_source(
         "DeleteDeliverySource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -700,7 +700,7 @@ function delete_destination(
         "DeleteDestination",
         Dict{String,Any}("destinationName" => destinationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_destination(
@@ -716,7 +716,7 @@ function delete_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -738,7 +738,7 @@ function delete_log_anomaly_detector(
         "DeleteLogAnomalyDetector",
         Dict{String,Any}("anomalyDetectorArn" => anomalyDetectorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_log_anomaly_detector(
@@ -754,7 +754,7 @@ function delete_log_anomaly_detector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -774,7 +774,7 @@ function delete_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws
         "DeleteLogGroup",
         Dict{String,Any}("logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_log_group(
@@ -788,7 +788,7 @@ function delete_log_group(
             mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -811,7 +811,7 @@ function delete_log_stream(
         "DeleteLogStream",
         Dict{String,Any}("logGroupName" => logGroupName, "logStreamName" => logStreamName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_log_stream(
@@ -832,7 +832,7 @@ function delete_log_stream(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -854,7 +854,7 @@ function delete_metric_filter(
         "DeleteMetricFilter",
         Dict{String,Any}("filterName" => filterName, "logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_metric_filter(
@@ -875,7 +875,7 @@ function delete_metric_filter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -900,7 +900,7 @@ function delete_query_definition(
         "DeleteQueryDefinition",
         Dict{String,Any}("queryDefinitionId" => queryDefinitionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_query_definition(
@@ -916,7 +916,7 @@ function delete_query_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -933,7 +933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_resource_policy(
@@ -943,7 +943,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -965,7 +965,7 @@ function delete_retention_policy(
         "DeleteRetentionPolicy",
         Dict{String,Any}("logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_retention_policy(
@@ -979,7 +979,7 @@ function delete_retention_policy(
             mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1001,7 +1001,7 @@ function delete_subscription_filter(
         "DeleteSubscriptionFilter",
         Dict{String,Any}("filterName" => filterName, "logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_subscription_filter(
@@ -1022,7 +1022,7 @@ function delete_subscription_filter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1053,7 +1053,7 @@ function describe_account_policies(
         "DescribeAccountPolicies",
         Dict{String,Any}("policyType" => policyType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_policies(
@@ -1067,7 +1067,7 @@ function describe_account_policies(
             mergewith(_merge, Dict{String,Any}("policyType" => policyType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1089,14 +1089,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_deliveries(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeDeliveries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDeliveries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_deliveries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "DescribeDeliveries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDeliveries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1116,7 +1119,7 @@ function describe_delivery_destinations(; aws_config::AbstractAWSConfig=global_a
     return cloudwatch_logs(
         "DescribeDeliveryDestinations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_delivery_destinations(
@@ -1126,7 +1129,7 @@ function describe_delivery_destinations(
         "DescribeDeliveryDestinations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1144,7 +1147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_delivery_sources(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeDeliverySources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDeliverySources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_delivery_sources(
@@ -1154,7 +1157,7 @@ function describe_delivery_sources(
         "DescribeDeliverySources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1175,7 +1178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_destinations(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_destinations(
@@ -1185,7 +1188,7 @@ function describe_destinations(
         "DescribeDestinations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1209,7 +1212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_export_tasks(
@@ -1219,7 +1222,7 @@ function describe_export_tasks(
         "DescribeExportTasks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1267,14 +1270,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_log_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeLogGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeLogGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_log_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "DescribeLogGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeLogGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1317,14 +1323,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_log_streams(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeLogStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeLogStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_log_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "DescribeLogStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeLogStreams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1353,7 +1362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_metric_filters(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeMetricFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeMetricFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_metric_filters(
@@ -1363,7 +1372,7 @@ function describe_metric_filters(
         "DescribeMetricFilters",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1385,14 +1394,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_queries(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "DescribeQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1415,7 +1424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_query_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeQueryDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeQueryDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_query_definitions(
@@ -1425,7 +1434,7 @@ function describe_query_definitions(
         "DescribeQueryDefinitions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1443,7 +1452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DescribeResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_resource_policies(
@@ -1453,7 +1462,7 @@ function describe_resource_policies(
         "DescribeResourcePolicies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1484,7 +1493,7 @@ function describe_subscription_filters(
         "DescribeSubscriptionFilters",
         Dict{String,Any}("logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_subscription_filters(
@@ -1498,7 +1507,7 @@ function describe_subscription_filters(
             mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1542,14 +1551,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function disassociate_kms_key(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "DisassociateKmsKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DisassociateKmsKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function disassociate_kms_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "DisassociateKmsKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DisassociateKmsKey",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1608,14 +1620,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function filter_log_events(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "FilterLogEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "FilterLogEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function filter_log_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "FilterLogEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "FilterLogEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1637,7 +1649,7 @@ function get_data_protection_policy(
         "GetDataProtectionPolicy",
         Dict{String,Any}("logGroupIdentifier" => logGroupIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_protection_policy(
@@ -1653,7 +1665,7 @@ function get_data_protection_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1678,7 +1690,7 @@ function get_delivery(id; aws_config::AbstractAWSConfig=global_aws_config())
         "GetDelivery",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_delivery(
@@ -1688,7 +1700,7 @@ function get_delivery(
         "GetDelivery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1707,7 +1719,7 @@ function get_delivery_destination(name; aws_config::AbstractAWSConfig=global_aws
         "GetDeliveryDestination",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_delivery_destination(
@@ -1717,7 +1729,7 @@ function get_delivery_destination(
         "GetDeliveryDestination",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1741,7 +1753,7 @@ function get_delivery_destination_policy(
         "GetDeliveryDestinationPolicy",
         Dict{String,Any}("deliveryDestinationName" => deliveryDestinationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_delivery_destination_policy(
@@ -1759,7 +1771,7 @@ function get_delivery_destination_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1778,7 +1790,7 @@ function get_delivery_source(name; aws_config::AbstractAWSConfig=global_aws_conf
         "GetDeliverySource",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_delivery_source(
@@ -1788,7 +1800,7 @@ function get_delivery_source(
         "GetDeliverySource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1811,7 +1823,7 @@ function get_log_anomaly_detector(
         "GetLogAnomalyDetector",
         Dict{String,Any}("anomalyDetectorArn" => anomalyDetectorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_log_anomaly_detector(
@@ -1827,7 +1839,7 @@ function get_log_anomaly_detector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1880,7 +1892,7 @@ function get_log_events(logStreamName; aws_config::AbstractAWSConfig=global_aws_
         "GetLogEvents",
         Dict{String,Any}("logStreamName" => logStreamName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_log_events(
@@ -1894,7 +1906,7 @@ function get_log_events(
             mergewith(_merge, Dict{String,Any}("logStreamName" => logStreamName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1928,14 +1940,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_log_group_fields(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "GetLogGroupFields"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetLogGroupFields"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_log_group_fields(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "GetLogGroupFields", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetLogGroupFields",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1965,7 +1980,7 @@ function get_log_record(logRecordPointer; aws_config::AbstractAWSConfig=global_a
         "GetLogRecord",
         Dict{String,Any}("logRecordPointer" => logRecordPointer);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_log_record(
@@ -1981,7 +1996,7 @@ function get_log_record(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2009,7 +2024,7 @@ function get_query_results(queryId; aws_config::AbstractAWSConfig=global_aws_con
         "GetQueryResults",
         Dict{String,Any}("queryId" => queryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_results(
@@ -2019,7 +2034,7 @@ function get_query_results(
         "GetQueryResults",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queryId" => queryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2042,14 +2057,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_anomalies(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "ListAnomalies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAnomalies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_anomalies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "ListAnomalies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAnomalies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2069,7 +2084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_log_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "ListLogAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLogAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_log_anomaly_detectors(
@@ -2079,7 +2094,7 @@ function list_log_anomaly_detectors(
         "ListLogAnomalyDetectors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2104,7 +2119,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2118,7 +2133,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2140,7 +2155,7 @@ function list_tags_log_group(
         "ListTagsLogGroup",
         Dict{String,Any}("logGroupName" => logGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_log_group(
@@ -2154,7 +2169,7 @@ function list_tags_log_group(
             mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2266,7 +2281,7 @@ function put_account_policy(
             "policyType" => policyType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_account_policy(
@@ -2290,7 +2305,7 @@ function put_account_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2347,7 +2362,7 @@ function put_data_protection_policy(
             "logGroupIdentifier" => logGroupIdentifier, "policyDocument" => policyDocument
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_data_protection_policy(
@@ -2369,7 +2384,7 @@ function put_data_protection_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2421,7 +2436,7 @@ function put_delivery_destination(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_delivery_destination(
@@ -2443,7 +2458,7 @@ function put_delivery_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2485,7 +2500,7 @@ function put_delivery_destination_policy(
             "deliveryDestinationPolicy" => deliveryDestinationPolicy,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_delivery_destination_policy(
@@ -2507,7 +2522,7 @@ function put_delivery_destination_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2562,7 +2577,7 @@ function put_delivery_source(
             "logType" => logType, "name" => name, "resourceArn" => resourceArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_delivery_source(
@@ -2584,7 +2599,7 @@ function put_delivery_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2624,7 +2639,7 @@ function put_destination(
             "targetArn" => targetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_destination(
@@ -2648,7 +2663,7 @@ function put_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2685,7 +2700,7 @@ function put_destination_policy(
             "accessPolicy" => accessPolicy, "destinationName" => destinationName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_destination_policy(
@@ -2706,7 +2721,7 @@ function put_destination_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2762,7 +2777,7 @@ function put_log_events(
             "logStreamName" => logStreamName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_log_events(
@@ -2786,7 +2801,7 @@ function put_log_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2832,7 +2847,7 @@ function put_metric_filter(
             "metricTransformations" => metricTransformations,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_metric_filter(
@@ -2858,7 +2873,7 @@ function put_metric_filter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2905,7 +2920,7 @@ function put_query_definition(
             "name" => name, "queryString" => queryString, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_query_definition(
@@ -2928,7 +2943,7 @@ function put_query_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2960,14 +2975,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function put_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch_logs(
-        "PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function put_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch_logs(
-        "PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PutResourcePolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3005,7 +3023,7 @@ function put_retention_policy(
             "logGroupName" => logGroupName, "retentionInDays" => retentionInDays
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_retention_policy(
@@ -3026,7 +3044,7 @@ function put_retention_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3093,7 +3111,7 @@ function put_subscription_filter(
             "logGroupName" => logGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_subscription_filter(
@@ -3119,7 +3137,7 @@ function put_subscription_filter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3178,7 +3196,7 @@ function start_live_tail(
         "StartLiveTail",
         Dict{String,Any}("logGroupIdentifiers" => logGroupIdentifiers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_live_tail(
@@ -3196,7 +3214,7 @@ function start_live_tail(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3258,7 +3276,7 @@ function start_query(
             "endTime" => endTime, "queryString" => queryString, "startTime" => startTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_query(
@@ -3282,7 +3300,7 @@ function start_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3303,7 +3321,7 @@ function stop_query(queryId; aws_config::AbstractAWSConfig=global_aws_config())
         "StopQuery",
         Dict{String,Any}("queryId" => queryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_query(
@@ -3313,7 +3331,7 @@ function stop_query(
         "StopQuery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queryId" => queryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3342,7 +3360,7 @@ function tag_log_group(
         "TagLogGroup",
         Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_log_group(
@@ -3361,7 +3379,7 @@ function tag_log_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3394,7 +3412,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3413,7 +3431,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3438,7 +3456,7 @@ function test_metric_filter(
             "filterPattern" => filterPattern, "logEventMessages" => logEventMessages
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function test_metric_filter(
@@ -3459,7 +3477,7 @@ function test_metric_filter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3485,7 +3503,7 @@ function untag_log_group(
         "UntagLogGroup",
         Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_log_group(
@@ -3504,7 +3522,7 @@ function untag_log_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3530,7 +3548,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3549,7 +3567,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3589,7 +3607,7 @@ function update_anomaly(
         "UpdateAnomaly",
         Dict{String,Any}("anomalyDetectorArn" => anomalyDetectorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_anomaly(
@@ -3605,7 +3623,7 @@ function update_anomaly(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3639,7 +3657,7 @@ function update_log_anomaly_detector(
         "UpdateLogAnomalyDetector",
         Dict{String,Any}("anomalyDetectorArn" => anomalyDetectorArn, "enabled" => enabled);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_log_anomaly_detector(
@@ -3660,6 +3678,6 @@ function update_log_anomaly_detector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

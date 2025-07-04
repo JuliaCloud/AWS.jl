@@ -34,7 +34,7 @@ function create_keyspace(keyspaceName; aws_config::AbstractAWSConfig=global_aws_
         "CreateKeyspace",
         Dict{String,Any}("keyspaceName" => keyspaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_keyspace(
@@ -48,7 +48,7 @@ function create_keyspace(
             mergewith(_merge, Dict{String,Any}("keyspaceName" => keyspaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -145,7 +145,7 @@ function create_table(
             "tableName" => tableName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_table(
@@ -169,7 +169,7 @@ function create_table(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -188,7 +188,7 @@ function delete_keyspace(keyspaceName; aws_config::AbstractAWSConfig=global_aws_
         "DeleteKeyspace",
         Dict{String,Any}("keyspaceName" => keyspaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_keyspace(
@@ -202,7 +202,7 @@ function delete_keyspace(
             mergewith(_merge, Dict{String,Any}("keyspaceName" => keyspaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -230,7 +230,7 @@ function delete_table(
         "DeleteTable",
         Dict{String,Any}("keyspaceName" => keyspaceName, "tableName" => tableName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_table(
@@ -249,7 +249,7 @@ function delete_table(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -268,7 +268,7 @@ function get_keyspace(keyspaceName; aws_config::AbstractAWSConfig=global_aws_con
         "GetKeyspace",
         Dict{String,Any}("keyspaceName" => keyspaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_keyspace(
@@ -282,7 +282,7 @@ function get_keyspace(
             mergewith(_merge, Dict{String,Any}("keyspaceName" => keyspaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -307,7 +307,7 @@ function get_table(
         "GetTable",
         Dict{String,Any}("keyspaceName" => keyspaceName, "tableName" => tableName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_table(
@@ -326,7 +326,7 @@ function get_table(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -358,7 +358,7 @@ function get_table_auto_scaling_settings(
         "GetTableAutoScalingSettings",
         Dict{String,Any}("keyspaceName" => keyspaceName, "tableName" => tableName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_table_auto_scaling_settings(
@@ -377,7 +377,7 @@ function get_table_auto_scaling_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -398,14 +398,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_keyspaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return keyspaces(
-        "ListKeyspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListKeyspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_keyspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return keyspaces(
-        "ListKeyspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListKeyspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -432,7 +432,7 @@ function list_tables(keyspaceName; aws_config::AbstractAWSConfig=global_aws_conf
         "ListTables",
         Dict{String,Any}("keyspaceName" => keyspaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tables(
@@ -446,7 +446,7 @@ function list_tables(
             mergewith(_merge, Dict{String,Any}("keyspaceName" => keyspaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -475,7 +475,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -489,7 +489,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -570,7 +570,7 @@ function restore_table(
             "targetTableName" => targetTableName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_table(
@@ -596,7 +596,7 @@ function restore_table(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -622,7 +622,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -641,7 +641,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -664,7 +664,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -683,7 +683,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -749,7 +749,7 @@ function update_table(
         "UpdateTable",
         Dict{String,Any}("keyspaceName" => keyspaceName, "tableName" => tableName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_table(
@@ -768,6 +768,6 @@ function update_table(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

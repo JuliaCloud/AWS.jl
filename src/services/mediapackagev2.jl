@@ -46,7 +46,7 @@ function create_channel(
             "ChannelName" => ChannelName, "x-amzn-client-token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel(
@@ -68,7 +68,7 @@ function create_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -106,7 +106,7 @@ function create_channel_group(
             "ChannelGroupName" => ChannelGroupName, "x-amzn-client-token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel_group(
@@ -128,7 +128,7 @@ function create_channel_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -190,7 +190,7 @@ function create_origin_endpoint(
             "x-amzn-client-token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_origin_endpoint(
@@ -216,7 +216,7 @@ function create_origin_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -241,7 +241,7 @@ function delete_channel(
         "DELETE",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel(
@@ -255,7 +255,7 @@ function delete_channel(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -279,7 +279,7 @@ function delete_channel_group(
         "DELETE",
         "/channelGroup/$(ChannelGroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_group(
@@ -292,7 +292,7 @@ function delete_channel_group(
         "/channelGroup/$(ChannelGroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -316,7 +316,7 @@ function delete_channel_policy(
         "DELETE",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_policy(
@@ -330,7 +330,7 @@ function delete_channel_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -362,7 +362,7 @@ function delete_origin_endpoint(
         "DELETE",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_origin_endpoint(
@@ -377,7 +377,7 @@ function delete_origin_endpoint(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -407,7 +407,7 @@ function delete_origin_endpoint_policy(
         "DELETE",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_origin_endpoint_policy(
@@ -422,7 +422,7 @@ function delete_origin_endpoint_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -447,7 +447,7 @@ function get_channel(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel(
@@ -461,7 +461,7 @@ function get_channel(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -484,7 +484,7 @@ function get_channel_group(
         "GET",
         "/channelGroup/$(ChannelGroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_group(
@@ -497,7 +497,7 @@ function get_channel_group(
         "/channelGroup/$(ChannelGroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -523,7 +523,7 @@ function get_channel_policy(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_policy(
@@ -537,7 +537,7 @@ function get_channel_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -568,7 +568,7 @@ function get_origin_endpoint(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_origin_endpoint(
@@ -583,7 +583,7 @@ function get_origin_endpoint(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,7 +614,7 @@ function get_origin_endpoint_policy(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_origin_endpoint_policy(
@@ -629,7 +629,7 @@ function get_origin_endpoint_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -648,7 +648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_channel_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return mediapackagev2(
-        "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_channel_groups(
@@ -659,7 +659,7 @@ function list_channel_groups(
         "/channelGroup",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -685,7 +685,7 @@ function list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channels(
@@ -698,7 +698,7 @@ function list_channels(
         "/channelGroup/$(ChannelGroupName)/channel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -728,7 +728,7 @@ function list_origin_endpoints(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_origin_endpoints(
@@ -742,7 +742,7 @@ function list_origin_endpoints(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -763,7 +763,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -776,7 +776,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -804,7 +804,7 @@ function put_channel_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
         Dict{String,Any}("Policy" => Policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_channel_policy(
@@ -819,7 +819,7 @@ function put_channel_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -853,7 +853,7 @@ function put_origin_endpoint_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
         Dict{String,Any}("Policy" => Policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_origin_endpoint_policy(
@@ -869,7 +869,7 @@ function put_origin_endpoint_policy(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -897,7 +897,7 @@ function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -911,7 +911,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -934,7 +934,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -948,7 +948,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -983,7 +983,7 @@ function update_channel(
         "PUT",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel(
@@ -997,7 +997,7 @@ function update_channel(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1029,7 +1029,7 @@ function update_channel_group(
         "PUT",
         "/channelGroup/$(ChannelGroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel_group(
@@ -1042,7 +1042,7 @@ function update_channel_group(
         "/channelGroup/$(ChannelGroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1096,7 +1096,7 @@ function update_origin_endpoint(
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)",
         Dict{String,Any}("ContainerType" => ContainerType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_origin_endpoint(
@@ -1114,6 +1114,6 @@ function update_origin_endpoint(
             mergewith(_merge, Dict{String,Any}("ContainerType" => ContainerType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -27,7 +27,7 @@ function accept_eulas(studioId; aws_config::AbstractAWSConfig=global_aws_config(
         "/2020-08-01/studios/$(studioId)/eula-acceptances",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_eulas(
@@ -44,7 +44,7 @@ function accept_eulas(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -96,7 +96,7 @@ function create_launch_profile(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_launch_profile(
@@ -127,7 +127,7 @@ function create_launch_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -164,7 +164,7 @@ function create_streaming_image(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_streaming_image(
@@ -189,7 +189,7 @@ function create_streaming_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -228,7 +228,7 @@ function create_streaming_session(
             "launchProfileId" => launchProfileId, "X-Amz-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_streaming_session(
@@ -251,7 +251,7 @@ function create_streaming_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -283,7 +283,7 @@ function create_streaming_session_stream(
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_streaming_session_stream(
@@ -301,7 +301,7 @@ function create_streaming_session_stream(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -361,7 +361,7 @@ function create_studio(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_studio(
@@ -389,7 +389,7 @@ function create_studio(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -435,7 +435,7 @@ function create_studio_component(
             "name" => name, "type" => type, "X-Amz-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_studio_component(
@@ -458,7 +458,7 @@ function create_studio_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -488,7 +488,7 @@ function delete_launch_profile(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_launch_profile(
@@ -506,7 +506,7 @@ function delete_launch_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -540,7 +540,7 @@ function delete_launch_profile_member(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_launch_profile_member(
@@ -559,7 +559,7 @@ function delete_launch_profile_member(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -588,7 +588,7 @@ function delete_streaming_image(
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_streaming_image(
@@ -606,7 +606,7 @@ function delete_streaming_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -637,7 +637,7 @@ function delete_streaming_session(
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_streaming_session(
@@ -655,7 +655,7 @@ function delete_streaming_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +681,7 @@ function delete_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config
         "/2020-08-01/studios/$(studioId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_studio(
@@ -698,7 +698,7 @@ function delete_studio(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -727,7 +727,7 @@ function delete_studio_component(
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_studio_component(
@@ -745,7 +745,7 @@ function delete_studio_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -774,7 +774,7 @@ function delete_studio_member(
         "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_studio_member(
@@ -792,7 +792,7 @@ function delete_studio_member(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -811,7 +811,7 @@ function get_eula(eulaId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2020-08-01/eulas/$(eulaId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_eula(
@@ -822,7 +822,7 @@ function get_eula(
         "/2020-08-01/eulas/$(eulaId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -845,7 +845,7 @@ function get_launch_profile(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_launch_profile(
@@ -859,7 +859,7 @@ function get_launch_profile(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -885,7 +885,7 @@ function get_launch_profile_details(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_launch_profile_details(
@@ -899,7 +899,7 @@ function get_launch_profile_details(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -936,7 +936,7 @@ function get_launch_profile_initialization(
             "platform" => platform,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_launch_profile_initialization(
@@ -963,7 +963,7 @@ function get_launch_profile_initialization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -990,7 +990,7 @@ function get_launch_profile_member(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_launch_profile_member(
@@ -1005,7 +1005,7 @@ function get_launch_profile_member(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1027,7 +1027,7 @@ function get_streaming_image(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_streaming_image(
@@ -1041,7 +1041,7 @@ function get_streaming_image(
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1064,7 +1064,7 @@ function get_streaming_session(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_streaming_session(
@@ -1078,7 +1078,7 @@ function get_streaming_session(
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1101,7 +1101,7 @@ function get_streaming_session_backup(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-session-backups/$(backupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_streaming_session_backup(
@@ -1115,7 +1115,7 @@ function get_streaming_session_backup(
         "/2020-08-01/studios/$(studioId)/streaming-session-backups/$(backupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1141,7 +1141,7 @@ function get_streaming_session_stream(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_streaming_session_stream(
@@ -1156,7 +1156,7 @@ function get_streaming_session_stream(
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1175,7 +1175,7 @@ function get_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2020-08-01/studios/$(studioId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_studio(
@@ -1188,7 +1188,7 @@ function get_studio(
         "/2020-08-01/studios/$(studioId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1210,7 +1210,7 @@ function get_studio_component(
         "GET",
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_studio_component(
@@ -1224,7 +1224,7 @@ function get_studio_component(
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1246,7 +1246,7 @@ function get_studio_member(
         "GET",
         "/2020-08-01/studios/$(studioId)/membership/$(principalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_studio_member(
@@ -1260,7 +1260,7 @@ function get_studio_member(
         "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1284,7 +1284,7 @@ function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/2020-08-01/studios/$(studioId)/eula-acceptances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_eula_acceptances(
@@ -1297,7 +1297,7 @@ function list_eula_acceptances(
         "/2020-08-01/studios/$(studioId)/eula-acceptances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1315,7 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_eulas(; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
-        "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_eulas(
@@ -1326,7 +1326,7 @@ function list_eulas(
         "/2020-08-01/eulas",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1354,7 +1354,7 @@ function list_launch_profile_members(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_launch_profile_members(
@@ -1368,7 +1368,7 @@ function list_launch_profile_members(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1394,7 +1394,7 @@ function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_launch_profiles(
@@ -1407,7 +1407,7 @@ function list_launch_profiles(
         "/2020-08-01/studios/$(studioId)/launch-profiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1433,7 +1433,7 @@ function list_streaming_images(studioId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-images";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_streaming_images(
@@ -1446,7 +1446,7 @@ function list_streaming_images(
         "/2020-08-01/studios/$(studioId)/streaming-images",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1472,7 +1472,7 @@ function list_streaming_session_backups(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-session-backups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_streaming_session_backups(
@@ -1485,7 +1485,7 @@ function list_streaming_session_backups(
         "/2020-08-01/studios/$(studioId)/streaming-session-backups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1513,7 +1513,7 @@ function list_streaming_sessions(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-sessions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_streaming_sessions(
@@ -1526,7 +1526,7 @@ function list_streaming_sessions(
         "/2020-08-01/studios/$(studioId)/streaming-sessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1552,7 +1552,7 @@ function list_studio_components(studioId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/2020-08-01/studios/$(studioId)/studio-components";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_studio_components(
@@ -1565,7 +1565,7 @@ function list_studio_components(
         "/2020-08-01/studios/$(studioId)/studio-components",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1589,7 +1589,7 @@ function list_studio_members(studioId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/2020-08-01/studios/$(studioId)/membership";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_studio_members(
@@ -1602,7 +1602,7 @@ function list_studio_members(
         "/2020-08-01/studios/$(studioId)/membership",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1620,7 +1620,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_studios(; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
-        "GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/2020-08-01/studios";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_studios(
@@ -1631,7 +1634,7 @@ function list_studios(
         "/2020-08-01/studios",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1657,7 +1660,7 @@ function list_tags_for_resource(
         "GET",
         "/2020-08-01/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1670,7 +1673,7 @@ function list_tags_for_resource(
         "/2020-08-01/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1710,7 +1713,7 @@ function put_launch_profile_members(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_launch_profile_members(
@@ -1736,7 +1739,7 @@ function put_launch_profile_members(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1770,7 +1773,7 @@ function put_studio_members(
             "X-Amz-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_studio_members(
@@ -1795,7 +1798,7 @@ function put_studio_members(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1826,7 +1829,7 @@ function start_streaming_session(
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_streaming_session(
@@ -1844,7 +1847,7 @@ function start_streaming_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1878,7 +1881,7 @@ function start_studio_ssoconfiguration_repair(
         "/2020-08-01/studios/$(studioId)/sso-configuration",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_studio_ssoconfiguration_repair(
@@ -1895,7 +1898,7 @@ function start_studio_ssoconfiguration_repair(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1927,7 +1930,7 @@ function stop_streaming_session(
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_streaming_session(
@@ -1945,7 +1948,7 @@ function stop_streaming_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1968,7 +1971,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/2020-08-01/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1981,7 +1984,7 @@ function tag_resource(
         "/2020-08-01/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2005,7 +2008,7 @@ function untag_resource(
         "/2020-08-01/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2019,7 +2022,7 @@ function untag_resource(
         "/2020-08-01/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2056,7 +2059,7 @@ function update_launch_profile(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_launch_profile(
@@ -2074,7 +2077,7 @@ function update_launch_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2110,7 +2113,7 @@ function update_launch_profile_member(
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
         Dict{String,Any}("persona" => persona, "X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_launch_profile_member(
@@ -2134,7 +2137,7 @@ function update_launch_profile_member(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2165,7 +2168,7 @@ function update_streaming_image(
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_streaming_image(
@@ -2183,7 +2186,7 @@ function update_streaming_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2215,7 +2218,7 @@ function update_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config
         "/2020-08-01/studios/$(studioId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_studio(
@@ -2232,7 +2235,7 @@ function update_studio(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2275,7 +2278,7 @@ function update_studio_component(
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
         Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_studio_component(
@@ -2293,6 +2296,6 @@ function update_studio_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

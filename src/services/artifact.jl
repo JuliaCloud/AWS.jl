@@ -16,7 +16,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/v1/account-settings/get";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_account_settings(
@@ -27,7 +27,7 @@ function get_account_settings(
         "/v1/account-settings/get",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -51,7 +51,7 @@ function get_report(reportId, termToken; aws_config::AbstractAWSConfig=global_aw
         "/v1/report/get",
         Dict{String,Any}("reportId" => reportId, "termToken" => termToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_report(
@@ -71,7 +71,7 @@ function get_report(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -94,7 +94,7 @@ function get_report_metadata(reportId; aws_config::AbstractAWSConfig=global_aws_
         "/v1/report/getMetadata",
         Dict{String,Any}("reportId" => reportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_report_metadata(
@@ -109,7 +109,7 @@ function get_report_metadata(
             mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -132,7 +132,7 @@ function get_term_for_report(reportId; aws_config::AbstractAWSConfig=global_aws_
         "/v1/report/getTermForReport",
         Dict{String,Any}("reportId" => reportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_term_for_report(
@@ -147,7 +147,7 @@ function get_term_for_report(
             mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -164,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_reports(; aws_config::AbstractAWSConfig=global_aws_config())
     return artifact(
-        "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_reports(
@@ -175,7 +175,7 @@ function list_reports(
         "/v1/report/list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -194,7 +194,7 @@ function put_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(
         "PUT",
         "/v1/account-settings/put";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_account_settings(
@@ -205,6 +205,6 @@ function put_account_settings(
         "/v1/account-settings/put",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

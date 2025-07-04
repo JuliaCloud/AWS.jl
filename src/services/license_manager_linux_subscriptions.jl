@@ -16,7 +16,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/subscription/GetServiceSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service_settings(
@@ -27,7 +27,7 @@ function get_service_settings(
         "/subscription/GetServiceSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -57,7 +57,7 @@ function list_linux_subscription_instances(;
         "POST",
         "/subscription/ListLinuxSubscriptionInstances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_linux_subscription_instances(
@@ -68,7 +68,7 @@ function list_linux_subscription_instances(
         "/subscription/ListLinuxSubscriptionInstances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -96,7 +96,7 @@ function list_linux_subscriptions(; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/subscription/ListLinuxSubscriptions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_linux_subscriptions(
@@ -107,7 +107,7 @@ function list_linux_subscriptions(
         "/subscription/ListLinuxSubscriptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -143,7 +143,7 @@ function update_service_settings(
             "LinuxSubscriptionsDiscoverySettings" => LinuxSubscriptionsDiscoverySettings,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_service_settings(
@@ -167,6 +167,6 @@ function update_service_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

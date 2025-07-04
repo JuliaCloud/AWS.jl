@@ -26,7 +26,7 @@ function delete_resource_permission(
         "/delete-resource-permission",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_permission(
@@ -41,7 +41,7 @@ function delete_resource_permission(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -64,7 +64,7 @@ function deregister_application(
         "/deregister-application",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_application(
@@ -79,7 +79,7 @@ function deregister_application(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -98,7 +98,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_application(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
-        "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_application(
@@ -109,7 +109,7 @@ function get_application(
         "/get-application",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -132,7 +132,7 @@ function get_component(
         "/get-component",
         Dict{String,Any}("ApplicationId" => ApplicationId, "ComponentId" => ComponentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_component(
@@ -154,7 +154,7 @@ function get_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -173,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_database(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
-        "POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_database(
@@ -184,7 +184,7 @@ function get_database(
         "/get-database",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_con
         "/get-operation",
         Dict{String,Any}("OperationId" => OperationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_operation(
@@ -219,7 +219,7 @@ function get_operation(
             mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -244,7 +244,7 @@ function get_resource_permission(
         "/get-resource-permission",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_permission(
@@ -259,7 +259,7 @@ function get_resource_permission(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -278,7 +278,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
-        "POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/list-applications";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_applications(
@@ -289,7 +292,7 @@ function list_applications(
         "/list-applications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -309,7 +312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
-        "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_components(
@@ -320,7 +323,7 @@ function list_components(
         "/list-components",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -341,7 +344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_sap(
-        "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_databases(
@@ -352,7 +355,7 @@ function list_databases(
         "/list-databases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -385,7 +388,7 @@ function list_operation_events(
         "/list-operation-events",
         Dict{String,Any}("OperationId" => OperationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_operation_events(
@@ -400,7 +403,7 @@ function list_operation_events(
             mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -427,7 +430,7 @@ function list_operations(ApplicationId; aws_config::AbstractAWSConfig=global_aws
         "/list-operations",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_operations(
@@ -442,7 +445,7 @@ function list_operations(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -464,7 +467,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -477,7 +480,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -508,7 +511,7 @@ function put_resource_permission(
             "SourceResourceArn" => SourceResourceArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_permission(
@@ -533,7 +536,7 @@ function put_resource_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -576,7 +579,7 @@ function register_application(
             "Instances" => Instances,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_application(
@@ -601,7 +604,7 @@ function register_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -621,7 +624,7 @@ function start_application(ApplicationId; aws_config::AbstractAWSConfig=global_a
         "/start-application",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_application(
@@ -636,7 +639,7 @@ function start_application(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -658,7 +661,7 @@ function start_application_refresh(
         "/start-application-refresh",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_application_refresh(
@@ -673,7 +676,7 @@ function start_application_refresh(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -701,7 +704,7 @@ function stop_application(ApplicationId; aws_config::AbstractAWSConfig=global_aw
         "/stop-application",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_application(
@@ -716,7 +719,7 @@ function stop_application(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -737,7 +740,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -751,7 +754,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -775,7 +778,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -789,7 +792,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -818,7 +821,7 @@ function update_application_settings(
         "/update-application-settings",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application_settings(
@@ -833,6 +836,6 @@ function update_application_settings(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -30,7 +30,7 @@ function add_notification_channel(Config; aws_config::AbstractAWSConfig=global_a
         "/channels",
         Dict{String,Any}("Config" => Config);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_notification_channel(
@@ -41,7 +41,7 @@ function add_notification_channel(
         "/channels",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Config" => Config), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -57,7 +57,10 @@ Deletes the insight along with the associated anomalies, events and recommendati
 """
 function delete_insight(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "DELETE", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/insights/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_insight(
@@ -68,7 +71,7 @@ function delete_insight(
         "/insights/$(Id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -83,7 +86,7 @@ gauge the health of operations in your Amazon Web Services account.
 """
 function describe_account_health(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "GET", "/accounts/health"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts/health"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_account_health(
@@ -94,7 +97,7 @@ function describe_account_health(
         "/accounts/health",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -125,7 +128,7 @@ function describe_account_overview(
         "/accounts/overview",
         Dict{String,Any}("FromTime" => FromTime);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_overview(
@@ -140,7 +143,7 @@ function describe_account_overview(
             mergewith(_merge, Dict{String,Any}("FromTime" => FromTime), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_anomaly(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "GET", "/anomalies/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/anomalies/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_anomaly(
@@ -170,7 +173,7 @@ function describe_anomaly(
         "/anomalies/$(Id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -186,7 +189,7 @@ DevOps Guru.
 """
 function describe_event_sources_config(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "POST", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_event_sources_config(
@@ -197,7 +200,7 @@ function describe_event_sources_config(
         "/event-sources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -214,14 +217,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_feedback(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "POST", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_feedback(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return devops_guru(
-        "POST", "/feedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/feedback",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -240,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_insight(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "GET", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_insight(
@@ -251,7 +258,7 @@ function describe_insight(
         "/insights/$(Id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -271,7 +278,7 @@ function describe_organization_health(; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/organization/health";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_health(
@@ -282,7 +289,7 @@ function describe_organization_health(
         "/organization/health",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -314,7 +321,7 @@ function describe_organization_overview(
         "/organization/overview",
         Dict{String,Any}("FromTime" => FromTime);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_overview(
@@ -329,7 +336,7 @@ function describe_organization_overview(
             mergewith(_merge, Dict{String,Any}("FromTime" => FromTime), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -368,7 +375,7 @@ function describe_organization_resource_collection_health(
             "OrganizationResourceCollectionType" => OrganizationResourceCollectionType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_resource_collection_health(
@@ -390,7 +397,7 @@ function describe_organization_resource_collection_health(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -428,7 +435,7 @@ function describe_resource_collection_health(
         "GET",
         "/accounts/health/resource-collection/$(ResourceCollectionType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_resource_collection_health(
@@ -441,7 +448,7 @@ function describe_resource_collection_health(
         "/accounts/health/resource-collection/$(ResourceCollectionType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -459,7 +466,7 @@ function describe_service_integration(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/service-integrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_service_integration(
@@ -470,7 +477,7 @@ function describe_service_integration(
         "/service-integrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -489,7 +496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_cost_estimation(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "GET", "/cost-estimation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/cost-estimation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_cost_estimation(
@@ -500,7 +507,7 @@ function get_cost_estimation(
         "/cost-estimation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -532,7 +539,7 @@ function get_resource_collection(
         "GET",
         "/resource-collections/$(ResourceCollectionType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_collection(
@@ -545,7 +552,7 @@ function get_resource_collection(
         "/resource-collections/$(ResourceCollectionType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -576,7 +583,7 @@ function list_anomalies_for_insight(
         "POST",
         "/anomalies/insight/$(InsightId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_anomalies_for_insight(
@@ -589,7 +596,7 @@ function list_anomalies_for_insight(
         "/anomalies/insight/$(InsightId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -617,7 +624,7 @@ function list_anomalous_log_groups(
         "/list-log-anomalies",
         Dict{String,Any}("InsightId" => InsightId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_anomalous_log_groups(
@@ -632,7 +639,7 @@ function list_anomalous_log_groups(
             mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -660,7 +667,7 @@ function list_events(Filters; aws_config::AbstractAWSConfig=global_aws_config())
         "/events",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_events(
@@ -671,7 +678,7 @@ function list_events(
         "/events",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +706,7 @@ function list_insights(StatusFilter; aws_config::AbstractAWSConfig=global_aws_co
         "/insights",
         Dict{String,Any}("StatusFilter" => StatusFilter);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_insights(
@@ -714,7 +721,7 @@ function list_insights(
             mergewith(_merge, Dict{String,Any}("StatusFilter" => StatusFilter), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -738,7 +745,7 @@ function list_monitored_resources(; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/monitoredResources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_monitored_resources(
@@ -749,7 +756,7 @@ function list_monitored_resources(
         "/monitoredResources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -769,14 +776,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_notification_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "POST", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_notification_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return devops_guru(
-        "POST", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/channels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -806,7 +817,7 @@ function list_organization_insights(
         "/organization/insights",
         Dict{String,Any}("StatusFilter" => StatusFilter);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_organization_insights(
@@ -821,7 +832,7 @@ function list_organization_insights(
             mergewith(_merge, Dict{String,Any}("StatusFilter" => StatusFilter), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -848,7 +859,7 @@ function list_recommendations(InsightId; aws_config::AbstractAWSConfig=global_aw
         "/recommendations",
         Dict{String,Any}("InsightId" => InsightId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recommendations(
@@ -863,7 +874,7 @@ function list_recommendations(
             mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -880,14 +891,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function put_feedback(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "PUT", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function put_feedback(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return devops_guru(
-        "PUT", "/feedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/feedback", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -905,7 +916,10 @@ your operations.
 """
 function remove_notification_channel(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "DELETE", "/channels/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/channels/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_notification_channel(
@@ -916,7 +930,7 @@ function remove_notification_channel(
         "/channels/$(Id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -952,7 +966,7 @@ function search_insights(
         "/insights/search",
         Dict{String,Any}("StartTimeRange" => StartTimeRange, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_insights(
@@ -972,7 +986,7 @@ function search_insights(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1010,7 +1024,7 @@ function search_organization_insights(
             "AccountIds" => AccountIds, "StartTimeRange" => StartTimeRange, "Type" => Type
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_organization_insights(
@@ -1035,7 +1049,7 @@ function search_organization_insights(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1064,7 +1078,7 @@ function start_cost_estimation(
             "ResourceCollection" => ResourceCollection, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_cost_estimation(
@@ -1086,7 +1100,7 @@ function start_cost_estimation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1105,7 +1119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_event_sources_config(; aws_config::AbstractAWSConfig=global_aws_config())
     return devops_guru(
-        "PUT", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_event_sources_config(
@@ -1116,7 +1130,7 @@ function update_event_sources_config(
         "/event-sources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1146,7 +1160,7 @@ function update_resource_collection(
         "/resource-collections",
         Dict{String,Any}("Action" => Action, "ResourceCollection" => ResourceCollection);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_resource_collection(
@@ -1168,7 +1182,7 @@ function update_resource_collection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1193,7 +1207,7 @@ function update_service_integration(
         "/service-integrations",
         Dict{String,Any}("ServiceIntegration" => ServiceIntegration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_service_integration(
@@ -1210,6 +1224,6 @@ function update_service_integration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

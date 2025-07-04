@@ -28,7 +28,7 @@ function batch_get_collaboration_analysis_template(
         "/collaborations/$(collaborationIdentifier)/batch-analysistemplates",
         Dict{String,Any}("analysisTemplateArns" => analysisTemplateArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_collaboration_analysis_template(
@@ -48,7 +48,7 @@ function batch_get_collaboration_analysis_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -72,7 +72,7 @@ function batch_get_schema(
         "/collaborations/$(collaborationIdentifier)/batch-schema",
         Dict{String,Any}("names" => names);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_schema(
@@ -86,7 +86,7 @@ function batch_get_schema(
         "/collaborations/$(collaborationIdentifier)/batch-schema",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -113,7 +113,7 @@ function batch_get_schema_analysis_rule(
         "/collaborations/$(collaborationIdentifier)/batch-schema-analysis-rule",
         Dict{String,Any}("schemaAnalysisRuleRequests" => schemaAnalysisRuleRequests);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_schema_analysis_rule(
@@ -135,7 +135,7 @@ function batch_get_schema_analysis_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -173,7 +173,7 @@ function create_analysis_template(
         "/memberships/$(membershipIdentifier)/analysistemplates",
         Dict{String,Any}("format" => format, "name" => name, "source" => source);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_analysis_template(
@@ -195,7 +195,7 @@ function create_analysis_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -247,7 +247,7 @@ function create_collaboration(
             "queryLogStatus" => queryLogStatus,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_collaboration(
@@ -278,7 +278,7 @@ function create_collaboration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -331,7 +331,7 @@ function create_configured_audience_model_association(
             "manageResourcePolicies" => manageResourcePolicies,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configured_audience_model_association(
@@ -358,7 +358,7 @@ function create_configured_audience_model_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -401,7 +401,7 @@ function create_configured_table(
             "tableReference" => tableReference,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configured_table(
@@ -428,7 +428,7 @@ function create_configured_table(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -460,7 +460,7 @@ function create_configured_table_analysis_rule(
             "analysisRuleType" => analysisRuleType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configured_table_analysis_rule(
@@ -484,7 +484,7 @@ function create_configured_table_analysis_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -530,7 +530,7 @@ function create_configured_table_association(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configured_table_association(
@@ -556,7 +556,7 @@ function create_configured_table_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -597,7 +597,7 @@ function create_membership(
             "queryLogStatus" => queryLogStatus,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_membership(
@@ -620,7 +620,7 @@ function create_membership(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -668,7 +668,7 @@ function create_privacy_budget_template(
             "privacyBudgetType" => privacyBudgetType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_privacy_budget_template(
@@ -694,7 +694,7 @@ function create_privacy_budget_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -718,7 +718,7 @@ function delete_analysis_template(
         "DELETE",
         "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_analysis_template(
@@ -732,7 +732,7 @@ function delete_analysis_template(
         "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +753,7 @@ function delete_collaboration(
         "DELETE",
         "/collaborations/$(collaborationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_collaboration(
@@ -766,7 +766,7 @@ function delete_collaboration(
         "/collaborations/$(collaborationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -792,7 +792,7 @@ function delete_configured_audience_model_association(
         "DELETE",
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configured_audience_model_association(
@@ -806,7 +806,7 @@ function delete_configured_audience_model_association(
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -827,7 +827,7 @@ function delete_configured_table(
         "DELETE",
         "/configuredTables/$(configuredTableIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configured_table(
@@ -840,7 +840,7 @@ function delete_configured_table(
         "/configuredTables/$(configuredTableIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -866,7 +866,7 @@ function delete_configured_table_analysis_rule(
         "DELETE",
         "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configured_table_analysis_rule(
@@ -880,7 +880,7 @@ function delete_configured_table_analysis_rule(
         "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -906,7 +906,7 @@ function delete_configured_table_association(
         "DELETE",
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configured_table_association(
@@ -920,7 +920,7 @@ function delete_configured_table_association(
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -944,7 +944,7 @@ function delete_member(
         "DELETE",
         "/collaborations/$(collaborationIdentifier)/member/$(accountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_member(
@@ -958,7 +958,7 @@ function delete_member(
         "/collaborations/$(collaborationIdentifier)/member/$(accountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -979,7 +979,7 @@ function delete_membership(
         "DELETE",
         "/memberships/$(membershipIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_membership(
@@ -992,7 +992,7 @@ function delete_membership(
         "/memberships/$(membershipIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1019,7 +1019,7 @@ function delete_privacy_budget_template(
         "DELETE",
         "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_privacy_budget_template(
@@ -1033,7 +1033,7 @@ function delete_privacy_budget_template(
         "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1057,7 +1057,7 @@ function get_analysis_template(
         "GET",
         "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_analysis_template(
@@ -1071,7 +1071,7 @@ function get_analysis_template(
         "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1092,7 +1092,7 @@ function get_collaboration(
         "GET",
         "/collaborations/$(collaborationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_collaboration(
@@ -1105,7 +1105,7 @@ function get_collaboration(
         "/collaborations/$(collaborationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1131,7 +1131,7 @@ function get_collaboration_analysis_template(
         "GET",
         "/collaborations/$(collaborationIdentifier)/analysistemplates/$(analysisTemplateArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_collaboration_analysis_template(
@@ -1145,7 +1145,7 @@ function get_collaboration_analysis_template(
         "/collaborations/$(collaborationIdentifier)/analysistemplates/$(analysisTemplateArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1171,7 +1171,7 @@ function get_collaboration_configured_audience_model_association(
         "GET",
         "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_collaboration_configured_audience_model_association(
@@ -1185,7 +1185,7 @@ function get_collaboration_configured_audience_model_association(
         "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1210,7 +1210,7 @@ function get_collaboration_privacy_budget_template(
         "GET",
         "/collaborations/$(collaborationIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_collaboration_privacy_budget_template(
@@ -1224,7 +1224,7 @@ function get_collaboration_privacy_budget_template(
         "/collaborations/$(collaborationIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1250,7 +1250,7 @@ function get_configured_audience_model_association(
         "GET",
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configured_audience_model_association(
@@ -1264,7 +1264,7 @@ function get_configured_audience_model_association(
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1285,7 +1285,7 @@ function get_configured_table(
         "GET",
         "/configuredTables/$(configuredTableIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configured_table(
@@ -1298,7 +1298,7 @@ function get_configured_table(
         "/configuredTables/$(configuredTableIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1324,7 +1324,7 @@ function get_configured_table_analysis_rule(
         "GET",
         "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configured_table_analysis_rule(
@@ -1338,7 +1338,7 @@ function get_configured_table_analysis_rule(
         "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1364,7 +1364,7 @@ function get_configured_table_association(
         "GET",
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configured_table_association(
@@ -1378,7 +1378,7 @@ function get_configured_table_association(
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1399,7 +1399,7 @@ function get_membership(
         "GET",
         "/memberships/$(membershipIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_membership(
@@ -1412,7 +1412,7 @@ function get_membership(
         "/memberships/$(membershipIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1439,7 +1439,7 @@ function get_privacy_budget_template(
         "GET",
         "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_privacy_budget_template(
@@ -1453,7 +1453,7 @@ function get_privacy_budget_template(
         "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1477,7 +1477,7 @@ function get_protected_query(
         "GET",
         "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_protected_query(
@@ -1491,7 +1491,7 @@ function get_protected_query(
         "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1514,7 +1514,7 @@ function get_schema(
         "GET",
         "/collaborations/$(collaborationIdentifier)/schemas/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_schema(
@@ -1528,7 +1528,7 @@ function get_schema(
         "/collaborations/$(collaborationIdentifier)/schemas/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1553,7 +1553,7 @@ function get_schema_analysis_rule(
         "GET",
         "/collaborations/$(collaborationIdentifier)/schemas/$(name)/analysisRule/$(type)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_schema_analysis_rule(
@@ -1568,7 +1568,7 @@ function get_schema_analysis_rule(
         "/collaborations/$(collaborationIdentifier)/schemas/$(name)/analysisRule/$(type)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1594,7 +1594,7 @@ function list_analysis_templates(
         "GET",
         "/memberships/$(membershipIdentifier)/analysistemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_analysis_templates(
@@ -1607,7 +1607,7 @@ function list_analysis_templates(
         "/memberships/$(membershipIdentifier)/analysistemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1634,7 +1634,7 @@ function list_collaboration_analysis_templates(
         "GET",
         "/collaborations/$(collaborationIdentifier)/analysistemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_collaboration_analysis_templates(
@@ -1647,7 +1647,7 @@ function list_collaboration_analysis_templates(
         "/collaborations/$(collaborationIdentifier)/analysistemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1674,7 +1674,7 @@ function list_collaboration_configured_audience_model_associations(
         "GET",
         "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_collaboration_configured_audience_model_associations(
@@ -1687,7 +1687,7 @@ function list_collaboration_configured_audience_model_associations(
         "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1715,7 +1715,7 @@ function list_collaboration_privacy_budget_templates(
         "GET",
         "/collaborations/$(collaborationIdentifier)/privacybudgettemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_collaboration_privacy_budget_templates(
@@ -1728,7 +1728,7 @@ function list_collaboration_privacy_budget_templates(
         "/collaborations/$(collaborationIdentifier)/privacybudgettemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1762,7 +1762,7 @@ function list_collaboration_privacy_budgets(
         "/collaborations/$(collaborationIdentifier)/privacybudgets",
         Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_collaboration_privacy_budgets(
@@ -1780,7 +1780,7 @@ function list_collaboration_privacy_budgets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1801,7 +1801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_collaborations(; aws_config::AbstractAWSConfig=global_aws_config())
     return cleanrooms(
-        "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_collaborations(
@@ -1812,7 +1812,7 @@ function list_collaborations(
         "/collaborations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1841,7 +1841,7 @@ function list_configured_audience_model_associations(
         "GET",
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_configured_audience_model_associations(
@@ -1854,7 +1854,7 @@ function list_configured_audience_model_associations(
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1881,7 +1881,7 @@ function list_configured_table_associations(
         "GET",
         "/memberships/$(membershipIdentifier)/configuredTableAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_configured_table_associations(
@@ -1894,7 +1894,7 @@ function list_configured_table_associations(
         "/memberships/$(membershipIdentifier)/configuredTableAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1912,7 +1912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_configured_tables(; aws_config::AbstractAWSConfig=global_aws_config())
     return cleanrooms(
-        "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_configured_tables(
@@ -1923,7 +1923,7 @@ function list_configured_tables(
         "/configuredTables",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1950,7 +1950,7 @@ function list_members(
         "GET",
         "/collaborations/$(collaborationIdentifier)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_members(
@@ -1963,7 +1963,7 @@ function list_members(
         "/collaborations/$(collaborationIdentifier)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1982,7 +1982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_memberships(; aws_config::AbstractAWSConfig=global_aws_config())
     return cleanrooms(
-        "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_memberships(
@@ -1993,7 +1993,7 @@ function list_memberships(
         "/memberships",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2023,7 +2023,7 @@ function list_privacy_budget_templates(
         "GET",
         "/memberships/$(membershipIdentifier)/privacybudgettemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_privacy_budget_templates(
@@ -2036,7 +2036,7 @@ function list_privacy_budget_templates(
         "/memberships/$(membershipIdentifier)/privacybudgettemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2070,7 +2070,7 @@ function list_privacy_budgets(
         "/memberships/$(membershipIdentifier)/privacybudgets",
         Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_privacy_budgets(
@@ -2088,7 +2088,7 @@ function list_privacy_budgets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2117,7 +2117,7 @@ function list_protected_queries(
         "GET",
         "/memberships/$(membershipIdentifier)/protectedQueries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_protected_queries(
@@ -2130,7 +2130,7 @@ function list_protected_queries(
         "/memberships/$(membershipIdentifier)/protectedQueries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2159,7 +2159,7 @@ function list_schemas(
         "GET",
         "/collaborations/$(collaborationIdentifier)/schemas";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_schemas(
@@ -2172,7 +2172,7 @@ function list_schemas(
         "/collaborations/$(collaborationIdentifier)/schemas",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2194,7 +2194,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2207,7 +2207,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2232,7 +2232,7 @@ function preview_privacy_impact(
         "/memberships/$(membershipIdentifier)/previewprivacyimpact",
         Dict{String,Any}("parameters" => parameters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function preview_privacy_impact(
@@ -2248,7 +2248,7 @@ function preview_privacy_impact(
             mergewith(_merge, Dict{String,Any}("parameters" => parameters), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2279,7 +2279,7 @@ function start_protected_query(
         "/memberships/$(membershipIdentifier)/protectedQueries",
         Dict{String,Any}("sqlParameters" => sqlParameters, "type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_protected_query(
@@ -2300,7 +2300,7 @@ function start_protected_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2322,7 +2322,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2336,7 +2336,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2360,7 +2360,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2374,7 +2374,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2401,7 +2401,7 @@ function update_analysis_template(
         "PATCH",
         "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_analysis_template(
@@ -2415,7 +2415,7 @@ function update_analysis_template(
         "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2441,7 +2441,7 @@ function update_collaboration(
         "PATCH",
         "/collaborations/$(collaborationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_collaboration(
@@ -2454,7 +2454,7 @@ function update_collaboration(
         "/collaborations/$(collaborationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2484,7 +2484,7 @@ function update_configured_audience_model_association(
         "PATCH",
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configured_audience_model_association(
@@ -2498,7 +2498,7 @@ function update_configured_audience_model_association(
         "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2524,7 +2524,7 @@ function update_configured_table(
         "PATCH",
         "/configuredTables/$(configuredTableIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configured_table(
@@ -2537,7 +2537,7 @@ function update_configured_table(
         "/configuredTables/$(configuredTableIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2567,7 +2567,7 @@ function update_configured_table_analysis_rule(
         "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)",
         Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configured_table_analysis_rule(
@@ -2586,7 +2586,7 @@ function update_configured_table_analysis_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2617,7 +2617,7 @@ function update_configured_table_association(
         "PATCH",
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configured_table_association(
@@ -2631,7 +2631,7 @@ function update_configured_table_association(
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2658,7 +2658,7 @@ function update_membership(
         "PATCH",
         "/memberships/$(membershipIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_membership(
@@ -2671,7 +2671,7 @@ function update_membership(
         "/memberships/$(membershipIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2705,7 +2705,7 @@ function update_privacy_budget_template(
         "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
         Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_privacy_budget_template(
@@ -2724,7 +2724,7 @@ function update_privacy_budget_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2752,7 +2752,7 @@ function update_protected_query(
         "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)",
         Dict{String,Any}("targetStatus" => targetStatus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_protected_query(
@@ -2769,6 +2769,6 @@ function update_protected_query(
             mergewith(_merge, Dict{String,Any}("targetStatus" => targetStatus), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

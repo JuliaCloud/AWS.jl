@@ -39,7 +39,7 @@ function delete_recommendation_preferences(
             "resourceType" => resourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_recommendation_preferences(
@@ -61,7 +61,7 @@ function delete_recommendation_preferences(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -92,7 +92,7 @@ function describe_recommendation_export_jobs(;
     return compute_optimizer(
         "DescribeRecommendationExportJobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_recommendation_export_jobs(
@@ -102,7 +102,7 @@ function describe_recommendation_export_jobs(
         "DescribeRecommendationExportJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -164,7 +164,7 @@ function export_auto_scaling_group_recommendations(
         "ExportAutoScalingGroupRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_auto_scaling_group_recommendations(
@@ -182,7 +182,7 @@ function export_auto_scaling_group_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,7 +234,7 @@ function export_ebsvolume_recommendations(
         "ExportEBSVolumeRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_ebsvolume_recommendations(
@@ -252,7 +252,7 @@ function export_ebsvolume_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -313,7 +313,7 @@ function export_ec2_instance_recommendations(
         "ExportEC2InstanceRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_ec2_instance_recommendations(
@@ -331,7 +331,7 @@ function export_ec2_instance_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -381,7 +381,7 @@ function export_ecsservice_recommendations(
         "ExportECSServiceRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_ecsservice_recommendations(
@@ -399,7 +399,7 @@ function export_ecsservice_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -451,7 +451,7 @@ function export_lambda_function_recommendations(
         "ExportLambdaFunctionRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_lambda_function_recommendations(
@@ -469,7 +469,7 @@ function export_lambda_function_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -517,7 +517,7 @@ function export_license_recommendations(
         "ExportLicenseRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_license_recommendations(
@@ -535,7 +535,7 @@ function export_license_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -587,7 +587,7 @@ function export_rdsdatabase_recommendations(
         "ExportRDSDatabaseRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_rdsdatabase_recommendations(
@@ -605,7 +605,7 @@ function export_rdsdatabase_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -642,7 +642,7 @@ function get_auto_scaling_group_recommendations(;
     return compute_optimizer(
         "GetAutoScalingGroupRecommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_auto_scaling_group_recommendations(
@@ -652,7 +652,7 @@ function get_auto_scaling_group_recommendations(
         "GetAutoScalingGroupRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -684,7 +684,7 @@ function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aw
     return compute_optimizer(
         "GetEBSVolumeRecommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ebsvolume_recommendations(
@@ -694,7 +694,7 @@ function get_ebsvolume_recommendations(
         "GetEBSVolumeRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -730,7 +730,7 @@ function get_ec2_instance_recommendations(;
     return compute_optimizer(
         "GetEC2InstanceRecommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ec2_instance_recommendations(
@@ -740,7 +740,7 @@ function get_ec2_instance_recommendations(
         "GetEC2InstanceRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -785,7 +785,7 @@ function get_ec2_recommendation_projected_metrics(
             "stat" => stat,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ec2_recommendation_projected_metrics(
@@ -813,7 +813,7 @@ function get_ec2_recommendation_projected_metrics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -850,7 +850,7 @@ function get_ecsservice_recommendation_projected_metrics(
             "stat" => stat,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ecsservice_recommendation_projected_metrics(
@@ -878,7 +878,7 @@ function get_ecsservice_recommendation_projected_metrics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -912,7 +912,7 @@ function get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_a
     return compute_optimizer(
         "GetECSServiceRecommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ecsservice_recommendations(
@@ -922,7 +922,7 @@ function get_ecsservice_recommendations(
         "GetECSServiceRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -949,7 +949,7 @@ function get_effective_recommendation_preferences(
         "GetEffectiveRecommendationPreferences",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_effective_recommendation_preferences(
@@ -963,7 +963,7 @@ function get_effective_recommendation_preferences(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -980,7 +980,7 @@ enrollment status of member accounts of an organization.
 """
 function get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config())
     return compute_optimizer(
-        "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_enrollment_status(
@@ -990,7 +990,7 @@ function get_enrollment_status(
         "GetEnrollmentStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1017,7 @@ function get_enrollment_statuses_for_organization(;
     return compute_optimizer(
         "GetEnrollmentStatusesForOrganization";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_enrollment_statuses_for_organization(
@@ -1027,7 +1027,7 @@ function get_enrollment_statuses_for_organization(
         "GetEnrollmentStatusesForOrganization",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1065,7 +1065,7 @@ function get_lambda_function_recommendations(;
     return compute_optimizer(
         "GetLambdaFunctionRecommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lambda_function_recommendations(
@@ -1075,7 +1075,7 @@ function get_lambda_function_recommendations(
         "GetLambdaFunctionRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1105,7 +1105,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_license_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
     return compute_optimizer(
-        "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetLicenseRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_license_recommendations(
@@ -1115,7 +1117,7 @@ function get_license_recommendations(
         "GetLicenseRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1155,7 +1157,7 @@ function get_rdsdatabase_recommendation_projected_metrics(
             "stat" => stat,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rdsdatabase_recommendation_projected_metrics(
@@ -1183,7 +1185,7 @@ function get_rdsdatabase_recommendation_projected_metrics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1219,7 +1221,7 @@ function get_rdsdatabase_recommendations(;
     return compute_optimizer(
         "GetRDSDatabaseRecommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rdsdatabase_recommendations(
@@ -1229,7 +1231,7 @@ function get_rdsdatabase_recommendations(
         "GetRDSDatabaseRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1268,7 +1270,7 @@ function get_recommendation_preferences(
         "GetRecommendationPreferences",
         Dict{String,Any}("resourceType" => resourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommendation_preferences(
@@ -1282,7 +1284,7 @@ function get_recommendation_preferences(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1310,7 +1312,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
     return compute_optimizer(
-        "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetRecommendationSummaries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommendation_summaries(
@@ -1320,7 +1324,7 @@ function get_recommendation_summaries(
         "GetRecommendationSummaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1395,7 +1399,7 @@ function put_recommendation_preferences(
         "PutRecommendationPreferences",
         Dict{String,Any}("resourceType" => resourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_recommendation_preferences(
@@ -1409,7 +1413,7 @@ function put_recommendation_preferences(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1448,7 +1452,7 @@ function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_a
         "UpdateEnrollmentStatus",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_enrollment_status(
@@ -1458,6 +1462,6 @@ function update_enrollment_status(
         "UpdateEnrollmentStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

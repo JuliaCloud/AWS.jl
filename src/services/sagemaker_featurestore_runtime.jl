@@ -27,7 +27,7 @@ function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=global_aws_
         "/BatchGetRecord",
         Dict{String,Any}("Identifiers" => Identifiers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_record(
@@ -42,7 +42,7 @@ function batch_get_record(
             mergewith(_merge, Dict{String,Any}("Identifiers" => Identifiers), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -99,7 +99,7 @@ function delete_record(
             "RecordIdentifierValueAsString" => RecordIdentifierValueAsString,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_record(
@@ -123,7 +123,7 @@ function delete_record(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +159,7 @@ function get_record(
         "/FeatureGroup/$(FeatureGroupName)",
         Dict{String,Any}("RecordIdentifierValueAsString" => RecordIdentifierValueAsString);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_record(
@@ -181,7 +181,7 @@ function get_record(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -225,7 +225,7 @@ function put_record(
         "/FeatureGroup/$(FeatureGroupName)",
         Dict{String,Any}("Record" => Record);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_record(
@@ -239,6 +239,6 @@ function put_record(
         "/FeatureGroup/$(FeatureGroupName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Record" => Record), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

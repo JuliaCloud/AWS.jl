@@ -210,7 +210,7 @@ function assume_role(
         "AssumeRole",
         Dict{String,Any}("RoleArn" => RoleArn, "RoleSessionName" => RoleSessionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_role(
@@ -231,7 +231,7 @@ function assume_role(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -382,7 +382,7 @@ function assume_role_with_saml(
             "SAMLAssertion" => SAMLAssertion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_role_with_saml(
@@ -406,7 +406,7 @@ function assume_role_with_saml(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -578,7 +578,7 @@ function assume_role_with_web_identity(
             "WebIdentityToken" => WebIdentityToken,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_role_with_web_identity(
@@ -602,7 +602,7 @@ function assume_role_with_web_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -639,7 +639,7 @@ function decode_authorization_message(
         "DecodeAuthorizationMessage",
         Dict{String,Any}("EncodedMessage" => EncodedMessage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function decode_authorization_message(
@@ -653,7 +653,7 @@ function decode_authorization_message(
             mergewith(_merge, Dict{String,Any}("EncodedMessage" => EncodedMessage), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -688,7 +688,7 @@ function get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=global_a
         "GetAccessKeyInfo",
         Dict{String,Any}("AccessKeyId" => AccessKeyId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_access_key_info(
@@ -702,7 +702,7 @@ function get_access_key_info(
             mergewith(_merge, Dict{String,Any}("AccessKeyId" => AccessKeyId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -720,13 +720,18 @@ Guide.
 
 """
 function get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sts(
+        "GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function get_caller_identity(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sts(
-        "GetCallerIdentity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetCallerIdentity",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -877,7 +882,7 @@ function get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_con
         "GetFederationToken",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_federation_token(
@@ -887,7 +892,7 @@ function get_federation_token(
         "GetFederationToken",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -954,12 +959,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as described by its regex pattern, is a sequence of six numeric digits.
 """
 function get_session_token(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function get_session_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sts(
-        "GetSessionToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSessionToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end

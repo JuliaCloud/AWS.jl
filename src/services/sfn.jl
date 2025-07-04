@@ -40,7 +40,7 @@ function create_activity(name; aws_config::AbstractAWSConfig=global_aws_config()
         "CreateActivity",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_activity(
@@ -50,7 +50,7 @@ function create_activity(
         "CreateActivity",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -107,7 +107,7 @@ function create_state_machine(
         "CreateStateMachine",
         Dict{String,Any}("definition" => definition, "name" => name, "roleArn" => roleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_state_machine(
@@ -129,7 +129,7 @@ function create_state_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -174,7 +174,7 @@ function create_state_machine_alias(
         "CreateStateMachineAlias",
         Dict{String,Any}("name" => name, "routingConfiguration" => routingConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_state_machine_alias(
@@ -195,7 +195,7 @@ function create_state_machine_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -214,7 +214,7 @@ function delete_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteActivity",
         Dict{String,Any}("activityArn" => activityArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_activity(
@@ -228,7 +228,7 @@ function delete_activity(
             mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -264,7 +264,7 @@ function delete_state_machine(
         "DeleteStateMachine",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_state_machine(
@@ -280,7 +280,7 @@ function delete_state_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -306,7 +306,7 @@ function delete_state_machine_alias(
         "DeleteStateMachineAlias",
         Dict{String,Any}("stateMachineAliasArn" => stateMachineAliasArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_state_machine_alias(
@@ -324,7 +324,7 @@ function delete_state_machine_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -352,7 +352,7 @@ function delete_state_machine_version(
         "DeleteStateMachineVersion",
         Dict{String,Any}("stateMachineVersionArn" => stateMachineVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_state_machine_version(
@@ -370,7 +370,7 @@ function delete_state_machine_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -390,7 +390,7 @@ function describe_activity(activityArn; aws_config::AbstractAWSConfig=global_aws
         "DescribeActivity",
         Dict{String,Any}("activityArn" => activityArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_activity(
@@ -404,7 +404,7 @@ function describe_activity(
             mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -431,7 +431,7 @@ function describe_execution(executionArn; aws_config::AbstractAWSConfig=global_a
         "DescribeExecution",
         Dict{String,Any}("executionArn" => executionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_execution(
@@ -445,7 +445,7 @@ function describe_execution(
             mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -466,7 +466,7 @@ function describe_map_run(mapRunArn; aws_config::AbstractAWSConfig=global_aws_co
         "DescribeMapRun",
         Dict{String,Any}("mapRunArn" => mapRunArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_map_run(
@@ -480,7 +480,7 @@ function describe_map_run(
             mergewith(_merge, Dict{String,Any}("mapRunArn" => mapRunArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -522,7 +522,7 @@ function describe_state_machine(
         "DescribeStateMachine",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_state_machine(
@@ -538,7 +538,7 @@ function describe_state_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -561,7 +561,7 @@ function describe_state_machine_alias(
         "DescribeStateMachineAlias",
         Dict{String,Any}("stateMachineAliasArn" => stateMachineAliasArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_state_machine_alias(
@@ -579,7 +579,7 @@ function describe_state_machine_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -606,7 +606,7 @@ function describe_state_machine_for_execution(
         "DescribeStateMachineForExecution",
         Dict{String,Any}("executionArn" => executionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_state_machine_for_execution(
@@ -620,7 +620,7 @@ function describe_state_machine_for_execution(
             mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -653,7 +653,7 @@ function get_activity_task(activityArn; aws_config::AbstractAWSConfig=global_aws
         "GetActivityTask",
         Dict{String,Any}("activityArn" => activityArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_activity_task(
@@ -667,7 +667,7 @@ function get_activity_task(
             mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -709,7 +709,7 @@ function get_execution_history(
         "GetExecutionHistory",
         Dict{String,Any}("executionArn" => executionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_execution_history(
@@ -723,7 +723,7 @@ function get_execution_history(
             mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -751,13 +751,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 """
 function list_activities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sfn("ListActivities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sfn("ListActivities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_activities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sfn(
-        "ListActivities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListActivities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -807,13 +807,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches the given filter.
 """
 function list_executions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sfn("ListExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sfn("ListExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sfn(
-        "ListExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -846,7 +846,7 @@ function list_map_runs(executionArn; aws_config::AbstractAWSConfig=global_aws_co
         "ListMapRuns",
         Dict{String,Any}("executionArn" => executionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_map_runs(
@@ -860,7 +860,7 @@ function list_map_runs(
             mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -902,7 +902,7 @@ function list_state_machine_aliases(
         "ListStateMachineAliases",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_state_machine_aliases(
@@ -918,7 +918,7 @@ function list_state_machine_aliases(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -956,7 +956,7 @@ function list_state_machine_versions(
         "ListStateMachineVersions",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_state_machine_versions(
@@ -972,7 +972,7 @@ function list_state_machine_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1000,13 +1000,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 """
 function list_state_machines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sfn("ListStateMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sfn(
+        "ListStateMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_state_machines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sfn(
-        "ListStateMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStateMachines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1029,7 +1034,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1043,7 +1048,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1084,7 +1089,7 @@ function publish_state_machine_version(
         "PublishStateMachineVersion",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function publish_state_machine_version(
@@ -1100,7 +1105,7 @@ function publish_state_machine_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1151,7 +1156,7 @@ function redrive_execution(executionArn; aws_config::AbstractAWSConfig=global_aw
         "RedriveExecution",
         Dict{String,Any}("executionArn" => executionArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function redrive_execution(
@@ -1171,7 +1176,7 @@ function redrive_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1197,7 +1202,7 @@ function send_task_failure(taskToken; aws_config::AbstractAWSConfig=global_aws_c
         "SendTaskFailure",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_task_failure(
@@ -1211,7 +1216,7 @@ function send_task_failure(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1242,7 +1247,7 @@ function send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws
         "SendTaskHeartbeat",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_task_heartbeat(
@@ -1256,7 +1261,7 @@ function send_task_heartbeat(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1283,7 +1288,7 @@ function send_task_success(
         "SendTaskSuccess",
         Dict{String,Any}("output" => output, "taskToken" => taskToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_task_success(
@@ -1302,7 +1307,7 @@ function send_task_success(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1376,7 +1381,7 @@ function start_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_a
         "StartExecution",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_execution(
@@ -1392,7 +1397,7 @@ function start_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1427,7 +1432,7 @@ function start_sync_execution(
         "StartSyncExecution",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_sync_execution(
@@ -1443,7 +1448,7 @@ function start_sync_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1466,7 +1471,7 @@ function stop_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_c
         "StopExecution",
         Dict{String,Any}("executionArn" => executionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_execution(
@@ -1480,7 +1485,7 @@ function stop_execution(
             mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1505,7 +1510,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1524,7 +1529,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1576,7 +1581,7 @@ function test_state(definition, roleArn; aws_config::AbstractAWSConfig=global_aw
         "TestState",
         Dict{String,Any}("definition" => definition, "roleArn" => roleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function test_state(
@@ -1595,7 +1600,7 @@ function test_state(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1618,7 +1623,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1637,7 +1642,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1664,7 +1669,7 @@ function update_map_run(mapRunArn; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateMapRun",
         Dict{String,Any}("mapRunArn" => mapRunArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_map_run(
@@ -1678,7 +1683,7 @@ function update_map_run(
             mergewith(_merge, Dict{String,Any}("mapRunArn" => mapRunArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1737,7 +1742,7 @@ function update_state_machine(
         "UpdateStateMachine",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_state_machine(
@@ -1753,7 +1758,7 @@ function update_state_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1789,7 +1794,7 @@ function update_state_machine_alias(
         "UpdateStateMachineAlias",
         Dict{String,Any}("stateMachineAliasArn" => stateMachineAliasArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_state_machine_alias(
@@ -1807,7 +1812,7 @@ function update_state_machine_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1842,7 +1847,7 @@ function validate_state_machine_definition(
         "ValidateStateMachineDefinition",
         Dict{String,Any}("definition" => definition);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_state_machine_definition(
@@ -1856,6 +1861,6 @@ function validate_state_machine_definition(
             mergewith(_merge, Dict{String,Any}("definition" => definition), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

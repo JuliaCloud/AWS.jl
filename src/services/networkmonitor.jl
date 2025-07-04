@@ -39,7 +39,7 @@ function create_monitor(monitorName; aws_config::AbstractAWSConfig=global_aws_co
         "/monitors",
         Dict{String,Any}("monitorName" => monitorName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_monitor(
@@ -60,7 +60,7 @@ function create_monitor(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -89,7 +89,7 @@ function create_probe(monitorName, probe; aws_config::AbstractAWSConfig=global_a
         "/monitors/$(monitorName)/probes",
         Dict{String,Any}("probe" => probe, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_probe(
@@ -109,7 +109,7 @@ function create_probe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -129,7 +129,7 @@ function delete_monitor(monitorName; aws_config::AbstractAWSConfig=global_aws_co
         "DELETE",
         "/monitors/$(monitorName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_monitor(
@@ -142,7 +142,7 @@ function delete_monitor(
         "/monitors/$(monitorName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -167,7 +167,7 @@ function delete_probe(
         "DELETE",
         "/monitors/$(monitorName)/probes/$(probeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_probe(
@@ -181,7 +181,7 @@ function delete_probe(
         "/monitors/$(monitorName)/probes/$(probeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -201,7 +201,7 @@ function get_monitor(monitorName; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/monitors/$(monitorName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_monitor(
@@ -214,7 +214,7 @@ function get_monitor(
         "/monitors/$(monitorName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -238,7 +238,7 @@ function get_probe(monitorName, probeId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/monitors/$(monitorName)/probes/$(probeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_probe(
@@ -252,7 +252,7 @@ function get_probe(
         "/monitors/$(monitorName)/probes/$(probeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -272,14 +272,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmonitor(
-        "GET", "/monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return networkmonitor(
-        "GET", "/monitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/monitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -300,7 +300,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -313,7 +313,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +334,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -348,7 +348,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -371,7 +371,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -385,7 +385,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,7 +411,7 @@ function update_monitor(
         "/monitors/$(monitorName)",
         Dict{String,Any}("aggregationPeriod" => aggregationPeriod);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_monitor(
@@ -429,7 +429,7 @@ function update_monitor(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +470,7 @@ function update_probe(
         "PATCH",
         "/monitors/$(monitorName)/probes/$(probeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_probe(
@@ -484,6 +484,6 @@ function update_probe(
         "/monitors/$(monitorName)/probes/$(probeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

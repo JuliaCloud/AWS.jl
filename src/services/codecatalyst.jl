@@ -30,7 +30,7 @@ function create_access_token(name; aws_config::AbstractAWSConfig=global_aws_conf
         "/v1/accessTokens",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_access_token(
@@ -41,7 +41,7 @@ function create_access_token(
         "/v1/accessTokens",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -97,7 +97,7 @@ function create_dev_environment(
             "instanceType" => instanceType, "persistentStorage" => persistentStorage
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dev_environment(
@@ -121,7 +121,7 @@ function create_dev_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,7 +149,7 @@ function create_project(
         "/v1/spaces/$(spaceName)/projects",
         Dict{String,Any}("displayName" => displayName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_project(
@@ -165,7 +165,7 @@ function create_project(
             mergewith(_merge, Dict{String,Any}("displayName" => displayName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -193,7 +193,7 @@ function create_source_repository(
         "PUT",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_source_repository(
@@ -208,7 +208,7 @@ function create_source_repository(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -242,7 +242,7 @@ function create_source_repository_branch(
         "PUT",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_source_repository_branch(
@@ -258,7 +258,7 @@ function create_source_repository_branch(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -279,7 +279,7 @@ function delete_access_token(id; aws_config::AbstractAWSConfig=global_aws_config
         "DELETE",
         "/v1/accessTokens/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_access_token(
@@ -290,7 +290,7 @@ function delete_access_token(
         "/v1/accessTokens/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -314,7 +314,7 @@ function delete_dev_environment(
         "DELETE",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dev_environment(
@@ -329,7 +329,7 @@ function delete_dev_environment(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -350,7 +350,7 @@ function delete_project(name, spaceName; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/v1/spaces/$(spaceName)/projects/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project(
@@ -364,7 +364,7 @@ function delete_project(
         "/v1/spaces/$(spaceName)/projects/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -388,7 +388,7 @@ function delete_source_repository(
         "DELETE",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_source_repository(
@@ -403,7 +403,7 @@ function delete_source_repository(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -423,7 +423,7 @@ function delete_space(name; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/v1/spaces/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_space(
@@ -434,7 +434,7 @@ function delete_space(
         "/v1/spaces/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -459,7 +459,7 @@ function get_dev_environment(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dev_environment(
@@ -474,7 +474,7 @@ function get_dev_environment(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -494,7 +494,7 @@ function get_project(name, spaceName; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_project(
@@ -508,7 +508,7 @@ function get_project(
         "/v1/spaces/$(spaceName)/projects/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -531,7 +531,7 @@ function get_source_repository(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_source_repository(
@@ -546,7 +546,7 @@ function get_source_repository(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -573,7 +573,7 @@ function get_source_repository_clone_urls(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/cloneUrls";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_source_repository_clone_urls(
@@ -588,7 +588,7 @@ function get_source_repository_clone_urls(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/cloneUrls",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -604,7 +604,10 @@ Returns information about an space.
 """
 function get_space(name; aws_config::AbstractAWSConfig=global_aws_config())
     return codecatalyst(
-        "GET", "/v1/spaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/spaces/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_space(
@@ -615,7 +618,7 @@ function get_space(
         "/v1/spaces/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -635,7 +638,7 @@ function get_subscription(spaceName; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/v1/spaces/$(spaceName)/subscription";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_subscription(
@@ -648,7 +651,7 @@ function get_subscription(
         "/v1/spaces/$(spaceName)/subscription",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -665,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_user_details(; aws_config::AbstractAWSConfig=global_aws_config())
     return codecatalyst(
-        "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_user_details(
@@ -676,7 +679,7 @@ function get_user_details(
         "/userDetails",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +702,7 @@ function get_workflow(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow(
@@ -714,7 +717,7 @@ function get_workflow(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -738,7 +741,7 @@ function get_workflow_run(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow_run(
@@ -753,7 +756,7 @@ function get_workflow_run(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -774,7 +777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_access_tokens(; aws_config::AbstractAWSConfig=global_aws_config())
     return codecatalyst(
-        "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_access_tokens(
@@ -785,7 +788,7 @@ function list_access_tokens(
         "/v1/accessTokens",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -818,7 +821,7 @@ function list_dev_environment_sessions(
         "POST",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(devEnvironmentId)/sessions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dev_environment_sessions(
@@ -833,7 +836,7 @@ function list_dev_environment_sessions(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(devEnvironmentId)/sessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -862,7 +865,7 @@ function list_dev_environments(spaceName; aws_config::AbstractAWSConfig=global_a
         "POST",
         "/v1/spaces/$(spaceName)/devEnvironments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dev_environments(
@@ -875,7 +878,7 @@ function list_dev_environments(
         "/v1/spaces/$(spaceName)/devEnvironments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +919,7 @@ function list_event_logs(
         "/v1/spaces/$(spaceName)/eventLogs",
         Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_event_logs(
@@ -937,7 +940,7 @@ function list_event_logs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -965,7 +968,7 @@ function list_projects(spaceName; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/v1/spaces/$(spaceName)/projects";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_projects(
@@ -978,7 +981,7 @@ function list_projects(
         "/v1/spaces/$(spaceName)/projects",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1007,7 +1010,7 @@ function list_source_repositories(
         "POST",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_source_repositories(
@@ -1021,7 +1024,7 @@ function list_source_repositories(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1054,7 +1057,7 @@ function list_source_repository_branches(
         "POST",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_source_repository_branches(
@@ -1069,7 +1072,7 @@ function list_source_repository_branches(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1086,14 +1089,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_spaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return codecatalyst(
-        "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codecatalyst(
-        "POST", "/v1/spaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/v1/spaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1125,7 +1132,7 @@ function list_workflow_runs(
         "POST",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflow_runs(
@@ -1139,7 +1146,7 @@ function list_workflow_runs(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,7 +1176,7 @@ function list_workflows(
         "POST",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflows(
@@ -1183,7 +1190,7 @@ function list_workflows(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1214,7 +1221,7 @@ function start_dev_environment(
         "PUT",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_dev_environment(
@@ -1229,7 +1236,7 @@ function start_dev_environment(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1258,7 +1265,7 @@ function start_dev_environment_session(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session",
         Dict{String,Any}("sessionConfiguration" => sessionConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_dev_environment_session(
@@ -1280,7 +1287,7 @@ function start_dev_environment_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1311,7 +1318,7 @@ function start_workflow_run(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns",
         Dict{String,Any}("workflowId" => workflowId, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_workflow_run(
@@ -1334,7 +1341,7 @@ function start_workflow_run(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1358,7 +1365,7 @@ function stop_dev_environment(
         "PUT",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_dev_environment(
@@ -1373,7 +1380,7 @@ function stop_dev_environment(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1399,7 +1406,7 @@ function stop_dev_environment_session(
         "DELETE",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session/$(sessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_dev_environment_session(
@@ -1415,7 +1422,7 @@ function stop_dev_environment_session(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session/$(sessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1455,7 +1462,7 @@ function update_dev_environment(
         "PATCH",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dev_environment(
@@ -1470,7 +1477,7 @@ function update_dev_environment(
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1493,7 +1500,7 @@ function update_project(name, spaceName; aws_config::AbstractAWSConfig=global_aw
         "PATCH",
         "/v1/spaces/$(spaceName)/projects/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_project(
@@ -1507,7 +1514,7 @@ function update_project(
         "/v1/spaces/$(spaceName)/projects/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1529,7 +1536,7 @@ function update_space(name; aws_config::AbstractAWSConfig=global_aws_config())
         "PATCH",
         "/v1/spaces/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_space(
@@ -1540,7 +1547,7 @@ function update_space(
         "/v1/spaces/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1554,13 +1561,13 @@ successful, this returns the ID of the user in Amazon CodeCatalyst.
 """
 function verify_session(; aws_config::AbstractAWSConfig=global_aws_config())
     return codecatalyst(
-        "GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function verify_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codecatalyst(
-        "GET", "/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/session", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end

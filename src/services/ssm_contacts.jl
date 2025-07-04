@@ -36,7 +36,7 @@ function accept_page(
             "AcceptCode" => AcceptCode, "AcceptType" => AcceptType, "PageId" => PageId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_page(
@@ -60,7 +60,7 @@ function accept_page(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +86,7 @@ function activate_contact_channel(
             "ActivationCode" => ActivationCode, "ContactChannelId" => ContactChannelId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function activate_contact_channel(
@@ -108,7 +108,7 @@ function activate_contact_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -146,7 +146,7 @@ function create_contact(
             "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_contact(
@@ -171,7 +171,7 @@ function create_contact(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,7 +217,7 @@ function create_contact_channel(
             "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_contact_channel(
@@ -244,7 +244,7 @@ function create_contact_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -292,7 +292,7 @@ function create_rotation(
             "TimeZoneId" => TimeZoneId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rotation(
@@ -318,7 +318,7 @@ function create_rotation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -357,7 +357,7 @@ function create_rotation_override(
             "StartTime" => StartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rotation_override(
@@ -383,7 +383,7 @@ function create_rotation_override(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -406,7 +406,7 @@ function deactivate_contact_channel(
         "DeactivateContactChannel",
         Dict{String,Any}("ContactChannelId" => ContactChannelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deactivate_contact_channel(
@@ -422,7 +422,7 @@ function deactivate_contact_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -444,7 +444,7 @@ function delete_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteContact",
         Dict{String,Any}("ContactId" => ContactId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_contact(
@@ -458,7 +458,7 @@ function delete_contact(
             mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -482,7 +482,7 @@ function delete_contact_channel(
         "DeleteContactChannel",
         Dict{String,Any}("ContactChannelId" => ContactChannelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_contact_channel(
@@ -498,7 +498,7 @@ function delete_contact_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -518,7 +518,7 @@ function delete_rotation(RotationId; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteRotation",
         Dict{String,Any}("RotationId" => RotationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rotation(
@@ -532,7 +532,7 @@ function delete_rotation(
             mergewith(_merge, Dict{String,Any}("RotationId" => RotationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -557,7 +557,7 @@ function delete_rotation_override(
             "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rotation_override(
@@ -578,7 +578,7 @@ function delete_rotation_override(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -600,7 +600,7 @@ function describe_engagement(
         "DescribeEngagement",
         Dict{String,Any}("EngagementId" => EngagementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_engagement(
@@ -614,7 +614,7 @@ function describe_engagement(
             mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -633,7 +633,7 @@ function describe_page(PageId; aws_config::AbstractAWSConfig=global_aws_config()
         "DescribePage",
         Dict{String,Any}("PageId" => PageId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_page(
@@ -643,7 +643,7 @@ function describe_page(
         "DescribePage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -662,7 +662,7 @@ function get_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetContact",
         Dict{String,Any}("ContactId" => ContactId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_contact(
@@ -676,7 +676,7 @@ function get_contact(
             mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -698,7 +698,7 @@ function get_contact_channel(
         "GetContactChannel",
         Dict{String,Any}("ContactChannelId" => ContactChannelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_contact_channel(
@@ -714,7 +714,7 @@ function get_contact_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -733,7 +733,7 @@ function get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=global_aws
         "GetContactPolicy",
         Dict{String,Any}("ContactArn" => ContactArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_contact_policy(
@@ -747,7 +747,7 @@ function get_contact_policy(
             mergewith(_merge, Dict{String,Any}("ContactArn" => ContactArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -767,7 +767,7 @@ function get_rotation(RotationId; aws_config::AbstractAWSConfig=global_aws_confi
         "GetRotation",
         Dict{String,Any}("RotationId" => RotationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rotation(
@@ -781,7 +781,7 @@ function get_rotation(
             mergewith(_merge, Dict{String,Any}("RotationId" => RotationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -807,7 +807,7 @@ function get_rotation_override(
             "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rotation_override(
@@ -828,7 +828,7 @@ function get_rotation_override(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -851,7 +851,7 @@ function list_contact_channels(ContactId; aws_config::AbstractAWSConfig=global_a
         "ListContactChannels",
         Dict{String,Any}("ContactId" => ContactId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_contact_channels(
@@ -865,7 +865,7 @@ function list_contact_channels(
             mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -885,14 +885,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_contacts(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_contacts(
-        "ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_contacts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ssm_contacts(
-        "ListContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -912,14 +912,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_engagements(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_contacts(
-        "ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_engagements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ssm_contacts(
-        "ListEngagements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEngagements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -942,7 +942,7 @@ function list_page_receipts(PageId; aws_config::AbstractAWSConfig=global_aws_con
         "ListPageReceipts",
         Dict{String,Any}("PageId" => PageId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_page_receipts(
@@ -952,7 +952,7 @@ function list_page_receipts(
         "ListPageReceipts",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -977,7 +977,7 @@ function list_page_resolutions(PageId; aws_config::AbstractAWSConfig=global_aws_
         "ListPageResolutions",
         Dict{String,Any}("PageId" => PageId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_page_resolutions(
@@ -987,7 +987,7 @@ function list_page_resolutions(
         "ListPageResolutions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1012,7 +1012,7 @@ function list_pages_by_contact(ContactId; aws_config::AbstractAWSConfig=global_a
         "ListPagesByContact",
         Dict{String,Any}("ContactId" => ContactId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pages_by_contact(
@@ -1026,7 +1026,7 @@ function list_pages_by_contact(
             mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1052,7 +1052,7 @@ function list_pages_by_engagement(
         "ListPagesByEngagement",
         Dict{String,Any}("EngagementId" => EngagementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pages_by_engagement(
@@ -1066,7 +1066,7 @@ function list_pages_by_engagement(
             mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1115,7 +1115,7 @@ function list_preview_rotation_shifts(
             "TimeZoneId" => TimeZoneId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_preview_rotation_shifts(
@@ -1141,7 +1141,7 @@ function list_preview_rotation_shifts(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1172,7 +1172,7 @@ function list_rotation_overrides(
             "EndTime" => EndTime, "RotationId" => RotationId, "StartTime" => StartTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rotation_overrides(
@@ -1196,7 +1196,7 @@ function list_rotation_overrides(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1225,7 +1225,7 @@ function list_rotation_shifts(
         "ListRotationShifts",
         Dict{String,Any}("EndTime" => EndTime, "RotationId" => RotationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rotation_shifts(
@@ -1244,7 +1244,7 @@ function list_rotation_shifts(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1265,14 +1265,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rotations(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_contacts(
-        "ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_rotations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ssm_contacts(
-        "ListRotations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRotations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1293,7 +1293,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1307,7 +1307,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1331,7 +1331,7 @@ function put_contact_policy(
         "PutContactPolicy",
         Dict{String,Any}("ContactArn" => ContactArn, "Policy" => Policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_contact_policy(
@@ -1350,7 +1350,7 @@ function put_contact_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1373,7 +1373,7 @@ function send_activation_code(
         "SendActivationCode",
         Dict{String,Any}("ContactChannelId" => ContactChannelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_activation_code(
@@ -1389,7 +1389,7 @@ function send_activation_code(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1431,7 +1431,7 @@ function start_engagement(
             "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_engagement(
@@ -1458,7 +1458,7 @@ function start_engagement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1481,7 +1481,7 @@ function stop_engagement(EngagementId; aws_config::AbstractAWSConfig=global_aws_
         "StopEngagement",
         Dict{String,Any}("EngagementId" => EngagementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_engagement(
@@ -1495,7 +1495,7 @@ function stop_engagement(
             mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1516,7 +1516,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1535,7 +1535,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1557,7 +1557,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1576,7 +1576,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1601,7 +1601,7 @@ function update_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateContact",
         Dict{String,Any}("ContactId" => ContactId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_contact(
@@ -1615,7 +1615,7 @@ function update_contact(
             mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1642,7 +1642,7 @@ function update_contact_channel(
         "UpdateContactChannel",
         Dict{String,Any}("ContactChannelId" => ContactChannelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_contact_channel(
@@ -1658,7 +1658,7 @@ function update_contact_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1692,7 +1692,7 @@ function update_rotation(
         "UpdateRotation",
         Dict{String,Any}("Recurrence" => Recurrence, "RotationId" => RotationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rotation(
@@ -1711,6 +1711,6 @@ function update_rotation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

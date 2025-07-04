@@ -65,7 +65,7 @@ function batch_execute_statement(
             "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_execute_statement(
@@ -86,7 +86,7 @@ function batch_execute_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -109,7 +109,7 @@ function cancel_statement(Id; aws_config::AbstractAWSConfig=global_aws_config())
         "CancelStatement",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_statement(
@@ -119,7 +119,7 @@ function cancel_statement(
         "CancelStatement",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -146,7 +146,7 @@ function describe_statement(Id; aws_config::AbstractAWSConfig=global_aws_config(
         "DescribeStatement",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_statement(
@@ -156,7 +156,7 @@ function describe_statement(
         "DescribeStatement",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -223,7 +223,7 @@ function describe_table(Database; aws_config::AbstractAWSConfig=global_aws_confi
         "DescribeTable",
         Dict{String,Any}("Database" => Database);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_table(
@@ -237,7 +237,7 @@ function describe_table(
             mergewith(_merge, Dict{String,Any}("Database" => Database), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +299,7 @@ function execute_statement(Database, Sql; aws_config::AbstractAWSConfig=global_a
             "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function execute_statement(
@@ -320,7 +320,7 @@ function execute_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -354,7 +354,7 @@ function get_statement_result(Id; aws_config::AbstractAWSConfig=global_aws_confi
         "GetStatementResult",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_statement_result(
@@ -364,7 +364,7 @@ function get_statement_result(
         "GetStatementResult",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -423,7 +423,7 @@ function list_databases(Database; aws_config::AbstractAWSConfig=global_aws_confi
         "ListDatabases",
         Dict{String,Any}("Database" => Database);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_databases(
@@ -437,7 +437,7 @@ function list_databases(
             mergewith(_merge, Dict{String,Any}("Database" => Database), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -501,7 +501,7 @@ function list_schemas(Database; aws_config::AbstractAWSConfig=global_aws_config(
         "ListSchemas",
         Dict{String,Any}("Database" => Database);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_schemas(
@@ -515,7 +515,7 @@ function list_schemas(
             mergewith(_merge, Dict{String,Any}("Database" => Database), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -556,14 +556,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_statements(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
-        "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_statements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_data(
-        "ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -635,7 +635,7 @@ function list_tables(Database; aws_config::AbstractAWSConfig=global_aws_config()
         "ListTables",
         Dict{String,Any}("Database" => Database);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tables(
@@ -649,6 +649,6 @@ function list_tables(
             mergewith(_merge, Dict{String,Any}("Database" => Database), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -31,7 +31,7 @@ function associate_web_acl(
         "AssociateWebACL",
         Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLId" => WebACLId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_web_acl(
@@ -50,7 +50,7 @@ function associate_web_acl(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -87,7 +87,7 @@ function create_byte_match_set(
         "CreateByteMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_byte_match_set(
@@ -106,7 +106,7 @@ function create_byte_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -142,7 +142,7 @@ function create_geo_match_set(
         "CreateGeoMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_geo_match_set(
@@ -161,7 +161,7 @@ function create_geo_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -195,7 +195,7 @@ function create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aw
         "CreateIPSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_ipset(
@@ -214,7 +214,7 @@ function create_ipset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -298,7 +298,7 @@ function create_rate_based_rule(
             "RateLimit" => RateLimit,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rate_based_rule(
@@ -326,7 +326,7 @@ function create_rate_based_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -365,7 +365,7 @@ function create_regex_match_set(
         "CreateRegexMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_regex_match_set(
@@ -384,7 +384,7 @@ function create_regex_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -419,7 +419,7 @@ function create_regex_pattern_set(
         "CreateRegexPatternSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_regex_pattern_set(
@@ -438,7 +438,7 @@ function create_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -491,7 +491,7 @@ function create_rule(
             "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rule(
@@ -513,7 +513,7 @@ function create_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -554,7 +554,7 @@ function create_rule_group(
             "ChangeToken" => ChangeToken, "MetricName" => MetricName, "Name" => Name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rule_group(
@@ -576,7 +576,7 @@ function create_rule_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,7 +614,7 @@ function create_size_constraint_set(
         "CreateSizeConstraintSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_size_constraint_set(
@@ -633,7 +633,7 @@ function create_size_constraint_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -669,7 +669,7 @@ function create_sql_injection_match_set(
         "CreateSqlInjectionMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sql_injection_match_set(
@@ -688,7 +688,7 @@ function create_sql_injection_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -748,7 +748,7 @@ function create_web_acl(
             "Name" => Name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_web_acl(
@@ -774,7 +774,7 @@ function create_web_acl(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -820,7 +820,7 @@ function create_web_aclmigration_stack(
             "WebACLId" => WebACLId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_web_aclmigration_stack(
@@ -844,7 +844,7 @@ function create_web_aclmigration_stack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +879,7 @@ function create_xss_match_set(
         "CreateXssMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_xss_match_set(
@@ -898,7 +898,7 @@ function create_xss_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -930,7 +930,7 @@ function delete_byte_match_set(
         "DeleteByteMatchSet",
         Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId, "ChangeToken" => ChangeToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_byte_match_set(
@@ -951,7 +951,7 @@ function delete_byte_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -983,7 +983,7 @@ function delete_geo_match_set(
         "DeleteGeoMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "GeoMatchSetId" => GeoMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_geo_match_set(
@@ -1004,7 +1004,7 @@ function delete_geo_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1036,7 +1036,7 @@ function delete_ipset(
         "DeleteIPSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "IPSetId" => IPSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_ipset(
@@ -1055,7 +1055,7 @@ function delete_ipset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1081,7 +1081,7 @@ function delete_logging_configuration(
         "DeleteLoggingConfiguration",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_logging_configuration(
@@ -1095,7 +1095,7 @@ function delete_logging_configuration(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1121,7 +1121,7 @@ function delete_permission_policy(
         "DeletePermissionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_permission_policy(
@@ -1135,7 +1135,7 @@ function delete_permission_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1167,7 +1167,7 @@ function delete_rate_based_rule(
         "DeleteRateBasedRule",
         Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rate_based_rule(
@@ -1186,7 +1186,7 @@ function delete_rate_based_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1220,7 +1220,7 @@ function delete_regex_match_set(
             "ChangeToken" => ChangeToken, "RegexMatchSetId" => RegexMatchSetId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_regex_match_set(
@@ -1241,7 +1241,7 @@ function delete_regex_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1271,7 +1271,7 @@ function delete_regex_pattern_set(
             "ChangeToken" => ChangeToken, "RegexPatternSetId" => RegexPatternSetId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_regex_pattern_set(
@@ -1292,7 +1292,7 @@ function delete_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1322,7 +1322,7 @@ function delete_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_a
         "DeleteRule",
         Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rule(
@@ -1341,7 +1341,7 @@ function delete_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1373,7 +1373,7 @@ function delete_rule_group(
         "DeleteRuleGroup",
         Dict{String,Any}("ChangeToken" => ChangeToken, "RuleGroupId" => RuleGroupId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rule_group(
@@ -1394,7 +1394,7 @@ function delete_rule_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1430,7 +1430,7 @@ function delete_size_constraint_set(
             "ChangeToken" => ChangeToken, "SizeConstraintSetId" => SizeConstraintSetId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_size_constraint_set(
@@ -1452,7 +1452,7 @@ function delete_size_constraint_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1488,7 +1488,7 @@ function delete_sql_injection_match_set(
             "ChangeToken" => ChangeToken, "SqlInjectionMatchSetId" => SqlInjectionMatchSetId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sql_injection_match_set(
@@ -1510,7 +1510,7 @@ function delete_sql_injection_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1540,7 +1540,7 @@ function delete_web_acl(
         "DeleteWebACL",
         Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_web_acl(
@@ -1559,7 +1559,7 @@ function delete_web_acl(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1591,7 +1591,7 @@ function delete_xss_match_set(
         "DeleteXssMatchSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "XssMatchSetId" => XssMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_xss_match_set(
@@ -1612,7 +1612,7 @@ function delete_xss_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1642,7 +1642,7 @@ function disassociate_web_acl(
         "DisassociateWebACL",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_web_acl(
@@ -1656,7 +1656,7 @@ function disassociate_web_acl(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1681,7 +1681,7 @@ function get_byte_match_set(
         "GetByteMatchSet",
         Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_byte_match_set(
@@ -1695,7 +1695,7 @@ function get_byte_match_set(
             mergewith(_merge, Dict{String,Any}("ByteMatchSetId" => ByteMatchSetId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1720,14 +1720,14 @@ GetChangeTokenStatus to determine the status of your change token.
 """
 function get_change_token(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "GetChangeToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetChangeToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_change_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1757,7 +1757,7 @@ function get_change_token_status(
         "GetChangeTokenStatus",
         Dict{String,Any}("ChangeToken" => ChangeToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_change_token_status(
@@ -1771,7 +1771,7 @@ function get_change_token_status(
             mergewith(_merge, Dict{String,Any}("ChangeToken" => ChangeToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1794,7 +1794,7 @@ function get_geo_match_set(GeoMatchSetId; aws_config::AbstractAWSConfig=global_a
         "GetGeoMatchSet",
         Dict{String,Any}("GeoMatchSetId" => GeoMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_geo_match_set(
@@ -1808,7 +1808,7 @@ function get_geo_match_set(
             mergewith(_merge, Dict{String,Any}("GeoMatchSetId" => GeoMatchSetId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1831,7 +1831,7 @@ function get_ipset(IPSetId; aws_config::AbstractAWSConfig=global_aws_config())
         "GetIPSet",
         Dict{String,Any}("IPSetId" => IPSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ipset(
@@ -1841,7 +1841,7 @@ function get_ipset(
         "GetIPSet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IPSetId" => IPSetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1866,7 +1866,7 @@ function get_logging_configuration(
         "GetLoggingConfiguration",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_logging_configuration(
@@ -1880,7 +1880,7 @@ function get_logging_configuration(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1905,7 +1905,7 @@ function get_permission_policy(
         "GetPermissionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_permission_policy(
@@ -1919,7 +1919,7 @@ function get_permission_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1943,7 +1943,7 @@ function get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_co
         "GetRateBasedRule",
         Dict{String,Any}("RuleId" => RuleId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rate_based_rule(
@@ -1953,7 +1953,7 @@ function get_rate_based_rule(
         "GetRateBasedRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1984,7 +1984,7 @@ function get_rate_based_rule_managed_keys(
         "GetRateBasedRuleManagedKeys",
         Dict{String,Any}("RuleId" => RuleId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rate_based_rule_managed_keys(
@@ -1994,7 +1994,7 @@ function get_rate_based_rule_managed_keys(
         "GetRateBasedRuleManagedKeys",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2019,7 +2019,7 @@ function get_regex_match_set(
         "GetRegexMatchSet",
         Dict{String,Any}("RegexMatchSetId" => RegexMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_regex_match_set(
@@ -2035,7 +2035,7 @@ function get_regex_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2060,7 +2060,7 @@ function get_regex_pattern_set(
         "GetRegexPatternSet",
         Dict{String,Any}("RegexPatternSetId" => RegexPatternSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_regex_pattern_set(
@@ -2076,7 +2076,7 @@ function get_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2100,7 +2100,7 @@ function get_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config())
         "GetRule",
         Dict{String,Any}("RuleId" => RuleId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rule(
@@ -2110,7 +2110,7 @@ function get_rule(
         "GetRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RuleId" => RuleId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2135,7 +2135,7 @@ function get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=global_aws_co
         "GetRuleGroup",
         Dict{String,Any}("RuleGroupId" => RuleGroupId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rule_group(
@@ -2149,7 +2149,7 @@ function get_rule_group(
             mergewith(_merge, Dict{String,Any}("RuleGroupId" => RuleGroupId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2203,7 +2203,7 @@ function get_sampled_requests(
             "WebAclId" => WebAclId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sampled_requests(
@@ -2229,7 +2229,7 @@ function get_sampled_requests(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2255,7 +2255,7 @@ function get_size_constraint_set(
         "GetSizeConstraintSet",
         Dict{String,Any}("SizeConstraintSetId" => SizeConstraintSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_size_constraint_set(
@@ -2273,7 +2273,7 @@ function get_size_constraint_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2300,7 +2300,7 @@ function get_sql_injection_match_set(
         "GetSqlInjectionMatchSet",
         Dict{String,Any}("SqlInjectionMatchSetId" => SqlInjectionMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sql_injection_match_set(
@@ -2318,7 +2318,7 @@ function get_sql_injection_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2341,7 +2341,7 @@ function get_web_acl(WebACLId; aws_config::AbstractAWSConfig=global_aws_config()
         "GetWebACL",
         Dict{String,Any}("WebACLId" => WebACLId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_web_acl(
@@ -2355,7 +2355,7 @@ function get_web_acl(
             mergewith(_merge, Dict{String,Any}("WebACLId" => WebACLId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2385,7 +2385,7 @@ function get_web_aclfor_resource(
         "GetWebACLForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_web_aclfor_resource(
@@ -2399,7 +2399,7 @@ function get_web_aclfor_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2422,7 +2422,7 @@ function get_xss_match_set(XssMatchSetId; aws_config::AbstractAWSConfig=global_a
         "GetXssMatchSet",
         Dict{String,Any}("XssMatchSetId" => XssMatchSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_xss_match_set(
@@ -2436,7 +2436,7 @@ function get_xss_match_set(
             mergewith(_merge, Dict{String,Any}("XssMatchSetId" => XssMatchSetId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2469,7 +2469,7 @@ function list_activated_rules_in_rule_group(;
     return waf_regional(
         "ListActivatedRulesInRuleGroup";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_activated_rules_in_rule_group(
@@ -2479,7 +2479,7 @@ function list_activated_rules_in_rule_group(
         "ListActivatedRulesInRuleGroup",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2506,14 +2506,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_byte_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListByteMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListByteMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_byte_match_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListByteMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListByteMatchSets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2540,14 +2543,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_geo_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListGeoMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListGeoMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_geo_match_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2572,14 +2575,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_ipsets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListIPSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListIPSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_ipsets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListIPSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListIPSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2606,7 +2609,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLoggingConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_logging_configurations(
@@ -2616,7 +2621,7 @@ function list_logging_configurations(
         "ListLoggingConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2642,14 +2647,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rate_based_rules(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListRateBasedRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRateBasedRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_rate_based_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListRateBasedRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRateBasedRules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2676,14 +2684,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_regex_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListRegexMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRegexMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_regex_match_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListRegexMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRegexMatchSets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2710,7 +2721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_regex_pattern_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListRegexPatternSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRegexPatternSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_regex_pattern_sets(
@@ -2720,7 +2731,7 @@ function list_regex_pattern_sets(
         "ListRegexPatternSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2750,7 +2761,7 @@ function list_resources_for_web_acl(
         "ListResourcesForWebACL",
         Dict{String,Any}("WebACLId" => WebACLId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resources_for_web_acl(
@@ -2764,7 +2775,7 @@ function list_resources_for_web_acl(
             mergewith(_merge, Dict{String,Any}("WebACLId" => WebACLId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2790,14 +2801,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2821,13 +2832,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextMarker from the previous response to get information about another batch of Rules.
 """
 function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return waf_regional("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return waf_regional(
+        "ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2854,7 +2867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_size_constraint_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListSizeConstraintSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSizeConstraintSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_size_constraint_sets(
@@ -2864,7 +2877,7 @@ function list_size_constraint_sets(
         "ListSizeConstraintSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2891,7 +2904,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListSqlInjectionMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSqlInjectionMatchSets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sql_injection_match_sets(
@@ -2901,7 +2916,7 @@ function list_sql_injection_match_sets(
         "ListSqlInjectionMatchSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2928,7 +2943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListSubscribedRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSubscribedRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_subscribed_rule_groups(
@@ -2938,7 +2953,7 @@ function list_subscribed_rule_groups(
         "ListSubscribedRuleGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2972,7 +2987,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2986,7 +3001,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3013,14 +3028,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_web_acls(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListWebACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWebACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_web_acls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3047,14 +3062,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_xss_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return waf_regional(
-        "ListXssMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListXssMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_xss_match_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return waf_regional(
-        "ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3090,7 +3105,7 @@ function put_logging_configuration(
         "PutLoggingConfiguration",
         Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_logging_configuration(
@@ -3108,7 +3123,7 @@ function put_logging_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3145,7 +3160,7 @@ function put_permission_policy(
         "PutPermissionPolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_permission_policy(
@@ -3164,7 +3179,7 @@ function put_permission_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3193,7 +3208,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3212,7 +3227,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3237,7 +3252,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3256,7 +3271,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3309,7 +3324,7 @@ function update_byte_match_set(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_byte_match_set(
@@ -3333,7 +3348,7 @@ function update_byte_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3381,7 +3396,7 @@ function update_geo_match_set(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_geo_match_set(
@@ -3405,7 +3420,7 @@ function update_geo_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3460,7 +3475,7 @@ function update_ipset(
             "ChangeToken" => ChangeToken, "IPSetId" => IPSetId, "Updates" => Updates
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_ipset(
@@ -3482,7 +3497,7 @@ function update_ipset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3540,7 +3555,7 @@ function update_rate_based_rule(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rate_based_rule(
@@ -3566,7 +3581,7 @@ function update_rate_based_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3615,7 +3630,7 @@ function update_regex_match_set(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_regex_match_set(
@@ -3639,7 +3654,7 @@ function update_regex_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3685,7 +3700,7 @@ function update_regex_pattern_set(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_regex_pattern_set(
@@ -3709,7 +3724,7 @@ function update_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3757,7 +3772,7 @@ function update_rule(
             "ChangeToken" => ChangeToken, "RuleId" => RuleId, "Updates" => Updates
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rule(
@@ -3779,7 +3794,7 @@ function update_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3821,7 +3836,7 @@ function update_rule_group(
             "ChangeToken" => ChangeToken, "RuleGroupId" => RuleGroupId, "Updates" => Updates
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rule_group(
@@ -3845,7 +3860,7 @@ function update_rule_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3905,7 +3920,7 @@ function update_size_constraint_set(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_size_constraint_set(
@@ -3929,7 +3944,7 @@ function update_size_constraint_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3986,7 +4001,7 @@ function update_sql_injection_match_set(
             "Updates" => Updates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sql_injection_match_set(
@@ -4010,7 +4025,7 @@ function update_sql_injection_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4080,7 +4095,7 @@ function update_web_acl(
         "UpdateWebACL",
         Dict{String,Any}("ChangeToken" => ChangeToken, "WebACLId" => WebACLId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_web_acl(
@@ -4099,7 +4114,7 @@ function update_web_acl(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4150,7 +4165,7 @@ function update_xss_match_set(
             "XssMatchSetId" => XssMatchSetId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_xss_match_set(
@@ -4174,6 +4189,6 @@ function update_xss_match_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

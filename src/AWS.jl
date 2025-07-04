@@ -61,19 +61,8 @@ non-breaking behavior.
   call response typically be parsed but will vary depending on the following parameters:
   "return_headers", "return_stream", "return_raw", "response_dict_type".
 """
-Base.@kwdef mutable struct FeatureSet
+Base.@kwdef struct FeatureSet
     use_response_type::Bool = false
-end
-
-# Reset the given `FeatureSet` to have the features specified via keyword arguments.
-# Notably, if no keyword arguments are provided, the `FeatureSet` is reset to defaults.
-# This is used internally by `@service` when a module already exists.
-function set_features!(fs::FeatureSet; kwargs...)
-    new = FeatureSet(; kwargs...)
-    for field in fieldnames(FeatureSet)
-        setfield!(fs, field, getfield(new, field))
-    end
-    return fs
 end
 
 """
@@ -241,7 +230,7 @@ macro service(exprs...)
 
     module_block = quote
         using AWS: FeatureSet
-        const SERVICE_FEATURE_SET = FeatureSet(; $(features...))
+        const SERVICE_FEATURE_SET = Ref(FeatureSet(; $(features...)))
         include($service_file)
     end
     module_def = Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
@@ -249,7 +238,7 @@ macro service(exprs...)
     # Only allow feature sets to be modified during interactive REPL usage
     if __module__ === Main
         mutate_block = quote
-            $set_features!($module_name.SERVICE_FEATURE_SET; $(features...))
+            $module_name.SERVICE_FEATURE_SET[] = $FeatureSet(; $(features...))
             $module_name
         end
         condition = :(isdefined($__module__, $(QuoteNode(module_name))))

@@ -60,7 +60,7 @@ function create_notification_rule(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_notification_rule(
@@ -90,7 +90,7 @@ function create_notification_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -110,7 +110,7 @@ function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_
         "/deleteNotificationRule",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_notification_rule(
@@ -121,7 +121,7 @@ function delete_notification_rule(
         "/deleteNotificationRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -147,7 +147,7 @@ function delete_target(TargetAddress; aws_config::AbstractAWSConfig=global_aws_c
         "/deleteTarget",
         Dict{String,Any}("TargetAddress" => TargetAddress);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_target(
@@ -162,7 +162,7 @@ function delete_target(
             mergewith(_merge, Dict{String,Any}("TargetAddress" => TargetAddress), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -182,7 +182,7 @@ function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aw
         "/describeNotificationRule",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_notification_rule(
@@ -193,7 +193,7 @@ function describe_notification_rule(
         "/describeNotificationRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -213,7 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
     return codestar_notifications(
-        "POST", "/listEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_event_types(
@@ -224,7 +224,7 @@ function list_event_types(
         "/listEventTypes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -250,7 +250,7 @@ function list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/listNotificationRules";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_notification_rules(
@@ -261,7 +261,7 @@ function list_notification_rules(
         "/listNotificationRules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -281,7 +281,7 @@ function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_co
         "/listTagsForResource",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -292,7 +292,7 @@ function list_tags_for_resource(
         "/listTagsForResource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_targets(; aws_config::AbstractAWSConfig=global_aws_config())
     return codestar_notifications(
-        "POST", "/listTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_targets(
@@ -326,7 +326,7 @@ function list_targets(
         "/listTargets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -354,7 +354,7 @@ function subscribe(Arn, Target; aws_config::AbstractAWSConfig=global_aws_config(
         "/subscribe",
         Dict{String,Any}("Arn" => Arn, "Target" => Target);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function subscribe(
@@ -370,7 +370,7 @@ function subscribe(
             mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Target" => Target), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -392,7 +392,7 @@ function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config
         "/tagResource",
         Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -408,7 +408,7 @@ function tag_resource(
             mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -431,7 +431,7 @@ function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aw
         "/unsubscribe",
         Dict{String,Any}("Arn" => Arn, "TargetAddress" => TargetAddress);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unsubscribe(
@@ -451,7 +451,7 @@ function unsubscribe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -475,7 +475,7 @@ function untag_resource(
         "/untagResource/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -489,7 +489,7 @@ function untag_resource(
         "/untagResource/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -525,7 +525,7 @@ function update_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_
         "/updateNotificationRule",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_notification_rule(
@@ -536,6 +536,6 @@ function update_notification_rule(
         "/updateNotificationRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

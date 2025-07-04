@@ -126,39 +126,31 @@
         err = @capture_err begin
             @eval Main begin
                 using AWS: @service
-
-                @service S3 as SimpleStorageService use_response_type = true
-                const OLD_FEATURE_SET = SimpleStorageService.SERVICE_FEATURE_SET
-
-                @service S3 as SimpleStorageService
-                const NEW_FEATURE_SET = SimpleStorageService.SERVICE_FEATURE_SET
+                const OLD_S3 = @service S3 as SimpleStorageService use_response_type = true
+                const NEW_S3 = @service S3 as SimpleStorageService
             end
         end
         #! format: on
 
         # Ensure service module was mutated instead of overwritten
-        @test Main.OLD_FEATURE_SET === Main.NEW_FEATURE_SET
-        @test Main.OLD_FEATURE_SET.use_response_type == false
-        @test Main.NEW_FEATURE_SET.use_response_type == false
+        @test Main.OLD_S3 === Main.NEW_S3
+        @test Main.OLD_S3.SERVICE_FEATURE_SET[].use_response_type == false
+        @test Main.NEW_S3.SERVICE_FEATURE_SET[].use_response_type == false
         @test isempty(err)
 
         #! format: off
         err = @capture_err begin
             @eval baremodule __service_mutation
                 using AWS: @service
-
-                @service S3 use_response_type = true
-                const OLD_FEATURE_SET = S3.SERVICE_FEATURE_SET
-
-                @service S3
-                const NEW_FEATURE_SET = S3.SERVICE_FEATURE_SET
+                const OLD_S3 = @service S3 use_response_type = true
+                const NEW_S3 = @service S3
             end
         end
         #! format: on
 
-        @test __service_mutation.OLD_FEATURE_SET !== __service_mutation.NEW_FEATURE_SET
-        @test __service_mutation.OLD_FEATURE_SET.use_response_type == true
-        @test __service_mutation.NEW_FEATURE_SET.use_response_type == false
+        @test __service_mutation.OLD_S3 !== __service_mutation.NEW_S3
+        @test __service_mutation.OLD_S3.SERVICE_FEATURE_SET[].use_response_type == true
+        @test __service_mutation.NEW_S3.SERVICE_FEATURE_SET[].use_response_type == false
         @test !isempty(err)
     end
 end

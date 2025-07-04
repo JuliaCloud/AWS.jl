@@ -25,7 +25,7 @@ function batch_create_attendee(
         "/meetings/$(MeetingId)/attendees?operation=batch-create",
         Dict{String,Any}("Attendees" => Attendees);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_create_attendee(
@@ -41,7 +41,7 @@ function batch_create_attendee(
             mergewith(_merge, Dict{String,Any}("Attendees" => Attendees), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -89,7 +89,7 @@ function batch_update_attendee_capabilities_except(
             "Capabilities" => Capabilities, "ExcludedAttendeeIds" => ExcludedAttendeeIds
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_attendee_capabilities_except(
@@ -113,7 +113,7 @@ function batch_update_attendee_capabilities_except(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -162,7 +162,7 @@ function create_attendee(
         "/meetings/$(MeetingId)/attendees",
         Dict{String,Any}("ExternalUserId" => ExternalUserId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_attendee(
@@ -178,7 +178,7 @@ function create_attendee(
             mergewith(_merge, Dict{String,Any}("ExternalUserId" => ExternalUserId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -251,7 +251,7 @@ function create_meeting(
             "MediaRegion" => MediaRegion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_meeting(
@@ -276,7 +276,7 @@ function create_meeting(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -332,7 +332,7 @@ function create_meeting_with_attendees(
             "MediaRegion" => MediaRegion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_meeting_with_attendees(
@@ -359,7 +359,7 @@ function create_meeting_with_attendees(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -384,7 +384,7 @@ function delete_attendee(
         "DELETE",
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_attendee(
@@ -398,7 +398,7 @@ function delete_attendee(
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -420,7 +420,7 @@ function delete_meeting(MeetingId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/meetings/$(MeetingId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_meeting(
@@ -433,7 +433,7 @@ function delete_meeting(
         "/meetings/$(MeetingId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -457,7 +457,7 @@ function get_attendee(
         "GET",
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_attendee(
@@ -471,7 +471,7 @@ function get_attendee(
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -492,7 +492,7 @@ function get_meeting(MeetingId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/meetings/$(MeetingId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_meeting(
@@ -505,7 +505,7 @@ function get_meeting(
         "/meetings/$(MeetingId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -529,7 +529,7 @@ function list_attendees(MeetingId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/meetings/$(MeetingId)/attendees";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_attendees(
@@ -542,7 +542,7 @@ function list_attendees(
         "/meetings/$(MeetingId)/attendees",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -562,7 +562,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
         "/tags",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -573,7 +573,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -611,7 +611,7 @@ function start_meeting_transcription(
         "/meetings/$(MeetingId)/transcription?operation=start",
         Dict{String,Any}("TranscriptionConfiguration" => TranscriptionConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_meeting_transcription(
@@ -633,7 +633,7 @@ function start_meeting_transcription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -665,7 +665,7 @@ function stop_meeting_transcription(
         "POST",
         "/meetings/$(MeetingId)/transcription?operation=stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_meeting_transcription(
@@ -678,7 +678,7 @@ function stop_meeting_transcription(
         "/meetings/$(MeetingId)/transcription?operation=stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +699,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags?operation=tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -719,7 +719,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +753,7 @@ function untag_resource(
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -773,7 +773,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -814,7 +814,7 @@ function update_attendee_capabilities(
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)/capabilities",
         Dict{String,Any}("Capabilities" => Capabilities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_attendee_capabilities(
@@ -831,6 +831,6 @@ function update_attendee_capabilities(
             mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -26,7 +26,7 @@ function create_discoverer(SourceArn; aws_config::AbstractAWSConfig=global_aws_c
         "/v1/discoverers",
         Dict{String,Any}("SourceArn" => SourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_discoverer(
@@ -41,7 +41,7 @@ function create_discoverer(
             mergewith(_merge, Dict{String,Any}("SourceArn" => SourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -64,7 +64,7 @@ function create_registry(registryName; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/v1/registries/name/$(registryName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_registry(
@@ -77,7 +77,7 @@ function create_registry(
         "/v1/registries/name/$(registryName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -110,7 +110,7 @@ function create_schema(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
         Dict{String,Any}("Content" => Content, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_schema(
@@ -130,7 +130,7 @@ function create_schema(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,7 +149,7 @@ function delete_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/v1/discoverers/id/$(discovererId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_discoverer(
@@ -162,7 +162,7 @@ function delete_discoverer(
         "/v1/discoverers/id/$(discovererId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function delete_registry(registryName; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/v1/registries/name/$(registryName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_registry(
@@ -194,7 +194,7 @@ function delete_registry(
         "/v1/registries/name/$(registryName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -210,7 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
     return schemas(
-        "DELETE", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_resource_policy(
@@ -221,7 +221,7 @@ function delete_resource_policy(
         "/v1/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -243,7 +243,7 @@ function delete_schema(
         "DELETE",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_schema(
@@ -257,7 +257,7 @@ function delete_schema(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -283,7 +283,7 @@ function delete_schema_version(
         "DELETE",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_schema_version(
@@ -298,7 +298,7 @@ function delete_schema_version(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -324,7 +324,7 @@ function describe_code_binding(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_code_binding(
@@ -339,7 +339,7 @@ function describe_code_binding(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -360,7 +360,7 @@ function describe_discoverer(
         "GET",
         "/v1/discoverers/id/$(discovererId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_discoverer(
@@ -373,7 +373,7 @@ function describe_discoverer(
         "/v1/discoverers/id/$(discovererId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -392,7 +392,7 @@ function describe_registry(registryName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/registries/name/$(registryName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registry(
@@ -405,7 +405,7 @@ function describe_registry(
         "/v1/registries/name/$(registryName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -430,7 +430,7 @@ function describe_schema(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_schema(
@@ -444,7 +444,7 @@ function describe_schema(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -471,7 +471,7 @@ function export_schema(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export",
         Dict{String,Any}("type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_schema(
@@ -486,7 +486,7 @@ function export_schema(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -512,7 +512,7 @@ function get_code_binding_source(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_code_binding_source(
@@ -527,7 +527,7 @@ function get_code_binding_source(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -552,7 +552,7 @@ function get_discovered_schema(
         "/v1/discover",
         Dict{String,Any}("Events" => Events, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_discovered_schema(
@@ -568,7 +568,7 @@ function get_discovered_schema(
             mergewith(_merge, Dict{String,Any}("Events" => Events, "Type" => Type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -584,14 +584,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
     return schemas(
-        "GET", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return schemas(
-        "GET", "/v1/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,7 +618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config())
     return schemas(
-        "GET", "/v1/discoverers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/discoverers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_discoverers(
@@ -625,7 +629,7 @@ function list_discoverers(
         "/v1/discoverers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -648,7 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_registries(; aws_config::AbstractAWSConfig=global_aws_config())
     return schemas(
-        "GET", "/v1/registries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/registries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_registries(
@@ -659,7 +663,7 @@ function list_registries(
         "/v1/registries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -687,7 +691,7 @@ function list_schema_versions(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_schema_versions(
@@ -701,7 +705,7 @@ function list_schema_versions(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -728,7 +732,7 @@ function list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/v1/registries/name/$(registryName)/schemas";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_schemas(
@@ -741,7 +745,7 @@ function list_schemas(
         "/v1/registries/name/$(registryName)/schemas",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -762,7 +766,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -775,7 +779,7 @@ function list_tags_for_resource(
         "/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -801,7 +805,7 @@ function put_code_binding(
         "POST",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_code_binding(
@@ -816,7 +820,7 @@ function put_code_binding(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -840,7 +844,7 @@ function put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_co
         "/v1/policy",
         Dict{String,Any}("Policy" => Policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -851,7 +855,7 @@ function put_resource_policy(
         "/v1/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -881,7 +885,7 @@ function search_schemas(
         "/v1/registries/name/$(registryName)/schemas/search",
         Dict{String,Any}("keywords" => keywords);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_schemas(
@@ -897,7 +901,7 @@ function search_schemas(
             mergewith(_merge, Dict{String,Any}("keywords" => keywords), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +920,7 @@ function start_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/v1/discoverers/id/$(discovererId)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_discoverer(
@@ -929,7 +933,7 @@ function start_discoverer(
         "/v1/discoverers/id/$(discovererId)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -948,7 +952,7 @@ function stop_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/v1/discoverers/id/$(discovererId)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_discoverer(
@@ -961,7 +965,7 @@ function stop_discoverer(
         "/v1/discoverers/id/$(discovererId)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -982,7 +986,7 @@ function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_a
         "/tags/$(resource-arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -996,7 +1000,7 @@ function tag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1019,7 +1023,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1033,7 +1037,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1057,7 +1061,7 @@ function update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aw
         "PUT",
         "/v1/discoverers/id/$(discovererId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_discoverer(
@@ -1070,7 +1074,7 @@ function update_discoverer(
         "/v1/discoverers/id/$(discovererId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1092,7 +1096,7 @@ function update_registry(registryName; aws_config::AbstractAWSConfig=global_aws_
         "PUT",
         "/v1/registries/name/$(registryName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_registry(
@@ -1105,7 +1109,7 @@ function update_registry(
         "/v1/registries/name/$(registryName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1134,7 +1138,7 @@ function update_schema(
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
         Dict{String,Any}("ClientTokenId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_schema(
@@ -1150,6 +1154,6 @@ function update_schema(
             mergewith(_merge, Dict{String,Any}("ClientTokenId" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

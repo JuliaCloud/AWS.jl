@@ -27,7 +27,7 @@ function batch_associate_scram_secret(
         "/v1/clusters/$(clusterArn)/scram-secrets",
         Dict{String,Any}("secretArnList" => secretArnList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_associate_scram_secret(
@@ -43,7 +43,7 @@ function batch_associate_scram_secret(
             mergewith(_merge, Dict{String,Any}("secretArnList" => secretArnList), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -70,7 +70,7 @@ function batch_disassociate_scram_secret(
         "/v1/clusters/$(clusterArn)/scram-secrets",
         Dict{String,Any}("secretArnList" => secretArnList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_disassociate_scram_secret(
@@ -86,7 +86,7 @@ function batch_disassociate_scram_secret(
             mergewith(_merge, Dict{String,Any}("secretArnList" => secretArnList), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,7 +149,7 @@ function create_cluster(
             "numberOfBrokerNodes" => numberOfBrokerNodes,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster(
@@ -176,7 +176,7 @@ function create_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -206,7 +206,7 @@ function create_cluster_v2(clusterName; aws_config::AbstractAWSConfig=global_aws
         "/api/v2/clusters",
         Dict{String,Any}("clusterName" => clusterName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster_v2(
@@ -221,7 +221,7 @@ function create_cluster_v2(
             mergewith(_merge, Dict{String,Any}("clusterName" => clusterName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -258,7 +258,7 @@ function create_configuration(
         "/v1/configurations",
         Dict{String,Any}("name" => name, "serverProperties" => serverProperties);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configuration(
@@ -278,7 +278,7 @@ function create_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -319,7 +319,7 @@ function create_replicator(
             "serviceExecutionRoleArn" => serviceExecutionRoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_replicator(
@@ -346,7 +346,7 @@ function create_replicator(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -394,7 +394,7 @@ function create_vpc_connection(
             "vpcId" => vpcId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vpc_connection(
@@ -423,7 +423,7 @@ function create_vpc_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -450,7 +450,7 @@ function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/v1/clusters/$(clusterArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster(
@@ -463,7 +463,7 @@ function delete_cluster(
         "/v1/clusters/$(clusterArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -487,7 +487,7 @@ function delete_cluster_policy(
         "DELETE",
         "/v1/clusters/$(clusterArn)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster_policy(
@@ -500,7 +500,7 @@ function delete_cluster_policy(
         "/v1/clusters/$(clusterArn)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -522,7 +522,7 @@ function delete_configuration(arn; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/v1/configurations/$(arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration(
@@ -533,7 +533,7 @@ function delete_configuration(
         "/v1/configurations/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -555,7 +555,7 @@ function delete_replicator(replicatorArn; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/replication/v1/replicators/$(replicatorArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_replicator(
@@ -568,7 +568,7 @@ function delete_replicator(
         "/replication/v1/replicators/$(replicatorArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -590,7 +590,7 @@ function delete_vpc_connection(arn; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/v1/vpc-connection/$(arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vpc_connection(
@@ -601,7 +601,7 @@ function delete_vpc_connection(
         "/v1/vpc-connection/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,7 +624,7 @@ function describe_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/clusters/$(clusterArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster(
@@ -637,7 +637,7 @@ function describe_cluster(
         "/v1/clusters/$(clusterArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -661,7 +661,7 @@ function describe_cluster_operation(
         "GET",
         "/v1/operations/$(clusterOperationArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_operation(
@@ -674,7 +674,7 @@ function describe_cluster_operation(
         "/v1/operations/$(clusterOperationArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -696,7 +696,7 @@ function describe_cluster_operation_v2(
         "GET",
         "/api/v2/operations/$(clusterOperationArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_operation_v2(
@@ -709,7 +709,7 @@ function describe_cluster_operation_v2(
         "/api/v2/operations/$(clusterOperationArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -732,7 +732,7 @@ function describe_cluster_v2(clusterArn; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/api/v2/clusters/$(clusterArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_v2(
@@ -745,7 +745,7 @@ function describe_cluster_v2(
         "/api/v2/clusters/$(clusterArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -767,7 +767,7 @@ function describe_configuration(arn; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/v1/configurations/$(arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration(
@@ -778,7 +778,7 @@ function describe_configuration(
         "/v1/configurations/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -805,7 +805,7 @@ function describe_configuration_revision(
         "GET",
         "/v1/configurations/$(arn)/revisions/$(revision)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_revision(
@@ -819,7 +819,7 @@ function describe_configuration_revision(
         "/v1/configurations/$(arn)/revisions/$(revision)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -840,7 +840,7 @@ function describe_replicator(
         "GET",
         "/replication/v1/replicators/$(replicatorArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_replicator(
@@ -853,7 +853,7 @@ function describe_replicator(
         "/replication/v1/replicators/$(replicatorArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +875,7 @@ function describe_vpc_connection(arn; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/vpc-connection/$(arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vpc_connection(
@@ -886,7 +886,7 @@ function describe_vpc_connection(
         "/v1/vpc-connection/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -910,7 +910,7 @@ function get_bootstrap_brokers(
         "GET",
         "/v1/clusters/$(clusterArn)/bootstrap-brokers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bootstrap_brokers(
@@ -923,7 +923,7 @@ function get_bootstrap_brokers(
         "/v1/clusters/$(clusterArn)/bootstrap-brokers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -945,7 +945,7 @@ function get_cluster_policy(clusterArn; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/v1/clusters/$(clusterArn)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cluster_policy(
@@ -958,7 +958,7 @@ function get_cluster_policy(
         "/v1/clusters/$(clusterArn)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -981,7 +981,7 @@ function get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/compatible-kafka-versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compatible_kafka_versions(
@@ -992,7 +992,7 @@ function get_compatible_kafka_versions(
         "/v1/compatible-kafka-versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1025,7 +1025,7 @@ function list_client_vpc_connections(
         "GET",
         "/v1/clusters/$(clusterArn)/client-vpc-connections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_client_vpc_connections(
@@ -1038,7 +1038,7 @@ function list_client_vpc_connections(
         "/v1/clusters/$(clusterArn)/client-vpc-connections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1073,7 +1073,7 @@ function list_cluster_operations(
         "GET",
         "/v1/clusters/$(clusterArn)/operations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_cluster_operations(
@@ -1086,7 +1086,7 @@ function list_cluster_operations(
         "/v1/clusters/$(clusterArn)/operations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1113,7 +1113,7 @@ function list_cluster_operations_v2(
         "GET",
         "/api/v2/clusters/$(clusterArn)/operations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_cluster_operations_v2(
@@ -1126,7 +1126,7 @@ function list_cluster_operations_v2(
         "/api/v2/clusters/$(clusterArn)/operations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1154,7 +1154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return kafka(
-        "GET", "/v1/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_clusters(
@@ -1165,7 +1165,7 @@ function list_clusters(
         "/v1/clusters",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1195,7 +1195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_clusters_v2(; aws_config::AbstractAWSConfig=global_aws_config())
     return kafka(
-        "GET", "/api/v2/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/api/v2/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_clusters_v2(
@@ -1206,7 +1206,7 @@ function list_clusters_v2(
         "/api/v2/clusters",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1240,7 +1240,7 @@ function list_configuration_revisions(
         "GET",
         "/v1/configurations/$(arn)/revisions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_configuration_revisions(
@@ -1251,7 +1251,7 @@ function list_configuration_revisions(
         "/v1/configurations/$(arn)/revisions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1275,7 +1275,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
     return kafka(
-        "GET", "/v1/configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_configurations(
@@ -1286,7 +1289,7 @@ function list_configurations(
         "/v1/configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1309,7 +1312,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return kafka(
-        "GET", "/v1/kafka-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/kafka-versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kafka_versions(
@@ -1320,7 +1326,7 @@ function list_kafka_versions(
         "/v1/kafka-versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1352,7 +1358,7 @@ function list_nodes(clusterArn; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/v1/clusters/$(clusterArn)/nodes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_nodes(
@@ -1365,7 +1371,7 @@ function list_nodes(
         "/v1/clusters/$(clusterArn)/nodes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1388,7 +1394,7 @@ function list_replicators(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/replication/v1/replicators";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_replicators(
@@ -1399,7 +1405,7 @@ function list_replicators(
         "/replication/v1/replicators",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1427,7 +1433,7 @@ function list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/v1/clusters/$(clusterArn)/scram-secrets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_scram_secrets(
@@ -1440,7 +1446,7 @@ function list_scram_secrets(
         "/v1/clusters/$(clusterArn)/scram-secrets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1464,7 +1470,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1477,7 +1483,7 @@ function list_tags_for_resource(
         "/v1/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1501,7 +1507,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_vpc_connections(; aws_config::AbstractAWSConfig=global_aws_config())
     return kafka(
-        "GET", "/v1/vpc-connections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v1/vpc-connections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_vpc_connections(
@@ -1512,7 +1521,7 @@ function list_vpc_connections(
         "/v1/vpc-connections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1543,7 +1552,7 @@ function put_cluster_policy(
         "/v1/clusters/$(clusterArn)/policy",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_cluster_policy(
@@ -1557,7 +1566,7 @@ function put_cluster_policy(
         "/v1/clusters/$(clusterArn)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1584,7 +1593,7 @@ function reboot_broker(
         "/v1/clusters/$(clusterArn)/reboot-broker",
         Dict{String,Any}("brokerIds" => brokerIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reboot_broker(
@@ -1600,7 +1609,7 @@ function reboot_broker(
             mergewith(_merge, Dict{String,Any}("brokerIds" => brokerIds), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1626,7 +1635,7 @@ function reject_client_vpc_connection(
         "/v1/clusters/$(clusterArn)/client-vpc-connection",
         Dict{String,Any}("vpcConnectionArn" => vpcConnectionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reject_client_vpc_connection(
@@ -1644,7 +1653,7 @@ function reject_client_vpc_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1669,7 +1678,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1683,7 +1692,7 @@ function tag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1727,7 +1736,7 @@ function untag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1741,7 +1750,7 @@ function untag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1778,7 +1787,7 @@ function update_broker_count(
             "targetNumberOfBrokerNodes" => targetNumberOfBrokerNodes,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_broker_count(
@@ -1802,7 +1811,7 @@ function update_broker_count(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1839,7 +1848,7 @@ function update_broker_storage(
             "targetBrokerEBSVolumeInfo" => targetBrokerEBSVolumeInfo,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_broker_storage(
@@ -1863,7 +1872,7 @@ function update_broker_storage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1899,7 +1908,7 @@ function update_broker_type(
             "currentVersion" => currentVersion, "targetInstanceType" => targetInstanceType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_broker_type(
@@ -1923,7 +1932,7 @@ function update_broker_type(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1960,7 +1969,7 @@ function update_cluster_configuration(
             "configurationInfo" => configurationInfo, "currentVersion" => currentVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cluster_configuration(
@@ -1984,7 +1993,7 @@ function update_cluster_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2023,7 +2032,7 @@ function update_cluster_kafka_version(
             "currentVersion" => currentVersion, "targetKafkaVersion" => targetKafkaVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cluster_kafka_version(
@@ -2047,7 +2056,7 @@ function update_cluster_kafka_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2081,7 +2090,7 @@ function update_configuration(
         "/v1/configurations/$(arn)",
         Dict{String,Any}("serverProperties" => serverProperties);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configuration(
@@ -2099,7 +2108,7 @@ function update_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2135,7 +2144,7 @@ function update_connectivity(
             "connectivityInfo" => connectivityInfo, "currentVersion" => currentVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_connectivity(
@@ -2159,7 +2168,7 @@ function update_connectivity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2198,7 +2207,7 @@ function update_monitoring(
         "/v1/clusters/$(clusterArn)/monitoring",
         Dict{String,Any}("currentVersion" => currentVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_monitoring(
@@ -2214,7 +2223,7 @@ function update_monitoring(
             mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2251,7 +2260,7 @@ function update_replication_info(
             "targetKafkaClusterArn" => targetKafkaClusterArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_replication_info(
@@ -2277,7 +2286,7 @@ function update_replication_info(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2314,7 +2323,7 @@ function update_security(
         "/v1/clusters/$(clusterArn)/security",
         Dict{String,Any}("currentVersion" => currentVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_security(
@@ -2330,7 +2339,7 @@ function update_security(
             mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2366,7 +2375,7 @@ function update_storage(
         "/v1/clusters/$(clusterArn)/storage",
         Dict{String,Any}("currentVersion" => currentVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_storage(
@@ -2382,6 +2391,6 @@ function update_storage(
             mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

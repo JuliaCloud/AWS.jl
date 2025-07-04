@@ -43,7 +43,7 @@ function create_chat_token(
         "/CreateChatToken",
         Dict{String,Any}("roomIdentifier" => roomIdentifier, "userId" => userId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_chat_token(
@@ -63,7 +63,7 @@ function create_chat_token(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -94,7 +94,7 @@ function create_logging_configuration(
         "/CreateLoggingConfiguration",
         Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_logging_configuration(
@@ -113,7 +113,7 @@ function create_logging_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -141,7 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_room(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivschat(
-        "POST", "/CreateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/CreateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_room(
@@ -152,7 +152,7 @@ function create_room(
         "/CreateRoom",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -174,7 +174,7 @@ function delete_logging_configuration(
         "/DeleteLoggingConfiguration",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_logging_configuration(
@@ -189,7 +189,7 @@ function delete_logging_configuration(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -220,7 +220,7 @@ function delete_message(
         "/DeleteMessage",
         Dict{String,Any}("id" => id, "roomIdentifier" => roomIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_message(
@@ -240,7 +240,7 @@ function delete_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -260,7 +260,7 @@ function delete_room(identifier; aws_config::AbstractAWSConfig=global_aws_config
         "/DeleteRoom",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_room(
@@ -275,7 +275,7 @@ function delete_room(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -303,7 +303,7 @@ function disconnect_user(
         "/DisconnectUser",
         Dict{String,Any}("roomIdentifier" => roomIdentifier, "userId" => userId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disconnect_user(
@@ -323,7 +323,7 @@ function disconnect_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -345,7 +345,7 @@ function get_logging_configuration(
         "/GetLoggingConfiguration",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_logging_configuration(
@@ -360,7 +360,7 @@ function get_logging_configuration(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -381,7 +381,7 @@ function get_room(identifier; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetRoom",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_room(
@@ -396,7 +396,7 @@ function get_room(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -418,7 +418,7 @@ function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/ListLoggingConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_logging_configurations(
@@ -429,7 +429,7 @@ function list_logging_configurations(
         "/ListLoggingConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -452,14 +452,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rooms(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivschat(
-        "POST", "/ListRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_rooms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ivschat(
-        "POST", "/ListRooms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListRooms",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -480,7 +484,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -493,7 +497,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -523,7 +527,7 @@ function send_event(
         "/SendEvent",
         Dict{String,Any}("eventName" => eventName, "roomIdentifier" => roomIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_event(
@@ -545,7 +549,7 @@ function send_event(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -569,7 +573,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -583,7 +587,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -609,7 +613,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -623,7 +627,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -651,7 +655,7 @@ function update_logging_configuration(
         "/UpdateLoggingConfiguration",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_logging_configuration(
@@ -666,7 +670,7 @@ function update_logging_configuration(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +703,7 @@ function update_room(identifier; aws_config::AbstractAWSConfig=global_aws_config
         "/UpdateRoom",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_room(
@@ -714,6 +718,6 @@ function update_room(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

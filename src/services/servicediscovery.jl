@@ -31,7 +31,7 @@ function create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_co
         "CreateHttpNamespace",
         Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_http_namespace(
@@ -47,7 +47,7 @@ function create_http_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -89,7 +89,7 @@ function create_private_dns_namespace(
             "Name" => Name, "Vpc" => Vpc, "CreatorRequestId" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_private_dns_namespace(
@@ -110,7 +110,7 @@ function create_private_dns_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,7 +149,7 @@ function create_public_dns_namespace(
         "CreatePublicDnsNamespace",
         Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_public_dns_namespace(
@@ -165,7 +165,7 @@ function create_public_dns_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -228,7 +228,7 @@ function create_service(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateService",
         Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service(
@@ -244,7 +244,7 @@ function create_service(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -264,7 +264,7 @@ function delete_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteNamespace",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_namespace(
@@ -274,7 +274,7 @@ function delete_namespace(
         "DeleteNamespace",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -294,7 +294,7 @@ function delete_service(Id; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteService",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_service(
@@ -304,7 +304,7 @@ function delete_service(
         "DeleteService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -327,7 +327,7 @@ function deregister_instance(
         "DeregisterInstance",
         Dict{String,Any}("InstanceId" => InstanceId, "ServiceId" => ServiceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_instance(
@@ -346,7 +346,7 @@ function deregister_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -395,7 +395,7 @@ function discover_instances(
         "DiscoverInstances",
         Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function discover_instances(
@@ -416,7 +416,7 @@ function discover_instances(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -440,7 +440,7 @@ function discover_instances_revision(
         "DiscoverInstancesRevision",
         Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function discover_instances_revision(
@@ -461,7 +461,7 @@ function discover_instances_revision(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -483,7 +483,7 @@ function get_instance(
         "GetInstance",
         Dict{String,Any}("InstanceId" => InstanceId, "ServiceId" => ServiceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_instance(
@@ -502,7 +502,7 @@ function get_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -539,7 +539,7 @@ function get_instances_health_status(
         "GetInstancesHealthStatus",
         Dict{String,Any}("ServiceId" => ServiceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_instances_health_status(
@@ -553,7 +553,7 @@ function get_instances_health_status(
             mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -572,7 +572,7 @@ function get_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config())
         "GetNamespace",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_namespace(
@@ -582,7 +582,7 @@ function get_namespace(
         "GetNamespace",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -603,7 +603,7 @@ function get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_con
         "GetOperation",
         Dict{String,Any}("OperationId" => OperationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_operation(
@@ -617,7 +617,7 @@ function get_operation(
             mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -636,7 +636,7 @@ function get_service(Id; aws_config::AbstractAWSConfig=global_aws_config())
         "GetService",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service(
@@ -646,7 +646,7 @@ function get_service(
         "GetService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -675,7 +675,7 @@ function list_instances(ServiceId; aws_config::AbstractAWSConfig=global_aws_conf
         "ListInstances",
         Dict{String,Any}("ServiceId" => ServiceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_instances(
@@ -689,7 +689,7 @@ function list_instances(
             mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -718,14 +718,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return servicediscovery(
-        "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return servicediscovery(
-        "ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -754,14 +754,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_operations(; aws_config::AbstractAWSConfig=global_aws_config())
     return servicediscovery(
-        "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return servicediscovery(
-        "ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListOperations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -790,14 +790,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
     return servicediscovery(
-        "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return servicediscovery(
-        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -819,7 +819,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -833,7 +833,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -939,7 +939,7 @@ function register_instance(
             "CreatorRequestId" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_instance(
@@ -964,7 +964,7 @@ function register_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -987,7 +987,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1006,7 +1006,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1029,7 +1029,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1048,7 +1048,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1077,7 +1077,7 @@ function update_http_namespace(
             "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_http_namespace(
@@ -1100,7 +1100,7 @@ function update_http_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1130,7 +1130,7 @@ function update_instance_custom_health_status(
             "InstanceId" => InstanceId, "ServiceId" => ServiceId, "Status" => Status
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_instance_custom_health_status(
@@ -1152,7 +1152,7 @@ function update_instance_custom_health_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1181,7 +1181,7 @@ function update_private_dns_namespace(
             "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_private_dns_namespace(
@@ -1204,7 +1204,7 @@ function update_private_dns_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1233,7 +1233,7 @@ function update_public_dns_namespace(
             "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_public_dns_namespace(
@@ -1256,7 +1256,7 @@ function update_public_dns_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1285,7 +1285,7 @@ function update_service(Id, Service; aws_config::AbstractAWSConfig=global_aws_co
         "UpdateService",
         Dict{String,Any}("Id" => Id, "Service" => Service);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_service(
@@ -1300,6 +1300,6 @@ function update_service(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "Service" => Service), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

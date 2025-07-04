@@ -49,7 +49,7 @@ function invoke_agent(
         "POST",
         "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invoke_agent(
@@ -64,7 +64,7 @@ function invoke_agent(
         "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -94,7 +94,7 @@ function retrieve(
         "/knowledgebases/$(knowledgeBaseId)/retrieve",
         Dict{String,Any}("retrievalQuery" => retrievalQuery);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function retrieve(
@@ -110,7 +110,7 @@ function retrieve(
             mergewith(_merge, Dict{String,Any}("retrievalQuery" => retrievalQuery), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -138,7 +138,7 @@ function retrieve_and_generate(input; aws_config::AbstractAWSConfig=global_aws_c
         "/retrieveAndGenerate",
         Dict{String,Any}("input" => input);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function retrieve_and_generate(
@@ -149,6 +149,6 @@ function retrieve_and_generate(
         "/retrieveAndGenerate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("input" => input), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

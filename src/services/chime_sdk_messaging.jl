@@ -34,7 +34,7 @@ function associate_channel_flow(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_channel_flow(
@@ -59,7 +59,7 @@ function associate_channel_flow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -99,7 +99,7 @@ function batch_create_channel_membership(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_create_channel_membership(
@@ -124,7 +124,7 @@ function batch_create_channel_membership(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +159,7 @@ function channel_flow_callback(
         "/channels/$(channelArn)?operation=channel-flow-callback",
         Dict{String,Any}("CallbackId" => CallbackId, "ChannelMessage" => ChannelMessage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function channel_flow_callback(
@@ -182,7 +182,7 @@ function channel_flow_callback(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -238,7 +238,7 @@ function create_channel(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel(
@@ -266,7 +266,7 @@ function create_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -302,7 +302,7 @@ function create_channel_ban(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel_ban(
@@ -327,7 +327,7 @@ function create_channel_ban(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -371,7 +371,7 @@ function create_channel_flow(
             "Processors" => Processors,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel_flow(
@@ -398,7 +398,7 @@ function create_channel_flow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -445,7 +445,7 @@ function create_channel_membership(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel_membership(
@@ -472,7 +472,7 @@ function create_channel_membership(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -507,7 +507,7 @@ function create_channel_moderator(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel_moderator(
@@ -532,7 +532,7 @@ function create_channel_moderator(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -561,7 +561,7 @@ function delete_channel(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel(
@@ -584,7 +584,7 @@ function delete_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -616,7 +616,7 @@ function delete_channel_ban(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_ban(
@@ -640,7 +640,7 @@ function delete_channel_ban(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -665,7 +665,7 @@ function delete_channel_flow(
         "DELETE",
         "/channel-flows/$(channelFlowArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_flow(
@@ -678,7 +678,7 @@ function delete_channel_flow(
         "/channel-flows/$(channelFlowArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -712,7 +712,7 @@ function delete_channel_membership(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_membership(
@@ -736,7 +736,7 @@ function delete_channel_membership(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -773,7 +773,7 @@ function delete_channel_message(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_message(
@@ -797,7 +797,7 @@ function delete_channel_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -829,7 +829,7 @@ function delete_channel_moderator(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_moderator(
@@ -853,7 +853,7 @@ function delete_channel_moderator(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +875,7 @@ function delete_messaging_streaming_configurations(
         "DELETE",
         "/app-instances/$(appInstanceArn)/streaming-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_messaging_streaming_configurations(
@@ -888,7 +888,7 @@ function delete_messaging_streaming_configurations(
         "/app-instances/$(appInstanceArn)/streaming-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +916,7 @@ function describe_channel(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel(
@@ -939,7 +939,7 @@ function describe_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -971,7 +971,7 @@ function describe_channel_ban(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel_ban(
@@ -995,7 +995,7 @@ function describe_channel_ban(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1017,7 @@ function describe_channel_flow(
         "GET",
         "/channel-flows/$(channelFlowArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel_flow(
@@ -1030,7 +1030,7 @@ function describe_channel_flow(
         "/channel-flows/$(channelFlowArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1067,7 +1067,7 @@ function describe_channel_membership(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel_membership(
@@ -1091,7 +1091,7 @@ function describe_channel_membership(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1124,7 +1124,7 @@ function describe_channel_membership_for_app_instance_user(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel_membership_for_app_instance_user(
@@ -1149,7 +1149,7 @@ function describe_channel_membership_for_app_instance_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1182,7 +1182,7 @@ function describe_channel_moderated_by_app_instance_user(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel_moderated_by_app_instance_user(
@@ -1207,7 +1207,7 @@ function describe_channel_moderated_by_app_instance_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1239,7 +1239,7 @@ function describe_channel_moderator(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel_moderator(
@@ -1263,7 +1263,7 @@ function describe_channel_moderator(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1296,7 +1296,7 @@ function disassociate_channel_flow(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_channel_flow(
@@ -1320,7 +1320,7 @@ function disassociate_channel_flow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1356,7 +1356,7 @@ function get_channel_membership_preferences(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_membership_preferences(
@@ -1380,7 +1380,7 @@ function get_channel_membership_preferences(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1416,7 +1416,7 @@ function get_channel_message(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_message(
@@ -1440,7 +1440,7 @@ function get_channel_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1481,7 +1481,7 @@ function get_channel_message_status(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_message_status(
@@ -1505,7 +1505,7 @@ function get_channel_message_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1521,7 +1521,7 @@ function get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/endpoints/messaging-session";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_messaging_session_endpoint(
@@ -1532,7 +1532,7 @@ function get_messaging_session_endpoint(
         "/endpoints/messaging-session",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1554,7 +1554,7 @@ function get_messaging_streaming_configurations(
         "GET",
         "/app-instances/$(appInstanceArn)/streaming-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_messaging_streaming_configurations(
@@ -1567,7 +1567,7 @@ function get_messaging_streaming_configurations(
         "/app-instances/$(appInstanceArn)/streaming-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1600,7 +1600,7 @@ function list_channel_bans(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channel_bans(
@@ -1623,7 +1623,7 @@ function list_channel_bans(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1651,7 +1651,7 @@ function list_channel_flows(
         "/channel-flows",
         Dict{String,Any}("app-instance-arn" => app_instance_arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channel_flows(
@@ -1668,7 +1668,7 @@ function list_channel_flows(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1707,7 +1707,7 @@ function list_channel_memberships(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channel_memberships(
@@ -1730,7 +1730,7 @@ function list_channel_memberships(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1764,7 +1764,7 @@ function list_channel_memberships_for_app_instance_user(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channel_memberships_for_app_instance_user(
@@ -1786,7 +1786,7 @@ function list_channel_memberships_for_app_instance_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1828,7 +1828,7 @@ function list_channel_messages(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channel_messages(
@@ -1851,7 +1851,7 @@ function list_channel_messages(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1884,7 +1884,7 @@ function list_channel_moderators(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channel_moderators(
@@ -1907,7 +1907,7 @@ function list_channel_moderators(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1946,7 +1946,7 @@ function list_channels(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channels(
@@ -1970,7 +1970,7 @@ function list_channels(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1999,7 +1999,7 @@ function list_channels_associated_with_channel_flow(
         "/channels?scope=channel-flow-associations",
         Dict{String,Any}("channel-flow-arn" => channel_flow_arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channels_associated_with_channel_flow(
@@ -2016,7 +2016,7 @@ function list_channels_associated_with_channel_flow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2049,7 +2049,7 @@ function list_channels_moderated_by_app_instance_user(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_channels_moderated_by_app_instance_user(
@@ -2071,7 +2071,7 @@ function list_channels_moderated_by_app_instance_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2102,7 +2102,7 @@ function list_sub_channels(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sub_channels(
@@ -2125,7 +2125,7 @@ function list_sub_channels(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2145,7 +2145,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
         "/tags",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2156,7 +2156,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2188,7 +2188,7 @@ function put_channel_expiration_settings(
         "PUT",
         "/channels/$(channelArn)/expiration-settings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_channel_expiration_settings(
@@ -2201,7 +2201,7 @@ function put_channel_expiration_settings(
         "/channels/$(channelArn)/expiration-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2240,7 +2240,7 @@ function put_channel_membership_preferences(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_channel_membership_preferences(
@@ -2266,7 +2266,7 @@ function put_channel_membership_preferences(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2292,7 +2292,7 @@ function put_messaging_streaming_configurations(
         "/app-instances/$(appInstanceArn)/streaming-configurations",
         Dict{String,Any}("StreamingConfigurations" => StreamingConfigurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_messaging_streaming_configurations(
@@ -2312,7 +2312,7 @@ function put_messaging_streaming_configurations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2348,7 +2348,7 @@ function redact_channel_message(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function redact_channel_message(
@@ -2372,7 +2372,7 @@ function redact_channel_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2401,7 +2401,7 @@ function search_channels(Fields; aws_config::AbstractAWSConfig=global_aws_config
         "/channels?operation=search",
         Dict{String,Any}("Fields" => Fields);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_channels(
@@ -2412,7 +2412,7 @@ function search_channels(
         "/channels?operation=search",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Fields" => Fields), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2473,7 +2473,7 @@ function send_channel_message(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_channel_message(
@@ -2504,7 +2504,7 @@ function send_channel_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2525,7 +2525,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags?operation=tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2545,7 +2545,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2568,7 +2568,7 @@ function untag_resource(
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2588,7 +2588,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2621,7 +2621,7 @@ function update_channel(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel(
@@ -2644,7 +2644,7 @@ function update_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2668,7 +2668,7 @@ function update_channel_flow(
         "/channel-flows/$(channelFlowArn)",
         Dict{String,Any}("Name" => Name, "Processors" => Processors);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel_flow(
@@ -2687,7 +2687,7 @@ function update_channel_flow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2728,7 +2728,7 @@ function update_channel_message(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel_message(
@@ -2754,7 +2754,7 @@ function update_channel_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2782,7 +2782,7 @@ function update_channel_read_marker(
             "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel_read_marker(
@@ -2805,6 +2805,6 @@ function update_channel_read_marker(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

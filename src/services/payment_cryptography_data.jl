@@ -48,7 +48,7 @@ function decrypt_data(
             "CipherText" => CipherText, "DecryptionAttributes" => DecryptionAttributes
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function decrypt_data(
@@ -72,7 +72,7 @@ function decrypt_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -126,7 +126,7 @@ function encrypt_data(
             "EncryptionAttributes" => EncryptionAttributes, "PlainText" => PlainText
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function encrypt_data(
@@ -149,7 +149,7 @@ function encrypt_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -200,7 +200,7 @@ function generate_card_validation_data(
             "PrimaryAccountNumber" => PrimaryAccountNumber,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_card_validation_data(
@@ -225,7 +225,7 @@ function generate_card_validation_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -274,7 +274,7 @@ function generate_mac(
             "MessageData" => MessageData,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_mac(
@@ -299,7 +299,7 @@ function generate_mac(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -359,7 +359,7 @@ function generate_pin_data(
             "PrimaryAccountNumber" => PrimaryAccountNumber,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_pin_data(
@@ -388,7 +388,7 @@ function generate_pin_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -441,7 +441,7 @@ function re_encrypt_data(
             "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function re_encrypt_data(
@@ -469,7 +469,7 @@ function re_encrypt_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -534,7 +534,7 @@ function translate_pin_data(
             "OutgoingTranslationAttributes" => OutgoingTranslationAttributes,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function translate_pin_data(
@@ -563,7 +563,7 @@ function translate_pin_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -629,7 +629,7 @@ function verify_auth_request_cryptogram(
             "TransactionData" => TransactionData,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_auth_request_cryptogram(
@@ -658,7 +658,7 @@ function verify_auth_request_cryptogram(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -710,7 +710,7 @@ function verify_card_validation_data(
             "VerificationAttributes" => VerificationAttributes,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_card_validation_data(
@@ -737,7 +737,7 @@ function verify_card_validation_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -785,7 +785,7 @@ function verify_mac(
             "VerificationAttributes" => VerificationAttributes,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_mac(
@@ -812,7 +812,7 @@ function verify_mac(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -874,7 +874,7 @@ function verify_pin_data(
             "VerificationKeyIdentifier" => VerificationKeyIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_pin_data(
@@ -905,6 +905,6 @@ function verify_pin_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

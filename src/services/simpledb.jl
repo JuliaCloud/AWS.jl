@@ -37,7 +37,7 @@ function batch_delete_attributes(
         "BatchDeleteAttributes",
         Dict{String,Any}("DomainName" => DomainName, "Item" => Item);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_attributes(
@@ -54,7 +54,7 @@ function batch_delete_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -107,7 +107,7 @@ function batch_put_attributes(
         "BatchPutAttributes",
         Dict{String,Any}("DomainName" => DomainName, "Item" => Item);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_attributes(
@@ -124,7 +124,7 @@ function batch_put_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,7 +149,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_conf
         "CreateDomain",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain(
@@ -163,7 +163,7 @@ function create_domain(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -200,7 +200,7 @@ function delete_attributes(
         "DeleteAttributes",
         Dict{String,Any}("DomainName" => DomainName, "ItemName" => ItemName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_attributes(
@@ -219,7 +219,7 @@ function delete_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -241,7 +241,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteDomain",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain(
@@ -255,7 +255,7 @@ function delete_domain(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -275,7 +275,7 @@ function domain_metadata(DomainName; aws_config::AbstractAWSConfig=global_aws_co
         "DomainMetadata",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function domain_metadata(
@@ -289,7 +289,7 @@ function domain_metadata(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -323,7 +323,7 @@ function get_attributes(
         "GetAttributes",
         Dict{String,Any}("DomainName" => DomainName, "ItemName" => ItemName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_attributes(
@@ -342,7 +342,7 @@ function get_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -364,13 +364,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   names.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return simpledb("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return simpledb("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return simpledb(
-        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -422,7 +422,7 @@ function put_attributes(
             "Attribute" => Attribute, "DomainName" => DomainName, "ItemName" => ItemName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_attributes(
@@ -446,7 +446,7 @@ function put_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -480,7 +480,7 @@ function select(SelectExpression; aws_config::AbstractAWSConfig=global_aws_confi
         "Select",
         Dict{String,Any}("SelectExpression" => SelectExpression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function select(
@@ -496,6 +496,6 @@ function select(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

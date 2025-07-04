@@ -31,7 +31,7 @@ function add_workload(
             "WorkloadConfiguration" => WorkloadConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_workload(
@@ -55,7 +55,7 @@ function add_workload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -91,14 +91,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_application(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_insights(
-        "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_insights(
-        "CreateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateApplication",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -128,7 +131,7 @@ function create_component(
             "ResourceList" => ResourceList,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_component(
@@ -152,7 +155,7 @@ function create_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -195,7 +198,7 @@ function create_log_pattern(
             "ResourceGroupName" => ResourceGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_log_pattern(
@@ -223,7 +226,7 @@ function create_log_pattern(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -244,7 +247,7 @@ function delete_application(
         "DeleteApplication",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -260,7 +263,7 @@ function delete_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -286,7 +289,7 @@ function delete_component(
             "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_component(
@@ -308,7 +311,7 @@ function delete_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -338,7 +341,7 @@ function delete_log_pattern(
             "ResourceGroupName" => ResourceGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_log_pattern(
@@ -362,7 +365,7 @@ function delete_log_pattern(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -386,7 +389,7 @@ function describe_application(
         "DescribeApplication",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application(
@@ -402,7 +405,7 @@ function describe_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -429,7 +432,7 @@ function describe_component(
             "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_component(
@@ -451,7 +454,7 @@ function describe_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -478,7 +481,7 @@ function describe_component_configuration(
             "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_component_configuration(
@@ -500,7 +503,7 @@ function describe_component_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -534,7 +537,7 @@ function describe_component_configuration_recommendation(
             "Tier" => Tier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_component_configuration_recommendation(
@@ -558,7 +561,7 @@ function describe_component_configuration_recommendation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -591,7 +594,7 @@ function describe_log_pattern(
             "ResourceGroupName" => ResourceGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_log_pattern(
@@ -615,7 +618,7 @@ function describe_log_pattern(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -639,7 +642,7 @@ function describe_observation(
         "DescribeObservation",
         Dict{String,Any}("ObservationId" => ObservationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_observation(
@@ -653,7 +656,7 @@ function describe_observation(
             mergewith(_merge, Dict{String,Any}("ObservationId" => ObservationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -676,7 +679,7 @@ function describe_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_co
         "DescribeProblem",
         Dict{String,Any}("ProblemId" => ProblemId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_problem(
@@ -690,7 +693,7 @@ function describe_problem(
             mergewith(_merge, Dict{String,Any}("ProblemId" => ProblemId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -714,7 +717,7 @@ function describe_problem_observations(
         "DescribeProblemObservations",
         Dict{String,Any}("ProblemId" => ProblemId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_problem_observations(
@@ -728,7 +731,7 @@ function describe_problem_observations(
             mergewith(_merge, Dict{String,Any}("ProblemId" => ProblemId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -761,7 +764,7 @@ function describe_workload(
             "WorkloadId" => WorkloadId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_workload(
@@ -785,7 +788,7 @@ function describe_workload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -804,14 +807,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_insights(
-        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_insights(
-        "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -838,7 +841,7 @@ function list_components(
         "ListComponents",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_components(
@@ -854,7 +857,7 @@ function list_components(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -889,7 +892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_configuration_history(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_insights(
-        "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_configuration_history(
@@ -899,7 +902,7 @@ function list_configuration_history(
         "ListConfigurationHistory",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -926,7 +929,7 @@ function list_log_pattern_sets(
         "ListLogPatternSets",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_log_pattern_sets(
@@ -942,7 +945,7 @@ function list_log_pattern_sets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -970,7 +973,7 @@ function list_log_patterns(
         "ListLogPatterns",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_log_patterns(
@@ -986,7 +989,7 @@ function list_log_patterns(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1013,14 +1016,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_problems(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_insights(
-        "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_problems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_insights(
-        "ListProblems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProblems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1046,7 +1049,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1060,7 +1063,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1090,7 +1093,7 @@ function list_workloads(
             "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workloads(
@@ -1112,7 +1115,7 @@ function list_workloads(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1142,7 +1145,7 @@ function remove_workload(
             "WorkloadId" => WorkloadId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_workload(
@@ -1166,7 +1169,7 @@ function remove_workload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1194,7 +1197,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1213,7 +1216,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1239,7 +1242,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1258,7 +1261,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1294,7 +1297,7 @@ function update_application(
         "UpdateApplication",
         Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application(
@@ -1310,7 +1313,7 @@ function update_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1338,7 +1341,7 @@ function update_component(
             "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_component(
@@ -1360,7 +1363,7 @@ function update_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1397,7 +1400,7 @@ function update_component_configuration(
             "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_component_configuration(
@@ -1419,7 +1422,7 @@ function update_component_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1460,7 +1463,7 @@ function update_log_pattern(
             "ResourceGroupName" => ResourceGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_log_pattern(
@@ -1484,7 +1487,7 @@ function update_log_pattern(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1510,7 +1513,7 @@ function update_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateProblem",
         Dict{String,Any}("ProblemId" => ProblemId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_problem(
@@ -1524,7 +1527,7 @@ function update_problem(
             mergewith(_merge, Dict{String,Any}("ProblemId" => ProblemId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1558,7 +1561,7 @@ function update_workload(
             "WorkloadConfiguration" => WorkloadConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workload(
@@ -1582,6 +1585,6 @@ function update_workload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
