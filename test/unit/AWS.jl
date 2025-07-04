@@ -118,10 +118,33 @@
         @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
     end
 
-    @testset "module redefinition" begin
+    @testset "mutation" begin
+        # Ensure binding isn't already used
+        @test !isdefined(Main, :SimpleStorageService)
+
         #! format: off
         err = @capture_err begin
-            @eval baremodule __service_module_redefinition
+            @eval Main begin
+                using AWS: @service
+
+                @service S3 as SimpleStorageService use_response_type = true
+                const OLD_FEATURE_SET = SimpleStorageService.SERVICE_FEATURE_SET
+
+                @service S3 as SimpleStorageService
+                const NEW_FEATURE_SET = SimpleStorageService.SERVICE_FEATURE_SET
+            end
+        end
+        #! format: on
+
+        # Ensure service module was mutated instead of overwritten
+        @test Main.OLD_FEATURE_SET === Main.NEW_FEATURE_SET
+        @test Main.OLD_FEATURE_SET.use_response_type == false
+        @test Main.NEW_FEATURE_SET.use_response_type == false
+        @test isempty(err)
+
+        #! format: off
+        err = @capture_err begin
+            @eval baremodule __service_mutation
                 using AWS: @service
 
                 @service S3 use_response_type = true
@@ -133,11 +156,10 @@
         end
         #! format: on
 
-        # Ensure module was mutated instead of overwritten
-        mod = __service_module_redefinition
-        @test mod.OLD_FEATURE_SET === mod.NEW_FEATURE_SET
-        @test mod.OLD_FEATURE_SET.use_response_type == false
-        @test isempty(err)
+        @test __service_mutation.OLD_FEATURE_SET !== __service_mutation.NEW_FEATURE_SET
+        @test __service_mutation.OLD_FEATURE_SET.use_response_type == true
+        @test __service_mutation.NEW_FEATURE_SET.use_response_type == false
+        @test !isempty(err)
     end
 end
 

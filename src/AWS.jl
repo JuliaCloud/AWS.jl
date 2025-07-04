@@ -246,13 +246,18 @@ macro service(exprs...)
     end
     module_def = Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
 
-    mutate_block = quote
-        $set_features!($module_name.SERVICE_FEATURE_SET; $(features...))
-        $module_name
-    end
-    condition = :(isdefined($__module__, $(QuoteNode(module_name))))
+    # Only allow feature sets to be modified during interactive REPL usage
+    if __module__ === Main
+        mutate_block = quote
+            $set_features!($module_name.SERVICE_FEATURE_SET; $(features...))
+            $module_name
+        end
+        condition = :(isdefined($__module__, $(QuoteNode(module_name))))
 
-    return Expr(:if, esc(condition), esc(mutate_block), module_def)
+        return Expr(:if, esc(condition), esc(mutate_block), module_def)
+    else
+        return module_def
+    end
 end
 
 abstract type Service end
