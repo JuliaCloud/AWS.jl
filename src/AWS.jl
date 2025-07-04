@@ -141,6 +141,11 @@ cannot).
 
 # Extended Help
 
+The `@service` macro can be used to load the same high-level service wrapper multiple times
+with different feature sets. We strongly recommend that packages using the `as` syntax to
+define service wrapper with unique names. However, interactive REPL usage can be used to
+experiment with using different feature sets without changing the module name.
+
 ## Arguments
 
 - `service_id::Symbol`: The high-level API wrappers service ID to include in the current
@@ -180,7 +185,7 @@ OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, S
   "GetCallerIdentityResult" => LittleDict{Union{String, Symbol}, Any, Vector{Un…
   "ResponseMetadata"        => LittleDict{Union{String, Symbol}, Any, Vector{Un…
 
-julia> @service STS as SecurityTokenService  # reset a feature to its default by calling `@service` again
+julia> @service STS as SecurityTokenService  # For interactive use only: mutate the service wrapper feature set back to the default
 SecurityTokenService
 ```
 
@@ -241,14 +246,13 @@ macro service(exprs...)
     end
     module_def = Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
 
-    service_module = :($__module__.$module_name)
-    reset_block = quote
-        $set_features!($service_module.SERVICE_FEATURE_SET; $(features...))
-        $service_module
+    mutate_block = quote
+        $set_features!($module_name.SERVICE_FEATURE_SET; $(features...))
+        $module_name
     end
-    check = :($(Core.isdefined)($__module__, $(QuoteNode(module_name))))
+    condition = :(!isdefined($__module__, $(QuoteNode(module_name))))
 
-    return Expr(:if, esc(check), esc(reset_block), module_def)
+    return Expr(:if, esc(condition), module_def, esc(mutate_block))
 end
 
 abstract type Service end

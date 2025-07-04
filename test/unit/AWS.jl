@@ -117,6 +117,28 @@
         @test !(:Lambda in names(@__MODULE__; all=true))
         @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
     end
+
+    @testset "module redefinition" begin
+        #! format: off
+        err = @capture_err begin
+            @eval baremodule __service_module_redefinition
+                using AWS: @service
+
+                @service S3 use_response_type = true
+                const OLD_FEATURE_SET = S3.SERVICE_FEATURE_SET
+
+                @service S3
+                const NEW_FEATURE_SET = S3.SERVICE_FEATURE_SET
+            end
+        end
+        #! format: on
+
+        # Ensure module was mutated instead of overwritten
+        mod = __service_module_redefinition
+        @test mod.OLD_FEATURE_SET === mod.NEW_FEATURE_SET
+        @test mod.OLD_FEATURE_SET.use_response_type == false
+        @test isempty(err)
+    end
 end
 
 @testset "global config, kwargs" begin
@@ -769,17 +791,5 @@ end
         "/anchor?query=yes#anchor1",
     )
         @test AWS._clean_s3_uri(uri) == uri
-    end
-
-    @testset "module redefinition" begin
-        #! format: off
-        @eval baremodule __service_module_redefinition
-            using AWS, Test
-            @service S3 use_response_type = true
-            features = S3.SERVICE_FEATURE_SET
-            @service S3
-            @test features === S3.SERVICE_FEATURE_SET  # ensures module wasn't replaced
-        end
-        #! format: on
     end
 end
