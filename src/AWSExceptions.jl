@@ -5,8 +5,8 @@ using JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
-export AWSException, IMDSUnavailable, ProtocolNotDefined, InvalidFileName, NoCredentials,
-    InvalidAWSConfig
+export AWSException, IMDSUnavailable, InvalidAWSConfig, InvalidFileName, NoCredentials
+export ProtocolNotDefined
 
 struct IMDSUnavailable <: Exception end
 
@@ -146,6 +146,7 @@ end
 
 function Base.show(io::IO, e::InvalidAWSConfig)
     println(io, "$InvalidAWSConfig: $(e.message)")
+    return nothing
 end
 
 end

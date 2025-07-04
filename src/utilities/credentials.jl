@@ -210,15 +210,19 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
     sso_role_name = _get_profile_value(ini, profile, "sso_role_name")
 
     if isnothing(sso_account_id)
-        throw(InvalidAWSConfig(
-            "Profile \"$profile\" must define `sso_account_id` in order to request " *
-            "SSO credentials."
-        ))
+        throw(
+            InvalidAWSConfig(
+                "Profile \"$profile\" must define `sso_account_id` in order to request " *
+                "SSO credentials.",
+            ),
+        )
     elseif isnothing(sso_role_name)
-        throw(InvalidAWSConfig(
-            "Profile \"$profile\" must define `sso_role_name` in order to request " *
-            "SSO credentials."
-        ))
+        throw(
+            InvalidAWSConfig(
+                "Profile \"$profile\" must define `sso_role_name` in order to request " *
+                "SSO credentials.",
+            ),
+        )
     end
 
     if !isnothing(sso_session)
@@ -231,13 +235,17 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
         # required. AWS.jl doesn't actually require `sso_start_url` in this case but we'll
         # still validate this key is set.
         if isnothing(sso_start_url)
-            throw(InvalidAWSConfig(
-                "The SSO session \"$sso_session\" section must define `sso_start_url`."
-            ))
+            throw(
+                InvalidAWSConfig(
+                    "The SSO session \"$sso_session\" section must define `sso_start_url`."
+                ),
+            )
         elseif isnothing(sso_region)
-            throw(InvalidAWSConfig(
-                "The SSO session \"$sso_session\" section must define `sso_region`."
-            ))
+            throw(
+                InvalidAWSConfig(
+                    "The SSO session \"$sso_session\" section must define `sso_region`."
+                ),
+            )
         end
 
         # The AWS CLI requires that these settings which be set on the profile and
@@ -248,13 +256,19 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
         legacy_sso_region = _get_profile_value(ini, profile, "sso_region")
 
         if !isnothing(legacy_sso_start_url) && sso_start_url != legacy_sso_start_url
-            throw(InvalidAWSConfig(
-                "The value for `sso_start_url` is inconsistent between the profile ($legacy_sso_start_url) and the sso-session ($sso_start_url)."
-            ))
+            throw(
+                InvalidAWSConfig(
+                    "The value for `sso_start_url` is inconsistent between the profile " *
+                    "($legacy_sso_start_url) and the sso-session ($sso_start_url).",
+                ),
+            )
         elseif !isnothing(legacy_sso_region) && sso_region != legacy_sso_region
-            throw(InvalidAWSConfig(
-                "The value for `sso_region` is inconsistent between the profile ($legacy_sso_region) and the sso-session ($sso_region)."
-            ))
+            throw(
+                InvalidAWSConfig(
+                    "The value for `sso_region` is inconsistent between the profile " *
+                    "($legacy_sso_region) and the sso-session ($sso_region).",
+                ),
+            )
         end
 
         access_token = @mock _sso_cache_access_token(sso_session)
@@ -273,15 +287,19 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
         sso_region = _get_profile_value(ini, profile, "sso_region")
 
         if isnothing(sso_start_url)
-            throw(InvalidAWSConfig(
-                "Profile \"$profile\" must define `sso_start_url` in order to request SSO " *
-                "credentials."
-            ))
+            throw(
+                InvalidAWSConfig(
+                    "Profile \"$profile\" must define `sso_start_url` in order to " *
+                    "request SSO credentials.",
+                ),
+            )
         elseif isnothing(sso_region)
-            throw(InvalidAWSConfig(
-                "Profile \"$profile\" must define `sso_region` in order to request SSO " *
-                "credentials."
-            ))
+            throw(
+                InvalidAWSConfig(
+                    "Profile \"$profile\" must define `sso_region` in order to " *
+                    "request SSO credentials.",
+                ),
+            )
         end
 
         access_token = @mock _sso_cache_access_token(sso_start_url)
@@ -291,7 +309,7 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
         help_url = "https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-login"
         error(
             "You must first sign in to a IAM Identity Center session via " *
-            "`aws sso login --profile $profile`. See $help_url for more details."
+            "`aws sso login --profile $profile`. See $help_url for more details.",
         )
     end
 

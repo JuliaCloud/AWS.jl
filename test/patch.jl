@@ -224,7 +224,8 @@ function sso_service_patches(access_key_id, secret_access_key)
             "roleCredentials" => Dict(
                 "accessKeyId" => access_key_id,
                 "secretAccessKey" => secret_access_key,
-                "sessionToken" => http_header(args["headers"], "x-amz-sso_bearer_token"),
+                "sessionToken" =>
+                    http_header(args["headers"], "x-amz-sso_bearer_token"),
                 "expiration" =>
                     floor(Int, Dates.datetime2unix(Dates.now(UTC) + Dates.Hour(1))) * 1000,  # ms
             ),
