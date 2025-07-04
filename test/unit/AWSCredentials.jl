@@ -262,6 +262,44 @@ end
         #! format: on
         @test_throws "must define `sso_role_name`" _aws_get_sso_credential_details("default", ini)
     end
+
+    @testset "inconsistent SSO/legacy SSO configuration" begin
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws "`sso_start_url` is inconsistent" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-legacy-1
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws "`sso_region` is inconsistent" _aws_get_sso_credential_details("default", ini)
+    end
 end
 
 @testset "AWSCredentials" begin
@@ -704,8 +742,8 @@ end
                         sso_session = my-sso
                         sso_account_id = 111122223333
                         sso_role_name = role1
-                        sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
-                        sso_region = us-legacy-1
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_region = us-east-1
 
                         [sso-session my-sso]
                         sso_start_url = https://my-sso-portal.awsapps.com/start

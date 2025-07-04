@@ -240,6 +240,23 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
             ))
         end
 
+        # The AWS CLI requires that these settings which be set on the profile and
+        # sso-session are at least consistent:
+        # - "The value for sso_start_url is inconsistent between profile (https://my-legacy-sso-portal.awsapps.com/start) and sso-session (https://my-legacy-sso-portal.awsapps.com/start)."
+        # - "The value for sso_region is inconsistent between profile (us-legacy-1) and sso-session (us-east-1)."
+        legacy_sso_start_url = _get_profile_value(ini, profile, "sso_start_url")
+        legacy_sso_region = _get_profile_value(ini, profile, "sso_region")
+
+        if !isnothing(legacy_sso_start_url) && sso_start_url != legacy_sso_start_url
+            throw(InvalidAWSConfig(
+                "The value for `sso_start_url` is inconsistent between the profile ($legacy_sso_start_url) and the sso-session ($sso_start_url)."
+            ))
+        elseif !isnothing(legacy_sso_region) && sso_region != legacy_sso_region
+            throw(InvalidAWSConfig(
+                "The value for `sso_region` is inconsistent between the profile ($legacy_sso_region) and the sso-session ($sso_region)."
+            ))
+        end
+
         access_token = @mock _sso_cache_access_token(sso_session)
     else
         # Legacy IAM identity center authentication
