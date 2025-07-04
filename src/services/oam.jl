@@ -56,7 +56,7 @@ function create_link(
             "SinkIdentifier" => SinkIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_link(
@@ -81,7 +81,7 @@ function create_link(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -114,7 +114,7 @@ function create_sink(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "/CreateSink",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sink(
@@ -125,7 +125,7 @@ function create_sink(
         "/CreateSink",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -146,7 +146,7 @@ function delete_link(Identifier; aws_config::AbstractAWSConfig=global_aws_config
         "/DeleteLink",
         Dict{String,Any}("Identifier" => Identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_link(
@@ -161,7 +161,7 @@ function delete_link(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function delete_sink(Identifier; aws_config::AbstractAWSConfig=global_aws_config
         "/DeleteSink",
         Dict{String,Any}("Identifier" => Identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sink(
@@ -196,7 +196,7 @@ function delete_sink(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,7 +217,7 @@ function get_link(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetLink",
         Dict{String,Any}("Identifier" => Identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_link(
@@ -232,7 +232,7 @@ function get_link(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -253,7 +253,7 @@ function get_sink(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetSink",
         Dict{String,Any}("Identifier" => Identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sink(
@@ -268,7 +268,7 @@ function get_sink(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -289,7 +289,7 @@ function get_sink_policy(SinkIdentifier; aws_config::AbstractAWSConfig=global_aw
         "/GetSinkPolicy",
         Dict{String,Any}("SinkIdentifier" => SinkIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sink_policy(
@@ -304,7 +304,7 @@ function get_sink_policy(
             mergewith(_merge, Dict{String,Any}("SinkIdentifier" => SinkIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -333,7 +333,7 @@ function list_attached_links(
         "/ListAttachedLinks",
         Dict{String,Any}("SinkIdentifier" => SinkIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_attached_links(
@@ -348,7 +348,7 @@ function list_attached_links(
             mergewith(_merge, Dict{String,Any}("SinkIdentifier" => SinkIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -367,13 +367,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.
 """
 function list_links(; aws_config::AbstractAWSConfig=global_aws_config())
-    return oam("POST", "/ListLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return oam(
+        "POST", "/ListLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return oam(
-        "POST", "/ListLinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListLinks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -391,13 +397,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.
 """
 function list_sinks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return oam("POST", "/ListSinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return oam(
+        "POST", "/ListSinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_sinks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return oam(
-        "POST", "/ListSinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListSinks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -424,7 +436,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -437,7 +449,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +482,7 @@ function put_sink_policy(
         "/PutSinkPolicy",
         Dict{String,Any}("Policy" => Policy, "SinkIdentifier" => SinkIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_sink_policy(
@@ -490,7 +502,7 @@ function put_sink_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -525,7 +537,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -539,7 +551,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -568,7 +580,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -582,7 +594,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -616,7 +628,7 @@ function update_link(
         "/UpdateLink",
         Dict{String,Any}("Identifier" => Identifier, "ResourceTypes" => ResourceTypes);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_link(
@@ -638,6 +650,6 @@ function update_link(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

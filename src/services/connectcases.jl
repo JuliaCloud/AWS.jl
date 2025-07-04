@@ -23,7 +23,7 @@ function batch_get_field(
         "/domains/$(domainId)/fields-batch",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_field(
@@ -37,7 +37,7 @@ function batch_get_field(
         "/domains/$(domainId)/fields-batch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fields" => fields), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -61,7 +61,7 @@ function batch_put_field_options(
         "/domains/$(domainId)/fields/$(fieldId)/options",
         Dict{String,Any}("options" => options);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_field_options(
@@ -76,7 +76,7 @@ function batch_put_field_options(
         "/domains/$(domainId)/fields/$(fieldId)/options",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("options" => options), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -118,7 +118,7 @@ function create_case(
             "fields" => fields, "templateId" => templateId, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_case(
@@ -143,7 +143,7 @@ function create_case(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -168,7 +168,7 @@ function create_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
         "/domains",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain(
@@ -179,7 +179,7 @@ function create_domain(
         "/domains",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -207,7 +207,7 @@ function create_field(
         "/domains/$(domainId)/fields",
         Dict{String,Any}("name" => name, "type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_field(
@@ -224,7 +224,7 @@ function create_field(
             mergewith(_merge, Dict{String,Any}("name" => name, "type" => type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -252,7 +252,7 @@ function create_layout(
         "/domains/$(domainId)/layouts",
         Dict{String,Any}("content" => content, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_layout(
@@ -271,7 +271,7 @@ function create_layout(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -305,7 +305,7 @@ function create_related_item(
         "/domains/$(domainId)/cases/$(caseId)/related-items/",
         Dict{String,Any}("content" => content, "type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_related_item(
@@ -325,7 +325,7 @@ function create_related_item(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -358,7 +358,7 @@ function create_template(domainId, name; aws_config::AbstractAWSConfig=global_aw
         "/domains/$(domainId)/templates",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_template(
@@ -372,7 +372,7 @@ function create_template(
         "/domains/$(domainId)/templates",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -395,7 +395,7 @@ function delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config
         "DELETE",
         "/domains/$(domainId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain(
@@ -408,7 +408,7 @@ function delete_domain(
         "/domains/$(domainId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -443,7 +443,7 @@ function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/domains/$(domainId)/fields/$(fieldId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_field(
@@ -457,7 +457,7 @@ function delete_field(
         "/domains/$(domainId)/fields/$(fieldId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -486,7 +486,7 @@ function delete_layout(
         "DELETE",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_layout(
@@ -500,7 +500,7 @@ function delete_layout(
         "/domains/$(domainId)/layouts/$(layoutId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -528,7 +528,7 @@ function delete_template(
         "DELETE",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_template(
@@ -542,7 +542,7 @@ function delete_template(
         "/domains/$(domainId)/templates/$(templateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -570,7 +570,7 @@ function get_case(
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_case(
@@ -585,7 +585,7 @@ function get_case(
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fields" => fields), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -613,7 +613,7 @@ function get_case_audit_events(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)/audit-history";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_case_audit_events(
@@ -627,7 +627,7 @@ function get_case_audit_events(
         "/domains/$(domainId)/cases/$(caseId)/audit-history",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -648,7 +648,7 @@ function get_case_event_configuration(
         "POST",
         "/domains/$(domainId)/case-event-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_case_event_configuration(
@@ -661,7 +661,7 @@ function get_case_event_configuration(
         "/domains/$(domainId)/case-event-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -680,7 +680,7 @@ function get_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/domains/$(domainId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_domain(
@@ -693,7 +693,7 @@ function get_domain(
         "/domains/$(domainId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -713,7 +713,7 @@ function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_layout(
@@ -727,7 +727,7 @@ function get_layout(
         "/domains/$(domainId)/layouts/$(layoutId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -749,7 +749,7 @@ function get_template(
         "POST",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_template(
@@ -763,7 +763,7 @@ function get_template(
         "/domains/$(domainId)/templates/$(templateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -791,7 +791,7 @@ function list_cases_for_contact(
         "/domains/$(domainId)/list-cases-for-contact",
         Dict{String,Any}("contactArn" => contactArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_cases_for_contact(
@@ -807,7 +807,7 @@ function list_cases_for_contact(
             mergewith(_merge, Dict{String,Any}("contactArn" => contactArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -826,7 +826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcases(
-        "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_domains(
@@ -837,7 +837,7 @@ function list_domains(
         "/domains-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -865,7 +865,7 @@ function list_field_options(
         "POST",
         "/domains/$(domainId)/fields/$(fieldId)/options-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_field_options(
@@ -879,7 +879,7 @@ function list_field_options(
         "/domains/$(domainId)/fields/$(fieldId)/options-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -903,7 +903,7 @@ function list_fields(domainId; aws_config::AbstractAWSConfig=global_aws_config()
         "POST",
         "/domains/$(domainId)/fields-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fields(
@@ -916,7 +916,7 @@ function list_fields(
         "/domains/$(domainId)/fields-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -941,7 +941,7 @@ function list_layouts(domainId; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/domains/$(domainId)/layouts-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_layouts(
@@ -954,7 +954,7 @@ function list_layouts(
         "/domains/$(domainId)/layouts-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -970,7 +970,7 @@ Lists tags for a resource.
 """
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcases(
-        "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_tags_for_resource(
@@ -981,7 +981,7 @@ function list_tags_for_resource(
         "/tags/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1007,7 +1007,7 @@ function list_templates(domainId; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/domains/$(domainId)/templates-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_templates(
@@ -1020,7 +1020,7 @@ function list_templates(
         "/domains/$(domainId)/templates-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1045,7 +1045,7 @@ function put_case_event_configuration(
         "/domains/$(domainId)/case-event-configuration",
         Dict{String,Any}("eventBridge" => eventBridge);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_case_event_configuration(
@@ -1061,7 +1061,7 @@ function put_case_event_configuration(
             mergewith(_merge, Dict{String,Any}("eventBridge" => eventBridge), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function search_cases(domainId; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/domains/$(domainId)/cases-search";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_cases(
@@ -1107,7 +1107,7 @@ function search_cases(
         "/domains/$(domainId)/cases-search",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1136,7 +1136,7 @@ function search_related_items(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)/related-items-search";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_related_items(
@@ -1150,7 +1150,7 @@ function search_related_items(
         "/domains/$(domainId)/cases/$(caseId)/related-items-search",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1172,7 +1172,7 @@ function tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config
         "/tags/$(arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1186,7 +1186,7 @@ function tag_resource(
         "/tags/$(arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1207,7 +1207,7 @@ function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_c
         "/tags/$(arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1221,7 +1221,7 @@ function untag_resource(
         "/tags/$(arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1253,7 +1253,7 @@ function update_case(
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_case(
@@ -1268,7 +1268,7 @@ function update_case(
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fields" => fields), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1292,7 +1292,7 @@ function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aw
         "PUT",
         "/domains/$(domainId)/fields/$(fieldId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_field(
@@ -1306,7 +1306,7 @@ function update_field(
         "/domains/$(domainId)/fields/$(fieldId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1336,7 +1336,7 @@ function update_layout(
         "PUT",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_layout(
@@ -1350,7 +1350,7 @@ function update_layout(
         "/domains/$(domainId)/layouts/$(layoutId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1383,7 +1383,7 @@ function update_template(
         "PUT",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template(
@@ -1397,6 +1397,6 @@ function update_template(
         "/domains/$(domainId)/templates/$(templateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

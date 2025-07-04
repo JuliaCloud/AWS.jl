@@ -38,7 +38,7 @@ function associate_user(
             "Username" => Username,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_user(
@@ -63,7 +63,7 @@ function associate_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +86,7 @@ function deregister_identity_provider(
         "/identity-provider/DeregisterIdentityProvider",
         Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_identity_provider(
@@ -108,7 +108,7 @@ function deregister_identity_provider(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -142,7 +142,7 @@ function disassociate_user(
             "Username" => Username,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_user(
@@ -167,7 +167,7 @@ function disassociate_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -187,7 +187,7 @@ function list_identity_providers(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/identity-provider/ListIdentityProviders";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_providers(
@@ -198,7 +198,7 @@ function list_identity_providers(
         "/identity-provider/ListIdentityProviders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -220,7 +220,7 @@ function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/instance/ListInstances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_instances(
@@ -231,7 +231,7 @@ function list_instances(
         "/instance/ListInstances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -260,7 +260,7 @@ function list_product_subscriptions(
         "/user/ListProductSubscriptions",
         Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_product_subscriptions(
@@ -282,7 +282,7 @@ function list_product_subscriptions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -313,7 +313,7 @@ function list_user_associations(
             "IdentityProvider" => IdentityProvider, "InstanceId" => InstanceId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_user_associations(
@@ -335,7 +335,7 @@ function list_user_associations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -362,7 +362,7 @@ function register_identity_provider(
         "/identity-provider/RegisterIdentityProvider",
         Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_identity_provider(
@@ -384,7 +384,7 @@ function register_identity_provider(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -419,7 +419,7 @@ function start_product_subscription(
             "Username" => Username,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_product_subscription(
@@ -444,7 +444,7 @@ function start_product_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -475,7 +475,7 @@ function stop_product_subscription(
             "Username" => Username,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_product_subscription(
@@ -500,7 +500,7 @@ function stop_product_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -535,7 +535,7 @@ function update_identity_provider_settings(
             "UpdateSettings" => UpdateSettings,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_identity_provider_settings(
@@ -560,6 +560,6 @@ function update_identity_provider_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

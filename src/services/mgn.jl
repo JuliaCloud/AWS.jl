@@ -25,7 +25,7 @@ function archive_application(
         "/ArchiveApplication",
         Dict{String,Any}("applicationID" => applicationID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function archive_application(
@@ -40,7 +40,7 @@ function archive_application(
             mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -63,7 +63,7 @@ function archive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
         "/ArchiveWave",
         Dict{String,Any}("waveID" => waveID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function archive_wave(
@@ -74,7 +74,7 @@ function archive_wave(
         "/ArchiveWave",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -100,7 +100,7 @@ function associate_applications(
         "/AssociateApplications",
         Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_applications(
@@ -120,7 +120,7 @@ function associate_applications(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -148,7 +148,7 @@ function associate_source_servers(
             "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_source_servers(
@@ -170,7 +170,7 @@ function associate_source_servers(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -199,7 +199,7 @@ function change_server_life_cycle_state(
         "/ChangeServerLifeCycleState",
         Dict{String,Any}("lifeCycle" => lifeCycle, "sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function change_server_life_cycle_state(
@@ -221,7 +221,7 @@ function change_server_life_cycle_state(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -246,7 +246,7 @@ function create_application(name; aws_config::AbstractAWSConfig=global_aws_confi
         "/CreateApplication",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application(
@@ -257,7 +257,7 @@ function create_application(
         "/CreateApplication",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -284,7 +284,7 @@ function create_connector(
         "/CreateConnector",
         Dict{String,Any}("name" => name, "ssmInstanceID" => ssmInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_connector(
@@ -304,7 +304,7 @@ function create_connector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -338,7 +338,7 @@ function create_launch_configuration_template(;
         "POST",
         "/CreateLaunchConfigurationTemplate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_launch_configuration_template(
@@ -349,7 +349,7 @@ function create_launch_configuration_template(
         "/CreateLaunchConfigurationTemplate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -422,7 +422,7 @@ function create_replication_configuration_template(
             "useDedicatedReplicationServer" => useDedicatedReplicationServer,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_replication_configuration_template(
@@ -464,7 +464,7 @@ function create_replication_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -489,7 +489,7 @@ function create_wave(name; aws_config::AbstractAWSConfig=global_aws_config())
         "/CreateWave",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_wave(
@@ -500,7 +500,7 @@ function create_wave(
         "/CreateWave",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -525,7 +525,7 @@ function delete_application(
         "/DeleteApplication",
         Dict{String,Any}("applicationID" => applicationID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -540,7 +540,7 @@ function delete_application(
             mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -560,7 +560,7 @@ function delete_connector(connectorID; aws_config::AbstractAWSConfig=global_aws_
         "/DeleteConnector",
         Dict{String,Any}("connectorID" => connectorID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_connector(
@@ -575,7 +575,7 @@ function delete_connector(
             mergewith(_merge, Dict{String,Any}("connectorID" => connectorID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -598,7 +598,7 @@ function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteJob",
         Dict{String,Any}("jobID" => jobID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_job(
@@ -609,7 +609,7 @@ function delete_job(
         "/DeleteJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobID" => jobID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -631,7 +631,7 @@ function delete_launch_configuration_template(
         "/DeleteLaunchConfigurationTemplate",
         Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_launch_configuration_template(
@@ -652,7 +652,7 @@ function delete_launch_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -677,7 +677,7 @@ function delete_replication_configuration_template(
             "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_replication_configuration_template(
@@ -699,7 +699,7 @@ function delete_replication_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -724,7 +724,7 @@ function delete_source_server(
         "/DeleteSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_source_server(
@@ -739,7 +739,7 @@ function delete_source_server(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -761,7 +761,7 @@ function delete_vcenter_client(
         "/DeleteVcenterClient",
         Dict{String,Any}("vcenterClientID" => vcenterClientID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vcenter_client(
@@ -778,7 +778,7 @@ function delete_vcenter_client(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -801,7 +801,7 @@ function delete_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteWave",
         Dict{String,Any}("waveID" => waveID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_wave(
@@ -812,7 +812,7 @@ function delete_wave(
         "/DeleteWave",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -837,7 +837,7 @@ function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_
         "/DescribeJobLogItems",
         Dict{String,Any}("jobID" => jobID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_job_log_items(
@@ -848,7 +848,7 @@ function describe_job_log_items(
         "/DescribeJobLogItems",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobID" => jobID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -871,7 +871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return mgn(
-        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_jobs(
@@ -882,7 +882,7 @@ function describe_jobs(
         "/DescribeJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -906,7 +906,7 @@ function describe_launch_configuration_templates(;
         "POST",
         "/DescribeLaunchConfigurationTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_launch_configuration_templates(
@@ -917,7 +917,7 @@ function describe_launch_configuration_templates(
         "/DescribeLaunchConfigurationTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -941,7 +941,7 @@ function describe_replication_configuration_templates(;
         "POST",
         "/DescribeReplicationConfigurationTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_replication_configuration_templates(
@@ -952,7 +952,7 @@ function describe_replication_configuration_templates(
         "/DescribeReplicationConfigurationTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -974,7 +974,7 @@ function describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/DescribeSourceServers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_source_servers(
@@ -985,7 +985,7 @@ function describe_source_servers(
         "/DescribeSourceServers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1005,7 +1005,7 @@ function describe_vcenter_clients(; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/DescribeVcenterClients";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vcenter_clients(
@@ -1016,7 +1016,7 @@ function describe_vcenter_clients(
         "/DescribeVcenterClients",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1042,7 +1042,7 @@ function disassociate_applications(
         "/DisassociateApplications",
         Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_applications(
@@ -1062,7 +1062,7 @@ function disassociate_applications(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1090,7 +1090,7 @@ function disassociate_source_servers(
             "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_source_servers(
@@ -1112,7 +1112,7 @@ function disassociate_source_servers(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1146,7 +1146,7 @@ function disconnect_from_service(
         "/DisconnectFromService",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disconnect_from_service(
@@ -1161,7 +1161,7 @@ function disconnect_from_service(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1192,7 +1192,7 @@ function finalize_cutover(sourceServerID; aws_config::AbstractAWSConfig=global_a
         "/FinalizeCutover",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function finalize_cutover(
@@ -1207,7 +1207,7 @@ function finalize_cutover(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1232,7 +1232,7 @@ function get_launch_configuration(
         "/GetLaunchConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_launch_configuration(
@@ -1247,7 +1247,7 @@ function get_launch_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1272,7 +1272,7 @@ function get_replication_configuration(
         "/GetReplicationConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_replication_configuration(
@@ -1287,7 +1287,7 @@ function get_replication_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1300,7 +1300,10 @@ Initialize Application Migration Service.
 """
 function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config())
     return mgn(
-        "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/InitializeService";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function initialize_service(
@@ -1311,7 +1314,7 @@ function initialize_service(
         "/InitializeService",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1330,7 +1333,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return mgn(
-        "POST", "/ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListApplications";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_applications(
@@ -1341,7 +1347,7 @@ function list_applications(
         "/ListApplications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1359,7 +1365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return mgn(
-        "POST", "/ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_connectors(
@@ -1370,7 +1376,7 @@ function list_connectors(
         "/ListConnectors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1394,7 +1400,7 @@ function list_export_errors(exportID; aws_config::AbstractAWSConfig=global_aws_c
         "/ListExportErrors",
         Dict{String,Any}("exportID" => exportID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_export_errors(
@@ -1409,7 +1415,7 @@ function list_export_errors(
             mergewith(_merge, Dict{String,Any}("exportID" => exportID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1427,7 +1433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
     return mgn(
-        "POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_exports(
@@ -1438,7 +1444,7 @@ function list_exports(
         "/ListExports",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1462,7 +1468,7 @@ function list_import_errors(importID; aws_config::AbstractAWSConfig=global_aws_c
         "/ListImportErrors",
         Dict{String,Any}("importID" => importID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_import_errors(
@@ -1477,7 +1483,7 @@ function list_import_errors(
             mergewith(_merge, Dict{String,Any}("importID" => importID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1495,7 +1501,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
     return mgn(
-        "POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_imports(
@@ -1506,7 +1512,7 @@ function list_imports(
         "/ListImports",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1526,7 +1532,7 @@ function list_managed_accounts(; aws_config::AbstractAWSConfig=global_aws_config
         "POST",
         "/ListManagedAccounts";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_managed_accounts(
@@ -1537,7 +1543,7 @@ function list_managed_accounts(
         "/ListManagedAccounts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1567,7 +1573,7 @@ function list_source_server_actions(
         "/ListSourceServerActions",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_source_server_actions(
@@ -1582,7 +1588,7 @@ function list_source_server_actions(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1603,7 +1609,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1616,7 +1622,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1644,7 +1650,7 @@ function list_template_actions(
         "/ListTemplateActions",
         Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_actions(
@@ -1665,7 +1671,7 @@ function list_template_actions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1683,13 +1689,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request next token.
 """
 function list_waves(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn("POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return mgn(
+        "POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_waves(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mgn(
-        "POST", "/ListWaves", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListWaves",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1714,7 +1726,7 @@ function mark_as_archived(sourceServerID; aws_config::AbstractAWSConfig=global_a
         "/MarkAsArchived",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function mark_as_archived(
@@ -1729,7 +1741,7 @@ function mark_as_archived(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1754,7 +1766,7 @@ function pause_replication(
         "/PauseReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function pause_replication(
@@ -1769,7 +1781,7 @@ function pause_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1818,7 +1830,7 @@ function put_source_server_action(
             "sourceServerID" => sourceServerID,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_source_server_action(
@@ -1847,7 +1859,7 @@ function put_source_server_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1896,7 +1908,7 @@ function put_template_action(
             "order" => order,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_template_action(
@@ -1925,7 +1937,7 @@ function put_template_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1951,7 +1963,7 @@ function remove_source_server_action(
         "/RemoveSourceServerAction",
         Dict{String,Any}("actionID" => actionID, "sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_source_server_action(
@@ -1973,7 +1985,7 @@ function remove_source_server_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2002,7 +2014,7 @@ function remove_template_action(
             "launchConfigurationTemplateID" => launchConfigurationTemplateID,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_template_action(
@@ -2025,7 +2037,7 @@ function remove_template_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2050,7 +2062,7 @@ function resume_replication(
         "/ResumeReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resume_replication(
@@ -2065,7 +2077,7 @@ function resume_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2093,7 +2105,7 @@ function retry_data_replication(
         "/RetryDataReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function retry_data_replication(
@@ -2108,7 +2120,7 @@ function retry_data_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2134,7 +2146,7 @@ function start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws
         "/StartCutover",
         Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_cutover(
@@ -2151,7 +2163,7 @@ function start_cutover(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2175,7 +2187,7 @@ function start_export(s3Bucket, s3Key; aws_config::AbstractAWSConfig=global_aws_
         "/StartExport",
         Dict{String,Any}("s3Bucket" => s3Bucket, "s3Key" => s3Key);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_export(
@@ -2193,7 +2205,7 @@ function start_export(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2218,7 +2230,7 @@ function start_import(s3BucketSource; aws_config::AbstractAWSConfig=global_aws_c
             "s3BucketSource" => s3BucketSource, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_import(
@@ -2239,7 +2251,7 @@ function start_import(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2264,7 +2276,7 @@ function start_replication(
         "/StartReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_replication(
@@ -2279,7 +2291,7 @@ function start_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2305,7 +2317,7 @@ function start_test(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_co
         "/StartTest",
         Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_test(
@@ -2322,7 +2334,7 @@ function start_test(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2345,7 +2357,7 @@ function stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_a
         "/StopReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_replication(
@@ -2360,7 +2372,7 @@ function stop_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2384,7 +2396,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2398,7 +2410,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2426,7 +2438,7 @@ function terminate_target_instances(
         "/TerminateTargetInstances",
         Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function terminate_target_instances(
@@ -2443,7 +2455,7 @@ function terminate_target_instances(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2468,7 +2480,7 @@ function unarchive_application(
         "/UnarchiveApplication",
         Dict{String,Any}("applicationID" => applicationID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unarchive_application(
@@ -2483,7 +2495,7 @@ function unarchive_application(
             mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2506,7 +2518,7 @@ function unarchive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config(
         "/UnarchiveWave",
         Dict{String,Any}("waveID" => waveID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unarchive_wave(
@@ -2517,7 +2529,7 @@ function unarchive_wave(
         "/UnarchiveWave",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2541,7 +2553,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2555,7 +2567,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2582,7 +2594,7 @@ function update_application(
         "/UpdateApplication",
         Dict{String,Any}("applicationID" => applicationID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application(
@@ -2597,7 +2609,7 @@ function update_application(
             mergewith(_merge, Dict{String,Any}("applicationID" => applicationID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2621,7 +2633,7 @@ function update_connector(connectorID; aws_config::AbstractAWSConfig=global_aws_
         "/UpdateConnector",
         Dict{String,Any}("connectorID" => connectorID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_connector(
@@ -2636,7 +2648,7 @@ function update_connector(
             mergewith(_merge, Dict{String,Any}("connectorID" => connectorID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2673,7 +2685,7 @@ function update_launch_configuration(
         "/UpdateLaunchConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_launch_configuration(
@@ -2688,7 +2700,7 @@ function update_launch_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2725,7 +2737,7 @@ function update_launch_configuration_template(
         "/UpdateLaunchConfigurationTemplate",
         Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_launch_configuration_template(
@@ -2746,7 +2758,7 @@ function update_launch_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2791,7 +2803,7 @@ function update_replication_configuration(
         "/UpdateReplicationConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_replication_configuration(
@@ -2806,7 +2818,7 @@ function update_replication_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2856,7 +2868,7 @@ function update_replication_configuration_template(
             "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_replication_configuration_template(
@@ -2878,7 +2890,7 @@ function update_replication_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2904,7 +2916,7 @@ function update_source_server(
         "/UpdateSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_source_server(
@@ -2919,7 +2931,7 @@ function update_source_server(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2948,7 +2960,7 @@ function update_source_server_replication_type(
             "replicationType" => replicationType, "sourceServerID" => sourceServerID
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_source_server_replication_type(
@@ -2970,7 +2982,7 @@ function update_source_server_replication_type(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2995,7 +3007,7 @@ function update_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
         "/UpdateWave",
         Dict{String,Any}("waveID" => waveID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_wave(
@@ -3006,6 +3018,6 @@ function update_wave(
         "/UpdateWave",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("waveID" => waveID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

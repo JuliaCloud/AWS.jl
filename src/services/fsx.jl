@@ -45,7 +45,7 @@ function associate_file_system_aliases(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_file_system_aliases(
@@ -68,7 +68,7 @@ function associate_file_system_aliases(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -95,7 +95,7 @@ function cancel_data_repository_task(
         "CancelDataRepositoryTask",
         Dict{String,Any}("TaskId" => TaskId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_data_repository_task(
@@ -105,7 +105,7 @@ function cancel_data_repository_task(
         "CancelDataRepositoryTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskId" => TaskId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -161,7 +161,7 @@ function copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=global_aws_co
             "SourceBackupId" => SourceBackupId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_backup(
@@ -182,7 +182,7 @@ function copy_backup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -227,7 +227,7 @@ function copy_snapshot_and_update_volume(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_snapshot_and_update_volume(
@@ -250,7 +250,7 @@ function copy_snapshot_and_update_volume(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -300,7 +300,7 @@ function create_backup(; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateBackup",
         Dict{String,Any}("ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backup(
@@ -314,7 +314,7 @@ function create_backup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -382,7 +382,7 @@ function create_data_repository_association(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_repository_association(
@@ -405,7 +405,7 @@ function create_data_repository_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -478,7 +478,7 @@ function create_data_repository_task(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_repository_task(
@@ -503,7 +503,7 @@ function create_data_repository_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -579,7 +579,7 @@ function create_file_cache(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_file_cache(
@@ -606,7 +606,7 @@ function create_file_cache(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -717,7 +717,7 @@ function create_file_system(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_file_system(
@@ -742,7 +742,7 @@ function create_file_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -829,7 +829,7 @@ function create_file_system_from_backup(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_file_system_from_backup(
@@ -852,7 +852,7 @@ function create_file_system_from_backup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -893,7 +893,7 @@ function create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=global_aw
             "Name" => Name, "VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_snapshot(
@@ -916,7 +916,7 @@ function create_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -961,7 +961,7 @@ function create_storage_virtual_machine(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_storage_virtual_machine(
@@ -984,7 +984,7 @@ function create_storage_virtual_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1016,7 +1016,7 @@ function create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=global_aw
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_volume(
@@ -1039,7 +1039,7 @@ function create_volume(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1069,7 +1069,7 @@ function create_volume_from_backup(
             "BackupId" => BackupId, "Name" => Name, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_volume_from_backup(
@@ -1092,7 +1092,7 @@ function create_volume_from_backup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1119,7 +1119,7 @@ function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteBackup",
         Dict{String,Any}("BackupId" => BackupId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup(
@@ -1139,7 +1139,7 @@ function delete_backup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1172,7 +1172,7 @@ function delete_data_repository_association(
             "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_repository_association(
@@ -1193,7 +1193,7 @@ function delete_data_repository_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1222,7 +1222,7 @@ function delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws
             "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_file_cache(
@@ -1242,7 +1242,7 @@ function delete_file_cache(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1295,7 +1295,7 @@ function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_a
             "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_file_system(
@@ -1315,7 +1315,7 @@ function delete_file_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1342,7 +1342,7 @@ function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_co
             "SnapshotId" => SnapshotId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_snapshot(
@@ -1362,7 +1362,7 @@ function delete_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1390,7 +1390,7 @@ function delete_storage_virtual_machine(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_storage_virtual_machine(
@@ -1411,7 +1411,7 @@ function delete_storage_virtual_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1438,7 +1438,7 @@ function delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteVolume",
         Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_volume(
@@ -1458,7 +1458,7 @@ function delete_volume(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1497,13 +1497,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call left off.
 """
 function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function describe_backups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
-        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1543,7 +1543,7 @@ function describe_data_repository_associations(;
     return fsx(
         "DescribeDataRepositoryAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_repository_associations(
@@ -1553,7 +1553,7 @@ function describe_data_repository_associations(
         "DescribeDataRepositoryAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1585,7 +1585,7 @@ function describe_data_repository_tasks(; aws_config::AbstractAWSConfig=global_a
     return fsx(
         "DescribeDataRepositoryTasks";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_repository_tasks(
@@ -1595,7 +1595,7 @@ function describe_data_repository_tasks(
         "DescribeDataRepositoryTasks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1626,13 +1626,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function describe_file_caches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fsx(
+        "DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function describe_file_caches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
-        "DescribeFileCaches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFileCaches",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1669,7 +1674,7 @@ function describe_file_system_aliases(
             "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_file_system_aliases(
@@ -1689,7 +1694,7 @@ function describe_file_system_aliases(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1728,7 +1733,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config())
     return fsx(
-        "DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_file_systems(
@@ -1738,7 +1743,7 @@ function describe_file_systems(
         "DescribeFileSystems",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1758,7 +1763,7 @@ function describe_shared_vpc_configuration(;
     return fsx(
         "DescribeSharedVpcConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_shared_vpc_configuration(
@@ -1768,7 +1773,7 @@ function describe_shared_vpc_configuration(
         "DescribeSharedVpcConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1804,13 +1809,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overrides any filters. If any IDs aren't found, a SnapshotNotFound error occurs.
 """
 function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fsx(
+        "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
-        "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSnapshots",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1833,7 +1843,7 @@ function describe_storage_virtual_machines(;
     return fsx(
         "DescribeStorageVirtualMachines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_storage_virtual_machines(
@@ -1843,7 +1853,7 @@ function describe_storage_virtual_machines(
         "DescribeStorageVirtualMachines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1861,13 +1871,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VolumeIds"`: The IDs of the volumes whose descriptions you want to retrieve.
 """
 function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function describe_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
-        "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1903,7 +1913,7 @@ function disassociate_file_system_aliases(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_file_system_aliases(
@@ -1926,7 +1936,7 @@ function disassociate_file_system_aliases(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1967,7 +1977,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1981,7 +1991,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2007,7 +2017,7 @@ function release_file_system_nfs_v3_locks(
             "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function release_file_system_nfs_v3_locks(
@@ -2027,7 +2037,7 @@ function release_file_system_nfs_v3_locks(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2063,7 +2073,7 @@ function restore_volume_from_snapshot(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_volume_from_snapshot(
@@ -2086,7 +2096,7 @@ function restore_volume_from_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2114,7 +2124,7 @@ function start_misconfigured_state_recovery(
             "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_misconfigured_state_recovery(
@@ -2134,7 +2144,7 @@ function start_misconfigured_state_recovery(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2156,7 +2166,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2175,7 +2185,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2198,7 +2208,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2217,7 +2227,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2256,7 +2266,7 @@ function update_data_repository_association(
             "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_repository_association(
@@ -2277,7 +2287,7 @@ function update_data_repository_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2303,7 +2313,7 @@ function update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws
             "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_file_cache(
@@ -2323,7 +2333,7 @@ function update_file_cache(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2394,7 +2404,7 @@ function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_a
             "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_file_system(
@@ -2414,7 +2424,7 @@ function update_file_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2445,7 +2455,7 @@ function update_shared_vpc_configuration(;
         "UpdateSharedVpcConfiguration",
         Dict{String,Any}("ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_shared_vpc_configuration(
@@ -2459,7 +2469,7 @@ function update_shared_vpc_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2489,7 +2499,7 @@ function update_snapshot(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_snapshot(
@@ -2512,7 +2522,7 @@ function update_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2543,7 +2553,7 @@ function update_storage_virtual_machine(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_storage_virtual_machine(
@@ -2564,7 +2574,7 @@ function update_storage_virtual_machine(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2593,7 +2603,7 @@ function update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config
         "UpdateVolume",
         Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_volume(
@@ -2613,6 +2623,6 @@ function update_volume(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

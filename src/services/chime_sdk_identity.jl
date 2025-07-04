@@ -30,7 +30,7 @@ function create_app_instance(
         "/app-instances",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_instance(
@@ -52,7 +52,7 @@ function create_app_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -78,7 +78,7 @@ function create_app_instance_admin(
         "/app-instances/$(appInstanceArn)/admins",
         Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_instance_admin(
@@ -98,7 +98,7 @@ function create_app_instance_admin(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -136,7 +136,7 @@ function create_app_instance_bot(
             "Configuration" => Configuration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_instance_bot(
@@ -161,7 +161,7 @@ function create_app_instance_bot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -203,7 +203,7 @@ function create_app_instance_user(
             "Name" => Name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_instance_user(
@@ -230,7 +230,7 @@ function create_app_instance_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -251,7 +251,7 @@ function delete_app_instance(
         "DELETE",
         "/app-instances/$(appInstanceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_instance(
@@ -264,7 +264,7 @@ function delete_app_instance(
         "/app-instances/$(appInstanceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -287,7 +287,7 @@ function delete_app_instance_admin(
         "DELETE",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_instance_admin(
@@ -301,7 +301,7 @@ function delete_app_instance_admin(
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -322,7 +322,7 @@ function delete_app_instance_bot(
         "DELETE",
         "/app-instance-bots/$(appInstanceBotArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_instance_bot(
@@ -335,7 +335,7 @@ function delete_app_instance_bot(
         "/app-instance-bots/$(appInstanceBotArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -356,7 +356,7 @@ function delete_app_instance_user(
         "DELETE",
         "/app-instance-users/$(appInstanceUserArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_instance_user(
@@ -369,7 +369,7 @@ function delete_app_instance_user(
         "/app-instance-users/$(appInstanceUserArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -391,7 +391,7 @@ function deregister_app_instance_user_endpoint(
         "DELETE",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_app_instance_user_endpoint(
@@ -405,7 +405,7 @@ function deregister_app_instance_user_endpoint(
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -426,7 +426,7 @@ function describe_app_instance(
         "GET",
         "/app-instances/$(appInstanceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_instance(
@@ -439,7 +439,7 @@ function describe_app_instance(
         "/app-instances/$(appInstanceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -461,7 +461,7 @@ function describe_app_instance_admin(
         "GET",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_instance_admin(
@@ -475,7 +475,7 @@ function describe_app_instance_admin(
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -496,7 +496,7 @@ function describe_app_instance_bot(
         "GET",
         "/app-instance-bots/$(appInstanceBotArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_instance_bot(
@@ -509,7 +509,7 @@ function describe_app_instance_bot(
         "/app-instance-bots/$(appInstanceBotArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -530,7 +530,7 @@ function describe_app_instance_user(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_instance_user(
@@ -543,7 +543,7 @@ function describe_app_instance_user(
         "/app-instance-users/$(appInstanceUserArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -565,7 +565,7 @@ function describe_app_instance_user_endpoint(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_instance_user_endpoint(
@@ -579,7 +579,7 @@ function describe_app_instance_user_endpoint(
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -600,7 +600,7 @@ function get_app_instance_retention_settings(
         "GET",
         "/app-instances/$(appInstanceArn)/retention-settings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_app_instance_retention_settings(
@@ -613,7 +613,7 @@ function get_app_instance_retention_settings(
         "/app-instances/$(appInstanceArn)/retention-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -639,7 +639,7 @@ function list_app_instance_admins(
         "GET",
         "/app-instances/$(appInstanceArn)/admins";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_instance_admins(
@@ -652,7 +652,7 @@ function list_app_instance_admins(
         "/app-instances/$(appInstanceArn)/admins",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -679,7 +679,7 @@ function list_app_instance_bots(
         "/app-instance-bots",
         Dict{String,Any}("app-instance-arn" => app_instance_arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_instance_bots(
@@ -696,7 +696,7 @@ function list_app_instance_bots(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -722,7 +722,7 @@ function list_app_instance_user_endpoints(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)/endpoints";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_instance_user_endpoints(
@@ -735,7 +735,7 @@ function list_app_instance_user_endpoints(
         "/app-instance-users/$(appInstanceUserArn)/endpoints",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -762,7 +762,7 @@ function list_app_instance_users(
         "/app-instance-users",
         Dict{String,Any}("app-instance-arn" => app_instance_arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_instance_users(
@@ -779,7 +779,7 @@ function list_app_instance_users(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -797,7 +797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     return chime_sdk_identity(
-        "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_app_instances(
@@ -808,7 +808,7 @@ function list_app_instances(
         "/app-instances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -828,7 +828,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
         "/tags",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -839,7 +839,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -864,7 +864,7 @@ function put_app_instance_retention_settings(
         "/app-instances/$(appInstanceArn)/retention-settings",
         Dict{String,Any}("AppInstanceRetentionSettings" => AppInstanceRetentionSettings);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_app_instance_retention_settings(
@@ -886,7 +886,7 @@ function put_app_instance_retention_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -914,7 +914,7 @@ function put_app_instance_user_expiration_settings(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)/expiration-settings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_app_instance_user_expiration_settings(
@@ -927,7 +927,7 @@ function put_app_instance_user_expiration_settings(
         "/app-instance-users/$(appInstanceUserArn)/expiration-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -975,7 +975,7 @@ function register_app_instance_user_endpoint(
             "Type" => Type,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_app_instance_user_endpoint(
@@ -1003,7 +1003,7 @@ function register_app_instance_user_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1024,7 +1024,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags?operation=tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1044,7 +1044,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1067,7 +1067,7 @@ function untag_resource(
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1087,7 +1087,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1111,7 +1111,7 @@ function update_app_instance(
         "/app-instances/$(appInstanceArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_instance(
@@ -1130,7 +1130,7 @@ function update_app_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1157,7 +1157,7 @@ function update_app_instance_bot(
         "/app-instance-bots/$(appInstanceBotArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_instance_bot(
@@ -1176,7 +1176,7 @@ function update_app_instance_bot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1200,7 +1200,7 @@ function update_app_instance_user(
         "/app-instance-users/$(appInstanceUserArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_instance_user(
@@ -1219,7 +1219,7 @@ function update_app_instance_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1248,7 +1248,7 @@ function update_app_instance_user_endpoint(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_instance_user_endpoint(
@@ -1262,6 +1262,6 @@ function update_app_instance_user_endpoint(
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

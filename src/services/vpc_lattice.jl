@@ -30,7 +30,7 @@ function batch_update_rule(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
         Dict{String,Any}("rules" => rules);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_rule(
@@ -45,7 +45,7 @@ function batch_update_rule(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("rules" => rules), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -87,7 +87,7 @@ function create_access_log_subscription(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_access_log_subscription(
@@ -111,7 +111,7 @@ function create_access_log_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -160,7 +160,7 @@ function create_listener(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_listener(
@@ -187,7 +187,7 @@ function create_listener(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -239,7 +239,7 @@ function create_rule(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rule(
@@ -269,7 +269,7 @@ function create_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -305,7 +305,7 @@ function create_service(name; aws_config::AbstractAWSConfig=global_aws_config())
         "/services",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service(
@@ -322,7 +322,7 @@ function create_service(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -356,7 +356,7 @@ function create_service_network(name; aws_config::AbstractAWSConfig=global_aws_c
         "/servicenetworks",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service_network(
@@ -373,7 +373,7 @@ function create_service_network(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -418,7 +418,7 @@ function create_service_network_service_association(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service_network_service_association(
@@ -442,7 +442,7 @@ function create_service_network_service_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -494,7 +494,7 @@ function create_service_network_vpc_association(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service_network_vpc_association(
@@ -518,7 +518,7 @@ function create_service_network_vpc_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -551,7 +551,7 @@ function create_target_group(name, type; aws_config::AbstractAWSConfig=global_aw
         "/targetgroups",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_target_group(
@@ -573,7 +573,7 @@ function create_target_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -595,7 +595,7 @@ function delete_access_log_subscription(
         "DELETE",
         "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_access_log_subscription(
@@ -608,7 +608,7 @@ function delete_access_log_subscription(
         "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -632,7 +632,7 @@ function delete_auth_policy(
         "DELETE",
         "/authpolicy/$(resourceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_auth_policy(
@@ -645,7 +645,7 @@ function delete_auth_policy(
         "/authpolicy/$(resourceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -667,7 +667,7 @@ function delete_listener(
         "DELETE",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_listener(
@@ -681,7 +681,7 @@ function delete_listener(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -702,7 +702,7 @@ function delete_resource_policy(
         "DELETE",
         "/resourcepolicy/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -715,7 +715,7 @@ function delete_resource_policy(
         "/resourcepolicy/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -745,7 +745,7 @@ function delete_rule(
         "DELETE",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rule(
@@ -760,7 +760,7 @@ function delete_rule(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -784,7 +784,7 @@ function delete_service(
         "DELETE",
         "/services/$(serviceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_service(
@@ -797,7 +797,7 @@ function delete_service(
         "/services/$(serviceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -822,7 +822,7 @@ function delete_service_network(
         "DELETE",
         "/servicenetworks/$(serviceNetworkIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_service_network(
@@ -835,7 +835,7 @@ function delete_service_network(
         "/servicenetworks/$(serviceNetworkIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -859,7 +859,7 @@ function delete_service_network_service_association(
         "DELETE",
         "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_service_network_service_association(
@@ -872,7 +872,7 @@ function delete_service_network_service_association(
         "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -896,7 +896,7 @@ function delete_service_network_vpc_association(
         "DELETE",
         "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_service_network_vpc_association(
@@ -909,7 +909,7 @@ function delete_service_network_vpc_association(
         "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -931,7 +931,7 @@ function delete_target_group(
         "DELETE",
         "/targetgroups/$(targetGroupIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_target_group(
@@ -944,7 +944,7 @@ function delete_target_group(
         "/targetgroups/$(targetGroupIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -967,7 +967,7 @@ function deregister_targets(
         "/targetgroups/$(targetGroupIdentifier)/deregistertargets",
         Dict{String,Any}("targets" => targets);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_targets(
@@ -981,7 +981,7 @@ function deregister_targets(
         "/targetgroups/$(targetGroupIdentifier)/deregistertargets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("targets" => targets), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1003,7 +1003,7 @@ function get_access_log_subscription(
         "GET",
         "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_access_log_subscription(
@@ -1016,7 +1016,7 @@ function get_access_log_subscription(
         "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1038,7 +1038,7 @@ function get_auth_policy(
         "GET",
         "/authpolicy/$(resourceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_auth_policy(
@@ -1051,7 +1051,7 @@ function get_auth_policy(
         "/authpolicy/$(resourceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1073,7 +1073,7 @@ function get_listener(
         "GET",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_listener(
@@ -1087,7 +1087,7 @@ function get_listener(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1107,7 +1107,7 @@ function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/resourcepolicy/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -1120,7 +1120,7 @@ function get_resource_policy(
         "/resourcepolicy/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1148,7 +1148,7 @@ function get_rule(
         "GET",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rule(
@@ -1163,7 +1163,7 @@ function get_rule(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1182,7 +1182,7 @@ function get_service(serviceIdentifier; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/services/$(serviceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service(
@@ -1195,7 +1195,7 @@ function get_service(
         "/services/$(serviceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1216,7 +1216,7 @@ function get_service_network(
         "GET",
         "/servicenetworks/$(serviceNetworkIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service_network(
@@ -1229,7 +1229,7 @@ function get_service_network(
         "/servicenetworks/$(serviceNetworkIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1253,7 +1253,7 @@ function get_service_network_service_association(
         "GET",
         "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service_network_service_association(
@@ -1266,7 +1266,7 @@ function get_service_network_service_association(
         "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1289,7 +1289,7 @@ function get_service_network_vpc_association(
         "GET",
         "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service_network_vpc_association(
@@ -1302,7 +1302,7 @@ function get_service_network_vpc_association(
         "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1323,7 +1323,7 @@ function get_target_group(
         "GET",
         "/targetgroups/$(targetGroupIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_target_group(
@@ -1336,7 +1336,7 @@ function get_target_group(
         "/targetgroups/$(targetGroupIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1363,7 +1363,7 @@ function list_access_log_subscriptions(
         "/accesslogsubscriptions",
         Dict{String,Any}("resourceIdentifier" => resourceIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_access_log_subscriptions(
@@ -1380,7 +1380,7 @@ function list_access_log_subscriptions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1405,7 +1405,7 @@ function list_listeners(
         "GET",
         "/services/$(serviceIdentifier)/listeners";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_listeners(
@@ -1418,7 +1418,7 @@ function list_listeners(
         "/services/$(serviceIdentifier)/listeners",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1444,7 +1444,7 @@ function list_rules(
         "GET",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rules(
@@ -1458,7 +1458,7 @@ function list_rules(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1488,7 +1488,7 @@ function list_service_network_service_associations(;
         "GET",
         "/servicenetworkserviceassociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_service_network_service_associations(
@@ -1499,7 +1499,7 @@ function list_service_network_service_associations(
         "/servicenetworkserviceassociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1525,7 +1525,7 @@ function list_service_network_vpc_associations(;
         "GET",
         "/servicenetworkvpcassociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_service_network_vpc_associations(
@@ -1536,7 +1536,7 @@ function list_service_network_vpc_associations(
         "/servicenetworkvpcassociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1554,7 +1554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_service_networks(; aws_config::AbstractAWSConfig=global_aws_config())
     return vpc_lattice(
-        "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_service_networks(
@@ -1565,7 +1565,7 @@ function list_service_networks(
         "/servicenetworks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1582,14 +1582,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
     return vpc_lattice(
-        "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return vpc_lattice(
-        "GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1610,7 +1610,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1623,7 +1623,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1643,7 +1643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_target_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return vpc_lattice(
-        "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_target_groups(
@@ -1654,7 +1654,7 @@ function list_target_groups(
         "/targetgroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1681,7 +1681,7 @@ function list_targets(
         "POST",
         "/targetgroups/$(targetGroupIdentifier)/listtargets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_targets(
@@ -1694,7 +1694,7 @@ function list_targets(
         "/targetgroups/$(targetGroupIdentifier)/listtargets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1720,7 +1720,7 @@ function put_auth_policy(
         "/authpolicy/$(resourceIdentifier)",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_auth_policy(
@@ -1734,7 +1734,7 @@ function put_auth_policy(
         "/authpolicy/$(resourceIdentifier)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1761,7 +1761,7 @@ function put_resource_policy(
         "/resourcepolicy/$(resourceArn)",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -1775,7 +1775,7 @@ function put_resource_policy(
         "/resourcepolicy/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1799,7 +1799,7 @@ function register_targets(
         "/targetgroups/$(targetGroupIdentifier)/registertargets",
         Dict{String,Any}("targets" => targets);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_targets(
@@ -1813,7 +1813,7 @@ function register_targets(
         "/targetgroups/$(targetGroupIdentifier)/registertargets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("targets" => targets), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1834,7 +1834,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1848,7 +1848,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1871,7 +1871,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1885,7 +1885,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1911,7 +1911,7 @@ function update_access_log_subscription(
         "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)",
         Dict{String,Any}("destinationArn" => destinationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_access_log_subscription(
@@ -1927,7 +1927,7 @@ function update_access_log_subscription(
             mergewith(_merge, Dict{String,Any}("destinationArn" => destinationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1954,7 +1954,7 @@ function update_listener(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)",
         Dict{String,Any}("defaultAction" => defaultAction);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_listener(
@@ -1971,7 +1971,7 @@ function update_listener(
             mergewith(_merge, Dict{String,Any}("defaultAction" => defaultAction), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2004,7 +2004,7 @@ function update_rule(
         "PATCH",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rule(
@@ -2019,7 +2019,7 @@ function update_rule(
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2046,7 +2046,7 @@ function update_service(
         "PATCH",
         "/services/$(serviceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_service(
@@ -2059,7 +2059,7 @@ function update_service(
         "/services/$(serviceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2084,7 +2084,7 @@ function update_service_network(
         "/servicenetworks/$(serviceNetworkIdentifier)",
         Dict{String,Any}("authType" => authType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_service_network(
@@ -2100,7 +2100,7 @@ function update_service_network(
             mergewith(_merge, Dict{String,Any}("authType" => authType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2130,7 +2130,7 @@ function update_service_network_vpc_association(
         "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)",
         Dict{String,Any}("securityGroupIds" => securityGroupIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_service_network_vpc_association(
@@ -2148,7 +2148,7 @@ function update_service_network_vpc_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2171,7 +2171,7 @@ function update_target_group(
         "/targetgroups/$(targetGroupIdentifier)",
         Dict{String,Any}("healthCheck" => healthCheck);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_target_group(
@@ -2187,6 +2187,6 @@ function update_target_group(
             mergewith(_merge, Dict{String,Any}("healthCheck" => healthCheck), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

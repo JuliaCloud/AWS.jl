@@ -45,7 +45,7 @@ function accept_match(
             "TicketId" => TicketId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_match(
@@ -69,7 +69,7 @@ function accept_match(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -121,7 +121,7 @@ function claim_game_server(
         "ClaimGameServer",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function claim_game_server(
@@ -139,7 +139,7 @@ function claim_game_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function create_alias(
         "CreateAlias",
         Dict{String,Any}("Name" => Name, "RoutingStrategy" => RoutingStrategy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_alias(
@@ -200,7 +200,7 @@ function create_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -261,13 +261,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   need to be unique. You can change this value later.
 """
 function create_build(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("CreateBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift("CreateBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function create_build(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "CreateBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -347,7 +347,7 @@ function create_container_group_definition(
             "TotalMemoryLimit" => TotalMemoryLimit,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_container_group_definition(
@@ -375,7 +375,7 @@ function create_container_group_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -545,7 +545,7 @@ function create_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateFleet",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -555,7 +555,7 @@ function create_fleet(
         "CreateFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -591,7 +591,7 @@ function create_fleet_locations(
         "CreateFleetLocations",
         Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet_locations(
@@ -610,7 +610,7 @@ function create_fleet_locations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -737,7 +737,7 @@ function create_game_server_group(
             "RoleArn" => RoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_game_server_group(
@@ -767,7 +767,7 @@ function create_game_server_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -849,7 +849,7 @@ function create_game_session(
         "CreateGameSession",
         Dict{String,Any}("MaximumPlayerSessionCount" => MaximumPlayerSessionCount);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_game_session(
@@ -867,7 +867,7 @@ function create_game_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -937,7 +937,7 @@ function create_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aw
         "CreateGameSessionQueue",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_game_session_queue(
@@ -947,7 +947,7 @@ function create_game_session_queue(
         "CreateGameSessionQueue",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -972,7 +972,7 @@ function create_location(LocationName; aws_config::AbstractAWSConfig=global_aws_
         "CreateLocation",
         Dict{String,Any}("LocationName" => LocationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location(
@@ -986,7 +986,7 @@ function create_location(
             mergewith(_merge, Dict{String,Any}("LocationName" => LocationName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1085,7 +1085,7 @@ function create_matchmaking_configuration(
             "RuleSetName" => RuleSetName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_matchmaking_configuration(
@@ -1111,7 +1111,7 @@ function create_matchmaking_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1149,7 +1149,7 @@ function create_matchmaking_rule_set(
         "CreateMatchmakingRuleSet",
         Dict{String,Any}("Name" => Name, "RuleSetBody" => RuleSetBody);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_matchmaking_rule_set(
@@ -1168,7 +1168,7 @@ function create_matchmaking_rule_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1203,7 +1203,7 @@ function create_player_session(
         "CreatePlayerSession",
         Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerId" => PlayerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_player_session(
@@ -1222,7 +1222,7 @@ function create_player_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1260,7 +1260,7 @@ function create_player_sessions(
         "CreatePlayerSessions",
         Dict{String,Any}("GameSessionId" => GameSessionId, "PlayerIds" => PlayerIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_player_sessions(
@@ -1281,7 +1281,7 @@ function create_player_sessions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1333,13 +1333,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
 """
 function create_script(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift(
+        "CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function create_script(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "CreateScript", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateScript", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1388,7 +1390,7 @@ function create_vpc_peering_authorization(
             "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vpc_peering_authorization(
@@ -1409,7 +1411,7 @@ function create_vpc_peering_authorization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1462,7 +1464,7 @@ function create_vpc_peering_connection(
             "PeerVpcId" => PeerVpcId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vpc_peering_connection(
@@ -1486,7 +1488,7 @@ function create_vpc_peering_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1508,7 +1510,7 @@ function delete_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteAlias",
         Dict{String,Any}("AliasId" => AliasId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_alias(
@@ -1518,7 +1520,7 @@ function delete_alias(
         "DeleteAlias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1541,7 +1543,7 @@ function delete_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteBuild",
         Dict{String,Any}("BuildId" => BuildId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_build(
@@ -1551,7 +1553,7 @@ function delete_build(
         "DeleteBuild",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1577,7 +1579,7 @@ function delete_container_group_definition(
         "DeleteContainerGroupDefinition",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_container_group_definition(
@@ -1587,7 +1589,7 @@ function delete_container_group_definition(
         "DeleteContainerGroupDefinition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1614,7 +1616,7 @@ function delete_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteFleet",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -1624,7 +1626,7 @@ function delete_fleet(
         "DeleteFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1654,7 +1656,7 @@ function delete_fleet_locations(
         "DeleteFleetLocations",
         Dict{String,Any}("FleetId" => FleetId, "Locations" => Locations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet_locations(
@@ -1673,7 +1675,7 @@ function delete_fleet_locations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1716,7 +1718,7 @@ function delete_game_server_group(
         "DeleteGameServerGroup",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_game_server_group(
@@ -1734,7 +1736,7 @@ function delete_game_server_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1756,7 +1758,7 @@ function delete_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aw
         "DeleteGameSessionQueue",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_game_session_queue(
@@ -1766,7 +1768,7 @@ function delete_game_session_queue(
         "DeleteGameSessionQueue",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1787,7 +1789,7 @@ function delete_location(LocationName; aws_config::AbstractAWSConfig=global_aws_
         "DeleteLocation",
         Dict{String,Any}("LocationName" => LocationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_location(
@@ -1801,7 +1803,7 @@ function delete_location(
             mergewith(_merge, Dict{String,Any}("LocationName" => LocationName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1825,7 +1827,7 @@ function delete_matchmaking_configuration(
         "DeleteMatchmakingConfiguration",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_matchmaking_configuration(
@@ -1835,7 +1837,7 @@ function delete_matchmaking_configuration(
         "DeleteMatchmakingConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1860,7 +1862,7 @@ function delete_matchmaking_rule_set(
         "DeleteMatchmakingRuleSet",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_matchmaking_rule_set(
@@ -1870,7 +1872,7 @@ function delete_matchmaking_rule_set(
         "DeleteMatchmakingRuleSet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1897,7 +1899,7 @@ function delete_scaling_policy(
         "DeleteScalingPolicy",
         Dict{String,Any}("FleetId" => FleetId, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scaling_policy(
@@ -1914,7 +1916,7 @@ function delete_scaling_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1940,7 +1942,7 @@ function delete_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteScript",
         Dict{String,Any}("ScriptId" => ScriptId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_script(
@@ -1954,7 +1956,7 @@ function delete_script(
             mergewith(_merge, Dict{String,Any}("ScriptId" => ScriptId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1985,7 +1987,7 @@ function delete_vpc_peering_authorization(
             "GameLiftAwsAccountId" => GameLiftAwsAccountId, "PeerVpcId" => PeerVpcId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vpc_peering_authorization(
@@ -2006,7 +2008,7 @@ function delete_vpc_peering_authorization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2037,7 +2039,7 @@ function delete_vpc_peering_connection(
             "FleetId" => FleetId, "VpcPeeringConnectionId" => VpcPeeringConnectionId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vpc_peering_connection(
@@ -2058,7 +2060,7 @@ function delete_vpc_peering_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2091,7 +2093,7 @@ function deregister_compute(
         "DeregisterCompute",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_compute(
@@ -2110,7 +2112,7 @@ function deregister_compute(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2140,7 +2142,7 @@ function deregister_game_server(
             "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_game_server(
@@ -2162,7 +2164,7 @@ function deregister_game_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2185,7 +2187,7 @@ function describe_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config
         "DescribeAlias",
         Dict{String,Any}("AliasId" => AliasId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_alias(
@@ -2195,7 +2197,7 @@ function describe_alias(
         "DescribeAlias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2217,7 +2219,7 @@ function describe_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config
         "DescribeBuild",
         Dict{String,Any}("BuildId" => BuildId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_build(
@@ -2227,7 +2229,7 @@ function describe_build(
         "DescribeBuild",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2262,7 +2264,7 @@ function describe_compute(
         "DescribeCompute",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_compute(
@@ -2281,7 +2283,7 @@ function describe_compute(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2307,7 +2309,7 @@ function describe_container_group_definition(
         "DescribeContainerGroupDefinition",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_container_group_definition(
@@ -2317,7 +2319,7 @@ function describe_container_group_definition(
         "DescribeContainerGroupDefinition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2366,7 +2368,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_ec2_instance_limits(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeEC2InstanceLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEC2InstanceLimits";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_ec2_instance_limits(
@@ -2376,7 +2380,7 @@ function describe_ec2_instance_limits(
         "DescribeEC2InstanceLimits",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2412,7 +2416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_fleet_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeFleetAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFleetAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_fleet_attributes(
@@ -2422,7 +2426,7 @@ function describe_fleet_attributes(
         "DescribeFleetAttributes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2461,7 +2465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_fleet_capacity(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeFleetCapacity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFleetCapacity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_fleet_capacity(
@@ -2471,7 +2475,7 @@ function describe_fleet_capacity(
         "DescribeFleetCapacity",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2511,7 +2515,7 @@ function describe_fleet_events(FleetId; aws_config::AbstractAWSConfig=global_aws
         "DescribeFleetEvents",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet_events(
@@ -2521,7 +2525,7 @@ function describe_fleet_events(
         "DescribeFleetEvents",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2561,7 +2565,7 @@ function describe_fleet_location_attributes(
         "DescribeFleetLocationAttributes",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet_location_attributes(
@@ -2571,7 +2575,7 @@ function describe_fleet_location_attributes(
         "DescribeFleetLocationAttributes",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2602,7 +2606,7 @@ function describe_fleet_location_capacity(
         "DescribeFleetLocationCapacity",
         Dict{String,Any}("FleetId" => FleetId, "Location" => Location);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet_location_capacity(
@@ -2621,7 +2625,7 @@ function describe_fleet_location_capacity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2651,7 +2655,7 @@ function describe_fleet_location_utilization(
         "DescribeFleetLocationUtilization",
         Dict{String,Any}("FleetId" => FleetId, "Location" => Location);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet_location_utilization(
@@ -2670,7 +2674,7 @@ function describe_fleet_location_utilization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2707,7 +2711,7 @@ function describe_fleet_port_settings(
         "DescribeFleetPortSettings",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet_port_settings(
@@ -2717,7 +2721,7 @@ function describe_fleet_port_settings(
         "DescribeFleetPortSettings",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2755,7 +2759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_fleet_utilization(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeFleetUtilization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFleetUtilization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_fleet_utilization(
@@ -2765,7 +2769,7 @@ function describe_fleet_utilization(
         "DescribeFleetUtilization",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2795,7 +2799,7 @@ function describe_game_server(
             "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_game_server(
@@ -2817,7 +2821,7 @@ function describe_game_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2845,7 +2849,7 @@ function describe_game_server_group(
         "DescribeGameServerGroup",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_game_server_group(
@@ -2863,7 +2867,7 @@ function describe_game_server_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2905,7 +2909,7 @@ function describe_game_server_instances(
         "DescribeGameServerInstances",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_game_server_instances(
@@ -2923,7 +2927,7 @@ function describe_game_server_instances(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2967,7 +2971,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_game_session_details(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeGameSessionDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeGameSessionDetails";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_game_session_details(
@@ -2977,7 +2983,7 @@ function describe_game_session_details(
         "DescribeGameSessionDetails",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3004,7 +3010,7 @@ function describe_game_session_placement(
         "DescribeGameSessionPlacement",
         Dict{String,Any}("PlacementId" => PlacementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_game_session_placement(
@@ -3018,7 +3024,7 @@ function describe_game_session_placement(
             mergewith(_merge, Dict{String,Any}("PlacementId" => PlacementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3043,7 +3049,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_game_session_queues(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeGameSessionQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeGameSessionQueues";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_game_session_queues(
@@ -3053,7 +3061,7 @@ function describe_game_session_queues(
         "DescribeGameSessionQueues",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3101,7 +3109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribeGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_game_sessions(
@@ -3111,7 +3119,7 @@ function describe_game_sessions(
         "DescribeGameSessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3154,7 +3162,7 @@ function describe_instances(FleetId; aws_config::AbstractAWSConfig=global_aws_co
         "DescribeInstances",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_instances(
@@ -3164,7 +3172,7 @@ function describe_instances(
         "DescribeInstances",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3193,7 +3201,7 @@ function describe_matchmaking(TicketIds; aws_config::AbstractAWSConfig=global_aw
         "DescribeMatchmaking",
         Dict{String,Any}("TicketIds" => TicketIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_matchmaking(
@@ -3207,7 +3215,7 @@ function describe_matchmaking(
             mergewith(_merge, Dict{String,Any}("TicketIds" => TicketIds), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3243,7 +3251,7 @@ function describe_matchmaking_configurations(;
     return gamelift(
         "DescribeMatchmakingConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_matchmaking_configurations(
@@ -3253,7 +3261,7 @@ function describe_matchmaking_configurations(
         "DescribeMatchmakingConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3282,7 +3290,7 @@ function describe_matchmaking_rule_sets(; aws_config::AbstractAWSConfig=global_a
     return gamelift(
         "DescribeMatchmakingRuleSets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_matchmaking_rule_sets(
@@ -3292,7 +3300,7 @@ function describe_matchmaking_rule_sets(
         "DescribeMatchmakingRuleSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3336,7 +3344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_player_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "DescribePlayerSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribePlayerSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_player_sessions(
@@ -3346,7 +3354,7 @@ function describe_player_sessions(
         "DescribePlayerSessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3376,7 +3384,7 @@ function describe_runtime_configuration(
         "DescribeRuntimeConfiguration",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_runtime_configuration(
@@ -3386,7 +3394,7 @@ function describe_runtime_configuration(
         "DescribeRuntimeConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3429,7 +3437,7 @@ function describe_scaling_policies(
         "DescribeScalingPolicies",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_scaling_policies(
@@ -3439,7 +3447,7 @@ function describe_scaling_policies(
         "DescribeScalingPolicies",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3461,7 +3469,7 @@ function describe_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeScript",
         Dict{String,Any}("ScriptId" => ScriptId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_script(
@@ -3475,7 +3483,7 @@ function describe_script(
             mergewith(_merge, Dict{String,Any}("ScriptId" => ScriptId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3495,7 +3503,7 @@ function describe_vpc_peering_authorizations(;
     return gamelift(
         "DescribeVpcPeeringAuthorizations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vpc_peering_authorizations(
@@ -3505,7 +3513,7 @@ function describe_vpc_peering_authorizations(
         "DescribeVpcPeeringAuthorizations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3532,7 +3540,7 @@ function describe_vpc_peering_connections(;
     return gamelift(
         "DescribeVpcPeeringConnections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vpc_peering_connections(
@@ -3542,7 +3550,7 @@ function describe_vpc_peering_connections(
         "DescribeVpcPeeringConnections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3580,7 +3588,7 @@ function get_compute_access(
         "GetComputeAccess",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compute_access(
@@ -3599,7 +3607,7 @@ function get_compute_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3636,7 +3644,7 @@ function get_compute_auth_token(
         "GetComputeAuthToken",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compute_auth_token(
@@ -3655,7 +3663,7 @@ function get_compute_auth_token(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3680,7 +3688,7 @@ function get_game_session_log_url(
         "GetGameSessionLogUrl",
         Dict{String,Any}("GameSessionId" => GameSessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_game_session_log_url(
@@ -3694,7 +3702,7 @@ function get_game_session_log_url(
             mergewith(_merge, Dict{String,Any}("GameSessionId" => GameSessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3732,7 +3740,7 @@ function get_instance_access(
         "GetInstanceAccess",
         Dict{String,Any}("FleetId" => FleetId, "InstanceId" => InstanceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_instance_access(
@@ -3751,7 +3759,7 @@ function get_instance_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3782,13 +3790,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message embedded.
 """
 function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift("ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3818,13 +3826,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create new fleets for this build.
 """
 function list_builds(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_builds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3865,7 +3873,7 @@ function list_compute(FleetId; aws_config::AbstractAWSConfig=global_aws_config()
         "ListCompute",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_compute(
@@ -3875,7 +3883,7 @@ function list_compute(
         "ListCompute",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3908,7 +3916,7 @@ function list_container_group_definitions(;
     return gamelift(
         "ListContainerGroupDefinitions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_container_group_definitions(
@@ -3918,7 +3926,7 @@ function list_container_group_definitions(
         "ListContainerGroupDefinitions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3957,13 +3965,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3981,7 +3989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_game_server_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "ListGameServerGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListGameServerGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_game_server_groups(
@@ -3991,7 +3999,7 @@ function list_game_server_groups(
         "ListGameServerGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4028,7 +4036,7 @@ function list_game_servers(
         "ListGameServers",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_game_servers(
@@ -4046,7 +4054,7 @@ function list_game_servers(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4066,13 +4074,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beginning of the result set, do not specify a value.
 """
 function list_locations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift(
+        "ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -4093,13 +4103,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beginning of the result set, don't specify a value.
 """
 function list_scripts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return gamelift("ListScripts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return gamelift("ListScripts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_scripts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "ListScripts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListScripts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -4128,7 +4138,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -4142,7 +4152,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4248,7 +4258,7 @@ function put_scaling_policy(
         "PutScalingPolicy",
         Dict{String,Any}("FleetId" => FleetId, "MetricName" => MetricName, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_scaling_policy(
@@ -4270,7 +4280,7 @@ function put_scaling_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4318,7 +4328,7 @@ function register_compute(
         "RegisterCompute",
         Dict{String,Any}("ComputeName" => ComputeName, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_compute(
@@ -4337,7 +4347,7 @@ function register_compute(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4390,7 +4400,7 @@ function register_game_server(
             "InstanceId" => InstanceId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_game_server(
@@ -4414,7 +4424,7 @@ function register_game_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4441,7 +4451,7 @@ function request_upload_credentials(
         "RequestUploadCredentials",
         Dict{String,Any}("BuildId" => BuildId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function request_upload_credentials(
@@ -4451,7 +4461,7 @@ function request_upload_credentials(
         "RequestUploadCredentials",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4474,7 +4484,7 @@ function resolve_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config(
         "ResolveAlias",
         Dict{String,Any}("AliasId" => AliasId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resolve_alias(
@@ -4484,7 +4494,7 @@ function resolve_alias(
         "ResolveAlias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4518,7 +4528,7 @@ function resume_game_server_group(
             "GameServerGroupName" => GameServerGroupName, "ResumeActions" => ResumeActions
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resume_game_server_group(
@@ -4540,7 +4550,7 @@ function resume_game_server_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4634,14 +4644,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function search_game_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
-        "SearchGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchGameSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function search_game_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return gamelift(
-        "SearchGameSessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchGameSessions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4677,7 +4690,7 @@ function start_fleet_actions(
         "StartFleetActions",
         Dict{String,Any}("Actions" => Actions, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_fleet_actions(
@@ -4694,7 +4707,7 @@ function start_fleet_actions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4766,7 +4779,7 @@ function start_game_session_placement(
             "PlacementId" => PlacementId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_game_session_placement(
@@ -4790,7 +4803,7 @@ function start_game_session_placement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4852,7 +4865,7 @@ function start_match_backfill(
         "StartMatchBackfill",
         Dict{String,Any}("ConfigurationName" => ConfigurationName, "Players" => Players);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_match_backfill(
@@ -4873,7 +4886,7 @@ function start_match_backfill(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4919,7 +4932,7 @@ function start_matchmaking(
         "StartMatchmaking",
         Dict{String,Any}("ConfigurationName" => ConfigurationName, "Players" => Players);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_matchmaking(
@@ -4940,7 +4953,7 @@ function start_matchmaking(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4978,7 +4991,7 @@ function stop_fleet_actions(
         "StopFleetActions",
         Dict{String,Any}("Actions" => Actions, "FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_fleet_actions(
@@ -4995,7 +5008,7 @@ function stop_fleet_actions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5017,7 +5030,7 @@ function stop_game_session_placement(
         "StopGameSessionPlacement",
         Dict{String,Any}("PlacementId" => PlacementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_game_session_placement(
@@ -5031,7 +5044,7 @@ function stop_game_session_placement(
             mergewith(_merge, Dict{String,Any}("PlacementId" => PlacementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5058,7 +5071,7 @@ function stop_matchmaking(TicketId; aws_config::AbstractAWSConfig=global_aws_con
         "StopMatchmaking",
         Dict{String,Any}("TicketId" => TicketId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_matchmaking(
@@ -5072,7 +5085,7 @@ function stop_matchmaking(
             mergewith(_merge, Dict{String,Any}("TicketId" => TicketId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5109,7 +5122,7 @@ function suspend_game_server_group(
             "GameServerGroupName" => GameServerGroupName, "SuspendActions" => SuspendActions
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function suspend_game_server_group(
@@ -5131,7 +5144,7 @@ function suspend_game_server_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5164,7 +5177,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -5183,7 +5196,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5216,7 +5229,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -5235,7 +5248,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5265,7 +5278,7 @@ function update_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()
         "UpdateAlias",
         Dict{String,Any}("AliasId" => AliasId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_alias(
@@ -5275,7 +5288,7 @@ function update_alias(
         "UpdateAlias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5304,7 +5317,7 @@ function update_build(BuildId; aws_config::AbstractAWSConfig=global_aws_config()
         "UpdateBuild",
         Dict{String,Any}("BuildId" => BuildId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_build(
@@ -5314,7 +5327,7 @@ function update_build(
         "UpdateBuild",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("BuildId" => BuildId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5355,7 +5368,7 @@ function update_fleet_attributes(FleetId; aws_config::AbstractAWSConfig=global_a
         "UpdateFleetAttributes",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet_attributes(
@@ -5365,7 +5378,7 @@ function update_fleet_attributes(
         "UpdateFleetAttributes",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5420,7 +5433,7 @@ function update_fleet_capacity(FleetId; aws_config::AbstractAWSConfig=global_aws
         "UpdateFleetCapacity",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet_capacity(
@@ -5430,7 +5443,7 @@ function update_fleet_capacity(
         "UpdateFleetCapacity",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5467,7 +5480,7 @@ function update_fleet_port_settings(
         "UpdateFleetPortSettings",
         Dict{String,Any}("FleetId" => FleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet_port_settings(
@@ -5477,7 +5490,7 @@ function update_fleet_port_settings(
         "UpdateFleetPortSettings",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("FleetId" => FleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5527,7 +5540,7 @@ function update_game_server(
             "GameServerGroupName" => GameServerGroupName, "GameServerId" => GameServerId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_game_server(
@@ -5549,7 +5562,7 @@ function update_game_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5611,7 +5624,7 @@ function update_game_server_group(
         "UpdateGameServerGroup",
         Dict{String,Any}("GameServerGroupName" => GameServerGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_game_server_group(
@@ -5629,7 +5642,7 @@ function update_game_server_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5669,7 +5682,7 @@ function update_game_session(
         "UpdateGameSession",
         Dict{String,Any}("GameSessionId" => GameSessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_game_session(
@@ -5683,7 +5696,7 @@ function update_game_session(
             mergewith(_merge, Dict{String,Any}("GameSessionId" => GameSessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5734,7 +5747,7 @@ function update_game_session_queue(Name; aws_config::AbstractAWSConfig=global_aw
         "UpdateGameSessionQueue",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_game_session_queue(
@@ -5744,7 +5757,7 @@ function update_game_session_queue(
         "UpdateGameSessionQueue",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5819,7 +5832,7 @@ function update_matchmaking_configuration(
         "UpdateMatchmakingConfiguration",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_matchmaking_configuration(
@@ -5829,7 +5842,7 @@ function update_matchmaking_configuration(
         "UpdateMatchmakingConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5869,7 +5882,7 @@ function update_runtime_configuration(
             "FleetId" => FleetId, "RuntimeConfiguration" => RuntimeConfiguration
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_runtime_configuration(
@@ -5890,7 +5903,7 @@ function update_runtime_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5936,7 +5949,7 @@ function update_script(ScriptId; aws_config::AbstractAWSConfig=global_aws_config
         "UpdateScript",
         Dict{String,Any}("ScriptId" => ScriptId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_script(
@@ -5950,7 +5963,7 @@ function update_script(
             mergewith(_merge, Dict{String,Any}("ScriptId" => ScriptId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5975,7 +5988,7 @@ function validate_matchmaking_rule_set(
         "ValidateMatchmakingRuleSet",
         Dict{String,Any}("RuleSetBody" => RuleSetBody);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_matchmaking_rule_set(
@@ -5989,6 +6002,6 @@ function validate_matchmaking_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetBody" => RuleSetBody), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -48,7 +48,7 @@ function create_pipeline(
             "PipelineName" => PipelineName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pipeline(
@@ -75,7 +75,7 @@ function create_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -95,7 +95,7 @@ function delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/2022-01-01/osis/deletePipeline/$(PipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pipeline(
@@ -108,7 +108,7 @@ function delete_pipeline(
         "/2022-01-01/osis/deletePipeline/$(PipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -127,7 +127,7 @@ function get_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/2022-01-01/osis/getPipeline/$(PipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_pipeline(
@@ -140,7 +140,7 @@ function get_pipeline(
         "/2022-01-01/osis/getPipeline/$(PipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -166,7 +166,7 @@ function get_pipeline_blueprint(
         "GET",
         "/2022-01-01/osis/getPipelineBlueprint/$(BlueprintName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_pipeline_blueprint(
@@ -179,7 +179,7 @@ function get_pipeline_blueprint(
         "/2022-01-01/osis/getPipelineBlueprint/$(BlueprintName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -202,7 +202,7 @@ function get_pipeline_change_progress(
         "GET",
         "/2022-01-01/osis/getPipelineChangeProgress/$(PipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_pipeline_change_progress(
@@ -215,7 +215,7 @@ function get_pipeline_change_progress(
         "/2022-01-01/osis/getPipelineChangeProgress/$(PipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -232,7 +232,7 @@ function list_pipeline_blueprints(; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/2022-01-01/osis/listPipelineBlueprints";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pipeline_blueprints(
@@ -243,7 +243,7 @@ function list_pipeline_blueprints(
         "/2022-01-01/osis/listPipelineBlueprints",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -267,7 +267,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2022-01-01/osis/listPipelines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pipelines(
@@ -278,7 +278,7 @@ function list_pipelines(
         "/2022-01-01/osis/listPipelines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +299,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
         "/2022-01-01/osis/listTagsForResource/",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -310,7 +310,7 @@ function list_tags_for_resource(
         "/2022-01-01/osis/listTagsForResource/",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -330,7 +330,7 @@ function start_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_c
         "PUT",
         "/2022-01-01/osis/startPipeline/$(PipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_pipeline(
@@ -343,7 +343,7 @@ function start_pipeline(
         "/2022-01-01/osis/startPipeline/$(PipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -363,7 +363,7 @@ function stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_co
         "PUT",
         "/2022-01-01/osis/stopPipeline/$(PipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_pipeline(
@@ -376,7 +376,7 @@ function stop_pipeline(
         "/2022-01-01/osis/stopPipeline/$(PipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -398,7 +398,7 @@ function tag_resource(Tags, arn; aws_config::AbstractAWSConfig=global_aws_config
         "/2022-01-01/osis/tagResource/",
         Dict{String,Any}("Tags" => Tags, "arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -414,7 +414,7 @@ function tag_resource(
             mergewith(_merge, Dict{String,Any}("Tags" => Tags, "arn" => arn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -436,7 +436,7 @@ function untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=global_aws_c
         "/2022-01-01/osis/untagResource/",
         Dict{String,Any}("TagKeys" => TagKeys, "arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -452,7 +452,7 @@ function untag_resource(
             mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys, "arn" => arn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -483,7 +483,7 @@ function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_
         "PUT",
         "/2022-01-01/osis/updatePipeline/$(PipelineName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pipeline(
@@ -496,7 +496,7 @@ function update_pipeline(
         "/2022-01-01/osis/updatePipeline/$(PipelineName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -521,7 +521,7 @@ function validate_pipeline(
         "/2022-01-01/osis/validatePipeline",
         Dict{String,Any}("PipelineConfigurationBody" => PipelineConfigurationBody);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_pipeline(
@@ -540,6 +540,6 @@ function validate_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

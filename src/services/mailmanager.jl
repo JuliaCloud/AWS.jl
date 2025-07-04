@@ -32,7 +32,7 @@ function create_addon_instance(
             "AddonSubscriptionId" => AddonSubscriptionId, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_addon_instance(
@@ -53,7 +53,7 @@ function create_addon_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -83,7 +83,7 @@ function create_addon_subscription(
         "CreateAddonSubscription",
         Dict{String,Any}("AddonName" => AddonName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_addon_subscription(
@@ -103,7 +103,7 @@ function create_addon_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -130,7 +130,7 @@ function create_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_co
         "CreateArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_archive(
@@ -150,7 +150,7 @@ function create_archive(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -194,7 +194,7 @@ function create_ingress_point(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_ingress_point(
@@ -221,7 +221,7 @@ function create_ingress_point(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -263,7 +263,7 @@ function create_relay(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_relay(
@@ -290,7 +290,7 @@ function create_relay(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -320,7 +320,7 @@ function create_rule_set(
             "RuleSetName" => RuleSetName, "Rules" => Rules, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rule_set(
@@ -343,7 +343,7 @@ function create_rule_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -384,7 +384,7 @@ function create_traffic_policy(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_traffic_policy(
@@ -409,7 +409,7 @@ function create_traffic_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -430,7 +430,7 @@ function delete_addon_instance(
         "DeleteAddonInstance",
         Dict{String,Any}("AddonInstanceId" => AddonInstanceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_addon_instance(
@@ -446,7 +446,7 @@ function delete_addon_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -467,7 +467,7 @@ function delete_addon_subscription(
         "DeleteAddonSubscription",
         Dict{String,Any}("AddonSubscriptionId" => AddonSubscriptionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_addon_subscription(
@@ -485,7 +485,7 @@ function delete_addon_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -508,7 +508,7 @@ function delete_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteArchive",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_archive(
@@ -522,7 +522,7 @@ function delete_archive(
             mergewith(_merge, Dict{String,Any}("ArchiveId" => ArchiveId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -544,7 +544,7 @@ function delete_ingress_point(
         "DeleteIngressPoint",
         Dict{String,Any}("IngressPointId" => IngressPointId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_ingress_point(
@@ -558,7 +558,7 @@ function delete_ingress_point(
             mergewith(_merge, Dict{String,Any}("IngressPointId" => IngressPointId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -577,7 +577,7 @@ function delete_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteRelay",
         Dict{String,Any}("RelayId" => RelayId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_relay(
@@ -587,7 +587,7 @@ function delete_relay(
         "DeleteRelay",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RelayId" => RelayId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -606,7 +606,7 @@ function delete_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteRuleSet",
         Dict{String,Any}("RuleSetId" => RuleSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rule_set(
@@ -620,7 +620,7 @@ function delete_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetId" => RuleSetId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -641,7 +641,7 @@ function delete_traffic_policy(
         "DeleteTrafficPolicy",
         Dict{String,Any}("TrafficPolicyId" => TrafficPolicyId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_traffic_policy(
@@ -657,7 +657,7 @@ function delete_traffic_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -678,7 +678,7 @@ function get_addon_instance(
         "GetAddonInstance",
         Dict{String,Any}("AddonInstanceId" => AddonInstanceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_addon_instance(
@@ -694,7 +694,7 @@ function get_addon_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -715,7 +715,7 @@ function get_addon_subscription(
         "GetAddonSubscription",
         Dict{String,Any}("AddonSubscriptionId" => AddonSubscriptionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_addon_subscription(
@@ -733,7 +733,7 @@ function get_addon_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -752,7 +752,7 @@ function get_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetArchive",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_archive(
@@ -766,7 +766,7 @@ function get_archive(
             mergewith(_merge, Dict{String,Any}("ArchiveId" => ArchiveId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -785,7 +785,7 @@ function get_archive_export(ExportId; aws_config::AbstractAWSConfig=global_aws_c
         "GetArchiveExport",
         Dict{String,Any}("ExportId" => ExportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_archive_export(
@@ -799,7 +799,7 @@ function get_archive_export(
             mergewith(_merge, Dict{String,Any}("ExportId" => ExportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -821,7 +821,7 @@ function get_archive_message(
         "GetArchiveMessage",
         Dict{String,Any}("ArchivedMessageId" => ArchivedMessageId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_archive_message(
@@ -837,7 +837,7 @@ function get_archive_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -859,7 +859,7 @@ function get_archive_message_content(
         "GetArchiveMessageContent",
         Dict{String,Any}("ArchivedMessageId" => ArchivedMessageId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_archive_message_content(
@@ -875,7 +875,7 @@ function get_archive_message_content(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -894,7 +894,7 @@ function get_archive_search(SearchId; aws_config::AbstractAWSConfig=global_aws_c
         "GetArchiveSearch",
         Dict{String,Any}("SearchId" => SearchId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_archive_search(
@@ -908,7 +908,7 @@ function get_archive_search(
             mergewith(_merge, Dict{String,Any}("SearchId" => SearchId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -929,7 +929,7 @@ function get_archive_search_results(
         "GetArchiveSearchResults",
         Dict{String,Any}("SearchId" => SearchId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_archive_search_results(
@@ -943,7 +943,7 @@ function get_archive_search_results(
             mergewith(_merge, Dict{String,Any}("SearchId" => SearchId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -964,7 +964,7 @@ function get_ingress_point(
         "GetIngressPoint",
         Dict{String,Any}("IngressPointId" => IngressPointId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ingress_point(
@@ -978,7 +978,7 @@ function get_ingress_point(
             mergewith(_merge, Dict{String,Any}("IngressPointId" => IngressPointId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -997,7 +997,7 @@ function get_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config())
         "GetRelay",
         Dict{String,Any}("RelayId" => RelayId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_relay(
@@ -1007,7 +1007,7 @@ function get_relay(
         "GetRelay",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RelayId" => RelayId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1026,7 +1026,7 @@ function get_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config
         "GetRuleSet",
         Dict{String,Any}("RuleSetId" => RuleSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rule_set(
@@ -1040,7 +1040,7 @@ function get_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetId" => RuleSetId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1061,7 +1061,7 @@ function get_traffic_policy(
         "GetTrafficPolicy",
         Dict{String,Any}("TrafficPolicyId" => TrafficPolicyId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_traffic_policy(
@@ -1077,7 +1077,7 @@ function get_traffic_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1096,14 +1096,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_addon_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     return mailmanager(
-        "ListAddonInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAddonInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_addon_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mailmanager(
-        "ListAddonInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAddonInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1122,7 +1125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_addon_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
     return mailmanager(
-        "ListAddonSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAddonSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_addon_subscriptions(
@@ -1132,7 +1135,7 @@ function list_addon_subscriptions(
         "ListAddonSubscriptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1158,7 +1161,7 @@ function list_archive_exports(ArchiveId; aws_config::AbstractAWSConfig=global_aw
         "ListArchiveExports",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_archive_exports(
@@ -1172,7 +1175,7 @@ function list_archive_exports(
             mergewith(_merge, Dict{String,Any}("ArchiveId" => ArchiveId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1198,7 +1201,7 @@ function list_archive_searches(ArchiveId; aws_config::AbstractAWSConfig=global_a
         "ListArchiveSearches",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_archive_searches(
@@ -1212,7 +1215,7 @@ function list_archive_searches(
             mergewith(_merge, Dict{String,Any}("ArchiveId" => ArchiveId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1232,14 +1235,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_archives(; aws_config::AbstractAWSConfig=global_aws_config())
     return mailmanager(
-        "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mailmanager(
-        "ListArchives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListArchives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1258,14 +1261,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_ingress_points(; aws_config::AbstractAWSConfig=global_aws_config())
     return mailmanager(
-        "ListIngressPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListIngressPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_ingress_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mailmanager(
-        "ListIngressPoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListIngressPoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1282,13 +1288,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The number of relays to be returned in one request.
 """
 function list_relays(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager("ListRelays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return mailmanager(
+        "ListRelays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_relays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mailmanager(
-        "ListRelays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRelays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1307,14 +1315,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return mailmanager(
-        "ListRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_rule_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mailmanager(
-        "ListRuleSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRuleSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1335,7 +1343,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1349,7 +1357,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1368,7 +1376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config())
     return mailmanager(
-        "ListTrafficPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTrafficPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_traffic_policies(
@@ -1378,7 +1386,7 @@ function list_traffic_policies(
         "ListTrafficPolicies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1415,7 +1423,7 @@ function start_archive_export(
             "ToTimestamp" => ToTimestamp,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_archive_export(
@@ -1441,7 +1449,7 @@ function start_archive_export(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1477,7 +1485,7 @@ function start_archive_search(
             "ToTimestamp" => ToTimestamp,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_archive_search(
@@ -1503,7 +1511,7 @@ function start_archive_search(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1522,7 +1530,7 @@ function stop_archive_export(ExportId; aws_config::AbstractAWSConfig=global_aws_
         "StopArchiveExport",
         Dict{String,Any}("ExportId" => ExportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_archive_export(
@@ -1536,7 +1544,7 @@ function stop_archive_export(
             mergewith(_merge, Dict{String,Any}("ExportId" => ExportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1555,7 +1563,7 @@ function stop_archive_search(SearchId; aws_config::AbstractAWSConfig=global_aws_
         "StopArchiveSearch",
         Dict{String,Any}("SearchId" => SearchId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_archive_search(
@@ -1569,7 +1577,7 @@ function stop_archive_search(
             mergewith(_merge, Dict{String,Any}("SearchId" => SearchId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1590,7 +1598,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1609,7 +1617,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1632,7 +1640,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1651,7 +1659,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1674,7 +1682,7 @@ function update_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateArchive",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_archive(
@@ -1688,7 +1696,7 @@ function update_archive(
             mergewith(_merge, Dict{String,Any}("ArchiveId" => ArchiveId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1719,7 +1727,7 @@ function update_ingress_point(
         "UpdateIngressPoint",
         Dict{String,Any}("IngressPointId" => IngressPointId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_ingress_point(
@@ -1733,7 +1741,7 @@ function update_ingress_point(
             mergewith(_merge, Dict{String,Any}("IngressPointId" => IngressPointId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1759,7 +1767,7 @@ function update_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config()
         "UpdateRelay",
         Dict{String,Any}("RelayId" => RelayId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_relay(
@@ -1769,7 +1777,7 @@ function update_relay(
         "UpdateRelay",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RelayId" => RelayId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1793,7 +1801,7 @@ function update_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_con
         "UpdateRuleSet",
         Dict{String,Any}("RuleSetId" => RuleSetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rule_set(
@@ -1807,7 +1815,7 @@ function update_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetId" => RuleSetId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1837,7 +1845,7 @@ function update_traffic_policy(
         "UpdateTrafficPolicy",
         Dict{String,Any}("TrafficPolicyId" => TrafficPolicyId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_traffic_policy(
@@ -1853,6 +1861,6 @@ function update_traffic_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

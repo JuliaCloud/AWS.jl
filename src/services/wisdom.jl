@@ -35,7 +35,7 @@ function create_assistant(name, type; aws_config::AbstractAWSConfig=global_aws_c
         "/assistants",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_assistant(
@@ -57,7 +57,7 @@ function create_assistant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -97,7 +97,7 @@ function create_assistant_association(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_assistant_association(
@@ -122,7 +122,7 @@ function create_assistant_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -167,7 +167,7 @@ function create_content(
             "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_content(
@@ -190,7 +190,7 @@ function create_content(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -240,7 +240,7 @@ function create_knowledge_base(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_knowledge_base(
@@ -264,7 +264,7 @@ function create_knowledge_base(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -311,7 +311,7 @@ function create_quick_response(
             "content" => content, "name" => name, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_quick_response(
@@ -334,7 +334,7 @@ function create_quick_response(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -366,7 +366,7 @@ function create_session(
         "/assistants/$(assistantId)/sessions",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_session(
@@ -386,7 +386,7 @@ function create_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -406,7 +406,7 @@ function delete_assistant(assistantId; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/assistants/$(assistantId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_assistant(
@@ -419,7 +419,7 @@ function delete_assistant(
         "/assistants/$(assistantId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -443,7 +443,7 @@ function delete_assistant_association(
         "DELETE",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_assistant_association(
@@ -457,7 +457,7 @@ function delete_assistant_association(
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -482,7 +482,7 @@ function delete_content(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_content(
@@ -496,7 +496,7 @@ function delete_content(
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -519,7 +519,7 @@ function delete_import_job(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_import_job(
@@ -533,7 +533,7 @@ function delete_import_job(
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -560,7 +560,7 @@ function delete_knowledge_base(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_knowledge_base(
@@ -573,7 +573,7 @@ function delete_knowledge_base(
         "/knowledgeBases/$(knowledgeBaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -597,7 +597,7 @@ function delete_quick_response(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_quick_response(
@@ -611,7 +611,7 @@ function delete_quick_response(
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -631,7 +631,7 @@ function get_assistant(assistantId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/assistants/$(assistantId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_assistant(
@@ -644,7 +644,7 @@ function get_assistant(
         "/assistants/$(assistantId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -668,7 +668,7 @@ function get_assistant_association(
         "GET",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_assistant_association(
@@ -682,7 +682,7 @@ function get_assistant_association(
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -707,7 +707,7 @@ function get_content(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_content(
@@ -721,7 +721,7 @@ function get_content(
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -746,7 +746,7 @@ function get_content_summary(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_content_summary(
@@ -760,7 +760,7 @@ function get_content_summary(
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -782,7 +782,7 @@ function get_import_job(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_import_job(
@@ -796,7 +796,7 @@ function get_import_job(
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -819,7 +819,7 @@ function get_knowledge_base(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_knowledge_base(
@@ -832,7 +832,7 @@ function get_knowledge_base(
         "/knowledgeBases/$(knowledgeBaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -855,7 +855,7 @@ function get_quick_response(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_quick_response(
@@ -869,7 +869,7 @@ function get_quick_response(
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -904,7 +904,7 @@ function get_recommendations(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommendations(
@@ -918,7 +918,7 @@ function get_recommendations(
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -942,7 +942,7 @@ function get_session(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session(
@@ -956,7 +956,7 @@ function get_session(
         "/assistants/$(assistantId)/sessions/$(sessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -983,7 +983,7 @@ function list_assistant_associations(
         "GET",
         "/assistants/$(assistantId)/associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_assistant_associations(
@@ -996,7 +996,7 @@ function list_assistant_associations(
         "/assistants/$(assistantId)/associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1014,14 +1014,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_assistants(; aws_config::AbstractAWSConfig=global_aws_config())
     return wisdom(
-        "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_assistants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return wisdom(
-        "GET", "/assistants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/assistants",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1051,7 @@ function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_contents(
@@ -1060,7 +1064,7 @@ function list_contents(
         "/knowledgeBases/$(knowledgeBaseId)/contents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1088,7 +1092,7 @@ function list_import_jobs(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_import_jobs(
@@ -1101,7 +1105,7 @@ function list_import_jobs(
         "/knowledgeBases/$(knowledgeBaseId)/importJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1119,7 +1123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_knowledge_bases(; aws_config::AbstractAWSConfig=global_aws_config())
     return wisdom(
-        "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_knowledge_bases(
@@ -1130,7 +1134,7 @@ function list_knowledge_bases(
         "/knowledgeBases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1158,7 +1162,7 @@ function list_quick_responses(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_quick_responses(
@@ -1171,7 +1175,7 @@ function list_quick_responses(
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1192,7 +1196,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1205,7 +1209,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1236,7 +1240,7 @@ function notify_recommendations_received(
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
         Dict{String,Any}("recommendationIds" => recommendationIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function notify_recommendations_received(
@@ -1255,7 +1259,7 @@ function notify_recommendations_received(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1285,7 +1289,7 @@ function query_assistant(
         "/assistants/$(assistantId)/query",
         Dict{String,Any}("queryText" => queryText);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function query_assistant(
@@ -1301,7 +1305,7 @@ function query_assistant(
             mergewith(_merge, Dict{String,Any}("queryText" => queryText), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1324,7 +1328,7 @@ function remove_knowledge_base_template_uri(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_knowledge_base_template_uri(
@@ -1337,7 +1341,7 @@ function remove_knowledge_base_template_uri(
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1368,7 +1372,7 @@ function search_content(
         "/knowledgeBases/$(knowledgeBaseId)/search",
         Dict{String,Any}("searchExpression" => searchExpression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_content(
@@ -1386,7 +1390,7 @@ function search_content(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1418,7 +1422,7 @@ function search_quick_responses(
         "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
         Dict{String,Any}("searchExpression" => searchExpression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_quick_responses(
@@ -1436,7 +1440,7 @@ function search_quick_responses(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1465,7 +1469,7 @@ function search_sessions(
         "/assistants/$(assistantId)/searchSessions",
         Dict{String,Any}("searchExpression" => searchExpression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_sessions(
@@ -1483,7 +1487,7 @@ function search_sessions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1515,7 +1519,7 @@ function start_content_upload(
         "/knowledgeBases/$(knowledgeBaseId)/upload",
         Dict{String,Any}("contentType" => contentType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_content_upload(
@@ -1531,7 +1535,7 @@ function start_content_upload(
             mergewith(_merge, Dict{String,Any}("contentType" => contentType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1577,7 +1581,7 @@ function start_import_job(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_import_job(
@@ -1602,7 +1606,7 @@ function start_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1623,7 +1627,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1637,7 +1641,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1660,7 +1664,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1674,7 +1678,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1716,7 +1720,7 @@ function update_content(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_content(
@@ -1730,7 +1734,7 @@ function update_content(
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1759,7 +1763,7 @@ function update_knowledge_base_template_uri(
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",
         Dict{String,Any}("templateUri" => templateUri);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_knowledge_base_template_uri(
@@ -1775,7 +1779,7 @@ function update_knowledge_base_template_uri(
             mergewith(_merge, Dict{String,Any}("templateUri" => templateUri), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1820,7 +1824,7 @@ function update_quick_response(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_quick_response(
@@ -1834,6 +1838,6 @@ function update_quick_response(
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

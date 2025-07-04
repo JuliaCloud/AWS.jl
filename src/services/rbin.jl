@@ -44,7 +44,7 @@ function create_rule(
             "ResourceType" => ResourceType, "RetentionPeriod" => RetentionPeriod
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rule(
@@ -66,7 +66,7 @@ function create_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +86,7 @@ function delete_rule(identifier; aws_config::AbstractAWSConfig=global_aws_config
         "DELETE",
         "/rules/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rule(
@@ -99,7 +99,7 @@ function delete_rule(
         "/rules/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -118,7 +118,7 @@ function get_rule(identifier; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/rules/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_rule(
@@ -131,7 +131,7 @@ function get_rule(
         "/rules/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -163,7 +163,7 @@ function list_rules(ResourceType; aws_config::AbstractAWSConfig=global_aws_confi
         "/list-rules",
         Dict{String,Any}("ResourceType" => ResourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rules(
@@ -178,7 +178,7 @@ function list_rules(
             mergewith(_merge, Dict{String,Any}("ResourceType" => ResourceType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -199,7 +199,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -212,7 +212,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -235,7 +235,7 @@ function lock_rule(
         "/rules/$(identifier)/lock",
         Dict{String,Any}("LockConfiguration" => LockConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function lock_rule(
@@ -253,7 +253,7 @@ function lock_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -274,7 +274,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -288,7 +288,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -308,7 +308,7 @@ function unlock_rule(identifier; aws_config::AbstractAWSConfig=global_aws_config
         "PATCH",
         "/rules/$(identifier)/unlock";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unlock_rule(
@@ -321,7 +321,7 @@ function unlock_rule(
         "/rules/$(identifier)/unlock",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -345,7 +345,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -359,7 +359,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -398,7 +398,7 @@ function update_rule(identifier; aws_config::AbstractAWSConfig=global_aws_config
         "PATCH",
         "/rules/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rule(
@@ -411,6 +411,6 @@ function update_rule(
         "/rules/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

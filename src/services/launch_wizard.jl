@@ -48,7 +48,7 @@ function create_deployment(
             "workloadName" => workloadName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_deployment(
@@ -75,7 +75,7 @@ function create_deployment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -95,7 +95,7 @@ function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aw
         "/deleteDeployment",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_deployment(
@@ -110,7 +110,7 @@ function delete_deployment(
             mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -130,7 +130,7 @@ function get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_c
         "/getDeployment",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_deployment(
@@ -145,7 +145,7 @@ function get_deployment(
             mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -165,7 +165,7 @@ function get_workload(workloadName; aws_config::AbstractAWSConfig=global_aws_con
         "/getWorkload",
         Dict{String,Any}("workloadName" => workloadName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workload(
@@ -180,7 +180,7 @@ function get_workload(
             mergewith(_merge, Dict{String,Any}("workloadName" => workloadName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -208,7 +208,7 @@ function get_workload_deployment_pattern(
             "deploymentPatternName" => deploymentPatternName, "workloadName" => workloadName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workload_deployment_pattern(
@@ -231,7 +231,7 @@ function get_workload_deployment_pattern(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -259,7 +259,7 @@ function list_deployment_events(
         "/listDeploymentEvents",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_deployment_events(
@@ -274,7 +274,7 @@ function list_deployment_events(
             mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
     return launch_wizard(
-        "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_deployments(
@@ -308,7 +308,7 @@ function list_deployments(
         "/listDeployments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -329,7 +329,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -342,7 +342,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -371,7 +371,7 @@ function list_workload_deployment_patterns(
         "/listWorkloadDeploymentPatterns",
         Dict{String,Any}("workloadName" => workloadName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workload_deployment_patterns(
@@ -386,7 +386,7 @@ function list_workload_deployment_patterns(
             mergewith(_merge, Dict{String,Any}("workloadName" => workloadName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -406,7 +406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_workloads(; aws_config::AbstractAWSConfig=global_aws_config())
     return launch_wizard(
-        "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_workloads(
@@ -417,7 +417,7 @@ function list_workloads(
         "/listWorkloads",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -438,7 +438,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -452,7 +452,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -475,7 +475,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -489,6 +489,6 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

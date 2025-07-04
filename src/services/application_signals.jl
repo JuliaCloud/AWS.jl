@@ -31,7 +31,7 @@ function batch_get_service_level_objective_budget_report(
         "/budget-report",
         Dict{String,Any}("SloIds" => SloIds, "Timestamp" => Timestamp);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_service_level_objective_budget_report(
@@ -51,7 +51,7 @@ function batch_get_service_level_objective_budget_report(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -109,7 +109,7 @@ function create_service_level_objective(
         "/slo",
         Dict{String,Any}("Name" => Name, "SliConfig" => SliConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service_level_objective(
@@ -127,7 +127,7 @@ function create_service_level_objective(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -145,7 +145,7 @@ function delete_service_level_objective(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_signals(
-        "DELETE", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_service_level_objective(
@@ -156,7 +156,7 @@ function delete_service_level_objective(
         "/slo/$(Id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -192,7 +192,7 @@ function get_service(
             "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service(
@@ -217,7 +217,7 @@ function get_service(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,14 +234,18 @@ Returns information about one SLO created in the account.
 """
 function get_service_level_objective(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return application_signals(
-        "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_signals(
-        "GET", "/slo/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/slo/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -286,7 +290,7 @@ function list_service_dependencies(
             "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_service_dependencies(
@@ -311,7 +315,7 @@ function list_service_dependencies(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -355,7 +359,7 @@ function list_service_dependents(
             "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_service_dependents(
@@ -380,7 +384,7 @@ function list_service_dependents(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -409,14 +413,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_service_level_objectives(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_signals(
-        "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_service_level_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_signals(
-        "POST", "/slos", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/slos", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -459,7 +463,7 @@ function list_service_operations(
             "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_service_operations(
@@ -484,7 +488,7 @@ function list_service_operations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -517,7 +521,7 @@ function list_services(
         "/services",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_services(
@@ -537,7 +541,7 @@ function list_services(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -564,7 +568,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -579,7 +583,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -599,7 +603,7 @@ Signals.
 """
 function start_discovery(; aws_config::AbstractAWSConfig=global_aws_config())
     return application_signals(
-        "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function start_discovery(
@@ -610,7 +614,7 @@ function start_discovery(
         "/start-discovery",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -644,7 +648,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tag-resource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -664,7 +668,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -691,7 +695,7 @@ function untag_resource(
         "/untag-resource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -711,7 +715,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -738,7 +742,7 @@ function update_service_level_objective(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return application_signals(
-        "PATCH", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_service_level_objective(
@@ -749,6 +753,6 @@ function update_service_level_objective(
         "/slo/$(Id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

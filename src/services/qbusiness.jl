@@ -31,7 +31,7 @@ function batch_delete_document(
         "/applications/$(applicationId)/indices/$(indexId)/documents/delete",
         Dict{String,Any}("documents" => documents);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_document(
@@ -48,7 +48,7 @@ function batch_delete_document(
             mergewith(_merge, Dict{String,Any}("documents" => documents), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -83,7 +83,7 @@ function batch_put_document(
         "/applications/$(applicationId)/indices/$(indexId)/documents",
         Dict{String,Any}("documents" => documents);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_document(
@@ -100,7 +100,7 @@ function batch_put_document(
             mergewith(_merge, Dict{String,Any}("documents" => documents), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -147,7 +147,7 @@ function chat_sync(applicationId; aws_config::AbstractAWSConfig=global_aws_confi
         "/applications/$(applicationId)/conversations?sync",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function chat_sync(
@@ -162,7 +162,7 @@ function chat_sync(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -206,7 +206,7 @@ function create_application(displayName; aws_config::AbstractAWSConfig=global_aw
         "/applications",
         Dict{String,Any}("displayName" => displayName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application(
@@ -227,7 +227,7 @@ function create_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -287,7 +287,7 @@ function create_data_source(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_source(
@@ -313,7 +313,7 @@ function create_data_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -351,7 +351,7 @@ function create_index(
         "/applications/$(applicationId)/indices",
         Dict{String,Any}("displayName" => displayName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_index(
@@ -373,7 +373,7 @@ function create_index(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -417,7 +417,7 @@ function create_plugin(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_plugin(
@@ -444,7 +444,7 @@ function create_plugin(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -487,7 +487,7 @@ function create_retriever(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_retriever(
@@ -514,7 +514,7 @@ function create_retriever(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -544,7 +544,7 @@ function create_user(
         "/applications/$(applicationId)/users",
         Dict{String,Any}("userId" => userId, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user(
@@ -564,7 +564,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -602,7 +602,7 @@ function create_web_experience(
         "/applications/$(applicationId)/experiences",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_web_experience(
@@ -617,7 +617,7 @@ function create_web_experience(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -638,7 +638,7 @@ function delete_application(
         "DELETE",
         "/applications/$(applicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -651,7 +651,7 @@ function delete_application(
         "/applications/$(applicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -673,7 +673,7 @@ function delete_chat_controls_configuration(
         "DELETE",
         "/applications/$(applicationId)/chatcontrols";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_chat_controls_configuration(
@@ -686,7 +686,7 @@ function delete_chat_controls_configuration(
         "/applications/$(applicationId)/chatcontrols",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -713,7 +713,7 @@ function delete_conversation(
         "DELETE",
         "/applications/$(applicationId)/conversations/$(conversationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_conversation(
@@ -727,7 +727,7 @@ function delete_conversation(
         "/applications/$(applicationId)/conversations/$(conversationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -752,7 +752,7 @@ function delete_data_source(
         "DELETE",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_source(
@@ -767,7 +767,7 @@ function delete_data_source(
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -806,7 +806,7 @@ function delete_group(
         "DELETE",
         "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_group(
@@ -821,7 +821,7 @@ function delete_group(
         "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -844,7 +844,7 @@ function delete_index(
         "DELETE",
         "/applications/$(applicationId)/indices/$(indexId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_index(
@@ -858,7 +858,7 @@ function delete_index(
         "/applications/$(applicationId)/indices/$(indexId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -880,7 +880,7 @@ function delete_plugin(
         "DELETE",
         "/applications/$(applicationId)/plugins/$(pluginId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_plugin(
@@ -894,7 +894,7 @@ function delete_plugin(
         "/applications/$(applicationId)/plugins/$(pluginId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +916,7 @@ function delete_retriever(
         "DELETE",
         "/applications/$(applicationId)/retrievers/$(retrieverId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_retriever(
@@ -930,7 +930,7 @@ function delete_retriever(
         "/applications/$(applicationId)/retrievers/$(retrieverId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -952,7 +952,7 @@ function delete_user(
         "DELETE",
         "/applications/$(applicationId)/users/$(userId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user(
@@ -966,7 +966,7 @@ function delete_user(
         "/applications/$(applicationId)/users/$(userId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -989,7 +989,7 @@ function delete_web_experience(
         "DELETE",
         "/applications/$(applicationId)/experiences/$(webExperienceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_web_experience(
@@ -1003,7 +1003,7 @@ function delete_web_experience(
         "/applications/$(applicationId)/experiences/$(webExperienceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1022,7 +1022,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/applications/$(applicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application(
@@ -1035,7 +1035,7 @@ function get_application(
         "/applications/$(applicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1064,7 +1064,7 @@ function get_chat_controls_configuration(
         "GET",
         "/applications/$(applicationId)/chatcontrols";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_chat_controls_configuration(
@@ -1077,7 +1077,7 @@ function get_chat_controls_configuration(
         "/applications/$(applicationId)/chatcontrols",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1100,7 +1100,7 @@ function get_data_source(
         "GET",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_source(
@@ -1115,7 +1115,7 @@ function get_data_source(
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1141,7 +1141,7 @@ function get_group(
         "GET",
         "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_group(
@@ -1156,7 +1156,7 @@ function get_group(
         "/applications/$(applicationId)/indices/$(indexId)/groups/$(groupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1179,7 +1179,7 @@ function get_index(
         "GET",
         "/applications/$(applicationId)/indices/$(indexId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_index(
@@ -1193,7 +1193,7 @@ function get_index(
         "/applications/$(applicationId)/indices/$(indexId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1215,7 +1215,7 @@ function get_plugin(
         "GET",
         "/applications/$(applicationId)/plugins/$(pluginId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_plugin(
@@ -1229,7 +1229,7 @@ function get_plugin(
         "/applications/$(applicationId)/plugins/$(pluginId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1251,7 +1251,7 @@ function get_retriever(
         "GET",
         "/applications/$(applicationId)/retrievers/$(retrieverId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_retriever(
@@ -1265,7 +1265,7 @@ function get_retriever(
         "/applications/$(applicationId)/retrievers/$(retrieverId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1286,7 +1286,7 @@ function get_user(applicationId, userId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/applications/$(applicationId)/users/$(userId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_user(
@@ -1300,7 +1300,7 @@ function get_user(
         "/applications/$(applicationId)/users/$(userId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1323,7 +1323,7 @@ function get_web_experience(
         "GET",
         "/applications/$(applicationId)/experiences/$(webExperienceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_web_experience(
@@ -1337,7 +1337,7 @@ function get_web_experience(
         "/applications/$(applicationId)/experiences/$(webExperienceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1356,7 +1356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return qbusiness(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_applications(
@@ -1367,7 +1367,7 @@ function list_applications(
         "/applications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1396,7 +1396,7 @@ function list_conversations(
         "GET",
         "/applications/$(applicationId)/conversations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_conversations(
@@ -1409,7 +1409,7 @@ function list_conversations(
         "/applications/$(applicationId)/conversations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1444,7 +1444,7 @@ function list_data_source_sync_jobs(
         "GET",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/syncjobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_source_sync_jobs(
@@ -1459,7 +1459,7 @@ function list_data_source_sync_jobs(
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/syncjobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1488,7 +1488,7 @@ function list_data_sources(
         "GET",
         "/applications/$(applicationId)/indices/$(indexId)/datasources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_sources(
@@ -1502,7 +1502,7 @@ function list_data_sources(
         "/applications/$(applicationId)/indices/$(indexId)/datasources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1531,7 +1531,7 @@ function list_documents(
         "GET",
         "/applications/$(applicationId)/index/$(indexId)/documents";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_documents(
@@ -1545,7 +1545,7 @@ function list_documents(
         "/applications/$(applicationId)/index/$(indexId)/documents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1582,7 +1582,7 @@ function list_groups(
         "/applications/$(applicationId)/indices/$(indexId)/groups",
         Dict{String,Any}("updatedEarlierThan" => updatedEarlierThan);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_groups(
@@ -1601,7 +1601,7 @@ function list_groups(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1627,7 +1627,7 @@ function list_indices(applicationId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/applications/$(applicationId)/indices";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_indices(
@@ -1640,7 +1640,7 @@ function list_indices(
         "/applications/$(applicationId)/indices",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1669,7 +1669,7 @@ function list_messages(
         "GET",
         "/applications/$(applicationId)/conversations/$(conversationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_messages(
@@ -1683,7 +1683,7 @@ function list_messages(
         "/applications/$(applicationId)/conversations/$(conversationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1708,7 +1708,7 @@ function list_plugins(applicationId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/applications/$(applicationId)/plugins";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_plugins(
@@ -1721,7 +1721,7 @@ function list_plugins(
         "/applications/$(applicationId)/plugins",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1745,7 +1745,7 @@ function list_retrievers(applicationId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/applications/$(applicationId)/retrievers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_retrievers(
@@ -1758,7 +1758,7 @@ function list_retrievers(
         "/applications/$(applicationId)/retrievers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1781,7 +1781,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resourceARN)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1794,7 +1794,7 @@ function list_tags_for_resource(
         "/v1/tags/$(resourceARN)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1822,7 +1822,7 @@ function list_web_experiences(
         "GET",
         "/applications/$(applicationId)/experiences";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_web_experiences(
@@ -1835,7 +1835,7 @@ function list_web_experiences(
         "/applications/$(applicationId)/experiences",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1868,7 +1868,7 @@ function put_feedback(
         "POST",
         "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/feedback";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_feedback(
@@ -1883,7 +1883,7 @@ function put_feedback(
         "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/feedback",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1936,7 +1936,7 @@ function put_group(
             "groupMembers" => groupMembers, "groupName" => groupName, "type" => type
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_group(
@@ -1961,7 +1961,7 @@ function put_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1986,7 +1986,7 @@ function start_data_source_sync_job(
         "POST",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/startsync";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_data_source_sync_job(
@@ -2001,7 +2001,7 @@ function start_data_source_sync_job(
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/startsync",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2026,7 +2026,7 @@ function stop_data_source_sync_job(
         "POST",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/stopsync";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_data_source_sync_job(
@@ -2041,7 +2041,7 @@ function stop_data_source_sync_job(
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)/stopsync",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2065,7 +2065,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aw
         "/v1/tags/$(resourceARN)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2079,7 +2079,7 @@ function tag_resource(
         "/v1/tags/$(resourceARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2104,7 +2104,7 @@ function untag_resource(
         "/v1/tags/$(resourceARN)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2118,7 +2118,7 @@ function untag_resource(
         "/v1/tags/$(resourceARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2152,7 +2152,7 @@ function update_application(
         "PUT",
         "/applications/$(applicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application(
@@ -2165,7 +2165,7 @@ function update_application(
         "/applications/$(applicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2203,7 +2203,7 @@ function update_chat_controls_configuration(
         "/applications/$(applicationId)/chatcontrols",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_chat_controls_configuration(
@@ -2218,7 +2218,7 @@ function update_chat_controls_configuration(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2252,7 +2252,7 @@ function update_data_source(
         "PUT",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_source(
@@ -2267,7 +2267,7 @@ function update_data_source(
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2300,7 +2300,7 @@ function update_index(
         "PUT",
         "/applications/$(applicationId)/indices/$(indexId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_index(
@@ -2314,7 +2314,7 @@ function update_index(
         "/applications/$(applicationId)/indices/$(indexId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2343,7 +2343,7 @@ function update_plugin(
         "PUT",
         "/applications/$(applicationId)/plugins/$(pluginId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_plugin(
@@ -2357,7 +2357,7 @@ function update_plugin(
         "/applications/$(applicationId)/plugins/$(pluginId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2385,7 +2385,7 @@ function update_retriever(
         "PUT",
         "/applications/$(applicationId)/retrievers/$(retrieverId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_retriever(
@@ -2399,7 +2399,7 @@ function update_retriever(
         "/applications/$(applicationId)/retrievers/$(retrieverId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2425,7 +2425,7 @@ function update_user(
         "PUT",
         "/applications/$(applicationId)/users/$(userId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_user(
@@ -2439,7 +2439,7 @@ function update_user(
         "/applications/$(applicationId)/users/$(userId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2474,7 +2474,7 @@ function update_web_experience(
         "PUT",
         "/applications/$(applicationId)/experiences/$(webExperienceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_web_experience(
@@ -2488,6 +2488,6 @@ function update_web_experience(
         "/applications/$(applicationId)/experiences/$(webExperienceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

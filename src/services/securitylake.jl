@@ -27,7 +27,7 @@ function create_aws_log_source(sources; aws_config::AbstractAWSConfig=global_aws
         "/v1/datalake/logsources/aws",
         Dict{String,Any}("sources" => sources);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_aws_log_source(
@@ -38,7 +38,7 @@ function create_aws_log_source(
         "/v1/datalake/logsources/aws",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -82,7 +82,7 @@ function create_custom_log_source(
         "/v1/datalake/logsources/custom",
         Dict{String,Any}("configuration" => configuration, "sourceName" => sourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_custom_log_source(
@@ -104,7 +104,7 @@ function create_custom_log_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -152,7 +152,7 @@ function create_data_lake(
             "metaStoreManagerRoleArn" => metaStoreManagerRoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_lake(
@@ -175,7 +175,7 @@ function create_data_lake(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -209,7 +209,7 @@ function create_data_lake_exception_subscription(
             "subscriptionProtocol" => subscriptionProtocol,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_lake_exception_subscription(
@@ -232,7 +232,7 @@ function create_data_lake_exception_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -256,7 +256,7 @@ function create_data_lake_organization_configuration(;
         "POST",
         "/v1/datalake/organization/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_lake_organization_configuration(
@@ -267,7 +267,7 @@ function create_data_lake_organization_configuration(
         "/v1/datalake/organization/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -308,7 +308,7 @@ function create_subscriber(
             "subscriberName" => subscriberName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_subscriber(
@@ -333,7 +333,7 @@ function create_subscriber(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -359,7 +359,7 @@ function create_subscriber_notification(
         "/v1/subscribers/$(subscriberId)/notification",
         Dict{String,Any}("configuration" => configuration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_subscriber_notification(
@@ -375,7 +375,7 @@ function create_subscriber_notification(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -402,7 +402,7 @@ function delete_aws_log_source(sources; aws_config::AbstractAWSConfig=global_aws
         "/v1/datalake/logsources/aws/delete",
         Dict{String,Any}("sources" => sources);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_aws_log_source(
@@ -413,7 +413,7 @@ function delete_aws_log_source(
         "/v1/datalake/logsources/aws/delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -439,7 +439,7 @@ function delete_custom_log_source(
         "DELETE",
         "/v1/datalake/logsources/custom/$(sourceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_custom_log_source(
@@ -452,7 +452,7 @@ function delete_custom_log_source(
         "/v1/datalake/logsources/custom/$(sourceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -478,7 +478,7 @@ function delete_data_lake(regions; aws_config::AbstractAWSConfig=global_aws_conf
         "/v1/datalake/delete",
         Dict{String,Any}("regions" => regions);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_lake(
@@ -489,7 +489,7 @@ function delete_data_lake(
         "/v1/datalake/delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("regions" => regions), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -508,7 +508,7 @@ function delete_data_lake_exception_subscription(;
         "DELETE",
         "/v1/datalake/exceptions/subscription";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_lake_exception_subscription(
@@ -519,7 +519,7 @@ function delete_data_lake_exception_subscription(
         "/v1/datalake/exceptions/subscription",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -545,7 +545,7 @@ function delete_data_lake_organization_configuration(;
         "POST",
         "/v1/datalake/organization/configuration/delete";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_lake_organization_configuration(
@@ -556,7 +556,7 @@ function delete_data_lake_organization_configuration(
         "/v1/datalake/organization/configuration/delete",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -579,7 +579,7 @@ function delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/v1/subscribers/$(subscriberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_subscriber(
@@ -592,7 +592,7 @@ function delete_subscriber(
         "/v1/subscribers/$(subscriberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,7 +614,7 @@ function delete_subscriber_notification(
         "DELETE",
         "/v1/subscribers/$(subscriberId)/notification";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_subscriber_notification(
@@ -627,7 +627,7 @@ function delete_subscriber_notification(
         "/v1/subscribers/$(subscriberId)/notification",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -647,7 +647,7 @@ function deregister_data_lake_delegated_administrator(;
         "DELETE",
         "/v1/datalake/delegate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_data_lake_delegated_administrator(
@@ -658,7 +658,7 @@ function deregister_data_lake_delegated_administrator(
         "/v1/datalake/delegate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -676,7 +676,7 @@ function get_data_lake_exception_subscription(;
         "GET",
         "/v1/datalake/exceptions/subscription";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_lake_exception_subscription(
@@ -687,7 +687,7 @@ function get_data_lake_exception_subscription(
         "/v1/datalake/exceptions/subscription",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -707,7 +707,7 @@ function get_data_lake_organization_configuration(;
         "GET",
         "/v1/datalake/organization/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_lake_organization_configuration(
@@ -718,7 +718,7 @@ function get_data_lake_organization_configuration(
         "/v1/datalake/organization/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -746,7 +746,7 @@ function get_data_lake_sources(; aws_config::AbstractAWSConfig=global_aws_config
         "POST",
         "/v1/datalake/sources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_lake_sources(
@@ -757,7 +757,7 @@ function get_data_lake_sources(
         "/v1/datalake/sources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -778,7 +778,7 @@ function get_subscriber(subscriberId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/subscribers/$(subscriberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_subscriber(
@@ -791,7 +791,7 @@ function get_subscriber(
         "/v1/subscribers/$(subscriberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -816,7 +816,7 @@ function list_data_lake_exceptions(; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/v1/datalake/exceptions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_lake_exceptions(
@@ -827,7 +827,7 @@ function list_data_lake_exceptions(
         "/v1/datalake/exceptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -845,7 +845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_data_lakes(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
-        "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_data_lakes(
@@ -856,7 +856,7 @@ function list_data_lakes(
         "/v1/datalakes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -881,7 +881,7 @@ function list_log_sources(; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/v1/datalake/logsources/list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_log_sources(
@@ -892,7 +892,7 @@ function list_log_sources(
         "/v1/datalake/logsources/list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -912,7 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_subscribers(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
-        "GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_subscribers(
@@ -923,7 +923,7 @@ function list_subscribers(
         "/v1/subscribers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -947,7 +947,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -960,7 +960,7 @@ function list_tags_for_resource(
         "/v1/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -985,7 +985,7 @@ function register_data_lake_delegated_administrator(
         "/v1/datalake/delegate",
         Dict{String,Any}("accountId" => accountId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_data_lake_delegated_administrator(
@@ -1000,7 +1000,7 @@ function register_data_lake_delegated_administrator(
             mergewith(_merge, Dict{String,Any}("accountId" => accountId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1032,7 +1032,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1046,7 +1046,7 @@ function tag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1073,7 +1073,7 @@ function untag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1087,7 +1087,7 @@ function untag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1114,7 +1114,7 @@ function update_data_lake(configurations; aws_config::AbstractAWSConfig=global_a
         "/v1/datalake",
         Dict{String,Any}("configurations" => configurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_lake(
@@ -1129,7 +1129,7 @@ function update_data_lake(
             mergewith(_merge, Dict{String,Any}("configurations" => configurations), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1162,7 +1162,7 @@ function update_data_lake_exception_subscription(
             "subscriptionProtocol" => subscriptionProtocol,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_lake_exception_subscription(
@@ -1185,7 +1185,7 @@ function update_data_lake_exception_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1213,7 +1213,7 @@ function update_subscriber(subscriberId; aws_config::AbstractAWSConfig=global_aw
         "PUT",
         "/v1/subscribers/$(subscriberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_subscriber(
@@ -1226,7 +1226,7 @@ function update_subscriber(
         "/v1/subscribers/$(subscriberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1250,7 +1250,7 @@ function update_subscriber_notification(
         "/v1/subscribers/$(subscriberId)/notification",
         Dict{String,Any}("configuration" => configuration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_subscriber_notification(
@@ -1266,6 +1266,6 @@ function update_subscriber_notification(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

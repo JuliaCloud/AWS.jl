@@ -21,13 +21,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_free_tier_usage(; aws_config::AbstractAWSConfig=global_aws_config())
     return freetier(
-        "GetFreeTierUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetFreeTierUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_free_tier_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return freetier(
-        "GetFreeTierUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetFreeTierUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end

@@ -30,7 +30,7 @@ function send_serial_console_sshpublic_key(
         "SendSerialConsoleSSHPublicKey",
         Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_serial_console_sshpublic_key(
@@ -51,7 +51,7 @@ function send_serial_console_sshpublic_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -88,7 +88,7 @@ function send_sshpublic_key(
             "SSHPublicKey" => SSHPublicKey,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_sshpublic_key(
@@ -112,6 +112,6 @@ function send_sshpublic_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

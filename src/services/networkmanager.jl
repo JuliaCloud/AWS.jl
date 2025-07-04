@@ -20,7 +20,7 @@ function accept_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aw
         "POST",
         "/attachments/$(attachmentId)/accept";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_attachment(
@@ -33,7 +33,7 @@ function accept_attachment(
         "/attachments/$(attachmentId)/accept",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -66,7 +66,7 @@ function associate_connect_peer(
         "/global-networks/$(globalNetworkId)/connect-peer-associations",
         Dict{String,Any}("ConnectPeerId" => ConnectPeerId, "DeviceId" => DeviceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_connect_peer(
@@ -87,7 +87,7 @@ function associate_connect_peer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -126,7 +126,7 @@ function associate_customer_gateway(
             "CustomerGatewayArn" => CustomerGatewayArn, "DeviceId" => DeviceId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_customer_gateway(
@@ -149,7 +149,7 @@ function associate_customer_gateway(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -175,7 +175,7 @@ function associate_link(
         "/global-networks/$(globalNetworkId)/link-associations",
         Dict{String,Any}("DeviceId" => DeviceId, "LinkId" => LinkId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_link(
@@ -194,7 +194,7 @@ function associate_link(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -231,7 +231,7 @@ function associate_transit_gateway_connect_peer(
             "TransitGatewayConnectPeerArn" => TransitGatewayConnectPeerArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_transit_gateway_connect_peer(
@@ -255,7 +255,7 @@ function associate_transit_gateway_connect_peer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -297,7 +297,7 @@ function create_connect_attachment(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_connect_attachment(
@@ -325,7 +325,7 @@ function create_connect_attachment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -365,7 +365,7 @@ function create_connect_peer(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_connect_peer(
@@ -389,7 +389,7 @@ function create_connect_peer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -425,7 +425,7 @@ function create_connection(
         "/global-networks/$(globalNetworkId)/connections",
         Dict{String,Any}("ConnectedDeviceId" => ConnectedDeviceId, "DeviceId" => DeviceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_connection(
@@ -448,7 +448,7 @@ function create_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -479,7 +479,7 @@ function create_core_network(
             "GlobalNetworkId" => GlobalNetworkId, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_core_network(
@@ -500,7 +500,7 @@ function create_core_network(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -534,7 +534,7 @@ function create_device(globalNetworkId; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/global-networks/$(globalNetworkId)/devices";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_device(
@@ -547,7 +547,7 @@ function create_device(
         "/global-networks/$(globalNetworkId)/devices",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -565,7 +565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_global_network(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_global_network(
@@ -576,7 +576,7 @@ function create_global_network(
         "/global-networks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -608,7 +608,7 @@ function create_link(
         "/global-networks/$(globalNetworkId)/links",
         Dict{String,Any}("Bandwidth" => Bandwidth, "SiteId" => SiteId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_link(
@@ -629,7 +629,7 @@ function create_link(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -657,7 +657,7 @@ function create_site(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/global-networks/$(globalNetworkId)/sites";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_site(
@@ -670,7 +670,7 @@ function create_site(
         "/global-networks/$(globalNetworkId)/sites",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -703,7 +703,7 @@ function create_site_to_site_vpn_attachment(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_site_to_site_vpn_attachment(
@@ -727,7 +727,7 @@ function create_site_to_site_vpn_attachment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -758,7 +758,7 @@ function create_transit_gateway_peering(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_transit_gateway_peering(
@@ -782,7 +782,7 @@ function create_transit_gateway_peering(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -817,7 +817,7 @@ function create_transit_gateway_route_table_attachment(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_transit_gateway_route_table_attachment(
@@ -841,7 +841,7 @@ function create_transit_gateway_route_table_attachment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +875,7 @@ function create_vpc_attachment(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vpc_attachment(
@@ -901,7 +901,7 @@ function create_vpc_attachment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -920,7 +920,7 @@ function delete_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/attachments/$(attachmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_attachment(
@@ -933,7 +933,7 @@ function delete_attachment(
         "/attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -954,7 +954,7 @@ function delete_connect_peer(
         "DELETE",
         "/connect-peers/$(connectPeerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_connect_peer(
@@ -967,7 +967,7 @@ function delete_connect_peer(
         "/connect-peers/$(connectPeerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -989,7 +989,7 @@ function delete_connection(
         "DELETE",
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_connection(
@@ -1003,7 +1003,7 @@ function delete_connection(
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1025,7 +1025,7 @@ function delete_core_network(
         "DELETE",
         "/core-networks/$(coreNetworkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_core_network(
@@ -1038,7 +1038,7 @@ function delete_core_network(
         "/core-networks/$(coreNetworkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1060,7 +1060,7 @@ function delete_core_network_policy_version(
         "DELETE",
         "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_core_network_policy_version(
@@ -1074,7 +1074,7 @@ function delete_core_network_policy_version(
         "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1097,7 +1097,7 @@ function delete_device(
         "DELETE",
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_device(
@@ -1111,7 +1111,7 @@ function delete_device(
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1133,7 +1133,7 @@ function delete_global_network(
         "DELETE",
         "/global-networks/$(globalNetworkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_global_network(
@@ -1146,7 +1146,7 @@ function delete_global_network(
         "/global-networks/$(globalNetworkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,7 +1169,7 @@ function delete_link(
         "DELETE",
         "/global-networks/$(globalNetworkId)/links/$(linkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_link(
@@ -1183,7 +1183,7 @@ function delete_link(
         "/global-networks/$(globalNetworkId)/links/$(linkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1202,7 +1202,7 @@ function delete_peering(peeringId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/peerings/$(peeringId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_peering(
@@ -1215,7 +1215,7 @@ function delete_peering(
         "/peerings/$(peeringId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1237,7 @@ function delete_resource_policy(
         "DELETE",
         "/resource-policy/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -1250,7 +1250,7 @@ function delete_resource_policy(
         "/resource-policy/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1272,7 +1272,7 @@ function delete_site(
         "DELETE",
         "/global-networks/$(globalNetworkId)/sites/$(siteId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_site(
@@ -1286,7 +1286,7 @@ function delete_site(
         "/global-networks/$(globalNetworkId)/sites/$(siteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1310,7 +1310,7 @@ function deregister_transit_gateway(
         "DELETE",
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_transit_gateway(
@@ -1324,7 +1324,7 @@ function deregister_transit_gateway(
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1345,7 +1345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_global_networks(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_global_networks(
@@ -1356,7 +1356,7 @@ function describe_global_networks(
         "/global-networks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1378,7 +1378,7 @@ function disassociate_connect_peer(
         "DELETE",
         "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_connect_peer(
@@ -1392,7 +1392,7 @@ function disassociate_connect_peer(
         "/global-networks/$(globalNetworkId)/connect-peer-associations/$(connectPeerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1414,7 +1414,7 @@ function disassociate_customer_gateway(
         "DELETE",
         "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_customer_gateway(
@@ -1428,7 +1428,7 @@ function disassociate_customer_gateway(
         "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1453,7 +1453,7 @@ function disassociate_link(
         "/global-networks/$(globalNetworkId)/link-associations",
         Dict{String,Any}("deviceId" => deviceId, "linkId" => linkId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_link(
@@ -1472,7 +1472,7 @@ function disassociate_link(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1497,7 +1497,7 @@ function disassociate_transit_gateway_connect_peer(
         "DELETE",
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_transit_gateway_connect_peer(
@@ -1511,7 +1511,7 @@ function disassociate_transit_gateway_connect_peer(
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1534,7 +1534,7 @@ function execute_core_network_change_set(
         "POST",
         "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function execute_core_network_change_set(
@@ -1548,7 +1548,7 @@ function execute_core_network_change_set(
         "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)/execute",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1569,7 +1569,7 @@ function get_connect_attachment(
         "GET",
         "/connect-attachments/$(attachmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connect_attachment(
@@ -1582,7 +1582,7 @@ function get_connect_attachment(
         "/connect-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1601,7 +1601,7 @@ function get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/connect-peers/$(connectPeerId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connect_peer(
@@ -1614,7 +1614,7 @@ function get_connect_peer(
         "/connect-peers/$(connectPeerId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1640,7 +1640,7 @@ function get_connect_peer_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/connect-peer-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connect_peer_associations(
@@ -1653,7 +1653,7 @@ function get_connect_peer_associations(
         "/global-networks/$(globalNetworkId)/connect-peer-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1678,7 +1678,7 @@ function get_connections(globalNetworkId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/global-networks/$(globalNetworkId)/connections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connections(
@@ -1691,7 +1691,7 @@ function get_connections(
         "/global-networks/$(globalNetworkId)/connections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1710,7 +1710,7 @@ function get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/core-networks/$(coreNetworkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_core_network(
@@ -1723,7 +1723,7 @@ function get_core_network(
         "/core-networks/$(coreNetworkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1749,7 +1749,7 @@ function get_core_network_change_events(
         "GET",
         "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_core_network_change_events(
@@ -1763,7 +1763,7 @@ function get_core_network_change_events(
         "/core-networks/$(coreNetworkId)/core-network-change-events/$(policyVersionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1789,7 +1789,7 @@ function get_core_network_change_set(
         "GET",
         "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_core_network_change_set(
@@ -1803,7 +1803,7 @@ function get_core_network_change_set(
         "/core-networks/$(coreNetworkId)/core-network-change-sets/$(policyVersionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1829,7 +1829,7 @@ function get_core_network_policy(
         "GET",
         "/core-networks/$(coreNetworkId)/core-network-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_core_network_policy(
@@ -1842,7 +1842,7 @@ function get_core_network_policy(
         "/core-networks/$(coreNetworkId)/core-network-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1870,7 +1870,7 @@ function get_customer_gateway_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/customer-gateway-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_customer_gateway_associations(
@@ -1883,7 +1883,7 @@ function get_customer_gateway_associations(
         "/global-networks/$(globalNetworkId)/customer-gateway-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1908,7 +1908,7 @@ function get_devices(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/global-networks/$(globalNetworkId)/devices";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_devices(
@@ -1921,7 +1921,7 @@ function get_devices(
         "/global-networks/$(globalNetworkId)/devices",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1949,7 +1949,7 @@ function get_link_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/link-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_link_associations(
@@ -1962,7 +1962,7 @@ function get_link_associations(
         "/global-networks/$(globalNetworkId)/link-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1991,7 +1991,7 @@ function get_links(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/global-networks/$(globalNetworkId)/links";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_links(
@@ -2004,7 +2004,7 @@ function get_links(
         "/global-networks/$(globalNetworkId)/links",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2036,7 +2036,7 @@ function get_network_resource_counts(
         "GET",
         "/global-networks/$(globalNetworkId)/network-resource-count";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_network_resource_counts(
@@ -2049,7 +2049,7 @@ function get_network_resource_counts(
         "/global-networks/$(globalNetworkId)/network-resource-count",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2086,7 +2086,7 @@ function get_network_resource_relationships(
         "GET",
         "/global-networks/$(globalNetworkId)/network-resource-relationships";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_network_resource_relationships(
@@ -2099,7 +2099,7 @@ function get_network_resource_relationships(
         "/global-networks/$(globalNetworkId)/network-resource-relationships",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2138,7 +2138,7 @@ function get_network_resources(
         "GET",
         "/global-networks/$(globalNetworkId)/network-resources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_network_resources(
@@ -2151,7 +2151,7 @@ function get_network_resources(
         "/global-networks/$(globalNetworkId)/network-resources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2187,7 +2187,7 @@ function get_network_routes(
         "/global-networks/$(globalNetworkId)/network-routes",
         Dict{String,Any}("RouteTableIdentifier" => RouteTableIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_network_routes(
@@ -2207,7 +2207,7 @@ function get_network_routes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2239,7 +2239,7 @@ function get_network_telemetry(
         "GET",
         "/global-networks/$(globalNetworkId)/network-telemetry";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_network_telemetry(
@@ -2252,7 +2252,7 @@ function get_network_telemetry(
         "/global-networks/$(globalNetworkId)/network-telemetry",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2271,7 +2271,7 @@ function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/resource-policy/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -2284,7 +2284,7 @@ function get_resource_policy(
         "/resource-policy/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2306,7 +2306,7 @@ function get_route_analysis(
         "GET",
         "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_route_analysis(
@@ -2320,7 +2320,7 @@ function get_route_analysis(
         "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2341,7 +2341,7 @@ function get_site_to_site_vpn_attachment(
         "GET",
         "/site-to-site-vpn-attachments/$(attachmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_site_to_site_vpn_attachment(
@@ -2354,7 +2354,7 @@ function get_site_to_site_vpn_attachment(
         "/site-to-site-vpn-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2378,7 +2378,7 @@ function get_sites(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/global-networks/$(globalNetworkId)/sites";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sites(
@@ -2391,7 +2391,7 @@ function get_sites(
         "/global-networks/$(globalNetworkId)/sites",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2419,7 +2419,7 @@ function get_transit_gateway_connect_peer_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_transit_gateway_connect_peer_associations(
@@ -2432,7 +2432,7 @@ function get_transit_gateway_connect_peer_associations(
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2453,7 +2453,7 @@ function get_transit_gateway_peering(
         "GET",
         "/transit-gateway-peerings/$(peeringId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_transit_gateway_peering(
@@ -2466,7 +2466,7 @@ function get_transit_gateway_peering(
         "/transit-gateway-peerings/$(peeringId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2493,7 +2493,7 @@ function get_transit_gateway_registrations(
         "GET",
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_transit_gateway_registrations(
@@ -2506,7 +2506,7 @@ function get_transit_gateway_registrations(
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2527,7 +2527,7 @@ function get_transit_gateway_route_table_attachment(
         "GET",
         "/transit-gateway-route-table-attachments/$(attachmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_transit_gateway_route_table_attachment(
@@ -2540,7 +2540,7 @@ function get_transit_gateway_route_table_attachment(
         "/transit-gateway-route-table-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2559,7 +2559,7 @@ function get_vpc_attachment(attachmentId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/vpc-attachments/$(attachmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vpc_attachment(
@@ -2572,7 +2572,7 @@ function get_vpc_attachment(
         "/vpc-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2593,7 +2593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_attachments(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_attachments(
@@ -2604,7 +2604,7 @@ function list_attachments(
         "/attachments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2623,7 +2623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_connect_peers(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_connect_peers(
@@ -2634,7 +2634,7 @@ function list_connect_peers(
         "/connect-peers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2659,7 +2659,7 @@ function list_core_network_policy_versions(
         "GET",
         "/core-networks/$(coreNetworkId)/core-network-policy-versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_core_network_policy_versions(
@@ -2672,7 +2672,7 @@ function list_core_network_policy_versions(
         "/core-networks/$(coreNetworkId)/core-network-policy-versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2689,7 +2689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_core_networks(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_core_networks(
@@ -2700,7 +2700,7 @@ function list_core_networks(
         "/core-networks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2723,7 +2723,7 @@ function list_organization_service_access_status(;
         "GET",
         "/organizations/service-access";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_organization_service_access_status(
@@ -2734,7 +2734,7 @@ function list_organization_service_access_status(
         "/organizations/service-access",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2755,14 +2755,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_peerings(; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_peerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return networkmanager(
-        "GET", "/peerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/peerings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2783,7 +2783,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2796,7 +2796,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2827,7 +2827,7 @@ function put_core_network_policy(
             "PolicyDocument" => PolicyDocument, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_core_network_policy(
@@ -2849,7 +2849,7 @@ function put_core_network_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2872,7 +2872,7 @@ function put_resource_policy(
         "/resource-policy/$(resourceArn)",
         Dict{String,Any}("PolicyDocument" => PolicyDocument);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -2888,7 +2888,7 @@ function put_resource_policy(
             mergewith(_merge, Dict{String,Any}("PolicyDocument" => PolicyDocument), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2916,7 +2916,7 @@ function register_transit_gateway(
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
         Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_transit_gateway(
@@ -2934,7 +2934,7 @@ function register_transit_gateway(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2953,7 +2953,7 @@ function reject_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aw
         "POST",
         "/attachments/$(attachmentId)/reject";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reject_attachment(
@@ -2966,7 +2966,7 @@ function reject_attachment(
         "/attachments/$(attachmentId)/reject",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2990,7 +2990,7 @@ function restore_core_network_policy_version(
         "POST",
         "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_core_network_policy_version(
@@ -3004,7 +3004,7 @@ function restore_core_network_policy_version(
         "/core-networks/$(coreNetworkId)/core-network-policy-versions/$(policyVersionId)/restore",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3027,7 +3027,7 @@ function start_organization_service_access_update(
         "/organizations/service-access",
         Dict{String,Any}("Action" => Action);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_organization_service_access_update(
@@ -3038,7 +3038,7 @@ function start_organization_service_access_update(
         "/organizations/service-access",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Action" => Action), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3068,7 +3068,7 @@ function start_route_analysis(
         "/global-networks/$(globalNetworkId)/route-analyses",
         Dict{String,Any}("Destination" => Destination, "Source" => Source);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_route_analysis(
@@ -3089,7 +3089,7 @@ function start_route_analysis(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3110,7 +3110,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3124,7 +3124,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3147,7 +3147,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3161,7 +3161,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3190,7 +3190,7 @@ function update_connection(
         "PATCH",
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_connection(
@@ -3204,7 +3204,7 @@ function update_connection(
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3228,7 +3228,7 @@ function update_core_network(
         "PATCH",
         "/core-networks/$(coreNetworkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_core_network(
@@ -3241,7 +3241,7 @@ function update_core_network(
         "/core-networks/$(coreNetworkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3277,7 +3277,7 @@ function update_device(
         "PATCH",
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_device(
@@ -3291,7 +3291,7 @@ function update_device(
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3317,7 +3317,7 @@ function update_global_network(
         "PATCH",
         "/global-networks/$(globalNetworkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_global_network(
@@ -3330,7 +3330,7 @@ function update_global_network(
         "/global-networks/$(globalNetworkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3359,7 +3359,7 @@ function update_link(
         "PATCH",
         "/global-networks/$(globalNetworkId)/links/$(linkId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_link(
@@ -3373,7 +3373,7 @@ function update_link(
         "/global-networks/$(globalNetworkId)/links/$(linkId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3400,7 +3400,7 @@ function update_network_resource_metadata(
         "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata",
         Dict{String,Any}("Metadata" => Metadata);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_network_resource_metadata(
@@ -3417,7 +3417,7 @@ function update_network_resource_metadata(
             mergewith(_merge, Dict{String,Any}("Metadata" => Metadata), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3446,7 +3446,7 @@ function update_site(
         "PATCH",
         "/global-networks/$(globalNetworkId)/sites/$(siteId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_site(
@@ -3460,7 +3460,7 @@ function update_site(
         "/global-networks/$(globalNetworkId)/sites/$(siteId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3486,7 +3486,7 @@ function update_vpc_attachment(
         "PATCH",
         "/vpc-attachments/$(attachmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_vpc_attachment(
@@ -3499,6 +3499,6 @@ function update_vpc_attachment(
         "/vpc-attachments/$(attachmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -36,7 +36,7 @@ function create_environment(name; aws_config::AbstractAWSConfig=global_aws_confi
         "/environment",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_environment(
@@ -47,7 +47,7 @@ function create_environment(
         "/environment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -97,7 +97,7 @@ function create_kx_changeset(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
         Dict{String,Any}("changeRequests" => changeRequests, "clientToken" => clientToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_changeset(
@@ -121,7 +121,7 @@ function create_kx_changeset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,7 +217,7 @@ function create_kx_cluster(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_cluster(
@@ -248,7 +248,7 @@ function create_kx_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -280,7 +280,7 @@ function create_kx_database(
         "/kx/environments/$(environmentId)/databases",
         Dict{String,Any}("clientToken" => clientToken, "databaseName" => databaseName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_database(
@@ -303,7 +303,7 @@ function create_kx_database(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -364,7 +364,7 @@ function create_kx_dataview(
             "azMode" => azMode, "clientToken" => clientToken, "dataviewName" => dataviewName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_dataview(
@@ -391,7 +391,7 @@ function create_kx_dataview(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -422,7 +422,7 @@ function create_kx_environment(
             "kmsKeyId" => kmsKeyId, "name" => name, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_environment(
@@ -444,7 +444,7 @@ function create_kx_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -492,7 +492,7 @@ function create_kx_scaling_group(
             "scalingGroupName" => scalingGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_scaling_group(
@@ -520,7 +520,7 @@ function create_kx_scaling_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -552,7 +552,7 @@ function create_kx_user(
             "iamRole" => iamRole, "userName" => userName, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_user(
@@ -577,7 +577,7 @@ function create_kx_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -625,7 +625,7 @@ function create_kx_volume(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_kx_volume(
@@ -654,7 +654,7 @@ function create_kx_volume(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -675,7 +675,7 @@ function delete_environment(
         "DELETE",
         "/environment/$(environmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_environment(
@@ -688,7 +688,7 @@ function delete_environment(
         "/environment/$(environmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -714,7 +714,7 @@ function delete_kx_cluster(
         "/kx/environments/$(environmentId)/clusters/$(clusterName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_cluster(
@@ -730,7 +730,7 @@ function delete_kx_cluster(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +753,7 @@ function delete_kx_cluster_node(
         "DELETE",
         "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes/$(nodeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_cluster_node(
@@ -768,7 +768,7 @@ function delete_kx_cluster_node(
         "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes/$(nodeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -796,7 +796,7 @@ function delete_kx_database(
         "/kx/environments/$(environmentId)/databases/$(databaseName)",
         Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_database(
@@ -813,7 +813,7 @@ function delete_kx_database(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -844,7 +844,7 @@ function delete_kx_dataview(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
         Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_dataview(
@@ -862,7 +862,7 @@ function delete_kx_dataview(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -888,7 +888,7 @@ function delete_kx_environment(
         "/kx/environments/$(environmentId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_environment(
@@ -903,7 +903,7 @@ function delete_kx_environment(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -931,7 +931,7 @@ function delete_kx_scaling_group(
         "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_scaling_group(
@@ -947,7 +947,7 @@ function delete_kx_scaling_group(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -973,7 +973,7 @@ function delete_kx_user(
         "/kx/environments/$(environmentId)/users/$(userName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_user(
@@ -989,7 +989,7 @@ function delete_kx_user(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1018,7 +1018,7 @@ function delete_kx_volume(
         "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_kx_volume(
@@ -1034,7 +1034,7 @@ function delete_kx_volume(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1053,7 +1053,7 @@ function get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/environment/$(environmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_environment(
@@ -1066,7 +1066,7 @@ function get_environment(
         "/environment/$(environmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1092,7 +1092,7 @@ function get_kx_changeset(
         "GET",
         "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets/$(changesetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_changeset(
@@ -1107,7 +1107,7 @@ function get_kx_changeset(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets/$(changesetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1129,7 +1129,7 @@ function get_kx_cluster(
         "GET",
         "/kx/environments/$(environmentId)/clusters/$(clusterName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_cluster(
@@ -1143,7 +1143,7 @@ function get_kx_cluster(
         "/kx/environments/$(environmentId)/clusters/$(clusterName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1170,7 +1170,7 @@ function get_kx_connection_string(
         "/kx/environments/$(environmentId)/connectionString",
         Dict{String,Any}("clusterName" => clusterName, "userArn" => userArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_connection_string(
@@ -1191,7 +1191,7 @@ function get_kx_connection_string(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1213,7 +1213,7 @@ function get_kx_database(
         "GET",
         "/kx/environments/$(environmentId)/databases/$(databaseName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_database(
@@ -1227,7 +1227,7 @@ function get_kx_database(
         "/kx/environments/$(environmentId)/databases/$(databaseName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1254,7 +1254,7 @@ function get_kx_dataview(
         "GET",
         "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_dataview(
@@ -1269,7 +1269,7 @@ function get_kx_dataview(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1290,7 +1290,7 @@ function get_kx_environment(
         "GET",
         "/kx/environments/$(environmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_environment(
@@ -1303,7 +1303,7 @@ function get_kx_environment(
         "/kx/environments/$(environmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1325,7 +1325,7 @@ function get_kx_scaling_group(
         "GET",
         "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_scaling_group(
@@ -1339,7 +1339,7 @@ function get_kx_scaling_group(
         "/kx/environments/$(environmentId)/scalingGroups/$(scalingGroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1361,7 +1361,7 @@ function get_kx_user(
         "GET",
         "/kx/environments/$(environmentId)/users/$(userName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_user(
@@ -1375,7 +1375,7 @@ function get_kx_user(
         "/kx/environments/$(environmentId)/users/$(userName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1398,7 +1398,7 @@ function get_kx_volume(
         "GET",
         "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_kx_volume(
@@ -1412,7 +1412,7 @@ function get_kx_volume(
         "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1431,7 +1431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace(
-        "GET", "/environment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/environment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_environments(
@@ -1442,7 +1442,7 @@ function list_environments(
         "/environment",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1468,7 +1468,7 @@ function list_kx_changesets(
         "GET",
         "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_changesets(
@@ -1482,7 +1482,7 @@ function list_kx_changesets(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1508,7 +1508,7 @@ function list_kx_cluster_nodes(
         "GET",
         "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_cluster_nodes(
@@ -1522,7 +1522,7 @@ function list_kx_cluster_nodes(
         "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1564,7 +1564,7 @@ function list_kx_clusters(environmentId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/kx/environments/$(environmentId)/clusters";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_clusters(
@@ -1577,7 +1577,7 @@ function list_kx_clusters(
         "/kx/environments/$(environmentId)/clusters",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1600,7 +1600,7 @@ function list_kx_databases(environmentId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/kx/environments/$(environmentId)/databases";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_databases(
@@ -1613,7 +1613,7 @@ function list_kx_databases(
         "/kx/environments/$(environmentId)/databases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1640,7 +1640,7 @@ function list_kx_dataviews(
         "GET",
         "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_dataviews(
@@ -1654,7 +1654,7 @@ function list_kx_dataviews(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1671,7 +1671,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_kx_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace(
-        "GET", "/kx/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/kx/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_kx_environments(
@@ -1682,7 +1682,7 @@ function list_kx_environments(
         "/kx/environments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1708,7 +1708,7 @@ function list_kx_scaling_groups(
         "GET",
         "/kx/environments/$(environmentId)/scalingGroups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_scaling_groups(
@@ -1721,7 +1721,7 @@ function list_kx_scaling_groups(
         "/kx/environments/$(environmentId)/scalingGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1744,7 +1744,7 @@ function list_kx_users(environmentId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/kx/environments/$(environmentId)/users";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_users(
@@ -1757,7 +1757,7 @@ function list_kx_users(
         "/kx/environments/$(environmentId)/users",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1783,7 +1783,7 @@ function list_kx_volumes(environmentId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/kx/environments/$(environmentId)/kxvolumes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_kx_volumes(
@@ -1796,7 +1796,7 @@ function list_kx_volumes(
         "/kx/environments/$(environmentId)/kxvolumes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1817,7 +1817,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1830,7 +1830,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1851,7 +1851,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1865,7 +1865,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1889,7 +1889,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1903,7 +1903,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1932,7 +1932,7 @@ function update_environment(
         "PUT",
         "/environment/$(environmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_environment(
@@ -1945,7 +1945,7 @@ function update_environment(
         "/environment/$(environmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1983,7 +1983,7 @@ function update_kx_cluster_code_configuration(
         "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/code",
         Dict{String,Any}("code" => code, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_cluster_code_configuration(
@@ -2004,7 +2004,7 @@ function update_kx_cluster_code_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2036,7 +2036,7 @@ function update_kx_cluster_databases(
         "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/databases",
         Dict{String,Any}("databases" => databases, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_cluster_databases(
@@ -2059,7 +2059,7 @@ function update_kx_cluster_databases(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2089,7 +2089,7 @@ function update_kx_database(
         "/kx/environments/$(environmentId)/databases/$(databaseName)",
         Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_database(
@@ -2106,7 +2106,7 @@ function update_kx_database(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2146,7 +2146,7 @@ function update_kx_dataview(
         "/kx/environments/$(environmentId)/databases/$(databaseName)/dataviews/$(dataviewName)",
         Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_dataview(
@@ -2164,7 +2164,7 @@ function update_kx_dataview(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2191,7 +2191,7 @@ function update_kx_environment(
         "/kx/environments/$(environmentId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_environment(
@@ -2206,7 +2206,7 @@ function update_kx_environment(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2239,7 +2239,7 @@ function update_kx_environment_network(
         "/kx/environments/$(environmentId)/network",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_environment_network(
@@ -2254,7 +2254,7 @@ function update_kx_environment_network(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2281,7 +2281,7 @@ function update_kx_user(
         "/kx/environments/$(environmentId)/users/$(userName)",
         Dict{String,Any}("iamRole" => iamRole, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_user(
@@ -2302,7 +2302,7 @@ function update_kx_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2334,7 +2334,7 @@ function update_kx_volume(
         "/kx/environments/$(environmentId)/kxvolumes/$(volumeName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_kx_volume(
@@ -2350,6 +2350,6 @@ function update_kx_volume(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

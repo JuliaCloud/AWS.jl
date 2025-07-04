@@ -19,7 +19,7 @@ function batch_delete_builds(ids; aws_config::AbstractAWSConfig=global_aws_confi
         "BatchDeleteBuilds",
         Dict{String,Any}("ids" => ids);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_builds(
@@ -29,7 +29,7 @@ function batch_delete_builds(
         "BatchDeleteBuilds",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -48,7 +48,7 @@ function batch_get_build_batches(ids; aws_config::AbstractAWSConfig=global_aws_c
         "BatchGetBuildBatches",
         Dict{String,Any}("ids" => ids);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_build_batches(
@@ -58,7 +58,7 @@ function batch_get_build_batches(
         "BatchGetBuildBatches",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -77,7 +77,7 @@ function batch_get_builds(ids; aws_config::AbstractAWSConfig=global_aws_config()
         "BatchGetBuilds",
         Dict{String,Any}("ids" => ids);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_builds(
@@ -87,7 +87,7 @@ function batch_get_builds(
         "BatchGetBuilds",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -106,7 +106,7 @@ function batch_get_fleets(names; aws_config::AbstractAWSConfig=global_aws_config
         "BatchGetFleets",
         Dict{String,Any}("names" => names);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_fleets(
@@ -116,7 +116,7 @@ function batch_get_fleets(
         "BatchGetFleets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -137,7 +137,7 @@ function batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_conf
         "BatchGetProjects",
         Dict{String,Any}("names" => names);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_projects(
@@ -147,7 +147,7 @@ function batch_get_projects(
         "BatchGetProjects",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -169,7 +169,7 @@ function batch_get_report_groups(
         "BatchGetReportGroups",
         Dict{String,Any}("reportGroupArns" => reportGroupArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_report_groups(
@@ -185,7 +185,7 @@ function batch_get_report_groups(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function batch_get_reports(reportArns; aws_config::AbstractAWSConfig=global_aws_
         "BatchGetReports",
         Dict{String,Any}("reportArns" => reportArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_reports(
@@ -218,7 +218,7 @@ function batch_get_reports(
             mergewith(_merge, Dict{String,Any}("reportArns" => reportArns), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -301,7 +301,7 @@ function create_fleet(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -327,7 +327,7 @@ function create_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -417,7 +417,7 @@ function create_project(
             "source" => source,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_project(
@@ -445,7 +445,7 @@ function create_project(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -474,7 +474,7 @@ function create_report_group(
         "CreateReportGroup",
         Dict{String,Any}("exportConfig" => exportConfig, "name" => name, "type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_report_group(
@@ -496,7 +496,7 @@ function create_report_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -541,7 +541,7 @@ function create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_co
         "CreateWebhook",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_webhook(
@@ -555,7 +555,7 @@ function create_webhook(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -574,7 +574,7 @@ function delete_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config(
         "DeleteBuildBatch",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_build_batch(
@@ -584,7 +584,7 @@ function delete_build_batch(
         "DeleteBuildBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -603,7 +603,7 @@ function delete_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteFleet",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -613,7 +613,7 @@ function delete_fleet(
         "DeleteFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -632,7 +632,7 @@ function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteProject",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project(
@@ -642,7 +642,7 @@ function delete_project(
         "DeleteProject",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -661,7 +661,7 @@ function delete_report(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteReport",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_report(
@@ -671,7 +671,7 @@ function delete_report(
         "DeleteReport",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -697,7 +697,7 @@ function delete_report_group(arn; aws_config::AbstractAWSConfig=global_aws_confi
         "DeleteReportGroup",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_report_group(
@@ -707,7 +707,7 @@ function delete_report_group(
         "DeleteReportGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -728,7 +728,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -742,7 +742,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -761,7 +761,7 @@ function delete_source_credentials(arn; aws_config::AbstractAWSConfig=global_aws
         "DeleteSourceCredentials",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_source_credentials(
@@ -771,7 +771,7 @@ function delete_source_credentials(
         "DeleteSourceCredentials",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -792,7 +792,7 @@ function delete_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteWebhook",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_webhook(
@@ -806,7 +806,7 @@ function delete_webhook(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -839,7 +839,7 @@ function describe_code_coverages(
         "DescribeCodeCoverages",
         Dict{String,Any}("reportArn" => reportArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_code_coverages(
@@ -853,7 +853,7 @@ function describe_code_coverages(
             mergewith(_merge, Dict{String,Any}("reportArn" => reportArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -884,7 +884,7 @@ function describe_test_cases(reportArn; aws_config::AbstractAWSConfig=global_aws
         "DescribeTestCases",
         Dict{String,Any}("reportArn" => reportArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_test_cases(
@@ -898,7 +898,7 @@ function describe_test_cases(
             mergewith(_merge, Dict{String,Any}("reportArn" => reportArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -934,7 +934,7 @@ function get_report_group_trend(
         "GetReportGroupTrend",
         Dict{String,Any}("reportGroupArn" => reportGroupArn, "trendField" => trendField);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_report_group_trend(
@@ -955,7 +955,7 @@ function get_report_group_trend(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -974,7 +974,7 @@ function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_a
         "GetResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -988,7 +988,7 @@ function get_resource_policy(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1026,7 +1026,7 @@ function import_source_credentials(
             "authType" => authType, "serverType" => serverType, "token" => token
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_source_credentials(
@@ -1048,7 +1048,7 @@ function import_source_credentials(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1069,7 +1069,7 @@ function invalidate_project_cache(
         "InvalidateProjectCache",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invalidate_project_cache(
@@ -1083,7 +1083,7 @@ function invalidate_project_cache(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1106,14 +1106,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_build_batches(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_build_batches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1137,7 +1137,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_build_batches_for_project(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListBuildBatchesForProject";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_build_batches_for_project(
@@ -1147,7 +1149,7 @@ function list_build_batches_for_project(
         "ListBuildBatchesForProject",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,13 +1171,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order by build ID.
 """
 function list_builds(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_builds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1210,7 +1212,7 @@ function list_builds_for_project(
         "ListBuildsForProject",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_builds_for_project(
@@ -1224,7 +1226,7 @@ function list_builds_for_project(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1241,7 +1243,7 @@ function list_curated_environment_images(;
     return codebuild(
         "ListCuratedEnvironmentImages";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_curated_environment_images(
@@ -1251,7 +1253,7 @@ function list_curated_environment_images(
         "ListCuratedEnvironmentImages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1281,13 +1283,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to specify the criterion to be used to list compute fleet names.
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1315,13 +1317,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to specify the criterion to be used to list build project names.
 """
 function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return codebuild(
+        "ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1351,14 +1355,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_report_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_report_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1386,13 +1390,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   
 """
 function list_reports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return codebuild(
+        "ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1428,7 +1434,7 @@ function list_reports_for_report_group(
         "ListReportsForReportGroup",
         Dict{String,Any}("reportGroupArn" => reportGroupArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_reports_for_report_group(
@@ -1442,7 +1448,7 @@ function list_reports_for_report_group(
             mergewith(_merge, Dict{String,Any}("reportGroupArn" => reportGroupArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1472,14 +1478,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_shared_projects(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_shared_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "ListSharedProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSharedProjects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1510,7 +1519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_shared_report_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_shared_report_groups(
@@ -1520,7 +1529,7 @@ function list_shared_report_groups(
         "ListSharedReportGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1533,7 +1542,7 @@ end
 """
 function list_source_credentials(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_source_credentials(
@@ -1543,7 +1552,7 @@ function list_source_credentials(
         "ListSourceCredentials",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1567,7 +1576,7 @@ function put_resource_policy(
         "PutResourcePolicy",
         Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -1586,7 +1595,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1605,13 +1614,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change a parameter, CodeBuild returns a parameter mismatch error.
 """
 function retry_build(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function retry_build(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1632,14 +1641,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
-        "RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function retry_build_batch(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codebuild(
-        "RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1770,7 +1779,7 @@ function start_build(projectName; aws_config::AbstractAWSConfig=global_aws_confi
         "StartBuild",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_build(
@@ -1784,7 +1793,7 @@ function start_build(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1902,7 +1911,7 @@ function start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws
         "StartBuildBatch",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_build_batch(
@@ -1916,7 +1925,7 @@ function start_build_batch(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1935,7 +1944,7 @@ function stop_build(id; aws_config::AbstractAWSConfig=global_aws_config())
         "StopBuild",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_build(
@@ -1945,7 +1954,7 @@ function stop_build(
         "StopBuild",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1964,7 +1973,7 @@ function stop_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config())
         "StopBuildBatch",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_build_batch(
@@ -1974,7 +1983,7 @@ function stop_build_batch(
         "StopBuildBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2046,7 +2055,7 @@ function update_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdateFleet",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet(
@@ -2056,7 +2065,7 @@ function update_fleet(
         "UpdateFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2133,7 +2142,7 @@ function update_project(name; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdateProject",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_project(
@@ -2143,7 +2152,7 @@ function update_project(
         "UpdateProject",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2187,7 +2196,7 @@ function update_project_visibility(
             "projectArn" => projectArn, "projectVisibility" => projectVisibility
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_project_visibility(
@@ -2208,7 +2217,7 @@ function update_project_visibility(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2235,7 +2244,7 @@ function update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_confi
         "UpdateReportGroup",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_report_group(
@@ -2245,7 +2254,7 @@ function update_report_group(
         "UpdateReportGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2278,7 +2287,7 @@ function update_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_co
         "UpdateWebhook",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_webhook(
@@ -2292,6 +2301,6 @@ function update_webhook(
             mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

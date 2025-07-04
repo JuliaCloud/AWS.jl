@@ -58,7 +58,7 @@ function analyze_document(
         "AnalyzeDocument",
         Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function analyze_document(
@@ -77,7 +77,7 @@ function analyze_document(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -100,7 +100,7 @@ function analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_conf
         "AnalyzeExpense",
         Dict{String,Any}("Document" => Document);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function analyze_expense(
@@ -114,7 +114,7 @@ function analyze_expense(
             mergewith(_merge, Dict{String,Any}("Document" => Document), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -136,7 +136,7 @@ function analyze_id(DocumentPages; aws_config::AbstractAWSConfig=global_aws_conf
         "AnalyzeID",
         Dict{String,Any}("DocumentPages" => DocumentPages);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function analyze_id(
@@ -150,7 +150,7 @@ function analyze_id(
             mergewith(_merge, Dict{String,Any}("DocumentPages" => DocumentPages), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -189,7 +189,7 @@ function create_adapter(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_adapter(
@@ -212,7 +212,7 @@ function create_adapter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -256,7 +256,7 @@ function create_adapter_version(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_adapter_version(
@@ -281,7 +281,7 @@ function create_adapter_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -301,7 +301,7 @@ function delete_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteAdapter",
         Dict{String,Any}("AdapterId" => AdapterId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_adapter(
@@ -315,7 +315,7 @@ function delete_adapter(
             mergewith(_merge, Dict{String,Any}("AdapterId" => AdapterId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -340,7 +340,7 @@ function delete_adapter_version(
         "DeleteAdapterVersion",
         Dict{String,Any}("AdapterId" => AdapterId, "AdapterVersion" => AdapterVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_adapter_version(
@@ -361,7 +361,7 @@ function delete_adapter_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -391,7 +391,7 @@ function detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws
         "DetectDocumentText",
         Dict{String,Any}("Document" => Document);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_document_text(
@@ -405,7 +405,7 @@ function detect_document_text(
             mergewith(_merge, Dict{String,Any}("Document" => Document), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -425,7 +425,7 @@ function get_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetAdapter",
         Dict{String,Any}("AdapterId" => AdapterId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_adapter(
@@ -439,7 +439,7 @@ function get_adapter(
             mergewith(_merge, Dict{String,Any}("AdapterId" => AdapterId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -465,7 +465,7 @@ function get_adapter_version(
         "GetAdapterVersion",
         Dict{String,Any}("AdapterId" => AdapterId, "AdapterVersion" => AdapterVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_adapter_version(
@@ -486,7 +486,7 @@ function get_adapter_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -544,7 +544,7 @@ function get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_c
         "GetDocumentAnalysis",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_document_analysis(
@@ -554,7 +554,7 @@ function get_document_analysis(
         "GetDocumentAnalysis",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -602,7 +602,7 @@ function get_document_text_detection(
         "GetDocumentTextDetection",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_document_text_detection(
@@ -612,7 +612,7 @@ function get_document_text_detection(
         "GetDocumentTextDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -654,7 +654,7 @@ function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_co
         "GetExpenseAnalysis",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_expense_analysis(
@@ -664,7 +664,7 @@ function get_expense_analysis(
         "GetExpenseAnalysis",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +699,7 @@ function get_lending_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_co
         "GetLendingAnalysis",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lending_analysis(
@@ -709,7 +709,7 @@ function get_lending_analysis(
         "GetLendingAnalysis",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -741,7 +741,7 @@ function get_lending_analysis_summary(
         "GetLendingAnalysisSummary",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lending_analysis_summary(
@@ -751,7 +751,7 @@ function get_lending_analysis_summary(
         "GetLendingAnalysisSummary",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -777,7 +777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_adapter_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return textract(
-        "ListAdapterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAdapterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_adapter_versions(
@@ -787,7 +787,7 @@ function list_adapter_versions(
         "ListAdapterVersions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -807,13 +807,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return when listing adapters.
 """
 function list_adapters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract("ListAdapters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return textract(
+        "ListAdapters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_adapters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return textract(
-        "ListAdapters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAdapters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -835,7 +837,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -849,7 +851,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,7 +909,7 @@ function start_document_analysis(
             "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_document_analysis(
@@ -928,7 +930,7 @@ function start_document_analysis(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -977,7 +979,7 @@ function start_document_text_detection(
         "StartDocumentTextDetection",
         Dict{String,Any}("DocumentLocation" => DocumentLocation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_document_text_detection(
@@ -993,7 +995,7 @@ function start_document_text_detection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1043,7 +1045,7 @@ function start_expense_analysis(
         "StartExpenseAnalysis",
         Dict{String,Any}("DocumentLocation" => DocumentLocation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_expense_analysis(
@@ -1059,7 +1061,7 @@ function start_expense_analysis(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1111,7 +1113,7 @@ function start_lending_analysis(
         "StartLendingAnalysis",
         Dict{String,Any}("DocumentLocation" => DocumentLocation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_lending_analysis(
@@ -1127,7 +1129,7 @@ function start_lending_analysis(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1147,7 +1149,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1166,7 +1168,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1189,7 +1191,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1208,7 +1210,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1233,7 +1235,7 @@ function update_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateAdapter",
         Dict{String,Any}("AdapterId" => AdapterId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_adapter(
@@ -1247,6 +1249,6 @@ function update_adapter(
             mergewith(_merge, Dict{String,Any}("AdapterId" => AdapterId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

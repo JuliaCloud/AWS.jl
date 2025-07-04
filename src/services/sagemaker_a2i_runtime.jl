@@ -20,7 +20,7 @@ function delete_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/human-loops/$(HumanLoopName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_human_loop(
@@ -33,7 +33,7 @@ function delete_human_loop(
         "/human-loops/$(HumanLoopName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -55,7 +55,7 @@ function describe_human_loop(
         "GET",
         "/human-loops/$(HumanLoopName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_human_loop(
@@ -68,7 +68,7 @@ function describe_human_loop(
         "/human-loops/$(HumanLoopName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -103,7 +103,7 @@ function list_human_loops(
         "/human-loops",
         Dict{String,Any}("FlowDefinitionArn" => FlowDefinitionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_human_loops(
@@ -120,7 +120,7 @@ function list_human_loops(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -156,7 +156,7 @@ function start_human_loop(
             "HumanLoopName" => HumanLoopName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_human_loop(
@@ -181,7 +181,7 @@ function start_human_loop(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -201,7 +201,7 @@ function stop_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws
         "/human-loops/stop",
         Dict{String,Any}("HumanLoopName" => HumanLoopName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_human_loop(
@@ -216,6 +216,6 @@ function stop_human_loop(
             mergewith(_merge, Dict{String,Any}("HumanLoopName" => HumanLoopName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

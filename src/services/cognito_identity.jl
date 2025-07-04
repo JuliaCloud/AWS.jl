@@ -52,7 +52,7 @@ function create_identity_pool(
             "IdentityPoolName" => IdentityPoolName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_identity_pool(
@@ -74,7 +74,7 @@ function create_identity_pool(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -96,7 +96,7 @@ function delete_identities(
         "DeleteIdentities",
         Dict{String,Any}("IdentityIdsToDelete" => IdentityIdsToDelete);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_identities(
@@ -114,7 +114,7 @@ function delete_identities(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -136,7 +136,7 @@ function delete_identity_pool(
         "DeleteIdentityPool",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_identity_pool(
@@ -150,7 +150,7 @@ function delete_identity_pool(
             mergewith(_merge, Dict{String,Any}("IdentityPoolId" => IdentityPoolId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -170,7 +170,7 @@ function describe_identity(IdentityId; aws_config::AbstractAWSConfig=global_aws_
         "DescribeIdentity",
         Dict{String,Any}("IdentityId" => IdentityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_identity(
@@ -184,7 +184,7 @@ function describe_identity(
             mergewith(_merge, Dict{String,Any}("IdentityId" => IdentityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -207,7 +207,7 @@ function describe_identity_pool(
         "DescribeIdentityPool",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_identity_pool(
@@ -221,7 +221,7 @@ function describe_identity_pool(
             mergewith(_merge, Dict{String,Any}("IdentityPoolId" => IdentityPoolId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -258,7 +258,7 @@ function get_credentials_for_identity(
         "GetCredentialsForIdentity",
         Dict{String,Any}("IdentityId" => IdentityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_credentials_for_identity(
@@ -272,7 +272,7 @@ function get_credentials_for_identity(
             mergewith(_merge, Dict{String,Any}("IdentityId" => IdentityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -301,7 +301,7 @@ function get_id(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetId",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_id(
@@ -315,7 +315,7 @@ function get_id(
             mergewith(_merge, Dict{String,Any}("IdentityPoolId" => IdentityPoolId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -337,7 +337,7 @@ function get_identity_pool_roles(
         "GetIdentityPoolRoles",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_pool_roles(
@@ -351,7 +351,7 @@ function get_identity_pool_roles(
             mergewith(_merge, Dict{String,Any}("IdentityPoolId" => IdentityPoolId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -379,7 +379,7 @@ function get_open_id_token(IdentityId; aws_config::AbstractAWSConfig=global_aws_
         "GetOpenIdToken",
         Dict{String,Any}("IdentityId" => IdentityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_open_id_token(
@@ -393,7 +393,7 @@ function get_open_id_token(
             mergewith(_merge, Dict{String,Any}("IdentityId" => IdentityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -445,7 +445,7 @@ function get_open_id_token_for_developer_identity(
         "GetOpenIdTokenForDeveloperIdentity",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "Logins" => Logins);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_open_id_token_for_developer_identity(
@@ -464,7 +464,7 @@ function get_open_id_token_for_developer_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -491,7 +491,7 @@ function get_principal_tag_attribute_map(
             "IdentityProviderName" => IdentityProviderName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_principal_tag_attribute_map(
@@ -513,7 +513,7 @@ function get_principal_tag_attribute_map(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -542,7 +542,7 @@ function list_identities(
         "ListIdentities",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "MaxResults" => MaxResults);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identities(
@@ -563,7 +563,7 @@ function list_identities(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -586,7 +586,7 @@ function list_identity_pools(MaxResults; aws_config::AbstractAWSConfig=global_aw
         "ListIdentityPools",
         Dict{String,Any}("MaxResults" => MaxResults);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_pools(
@@ -600,7 +600,7 @@ function list_identity_pools(
             mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -625,7 +625,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -639,7 +639,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -683,7 +683,7 @@ function lookup_developer_identity(
         "LookupDeveloperIdentity",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function lookup_developer_identity(
@@ -697,7 +697,7 @@ function lookup_developer_identity(
             mergewith(_merge, Dict{String,Any}("IdentityPoolId" => IdentityPoolId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -745,7 +745,7 @@ function merge_developer_identities(
             "SourceUserIdentifier" => SourceUserIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function merge_developer_identities(
@@ -771,7 +771,7 @@ function merge_developer_identities(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -802,7 +802,7 @@ function set_identity_pool_roles(
         "SetIdentityPoolRoles",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "Roles" => Roles);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_pool_roles(
@@ -821,7 +821,7 @@ function set_identity_pool_roles(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -852,7 +852,7 @@ function set_principal_tag_attribute_map(
             "IdentityProviderName" => IdentityProviderName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_principal_tag_attribute_map(
@@ -874,7 +874,7 @@ function set_principal_tag_attribute_map(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -905,7 +905,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -924,7 +924,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -961,7 +961,7 @@ function unlink_developer_identity(
             "IdentityPoolId" => IdentityPoolId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unlink_developer_identity(
@@ -987,7 +987,7 @@ function unlink_developer_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1017,7 @@ function unlink_identity(
             "LoginsToRemove" => LoginsToRemove,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unlink_identity(
@@ -1041,7 +1041,7 @@ function unlink_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1064,7 +1064,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1083,7 +1083,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1130,7 +1130,7 @@ function update_identity_pool(
             "IdentityPoolName" => IdentityPoolName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_identity_pool(
@@ -1154,6 +1154,6 @@ function update_identity_pool(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

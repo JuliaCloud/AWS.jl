@@ -28,7 +28,7 @@ function batch_get_named_query(
         "BatchGetNamedQuery",
         Dict{String,Any}("NamedQueryIds" => NamedQueryIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_named_query(
@@ -42,7 +42,7 @@ function batch_get_named_query(
             mergewith(_merge, Dict{String,Any}("NamedQueryIds" => NamedQueryIds), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -70,7 +70,7 @@ function batch_get_prepared_statement(
             "PreparedStatementNames" => PreparedStatementNames, "WorkGroup" => WorkGroup
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_prepared_statement(
@@ -92,7 +92,7 @@ function batch_get_prepared_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -117,7 +117,7 @@ function batch_get_query_execution(
         "BatchGetQueryExecution",
         Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_query_execution(
@@ -133,7 +133,7 @@ function batch_get_query_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -157,7 +157,7 @@ function cancel_capacity_reservation(
         "CancelCapacityReservation",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_capacity_reservation(
@@ -167,7 +167,7 @@ function cancel_capacity_reservation(
         "CancelCapacityReservation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -193,7 +193,7 @@ function create_capacity_reservation(
         "CreateCapacityReservation",
         Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_capacity_reservation(
@@ -210,7 +210,7 @@ function create_capacity_reservation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -254,7 +254,7 @@ function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aw
         "CreateDataCatalog",
         Dict{String,Any}("Name" => Name, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_catalog(
@@ -269,7 +269,7 @@ function create_data_catalog(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -309,7 +309,7 @@ function create_named_query(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_named_query(
@@ -334,7 +334,7 @@ function create_named_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -364,7 +364,7 @@ function create_notebook(Name, WorkGroup; aws_config::AbstractAWSConfig=global_a
         "CreateNotebook",
         Dict{String,Any}("Name" => Name, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_notebook(
@@ -381,7 +381,7 @@ function create_notebook(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -414,7 +414,7 @@ function create_prepared_statement(
             "WorkGroup" => WorkGroup,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_prepared_statement(
@@ -438,7 +438,7 @@ function create_prepared_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -462,7 +462,7 @@ function create_presigned_notebook_url(
         "CreatePresignedNotebookUrl",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_presigned_notebook_url(
@@ -476,7 +476,7 @@ function create_presigned_notebook_url(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -508,7 +508,7 @@ function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config
         "CreateWorkGroup",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_work_group(
@@ -518,7 +518,7 @@ function create_work_group(
         "CreateWorkGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -543,7 +543,7 @@ function delete_capacity_reservation(
         "DeleteCapacityReservation",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_capacity_reservation(
@@ -553,7 +553,7 @@ function delete_capacity_reservation(
         "DeleteCapacityReservation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -572,7 +572,7 @@ function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteDataCatalog",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_catalog(
@@ -582,7 +582,7 @@ function delete_data_catalog(
         "DeleteDataCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -601,7 +601,7 @@ function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_a
         "DeleteNamedQuery",
         Dict{String,Any}("NamedQueryId" => NamedQueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_named_query(
@@ -615,7 +615,7 @@ function delete_named_query(
             mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -634,7 +634,7 @@ function delete_notebook(NotebookId; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteNotebook",
         Dict{String,Any}("NotebookId" => NotebookId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_notebook(
@@ -648,7 +648,7 @@ function delete_notebook(
             mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -670,7 +670,7 @@ function delete_prepared_statement(
         "DeletePreparedStatement",
         Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_prepared_statement(
@@ -691,7 +691,7 @@ function delete_prepared_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -714,7 +714,7 @@ function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteWorkGroup",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_work_group(
@@ -728,7 +728,7 @@ function delete_work_group(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -747,7 +747,7 @@ function export_notebook(NotebookId; aws_config::AbstractAWSConfig=global_aws_co
         "ExportNotebook",
         Dict{String,Any}("NotebookId" => NotebookId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_notebook(
@@ -761,7 +761,7 @@ function export_notebook(
             mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -782,7 +782,7 @@ function get_calculation_execution(
         "GetCalculationExecution",
         Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_calculation_execution(
@@ -800,7 +800,7 @@ function get_calculation_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -821,7 +821,7 @@ function get_calculation_execution_code(
         "GetCalculationExecutionCode",
         Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_calculation_execution_code(
@@ -839,7 +839,7 @@ function get_calculation_execution_code(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function get_calculation_execution_status(
         "GetCalculationExecutionStatus",
         Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_calculation_execution_status(
@@ -878,7 +878,7 @@ function get_calculation_execution_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -900,7 +900,7 @@ function get_capacity_assignment_configuration(
         "GetCapacityAssignmentConfiguration",
         Dict{String,Any}("CapacityReservationName" => CapacityReservationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_capacity_assignment_configuration(
@@ -918,7 +918,7 @@ function get_capacity_assignment_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -937,7 +937,7 @@ function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=global_aws
         "GetCapacityReservation",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_capacity_reservation(
@@ -947,7 +947,7 @@ function get_capacity_reservation(
         "GetCapacityReservation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -970,7 +970,7 @@ function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config(
         "GetDataCatalog",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_catalog(
@@ -980,7 +980,7 @@ function get_data_catalog(
         "GetDataCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1006,7 +1006,7 @@ function get_database(
         "GetDatabase",
         Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_database(
@@ -1027,7 +1027,7 @@ function get_database(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1047,7 @@ function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_
         "GetNamedQuery",
         Dict{String,Any}("NamedQueryId" => NamedQueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_named_query(
@@ -1061,7 +1061,7 @@ function get_named_query(
             mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1082,7 +1082,7 @@ function get_notebook_metadata(
         "GetNotebookMetadata",
         Dict{String,Any}("NotebookId" => NotebookId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_notebook_metadata(
@@ -1096,7 +1096,7 @@ function get_notebook_metadata(
             mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1118,7 +1118,7 @@ function get_prepared_statement(
         "GetPreparedStatement",
         Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_prepared_statement(
@@ -1139,7 +1139,7 @@ function get_prepared_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1162,7 +1162,7 @@ function get_query_execution(
         "GetQueryExecution",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_execution(
@@ -1178,7 +1178,7 @@ function get_query_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1214,7 +1214,7 @@ function get_query_results(
         "GetQueryResults",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_results(
@@ -1230,7 +1230,7 @@ function get_query_results(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1257,7 +1257,7 @@ function get_query_runtime_statistics(
         "GetQueryRuntimeStatistics",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_runtime_statistics(
@@ -1273,7 +1273,7 @@ function get_query_runtime_statistics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1293,7 +1293,7 @@ function get_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetSession",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session(
@@ -1307,7 +1307,7 @@ function get_session(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1326,7 +1326,7 @@ function get_session_status(SessionId; aws_config::AbstractAWSConfig=global_aws_
         "GetSessionStatus",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session_status(
@@ -1340,7 +1340,7 @@ function get_session_status(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1372,7 +1372,7 @@ function get_table_metadata(
             "TableName" => TableName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_table_metadata(
@@ -1396,7 +1396,7 @@ function get_table_metadata(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1415,7 +1415,7 @@ function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_conf
         "GetWorkGroup",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_work_group(
@@ -1429,7 +1429,7 @@ function get_work_group(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1466,7 +1466,7 @@ function import_notebook(
         "ImportNotebook",
         Dict{String,Any}("Name" => Name, "Type" => Type, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_notebook(
@@ -1486,7 +1486,7 @@ function import_notebook(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1505,7 +1505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_application_dpusizes(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_application_dpusizes(
@@ -1515,7 +1515,7 @@ function list_application_dpusizes(
         "ListApplicationDPUSizes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1551,7 +1551,7 @@ function list_calculation_executions(
         "ListCalculationExecutions",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_calculation_executions(
@@ -1565,7 +1565,7 @@ function list_calculation_executions(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1583,7 +1583,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_capacity_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_capacity_reservations(
@@ -1593,7 +1593,7 @@ function list_capacity_reservations(
         "ListCapacityReservations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1616,14 +1616,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_data_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return athena(
-        "ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1650,7 +1650,7 @@ function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_co
         "ListDatabases",
         Dict{String,Any}("CatalogName" => CatalogName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_databases(
@@ -1664,7 +1664,7 @@ function list_databases(
             mergewith(_merge, Dict{String,Any}("CatalogName" => CatalogName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1684,14 +1684,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return athena(
-        "ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEngineVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1722,7 +1725,7 @@ function list_executors(SessionId; aws_config::AbstractAWSConfig=global_aws_conf
         "ListExecutors",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_executors(
@@ -1736,7 +1739,7 @@ function list_executors(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1759,14 +1762,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_named_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return athena(
-        "ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1793,7 +1796,7 @@ function list_notebook_metadata(
         "ListNotebookMetadata",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_notebook_metadata(
@@ -1807,7 +1810,7 @@ function list_notebook_metadata(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1836,7 +1839,7 @@ function list_notebook_sessions(
         "ListNotebookSessions",
         Dict{String,Any}("NotebookId" => NotebookId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_notebook_sessions(
@@ -1850,7 +1853,7 @@ function list_notebook_sessions(
             mergewith(_merge, Dict{String,Any}("NotebookId" => NotebookId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1877,7 +1880,7 @@ function list_prepared_statements(
         "ListPreparedStatements",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_prepared_statements(
@@ -1891,7 +1894,7 @@ function list_prepared_statements(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1916,7 +1919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_query_executions(
@@ -1926,7 +1929,7 @@ function list_query_executions(
         "ListQueryExecutions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1959,7 +1962,7 @@ function list_sessions(WorkGroup; aws_config::AbstractAWSConfig=global_aws_confi
         "ListSessions",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sessions(
@@ -1973,7 +1976,7 @@ function list_sessions(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2005,7 +2008,7 @@ function list_table_metadata(
         "ListTableMetadata",
         Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_table_metadata(
@@ -2026,7 +2029,7 @@ function list_table_metadata(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2054,7 +2057,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2068,7 +2071,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2086,13 +2089,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return athena(
+        "ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_work_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return athena(
-        "ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2122,7 +2127,7 @@ function put_capacity_assignment_configuration(
             "CapacityReservationName" => CapacityReservationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_capacity_assignment_configuration(
@@ -2144,7 +2149,7 @@ function put_capacity_assignment_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2184,7 +2189,7 @@ function start_calculation_execution(
         "StartCalculationExecution",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_calculation_execution(
@@ -2198,7 +2203,7 @@ function start_calculation_execution(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2247,7 +2252,7 @@ function start_query_execution(
             "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_query_execution(
@@ -2267,7 +2272,7 @@ function start_query_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2309,7 +2314,7 @@ function start_session(
             "EngineConfiguration" => EngineConfiguration, "WorkGroup" => WorkGroup
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_session(
@@ -2330,7 +2335,7 @@ function start_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2356,7 +2361,7 @@ function stop_calculation_execution(
         "StopCalculationExecution",
         Dict{String,Any}("CalculationExecutionId" => CalculationExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_calculation_execution(
@@ -2374,7 +2379,7 @@ function stop_calculation_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2396,7 +2401,7 @@ function stop_query_execution(
         "StopQueryExecution",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_query_execution(
@@ -2412,7 +2417,7 @@ function stop_query_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2442,7 +2447,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2461,7 +2466,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2483,7 +2488,7 @@ function terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_c
         "TerminateSession",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function terminate_session(
@@ -2497,7 +2502,7 @@ function terminate_session(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2520,7 +2525,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2539,7 +2544,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2562,7 +2567,7 @@ function update_capacity_reservation(
         "UpdateCapacityReservation",
         Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_capacity_reservation(
@@ -2579,7 +2584,7 @@ function update_capacity_reservation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2617,7 +2622,7 @@ function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aw
         "UpdateDataCatalog",
         Dict{String,Any}("Name" => Name, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_catalog(
@@ -2632,7 +2637,7 @@ function update_data_catalog(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2660,7 +2665,7 @@ function update_named_query(
             "Name" => Name, "NamedQueryId" => NamedQueryId, "QueryString" => QueryString
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_named_query(
@@ -2684,7 +2689,7 @@ function update_named_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2716,7 +2721,7 @@ function update_notebook(
         "UpdateNotebook",
         Dict{String,Any}("NotebookId" => NotebookId, "Payload" => Payload, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_notebook(
@@ -2738,7 +2743,7 @@ function update_notebook(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2767,7 +2772,7 @@ function update_notebook_metadata(
         "UpdateNotebookMetadata",
         Dict{String,Any}("Name" => Name, "NotebookId" => NotebookId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_notebook_metadata(
@@ -2784,7 +2789,7 @@ function update_notebook_metadata(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2817,7 +2822,7 @@ function update_prepared_statement(
             "WorkGroup" => WorkGroup,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_prepared_statement(
@@ -2841,7 +2846,7 @@ function update_prepared_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2866,7 +2871,7 @@ function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_c
         "UpdateWorkGroup",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_work_group(
@@ -2880,6 +2885,6 @@ function update_work_group(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

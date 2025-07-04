@@ -31,7 +31,7 @@ function accept_reserved_node_exchange(
             "TargetReservedNodeOfferingId" => TargetReservedNodeOfferingId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_reserved_node_exchange(
@@ -53,7 +53,7 @@ function accept_reserved_node_exchange(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -89,7 +89,7 @@ function add_partner(
             "PartnerName" => PartnerName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_partner(
@@ -115,7 +115,7 @@ function add_partner(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -148,7 +148,7 @@ function associate_data_share_consumer(
         "AssociateDataShareConsumer",
         Dict{String,Any}("DataShareArn" => DataShareArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_data_share_consumer(
@@ -162,7 +162,7 @@ function associate_data_share_consumer(
             mergewith(_merge, Dict{String,Any}("DataShareArn" => DataShareArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function authorize_cluster_security_group_ingress(
         "AuthorizeClusterSecurityGroupIngress",
         Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function authorize_cluster_security_group_ingress(
@@ -222,7 +222,7 @@ function authorize_cluster_security_group_ingress(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -254,7 +254,7 @@ function authorize_data_share(
             "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function authorize_data_share(
@@ -276,7 +276,7 @@ function authorize_data_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -301,7 +301,7 @@ function authorize_endpoint_access(
         "AuthorizeEndpointAccess",
         Dict{String,Any}("Account" => Account);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function authorize_endpoint_access(
@@ -311,7 +311,7 @@ function authorize_endpoint_access(
         "AuthorizeEndpointAccess",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -347,7 +347,7 @@ function authorize_snapshot_access(
         "AuthorizeSnapshotAccess",
         Dict{String,Any}("AccountWithRestoreAccess" => AccountWithRestoreAccess);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function authorize_snapshot_access(
@@ -365,7 +365,7 @@ function authorize_snapshot_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -390,7 +390,7 @@ function batch_delete_cluster_snapshots(
         "BatchDeleteClusterSnapshots",
         Dict{String,Any}("DeleteClusterSnapshotMessage" => DeleteClusterSnapshotMessage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_cluster_snapshots(
@@ -410,7 +410,7 @@ function batch_delete_cluster_snapshots(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -442,7 +442,7 @@ function batch_modify_cluster_snapshots(
         "BatchModifyClusterSnapshots",
         Dict{String,Any}("String" => String);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_modify_cluster_snapshots(
@@ -452,7 +452,7 @@ function batch_modify_cluster_snapshots(
         "BatchModifyClusterSnapshots",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("String" => String), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -472,7 +472,7 @@ function cancel_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_a
         "CancelResize",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_resize(
@@ -488,7 +488,7 @@ function cancel_resize(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -536,7 +536,7 @@ function copy_cluster_snapshot(
             "TargetSnapshotIdentifier" => TargetSnapshotIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_cluster_snapshot(
@@ -558,7 +558,7 @@ function copy_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -586,7 +586,7 @@ function create_authentication_profile(
             "AuthenticationProfileName" => AuthenticationProfileName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_authentication_profile(
@@ -608,7 +608,7 @@ function create_authentication_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -782,7 +782,7 @@ function create_cluster(
             "NodeType" => NodeType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster(
@@ -806,7 +806,7 @@ function create_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -855,7 +855,7 @@ function create_cluster_parameter_group(
             "ParameterGroupName" => ParameterGroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster_parameter_group(
@@ -879,7 +879,7 @@ function create_cluster_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -912,7 +912,7 @@ function create_cluster_security_group(
             "Description" => Description,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster_security_group(
@@ -934,7 +934,7 @@ function create_cluster_security_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -971,7 +971,7 @@ function create_cluster_snapshot(
             "SnapshotIdentifier" => SnapshotIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster_snapshot(
@@ -993,7 +993,7 @@ function create_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1035,7 +1035,7 @@ function create_cluster_subnet_group(
             "SubnetIdentifier" => SubnetIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster_subnet_group(
@@ -1059,7 +1059,7 @@ function create_cluster_subnet_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1092,7 +1092,7 @@ function create_custom_domain_association(
             "CustomDomainName" => CustomDomainName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_custom_domain_association(
@@ -1116,7 +1116,7 @@ function create_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1150,7 +1150,7 @@ function create_endpoint_access(
             "EndpointName" => EndpointName, "SubnetGroupName" => SubnetGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_endpoint_access(
@@ -1171,7 +1171,7 @@ function create_endpoint_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1237,7 @@ function create_event_subscription(
             "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_subscription(
@@ -1258,7 +1258,7 @@ function create_event_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1292,7 +1292,7 @@ function create_hsm_client_certificate(
             "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_hsm_client_certificate(
@@ -1312,7 +1312,7 @@ function create_hsm_client_certificate(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1364,7 +1364,7 @@ function create_hsm_configuration(
             "HsmServerPublicCertificate" => HsmServerPublicCertificate,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_hsm_configuration(
@@ -1394,7 +1394,7 @@ function create_hsm_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1440,7 +1440,7 @@ function create_redshift_idc_application(
             "RedshiftIdcApplicationName" => RedshiftIdcApplicationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_redshift_idc_application(
@@ -1466,7 +1466,7 @@ function create_redshift_idc_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1515,7 +1515,7 @@ function create_scheduled_action(
             "TargetAction" => TargetAction,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scheduled_action(
@@ -1541,7 +1541,7 @@ function create_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1574,7 +1574,7 @@ function create_snapshot_copy_grant(
         "CreateSnapshotCopyGrant",
         Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_snapshot_copy_grant(
@@ -1592,7 +1592,7 @@ function create_snapshot_copy_grant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1616,7 +1616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_snapshot_schedule(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "CreateSnapshotSchedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateSnapshotSchedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_snapshot_schedule(
@@ -1626,7 +1626,7 @@ function create_snapshot_schedule(
         "CreateSnapshotSchedule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1661,7 +1661,7 @@ function create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws
         "CreateTags",
         Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_tags(
@@ -1680,7 +1680,7 @@ function create_tags(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1725,7 +1725,7 @@ function create_usage_limit(
             "LimitType" => LimitType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_usage_limit(
@@ -1751,7 +1751,7 @@ function create_usage_limit(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1778,7 +1778,7 @@ function deauthorize_data_share(
             "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deauthorize_data_share(
@@ -1800,7 +1800,7 @@ function deauthorize_data_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1821,7 +1821,7 @@ function delete_authentication_profile(
         "DeleteAuthenticationProfile",
         Dict{String,Any}("AuthenticationProfileName" => AuthenticationProfileName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_authentication_profile(
@@ -1839,7 +1839,7 @@ function delete_authentication_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1889,7 +1889,7 @@ function delete_cluster(
         "DeleteCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster(
@@ -1905,7 +1905,7 @@ function delete_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1929,7 +1929,7 @@ function delete_cluster_parameter_group(
         "DeleteClusterParameterGroup",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster_parameter_group(
@@ -1945,7 +1945,7 @@ function delete_cluster_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1969,7 +1969,7 @@ function delete_cluster_security_group(
         "DeleteClusterSecurityGroup",
         Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster_security_group(
@@ -1987,7 +1987,7 @@ function delete_cluster_security_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2021,7 +2021,7 @@ function delete_cluster_snapshot(
         "DeleteClusterSnapshot",
         Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster_snapshot(
@@ -2037,7 +2037,7 @@ function delete_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2058,7 +2058,7 @@ function delete_cluster_subnet_group(
         "DeleteClusterSubnetGroup",
         Dict{String,Any}("ClusterSubnetGroupName" => ClusterSubnetGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster_subnet_group(
@@ -2076,7 +2076,7 @@ function delete_cluster_subnet_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2101,7 +2101,7 @@ function delete_custom_domain_association(
             "ClusterIdentifier" => ClusterIdentifier, "CustomDomainName" => CustomDomainName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_custom_domain_association(
@@ -2123,7 +2123,7 @@ function delete_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2144,7 +2144,7 @@ function delete_endpoint_access(
         "DeleteEndpointAccess",
         Dict{String,Any}("EndpointName" => EndpointName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_endpoint_access(
@@ -2158,7 +2158,7 @@ function delete_endpoint_access(
             mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2180,7 +2180,7 @@ function delete_event_subscription(
         "DeleteEventSubscription",
         Dict{String,Any}("SubscriptionName" => SubscriptionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_subscription(
@@ -2196,7 +2196,7 @@ function delete_event_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2220,7 +2220,7 @@ function delete_hsm_client_certificate(
             "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_hsm_client_certificate(
@@ -2240,7 +2240,7 @@ function delete_hsm_client_certificate(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2262,7 +2262,7 @@ function delete_hsm_configuration(
         "DeleteHsmConfiguration",
         Dict{String,Any}("HsmConfigurationIdentifier" => HsmConfigurationIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_hsm_configuration(
@@ -2282,7 +2282,7 @@ function delete_hsm_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2317,7 +2317,7 @@ function delete_partner(
             "PartnerName" => PartnerName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_partner(
@@ -2343,7 +2343,7 @@ function delete_partner(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2365,7 +2365,7 @@ function delete_redshift_idc_application(
         "DeleteRedshiftIdcApplication",
         Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_redshift_idc_application(
@@ -2383,7 +2383,7 @@ function delete_redshift_idc_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2405,7 +2405,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -2419,7 +2419,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2440,7 +2440,7 @@ function delete_scheduled_action(
         "DeleteScheduledAction",
         Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scheduled_action(
@@ -2458,7 +2458,7 @@ function delete_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2479,7 +2479,7 @@ function delete_snapshot_copy_grant(
         "DeleteSnapshotCopyGrant",
         Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_snapshot_copy_grant(
@@ -2497,7 +2497,7 @@ function delete_snapshot_copy_grant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2518,7 +2518,7 @@ function delete_snapshot_schedule(
         "DeleteSnapshotSchedule",
         Dict{String,Any}("ScheduleIdentifier" => ScheduleIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_snapshot_schedule(
@@ -2534,7 +2534,7 @@ function delete_snapshot_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2561,7 +2561,7 @@ function delete_tags(
         "DeleteTags",
         Dict{String,Any}("ResourceName" => ResourceName, "TagKey" => TagKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_tags(
@@ -2580,7 +2580,7 @@ function delete_tags(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2599,7 +2599,7 @@ function delete_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_a
         "DeleteUsageLimit",
         Dict{String,Any}("UsageLimitId" => UsageLimitId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_usage_limit(
@@ -2613,7 +2613,7 @@ function delete_usage_limit(
             mergewith(_merge, Dict{String,Any}("UsageLimitId" => UsageLimitId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2629,7 +2629,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAccountAttributes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_attributes(
@@ -2639,7 +2641,7 @@ function describe_account_attributes(
         "DescribeAccountAttributes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2660,7 +2662,7 @@ function describe_authentication_profiles(;
     return redshift(
         "DescribeAuthenticationProfiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_authentication_profiles(
@@ -2670,7 +2672,7 @@ function describe_authentication_profiles(
         "DescribeAuthenticationProfiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2699,7 +2701,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeClusterDbRevisions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusterDbRevisions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_db_revisions(
@@ -2709,7 +2713,7 @@ function describe_cluster_db_revisions(
         "DescribeClusterDbRevisions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2762,7 +2766,7 @@ function describe_cluster_parameter_groups(;
     return redshift(
         "DescribeClusterParameterGroups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_parameter_groups(
@@ -2772,7 +2776,7 @@ function describe_cluster_parameter_groups(
         "DescribeClusterParameterGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2816,7 +2820,7 @@ function describe_cluster_parameters(
         "DescribeClusterParameters",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_parameters(
@@ -2832,7 +2836,7 @@ function describe_cluster_parameters(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2885,7 +2889,7 @@ function describe_cluster_security_groups(;
     return redshift(
         "DescribeClusterSecurityGroups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_security_groups(
@@ -2895,7 +2899,7 @@ function describe_cluster_security_groups(
         "DescribeClusterSecurityGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2968,7 +2972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_cluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_cluster_snapshots(
@@ -2978,7 +2982,7 @@ function describe_cluster_snapshots(
         "DescribeClusterSnapshots",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3025,7 +3029,7 @@ function describe_cluster_subnet_groups(; aws_config::AbstractAWSConfig=global_a
     return redshift(
         "DescribeClusterSubnetGroups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_cluster_subnet_groups(
@@ -3035,7 +3039,7 @@ function describe_cluster_subnet_groups(
         "DescribeClusterSubnetGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3057,7 +3061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_cluster_tracks(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeClusterTracks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusterTracks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_cluster_tracks(
@@ -3067,7 +3071,7 @@ function describe_cluster_tracks(
         "DescribeClusterTracks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3099,7 +3103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_cluster_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeClusterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_cluster_versions(
@@ -3109,7 +3113,7 @@ function describe_cluster_versions(
         "DescribeClusterVersions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3157,14 +3161,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3188,7 +3192,7 @@ function describe_custom_domain_associations(;
     return redshift(
         "DescribeCustomDomainAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_custom_domain_associations(
@@ -3198,7 +3202,7 @@ function describe_custom_domain_associations(
         "DescribeCustomDomainAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3223,14 +3227,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_data_shares(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeDataShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDataShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_data_shares(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
-        "DescribeDataShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDataShares",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3264,7 +3271,7 @@ function describe_data_shares_for_consumer(;
     return redshift(
         "DescribeDataSharesForConsumer";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_shares_for_consumer(
@@ -3274,7 +3281,7 @@ function describe_data_shares_for_consumer(
         "DescribeDataSharesForConsumer",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3307,7 +3314,7 @@ function describe_data_shares_for_producer(;
     return redshift(
         "DescribeDataSharesForProducer";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_shares_for_producer(
@@ -3317,7 +3324,7 @@ function describe_data_shares_for_producer(
         "DescribeDataSharesForProducer",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3352,7 +3359,7 @@ function describe_default_cluster_parameters(
         "DescribeDefaultClusterParameters",
         Dict{String,Any}("ParameterGroupFamily" => ParameterGroupFamily);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_default_cluster_parameters(
@@ -3370,7 +3377,7 @@ function describe_default_cluster_parameters(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3395,7 +3402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_endpoint_access(
@@ -3405,7 +3412,7 @@ function describe_endpoint_access(
         "DescribeEndpointAccess",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3437,7 +3444,7 @@ function describe_endpoint_authorization(;
     return redshift(
         "DescribeEndpointAuthorization";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_endpoint_authorization(
@@ -3447,7 +3454,7 @@ function describe_endpoint_authorization(
         "DescribeEndpointAuthorization",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3467,7 +3474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_event_categories(
@@ -3477,7 +3484,7 @@ function describe_event_categories(
         "DescribeEventCategories",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3522,7 +3529,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEventSubscriptions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_event_subscriptions(
@@ -3532,7 +3541,7 @@ function describe_event_subscriptions(
         "DescribeEventSubscriptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3582,14 +3591,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3640,7 +3649,7 @@ function describe_hsm_client_certificates(;
     return redshift(
         "DescribeHsmClientCertificates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_hsm_client_certificates(
@@ -3650,7 +3659,7 @@ function describe_hsm_client_certificates(
         "DescribeHsmClientCertificates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3697,7 +3706,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_hsm_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeHsmConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeHsmConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_hsm_configurations(
@@ -3707,7 +3718,7 @@ function describe_hsm_configurations(
         "DescribeHsmConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3736,7 +3747,7 @@ function describe_inbound_integrations(; aws_config::AbstractAWSConfig=global_aw
     return redshift(
         "DescribeInboundIntegrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_inbound_integrations(
@@ -3746,7 +3757,7 @@ function describe_inbound_integrations(
         "DescribeInboundIntegrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3769,7 +3780,7 @@ function describe_logging_status(
         "DescribeLoggingStatus",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_logging_status(
@@ -3785,7 +3796,7 @@ function describe_logging_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3832,7 +3843,7 @@ function describe_node_configuration_options(
         "DescribeNodeConfigurationOptions",
         Dict{String,Any}("ActionType" => ActionType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_node_configuration_options(
@@ -3846,7 +3857,7 @@ function describe_node_configuration_options(
             mergewith(_merge, Dict{String,Any}("ActionType" => ActionType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3886,7 +3897,7 @@ function describe_orderable_cluster_options(;
     return redshift(
         "DescribeOrderableClusterOptions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_orderable_cluster_options(
@@ -3896,7 +3907,7 @@ function describe_orderable_cluster_options(
         "DescribeOrderableClusterOptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3927,7 +3938,7 @@ function describe_partners(
             "AccountId" => AccountId, "ClusterIdentifier" => ClusterIdentifier
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_partners(
@@ -3948,7 +3959,7 @@ function describe_partners(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3978,7 +3989,7 @@ function describe_redshift_idc_applications(;
     return redshift(
         "DescribeRedshiftIdcApplications";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_redshift_idc_applications(
@@ -3988,7 +3999,7 @@ function describe_redshift_idc_applications(
         "DescribeRedshiftIdcApplications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4020,7 +4031,7 @@ function describe_reserved_node_exchange_status(;
     return redshift(
         "DescribeReservedNodeExchangeStatus";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_reserved_node_exchange_status(
@@ -4030,7 +4041,7 @@ function describe_reserved_node_exchange_status(
         "DescribeReservedNodeExchangeStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4066,7 +4077,7 @@ function describe_reserved_node_offerings(;
     return redshift(
         "DescribeReservedNodeOfferings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_reserved_node_offerings(
@@ -4076,7 +4087,7 @@ function describe_reserved_node_offerings(
         "DescribeReservedNodeOfferings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4102,7 +4113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_reserved_nodes(
@@ -4112,7 +4123,7 @@ function describe_reserved_nodes(
         "DescribeReservedNodes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4139,7 +4150,7 @@ function describe_resize(
         "DescribeResize",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_resize(
@@ -4155,7 +4166,7 @@ function describe_resize(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4189,7 +4200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_scheduled_actions(
@@ -4199,7 +4210,7 @@ function describe_scheduled_actions(
         "DescribeScheduledActions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4238,7 +4249,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeSnapshotCopyGrants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSnapshotCopyGrants";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_snapshot_copy_grants(
@@ -4248,7 +4261,7 @@ function describe_snapshot_copy_grants(
         "DescribeSnapshotCopyGrants",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4277,7 +4290,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_snapshot_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeSnapshotSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSnapshotSchedules";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_snapshot_schedules(
@@ -4287,7 +4302,7 @@ function describe_snapshot_schedules(
         "DescribeSnapshotSchedules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4300,14 +4315,14 @@ Returns account level backups storage size and provisional storage.
 """
 function describe_storage(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeStorage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeStorage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_storage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
-        "DescribeStorage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeStorage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -4337,7 +4352,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeTableRestoreStatus";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_table_restore_status(
@@ -4347,7 +4364,7 @@ function describe_table_restore_status(
         "DescribeTableRestoreStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4399,13 +4416,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both of these tag values associated with them.
 """
 function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config())
-    return redshift("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return redshift(
+        "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
-        "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -4452,7 +4471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_usage_limits(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "DescribeUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_usage_limits(
@@ -4462,7 +4481,7 @@ function describe_usage_limits(
         "DescribeUsageLimits",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4485,7 +4504,7 @@ function disable_logging(
         "DisableLogging",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_logging(
@@ -4501,7 +4520,7 @@ function disable_logging(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4527,7 +4546,7 @@ function disable_snapshot_copy(
         "DisableSnapshotCopy",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_snapshot_copy(
@@ -4543,7 +4562,7 @@ function disable_snapshot_copy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4573,7 +4592,7 @@ function disassociate_data_share_consumer(
         "DisassociateDataShareConsumer",
         Dict{String,Any}("DataShareArn" => DataShareArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_data_share_consumer(
@@ -4587,7 +4606,7 @@ function disassociate_data_share_consumer(
             mergewith(_merge, Dict{String,Any}("DataShareArn" => DataShareArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4623,7 +4642,7 @@ function enable_logging(
         "EnableLogging",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_logging(
@@ -4639,7 +4658,7 @@ function enable_logging(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4680,7 +4699,7 @@ function enable_snapshot_copy(
             "DestinationRegion" => DestinationRegion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_snapshot_copy(
@@ -4702,7 +4721,7 @@ function enable_snapshot_copy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4725,7 +4744,7 @@ function failover_primary_compute(
         "FailoverPrimaryCompute",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function failover_primary_compute(
@@ -4741,7 +4760,7 @@ function failover_primary_compute(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4810,7 +4829,7 @@ function get_cluster_credentials(DbUser; aws_config::AbstractAWSConfig=global_aw
         "GetClusterCredentials",
         Dict{String,Any}("DbUser" => DbUser);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cluster_credentials(
@@ -4820,7 +4839,7 @@ function get_cluster_credentials(
         "GetClusterCredentials",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("DbUser" => DbUser), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4855,7 +4874,7 @@ function get_cluster_credentials_with_iam(;
     return redshift(
         "GetClusterCredentialsWithIAM";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cluster_credentials_with_iam(
@@ -4865,7 +4884,7 @@ function get_cluster_credentials_with_iam(
         "GetClusterCredentialsWithIAM",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4904,7 +4923,7 @@ function get_reserved_node_exchange_configuration_options(
         "GetReservedNodeExchangeConfigurationOptions",
         Dict{String,Any}("ActionType" => ActionType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_reserved_node_exchange_configuration_options(
@@ -4918,7 +4937,7 @@ function get_reserved_node_exchange_configuration_options(
             mergewith(_merge, Dict{String,Any}("ActionType" => ActionType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4947,7 +4966,7 @@ function get_reserved_node_exchange_offerings(
         "GetReservedNodeExchangeOfferings",
         Dict{String,Any}("ReservedNodeId" => ReservedNodeId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_reserved_node_exchange_offerings(
@@ -4961,7 +4980,7 @@ function get_reserved_node_exchange_offerings(
             mergewith(_merge, Dict{String,Any}("ReservedNodeId" => ReservedNodeId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4981,7 +5000,7 @@ function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_a
         "GetResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -4995,7 +5014,7 @@ function get_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5028,7 +5047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_recommendations(
@@ -5038,7 +5057,7 @@ function list_recommendations(
         "ListRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5064,7 +5083,7 @@ function modify_aqua_configuration(
         "ModifyAquaConfiguration",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_aqua_configuration(
@@ -5080,7 +5099,7 @@ function modify_aqua_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5108,7 +5127,7 @@ function modify_authentication_profile(
             "AuthenticationProfileName" => AuthenticationProfileName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_authentication_profile(
@@ -5130,7 +5149,7 @@ function modify_authentication_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5275,7 +5294,7 @@ function modify_cluster(
         "ModifyCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster(
@@ -5291,7 +5310,7 @@ function modify_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5318,7 +5337,7 @@ function modify_cluster_db_revision(
             "ClusterIdentifier" => ClusterIdentifier, "RevisionTarget" => RevisionTarget
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_db_revision(
@@ -5340,7 +5359,7 @@ function modify_cluster_db_revision(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5373,7 +5392,7 @@ function modify_cluster_iam_roles(
         "ModifyClusterIamRoles",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_iam_roles(
@@ -5389,7 +5408,7 @@ function modify_cluster_iam_roles(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5422,7 +5441,7 @@ function modify_cluster_maintenance(
         "ModifyClusterMaintenance",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_maintenance(
@@ -5438,7 +5457,7 @@ function modify_cluster_maintenance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5475,7 +5494,7 @@ function modify_cluster_parameter_group(
             "Parameter" => Parameter, "ParameterGroupName" => ParameterGroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_parameter_group(
@@ -5496,7 +5515,7 @@ function modify_cluster_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5526,7 +5545,7 @@ function modify_cluster_snapshot(
         "ModifyClusterSnapshot",
         Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_snapshot(
@@ -5542,7 +5561,7 @@ function modify_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5570,7 +5589,7 @@ function modify_cluster_snapshot_schedule(
         "ModifyClusterSnapshotSchedule",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_snapshot_schedule(
@@ -5586,7 +5605,7 @@ function modify_cluster_snapshot_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5620,7 +5639,7 @@ function modify_cluster_subnet_group(
             "SubnetIdentifier" => SubnetIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_cluster_subnet_group(
@@ -5642,7 +5661,7 @@ function modify_cluster_subnet_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5674,7 +5693,7 @@ function modify_custom_domain_association(
             "CustomDomainName" => CustomDomainName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_custom_domain_association(
@@ -5698,7 +5717,7 @@ function modify_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5723,7 +5742,7 @@ function modify_endpoint_access(
         "ModifyEndpointAccess",
         Dict{String,Any}("EndpointName" => EndpointName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_endpoint_access(
@@ -5737,7 +5756,7 @@ function modify_endpoint_access(
             mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5781,7 +5800,7 @@ function modify_event_subscription(
         "ModifyEventSubscription",
         Dict{String,Any}("SubscriptionName" => SubscriptionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_event_subscription(
@@ -5797,7 +5816,7 @@ function modify_event_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5833,7 +5852,7 @@ function modify_redshift_idc_application(
         "ModifyRedshiftIdcApplication",
         Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_redshift_idc_application(
@@ -5851,7 +5870,7 @@ function modify_redshift_idc_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5887,7 +5906,7 @@ function modify_scheduled_action(
         "ModifyScheduledAction",
         Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_scheduled_action(
@@ -5905,7 +5924,7 @@ function modify_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5952,7 +5971,7 @@ function modify_snapshot_copy_retention_period(
             "ClusterIdentifier" => ClusterIdentifier, "RetentionPeriod" => RetentionPeriod
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_snapshot_copy_retention_period(
@@ -5974,7 +5993,7 @@ function modify_snapshot_copy_retention_period(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6007,7 +6026,7 @@ function modify_snapshot_schedule(
             "ScheduleIdentifier" => ScheduleIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_snapshot_schedule(
@@ -6029,7 +6048,7 @@ function modify_snapshot_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6055,7 +6074,7 @@ function modify_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_a
         "ModifyUsageLimit",
         Dict{String,Any}("UsageLimitId" => UsageLimitId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_usage_limit(
@@ -6069,7 +6088,7 @@ function modify_usage_limit(
             mergewith(_merge, Dict{String,Any}("UsageLimitId" => UsageLimitId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6088,7 +6107,7 @@ function pause_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_a
         "PauseCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function pause_cluster(
@@ -6104,7 +6123,7 @@ function pause_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6134,7 +6153,7 @@ function purchase_reserved_node_offering(
         "PurchaseReservedNodeOffering",
         Dict{String,Any}("ReservedNodeOfferingId" => ReservedNodeOfferingId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function purchase_reserved_node_offering(
@@ -6152,7 +6171,7 @@ function purchase_reserved_node_offering(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6175,7 +6194,7 @@ function put_resource_policy(
         "PutResourcePolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -6194,7 +6213,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6219,7 +6238,7 @@ function reboot_cluster(
         "RebootCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reboot_cluster(
@@ -6235,7 +6254,7 @@ function reboot_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6254,7 +6273,7 @@ function reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=global_aw
         "RejectDataShare",
         Dict{String,Any}("DataShareArn" => DataShareArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reject_data_share(
@@ -6268,7 +6287,7 @@ function reject_data_share(
             mergewith(_merge, Dict{String,Any}("DataShareArn" => DataShareArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6299,7 +6318,7 @@ function reset_cluster_parameter_group(
         "ResetClusterParameterGroup",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reset_cluster_parameter_group(
@@ -6315,7 +6334,7 @@ function reset_cluster_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6354,7 +6373,7 @@ function resize_cluster(
         "ResizeCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resize_cluster(
@@ -6370,7 +6389,7 @@ function resize_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6515,7 +6534,7 @@ function restore_from_cluster_snapshot(
         "RestoreFromClusterSnapshot",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_from_cluster_snapshot(
@@ -6531,7 +6550,7 @@ function restore_from_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6590,7 +6609,7 @@ function restore_table_from_cluster_snapshot(
             "SourceTableName" => SourceTableName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_table_from_cluster_snapshot(
@@ -6618,7 +6637,7 @@ function restore_table_from_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6639,7 +6658,7 @@ function resume_cluster(
         "ResumeCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resume_cluster(
@@ -6655,7 +6674,7 @@ function resume_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6693,7 +6712,7 @@ function revoke_cluster_security_group_ingress(
         "RevokeClusterSecurityGroupIngress",
         Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function revoke_cluster_security_group_ingress(
@@ -6711,7 +6730,7 @@ function revoke_cluster_security_group_ingress(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6731,7 +6750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function revoke_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
-        "RevokeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RevokeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function revoke_endpoint_access(
@@ -6741,7 +6760,7 @@ function revoke_endpoint_access(
         "RevokeEndpointAccess",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6775,7 +6794,7 @@ function revoke_snapshot_access(
         "RevokeSnapshotAccess",
         Dict{String,Any}("AccountWithRestoreAccess" => AccountWithRestoreAccess);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function revoke_snapshot_access(
@@ -6793,7 +6812,7 @@ function revoke_snapshot_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6816,7 +6835,7 @@ function rotate_encryption_key(
         "RotateEncryptionKey",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function rotate_encryption_key(
@@ -6832,7 +6851,7 @@ function rotate_encryption_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6873,7 +6892,7 @@ function update_partner_status(
             "Status" => Status,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_partner_status(
@@ -6901,6 +6920,6 @@ function update_partner_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

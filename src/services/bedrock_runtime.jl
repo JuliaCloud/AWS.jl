@@ -59,7 +59,7 @@ function converse(messages, modelId; aws_config::AbstractAWSConfig=global_aws_co
         "/model/$(modelId)/converse",
         Dict{String,Any}("messages" => messages);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function converse(
@@ -75,7 +75,7 @@ function converse(
             mergewith(_merge, Dict{String,Any}("messages" => messages), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -137,7 +137,7 @@ function converse_stream(
         "/model/$(modelId)/converse-stream",
         Dict{String,Any}("messages" => messages);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function converse_stream(
@@ -153,7 +153,7 @@ function converse_stream(
             mergewith(_merge, Dict{String,Any}("messages" => messages), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function invoke_model(body, modelId; aws_config::AbstractAWSConfig=global_aws_co
         "/model/$(modelId)/invoke",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invoke_model(
@@ -218,7 +218,7 @@ function invoke_model(
         "/model/$(modelId)/invoke",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -273,7 +273,7 @@ function invoke_model_with_response_stream(
         "/model/$(modelId)/invoke-with-response-stream",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invoke_model_with_response_stream(
@@ -287,6 +287,6 @@ function invoke_model_with_response_stream(
         "/model/$(modelId)/invoke-with-response-stream",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

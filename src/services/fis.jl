@@ -53,7 +53,7 @@ function create_experiment_template(
             "stopConditions" => stopConditions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_experiment_template(
@@ -82,7 +82,7 @@ function create_experiment_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -114,7 +114,7 @@ function create_target_account_configuration(
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         Dict{String,Any}("roleArn" => roleArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_target_account_configuration(
@@ -135,7 +135,7 @@ function create_target_account_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function delete_experiment_template(id; aws_config::AbstractAWSConfig=global_aws
         "DELETE",
         "/experimentTemplates/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_experiment_template(
@@ -165,7 +165,7 @@ function delete_experiment_template(
         "/experimentTemplates/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -187,7 +187,7 @@ function delete_target_account_configuration(
         "DELETE",
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_target_account_configuration(
@@ -201,7 +201,7 @@ function delete_target_account_configuration(
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,7 +217,7 @@ Gets information about the specified FIS action.
 """
 function get_action(id; aws_config::AbstractAWSConfig=global_aws_config())
     return fis(
-        "GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_action(
@@ -228,7 +228,7 @@ function get_action(
         "/actions/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -244,7 +244,10 @@ Gets information about the specified experiment.
 """
 function get_experiment(id; aws_config::AbstractAWSConfig=global_aws_config())
     return fis(
-        "GET", "/experiments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/experiments/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_experiment(
@@ -255,7 +258,7 @@ function get_experiment(
         "/experiments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -277,7 +280,7 @@ function get_experiment_target_account_configuration(
         "GET",
         "/experiments/$(id)/targetAccountConfigurations/$(accountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_experiment_target_account_configuration(
@@ -291,7 +294,7 @@ function get_experiment_target_account_configuration(
         "/experiments/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -310,7 +313,7 @@ function get_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/experimentTemplates/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_experiment_template(
@@ -321,7 +324,7 @@ function get_experiment_template(
         "/experimentTemplates/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -344,7 +347,7 @@ function get_target_account_configuration(
         "GET",
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_target_account_configuration(
@@ -358,7 +361,7 @@ function get_target_account_configuration(
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -379,7 +382,7 @@ function get_target_resource_type(
         "GET",
         "/targetResourceTypes/$(resourceType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_target_resource_type(
@@ -392,7 +395,7 @@ function get_target_resource_type(
         "/targetResourceTypes/$(resourceType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -409,13 +412,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_actions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fis(
-        "GET", "/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -442,7 +445,7 @@ function list_experiment_resolved_targets(
         "GET",
         "/experiments/$(id)/resolvedTargets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_experiment_resolved_targets(
@@ -453,7 +456,7 @@ function list_experiment_resolved_targets(
         "/experiments/$(id)/resolvedTargets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -477,7 +480,7 @@ function list_experiment_target_account_configurations(
         "GET",
         "/experiments/$(id)/targetAccountConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_experiment_target_account_configurations(
@@ -488,7 +491,7 @@ function list_experiment_target_account_configurations(
         "/experiments/$(id)/targetAccountConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -509,7 +512,7 @@ function list_experiment_templates(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/experimentTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_experiment_templates(
@@ -520,7 +523,7 @@ function list_experiment_templates(
         "/experimentTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -539,7 +542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_experiments(; aws_config::AbstractAWSConfig=global_aws_config())
     return fis(
-        "GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_experiments(
@@ -550,7 +553,7 @@ function list_experiments(
         "/experiments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -571,7 +574,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -584,7 +587,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -610,7 +613,7 @@ function list_target_account_configurations(
         "GET",
         "/experimentTemplates/$(id)/targetAccountConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_target_account_configurations(
@@ -621,7 +624,7 @@ function list_target_account_configurations(
         "/experimentTemplates/$(id)/targetAccountConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -642,7 +645,7 @@ function list_target_resource_types(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/targetResourceTypes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_target_resource_types(
@@ -653,7 +656,7 @@ function list_target_resource_types(
         "/targetResourceTypes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -683,7 +686,7 @@ function start_experiment(
             "clientToken" => clientToken, "experimentTemplateId" => experimentTemplateId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_experiment(
@@ -706,7 +709,7 @@ function start_experiment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -725,7 +728,7 @@ function stop_experiment(id; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/experiments/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_experiment(
@@ -736,7 +739,7 @@ function stop_experiment(
         "/experiments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -757,7 +760,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -771,7 +774,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -793,7 +796,7 @@ function untag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_co
         "DELETE",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -806,7 +809,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -835,7 +838,7 @@ function update_experiment_template(id; aws_config::AbstractAWSConfig=global_aws
         "PATCH",
         "/experimentTemplates/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_experiment_template(
@@ -846,7 +849,7 @@ function update_experiment_template(
         "/experimentTemplates/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -872,7 +875,7 @@ function update_target_account_configuration(
         "PATCH",
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_target_account_configuration(
@@ -886,6 +889,6 @@ function update_target_account_configuration(
         "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

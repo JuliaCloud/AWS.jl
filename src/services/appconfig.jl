@@ -29,7 +29,7 @@ function create_application(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "/applications",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application(
@@ -40,7 +40,7 @@ function create_application(
         "/applications",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -108,7 +108,7 @@ function create_configuration_profile(
         "/applications/$(ApplicationId)/configurationprofiles",
         Dict{String,Any}("LocationUri" => LocationUri, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configuration_profile(
@@ -129,7 +129,7 @@ function create_configuration_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -191,7 +191,7 @@ function create_deployment_strategy(
             "Name" => Name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_deployment_strategy(
@@ -216,7 +216,7 @@ function create_deployment_strategy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -251,7 +251,7 @@ function create_environment(
         "/applications/$(ApplicationId)/environments",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_environment(
@@ -265,7 +265,7 @@ function create_environment(
         "/applications/$(ApplicationId)/environments",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -312,7 +312,7 @@ function create_extension(Actions, Name; aws_config::AbstractAWSConfig=global_aw
         "/extensions",
         Dict{String,Any}("Actions" => Actions, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_extension(
@@ -330,7 +330,7 @@ function create_extension(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -377,7 +377,7 @@ function create_extension_association(
             "ResourceIdentifier" => ResourceIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_extension_association(
@@ -400,7 +400,7 @@ function create_extension_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -443,7 +443,7 @@ function create_hosted_configuration_version(
             "headers" => Dict{String,Any}("Content-Type" => Content_Type),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_hosted_configuration_version(
@@ -468,7 +468,7 @@ function create_hosted_configuration_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -489,7 +489,7 @@ function delete_application(
         "DELETE",
         "/applications/$(ApplicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -502,7 +502,7 @@ function delete_application(
         "/applications/$(ApplicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,7 +526,7 @@ function delete_configuration_profile(
         "DELETE",
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_profile(
@@ -540,7 +540,7 @@ function delete_configuration_profile(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -562,7 +562,7 @@ function delete_deployment_strategy(
         "DELETE",
         "/deployementstrategies/$(DeploymentStrategyId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_deployment_strategy(
@@ -575,7 +575,7 @@ function delete_deployment_strategy(
         "/deployementstrategies/$(DeploymentStrategyId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -598,7 +598,7 @@ function delete_environment(
         "DELETE",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_environment(
@@ -612,7 +612,7 @@ function delete_environment(
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -639,7 +639,7 @@ function delete_extension(
         "DELETE",
         "/extensions/$(ExtensionIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_extension(
@@ -652,7 +652,7 @@ function delete_extension(
         "/extensions/$(ExtensionIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -674,7 +674,7 @@ function delete_extension_association(
         "DELETE",
         "/extensionassociations/$(ExtensionAssociationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_extension_association(
@@ -687,7 +687,7 @@ function delete_extension_association(
         "/extensionassociations/$(ExtensionAssociationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -713,7 +713,7 @@ function delete_hosted_configuration_version(
         "DELETE",
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_hosted_configuration_version(
@@ -728,7 +728,7 @@ function delete_hosted_configuration_version(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -747,7 +747,7 @@ function get_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/applications/$(ApplicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application(
@@ -760,7 +760,7 @@ function get_application(
         "/applications/$(ApplicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -812,7 +812,7 @@ function get_configuration(
         "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)",
         Dict{String,Any}("client_id" => client_id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configuration(
@@ -830,7 +830,7 @@ function get_configuration(
             mergewith(_merge, Dict{String,Any}("client_id" => client_id), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -853,7 +853,7 @@ function get_configuration_profile(
         "GET",
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configuration_profile(
@@ -867,7 +867,7 @@ function get_configuration_profile(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -893,7 +893,7 @@ function get_deployment(
         "GET",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_deployment(
@@ -908,7 +908,7 @@ function get_deployment(
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -933,7 +933,7 @@ function get_deployment_strategy(
         "GET",
         "/deploymentstrategies/$(DeploymentStrategyId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_deployment_strategy(
@@ -946,7 +946,7 @@ function get_deployment_strategy(
         "/deploymentstrategies/$(DeploymentStrategyId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -972,7 +972,7 @@ function get_environment(
         "GET",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_environment(
@@ -986,7 +986,7 @@ function get_environment(
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1012,7 +1012,7 @@ function get_extension(
         "GET",
         "/extensions/$(ExtensionIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_extension(
@@ -1025,7 +1025,7 @@ function get_extension(
         "/extensions/$(ExtensionIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1047,7 @@ function get_extension_association(
         "GET",
         "/extensionassociations/$(ExtensionAssociationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_extension_association(
@@ -1060,7 +1060,7 @@ function get_extension_association(
         "/extensionassociations/$(ExtensionAssociationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1086,7 +1086,7 @@ function get_hosted_configuration_version(
         "GET",
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_hosted_configuration_version(
@@ -1101,7 +1101,7 @@ function get_hosted_configuration_version(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1123,7 +1123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return appconfig(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_applications(
@@ -1134,7 +1134,7 @@ function list_applications(
         "/applications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1162,7 +1162,7 @@ function list_configuration_profiles(
         "GET",
         "/applications/$(ApplicationId)/configurationprofiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_configuration_profiles(
@@ -1175,7 +1175,7 @@ function list_configuration_profiles(
         "/applications/$(ApplicationId)/configurationprofiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1196,7 +1196,7 @@ function list_deployment_strategies(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/deploymentstrategies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_deployment_strategies(
@@ -1207,7 +1207,7 @@ function list_deployment_strategies(
         "/deploymentstrategies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1237,7 @@ function list_deployments(
         "GET",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_deployments(
@@ -1251,7 +1251,7 @@ function list_deployments(
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1275,7 +1275,7 @@ function list_environments(ApplicationId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/applications/$(ApplicationId)/environments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_environments(
@@ -1288,7 +1288,7 @@ function list_environments(
         "/applications/$(ApplicationId)/environments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1316,7 +1316,7 @@ function list_extension_associations(; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/extensionassociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_extension_associations(
@@ -1327,7 +1327,7 @@ function list_extension_associations(
         "/extensionassociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1347,14 +1347,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_extensions(; aws_config::AbstractAWSConfig=global_aws_config())
     return appconfig(
-        "GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_extensions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appconfig(
-        "GET", "/extensions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/extensions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1385,7 +1389,7 @@ function list_hosted_configuration_versions(
         "GET",
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_hosted_configuration_versions(
@@ -1399,7 +1403,7 @@ function list_hosted_configuration_versions(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1420,7 +1424,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1433,7 +1437,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1480,7 +1484,7 @@ function start_deployment(
             "DeploymentStrategyId" => DeploymentStrategyId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_deployment(
@@ -1507,7 +1511,7 @@ function start_deployment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1534,7 +1538,7 @@ function stop_deployment(
         "DELETE",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_deployment(
@@ -1549,7 +1553,7 @@ function stop_deployment(
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1574,7 +1578,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1588,7 +1592,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1611,7 +1615,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1625,7 +1629,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1650,7 +1654,7 @@ function update_application(
         "PATCH",
         "/applications/$(ApplicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application(
@@ -1663,7 +1667,7 @@ function update_application(
         "/applications/$(ApplicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1698,7 +1702,7 @@ function update_configuration_profile(
         "PATCH",
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configuration_profile(
@@ -1712,7 +1716,7 @@ function update_configuration_profile(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1755,7 +1759,7 @@ function update_deployment_strategy(
         "PATCH",
         "/deploymentstrategies/$(DeploymentStrategyId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_deployment_strategy(
@@ -1768,7 +1772,7 @@ function update_deployment_strategy(
         "/deploymentstrategies/$(DeploymentStrategyId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1795,7 +1799,7 @@ function update_environment(
         "PATCH",
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_environment(
@@ -1809,7 +1813,7 @@ function update_environment(
         "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1838,7 +1842,7 @@ function update_extension(
         "PATCH",
         "/extensions/$(ExtensionIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_extension(
@@ -1851,7 +1855,7 @@ function update_extension(
         "/extensions/$(ExtensionIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1876,7 +1880,7 @@ function update_extension_association(
         "PATCH",
         "/extensionassociations/$(ExtensionAssociationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_extension_association(
@@ -1889,7 +1893,7 @@ function update_extension_association(
         "/extensionassociations/$(ExtensionAssociationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1916,7 +1920,7 @@ function validate_configuration(
         "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators",
         Dict{String,Any}("configuration_version" => configuration_version);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_configuration(
@@ -1937,6 +1941,6 @@ function validate_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

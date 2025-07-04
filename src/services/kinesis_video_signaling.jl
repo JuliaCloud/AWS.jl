@@ -39,7 +39,7 @@ function get_ice_server_config(
         "/v1/get-ice-server-config",
         Dict{String,Any}("ChannelARN" => ChannelARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ice_server_config(
@@ -54,7 +54,7 @@ function get_ice_server_config(
             mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -90,7 +90,7 @@ function send_alexa_offer_to_master(
             "SenderClientId" => SenderClientId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_alexa_offer_to_master(
@@ -115,6 +115,6 @@ function send_alexa_offer_to_master(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

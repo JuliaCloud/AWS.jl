@@ -16,14 +16,14 @@ for example.
 """
 function get_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_optimization_hub(
-        "GetPreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetPreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cost_optimization_hub(
-        "GetPreferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetPreferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -47,7 +47,7 @@ function get_recommendation(
         "GetRecommendation",
         Dict{String,Any}("recommendationId" => recommendationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommendation(
@@ -63,7 +63,7 @@ function get_recommendation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_enrollment_statuses(; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_optimization_hub(
-        "ListEnrollmentStatuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEnrollmentStatuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_enrollment_statuses(
@@ -94,7 +94,7 @@ function list_enrollment_statuses(
         "ListEnrollmentStatuses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -122,7 +122,7 @@ function list_recommendation_summaries(
         "ListRecommendationSummaries",
         Dict{String,Any}("groupBy" => groupBy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recommendation_summaries(
@@ -132,7 +132,7 @@ function list_recommendation_summaries(
         "ListRecommendationSummaries",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("groupBy" => groupBy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -153,7 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_optimization_hub(
-        "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_recommendations(
@@ -163,7 +163,7 @@ function list_recommendations(
         "ListRecommendations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -191,7 +191,7 @@ function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_a
         "UpdateEnrollmentStatus",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_enrollment_status(
@@ -201,7 +201,7 @@ function update_enrollment_status(
         "UpdateEnrollmentStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -221,13 +221,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_optimization_hub(
-        "UpdatePreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdatePreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cost_optimization_hub(
-        "UpdatePreferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdatePreferences",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

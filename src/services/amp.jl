@@ -31,7 +31,7 @@ function create_alert_manager_definition(
         "/workspaces/$(workspaceId)/alertmanager/definition",
         Dict{String,Any}("data" => data, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_alert_manager_definition(
@@ -51,7 +51,7 @@ function create_alert_manager_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -80,7 +80,7 @@ function create_logging_configuration(
         "/workspaces/$(workspaceId)/logging",
         Dict{String,Any}("logGroupArn" => logGroupArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_logging_configuration(
@@ -102,7 +102,7 @@ function create_logging_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -136,7 +136,7 @@ function create_rule_groups_namespace(
         "/workspaces/$(workspaceId)/rulegroupsnamespaces",
         Dict{String,Any}("data" => data, "name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_rule_groups_namespace(
@@ -159,7 +159,7 @@ function create_rule_groups_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -212,7 +212,7 @@ function create_scraper(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scraper(
@@ -238,7 +238,7 @@ function create_scraper(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -268,7 +268,7 @@ function create_workspace(; aws_config::AbstractAWSConfig=global_aws_config())
         "/workspaces",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workspace(
@@ -281,7 +281,7 @@ function create_workspace(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -307,7 +307,7 @@ function delete_alert_manager_definition(
         "/workspaces/$(workspaceId)/alertmanager/definition",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_alert_manager_definition(
@@ -322,7 +322,7 @@ function delete_alert_manager_definition(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -348,7 +348,7 @@ function delete_logging_configuration(
         "/workspaces/$(workspaceId)/logging",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_logging_configuration(
@@ -363,7 +363,7 @@ function delete_logging_configuration(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -391,7 +391,7 @@ function delete_rule_groups_namespace(
         "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rule_groups_namespace(
@@ -407,7 +407,7 @@ function delete_rule_groups_namespace(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -432,7 +432,7 @@ function delete_scraper(scraperId; aws_config::AbstractAWSConfig=global_aws_conf
         "/scrapers/$(scraperId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scraper(
@@ -447,7 +447,7 @@ function delete_scraper(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -473,7 +473,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "/workspaces/$(workspaceId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workspace(
@@ -488,7 +488,7 @@ function delete_workspace(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -509,7 +509,7 @@ function describe_alert_manager_definition(
         "GET",
         "/workspaces/$(workspaceId)/alertmanager/definition";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_alert_manager_definition(
@@ -522,7 +522,7 @@ function describe_alert_manager_definition(
         "/workspaces/$(workspaceId)/alertmanager/definition",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -543,7 +543,7 @@ function describe_logging_configuration(
         "GET",
         "/workspaces/$(workspaceId)/logging";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_logging_configuration(
@@ -556,7 +556,7 @@ function describe_logging_configuration(
         "/workspaces/$(workspaceId)/logging",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -579,7 +579,7 @@ function describe_rule_groups_namespace(
         "GET",
         "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_rule_groups_namespace(
@@ -593,7 +593,7 @@ function describe_rule_groups_namespace(
         "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -612,7 +612,7 @@ function describe_scraper(scraperId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/scrapers/$(scraperId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_scraper(
@@ -625,7 +625,7 @@ function describe_scraper(
         "/scrapers/$(scraperId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -644,7 +644,7 @@ function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_workspace(
@@ -657,7 +657,7 @@ function describe_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -676,7 +676,7 @@ function get_default_scraper_configuration(;
         "GET",
         "/scraperconfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_default_scraper_configuration(
@@ -687,7 +687,7 @@ function get_default_scraper_configuration(
         "/scraperconfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -719,7 +719,7 @@ function list_rule_groups_namespaces(
         "GET",
         "/workspaces/$(workspaceId)/rulegroupsnamespaces";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rule_groups_namespaces(
@@ -732,7 +732,7 @@ function list_rule_groups_namespaces(
         "/workspaces/$(workspaceId)/rulegroupsnamespaces",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -761,13 +761,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 function list_scrapers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return amp("GET", "/scrapers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return amp("GET", "/scrapers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_scrapers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return amp(
-        "GET", "/scrapers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/scrapers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -791,7 +791,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -804,7 +804,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -830,13 +830,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken. Using the next token in a subsequent call will return the remaining 2 workspaces.
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return amp("GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return amp(
+        "GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return amp(
-        "GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/workspaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -867,7 +873,7 @@ function put_alert_manager_definition(
         "/workspaces/$(workspaceId)/alertmanager/definition",
         Dict{String,Any}("data" => data, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_alert_manager_definition(
@@ -887,7 +893,7 @@ function put_alert_manager_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -921,7 +927,7 @@ function put_rule_groups_namespace(
         "/workspaces/$(workspaceId)/rulegroupsnamespaces/$(name)",
         Dict{String,Any}("data" => data, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_rule_groups_namespace(
@@ -942,7 +948,7 @@ function put_rule_groups_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -968,7 +974,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -982,7 +988,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1006,7 +1012,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1020,7 +1026,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1048,7 +1054,7 @@ function update_logging_configuration(
         "/workspaces/$(workspaceId)/logging",
         Dict{String,Any}("logGroupArn" => logGroupArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_logging_configuration(
@@ -1070,7 +1076,7 @@ function update_logging_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1099,7 +1105,7 @@ function update_workspace_alias(
         "/workspaces/$(workspaceId)/alias",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workspace_alias(
@@ -1114,6 +1120,6 @@ function update_workspace_alias(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

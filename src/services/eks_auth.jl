@@ -27,7 +27,7 @@ function assume_role_for_pod_identity(
         "/clusters/$(clusterName)/assume-role-for-pod-identity",
         Dict{String,Any}("token" => token);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_role_for_pod_identity(
@@ -41,6 +41,6 @@ function assume_role_for_pod_identity(
         "/clusters/$(clusterName)/assume-role-for-pod-identity",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("token" => token), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

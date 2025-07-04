@@ -33,7 +33,7 @@ function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteAlarms",
         Dict{String,Any}("AlarmNames" => AlarmNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_alarms(
@@ -47,7 +47,7 @@ function delete_alarms(
             mergewith(_merge, Dict{String,Any}("AlarmNames" => AlarmNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -80,7 +80,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "DeleteAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeleteAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_anomaly_detector(
@@ -90,7 +90,7 @@ function delete_anomaly_detector(
         "DeleteAnomalyDetector",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -112,7 +112,7 @@ function delete_dashboards(
         "DeleteDashboards",
         Dict{String,Any}("DashboardNames" => DashboardNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dashboards(
@@ -126,7 +126,7 @@ function delete_dashboards(
             mergewith(_merge, Dict{String,Any}("DashboardNames" => DashboardNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -148,7 +148,7 @@ function delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aw
         "DeleteInsightRules",
         Dict{String,Any}("RuleNames" => RuleNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_insight_rules(
@@ -162,7 +162,7 @@ function delete_insight_rules(
             mergewith(_merge, Dict{String,Any}("RuleNames" => RuleNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function delete_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteMetricStream",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_metric_stream(
@@ -191,7 +191,7 @@ function delete_metric_stream(
         "DeleteMetricStream",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -225,7 +225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_alarm_history(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "DescribeAlarmHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAlarmHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_alarm_history(
@@ -235,7 +235,7 @@ function describe_alarm_history(
         "DescribeAlarmHistory",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -294,14 +294,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_alarms(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "DescribeAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_alarms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
-        "DescribeAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -336,7 +336,7 @@ function describe_alarms_for_metric(
         "DescribeAlarmsForMetric",
         Dict{String,Any}("MetricName" => MetricName, "Namespace" => Namespace);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_alarms_for_metric(
@@ -355,7 +355,7 @@ function describe_alarms_for_metric(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -390,7 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "DescribeAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_anomaly_detectors(
@@ -400,7 +400,7 @@ function describe_anomaly_detectors(
         "DescribeAnomalyDetectors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_insight_rules(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "DescribeInsightRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeInsightRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_insight_rules(
@@ -430,7 +430,7 @@ function describe_insight_rules(
         "DescribeInsightRules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -452,7 +452,7 @@ function disable_alarm_actions(
         "DisableAlarmActions",
         Dict{String,Any}("AlarmNames" => AlarmNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_alarm_actions(
@@ -466,7 +466,7 @@ function disable_alarm_actions(
             mergewith(_merge, Dict{String,Any}("AlarmNames" => AlarmNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -487,7 +487,7 @@ function disable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_a
         "DisableInsightRules",
         Dict{String,Any}("RuleNames" => RuleNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_insight_rules(
@@ -501,7 +501,7 @@ function disable_insight_rules(
             mergewith(_merge, Dict{String,Any}("RuleNames" => RuleNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -520,7 +520,7 @@ function enable_alarm_actions(AlarmNames; aws_config::AbstractAWSConfig=global_a
         "EnableAlarmActions",
         Dict{String,Any}("AlarmNames" => AlarmNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_alarm_actions(
@@ -534,7 +534,7 @@ function enable_alarm_actions(
             mergewith(_merge, Dict{String,Any}("AlarmNames" => AlarmNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -555,7 +555,7 @@ function enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aw
         "EnableInsightRules",
         Dict{String,Any}("RuleNames" => RuleNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_insight_rules(
@@ -569,7 +569,7 @@ function enable_insight_rules(
             mergewith(_merge, Dict{String,Any}("RuleNames" => RuleNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -590,7 +590,7 @@ function get_dashboard(DashboardName; aws_config::AbstractAWSConfig=global_aws_c
         "GetDashboard",
         Dict{String,Any}("DashboardName" => DashboardName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dashboard(
@@ -604,7 +604,7 @@ function get_dashboard(
             mergewith(_merge, Dict{String,Any}("DashboardName" => DashboardName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -671,7 +671,7 @@ function get_insight_rule_report(
             "StartTime" => StartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_insight_rule_report(
@@ -697,7 +697,7 @@ function get_insight_rule_report(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -797,7 +797,7 @@ function get_metric_data(
             "StartTime" => StartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_metric_data(
@@ -821,7 +821,7 @@ function get_metric_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -933,7 +933,7 @@ function get_metric_statistics(
             "StartTime" => StartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_metric_statistics(
@@ -961,7 +961,7 @@ function get_metric_statistics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -980,7 +980,7 @@ function get_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config
         "GetMetricStream",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_metric_stream(
@@ -990,7 +990,7 @@ function get_metric_stream(
         "GetMetricStream",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1038,7 +1038,7 @@ function get_metric_widget_image(
         "GetMetricWidgetImage",
         Dict{String,Any}("MetricWidget" => MetricWidget);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_metric_widget_image(
@@ -1052,7 +1052,7 @@ function get_metric_widget_image(
             mergewith(_merge, Dict{String,Any}("MetricWidget" => MetricWidget), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1076,14 +1076,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_dashboards(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "ListDashboards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDashboards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_dashboards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
-        "ListDashboards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDashboards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1112,7 +1112,7 @@ function list_managed_insight_rules(
         "ListManagedInsightRules",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_managed_insight_rules(
@@ -1126,7 +1126,7 @@ function list_managed_insight_rules(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1144,14 +1144,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_metric_streams(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "ListMetricStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMetricStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_metric_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
-        "ListMetricStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMetricStreams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1193,13 +1196,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with last published data as much as 40 minutes more than the specified time interval.
 """
 function list_metrics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch("ListMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudwatch(
+        "ListMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
-        "ListMetrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMetrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1226,7 +1231,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1240,7 +1245,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1282,14 +1287,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function put_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudwatch(
-        "PutAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PutAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function put_anomaly_detector(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudwatch(
-        "PutAnomalyDetector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PutAnomalyDetector",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1416,7 +1424,7 @@ function put_composite_alarm(
         "PutCompositeAlarm",
         Dict{String,Any}("AlarmName" => AlarmName, "AlarmRule" => AlarmRule);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_composite_alarm(
@@ -1435,7 +1443,7 @@ function put_composite_alarm(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1475,7 +1483,7 @@ function put_dashboard(
             "DashboardBody" => DashboardBody, "DashboardName" => DashboardName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_dashboard(
@@ -1496,7 +1504,7 @@ function put_dashboard(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1534,7 +1542,7 @@ function put_insight_rule(
         "PutInsightRule",
         Dict{String,Any}("RuleDefinition" => RuleDefinition, "RuleName" => RuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_insight_rule(
@@ -1555,7 +1563,7 @@ function put_insight_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1582,7 +1590,7 @@ function put_managed_insight_rules(
         "PutManagedInsightRules",
         Dict{String,Any}("ManagedRules" => ManagedRules);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_managed_insight_rules(
@@ -1596,7 +1604,7 @@ function put_managed_insight_rules(
             mergewith(_merge, Dict{String,Any}("ManagedRules" => ManagedRules), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1814,7 +1822,7 @@ function put_metric_alarm(
             "EvaluationPeriods" => EvaluationPeriods,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_metric_alarm(
@@ -1838,7 +1846,7 @@ function put_metric_alarm(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1890,7 +1898,7 @@ function put_metric_data(
         "PutMetricData",
         Dict{String,Any}("MetricData" => MetricData, "Namespace" => Namespace);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_metric_data(
@@ -1909,7 +1917,7 @@ function put_metric_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1995,7 +2003,7 @@ function put_metric_stream(
             "RoleArn" => RoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_metric_stream(
@@ -2021,7 +2029,7 @@ function put_metric_stream(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2065,7 +2073,7 @@ function set_alarm_state(
             "StateValue" => StateValue,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_alarm_state(
@@ -2089,7 +2097,7 @@ function set_alarm_state(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2110,7 +2118,7 @@ function start_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_co
         "StartMetricStreams",
         Dict{String,Any}("Names" => Names);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_metric_streams(
@@ -2120,7 +2128,7 @@ function start_metric_streams(
         "StartMetricStreams",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2141,7 +2149,7 @@ function stop_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_con
         "StopMetricStreams",
         Dict{String,Any}("Names" => Names);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_metric_streams(
@@ -2151,7 +2159,7 @@ function stop_metric_streams(
         "StopMetricStreams",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2185,7 +2193,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2204,7 +2212,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2231,7 +2239,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2250,6 +2258,6 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

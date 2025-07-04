@@ -48,7 +48,7 @@ function create_audience_model(
         "/audience-model",
         Dict{String,Any}("name" => name, "trainingDatasetArn" => trainingDatasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_audience_model(
@@ -70,7 +70,7 @@ function create_audience_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -141,7 +141,7 @@ function create_configured_audience_model(
             "sharedAudienceMetrics" => sharedAudienceMetrics,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configured_audience_model(
@@ -168,7 +168,7 @@ function create_configured_audience_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -219,7 +219,7 @@ function create_training_dataset(
             "name" => name, "roleArn" => roleArn, "trainingData" => trainingData
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_training_dataset(
@@ -242,7 +242,7 @@ function create_training_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -264,7 +264,7 @@ function delete_audience_generation_job(
         "DELETE",
         "/audience-generation-job/$(audienceGenerationJobArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_audience_generation_job(
@@ -277,7 +277,7 @@ function delete_audience_generation_job(
         "/audience-generation-job/$(audienceGenerationJobArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -300,7 +300,7 @@ function delete_audience_model(
         "DELETE",
         "/audience-model/$(audienceModelArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_audience_model(
@@ -313,7 +313,7 @@ function delete_audience_model(
         "/audience-model/$(audienceModelArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -338,7 +338,7 @@ function delete_configured_audience_model(
         "DELETE",
         "/configured-audience-model/$(configuredAudienceModelArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configured_audience_model(
@@ -351,7 +351,7 @@ function delete_configured_audience_model(
         "/configured-audience-model/$(configuredAudienceModelArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -373,7 +373,7 @@ function delete_configured_audience_model_policy(
         "DELETE",
         "/configured-audience-model/$(configuredAudienceModelArn)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configured_audience_model_policy(
@@ -386,7 +386,7 @@ function delete_configured_audience_model_policy(
         "/configured-audience-model/$(configuredAudienceModelArn)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,7 +411,7 @@ function delete_training_dataset(
         "DELETE",
         "/training-dataset/$(trainingDatasetArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_training_dataset(
@@ -424,7 +424,7 @@ function delete_training_dataset(
         "/training-dataset/$(trainingDatasetArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -446,7 +446,7 @@ function get_audience_generation_job(
         "GET",
         "/audience-generation-job/$(audienceGenerationJobArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_audience_generation_job(
@@ -459,7 +459,7 @@ function get_audience_generation_job(
         "/audience-generation-job/$(audienceGenerationJobArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -481,7 +481,7 @@ function get_audience_model(
         "GET",
         "/audience-model/$(audienceModelArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_audience_model(
@@ -494,7 +494,7 @@ function get_audience_model(
         "/audience-model/$(audienceModelArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -516,7 +516,7 @@ function get_configured_audience_model(
         "GET",
         "/configured-audience-model/$(configuredAudienceModelArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configured_audience_model(
@@ -529,7 +529,7 @@ function get_configured_audience_model(
         "/configured-audience-model/$(configuredAudienceModelArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -551,7 +551,7 @@ function get_configured_audience_model_policy(
         "GET",
         "/configured-audience-model/$(configuredAudienceModelArn)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_configured_audience_model_policy(
@@ -564,7 +564,7 @@ function get_configured_audience_model_policy(
         "/configured-audience-model/$(configuredAudienceModelArn)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -586,7 +586,7 @@ function get_training_dataset(
         "GET",
         "/training-dataset/$(trainingDatasetArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_training_dataset(
@@ -599,7 +599,7 @@ function get_training_dataset(
         "/training-dataset/$(trainingDatasetArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -622,7 +622,7 @@ function list_audience_export_jobs(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/audience-export-job";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_audience_export_jobs(
@@ -633,7 +633,7 @@ function list_audience_export_jobs(
         "/audience-export-job",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -658,7 +658,7 @@ function list_audience_generation_jobs(; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/audience-generation-job";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_audience_generation_jobs(
@@ -669,7 +669,7 @@ function list_audience_generation_jobs(
         "/audience-generation-job",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -687,7 +687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_audience_models(; aws_config::AbstractAWSConfig=global_aws_config())
     return cleanroomsml(
-        "GET", "/audience-model"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/audience-model"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_audience_models(
@@ -698,7 +698,7 @@ function list_audience_models(
         "/audience-model",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -721,7 +721,7 @@ function list_configured_audience_models(;
         "GET",
         "/configured-audience-model";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_configured_audience_models(
@@ -732,7 +732,7 @@ function list_configured_audience_models(
         "/configured-audience-model",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +753,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -766,7 +766,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -784,7 +784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_training_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
     return cleanroomsml(
-        "GET", "/training-dataset"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/training-dataset"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_training_datasets(
@@ -795,7 +795,7 @@ function list_training_datasets(
         "/training-dataset",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -827,7 +827,7 @@ function put_configured_audience_model_policy(
         "/configured-audience-model/$(configuredAudienceModelArn)/policy",
         Dict{String,Any}("configuredAudienceModelPolicy" => configuredAudienceModelPolicy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_configured_audience_model_policy(
@@ -849,7 +849,7 @@ function put_configured_audience_model_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -884,7 +884,7 @@ function start_audience_export_job(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_audience_export_job(
@@ -909,7 +909,7 @@ function start_audience_export_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -962,7 +962,7 @@ function start_audience_generation_job(
             "seedAudience" => seedAudience,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_audience_generation_job(
@@ -987,7 +987,7 @@ function start_audience_generation_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1022,7 +1022,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1036,7 +1036,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1060,7 +1060,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1074,7 +1074,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1108,7 +1108,7 @@ function update_configured_audience_model(
         "PATCH",
         "/configured-audience-model/$(configuredAudienceModelArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configured_audience_model(
@@ -1121,6 +1121,6 @@ function update_configured_audience_model(
         "/configured-audience-model/$(configuredAudienceModelArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -29,7 +29,7 @@ function cancel_legal_hold(
         "/legal-holds/$(legalHoldId)",
         Dict{String,Any}("cancelDescription" => cancelDescription);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_legal_hold(
@@ -47,7 +47,7 @@ function cancel_legal_hold(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -80,7 +80,7 @@ function create_backup_plan(BackupPlan; aws_config::AbstractAWSConfig=global_aws
         "/backup/plans/",
         Dict{String,Any}("BackupPlan" => BackupPlan);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backup_plan(
@@ -95,7 +95,7 @@ function create_backup_plan(
             mergewith(_merge, Dict{String,Any}("BackupPlan" => BackupPlan), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -126,7 +126,7 @@ function create_backup_selection(
         "/backup/plans/$(backupPlanId)/selections/",
         Dict{String,Any}("BackupSelection" => BackupSelection);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backup_selection(
@@ -144,7 +144,7 @@ function create_backup_selection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -180,7 +180,7 @@ function create_backup_vault(
         "PUT",
         "/backup-vaults/$(backupVaultName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backup_vault(
@@ -193,7 +193,7 @@ function create_backup_vault(
         "/backup-vaults/$(backupVaultName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -235,7 +235,7 @@ function create_framework(
             "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_framework(
@@ -259,7 +259,7 @@ function create_framework(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -295,7 +295,7 @@ function create_legal_hold(
         "/legal-holds/",
         Dict{String,Any}("Description" => Description, "Title" => Title);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_legal_hold(
@@ -315,7 +315,7 @@ function create_legal_hold(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -365,7 +365,7 @@ function create_logically_air_gapped_backup_vault(
             "MaxRetentionDays" => MaxRetentionDays, "MinRetentionDays" => MinRetentionDays
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_logically_air_gapped_backup_vault(
@@ -389,7 +389,7 @@ function create_logically_air_gapped_backup_vault(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -440,7 +440,7 @@ function create_report_plan(
             "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_report_plan(
@@ -466,7 +466,7 @@ function create_report_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +505,7 @@ function create_restore_testing_plan(
         "/restore-testing/plans",
         Dict{String,Any}("RestoreTestingPlan" => RestoreTestingPlan);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_restore_testing_plan(
@@ -522,7 +522,7 @@ function create_restore_testing_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -566,7 +566,7 @@ function create_restore_testing_selection(
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections",
         Dict{String,Any}("RestoreTestingSelection" => RestoreTestingSelection);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_restore_testing_selection(
@@ -586,7 +586,7 @@ function create_restore_testing_selection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -607,7 +607,7 @@ function delete_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/backup/plans/$(backupPlanId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup_plan(
@@ -620,7 +620,7 @@ function delete_backup_plan(
         "/backup/plans/$(backupPlanId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -644,7 +644,7 @@ function delete_backup_selection(
         "DELETE",
         "/backup/plans/$(backupPlanId)/selections/$(selectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup_selection(
@@ -658,7 +658,7 @@ function delete_backup_selection(
         "/backup/plans/$(backupPlanId)/selections/$(selectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -682,7 +682,7 @@ function delete_backup_vault(
         "DELETE",
         "/backup-vaults/$(backupVaultName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup_vault(
@@ -695,7 +695,7 @@ function delete_backup_vault(
         "/backup-vaults/$(backupVaultName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -719,7 +719,7 @@ function delete_backup_vault_access_policy(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/access-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup_vault_access_policy(
@@ -732,7 +732,7 @@ function delete_backup_vault_access_policy(
         "/backup-vaults/$(backupVaultName)/access-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -756,7 +756,7 @@ function delete_backup_vault_lock_configuration(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/vault-lock";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup_vault_lock_configuration(
@@ -769,7 +769,7 @@ function delete_backup_vault_lock_configuration(
         "/backup-vaults/$(backupVaultName)/vault-lock",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -792,7 +792,7 @@ function delete_backup_vault_notifications(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/notification-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backup_vault_notifications(
@@ -805,7 +805,7 @@ function delete_backup_vault_notifications(
         "/backup-vaults/$(backupVaultName)/notification-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -824,7 +824,7 @@ function delete_framework(frameworkName; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/audit/frameworks/$(frameworkName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_framework(
@@ -837,7 +837,7 @@ function delete_framework(
         "/audit/frameworks/$(frameworkName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -872,7 +872,7 @@ function delete_recovery_point(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_recovery_point(
@@ -886,7 +886,7 @@ function delete_recovery_point(
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,7 +907,7 @@ function delete_report_plan(
         "DELETE",
         "/audit/report-plans/$(reportPlanName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_report_plan(
@@ -920,7 +920,7 @@ function delete_report_plan(
         "/audit/report-plans/$(reportPlanName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -943,7 +943,7 @@ function delete_restore_testing_plan(
         "DELETE",
         "/restore-testing/plans/$(RestoreTestingPlanName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_restore_testing_plan(
@@ -956,7 +956,7 @@ function delete_restore_testing_plan(
         "/restore-testing/plans/$(RestoreTestingPlanName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -984,7 +984,7 @@ function delete_restore_testing_selection(
         "DELETE",
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_restore_testing_selection(
@@ -998,7 +998,7 @@ function delete_restore_testing_selection(
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1017,7 @@ function describe_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/backup-jobs/$(backupJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_backup_job(
@@ -1030,7 +1030,7 @@ function describe_backup_job(
         "/backup-jobs/$(backupJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1057,7 +1057,7 @@ function describe_backup_vault(
         "GET",
         "/backup-vaults/$(backupVaultName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_backup_vault(
@@ -1070,7 +1070,7 @@ function describe_backup_vault(
         "/backup-vaults/$(backupVaultName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1089,7 +1089,7 @@ function describe_copy_job(copyJobId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/copy-jobs/$(copyJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_copy_job(
@@ -1102,7 +1102,7 @@ function describe_copy_job(
         "/copy-jobs/$(copyJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1123,7 +1123,7 @@ function describe_framework(
         "GET",
         "/audit/frameworks/$(frameworkName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_framework(
@@ -1136,7 +1136,7 @@ function describe_framework(
         "/audit/frameworks/$(frameworkName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1151,7 +1151,7 @@ describe-global-settings --region us-west-2
 """
 function describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_global_settings(
@@ -1162,7 +1162,7 @@ function describe_global_settings(
         "/global-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1185,7 +1185,7 @@ function describe_protected_resource(
         "GET",
         "/resources/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_protected_resource(
@@ -1198,7 +1198,7 @@ function describe_protected_resource(
         "/resources/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1229,7 +1229,7 @@ function describe_recovery_point(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_recovery_point(
@@ -1243,7 +1243,7 @@ function describe_recovery_point(
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1259,7 +1259,7 @@ does not try to protect that service's resources in this Region.
 """
 function describe_region_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_region_settings(
@@ -1270,7 +1270,7 @@ function describe_region_settings(
         "/account-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1290,7 +1290,7 @@ function describe_report_job(reportJobId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/audit/report-jobs/$(reportJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_report_job(
@@ -1303,7 +1303,7 @@ function describe_report_job(
         "/audit/report-jobs/$(reportJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1325,7 +1325,7 @@ function describe_report_plan(
         "GET",
         "/audit/report-plans/$(reportPlanName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_report_plan(
@@ -1338,7 +1338,7 @@ function describe_report_plan(
         "/audit/report-plans/$(reportPlanName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1359,7 +1359,7 @@ function describe_restore_job(
         "GET",
         "/restore-jobs/$(restoreJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_restore_job(
@@ -1372,7 +1372,7 @@ function describe_restore_job(
         "/restore-jobs/$(restoreJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1398,7 +1398,7 @@ function disassociate_recovery_point(
         "POST",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_recovery_point(
@@ -1412,7 +1412,7 @@ function disassociate_recovery_point(
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1440,7 +1440,7 @@ function disassociate_recovery_point_from_parent(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/parentAssociation";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_recovery_point_from_parent(
@@ -1454,7 +1454,7 @@ function disassociate_recovery_point_from_parent(
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/parentAssociation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1475,7 +1475,7 @@ function export_backup_plan_template(
         "GET",
         "/backup/plans/$(backupPlanId)/toTemplate/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_backup_plan_template(
@@ -1488,7 +1488,7 @@ function export_backup_plan_template(
         "/backup/plans/$(backupPlanId)/toTemplate/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1512,7 +1512,7 @@ function get_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/backup/plans/$(backupPlanId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backup_plan(
@@ -1525,7 +1525,7 @@ function get_backup_plan(
         "/backup/plans/$(backupPlanId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1547,7 +1547,7 @@ function get_backup_plan_from_json(
         "/backup/template/json/toPlan",
         Dict{String,Any}("BackupPlanTemplateJson" => BackupPlanTemplateJson);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backup_plan_from_json(
@@ -1566,7 +1566,7 @@ function get_backup_plan_from_json(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1587,7 +1587,7 @@ function get_backup_plan_from_template(
         "GET",
         "/backup/template/plans/$(templateId)/toPlan";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backup_plan_from_template(
@@ -1600,7 +1600,7 @@ function get_backup_plan_from_template(
         "/backup/template/plans/$(templateId)/toPlan",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1624,7 +1624,7 @@ function get_backup_selection(
         "GET",
         "/backup/plans/$(backupPlanId)/selections/$(selectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backup_selection(
@@ -1638,7 +1638,7 @@ function get_backup_selection(
         "/backup/plans/$(backupPlanId)/selections/$(selectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1662,7 +1662,7 @@ function get_backup_vault_access_policy(
         "GET",
         "/backup-vaults/$(backupVaultName)/access-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backup_vault_access_policy(
@@ -1675,7 +1675,7 @@ function get_backup_vault_access_policy(
         "/backup-vaults/$(backupVaultName)/access-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1699,7 +1699,7 @@ function get_backup_vault_notifications(
         "GET",
         "/backup-vaults/$(backupVaultName)/notification-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backup_vault_notifications(
@@ -1712,7 +1712,7 @@ function get_backup_vault_notifications(
         "/backup-vaults/$(backupVaultName)/notification-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1733,7 +1733,7 @@ function get_legal_hold(legalHoldId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/legal-holds/$(legalHoldId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_legal_hold(
@@ -1746,7 +1746,7 @@ function get_legal_hold(
         "/legal-holds/$(legalHoldId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1776,7 +1776,7 @@ function get_recovery_point_restore_metadata(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recovery_point_restore_metadata(
@@ -1790,7 +1790,7 @@ function get_recovery_point_restore_metadata(
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1811,7 +1811,7 @@ function get_restore_job_metadata(
         "GET",
         "/restore-jobs/$(restoreJobId)/metadata";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_restore_job_metadata(
@@ -1824,7 +1824,7 @@ function get_restore_job_metadata(
         "/restore-jobs/$(restoreJobId)/metadata",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1859,7 +1859,7 @@ function get_restore_testing_inferred_metadata(
             "BackupVaultName" => BackupVaultName, "RecoveryPointArn" => RecoveryPointArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_restore_testing_inferred_metadata(
@@ -1882,7 +1882,7 @@ function get_restore_testing_inferred_metadata(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1904,7 +1904,7 @@ function get_restore_testing_plan(
         "GET",
         "/restore-testing/plans/$(RestoreTestingPlanName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_restore_testing_plan(
@@ -1917,7 +1917,7 @@ function get_restore_testing_plan(
         "/restore-testing/plans/$(RestoreTestingPlanName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1942,7 +1942,7 @@ function get_restore_testing_selection(
         "GET",
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_restore_testing_selection(
@@ -1956,7 +1956,7 @@ function get_restore_testing_selection(
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1972,7 +1972,7 @@ function get_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/supported-resource-types";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_supported_resource_types(
@@ -1983,7 +1983,7 @@ function get_supported_resource_types(
         "/supported-resource-types",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2041,7 +2041,7 @@ function list_backup_job_summaries(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/audit/backup-job-summaries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_backup_job_summaries(
@@ -2052,7 +2052,7 @@ function list_backup_job_summaries(
         "/audit/backup-job-summaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2107,7 +2107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/backup-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/backup-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_backup_jobs(
@@ -2118,7 +2118,7 @@ function list_backup_jobs(
         "/backup-jobs/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2141,7 +2141,7 @@ function list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/backup/template/plans";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_backup_plan_templates(
@@ -2152,7 +2152,7 @@ function list_backup_plan_templates(
         "/backup/template/plans",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2180,7 +2180,7 @@ function list_backup_plan_versions(
         "GET",
         "/backup/plans/$(backupPlanId)/versions/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_backup_plan_versions(
@@ -2193,7 +2193,7 @@ function list_backup_plan_versions(
         "/backup/plans/$(backupPlanId)/versions/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2216,7 +2216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/backup/plans/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/backup/plans/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_backup_plans(
@@ -2227,7 +2227,7 @@ function list_backup_plans(
         "/backup/plans/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2255,7 +2255,7 @@ function list_backup_selections(
         "GET",
         "/backup/plans/$(backupPlanId)/selections/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_backup_selections(
@@ -2268,7 +2268,7 @@ function list_backup_selections(
         "/backup/plans/$(backupPlanId)/selections/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2289,7 +2289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/backup-vaults/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/backup-vaults/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_backup_vaults(
@@ -2300,7 +2300,7 @@ function list_backup_vaults(
         "/backup-vaults/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2350,7 +2350,7 @@ function list_copy_job_summaries(; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/audit/copy-job-summaries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_copy_job_summaries(
@@ -2361,7 +2361,7 @@ function list_copy_job_summaries(
         "/audit/copy-job-summaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2408,14 +2408,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/copy-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/copy-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_copy_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return backup(
-        "GET", "/copy-jobs/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/copy-jobs/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2435,7 +2439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_frameworks(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/audit/frameworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/audit/frameworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_frameworks(
@@ -2446,7 +2450,7 @@ function list_frameworks(
         "/audit/frameworks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2465,7 +2469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_legal_holds(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/legal-holds/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/legal-holds/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_legal_holds(
@@ -2476,7 +2480,7 @@ function list_legal_holds(
         "/legal-holds/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2496,14 +2500,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/resources/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/resources/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_protected_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return backup(
-        "GET", "/resources/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/resources/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2533,7 +2541,7 @@ function list_protected_resources_by_backup_vault(
         "GET",
         "/backup-vaults/$(backupVaultName)/resources/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_protected_resources_by_backup_vault(
@@ -2546,7 +2554,7 @@ function list_protected_resources_by_backup_vault(
         "/backup-vaults/$(backupVaultName)/resources/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2596,7 +2604,7 @@ function list_recovery_points_by_backup_vault(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recovery_points_by_backup_vault(
@@ -2609,7 +2617,7 @@ function list_recovery_points_by_backup_vault(
         "/backup-vaults/$(backupVaultName)/recovery-points/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2636,7 +2644,7 @@ function list_recovery_points_by_legal_hold(
         "GET",
         "/legal-holds/$(legalHoldId)/recovery-points";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recovery_points_by_legal_hold(
@@ -2649,7 +2657,7 @@ function list_recovery_points_by_legal_hold(
         "/legal-holds/$(legalHoldId)/recovery-points",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2684,7 +2692,7 @@ function list_recovery_points_by_resource(
         "GET",
         "/resources/$(resourceArn)/recovery-points/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recovery_points_by_resource(
@@ -2697,7 +2705,7 @@ function list_recovery_points_by_resource(
         "/resources/$(resourceArn)/recovery-points/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2725,7 +2733,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_report_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/audit/report-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/audit/report-jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_report_jobs(
@@ -2736,7 +2747,7 @@ function list_report_jobs(
         "/audit/report-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2756,7 +2767,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_report_plans(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/audit/report-plans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/audit/report-plans";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_report_plans(
@@ -2767,7 +2781,7 @@ function list_report_plans(
         "/audit/report-plans",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2813,7 +2827,7 @@ function list_restore_job_summaries(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/audit/restore-job-summaries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_restore_job_summaries(
@@ -2824,7 +2838,7 @@ function list_restore_job_summaries(
         "/audit/restore-job-summaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2863,7 +2877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "GET", "/restore-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/restore-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_restore_jobs(
@@ -2874,7 +2888,7 @@ function list_restore_jobs(
         "/restore-jobs/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2909,7 +2923,7 @@ function list_restore_jobs_by_protected_resource(
         "GET",
         "/resources/$(resourceArn)/restore-jobs/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_restore_jobs_by_protected_resource(
@@ -2922,7 +2936,7 @@ function list_restore_jobs_by_protected_resource(
         "/resources/$(resourceArn)/restore-jobs/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2944,7 +2958,7 @@ function list_restore_testing_plans(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/restore-testing/plans";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_restore_testing_plans(
@@ -2955,7 +2969,7 @@ function list_restore_testing_plans(
         "/restore-testing/plans",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2984,7 +2998,7 @@ function list_restore_testing_selections(
         "GET",
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_restore_testing_selections(
@@ -2997,7 +3011,7 @@ function list_restore_testing_selections(
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3027,7 +3041,7 @@ function list_tags(resourceArn; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/tags/$(resourceArn)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags(
@@ -3040,7 +3054,7 @@ function list_tags(
         "/tags/$(resourceArn)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3068,7 +3082,7 @@ function put_backup_vault_access_policy(
         "PUT",
         "/backup-vaults/$(backupVaultName)/access-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_backup_vault_access_policy(
@@ -3081,7 +3095,7 @@ function put_backup_vault_access_policy(
         "/backup-vaults/$(backupVaultName)/access-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3147,7 +3161,7 @@ function put_backup_vault_lock_configuration(
         "PUT",
         "/backup-vaults/$(backupVaultName)/vault-lock";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_backup_vault_lock_configuration(
@@ -3160,7 +3174,7 @@ function put_backup_vault_lock_configuration(
         "/backup-vaults/$(backupVaultName)/vault-lock",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3201,7 +3215,7 @@ function put_backup_vault_notifications(
             "BackupVaultEvents" => BackupVaultEvents, "SNSTopicArn" => SNSTopicArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_backup_vault_notifications(
@@ -3224,7 +3238,7 @@ function put_backup_vault_notifications(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3253,7 +3267,7 @@ function put_restore_validation_result(
         "/restore-jobs/$(restoreJobId)/validations",
         Dict{String,Any}("ValidationStatus" => ValidationStatus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_restore_validation_result(
@@ -3271,7 +3285,7 @@ function put_restore_validation_result(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3344,7 +3358,7 @@ function start_backup_job(
             "ResourceArn" => ResourceArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_backup_job(
@@ -3369,7 +3383,7 @@ function start_backup_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3418,7 +3432,7 @@ function start_copy_job(
             "SourceBackupVaultName" => SourceBackupVaultName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_copy_job(
@@ -3445,7 +3459,7 @@ function start_copy_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3470,7 +3484,7 @@ function start_report_job(reportPlanName; aws_config::AbstractAWSConfig=global_a
         "/audit/report-jobs/$(reportPlanName)",
         Dict{String,Any}("IdempotencyToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_report_job(
@@ -3487,7 +3501,7 @@ function start_report_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3547,7 +3561,7 @@ function start_restore_job(
         "/restore-jobs",
         Dict{String,Any}("Metadata" => Metadata, "RecoveryPointArn" => RecoveryPointArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_restore_job(
@@ -3569,7 +3583,7 @@ function start_restore_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3591,7 +3605,7 @@ function stop_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/backup-jobs/$(backupJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_backup_job(
@@ -3604,7 +3618,7 @@ function stop_backup_job(
         "/backup-jobs/$(backupJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3629,7 +3643,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3643,7 +3657,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3668,7 +3682,7 @@ function untag_resource(
         "/untag/$(resourceArn)",
         Dict{String,Any}("TagKeyList" => TagKeyList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3684,7 +3698,7 @@ function untag_resource(
             mergewith(_merge, Dict{String,Any}("TagKeyList" => TagKeyList), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3709,7 +3723,7 @@ function update_backup_plan(
         "/backup/plans/$(backupPlanId)",
         Dict{String,Any}("BackupPlan" => BackupPlan);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_backup_plan(
@@ -3725,7 +3739,7 @@ function update_backup_plan(
             mergewith(_merge, Dict{String,Any}("BackupPlan" => BackupPlan), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3757,7 +3771,7 @@ function update_framework(frameworkName; aws_config::AbstractAWSConfig=global_aw
         "/audit/frameworks/$(frameworkName)",
         Dict{String,Any}("IdempotencyToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_framework(
@@ -3774,7 +3788,7 @@ function update_framework(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3794,7 +3808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "PUT", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_global_settings(
@@ -3805,7 +3819,7 @@ function update_global_settings(
         "/global-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3849,7 +3863,7 @@ function update_recovery_point_lifecycle(
         "POST",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_recovery_point_lifecycle(
@@ -3863,7 +3877,7 @@ function update_recovery_point_lifecycle(
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3890,7 +3904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
-        "PUT", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_region_settings(
@@ -3901,7 +3915,7 @@ function update_region_settings(
         "/account-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3941,7 +3955,7 @@ function update_report_plan(
         "/audit/report-plans/$(reportPlanName)",
         Dict{String,Any}("IdempotencyToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_report_plan(
@@ -3958,7 +3972,7 @@ function update_report_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3986,7 +4000,7 @@ function update_restore_testing_plan(
         "/restore-testing/plans/$(RestoreTestingPlanName)",
         Dict{String,Any}("RestoreTestingPlan" => RestoreTestingPlan);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_restore_testing_plan(
@@ -4004,7 +4018,7 @@ function update_restore_testing_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4039,7 +4053,7 @@ function update_restore_testing_selection(
         "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
         Dict{String,Any}("RestoreTestingSelection" => RestoreTestingSelection);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_restore_testing_selection(
@@ -4060,6 +4074,6 @@ function update_restore_testing_selection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

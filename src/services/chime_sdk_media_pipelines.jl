@@ -44,7 +44,7 @@ function create_media_capture_pipeline(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_capture_pipeline(
@@ -72,7 +72,7 @@ function create_media_capture_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -102,7 +102,7 @@ function create_media_concatenation_pipeline(
             "Sinks" => Sinks, "Sources" => Sources, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_concatenation_pipeline(
@@ -126,7 +126,7 @@ function create_media_concatenation_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -165,7 +165,7 @@ function create_media_insights_pipeline(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_insights_pipeline(
@@ -188,7 +188,7 @@ function create_media_insights_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -232,7 +232,7 @@ function create_media_insights_pipeline_configuration(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_insights_pipeline_configuration(
@@ -259,7 +259,7 @@ function create_media_insights_pipeline_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -288,7 +288,7 @@ function create_media_live_connector_pipeline(
             "Sinks" => Sinks, "Sources" => Sources, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_live_connector_pipeline(
@@ -312,7 +312,7 @@ function create_media_live_connector_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -343,7 +343,7 @@ function create_media_pipeline_kinesis_video_stream_pool(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_pipeline_kinesis_video_stream_pool(
@@ -367,7 +367,7 @@ function create_media_pipeline_kinesis_video_stream_pool(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -396,7 +396,7 @@ function create_media_stream_pipeline(
             "Sinks" => Sinks, "Sources" => Sources, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_media_stream_pipeline(
@@ -420,7 +420,7 @@ function create_media_stream_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -441,7 +441,7 @@ function delete_media_capture_pipeline(
         "DELETE",
         "/sdk-media-capture-pipelines/$(mediaPipelineId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_media_capture_pipeline(
@@ -454,7 +454,7 @@ function delete_media_capture_pipeline(
         "/sdk-media-capture-pipelines/$(mediaPipelineId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -476,7 +476,7 @@ function delete_media_insights_pipeline_configuration(
         "DELETE",
         "/media-insights-pipeline-configurations/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_media_insights_pipeline_configuration(
@@ -489,7 +489,7 @@ function delete_media_insights_pipeline_configuration(
         "/media-insights-pipeline-configurations/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -510,7 +510,7 @@ function delete_media_pipeline(
         "DELETE",
         "/sdk-media-pipelines/$(mediaPipelineId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_media_pipeline(
@@ -523,7 +523,7 @@ function delete_media_pipeline(
         "/sdk-media-pipelines/$(mediaPipelineId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -544,7 +544,7 @@ function delete_media_pipeline_kinesis_video_stream_pool(
         "DELETE",
         "/media-pipeline-kinesis-video-stream-pools/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_media_pipeline_kinesis_video_stream_pool(
@@ -557,7 +557,7 @@ function delete_media_pipeline_kinesis_video_stream_pool(
         "/media-pipeline-kinesis-video-stream-pools/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -578,7 +578,7 @@ function get_media_capture_pipeline(
         "GET",
         "/sdk-media-capture-pipelines/$(mediaPipelineId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_media_capture_pipeline(
@@ -591,7 +591,7 @@ function get_media_capture_pipeline(
         "/sdk-media-capture-pipelines/$(mediaPipelineId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -613,7 +613,7 @@ function get_media_insights_pipeline_configuration(
         "GET",
         "/media-insights-pipeline-configurations/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_media_insights_pipeline_configuration(
@@ -626,7 +626,7 @@ function get_media_insights_pipeline_configuration(
         "/media-insights-pipeline-configurations/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -647,7 +647,7 @@ function get_media_pipeline(
         "GET",
         "/sdk-media-pipelines/$(mediaPipelineId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_media_pipeline(
@@ -660,7 +660,7 @@ function get_media_pipeline(
         "/sdk-media-pipelines/$(mediaPipelineId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +681,7 @@ function get_media_pipeline_kinesis_video_stream_pool(
         "GET",
         "/media-pipeline-kinesis-video-stream-pools/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_media_pipeline_kinesis_video_stream_pool(
@@ -694,7 +694,7 @@ function get_media_pipeline_kinesis_video_stream_pool(
         "/media-pipeline-kinesis-video-stream-pools/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -717,7 +717,7 @@ function get_speaker_search_task(
         "GET",
         "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_speaker_search_task(
@@ -731,7 +731,7 @@ function get_speaker_search_task(
         "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -754,7 +754,7 @@ function get_voice_tone_analysis_task(
         "GET",
         "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_tone_analysis_task(
@@ -768,7 +768,7 @@ function get_voice_tone_analysis_task(
         "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -789,7 +789,7 @@ function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/sdk-media-capture-pipelines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_media_capture_pipelines(
@@ -800,7 +800,7 @@ function list_media_capture_pipelines(
         "/sdk-media-capture-pipelines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -822,7 +822,7 @@ function list_media_insights_pipeline_configurations(;
         "GET",
         "/media-insights-pipeline-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_media_insights_pipeline_configurations(
@@ -833,7 +833,7 @@ function list_media_insights_pipeline_configurations(
         "/media-insights-pipeline-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -855,7 +855,7 @@ function list_media_pipeline_kinesis_video_stream_pools(;
         "GET",
         "/media-pipeline-kinesis-video-stream-pools";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_media_pipeline_kinesis_video_stream_pools(
@@ -866,7 +866,7 @@ function list_media_pipeline_kinesis_video_stream_pools(
         "/media-pipeline-kinesis-video-stream-pools",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -887,7 +887,7 @@ function list_media_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/sdk-media-pipelines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_media_pipelines(
@@ -898,7 +898,7 @@ function list_media_pipelines(
         "/sdk-media-pipelines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -919,7 +919,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
         "/tags",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -930,7 +930,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -966,7 +966,7 @@ function start_speaker_search_task(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_speaker_search_task(
@@ -989,7 +989,7 @@ function start_speaker_search_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1025,7 +1025,7 @@ function start_voice_tone_analysis_task(
             "LanguageCode" => LanguageCode, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_voice_tone_analysis_task(
@@ -1047,7 +1047,7 @@ function start_voice_tone_analysis_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1070,7 +1070,7 @@ function stop_speaker_search_task(
         "POST",
         "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)?operation=stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_speaker_search_task(
@@ -1084,7 +1084,7 @@ function stop_speaker_search_task(
         "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)?operation=stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1107,7 +1107,7 @@ function stop_voice_tone_analysis_task(
         "POST",
         "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)?operation=stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_voice_tone_analysis_task(
@@ -1121,7 +1121,7 @@ function stop_voice_tone_analysis_task(
         "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)?operation=stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1144,7 +1144,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags?operation=tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1164,7 +1164,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1187,7 +1187,7 @@ function untag_resource(
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1207,7 +1207,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1243,7 +1243,7 @@ function update_media_insights_pipeline_configuration(
             "Elements" => Elements, "ResourceAccessRoleArn" => ResourceAccessRoleArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_media_insights_pipeline_configuration(
@@ -1266,7 +1266,7 @@ function update_media_insights_pipeline_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1290,7 +1290,7 @@ function update_media_insights_pipeline_status(
         "/media-insights-pipeline-status/$(identifier)",
         Dict{String,Any}("UpdateStatus" => UpdateStatus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_media_insights_pipeline_status(
@@ -1306,7 +1306,7 @@ function update_media_insights_pipeline_status(
             mergewith(_merge, Dict{String,Any}("UpdateStatus" => UpdateStatus), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1330,7 +1330,7 @@ function update_media_pipeline_kinesis_video_stream_pool(
         "PUT",
         "/media-pipeline-kinesis-video-stream-pools/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_media_pipeline_kinesis_video_stream_pool(
@@ -1343,6 +1343,6 @@ function update_media_pipeline_kinesis_video_stream_pool(
         "/media-pipeline-kinesis-video-stream-pools/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -24,7 +24,7 @@ function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config(
         "CloseTunnel",
         Dict{String,Any}("tunnelId" => tunnelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function close_tunnel(
@@ -38,7 +38,7 @@ function close_tunnel(
             mergewith(_merge, Dict{String,Any}("tunnelId" => tunnelId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -58,7 +58,7 @@ function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeTunnel",
         Dict{String,Any}("tunnelId" => tunnelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_tunnel(
@@ -72,7 +72,7 @@ function describe_tunnel(
             mergewith(_merge, Dict{String,Any}("tunnelId" => tunnelId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -93,7 +93,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -107,7 +107,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -128,14 +128,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsecuretunneling(
-        "ListTunnels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTunnels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_tunnels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsecuretunneling(
-        "ListTunnels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTunnels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -155,14 +155,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsecuretunneling(
-        "OpenTunnel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "OpenTunnel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function open_tunnel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsecuretunneling(
-        "OpenTunnel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "OpenTunnel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -193,7 +193,7 @@ function rotate_tunnel_access_token(
         "RotateTunnelAccessToken",
         Dict{String,Any}("clientMode" => clientMode, "tunnelId" => tunnelId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function rotate_tunnel_access_token(
@@ -212,7 +212,7 @@ function rotate_tunnel_access_token(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -232,7 +232,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -251,7 +251,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -273,7 +273,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -292,6 +292,6 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -46,7 +46,7 @@ function copy_cluster_snapshot(
         "/cluster-snapshot/$(snapshotArn)/copy",
         Dict{String,Any}("targetSnapshotName" => targetSnapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_cluster_snapshot(
@@ -64,7 +64,7 @@ function copy_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -140,7 +140,7 @@ function create_cluster(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster(
@@ -172,7 +172,7 @@ function create_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -199,7 +199,7 @@ function create_cluster_snapshot(
         "/cluster-snapshot",
         Dict{String,Any}("clusterArn" => clusterArn, "snapshotName" => snapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster_snapshot(
@@ -221,7 +221,7 @@ function create_cluster_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -240,7 +240,7 @@ function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/cluster/$(clusterArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster(
@@ -253,7 +253,7 @@ function delete_cluster(
         "/cluster/$(clusterArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -274,7 +274,7 @@ function delete_cluster_snapshot(
         "DELETE",
         "/cluster-snapshot/$(snapshotArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster_snapshot(
@@ -287,7 +287,7 @@ function delete_cluster_snapshot(
         "/cluster-snapshot/$(snapshotArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -306,7 +306,7 @@ function get_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/cluster/$(clusterArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cluster(
@@ -319,7 +319,7 @@ function get_cluster(
         "/cluster/$(clusterArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -340,7 +340,7 @@ function get_cluster_snapshot(
         "GET",
         "/cluster-snapshot/$(snapshotArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cluster_snapshot(
@@ -353,7 +353,7 @@ function get_cluster_snapshot(
         "/cluster-snapshot/$(snapshotArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -379,7 +379,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_cluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
     return docdb_elastic(
-        "GET", "/cluster-snapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/cluster-snapshots";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_cluster_snapshots(
@@ -390,7 +393,7 @@ function list_cluster_snapshots(
         "/cluster-snapshots",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,14 +414,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return docdb_elastic(
-        "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return docdb_elastic(
-        "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -439,7 +442,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -452,7 +455,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -495,7 +498,7 @@ function restore_cluster_from_snapshot(
         "/cluster-snapshot/$(snapshotArn)/restore",
         Dict{String,Any}("clusterName" => clusterName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_cluster_from_snapshot(
@@ -511,7 +514,7 @@ function restore_cluster_from_snapshot(
             mergewith(_merge, Dict{String,Any}("clusterName" => clusterName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -530,7 +533,7 @@ function start_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/cluster/$(clusterArn)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_cluster(
@@ -543,7 +546,7 @@ function start_cluster(
         "/cluster/$(clusterArn)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -563,7 +566,7 @@ function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/cluster/$(clusterArn)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_cluster(
@@ -576,7 +579,7 @@ function stop_cluster(
         "/cluster/$(clusterArn)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -597,7 +600,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -611,7 +614,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -634,7 +637,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -648,7 +651,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -695,7 +698,7 @@ function update_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_con
         "/cluster/$(clusterArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cluster(
@@ -710,6 +713,6 @@ function update_cluster(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

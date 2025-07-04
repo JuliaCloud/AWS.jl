@@ -39,7 +39,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function batch_get_secret_value(; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
-        "BatchGetSecretValue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "BatchGetSecretValue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function batch_get_secret_value(
@@ -49,7 +49,7 @@ function batch_get_secret_value(
         "BatchGetSecretValue",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -81,7 +81,7 @@ function cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws
         "CancelRotateSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_rotate_secret(
@@ -95,7 +95,7 @@ function cancel_rotate_secret(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -212,7 +212,7 @@ function create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateSecret",
         Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_secret(
@@ -228,7 +228,7 @@ function create_secret(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -255,7 +255,7 @@ function delete_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_a
         "DeleteResourcePolicy",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -269,7 +269,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -330,7 +330,7 @@ function delete_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_secret(
@@ -344,7 +344,7 @@ function delete_secret(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -370,7 +370,7 @@ function describe_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_secret(
@@ -384,7 +384,7 @@ function describe_secret(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -422,14 +422,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_random_password(; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
-        "GetRandomPassword"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetRandomPassword"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_random_password(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return secrets_manager(
-        "GetRandomPassword", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetRandomPassword",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -456,7 +459,7 @@ function get_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_
         "GetResourcePolicy",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -470,7 +473,7 @@ function get_resource_policy(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -516,7 +519,7 @@ function get_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_con
         "GetSecretValue",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_secret_value(
@@ -530,7 +533,7 @@ function get_secret_value(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -572,7 +575,7 @@ function list_secret_version_ids(
         "ListSecretVersionIds",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_secret_version_ids(
@@ -586,7 +589,7 @@ function list_secret_version_ids(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -623,14 +626,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_secrets(; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
-        "ListSecrets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSecrets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_secrets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return secrets_manager(
-        "ListSecrets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSecrets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -674,7 +677,7 @@ function put_resource_policy(
         "PutResourcePolicy",
         Dict{String,Any}("ResourcePolicy" => ResourcePolicy, "SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -695,7 +698,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -784,7 +787,7 @@ function put_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_con
         "PutSecretValue",
         Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_secret_value(
@@ -804,7 +807,7 @@ function put_secret_value(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -834,7 +837,7 @@ function remove_regions_from_replication(
             "RemoveReplicaRegions" => RemoveReplicaRegions, "SecretId" => SecretId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_regions_from_replication(
@@ -855,7 +858,7 @@ function remove_regions_from_replication(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -889,7 +892,7 @@ function replicate_secret_to_regions(
         "ReplicateSecretToRegions",
         Dict{String,Any}("AddReplicaRegions" => AddReplicaRegions, "SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function replicate_secret_to_regions(
@@ -910,7 +913,7 @@ function replicate_secret_to_regions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -936,7 +939,7 @@ function restore_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_confi
         "RestoreSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_secret(
@@ -950,7 +953,7 @@ function restore_secret(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1011,7 +1014,7 @@ function rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config
         "RotateSecret",
         Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function rotate_secret(
@@ -1031,7 +1034,7 @@ function rotate_secret(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1059,7 +1062,7 @@ function stop_replication_to_replica(
         "StopReplicationToReplica",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_replication_to_replica(
@@ -1073,7 +1076,7 @@ function stop_replication_to_replica(
             mergewith(_merge, Dict{String,Any}("SecretId" => SecretId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1111,7 +1114,7 @@ function tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=global_aws_c
         "TagResource",
         Dict{String,Any}("SecretId" => SecretId, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1128,7 +1131,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1164,7 +1167,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("SecretId" => SecretId, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1183,7 +1186,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1271,7 +1274,7 @@ function update_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config
         "UpdateSecret",
         Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_secret(
@@ -1291,7 +1294,7 @@ function update_secret(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1342,7 +1345,7 @@ function update_secret_version_stage(
         "UpdateSecretVersionStage",
         Dict{String,Any}("SecretId" => SecretId, "VersionStage" => VersionStage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_secret_version_stage(
@@ -1361,7 +1364,7 @@ function update_secret_version_stage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1398,7 +1401,7 @@ function validate_resource_policy(
         "ValidateResourcePolicy",
         Dict{String,Any}("ResourcePolicy" => ResourcePolicy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_resource_policy(
@@ -1412,6 +1415,6 @@ function validate_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourcePolicy" => ResourcePolicy), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

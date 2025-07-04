@@ -37,7 +37,7 @@ function create_snapshot(
         "/createsnapshot",
         Dict{String,Any}("Destination" => Destination, "Simulation" => Simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_snapshot(
@@ -57,7 +57,7 @@ function create_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -81,7 +81,7 @@ function delete_app(
         "/deleteapp",
         Dict{String,Any}("app" => app, "domain" => domain, "simulation" => simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app(
@@ -104,7 +104,7 @@ function delete_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -126,7 +126,7 @@ function delete_simulation(simulation; aws_config::AbstractAWSConfig=global_aws_
         "/deletesimulation",
         Dict{String,Any}("simulation" => simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_simulation(
@@ -141,7 +141,7 @@ function delete_simulation(
             mergewith(_merge, Dict{String,Any}("simulation" => simulation), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -165,7 +165,7 @@ function describe_app(
         "/describeapp",
         Dict{String,Any}("app" => app, "domain" => domain, "simulation" => simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app(
@@ -188,7 +188,7 @@ function describe_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -208,7 +208,7 @@ function describe_simulation(simulation; aws_config::AbstractAWSConfig=global_aw
         "/describesimulation",
         Dict{String,Any}("simulation" => simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_simulation(
@@ -223,7 +223,7 @@ function describe_simulation(
             mergewith(_merge, Dict{String,Any}("simulation" => simulation), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -253,7 +253,7 @@ function list_apps(simulation; aws_config::AbstractAWSConfig=global_aws_config()
         "/listapps",
         Dict{String,Any}("simulation" => simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_apps(
@@ -268,7 +268,7 @@ function list_apps(
             mergewith(_merge, Dict{String,Any}("simulation" => simulation), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -291,7 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_simulations(; aws_config::AbstractAWSConfig=global_aws_config())
     return simspaceweaver(
-        "GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_simulations(
@@ -302,7 +302,7 @@ function list_simulations(
         "/listsimulations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -324,7 +324,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -337,7 +337,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -373,7 +373,7 @@ function start_app(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_app(
@@ -399,7 +399,7 @@ function start_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -419,7 +419,7 @@ function start_clock(Simulation; aws_config::AbstractAWSConfig=global_aws_config
         "/startclock",
         Dict{String,Any}("Simulation" => Simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_clock(
@@ -434,7 +434,7 @@ function start_clock(
             mergewith(_merge, Dict{String,Any}("Simulation" => Simulation), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -485,7 +485,7 @@ function start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=global_aw
             "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_simulation(
@@ -507,7 +507,7 @@ function start_simulation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -531,7 +531,7 @@ function stop_app(
         "/stopapp",
         Dict{String,Any}("App" => App, "Domain" => Domain, "Simulation" => Simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_app(
@@ -554,7 +554,7 @@ function stop_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -574,7 +574,7 @@ function stop_clock(Simulation; aws_config::AbstractAWSConfig=global_aws_config(
         "/stopclock",
         Dict{String,Any}("Simulation" => Simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_clock(
@@ -589,7 +589,7 @@ function stop_clock(
             mergewith(_merge, Dict{String,Any}("Simulation" => Simulation), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -610,7 +610,7 @@ function stop_simulation(Simulation; aws_config::AbstractAWSConfig=global_aws_co
         "/stopsimulation",
         Dict{String,Any}("Simulation" => Simulation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_simulation(
@@ -625,7 +625,7 @@ function stop_simulation(
             mergewith(_merge, Dict{String,Any}("Simulation" => Simulation), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -649,7 +649,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -663,7 +663,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -689,7 +689,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -703,6 +703,6 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

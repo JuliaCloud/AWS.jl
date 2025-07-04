@@ -21,7 +21,7 @@ function associate_api(apiId, domainName; aws_config::AbstractAWSConfig=global_a
         "/v1/domainnames/$(domainName)/apiassociation",
         Dict{String,Any}("apiId" => apiId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_api(
@@ -35,7 +35,7 @@ function associate_api(
         "/v1/domainnames/$(domainName)/apiassociation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("apiId" => apiId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -71,7 +71,7 @@ function associate_merged_graphql_api(
         "/v1/sourceApis/$(sourceApiIdentifier)/mergedApiAssociations",
         Dict{String,Any}("mergedApiIdentifier" => mergedApiIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_merged_graphql_api(
@@ -91,7 +91,7 @@ function associate_merged_graphql_api(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -127,7 +127,7 @@ function associate_source_graphql_api(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations",
         Dict{String,Any}("sourceApiIdentifier" => sourceApiIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_source_graphql_api(
@@ -147,7 +147,7 @@ function associate_source_graphql_api(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -195,7 +195,7 @@ function create_api_cache(
             "apiCachingBehavior" => apiCachingBehavior, "ttl" => ttl, "type" => type
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_api_cache(
@@ -219,7 +219,7 @@ function create_api_cache(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -244,7 +244,7 @@ function create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config()
         "POST",
         "/v1/apis/$(apiId)/apikeys";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_api_key(
@@ -255,7 +255,7 @@ function create_api_key(
         "/v1/apis/$(apiId)/apikeys",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +299,7 @@ function create_data_source(
         "/v1/apis/$(apiId)/datasources",
         Dict{String,Any}("name" => name, "type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_source(
@@ -316,7 +316,7 @@ function create_data_source(
             mergewith(_merge, Dict{String,Any}("name" => name, "type" => type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -344,7 +344,7 @@ function create_domain_name(
         "/v1/domainnames",
         Dict{String,Any}("certificateArn" => certificateArn, "domainName" => domainName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain_name(
@@ -366,7 +366,7 @@ function create_domain_name(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -405,7 +405,7 @@ function create_function(
         "/v1/apis/$(apiId)/functions",
         Dict{String,Any}("dataSourceName" => dataSourceName, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_function(
@@ -426,7 +426,7 @@ function create_function(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -488,7 +488,7 @@ function create_graphql_api(
         "/v1/apis",
         Dict{String,Any}("authenticationType" => authenticationType, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_graphql_api(
@@ -510,7 +510,7 @@ function create_graphql_api(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -562,7 +562,7 @@ function create_resolver(
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers",
         Dict{String,Any}("fieldName" => fieldName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_resolver(
@@ -579,7 +579,7 @@ function create_resolver(
             mergewith(_merge, Dict{String,Any}("fieldName" => fieldName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -604,7 +604,7 @@ function create_type(
         "/v1/apis/$(apiId)/types",
         Dict{String,Any}("definition" => definition, "format" => format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_type(
@@ -625,7 +625,7 @@ function create_type(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -644,7 +644,7 @@ function delete_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config
         "DELETE",
         "/v1/apis/$(apiId)/ApiCaches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_api_cache(
@@ -655,7 +655,7 @@ function delete_api_cache(
         "/v1/apis/$(apiId)/ApiCaches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -675,7 +675,7 @@ function delete_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/v1/apis/$(apiId)/apikeys/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_api_key(
@@ -689,7 +689,7 @@ function delete_api_key(
         "/v1/apis/$(apiId)/apikeys/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -709,7 +709,7 @@ function delete_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/v1/apis/$(apiId)/datasources/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_source(
@@ -723,7 +723,7 @@ function delete_data_source(
         "/v1/apis/$(apiId)/datasources/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -742,7 +742,7 @@ function delete_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws
         "DELETE",
         "/v1/domainnames/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain_name(
@@ -755,7 +755,7 @@ function delete_domain_name(
         "/v1/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -777,7 +777,7 @@ function delete_function(
         "DELETE",
         "/v1/apis/$(apiId)/functions/$(functionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_function(
@@ -791,7 +791,7 @@ function delete_function(
         "/v1/apis/$(apiId)/functions/$(functionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -810,7 +810,7 @@ function delete_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/v1/apis/$(apiId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_graphql_api(
@@ -821,7 +821,7 @@ function delete_graphql_api(
         "/v1/apis/$(apiId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -844,7 +844,7 @@ function delete_resolver(
         "DELETE",
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resolver(
@@ -859,7 +859,7 @@ function delete_resolver(
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +879,7 @@ function delete_type(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_c
         "DELETE",
         "/v1/apis/$(apiId)/types/$(typeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_type(
@@ -893,7 +893,7 @@ function delete_type(
         "/v1/apis/$(apiId)/types/$(typeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -912,7 +912,7 @@ function disassociate_api(domainName; aws_config::AbstractAWSConfig=global_aws_c
         "DELETE",
         "/v1/domainnames/$(domainName)/apiassociation";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_api(
@@ -925,7 +925,7 @@ function disassociate_api(
         "/v1/domainnames/$(domainName)/apiassociation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -951,7 +951,7 @@ function disassociate_merged_graphql_api(
         "DELETE",
         "/v1/sourceApis/$(sourceApiIdentifier)/mergedApiAssociations/$(associationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_merged_graphql_api(
@@ -965,7 +965,7 @@ function disassociate_merged_graphql_api(
         "/v1/sourceApis/$(sourceApiIdentifier)/mergedApiAssociations/$(associationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -991,7 +991,7 @@ function disassociate_source_graphql_api(
         "DELETE",
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_source_graphql_api(
@@ -1005,7 +1005,7 @@ function disassociate_source_graphql_api(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1041,7 +1041,7 @@ function evaluate_code(
         "/v1/dataplane-evaluatecode",
         Dict{String,Any}("code" => code, "context" => context, "runtime" => runtime);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function evaluate_code(
@@ -1064,7 +1064,7 @@ function evaluate_code(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function evaluate_mapping_template(
         "/v1/dataplane-evaluatetemplate",
         Dict{String,Any}("context" => context, "template" => template);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function evaluate_mapping_template(
@@ -1114,7 +1114,7 @@ function evaluate_mapping_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1133,7 +1133,7 @@ function flush_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config(
         "DELETE",
         "/v1/apis/$(apiId)/FlushCache";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function flush_api_cache(
@@ -1144,7 +1144,7 @@ function flush_api_cache(
         "/v1/apis/$(apiId)/FlushCache",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1163,7 +1163,7 @@ function get_api_association(domainName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/domainnames/$(domainName)/apiassociation";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_api_association(
@@ -1176,7 +1176,7 @@ function get_api_association(
         "/v1/domainnames/$(domainName)/apiassociation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1195,7 +1195,7 @@ function get_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/v1/apis/$(apiId)/ApiCaches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_api_cache(
@@ -1206,7 +1206,7 @@ function get_api_cache(
         "/v1/apis/$(apiId)/ApiCaches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1226,7 +1226,7 @@ function get_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/apis/$(apiId)/datasources/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_source(
@@ -1240,7 +1240,7 @@ function get_data_source(
         "/v1/apis/$(apiId)/datasources/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1274,7 +1274,7 @@ function get_data_source_introspection(
         "GET",
         "/v1/datasources/introspections/$(introspectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_source_introspection(
@@ -1287,7 +1287,7 @@ function get_data_source_introspection(
         "/v1/datasources/introspections/$(introspectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1306,7 +1306,7 @@ function get_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/v1/domainnames/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_domain_name(
@@ -1319,7 +1319,7 @@ function get_domain_name(
         "/v1/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1339,7 +1339,7 @@ function get_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apis/$(apiId)/functions/$(functionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function(
@@ -1353,7 +1353,7 @@ function get_function(
         "/v1/apis/$(apiId)/functions/$(functionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1369,7 +1369,7 @@ Retrieves a GraphqlApi object.
 """
 function get_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
-        "GET", "/v1/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_graphql_api(
@@ -1380,7 +1380,7 @@ function get_graphql_api(
         "/v1/apis/$(apiId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1402,7 +1402,7 @@ function get_graphql_api_environment_variables(
         "GET",
         "/v1/apis/$(apiId)/environmentVariables";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_graphql_api_environment_variables(
@@ -1413,7 +1413,7 @@ function get_graphql_api_environment_variables(
         "/v1/apis/$(apiId)/environmentVariables",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1440,7 +1440,7 @@ function get_introspection_schema(
         "/v1/apis/$(apiId)/schema",
         Dict{String,Any}("format" => format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_introspection_schema(
@@ -1454,7 +1454,7 @@ function get_introspection_schema(
         "/v1/apis/$(apiId)/schema",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1477,7 +1477,7 @@ function get_resolver(
         "GET",
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resolver(
@@ -1492,7 +1492,7 @@ function get_resolver(
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1513,7 +1513,7 @@ function get_schema_creation_status(
         "GET",
         "/v1/apis/$(apiId)/schemacreation";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_schema_creation_status(
@@ -1524,7 +1524,7 @@ function get_schema_creation_status(
         "/v1/apis/$(apiId)/schemacreation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1549,7 +1549,7 @@ function get_source_api_association(
         "GET",
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_source_api_association(
@@ -1563,7 +1563,7 @@ function get_source_api_association(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1587,7 +1587,7 @@ function get_type(
         "/v1/apis/$(apiId)/types/$(typeName)",
         Dict{String,Any}("format" => format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_type(
@@ -1602,7 +1602,7 @@ function get_type(
         "/v1/apis/$(apiId)/types/$(typeName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1629,7 +1629,7 @@ function list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/v1/apis/$(apiId)/apikeys";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_api_keys(
@@ -1640,7 +1640,7 @@ function list_api_keys(
         "/v1/apis/$(apiId)/apikeys",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1664,7 +1664,7 @@ function list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/v1/apis/$(apiId)/datasources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_sources(
@@ -1675,7 +1675,7 @@ function list_data_sources(
         "/v1/apis/$(apiId)/datasources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1693,7 +1693,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
-        "GET", "/v1/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_domain_names(
@@ -1704,7 +1704,7 @@ function list_domain_names(
         "/v1/domainnames",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1728,7 +1728,7 @@ function list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config()
         "GET",
         "/v1/apis/$(apiId)/functions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_functions(
@@ -1739,7 +1739,7 @@ function list_functions(
         "/v1/apis/$(apiId)/functions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1760,14 +1760,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config())
     return appsync(
-        "GET", "/v1/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_graphql_apis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appsync(
-        "GET", "/v1/apis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/apis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1792,7 +1792,7 @@ function list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resolvers(
@@ -1806,7 +1806,7 @@ function list_resolvers(
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1833,7 +1833,7 @@ function list_resolvers_by_function(
         "GET",
         "/v1/apis/$(apiId)/functions/$(functionId)/resolvers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resolvers_by_function(
@@ -1847,7 +1847,7 @@ function list_resolvers_by_function(
         "/v1/apis/$(apiId)/functions/$(functionId)/resolvers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1873,7 +1873,7 @@ function list_source_api_associations(
         "GET",
         "/v1/apis/$(apiId)/sourceApiAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_source_api_associations(
@@ -1884,7 +1884,7 @@ function list_source_api_associations(
         "/v1/apis/$(apiId)/sourceApiAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1905,7 +1905,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1918,7 +1918,7 @@ function list_tags_for_resource(
         "/v1/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1944,7 +1944,7 @@ function list_types(apiId, format; aws_config::AbstractAWSConfig=global_aws_conf
         "/v1/apis/$(apiId)/types",
         Dict{String,Any}("format" => format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_types(
@@ -1958,7 +1958,7 @@ function list_types(
         "/v1/apis/$(apiId)/types",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1993,7 +1993,7 @@ function list_types_by_association(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)/types",
         Dict{String,Any}("format" => format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_types_by_association(
@@ -2008,7 +2008,7 @@ function list_types_by_association(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)/types",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2057,7 +2057,7 @@ function put_graphql_api_environment_variables(
         "/v1/apis/$(apiId)/environmentVariables",
         Dict{String,Any}("environmentVariables" => environmentVariables);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_graphql_api_environment_variables(
@@ -2077,7 +2077,7 @@ function put_graphql_api_environment_variables(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2099,7 +2099,7 @@ function start_data_source_introspection(;
         "POST",
         "/v1/datasources/introspections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_data_source_introspection(
@@ -2110,7 +2110,7 @@ function start_data_source_introspection(
         "/v1/datasources/introspections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2134,7 +2134,7 @@ function start_schema_creation(
         "/v1/apis/$(apiId)/schemacreation",
         Dict{String,Any}("definition" => definition);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_schema_creation(
@@ -2150,7 +2150,7 @@ function start_schema_creation(
             mergewith(_merge, Dict{String,Any}("definition" => definition), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2175,7 +2175,7 @@ function start_schema_merge(
         "POST",
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)/merge";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_schema_merge(
@@ -2189,7 +2189,7 @@ function start_schema_merge(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)/merge",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2210,7 +2210,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2224,7 +2224,7 @@ function tag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2247,7 +2247,7 @@ function untag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2261,7 +2261,7 @@ function untag_resource(
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2305,7 +2305,7 @@ function update_api_cache(
             "apiCachingBehavior" => apiCachingBehavior, "ttl" => ttl, "type" => type
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_api_cache(
@@ -2329,7 +2329,7 @@ function update_api_cache(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2354,7 +2354,7 @@ function update_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/v1/apis/$(apiId)/apikeys/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_api_key(
@@ -2368,7 +2368,7 @@ function update_api_key(
         "/v1/apis/$(apiId)/apikeys/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2411,7 +2411,7 @@ function update_data_source(
         "/v1/apis/$(apiId)/datasources/$(name)",
         Dict{String,Any}("type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_source(
@@ -2426,7 +2426,7 @@ function update_data_source(
         "/v1/apis/$(apiId)/datasources/$(name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2448,7 +2448,7 @@ function update_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/v1/domainnames/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_domain_name(
@@ -2461,7 +2461,7 @@ function update_domain_name(
         "/v1/domainnames/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2504,7 +2504,7 @@ function update_function(
         "/v1/apis/$(apiId)/functions/$(functionId)",
         Dict{String,Any}("dataSourceName" => dataSourceName, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_function(
@@ -2526,7 +2526,7 @@ function update_function(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2583,7 +2583,7 @@ function update_graphql_api(
         "/v1/apis/$(apiId)",
         Dict{String,Any}("authenticationType" => authenticationType, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_graphql_api(
@@ -2606,7 +2606,7 @@ function update_graphql_api(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2655,7 +2655,7 @@ function update_resolver(
         "POST",
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_resolver(
@@ -2670,7 +2670,7 @@ function update_resolver(
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2699,7 +2699,7 @@ function update_source_api_association(
         "POST",
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_source_api_association(
@@ -2713,7 +2713,7 @@ function update_source_api_association(
         "/v1/mergedApis/$(mergedApiIdentifier)/sourceApiAssociations/$(associationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2740,7 +2740,7 @@ function update_type(
         "/v1/apis/$(apiId)/types/$(typeName)",
         Dict{String,Any}("format" => format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_type(
@@ -2755,6 +2755,6 @@ function update_type(
         "/v1/apis/$(apiId)/types/$(typeName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

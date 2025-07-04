@@ -24,7 +24,7 @@ function associate_app_block_builder_app_block(
             "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_app_block_builder_app_block(
@@ -46,7 +46,7 @@ function associate_app_block_builder_app_block(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -69,7 +69,7 @@ function associate_application_fleet(
         "AssociateApplicationFleet",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_application_fleet(
@@ -90,7 +90,7 @@ function associate_application_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -120,7 +120,7 @@ function associate_application_to_entitlement(
             "StackName" => StackName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_application_to_entitlement(
@@ -144,7 +144,7 @@ function associate_application_to_entitlement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -166,7 +166,7 @@ function associate_fleet(
         "AssociateFleet",
         Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_fleet(
@@ -185,7 +185,7 @@ function associate_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -207,7 +207,7 @@ function batch_associate_user_stack(
         "BatchAssociateUserStack",
         Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_associate_user_stack(
@@ -225,7 +225,7 @@ function batch_associate_user_stack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -246,7 +246,7 @@ function batch_disassociate_user_stack(
         "BatchDisassociateUserStack",
         Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_disassociate_user_stack(
@@ -264,7 +264,7 @@ function batch_disassociate_user_stack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -301,7 +301,7 @@ function copy_image(
             "SourceImageName" => SourceImageName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_image(
@@ -325,7 +325,7 @@ function copy_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -362,7 +362,7 @@ function create_app_block(
         "CreateAppBlock",
         Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_block(
@@ -381,7 +381,7 @@ function create_app_block(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -439,7 +439,7 @@ function create_app_block_builder(
             "VpcConfig" => VpcConfig,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_block_builder(
@@ -465,7 +465,7 @@ function create_app_block_builder(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -490,7 +490,7 @@ function create_app_block_builder_streaming_url(
         "CreateAppBlockBuilderStreamingURL",
         Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_block_builder_streaming_url(
@@ -508,7 +508,7 @@ function create_app_block_builder_streaming_url(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -563,7 +563,7 @@ function create_application(
             "Platforms" => Platforms,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application(
@@ -593,7 +593,7 @@ function create_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -636,7 +636,7 @@ function create_directory_config(
             "OrganizationalUnitDistinguishedNames" => OrganizationalUnitDistinguishedNames,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_directory_config(
@@ -659,7 +659,7 @@ function create_directory_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -699,7 +699,7 @@ function create_entitlement(
             "StackName" => StackName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_entitlement(
@@ -725,7 +725,7 @@ function create_entitlement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -837,7 +837,7 @@ function create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=global_a
         "CreateFleet",
         Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -856,7 +856,7 @@ function create_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -920,7 +920,7 @@ function create_image_builder(
         "CreateImageBuilder",
         Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_image_builder(
@@ -939,7 +939,7 @@ function create_image_builder(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -964,7 +964,7 @@ function create_image_builder_streaming_url(
         "CreateImageBuilderStreamingURL",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_image_builder_streaming_url(
@@ -974,7 +974,7 @@ function create_image_builder_streaming_url(
         "CreateImageBuilderStreamingURL",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1020,7 +1020,7 @@ function create_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateStack",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_stack(
@@ -1030,7 +1030,7 @@ function create_stack(
         "CreateStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1066,7 +1066,7 @@ function create_streaming_url(
             "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_streaming_url(
@@ -1088,7 +1088,7 @@ function create_streaming_url(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1131,7 +1131,7 @@ function create_updated_image(
             "existingImageName" => existingImageName, "newImageName" => newImageName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_updated_image(
@@ -1152,7 +1152,7 @@ function create_updated_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,7 +1169,7 @@ function create_usage_report_subscription(;
     return appstream(
         "CreateUsageReportSubscription";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_usage_report_subscription(
@@ -1179,7 +1179,7 @@ function create_usage_report_subscription(
         "CreateUsageReportSubscription",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1216,7 +1216,7 @@ function create_user(
             "AuthenticationType" => AuthenticationType, "UserName" => UserName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user(
@@ -1237,7 +1237,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1256,7 +1256,7 @@ function delete_app_block(Name; aws_config::AbstractAWSConfig=global_aws_config(
         "DeleteAppBlock",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_block(
@@ -1266,7 +1266,7 @@ function delete_app_block(
         "DeleteAppBlock",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1286,7 +1286,7 @@ function delete_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws
         "DeleteAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_block_builder(
@@ -1296,7 +1296,7 @@ function delete_app_block_builder(
         "DeleteAppBlockBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1315,7 +1315,7 @@ function delete_application(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "DeleteApplication",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -1325,7 +1325,7 @@ function delete_application(
         "DeleteApplication",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1347,7 +1347,7 @@ function delete_directory_config(
         "DeleteDirectoryConfig",
         Dict{String,Any}("DirectoryName" => DirectoryName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_directory_config(
@@ -1361,7 +1361,7 @@ function delete_directory_config(
             mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1383,7 +1383,7 @@ function delete_entitlement(
         "DeleteEntitlement",
         Dict{String,Any}("Name" => Name, "StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_entitlement(
@@ -1400,7 +1400,7 @@ function delete_entitlement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1419,7 +1419,7 @@ function delete_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteFleet",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -1429,7 +1429,7 @@ function delete_fleet(
         "DeleteFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1449,7 +1449,7 @@ function delete_image(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteImage",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image(
@@ -1459,7 +1459,7 @@ function delete_image(
         "DeleteImage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1478,7 +1478,7 @@ function delete_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteImageBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image_builder(
@@ -1488,7 +1488,7 @@ function delete_image_builder(
         "DeleteImageBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1513,7 +1513,7 @@ function delete_image_permissions(
         "DeleteImagePermissions",
         Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image_permissions(
@@ -1532,7 +1532,7 @@ function delete_image_permissions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1553,7 +1553,7 @@ function delete_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteStack",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_stack(
@@ -1563,7 +1563,7 @@ function delete_stack(
         "DeleteStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1580,7 +1580,7 @@ function delete_usage_report_subscription(;
     return appstream(
         "DeleteUsageReportSubscription";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_usage_report_subscription(
@@ -1590,7 +1590,7 @@ function delete_usage_report_subscription(
         "DeleteUsageReportSubscription",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1614,7 +1614,7 @@ function delete_user(
             "AuthenticationType" => AuthenticationType, "UserName" => UserName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user(
@@ -1635,7 +1635,7 @@ function delete_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1659,7 +1659,7 @@ function describe_app_block_builder_app_block_associations(;
     return appstream(
         "DescribeAppBlockBuilderAppBlockAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_block_builder_app_block_associations(
@@ -1669,7 +1669,7 @@ function describe_app_block_builder_app_block_associations(
         "DescribeAppBlockBuilderAppBlockAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1688,7 +1688,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_app_block_builders(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_app_block_builders(
@@ -1698,7 +1698,7 @@ function describe_app_block_builders(
         "DescribeAppBlockBuilders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1717,14 +1717,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_app_blocks(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_app_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
-        "DescribeAppBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAppBlocks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1749,7 +1752,7 @@ function describe_application_fleet_associations(;
     return appstream(
         "DescribeApplicationFleetAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application_fleet_associations(
@@ -1759,7 +1762,7 @@ function describe_application_fleet_associations(
         "DescribeApplicationFleetAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1778,7 +1781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_applications(
@@ -1788,7 +1791,7 @@ function describe_applications(
         "DescribeApplications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1812,7 +1815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_directory_configs(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_directory_configs(
@@ -1822,7 +1825,7 @@ function describe_directory_configs(
         "DescribeDirectoryConfigs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1847,7 +1850,7 @@ function describe_entitlements(StackName; aws_config::AbstractAWSConfig=global_a
         "DescribeEntitlements",
         Dict{String,Any}("StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_entitlements(
@@ -1861,7 +1864,7 @@ function describe_entitlements(
             mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1880,14 +1883,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
-        "DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1907,7 +1910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_image_builders(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_image_builders(
@@ -1917,7 +1920,7 @@ function describe_image_builders(
         "DescribeImageBuilders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1945,7 +1948,7 @@ function describe_image_permissions(Name; aws_config::AbstractAWSConfig=global_a
         "DescribeImagePermissions",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_image_permissions(
@@ -1955,7 +1958,7 @@ function describe_image_permissions(
         "DescribeImagePermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1977,14 +1980,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_images(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
-        "DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2021,7 +2024,7 @@ function describe_sessions(
         "DescribeSessions",
         Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_sessions(
@@ -2040,7 +2043,7 @@ function describe_sessions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2059,14 +2062,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config())
     return appstream(
-        "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
-        "DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2088,7 +2091,7 @@ function describe_usage_report_subscriptions(;
     return appstream(
         "DescribeUsageReportSubscriptions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_usage_report_subscriptions(
@@ -2098,7 +2101,7 @@ function describe_usage_report_subscriptions(
         "DescribeUsageReportSubscriptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2127,7 +2130,7 @@ function describe_user_stack_associations(;
     return appstream(
         "DescribeUserStackAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_user_stack_associations(
@@ -2137,7 +2140,7 @@ function describe_user_stack_associations(
         "DescribeUserStackAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2164,7 +2167,7 @@ function describe_users(
         "DescribeUsers",
         Dict{String,Any}("AuthenticationType" => AuthenticationType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_users(
@@ -2180,7 +2183,7 @@ function describe_users(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2205,7 +2208,7 @@ function disable_user(
             "AuthenticationType" => AuthenticationType, "UserName" => UserName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_user(
@@ -2226,7 +2229,7 @@ function disable_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2250,7 +2253,7 @@ function disassociate_app_block_builder_app_block(
             "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_app_block_builder_app_block(
@@ -2272,7 +2275,7 @@ function disassociate_app_block_builder_app_block(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2294,7 +2297,7 @@ function disassociate_application_fleet(
         "DisassociateApplicationFleet",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_application_fleet(
@@ -2315,7 +2318,7 @@ function disassociate_application_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2346,7 +2349,7 @@ function disassociate_application_from_entitlement(
             "StackName" => StackName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_application_from_entitlement(
@@ -2370,7 +2373,7 @@ function disassociate_application_from_entitlement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2392,7 +2395,7 @@ function disassociate_fleet(
         "DisassociateFleet",
         Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_fleet(
@@ -2411,7 +2414,7 @@ function disassociate_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2439,7 +2442,7 @@ function enable_user(
             "AuthenticationType" => AuthenticationType, "UserName" => UserName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_user(
@@ -2460,7 +2463,7 @@ function enable_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2479,7 +2482,7 @@ function expire_session(SessionId; aws_config::AbstractAWSConfig=global_aws_conf
         "ExpireSession",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function expire_session(
@@ -2493,7 +2496,7 @@ function expire_session(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2518,7 +2521,7 @@ function list_associated_fleets(
         "ListAssociatedFleets",
         Dict{String,Any}("StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_associated_fleets(
@@ -2532,7 +2535,7 @@ function list_associated_fleets(
             mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2557,7 +2560,7 @@ function list_associated_stacks(
         "ListAssociatedStacks",
         Dict{String,Any}("FleetName" => FleetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_associated_stacks(
@@ -2571,7 +2574,7 @@ function list_associated_stacks(
             mergewith(_merge, Dict{String,Any}("FleetName" => FleetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2598,7 +2601,7 @@ function list_entitled_applications(
         "ListEntitledApplications",
         Dict{String,Any}("EntitlementName" => EntitlementName, "StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_entitled_applications(
@@ -2619,7 +2622,7 @@ function list_entitled_applications(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2642,7 +2645,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2656,7 +2659,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2677,7 +2680,7 @@ function start_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_
         "StartAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_app_block_builder(
@@ -2687,7 +2690,7 @@ function start_app_block_builder(
         "StartAppBlockBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2706,7 +2709,7 @@ function start_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "StartFleet",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_fleet(
@@ -2716,7 +2719,7 @@ function start_fleet(
         "StartFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2739,7 +2742,7 @@ function start_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_conf
         "StartImageBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_image_builder(
@@ -2749,7 +2752,7 @@ function start_image_builder(
         "StartImageBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2769,7 +2772,7 @@ function stop_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_c
         "StopAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_app_block_builder(
@@ -2779,7 +2782,7 @@ function stop_app_block_builder(
         "StopAppBlockBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2798,7 +2801,7 @@ function stop_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "StopFleet",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_fleet(
@@ -2808,7 +2811,7 @@ function stop_fleet(
         "StopFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2827,7 +2830,7 @@ function stop_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "StopImageBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_image_builder(
@@ -2837,7 +2840,7 @@ function stop_image_builder(
         "StopImageBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2866,7 +2869,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2885,7 +2888,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2909,7 +2912,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2928,7 +2931,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2973,7 +2976,7 @@ function update_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws
         "UpdateAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_block_builder(
@@ -2983,7 +2986,7 @@ function update_app_block_builder(
         "UpdateAppBlockBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3014,7 +3017,7 @@ function update_application(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "UpdateApplication",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application(
@@ -3024,7 +3027,7 @@ function update_application(
         "UpdateApplication",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3061,7 +3064,7 @@ function update_directory_config(
         "UpdateDirectoryConfig",
         Dict{String,Any}("DirectoryName" => DirectoryName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_directory_config(
@@ -3075,7 +3078,7 @@ function update_directory_config(
             mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3102,7 +3105,7 @@ function update_entitlement(
         "UpdateEntitlement",
         Dict{String,Any}("Name" => Name, "StackName" => StackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_entitlement(
@@ -3119,7 +3122,7 @@ function update_entitlement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3221,13 +3224,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   two subnets in different availability zones.
 """
 function update_fleet(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return appstream(
+        "UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function update_fleet(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
-        "UpdateFleet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdateFleet", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3258,7 +3263,7 @@ function update_image_permissions(
             "SharedAccountId" => SharedAccountId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_image_permissions(
@@ -3282,7 +3287,7 @@ function update_image_permissions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3324,7 +3329,7 @@ function update_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdateStack",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_stack(
@@ -3334,6 +3339,6 @@ function update_stack(
         "UpdateStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

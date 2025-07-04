@@ -50,7 +50,7 @@ function create_application(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application(
@@ -77,7 +77,7 @@ function create_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -120,7 +120,7 @@ function create_environment(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_environment(
@@ -144,7 +144,7 @@ function create_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,7 +234,7 @@ function create_route(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_route(
@@ -260,7 +260,7 @@ function create_route(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -311,7 +311,7 @@ function create_service(
             "EndpointType" => EndpointType, "Name" => Name, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_service(
@@ -337,7 +337,7 @@ function create_service(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -362,7 +362,7 @@ function delete_application(
         "DELETE",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -376,7 +376,7 @@ function delete_application(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -399,7 +399,7 @@ function delete_environment(
         "DELETE",
         "/environments/$(EnvironmentIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_environment(
@@ -412,7 +412,7 @@ function delete_environment(
         "/environments/$(EnvironmentIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -433,7 +433,7 @@ function delete_resource_policy(
         "DELETE",
         "/resourcepolicy/$(Identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -446,7 +446,7 @@ function delete_resource_policy(
         "/resourcepolicy/$(Identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -472,7 +472,7 @@ function delete_route(
         "DELETE",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_route(
@@ -487,7 +487,7 @@ function delete_route(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -516,7 +516,7 @@ function delete_service(
         "DELETE",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_service(
@@ -531,7 +531,7 @@ function delete_service(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -555,7 +555,7 @@ function get_application(
         "GET",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application(
@@ -569,7 +569,7 @@ function get_application(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -590,7 +590,7 @@ function get_environment(
         "GET",
         "/environments/$(EnvironmentIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_environment(
@@ -603,7 +603,7 @@ function get_environment(
         "/environments/$(EnvironmentIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -622,7 +622,7 @@ function get_resource_policy(Identifier; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/resourcepolicy/$(Identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -635,7 +635,7 @@ function get_resource_policy(
         "/resourcepolicy/$(Identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -661,7 +661,7 @@ function get_route(
         "GET",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_route(
@@ -676,7 +676,7 @@ function get_route(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -702,7 +702,7 @@ function get_service(
         "GET",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_service(
@@ -717,7 +717,7 @@ function get_service(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services/$(ServiceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -744,7 +744,7 @@ function list_applications(
         "GET",
         "/environments/$(EnvironmentIdentifier)/applications";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_applications(
@@ -757,7 +757,7 @@ function list_applications(
         "/environments/$(EnvironmentIdentifier)/applications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -784,7 +784,7 @@ function list_environment_vpcs(
         "GET",
         "/environments/$(EnvironmentIdentifier)/vpcs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_environment_vpcs(
@@ -797,7 +797,7 @@ function list_environment_vpcs(
         "/environments/$(EnvironmentIdentifier)/vpcs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -816,7 +816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return migration_hub_refactor_spaces(
-        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_environments(
@@ -827,7 +827,7 @@ function list_environments(
         "/environments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -857,7 +857,7 @@ function list_routes(
         "GET",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_routes(
@@ -871,7 +871,7 @@ function list_routes(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -901,7 +901,7 @@ function list_services(
         "GET",
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_services(
@@ -915,7 +915,7 @@ function list_services(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/services",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -937,7 +937,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -950,7 +950,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -978,7 +978,7 @@ function put_resource_policy(
         "/resourcepolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -998,7 +998,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1023,7 +1023,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1037,7 +1037,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1062,7 +1062,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1076,7 +1076,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1107,7 +1107,7 @@ function update_route(
         "/environments/$(EnvironmentIdentifier)/applications/$(ApplicationIdentifier)/routes/$(RouteIdentifier)",
         Dict{String,Any}("ActivationState" => ActivationState);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_route(
@@ -1127,6 +1127,6 @@ function update_route(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

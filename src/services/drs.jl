@@ -26,7 +26,7 @@ function associate_source_network_stack(
             "cfnStackName" => cfnStackName, "sourceNetworkID" => sourceNetworkID
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_source_network_stack(
@@ -48,7 +48,7 @@ function associate_source_network_stack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -75,7 +75,7 @@ function create_extended_source_server(
         "/CreateExtendedSourceServer",
         Dict{String,Any}("sourceServerArn" => sourceServerArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_extended_source_server(
@@ -92,7 +92,7 @@ function create_extended_source_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -123,7 +123,7 @@ function create_launch_configuration_template(;
         "POST",
         "/CreateLaunchConfigurationTemplate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_launch_configuration_template(
@@ -134,7 +134,7 @@ function create_launch_configuration_template(
         "/CreateLaunchConfigurationTemplate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -206,7 +206,7 @@ function create_replication_configuration_template(
             "useDedicatedReplicationServer" => useDedicatedReplicationServer,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_replication_configuration_template(
@@ -250,7 +250,7 @@ function create_replication_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -281,7 +281,7 @@ function create_source_network(
             "vpcID" => vpcID,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_source_network(
@@ -306,7 +306,7 @@ function create_source_network(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -326,7 +326,7 @@ function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteJob",
         Dict{String,Any}("jobID" => jobID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_job(
@@ -337,7 +337,7 @@ function delete_job(
         "/DeleteJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobID" => jobID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -360,7 +360,7 @@ function delete_launch_action(
         "/DeleteLaunchAction",
         Dict{String,Any}("actionId" => actionId, "resourceId" => resourceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_launch_action(
@@ -380,7 +380,7 @@ function delete_launch_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -403,7 +403,7 @@ function delete_launch_configuration_template(
         "/DeleteLaunchConfigurationTemplate",
         Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_launch_configuration_template(
@@ -424,7 +424,7 @@ function delete_launch_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -448,7 +448,7 @@ function delete_recovery_instance(
         "/DeleteRecoveryInstance",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_recovery_instance(
@@ -465,7 +465,7 @@ function delete_recovery_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -490,7 +490,7 @@ function delete_replication_configuration_template(
             "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_replication_configuration_template(
@@ -512,7 +512,7 @@ function delete_replication_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -534,7 +534,7 @@ function delete_source_network(
         "/DeleteSourceNetwork",
         Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_source_network(
@@ -551,7 +551,7 @@ function delete_source_network(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -573,7 +573,7 @@ function delete_source_server(
         "/DeleteSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_source_server(
@@ -588,7 +588,7 @@ function delete_source_server(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -612,7 +612,7 @@ function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_
         "/DescribeJobLogItems",
         Dict{String,Any}("jobID" => jobID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_job_log_items(
@@ -623,7 +623,7 @@ function describe_job_log_items(
         "/DescribeJobLogItems",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobID" => jobID), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -645,7 +645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return drs(
-        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_jobs(
@@ -656,7 +656,7 @@ function describe_jobs(
         "/DescribeJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -680,7 +680,7 @@ function describe_launch_configuration_templates(;
         "POST",
         "/DescribeLaunchConfigurationTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_launch_configuration_templates(
@@ -691,7 +691,7 @@ function describe_launch_configuration_templates(
         "/DescribeLaunchConfigurationTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -712,7 +712,7 @@ function describe_recovery_instances(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/DescribeRecoveryInstances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_recovery_instances(
@@ -723,7 +723,7 @@ function describe_recovery_instances(
         "/DescribeRecoveryInstances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -751,7 +751,7 @@ function describe_recovery_snapshots(
         "/DescribeRecoverySnapshots",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_recovery_snapshots(
@@ -766,7 +766,7 @@ function describe_recovery_snapshots(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -790,7 +790,7 @@ function describe_replication_configuration_templates(;
         "POST",
         "/DescribeReplicationConfigurationTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_replication_configuration_templates(
@@ -801,7 +801,7 @@ function describe_replication_configuration_templates(
         "/DescribeReplicationConfigurationTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -822,7 +822,7 @@ function describe_source_networks(; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/DescribeSourceNetworks";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_source_networks(
@@ -833,7 +833,7 @@ function describe_source_networks(
         "/DescribeSourceNetworks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -854,7 +854,7 @@ function describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/DescribeSourceServers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_source_servers(
@@ -865,7 +865,7 @@ function describe_source_servers(
         "/DescribeSourceServers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -896,7 +896,7 @@ function disconnect_recovery_instance(
         "/DisconnectRecoveryInstance",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disconnect_recovery_instance(
@@ -913,7 +913,7 @@ function disconnect_recovery_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -944,7 +944,7 @@ function disconnect_source_server(
         "/DisconnectSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disconnect_source_server(
@@ -959,7 +959,7 @@ function disconnect_source_server(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -982,7 +982,7 @@ function export_source_network_cfn_template(
         "/ExportSourceNetworkCfnTemplate",
         Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_source_network_cfn_template(
@@ -999,7 +999,7 @@ function export_source_network_cfn_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1022,7 +1022,7 @@ function get_failback_replication_configuration(
         "/GetFailbackReplicationConfiguration",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_failback_replication_configuration(
@@ -1039,7 +1039,7 @@ function get_failback_replication_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1062,7 +1062,7 @@ function get_launch_configuration(
         "/GetLaunchConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_launch_configuration(
@@ -1077,7 +1077,7 @@ function get_launch_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1099,7 +1099,7 @@ function get_replication_configuration(
         "/GetReplicationConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_replication_configuration(
@@ -1114,7 +1114,7 @@ function get_replication_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1127,7 +1127,10 @@ Initialize Elastic Disaster Recovery.
 """
 function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config())
     return drs(
-        "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/InitializeService";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function initialize_service(
@@ -1138,7 +1141,7 @@ function initialize_service(
         "/InitializeService",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1167,7 +1170,7 @@ function list_extensible_source_servers(
         "/ListExtensibleSourceServers",
         Dict{String,Any}("stagingAccountID" => stagingAccountID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_extensible_source_servers(
@@ -1184,7 +1187,7 @@ function list_extensible_source_servers(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1209,7 +1212,7 @@ function list_launch_actions(resourceId; aws_config::AbstractAWSConfig=global_aw
         "/ListLaunchActions",
         Dict{String,Any}("resourceId" => resourceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_launch_actions(
@@ -1224,7 +1227,7 @@ function list_launch_actions(
             mergewith(_merge, Dict{String,Any}("resourceId" => resourceId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1244,7 +1247,7 @@ function list_staging_accounts(; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/ListStagingAccounts";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_staging_accounts(
@@ -1255,7 +1258,7 @@ function list_staging_accounts(
         "/ListStagingAccounts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1276,7 +1279,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1289,7 +1292,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1344,7 +1347,7 @@ function put_launch_action(
             "resourceId" => resourceId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_launch_action(
@@ -1383,7 +1386,7 @@ function put_launch_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1408,7 +1411,7 @@ function retry_data_replication(
         "/RetryDataReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function retry_data_replication(
@@ -1423,7 +1426,7 @@ function retry_data_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1449,7 +1452,7 @@ function reverse_replication(
         "/ReverseReplication",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reverse_replication(
@@ -1466,7 +1469,7 @@ function reverse_replication(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1494,7 +1497,7 @@ function start_failback_launch(
         "/StartFailbackLaunch",
         Dict{String,Any}("recoveryInstanceIDs" => recoveryInstanceIDs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_failback_launch(
@@ -1513,7 +1516,7 @@ function start_failback_launch(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1538,7 +1541,7 @@ function start_recovery(sourceServers; aws_config::AbstractAWSConfig=global_aws_
         "/StartRecovery",
         Dict{String,Any}("sourceServers" => sourceServers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_recovery(
@@ -1553,7 +1556,7 @@ function start_recovery(
             mergewith(_merge, Dict{String,Any}("sourceServers" => sourceServers), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1576,7 +1579,7 @@ function start_replication(
         "/StartReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_replication(
@@ -1591,7 +1594,7 @@ function start_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1619,7 +1622,7 @@ function start_source_network_recovery(
         "/StartSourceNetworkRecovery",
         Dict{String,Any}("sourceNetworks" => sourceNetworks);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_source_network_recovery(
@@ -1634,7 +1637,7 @@ function start_source_network_recovery(
             mergewith(_merge, Dict{String,Any}("sourceNetworks" => sourceNetworks), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1657,7 +1660,7 @@ function start_source_network_replication(
         "/StartSourceNetworkReplication",
         Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_source_network_replication(
@@ -1674,7 +1677,7 @@ function start_source_network_replication(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1697,7 +1700,7 @@ function stop_failback(
         "/StopFailback",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_failback(
@@ -1714,7 +1717,7 @@ function stop_failback(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1735,7 +1738,7 @@ function stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_a
         "/StopReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_replication(
@@ -1750,7 +1753,7 @@ function stop_replication(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1773,7 +1776,7 @@ function stop_source_network_replication(
         "/StopSourceNetworkReplication",
         Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_source_network_replication(
@@ -1790,7 +1793,7 @@ function stop_source_network_replication(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1814,7 +1817,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1828,7 +1831,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1852,7 +1855,7 @@ function terminate_recovery_instances(
         "/TerminateRecoveryInstances",
         Dict{String,Any}("recoveryInstanceIDs" => recoveryInstanceIDs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function terminate_recovery_instances(
@@ -1871,7 +1874,7 @@ function terminate_recovery_instances(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1895,7 +1898,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1909,7 +1912,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1938,7 +1941,7 @@ function update_failback_replication_configuration(
         "/UpdateFailbackReplicationConfiguration",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_failback_replication_configuration(
@@ -1955,7 +1958,7 @@ function update_failback_replication_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1994,7 +1997,7 @@ function update_launch_configuration(
         "/UpdateLaunchConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_launch_configuration(
@@ -2009,7 +2012,7 @@ function update_launch_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2043,7 +2046,7 @@ function update_launch_configuration_template(
         "/UpdateLaunchConfigurationTemplate",
         Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_launch_configuration_template(
@@ -2064,7 +2067,7 @@ function update_launch_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2113,7 +2116,7 @@ function update_replication_configuration(
         "/UpdateReplicationConfiguration",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_replication_configuration(
@@ -2128,7 +2131,7 @@ function update_replication_configuration(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2178,7 +2181,7 @@ function update_replication_configuration_template(
             "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_replication_configuration_template(
@@ -2200,6 +2203,6 @@ function update_replication_configuration_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

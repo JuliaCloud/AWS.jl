@@ -40,7 +40,7 @@ function create_endpoint(
             "SubnetId" => SubnetId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_endpoint(
@@ -65,7 +65,7 @@ function create_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -89,7 +89,7 @@ function delete_endpoint(
         "/S3Outposts/DeleteEndpoint",
         Dict{String,Any}("endpointId" => endpointId, "outpostId" => outpostId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_endpoint(
@@ -109,7 +109,7 @@ function delete_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -131,7 +131,7 @@ function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/S3Outposts/ListEndpoints";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_endpoints(
@@ -142,7 +142,7 @@ function list_endpoints(
         "/S3Outposts/ListEndpoints",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -166,7 +166,7 @@ function list_outposts_with_s3(; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/S3Outposts/ListOutpostsWithS3";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_outposts_with_s3(
@@ -177,7 +177,7 @@ function list_outposts_with_s3(
         "/S3Outposts/ListOutpostsWithS3",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function list_shared_endpoints(outpostId; aws_config::AbstractAWSConfig=global_a
         "/S3Outposts/ListSharedEndpoints",
         Dict{String,Any}("outpostId" => outpostId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_shared_endpoints(
@@ -219,6 +219,6 @@ function list_shared_endpoints(
             mergewith(_merge, Dict{String,Any}("outpostId" => outpostId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

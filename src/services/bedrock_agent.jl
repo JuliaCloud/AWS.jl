@@ -40,7 +40,7 @@ function associate_agent_knowledge_base(
             "description" => description, "knowledgeBaseId" => knowledgeBaseId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_agent_knowledge_base(
@@ -64,7 +64,7 @@ function associate_agent_knowledge_base(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -119,7 +119,7 @@ function create_agent(agentName; aws_config::AbstractAWSConfig=global_aws_config
         "/agents/",
         Dict{String,Any}("agentName" => agentName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_agent(
@@ -140,7 +140,7 @@ function create_agent(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -201,7 +201,7 @@ function create_agent_action_group(
             "actionGroupName" => actionGroupName, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_agent_action_group(
@@ -224,7 +224,7 @@ function create_agent_action_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -258,7 +258,7 @@ function create_agent_alias(
             "agentAliasName" => agentAliasName, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_agent_alias(
@@ -280,7 +280,7 @@ function create_agent_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -325,7 +325,7 @@ function create_data_source(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_source(
@@ -350,7 +350,7 @@ function create_data_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -413,7 +413,7 @@ function create_knowledge_base(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_knowledge_base(
@@ -441,7 +441,7 @@ function create_knowledge_base(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -465,7 +465,7 @@ function delete_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config()
         "DELETE",
         "/agents/$(agentId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_agent(
@@ -476,7 +476,7 @@ function delete_agent(
         "/agents/$(agentId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -504,7 +504,7 @@ function delete_agent_action_group(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_agent_action_group(
@@ -519,7 +519,7 @@ function delete_agent_action_group(
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -541,7 +541,7 @@ function delete_agent_alias(
         "DELETE",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_agent_alias(
@@ -555,7 +555,7 @@ function delete_agent_alias(
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -582,7 +582,7 @@ function delete_agent_version(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_agent_version(
@@ -596,7 +596,7 @@ function delete_agent_version(
         "/agents/$(agentId)/agentversions/$(agentVersion)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -619,7 +619,7 @@ function delete_data_source(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_source(
@@ -633,7 +633,7 @@ function delete_data_source(
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -656,7 +656,7 @@ function delete_knowledge_base(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_knowledge_base(
@@ -669,7 +669,7 @@ function delete_knowledge_base(
         "/knowledgebases/$(knowledgeBaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -696,7 +696,7 @@ function disassociate_agent_knowledge_base(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_agent_knowledge_base(
@@ -711,7 +711,7 @@ function disassociate_agent_knowledge_base(
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -727,7 +727,10 @@ Gets information about an agent.
 """
 function get_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config())
     return bedrock_agent(
-        "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/agents/$(agentId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_agent(
@@ -738,7 +741,7 @@ function get_agent(
         "/agents/$(agentId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -761,7 +764,7 @@ function get_agent_action_group(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_agent_action_group(
@@ -776,7 +779,7 @@ function get_agent_action_group(
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -799,7 +802,7 @@ function get_agent_alias(
         "GET",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_agent_alias(
@@ -813,7 +816,7 @@ function get_agent_alias(
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -841,7 +844,7 @@ function get_agent_knowledge_base(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_agent_knowledge_base(
@@ -856,7 +859,7 @@ function get_agent_knowledge_base(
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -878,7 +881,7 @@ function get_agent_version(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_agent_version(
@@ -892,7 +895,7 @@ function get_agent_version(
         "/agents/$(agentId)/agentversions/$(agentVersion)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -915,7 +918,7 @@ function get_data_source(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_source(
@@ -929,7 +932,7 @@ function get_data_source(
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -956,7 +959,7 @@ function get_ingestion_job(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ingestion_job(
@@ -971,7 +974,7 @@ function get_ingestion_job(
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -993,7 +996,7 @@ function get_knowledge_base(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_knowledge_base(
@@ -1006,7 +1009,7 @@ function get_knowledge_base(
         "/knowledgebases/$(knowledgeBaseId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1036,7 +1039,7 @@ function list_agent_action_groups(
         "POST",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_agent_action_groups(
@@ -1050,7 +1053,7 @@ function list_agent_action_groups(
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1077,7 +1080,7 @@ function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/agents/$(agentId)/agentaliases/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_agent_aliases(
@@ -1088,7 +1091,7 @@ function list_agent_aliases(
         "/agents/$(agentId)/agentaliases/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1120,7 +1123,7 @@ function list_agent_knowledge_bases(
         "POST",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_agent_knowledge_bases(
@@ -1134,7 +1137,7 @@ function list_agent_knowledge_bases(
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1161,7 +1164,7 @@ function list_agent_versions(agentId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/agents/$(agentId)/agentversions/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_agent_versions(
@@ -1172,7 +1175,7 @@ function list_agent_versions(
         "/agents/$(agentId)/agentversions/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1193,14 +1196,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_agents(; aws_config::AbstractAWSConfig=global_aws_config())
     return bedrock_agent(
-        "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return bedrock_agent(
-        "POST", "/agents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/agents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1230,7 +1233,7 @@ function list_data_sources(
         "POST",
         "/knowledgebases/$(knowledgeBaseId)/datasources/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_sources(
@@ -1243,7 +1246,7 @@ function list_data_sources(
         "/knowledgebases/$(knowledgeBaseId)/datasources/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1277,7 +1280,7 @@ function list_ingestion_jobs(
         "POST",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_ingestion_jobs(
@@ -1291,7 +1294,7 @@ function list_ingestion_jobs(
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1312,7 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_knowledge_bases(; aws_config::AbstractAWSConfig=global_aws_config())
     return bedrock_agent(
-        "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_knowledge_bases(
@@ -1323,7 +1326,7 @@ function list_knowledge_bases(
         "/knowledgebases/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1344,7 +1347,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1357,7 +1360,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1376,7 +1379,7 @@ function prepare_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/agents/$(agentId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function prepare_agent(
@@ -1387,7 +1390,7 @@ function prepare_agent(
         "/agents/$(agentId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1418,7 +1421,7 @@ function start_ingestion_job(
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_ingestion_job(
@@ -1434,7 +1437,7 @@ function start_ingestion_job(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1457,7 +1460,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1471,7 +1474,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1494,7 +1497,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1508,7 +1511,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1558,7 +1561,7 @@ function update_agent(
             "foundationModel" => foundationModel,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_agent(
@@ -1584,7 +1587,7 @@ function update_agent(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1633,7 +1636,7 @@ function update_agent_action_group(
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
         Dict{String,Any}("actionGroupName" => actionGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_agent_action_group(
@@ -1653,7 +1656,7 @@ function update_agent_action_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1681,7 +1684,7 @@ function update_agent_alias(
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
         Dict{String,Any}("agentAliasName" => agentAliasName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_agent_alias(
@@ -1698,7 +1701,7 @@ function update_agent_alias(
             mergewith(_merge, Dict{String,Any}("agentAliasName" => agentAliasName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1733,7 +1736,7 @@ function update_agent_knowledge_base(
         "PUT",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_agent_knowledge_base(
@@ -1748,7 +1751,7 @@ function update_agent_knowledge_base(
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1790,7 +1793,7 @@ function update_data_source(
             "dataSourceConfiguration" => dataSourceConfiguration, "name" => name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_source(
@@ -1814,7 +1817,7 @@ function update_data_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1862,7 +1865,7 @@ function update_knowledge_base(
             "storageConfiguration" => storageConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_knowledge_base(
@@ -1890,6 +1893,6 @@ function update_knowledge_base(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

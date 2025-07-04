@@ -21,7 +21,7 @@ function delete_earth_observation_job(
         "DELETE",
         "/earth-observation-jobs/$(Arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_earth_observation_job(
@@ -32,7 +32,7 @@ function delete_earth_observation_job(
         "/earth-observation-jobs/$(Arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -53,7 +53,7 @@ function delete_vector_enrichment_job(
         "DELETE",
         "/vector-enrichment-jobs/$(Arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vector_enrichment_job(
@@ -64,7 +64,7 @@ function delete_vector_enrichment_job(
         "/vector-enrichment-jobs/$(Arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -100,7 +100,7 @@ function export_earth_observation_job(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_earth_observation_job(
@@ -126,7 +126,7 @@ function export_earth_observation_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +159,7 @@ function export_vector_enrichment_job(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_vector_enrichment_job(
@@ -185,7 +185,7 @@ function export_vector_enrichment_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function get_earth_observation_job(Arn; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/earth-observation-jobs/$(Arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_earth_observation_job(
@@ -215,7 +215,7 @@ function get_earth_observation_job(
         "/earth-observation-jobs/$(Arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,7 +234,7 @@ function get_raster_data_collection(Arn; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/raster-data-collection/$(Arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_raster_data_collection(
@@ -245,7 +245,7 @@ function get_raster_data_collection(
         "/raster-data-collection/$(Arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -282,7 +282,7 @@ function get_tile(
         "/tile/$(z)/$(x)/$(y)",
         Dict{String,Any}("Arn" => Arn, "ImageAssets" => ImageAssets, "Target" => Target);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_tile(
@@ -308,7 +308,7 @@ function get_tile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -327,7 +327,7 @@ function get_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/vector-enrichment-jobs/$(Arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vector_enrichment_job(
@@ -338,7 +338,7 @@ function get_vector_enrichment_job(
         "/vector-enrichment-jobs/$(Arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -364,7 +364,7 @@ function list_earth_observation_jobs(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/list-earth-observation-jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_earth_observation_jobs(
@@ -375,7 +375,7 @@ function list_earth_observation_jobs(
         "/list-earth-observation-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -396,7 +396,7 @@ function list_raster_data_collections(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/raster-data-collections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_raster_data_collections(
@@ -407,7 +407,7 @@ function list_raster_data_collections(
         "/raster-data-collections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -428,7 +428,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -441,7 +441,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -466,7 +466,7 @@ function list_vector_enrichment_jobs(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/list-vector-enrichment-jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_vector_enrichment_jobs(
@@ -477,7 +477,7 @@ function list_vector_enrichment_jobs(
         "/list-vector-enrichment-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -509,7 +509,7 @@ function search_raster_data_collection(
             "Arn" => Arn, "RasterDataCollectionQuery" => RasterDataCollectionQuery
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_raster_data_collection(
@@ -531,7 +531,7 @@ function search_raster_data_collection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -572,7 +572,7 @@ function start_earth_observation_job(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_earth_observation_job(
@@ -600,7 +600,7 @@ function start_earth_observation_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -642,7 +642,7 @@ function start_vector_enrichment_job(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_vector_enrichment_job(
@@ -670,7 +670,7 @@ function start_vector_enrichment_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -690,7 +690,7 @@ function stop_earth_observation_job(Arn; aws_config::AbstractAWSConfig=global_aw
         "/earth-observation-jobs/stop",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_earth_observation_job(
@@ -701,7 +701,7 @@ function stop_earth_observation_job(
         "/earth-observation-jobs/stop",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -721,7 +721,7 @@ function stop_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=global_aw
         "/vector-enrichment-jobs/stop",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_vector_enrichment_job(
@@ -732,7 +732,7 @@ function stop_vector_enrichment_job(
         "/vector-enrichment-jobs/stop",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +753,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -767,7 +767,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -790,7 +790,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -804,6 +804,6 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

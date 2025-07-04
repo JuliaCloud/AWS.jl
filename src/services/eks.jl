@@ -34,7 +34,7 @@ function associate_access_policy(
         "/clusters/$(name)/access-entries/$(principalArn)/access-policies",
         Dict{String,Any}("accessScope" => accessScope, "policyArn" => policyArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_access_policy(
@@ -56,7 +56,7 @@ function associate_access_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -88,7 +88,7 @@ function associate_encryption_config(
             "encryptionConfig" => encryptionConfig, "clientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_encryption_config(
@@ -111,7 +111,7 @@ function associate_encryption_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -146,7 +146,7 @@ function associate_identity_provider_config(
         "/clusters/$(name)/identity-provider-configs/associate",
         Dict{String,Any}("oidc" => oidc, "clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_identity_provider_config(
@@ -166,7 +166,7 @@ function associate_identity_provider_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -241,7 +241,7 @@ function create_access_entry(
             "principalArn" => principalArn, "clientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_access_entry(
@@ -263,7 +263,7 @@ function create_access_entry(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -323,7 +323,7 @@ function create_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_
         "/clusters/$(name)/addons",
         Dict{String,Any}("addonName" => addonName, "clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_addon(
@@ -345,7 +345,7 @@ function create_addon(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -428,7 +428,7 @@ function create_cluster(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster(
@@ -454,7 +454,7 @@ function create_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -502,7 +502,7 @@ function create_eks_anywhere_subscription(
             "name" => name, "term" => term, "clientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_eks_anywhere_subscription(
@@ -524,7 +524,7 @@ function create_eks_anywhere_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -591,7 +591,7 @@ function create_fargate_profile(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fargate_profile(
@@ -616,7 +616,7 @@ function create_fargate_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -733,7 +733,7 @@ function create_nodegroup(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_nodegroup(
@@ -760,7 +760,7 @@ function create_nodegroup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -826,7 +826,7 @@ function create_pod_identity_association(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pod_identity_association(
@@ -853,7 +853,7 @@ function create_pod_identity_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -877,7 +877,7 @@ function delete_access_entry(
         "DELETE",
         "/clusters/$(name)/access-entries/$(principalArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_access_entry(
@@ -891,7 +891,7 @@ function delete_access_entry(
         "/clusters/$(name)/access-entries/$(principalArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -918,7 +918,7 @@ function delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/clusters/$(name)/addons/$(addonName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_addon(
@@ -932,7 +932,7 @@ function delete_addon(
         "/clusters/$(name)/addons/$(addonName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -957,7 +957,7 @@ function delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/clusters/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster(
@@ -968,7 +968,7 @@ function delete_cluster(
         "/clusters/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -992,7 +992,7 @@ function delete_eks_anywhere_subscription(
         "DELETE",
         "/eks-anywhere-subscriptions/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_eks_anywhere_subscription(
@@ -1003,7 +1003,7 @@ function delete_eks_anywhere_subscription(
         "/eks-anywhere-subscriptions/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1030,7 +1030,7 @@ function delete_fargate_profile(
         "DELETE",
         "/clusters/$(name)/fargate-profiles/$(fargateProfileName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fargate_profile(
@@ -1044,7 +1044,7 @@ function delete_fargate_profile(
         "/clusters/$(name)/fargate-profiles/$(fargateProfileName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1066,7 +1066,7 @@ function delete_nodegroup(
         "DELETE",
         "/clusters/$(name)/node-groups/$(nodegroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_nodegroup(
@@ -1080,7 +1080,7 @@ function delete_nodegroup(
         "/clusters/$(name)/node-groups/$(nodegroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1105,7 +1105,7 @@ function delete_pod_identity_association(
         "DELETE",
         "/clusters/$(name)/pod-identity-associations/$(associationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pod_identity_association(
@@ -1119,7 +1119,7 @@ function delete_pod_identity_association(
         "/clusters/$(name)/pod-identity-associations/$(associationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1140,7 +1140,7 @@ function deregister_cluster(name; aws_config::AbstractAWSConfig=global_aws_confi
         "DELETE",
         "/cluster-registrations/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_cluster(
@@ -1151,7 +1151,7 @@ function deregister_cluster(
         "/cluster-registrations/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1173,7 +1173,7 @@ function describe_access_entry(
         "GET",
         "/clusters/$(name)/access-entries/$(principalArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_access_entry(
@@ -1187,7 +1187,7 @@ function describe_access_entry(
         "/clusters/$(name)/access-entries/$(principalArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1208,7 +1208,7 @@ function describe_addon(addonName, name; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/clusters/$(name)/addons/$(addonName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_addon(
@@ -1222,7 +1222,7 @@ function describe_addon(
         "/clusters/$(name)/addons/$(addonName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1247,7 +1247,7 @@ function describe_addon_configuration(
         "/addons/configuration-schemas",
         Dict{String,Any}("addonName" => addonName, "addonVersion" => addonVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_addon_configuration(
@@ -1267,7 +1267,7 @@ function describe_addon_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1306,7 +1306,7 @@ function describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/addons/supported-versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_addon_versions(
@@ -1317,7 +1317,7 @@ function describe_addon_versions(
         "/addons/supported-versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1337,7 +1337,7 @@ available until the cluster reaches the ACTIVE state.
 """
 function describe_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(
-        "GET", "/clusters/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/clusters/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_cluster(
@@ -1348,7 +1348,7 @@ function describe_cluster(
         "/clusters/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1369,7 +1369,7 @@ function describe_eks_anywhere_subscription(
         "GET",
         "/eks-anywhere-subscriptions/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_eks_anywhere_subscription(
@@ -1380,7 +1380,7 @@ function describe_eks_anywhere_subscription(
         "/eks-anywhere-subscriptions/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1402,7 +1402,7 @@ function describe_fargate_profile(
         "GET",
         "/clusters/$(name)/fargate-profiles/$(fargateProfileName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fargate_profile(
@@ -1416,7 +1416,7 @@ function describe_fargate_profile(
         "/clusters/$(name)/fargate-profiles/$(fargateProfileName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1439,7 +1439,7 @@ function describe_identity_provider_config(
         "/clusters/$(name)/identity-provider-configs/describe",
         Dict{String,Any}("identityProviderConfig" => identityProviderConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_identity_provider_config(
@@ -1459,7 +1459,7 @@ function describe_identity_provider_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1479,7 +1479,7 @@ function describe_insight(id, name; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/clusters/$(name)/insights/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_insight(
@@ -1493,7 +1493,7 @@ function describe_insight(
         "/clusters/$(name)/insights/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1515,7 +1515,7 @@ function describe_nodegroup(
         "GET",
         "/clusters/$(name)/node-groups/$(nodegroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_nodegroup(
@@ -1529,7 +1529,7 @@ function describe_nodegroup(
         "/clusters/$(name)/node-groups/$(nodegroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1555,7 +1555,7 @@ function describe_pod_identity_association(
         "GET",
         "/clusters/$(name)/pod-identity-associations/$(associationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_pod_identity_association(
@@ -1569,7 +1569,7 @@ function describe_pod_identity_association(
         "/clusters/$(name)/pod-identity-associations/$(associationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1597,7 +1597,7 @@ function describe_update(name, updateId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/clusters/$(name)/updates/$(updateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_update(
@@ -1611,7 +1611,7 @@ function describe_update(
         "/clusters/$(name)/updates/$(updateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1635,7 +1635,7 @@ function disassociate_access_policy(
         "DELETE",
         "/clusters/$(name)/access-entries/$(principalArn)/access-policies/$(policyArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_access_policy(
@@ -1650,7 +1650,7 @@ function disassociate_access_policy(
         "/clusters/$(name)/access-entries/$(principalArn)/access-policies/$(policyArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1682,7 +1682,7 @@ function disassociate_identity_provider_config(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_identity_provider_config(
@@ -1705,7 +1705,7 @@ function disassociate_identity_provider_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1740,7 +1740,7 @@ function list_access_entries(name; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/clusters/$(name)/access-entries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_access_entries(
@@ -1751,7 +1751,7 @@ function list_access_entries(
         "/clusters/$(name)/access-entries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1777,7 +1777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_access_policies(; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(
-        "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_access_policies(
@@ -1788,7 +1788,7 @@ function list_access_policies(
         "/access-policies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1820,7 +1820,7 @@ function list_addons(name; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/clusters/$(name)/addons";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_addons(
@@ -1831,7 +1831,7 @@ function list_addons(
         "/clusters/$(name)/addons",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1866,7 +1866,7 @@ function list_associated_access_policies(
         "GET",
         "/clusters/$(name)/access-entries/$(principalArn)/access-policies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_associated_access_policies(
@@ -1880,7 +1880,7 @@ function list_associated_access_policies(
         "/clusters/$(name)/access-entries/$(principalArn)/access-policies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1911,13 +1911,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   programmatic purposes.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks("GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return eks("GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return eks(
-        "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1949,7 +1949,7 @@ function list_eks_anywhere_subscriptions(;
         "GET",
         "/eks-anywhere-subscriptions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_eks_anywhere_subscriptions(
@@ -1960,7 +1960,7 @@ function list_eks_anywhere_subscriptions(
         "/eks-anywhere-subscriptions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1993,7 +1993,7 @@ function list_fargate_profiles(name; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/clusters/$(name)/fargate-profiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fargate_profiles(
@@ -2004,7 +2004,7 @@ function list_fargate_profiles(
         "/clusters/$(name)/fargate-profiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2038,7 +2038,7 @@ function list_identity_provider_configs(
         "GET",
         "/clusters/$(name)/identity-provider-configs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_provider_configs(
@@ -2049,7 +2049,7 @@ function list_identity_provider_configs(
         "/clusters/$(name)/identity-provider-configs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2083,7 +2083,7 @@ function list_insights(name; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/clusters/$(name)/insights";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_insights(
@@ -2094,7 +2094,7 @@ function list_insights(
         "/clusters/$(name)/insights",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2128,7 +2128,7 @@ function list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config()
         "GET",
         "/clusters/$(name)/node-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_nodegroups(
@@ -2139,7 +2139,7 @@ function list_nodegroups(
         "/clusters/$(name)/node-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2178,7 +2178,7 @@ function list_pod_identity_associations(
         "GET",
         "/clusters/$(name)/pod-identity-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pod_identity_associations(
@@ -2189,7 +2189,7 @@ function list_pod_identity_associations(
         "/clusters/$(name)/pod-identity-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2211,7 +2211,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2224,7 +2224,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2259,7 +2259,7 @@ function list_updates(name; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/clusters/$(name)/updates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_updates(
@@ -2270,7 +2270,7 @@ function list_updates(
         "/clusters/$(name)/updates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2313,7 +2313,7 @@ function register_cluster(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_cluster(
@@ -2337,7 +2337,7 @@ function register_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2366,7 +2366,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2380,7 +2380,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2403,7 +2403,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2417,7 +2417,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2461,7 +2461,7 @@ function update_access_entry(
         "/clusters/$(name)/access-entries/$(principalArn)",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_access_entry(
@@ -2479,7 +2479,7 @@ function update_access_entry(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2529,7 +2529,7 @@ function update_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_
         "/clusters/$(name)/addons/$(addonName)/update",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_addon(
@@ -2547,7 +2547,7 @@ function update_addon(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2598,7 +2598,7 @@ function update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_co
         "/clusters/$(name)/update-config",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cluster_config(
@@ -2613,7 +2613,7 @@ function update_cluster_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2648,7 +2648,7 @@ function update_cluster_version(
         "/clusters/$(name)/updates",
         Dict{String,Any}("version" => version, "clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cluster_version(
@@ -2670,7 +2670,7 @@ function update_cluster_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2698,7 +2698,7 @@ function update_eks_anywhere_subscription(
         "/eks-anywhere-subscriptions/$(id)",
         Dict{String,Any}("autoRenew" => autoRenew, "clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_eks_anywhere_subscription(
@@ -2720,7 +2720,7 @@ function update_eks_anywhere_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2757,7 +2757,7 @@ function update_nodegroup_config(
         "/clusters/$(name)/node-groups/$(nodegroupName)/update-config",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_nodegroup_config(
@@ -2775,7 +2775,7 @@ function update_nodegroup_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2842,7 +2842,7 @@ function update_nodegroup_version(
         "/clusters/$(name)/node-groups/$(nodegroupName)/update-version",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_nodegroup_version(
@@ -2860,7 +2860,7 @@ function update_nodegroup_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2891,7 +2891,7 @@ function update_pod_identity_association(
         "/clusters/$(name)/pod-identity-associations/$(associationId)",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pod_identity_association(
@@ -2909,6 +2909,6 @@ function update_pod_identity_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

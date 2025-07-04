@@ -37,7 +37,7 @@ function create_campaign(
             "outboundCallConfig" => outboundCallConfig,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_campaign(
@@ -64,7 +64,7 @@ function create_campaign(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -80,7 +80,10 @@ Deletes a campaign from the specified Amazon Connect account.
 """
 function delete_campaign(id; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcampaigns(
-        "DELETE", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/campaigns/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_campaign(
@@ -91,7 +94,7 @@ function delete_campaign(
         "/campaigns/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -112,7 +115,7 @@ function delete_connect_instance_config(
         "DELETE",
         "/connect-instance/$(connectInstanceId)/config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_connect_instance_config(
@@ -125,7 +128,7 @@ function delete_connect_instance_config(
         "/connect-instance/$(connectInstanceId)/config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -146,7 +149,7 @@ function delete_instance_onboarding_job(
         "DELETE",
         "/connect-instance/$(connectInstanceId)/onboarding";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_instance_onboarding_job(
@@ -159,7 +162,7 @@ function delete_instance_onboarding_job(
         "/connect-instance/$(connectInstanceId)/onboarding",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -175,7 +178,7 @@ Describes the specific campaign.
 """
 function describe_campaign(id; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcampaigns(
-        "GET", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_campaign(
@@ -186,7 +189,7 @@ function describe_campaign(
         "/campaigns/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -205,7 +208,7 @@ function get_campaign_state(id; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/campaigns/$(id)/state";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign_state(
@@ -216,7 +219,7 @@ function get_campaign_state(
         "/campaigns/$(id)/state",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -238,7 +241,7 @@ function get_campaign_state_batch(
         "/campaigns-state",
         Dict{String,Any}("campaignIds" => campaignIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign_state_batch(
@@ -253,7 +256,7 @@ function get_campaign_state_batch(
             mergewith(_merge, Dict{String,Any}("campaignIds" => campaignIds), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -274,7 +277,7 @@ function get_connect_instance_config(
         "GET",
         "/connect-instance/$(connectInstanceId)/config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connect_instance_config(
@@ -287,7 +290,7 @@ function get_connect_instance_config(
         "/connect-instance/$(connectInstanceId)/config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -308,7 +311,7 @@ function get_instance_onboarding_job_status(
         "GET",
         "/connect-instance/$(connectInstanceId)/onboarding";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_instance_onboarding_job_status(
@@ -321,7 +324,7 @@ function get_instance_onboarding_job_status(
         "/connect-instance/$(connectInstanceId)/onboarding",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -339,7 +342,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_campaigns(; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcampaigns(
-        "POST", "/campaigns-summary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/campaigns-summary";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_campaigns(
@@ -350,7 +356,7 @@ function list_campaigns(
         "/campaigns-summary",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -366,7 +372,7 @@ List tags for a resource.
 """
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcampaigns(
-        "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_tags_for_resource(
@@ -377,7 +383,7 @@ function list_tags_for_resource(
         "/tags/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -396,7 +402,7 @@ function pause_campaign(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/campaigns/$(id)/pause";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function pause_campaign(
@@ -407,7 +413,7 @@ function pause_campaign(
         "/campaigns/$(id)/pause",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -431,7 +437,7 @@ function put_dial_request_batch(
         "/campaigns/$(id)/dial-requests",
         Dict{String,Any}("dialRequests" => dialRequests);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_dial_request_batch(
@@ -447,7 +453,7 @@ function put_dial_request_batch(
             mergewith(_merge, Dict{String,Any}("dialRequests" => dialRequests), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -466,7 +472,7 @@ function resume_campaign(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/campaigns/$(id)/resume";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resume_campaign(
@@ -477,7 +483,7 @@ function resume_campaign(
         "/campaigns/$(id)/resume",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -496,7 +502,7 @@ function start_campaign(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/campaigns/$(id)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_campaign(
@@ -507,7 +513,7 @@ function start_campaign(
         "/campaigns/$(id)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -530,7 +536,7 @@ function start_instance_onboarding_job(
         "/connect-instance/$(connectInstanceId)/onboarding",
         Dict{String,Any}("encryptionConfig" => encryptionConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_instance_onboarding_job(
@@ -548,7 +554,7 @@ function start_instance_onboarding_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -567,7 +573,7 @@ function stop_campaign(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/campaigns/$(id)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_campaign(
@@ -578,7 +584,7 @@ function stop_campaign(
         "/campaigns/$(id)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -599,7 +605,7 @@ function tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config
         "/tags/$(arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -613,7 +619,7 @@ function tag_resource(
         "/tags/$(arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -634,7 +640,7 @@ function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_c
         "/tags/$(arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -648,7 +654,7 @@ function untag_resource(
         "/tags/$(arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -671,7 +677,7 @@ function update_campaign_dialer_config(
         "/campaigns/$(id)/dialer-config",
         Dict{String,Any}("dialerConfig" => dialerConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_campaign_dialer_config(
@@ -687,7 +693,7 @@ function update_campaign_dialer_config(
             mergewith(_merge, Dict{String,Any}("dialerConfig" => dialerConfig), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -708,7 +714,7 @@ function update_campaign_name(id, name; aws_config::AbstractAWSConfig=global_aws
         "/campaigns/$(id)/name",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_campaign_name(
@@ -722,7 +728,7 @@ function update_campaign_name(
         "/campaigns/$(id)/name",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -748,7 +754,7 @@ function update_campaign_outbound_call_config(
         "POST",
         "/campaigns/$(id)/outbound-call-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_campaign_outbound_call_config(
@@ -759,6 +765,6 @@ function update_campaign_outbound_call_config(
         "/campaigns/$(id)/outbound-call-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
