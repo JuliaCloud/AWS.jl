@@ -1,8 +1,5 @@
 const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
 
-http_header(h::Vector, k, d="") = get(Dict(h), k, d)
-http_header(args...) = HTTP.header(args...)
-
 @testset "_role_session_name" begin
     @test AWS._role_session_name("prefix-", "name", "-suffix") == "prefix-name-suffix"
     @test AWS._role_session_name("a"^22, "b"^22, "c"^22) == "a"^22 * "b"^20 * "c"^22
@@ -541,7 +538,7 @@ end
                     end
                 end
 
-                @testset "Web identity preferred over SSO" begin
+                @testset "Web identity preferred over IAM Identity Center (SSO)" begin
                     write(
                         config_file,
                         """
@@ -577,29 +574,34 @@ end
                     end
                 end
 
-                @testset "IAM Identity Center preferred over legacy SSO" begin
+                @testset "IAM Identity Center (SSO) preferred over Legacy IAM Identity Center" begin
                     write(
                         config_file,
                         """
-                        [sso-session my-sso]
-                        sso_region = us-east-1
-                        sso_start_url = https://my-sso-portal.awsapps.com/start
-
                         [default]
                         sso_session = my-sso
-                        sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
                         sso_role_name = role1
+                        sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+
+                        [sso-session my-sso]
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_region = us-east-1
                         """,
                     )
                     isfile(creds_file) && rm(creds_file)
 
                     apply(Patches.sso_service_patches("AKI_SSO", "SAK_SSO")) do
                         creds = AWSCredentials()
-                        @test creds.access_key_id == "AKI_WEB"
+                        @test creds.access_key_id == "AKI_SSO"
+
+                        # Using the credential token to identify the which SSO system is
+                        # used. For legacy SSO this would be `sso_start_url` instead of
+                        # `sso_session`.
+                        @test creds.token == "my-sso"
                     end
                 end
 
-                @testset "SSO preferred over credentials file" begin
+                @testset "Legacy IAM Identity Center (SSO) preferred over credentials file" begin
                     write(
                         config_file,
                         """

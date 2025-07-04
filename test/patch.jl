@@ -8,6 +8,7 @@ using JSON
 using GitHub
 using Mocking
 using OrderedCollections: LittleDict
+using ...Main: http_header
 
 version = v"1.1.0"
 status = 200
@@ -210,17 +211,20 @@ function gen_http_options_400_patches(message)
     ]
 end
 
-_sso_access_token_patch = @patch function AWS._sso_cache_access_token(sso_start_url)
-    return "123token456"
+# Pass the session name through which will be stored in the HTTP header:
+# "x-amz-sso_bearer_token"
+_sso_access_token_patch = @patch function AWS._sso_cache_access_token(session_name)
+    return session_name
 end
 
 function sso_service_patches(access_key_id, secret_access_key)
-    p = @patch function AWSServices.sso(args...; kwargs...)
+    p = @patch function AWSServices.sso(method, uri, args; kwargs...)
+        # Use the session token to identify through the type of SSO used.
         return Dict(
             "roleCredentials" => Dict(
                 "accessKeyId" => access_key_id,
                 "secretAccessKey" => secret_access_key,
-                "sessionToken" => "",
+                "sessionToken" => http_header(args["headers"], "x-amz-sso_bearer_token"),
                 "expiration" =>
                     floor(Int, Dates.datetime2unix(Dates.now(UTC) + Dates.Hour(1))) * 1000,  # ms
             ),
