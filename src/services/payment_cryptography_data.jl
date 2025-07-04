@@ -39,7 +39,7 @@ function decrypt_data(
     CipherText,
     DecryptionAttributes,
     KeyIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -56,7 +56,7 @@ function decrypt_data(
     DecryptionAttributes,
     KeyIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -117,7 +117,7 @@ function encrypt_data(
     EncryptionAttributes,
     KeyIdentifier,
     PlainText;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -134,7 +134,7 @@ function encrypt_data(
     KeyIdentifier,
     PlainText,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -189,7 +189,7 @@ function generate_card_validation_data(
     GenerationAttributes,
     KeyIdentifier,
     PrimaryAccountNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -208,7 +208,7 @@ function generate_card_validation_data(
     KeyIdentifier,
     PrimaryAccountNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -263,7 +263,7 @@ function generate_mac(
     GenerationAttributes,
     KeyIdentifier,
     MessageData;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -282,7 +282,7 @@ function generate_mac(
     KeyIdentifier,
     MessageData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -346,7 +346,7 @@ function generate_pin_data(
     GenerationKeyIdentifier,
     PinBlockFormat,
     PrimaryAccountNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -369,7 +369,7 @@ function generate_pin_data(
     PinBlockFormat,
     PrimaryAccountNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -429,7 +429,7 @@ function re_encrypt_data(
     IncomingKeyIdentifier,
     OutgoingEncryptionAttributes,
     OutgoingKeyIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -451,7 +451,7 @@ function re_encrypt_data(
     OutgoingEncryptionAttributes,
     OutgoingKeyIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -521,7 +521,7 @@ function translate_pin_data(
     IncomingTranslationAttributes,
     OutgoingKeyIdentifier,
     OutgoingTranslationAttributes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -544,7 +544,7 @@ function translate_pin_data(
     OutgoingKeyIdentifier,
     OutgoingTranslationAttributes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -616,7 +616,7 @@ function verify_auth_request_cryptogram(
     MajorKeyDerivationMode,
     SessionKeyDerivationAttributes,
     TransactionData;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -639,7 +639,7 @@ function verify_auth_request_cryptogram(
     SessionKeyDerivationAttributes,
     TransactionData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -698,7 +698,7 @@ function verify_card_validation_data(
     PrimaryAccountNumber,
     ValidationData,
     VerificationAttributes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -719,7 +719,7 @@ function verify_card_validation_data(
     ValidationData,
     VerificationAttributes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -773,7 +773,7 @@ function verify_mac(
     Mac,
     MessageData,
     VerificationAttributes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -794,7 +794,7 @@ function verify_mac(
     MessageData,
     VerificationAttributes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -860,7 +860,7 @@ function verify_pin_data(
     PrimaryAccountNumber,
     VerificationAttributes,
     VerificationKeyIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",
@@ -885,7 +885,7 @@ function verify_pin_data(
     VerificationAttributes,
     VerificationKeyIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return payment_cryptography_data(
         "POST",

@@ -18,7 +18,7 @@ kicked off by the StartUserAccessTasks action.
 
 """
 function batch_get_user_access_tasks(
-    appBundleIdentifier, taskIdList; aws_config::AbstractAWSConfig=global_aws_config()
+    appBundleIdentifier, taskIdList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "POST",
@@ -34,7 +34,7 @@ function batch_get_user_access_tasks(
     appBundleIdentifier,
     taskIdList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -74,7 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function connect_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -87,7 +87,7 @@ function connect_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -137,7 +137,7 @@ function create_app_authorization(
     authType,
     credential,
     tenant;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -160,7 +160,7 @@ function create_app_authorization(
     credential,
     tenant,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -204,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services owned key is used for encryption.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
-function create_app_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_app_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "POST",
         "/appbundles",
@@ -214,7 +214,7 @@ function create_app_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_app_bundle(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "POST",
@@ -259,7 +259,7 @@ function create_ingestion(
     appBundleIdentifier,
     ingestionType,
     tenantId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -280,7 +280,7 @@ function create_ingestion(
     ingestionType,
     tenantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -334,7 +334,7 @@ function create_ingestion_destination(
     destinationConfiguration,
     ingestionIdentifier,
     processingConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -354,7 +354,7 @@ function create_ingestion_destination(
     ingestionIdentifier,
     processingConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -392,7 +392,7 @@ delete an app authorization.
 function delete_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -405,7 +405,7 @@ function delete_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -429,7 +429,7 @@ delete an app bundle.
 
 """
 function delete_app_bundle(
-    appBundleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "DELETE",
@@ -441,7 +441,7 @@ end
 function delete_app_bundle(
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -469,7 +469,7 @@ associated ingestion destinations before you can delete an app ingestion.
 function delete_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -482,7 +482,7 @@ function delete_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -516,7 +516,7 @@ function delete_ingestion_destination(
     appBundleIdentifier,
     ingestionDestinationIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -530,7 +530,7 @@ function delete_ingestion_destination(
     ingestionDestinationIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -557,7 +557,7 @@ Returns information about an app authorization.
 function get_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -570,7 +570,7 @@ function get_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -593,7 +593,7 @@ Returns information about an app bundle.
 
 """
 function get_app_bundle(
-    appBundleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "GET",
@@ -605,7 +605,7 @@ end
 function get_app_bundle(
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -632,7 +632,7 @@ Returns information about an ingestion.
 function get_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -645,7 +645,7 @@ function get_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -675,7 +675,7 @@ function get_ingestion_destination(
     appBundleIdentifier,
     ingestionDestinationIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -689,7 +689,7 @@ function get_ingestion_destination(
     ingestionDestinationIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -722,7 +722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 """
 function list_app_authorizations(
-    appBundleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "GET",
@@ -734,7 +734,7 @@ end
 function list_app_authorizations(
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -762,13 +762,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-function list_app_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_app_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "GET", "/appbundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_app_bundles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "GET", "/appbundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -801,7 +801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_ingestion_destinations(
     appBundleIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -814,7 +814,7 @@ function list_ingestion_destinations(
     appBundleIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -847,7 +847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 """
 function list_ingestions(
-    appBundleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "GET",
@@ -859,7 +859,7 @@ end
 function list_ingestions(
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -882,7 +882,7 @@ Returns a list of tags for a resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "GET",
@@ -894,7 +894,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "GET",
@@ -921,7 +921,7 @@ Starts (enables) an ingestion, which collects data from an application.
 function start_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -934,7 +934,7 @@ function start_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -960,7 +960,7 @@ calls to the application time out.
 
 """
 function start_user_access_tasks(
-    appBundleIdentifier, email; aws_config::AbstractAWSConfig=global_aws_config()
+    appBundleIdentifier, email; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "POST",
@@ -974,7 +974,7 @@ function start_user_access_tasks(
     appBundleIdentifier,
     email,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -1009,7 +1009,7 @@ Stops (disables) an ingestion.
 function stop_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -1022,7 +1022,7 @@ function stop_ingestion(
     appBundleIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -1044,7 +1044,7 @@ Assigns one or more tags (key-value pairs) to the specified resource.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "POST",
         "/tags/$(resourceArn)",
@@ -1057,7 +1057,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "POST",
@@ -1081,7 +1081,7 @@ Removes a tag or tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
         "DELETE",
@@ -1095,7 +1095,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "DELETE",
@@ -1132,7 +1132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "PATCH",
@@ -1145,7 +1145,7 @@ function update_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "PATCH",
@@ -1178,7 +1178,7 @@ function update_ingestion_destination(
     destinationConfiguration,
     ingestionDestinationIdentifier,
     ingestionIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "PATCH",
@@ -1194,7 +1194,7 @@ function update_ingestion_destination(
     ingestionDestinationIdentifier,
     ingestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
         "PATCH",

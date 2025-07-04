@@ -31,7 +31,7 @@ function associate_agent_knowledge_base(
     agentVersion,
     description,
     knowledgeBaseId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -49,7 +49,7 @@ function associate_agent_knowledge_base(
     description,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -113,7 +113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parts of an agent sequence. For more information, see Advanced prompts.
 - `"tags"`: Any tags that you want to attach to the agent.
 """
-function create_agent(agentName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "PUT",
         "/agents/",
@@ -125,7 +125,7 @@ end
 function create_agent(
     agentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -192,7 +192,7 @@ function create_agent_action_group(
     actionGroupName,
     agentId,
     agentVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -209,7 +209,7 @@ function create_agent_action_group(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Any tags that you want to attach to the alias of the agent.
 """
 function create_agent_alias(
-    agentAliasName, agentId; aws_config::AbstractAWSConfig=global_aws_config()
+    agentAliasName, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "PUT",
@@ -265,7 +265,7 @@ function create_agent_alias(
     agentAliasName,
     agentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -314,7 +314,7 @@ function create_data_source(
     dataSourceConfiguration,
     knowledgeBaseId,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -333,7 +333,7 @@ function create_data_source(
     knowledgeBaseId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -400,7 +400,7 @@ function create_knowledge_base(
     name,
     roleArn,
     storageConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -422,7 +422,7 @@ function create_knowledge_base(
     roleArn,
     storageConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -460,7 +460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the resource is in use. If you set it to true, the resource will be deleted even if the
   resource is in use.
 """
-function delete_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "DELETE",
         "/agents/$(agentId)/";
@@ -469,7 +469,9 @@ function delete_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_agent(
-    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -498,7 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_agent_action_group(
-    actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "DELETE",
@@ -512,7 +514,7 @@ function delete_agent_action_group(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -535,7 +537,7 @@ Deletes an alias of an agent.
 
 """
 function delete_agent_alias(
-    agentAliasId, agentId; aws_config::AbstractAWSConfig=global_aws_config()
+    agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "DELETE",
@@ -548,7 +550,7 @@ function delete_agent_alias(
     agentAliasId,
     agentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -576,7 +578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_agent_version(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "DELETE",
@@ -589,7 +591,7 @@ function delete_agent_version(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -613,7 +615,7 @@ Deletes a data source from a knowledge base.
 
 """
 function delete_data_source(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "DELETE",
@@ -626,7 +628,7 @@ function delete_data_source(
     dataSourceId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -650,7 +652,7 @@ DisassociateAgentKnowledgeBase request.
 
 """
 function delete_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "DELETE",
@@ -662,7 +664,7 @@ end
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -690,7 +692,7 @@ function disassociate_agent_knowledge_base(
     agentId,
     agentVersion,
     knowledgeBaseId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -704,7 +706,7 @@ function disassociate_agent_knowledge_base(
     agentVersion,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -725,13 +727,15 @@ Gets information about an agent.
 - `agent_id`: The unique identifier of the agent.
 
 """
-function get_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_agent(
-    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -755,7 +759,7 @@ Gets information about an action group for an agent.
 
 """
 function get_agent_action_group(
-    actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "GET",
@@ -769,7 +773,7 @@ function get_agent_action_group(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -793,7 +797,7 @@ Gets information about an alias of an agent.
 
 """
 function get_agent_alias(
-    agentAliasId, agentId; aws_config::AbstractAWSConfig=global_aws_config()
+    agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "GET",
@@ -806,7 +810,7 @@ function get_agent_alias(
     agentAliasId,
     agentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -835,7 +839,7 @@ function get_agent_knowledge_base(
     agentId,
     agentVersion,
     knowledgeBaseId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -849,7 +853,7 @@ function get_agent_knowledge_base(
     agentVersion,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -872,7 +876,7 @@ Gets details about a version of an agent.
 
 """
 function get_agent_version(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "GET",
@@ -885,7 +889,7 @@ function get_agent_version(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -909,7 +913,7 @@ Gets information about a data source.
 
 """
 function get_data_source(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "GET",
@@ -922,7 +926,7 @@ function get_data_source(
     dataSourceId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -950,7 +954,7 @@ function get_ingestion_job(
     dataSourceId,
     ingestionJobId,
     knowledgeBaseId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -964,7 +968,7 @@ function get_ingestion_job(
     ingestionJobId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -987,7 +991,7 @@ Gets information about a knoweldge base.
 
 """
 function get_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "GET",
@@ -999,7 +1003,7 @@ end
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -1030,7 +1034,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agent_action_groups(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "POST",
@@ -1043,7 +1047,7 @@ function list_agent_action_groups(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1072,7 +1076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided in the request, enter the token returned in the nextToken field in the response in
   this field to return the next batch of results.
 """
-function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/agentaliases/";
@@ -1081,7 +1085,9 @@ function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_agent_aliases(
-    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1114,7 +1120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agent_knowledge_bases(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "POST",
@@ -1127,7 +1133,7 @@ function list_agent_knowledge_bases(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1156,7 +1162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided in the request, enter the token returned in the nextToken field in the response in
   this field to return the next batch of results.
 """
-function list_agent_versions(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/agentversions/";
@@ -1165,7 +1171,9 @@ function list_agent_versions(agentId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function list_agent_versions(
-    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1191,13 +1199,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided in the request, enter the token returned in the nextToken field in the response in
   this field to return the next batch of results.
 """
-function list_agents(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_agents(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "POST", "/agents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1224,7 +1232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_data_sources(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "POST",
@@ -1236,7 +1244,7 @@ end
 function list_data_sources(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1271,7 +1279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Contains details about how to sort the results.
 """
 function list_ingestion_jobs(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "POST",
@@ -1284,7 +1292,7 @@ function list_ingestion_jobs(
     dataSourceId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1310,13 +1318,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided in the request, enter the token returned in the nextToken field in the response in
   this field to return the next batch of results.
 """
-function list_knowledge_bases(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_knowledge_bases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "POST",
@@ -1338,7 +1346,7 @@ List all the tags for the resource you specify.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "GET",
@@ -1350,7 +1358,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "GET",
@@ -1371,7 +1379,7 @@ Creates a DRAFT version of the agent that can be used for internal testing.
 - `agent_id`: The unique identifier of the agent for which to create a DRAFT version.
 
 """
-function prepare_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+function prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/";
@@ -1380,7 +1388,9 @@ function prepare_agent(agentId; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function prepare_agent(
-    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1411,7 +1421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the ingestion job.
 """
 function start_ingestion_job(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "PUT",
@@ -1425,7 +1435,7 @@ function start_ingestion_job(
     dataSourceId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1451,7 +1461,7 @@ Bedrock User Guide.
   resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
         "/tags/$(resourceArn)",
@@ -1464,7 +1474,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "POST",
@@ -1487,7 +1497,7 @@ Remove tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
         "DELETE",
@@ -1501,7 +1511,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "DELETE",
@@ -1547,7 +1557,7 @@ function update_agent(
     agentName,
     agentResourceRoleArn,
     foundationModel;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1567,7 +1577,7 @@ function update_agent(
     agentResourceRoleArn,
     foundationModel,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1626,7 +1636,7 @@ function update_agent_action_group(
     actionGroupName,
     agentId,
     agentVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1642,7 +1652,7 @@ function update_agent_action_group(
     agentId,
     agentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1674,7 +1684,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 """
 function update_agent_alias(
-    agentAliasId, agentAliasName, agentId; aws_config::AbstractAWSConfig=global_aws_config()
+    agentAliasId,
+    agentAliasName,
+    agentId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1689,7 +1702,7 @@ function update_agent_alias(
     agentAliasName,
     agentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1727,7 +1740,7 @@ function update_agent_knowledge_base(
     agentId,
     agentVersion,
     knowledgeBaseId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1741,7 +1754,7 @@ function update_agent_knowledge_base(
     agentVersion,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1781,7 +1794,7 @@ function update_data_source(
     dataSourceId,
     knowledgeBaseId,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1799,7 +1812,7 @@ function update_data_source(
     knowledgeBaseId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1850,7 +1863,7 @@ function update_knowledge_base(
     name,
     roleArn,
     storageConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",
@@ -1872,7 +1885,7 @@ function update_knowledge_base(
     roleArn,
     storageConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
         "PUT",

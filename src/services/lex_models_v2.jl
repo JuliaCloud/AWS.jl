@@ -26,7 +26,7 @@ function batch_create_custom_vocabulary_item(
     botVersion,
     customVocabularyItemList,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -42,7 +42,7 @@ function batch_create_custom_vocabulary_item(
     customVocabularyItemList,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -81,7 +81,7 @@ function batch_delete_custom_vocabulary_item(
     botVersion,
     customVocabularyItemList,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -97,7 +97,7 @@ function batch_delete_custom_vocabulary_item(
     customVocabularyItemList,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -136,7 +136,7 @@ function batch_update_custom_vocabulary_item(
     botVersion,
     customVocabularyItemList,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -152,7 +152,7 @@ function batch_update_custom_vocabulary_item(
     customVocabularyItemList,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -187,7 +187,7 @@ into multiple locales. At runtime the locale is used to choose a specific build 
 
 """
 function build_bot_locale(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -201,7 +201,7 @@ function build_bot_locale(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -249,7 +249,7 @@ function create_bot(
     dataPrivacy,
     idleSessionTTLInSeconds,
     roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -270,7 +270,7 @@ function create_bot(
     idleSessionTTLInSeconds,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -323,7 +323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update tags, use the TagResource operation.
 """
 function create_bot_alias(
-    botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasName, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -337,7 +337,7 @@ function create_bot_alias(
     botAliasName,
     botId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -387,7 +387,7 @@ function create_bot_locale(
     botVersion,
     localeId,
     nluIntentConfidenceThreshold;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -406,7 +406,7 @@ function create_bot_locale(
     localeId,
     nluIntentConfidenceThreshold,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -440,7 +440,7 @@ Action to create a replication of the source bot in the secondary region.
 
 """
 function create_bot_replica(
-    botId, replicaRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -454,7 +454,7 @@ function create_bot_replica(
     botId,
     replicaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -490,7 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version in lists.
 """
 function create_bot_version(
-    botId, botVersionLocaleSpecification; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersionLocaleSpecification; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -504,7 +504,7 @@ function create_bot_version(
     botId,
     botVersionLocaleSpecification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -546,7 +546,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Lex and your local computer.
 """
 function create_export(
-    fileFormat, resourceSpecification; aws_config::AbstractAWSConfig=global_aws_config()
+    fileFormat, resourceSpecification; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -562,7 +562,7 @@ function create_export(
     fileFormat,
     resourceSpecification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -668,7 +668,7 @@ function create_intent(
     botVersion,
     intentName,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -684,7 +684,7 @@ function create_intent(
     intentName,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -713,7 +713,7 @@ Creates a new resource policy with the specified policy statements.
 
 """
 function create_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -727,7 +727,7 @@ function create_resource_policy(
     policy,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -778,7 +778,7 @@ function create_resource_policy_statement(
     principal,
     resourceArn,
     statementId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -800,7 +800,7 @@ function create_resource_policy_statement(
     resourceArn,
     statementId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -865,7 +865,7 @@ function create_slot(
     localeId,
     slotName,
     valueElicitationSetting;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -885,7 +885,7 @@ function create_slot(
     slotName,
     valueElicitationSetting,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -947,7 +947,7 @@ function create_slot_type(
     botVersion,
     localeId,
     slotTypeName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -963,7 +963,7 @@ function create_slot_type(
     localeId,
     slotTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -988,7 +988,7 @@ Create a report that describes the differences between the bot and the test set.
 
 """
 function create_test_set_discrepancy_report(
-    target, testSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    target, testSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -1002,7 +1002,7 @@ function create_test_set_discrepancy_report(
     target,
     testSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -1021,13 +1021,13 @@ Gets a pre-signed S3 write URL that you use to upload the zip archive when impor
 or a bot locale.
 
 """
-function create_upload_url(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_upload_url(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST", "/createuploadurl/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_upload_url(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -1060,13 +1060,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to true to skip this check and remove the bot even if it is being used by another
   resource.
 """
-function delete_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "DELETE", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_bot(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1096,7 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   another resource.
 """
 function delete_bot_alias(
-    botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasId, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1109,7 +1109,7 @@ function delete_bot_alias(
     botAliasId,
     botId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1135,7 +1135,7 @@ defined for the locale are also deleted.
 
 """
 function delete_bot_locale(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1149,7 +1149,7 @@ function delete_bot_locale(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1172,7 +1172,7 @@ The action to delete the replicated bot in the secondary region.
 
 """
 function delete_bot_replica(
-    botId, replicaRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1185,7 +1185,7 @@ function delete_bot_replica(
     botId,
     replicaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1216,7 +1216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   another resource.
 """
 function delete_bot_version(
-    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1229,7 +1229,7 @@ function delete_bot_version(
     botId,
     botVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1254,7 +1254,7 @@ Removes a custom vocabulary from the specified locale in the specified bot.
 
 """
 function delete_custom_vocabulary(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1268,7 +1268,7 @@ function delete_custom_vocabulary(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1289,7 +1289,7 @@ Removes a previous export and the associated files stored in an S3 bucket.
 - `export_id`: The unique identifier of the export to delete.
 
 """
-function delete_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "DELETE",
         "/exports/$(exportId)/";
@@ -1300,7 +1300,7 @@ end
 function delete_export(
     exportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1321,7 +1321,7 @@ Removes a previous import and the associated file stored in an S3 bucket.
 - `import_id`: The unique identifier of the import to delete.
 
 """
-function delete_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "DELETE",
         "/imports/$(importId)/";
@@ -1332,7 +1332,7 @@ end
 function delete_import(
     importId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1360,7 +1360,11 @@ intent.
 
 """
 function delete_intent(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId,
+    botVersion,
+    intentId,
+    localeId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1375,7 +1379,7 @@ function delete_intent(
     intentId,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1404,7 +1408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   revision ID, Amazon Lex will delete the current policy.
 """
 function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1416,7 +1420,7 @@ end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1449,7 +1453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contents of the statement.
 """
 function delete_resource_policy_statement(
-    resourceArn, statementId; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, statementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1462,7 +1466,7 @@ function delete_resource_policy_statement(
     resourceArn,
     statementId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1495,7 +1499,7 @@ function delete_slot(
     intentId,
     localeId,
     slotId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1511,7 +1515,7 @@ function delete_slot(
     localeId,
     slotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1550,7 +1554,7 @@ function delete_slot_type(
     botVersion,
     localeId,
     slotTypeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1565,7 +1569,7 @@ function delete_slot_type(
     localeId,
     slotTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1586,7 +1590,7 @@ The action to delete the selected test set.
 - `test_set_id`: The test set Id of the test set to be deleted.
 
 """
-function delete_test_set(testSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "DELETE",
         "/testsets/$(testSetId)";
@@ -1597,7 +1601,7 @@ end
 function delete_test_set(
     testSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -1631,7 +1635,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionId"`: The unique identifier of the session with the user. The ID is returned in
   the response from the RecognizeText and RecognizeUtterance operations.
 """
-function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_utterances(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/utterances/";
@@ -1640,7 +1644,7 @@ function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function delete_utterances(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -1661,13 +1665,13 @@ Provides metadata information about a bot.
 - `bot_id`: The unique identifier of the bot to describe.
 
 """
-function describe_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "GET", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_bot(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -1690,7 +1694,7 @@ Get information about a specific bot alias.
 
 """
 function describe_bot_alias(
-    botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasId, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -1703,7 +1707,7 @@ function describe_bot_alias(
     botAliasId,
     botId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1728,7 +1732,7 @@ Describes the settings that a bot has for a specific locale.
 
 """
 function describe_bot_locale(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -1742,7 +1746,7 @@ function describe_bot_locale(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1776,7 +1780,7 @@ function describe_bot_recommendation(
     botRecommendationId,
     botVersion,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1791,7 +1795,7 @@ function describe_bot_recommendation(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1814,7 +1818,7 @@ Monitors the bot replication status through the UI console.
 
 """
 function describe_bot_replica(
-    botId, replicaRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -1827,7 +1831,7 @@ function describe_bot_replica(
     botId,
     replicaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1860,7 +1864,7 @@ function describe_bot_resource_generation(
     botVersion,
     generationId,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1875,7 +1879,7 @@ function describe_bot_resource_generation(
     generationId,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1898,7 +1902,7 @@ Provides metadata about a version of a bot.
 
 """
 function describe_bot_version(
-    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -1911,7 +1915,7 @@ function describe_bot_version(
     botId,
     botVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1936,7 +1940,7 @@ Provides metadata information about a custom vocabulary.
 
 """
 function describe_custom_vocabulary_metadata(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -1950,7 +1954,7 @@ function describe_custom_vocabulary_metadata(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -1971,7 +1975,7 @@ Gets information about a specific export.
 - `export_id`: The unique identifier of the export to describe.
 
 """
-function describe_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "GET",
         "/exports/$(exportId)/";
@@ -1982,7 +1986,7 @@ end
 function describe_export(
     exportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2003,7 +2007,7 @@ Gets information about a specific import.
 - `import_id`: The unique identifier of the import to describe.
 
 """
-function describe_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "GET",
         "/imports/$(importId)/";
@@ -2014,7 +2018,7 @@ end
 function describe_import(
     importId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2041,7 +2045,11 @@ Returns metadata about an intent.
 
 """
 function describe_intent(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId,
+    botVersion,
+    intentId,
+    localeId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2056,7 +2064,7 @@ function describe_intent(
     intentId,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2079,7 +2087,7 @@ Gets the resource policy and policy revision for a bot or bot alias.
 
 """
 function describe_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -2091,7 +2099,7 @@ end
 function describe_resource_policy(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2124,7 +2132,7 @@ function describe_slot(
     intentId,
     localeId,
     slotId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2140,7 +2148,7 @@ function describe_slot(
     localeId,
     slotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2171,7 +2179,7 @@ function describe_slot_type(
     botVersion,
     localeId,
     slotTypeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2186,7 +2194,7 @@ function describe_slot_type(
     localeId,
     slotTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2208,7 +2216,7 @@ Gets metadata information about the test execution.
 
 """
 function describe_test_execution(
-    testExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    testExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -2220,7 +2228,7 @@ end
 function describe_test_execution(
     testExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2241,7 +2249,7 @@ Gets metadata information about the test set.
 - `test_set_id`: The test set Id for the test set request.
 
 """
-function describe_test_set(testSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "GET",
         "/testsets/$(testSetId)";
@@ -2252,7 +2260,7 @@ end
 function describe_test_set(
     testSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2275,7 +2283,7 @@ Gets metadata information about the test set discrepancy report.
 
 """
 function describe_test_set_discrepancy_report(
-    testSetDiscrepancyReportId; aws_config::AbstractAWSConfig=global_aws_config()
+    testSetDiscrepancyReportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -2287,7 +2295,7 @@ end
 function describe_test_set_discrepancy_report(
     testSetDiscrepancyReportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2309,7 +2317,7 @@ Gets metadata information about the test set generation.
 
 """
 function describe_test_set_generation(
-    testSetGenerationId; aws_config::AbstractAWSConfig=global_aws_config()
+    testSetGenerationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -2321,7 +2329,7 @@ end
 function describe_test_set_generation(
     testSetGenerationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2346,7 +2354,11 @@ Generates sample utterances for an intent.
 
 """
 function generate_bot_element(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId,
+    botVersion,
+    intentId,
+    localeId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2362,7 +2374,7 @@ function generate_bot_element(
     intentId,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2386,7 +2398,7 @@ The pre-signed Amazon S3 URL to download the test execution result artifacts.
 
 """
 function get_test_execution_artifacts_url(
-    testExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    testExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -2398,7 +2410,7 @@ end
 function get_test_execution_artifacts_url(
     testExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -2450,7 +2462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hit count, the missed count, or the number of distinct sessions the utterance appeared in.
 """
 function list_aggregated_utterances(
-    aggregationDuration, botId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    aggregationDuration, botId, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2467,7 +2479,7 @@ function list_aggregated_utterances(
     botId,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2506,7 +2518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source bot alias.
 """
 function list_bot_alias_replicas(
-    botId, replicaRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2519,7 +2531,7 @@ function list_bot_alias_replicas(
     botId,
     replicaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2547,7 +2559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than specified in the maxResults parameter, a token is returned in the response. Use that
   token in the nextToken parameter to return the next page of results.
 """
-function list_bot_aliases(botId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bot_aliases(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botaliases/";
@@ -2556,7 +2568,7 @@ function list_bot_aliases(botId; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_bot_aliases(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2591,7 +2603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name in ascending or descending order.
 """
 function list_bot_locales(
-    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2604,7 +2616,7 @@ function list_bot_locales(
     botId,
     botVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2636,7 +2648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use that token in the nextToken parameter to return the next page of results.
 """
 function list_bot_recommendations(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2650,7 +2662,7 @@ function list_bot_recommendations(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2671,7 +2683,7 @@ The action to list the replicated bots.
 - `bot_id`: The request for the unique bot IDs in the list of replicated bots.
 
 """
-function list_bot_replicas(botId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bot_replicas(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/replicas/";
@@ -2680,7 +2692,7 @@ function list_bot_replicas(botId; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_bot_replicas(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2712,7 +2724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to sort the results
 """
 function list_bot_resource_generations(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2726,7 +2738,7 @@ function list_bot_resource_generations(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2755,7 +2767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The requested sort category for the list of replicated bots.
 """
 function list_bot_version_replicas(
-    botId, replicaRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2768,7 +2780,7 @@ function list_bot_version_replicas(
     botId,
     replicaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2803,7 +2815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies sorting parameters for the list of versions. You can specify that
   the list be sorted by version name in either ascending or descending order.
 """
-function list_bot_versions(botId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bot_versions(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/";
@@ -2812,7 +2824,7 @@ function list_bot_versions(botId; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_bot_versions(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2845,13 +2857,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies sorting parameters for the list of bots. You can specify that the
   list be sorted by bot name in ascending or descending order.
 """
-function list_bots(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bots(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_bots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2883,7 +2895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify that the list be sorted by the built-in intent signature in either ascending or
   descending order.
 """
-function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST",
         "/builtins/locales/$(localeId)/intents/";
@@ -2894,7 +2906,7 @@ end
 function list_built_in_intents(
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2929,7 +2941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 function list_built_in_slot_types(
-    localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2941,7 +2953,7 @@ end
 function list_built_in_slot_types(
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -2971,7 +2983,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken identifier to the list custom vocabulary request.
 """
 function list_custom_vocabulary_items(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -2985,7 +2997,7 @@ function list_custom_vocabulary_items(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3023,13 +3035,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
   the LastUpdatedDateTime field in ascending or descending order.
 """
-function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST", "/exports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_exports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST", "/exports/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3063,13 +3075,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
   the LastUpdatedDateTime field in ascending or descending order.
 """
-function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST", "/imports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_imports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST", "/imports/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3126,7 +3138,7 @@ function list_intent_metrics(
     endDateTime,
     metrics,
     startDateTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3146,7 +3158,7 @@ function list_intent_metrics(
     metrics,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3199,7 +3211,7 @@ function list_intent_paths(
     endDateTime,
     intentPath,
     startDateTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3219,7 +3231,7 @@ function list_intent_paths(
     intentPath,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3291,7 +3303,7 @@ function list_intent_stage_metrics(
     endDateTime,
     metrics,
     startDateTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3311,7 +3323,7 @@ function list_intent_stage_metrics(
     metrics,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3361,7 +3373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 function list_intents(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -3375,7 +3387,7 @@ function list_intents(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3414,7 +3426,7 @@ function list_recommended_intents(
     botRecommendationId,
     botVersion,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3429,7 +3441,7 @@ function list_recommended_intents(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3475,7 +3487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   analytics data.
 """
 function list_session_analytics_data(
-    botId, endDateTime, startDateTime; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, endDateTime, startDateTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -3490,7 +3502,7 @@ function list_session_analytics_data(
     endDateTime,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3561,7 +3573,7 @@ function list_session_metrics(
     endDateTime,
     metrics,
     startDateTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3581,7 +3593,7 @@ function list_session_metrics(
     metrics,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3631,7 +3643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 function list_slot_types(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -3645,7 +3657,7 @@ function list_slot_types(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3684,7 +3696,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order.
 """
 function list_slots(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    botId,
+    botVersion,
+    intentId,
+    localeId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3699,7 +3715,7 @@ function list_slots(
     intentId,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3722,7 +3738,7 @@ can have tags associated with them.
 
 """
 function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "GET",
@@ -3734,7 +3750,7 @@ end
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "GET",
@@ -3765,7 +3781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. Use that token in the nextToken parameter to return the next page of results.
 """
 function list_test_execution_result_items(
-    resultFilterBy, testExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    resultFilterBy, testExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -3779,7 +3795,7 @@ function list_test_execution_result_items(
     resultFilterBy,
     testExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3807,13 +3823,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use that token in the nextToken parameter to return the next page of results.
 - `"sortBy"`: The sort order of the test set executions.
 """
-function list_test_executions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_test_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST", "/testexecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_test_executions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -3841,7 +3857,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results than specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
 """
-function list_test_set_records(testSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_test_set_records(
+    testSetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return lex_models_v2(
         "POST",
         "/testsets/$(testSetId)/records";
@@ -3852,7 +3870,7 @@ end
 function list_test_set_records(
     testSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -3878,13 +3896,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the nextToken parameter to return the next page of results.
 - `"sortBy"`: The sort order for the list of test sets.
 """
-function list_test_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_test_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST", "/testsets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_test_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST", "/testsets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3929,7 +3947,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   analytics data.
 """
 function list_utterance_analytics_data(
-    botId, endDateTime, startDateTime; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, endDateTime, startDateTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -3944,7 +3962,7 @@ function list_utterance_analytics_data(
     endDateTime,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4021,7 +4039,7 @@ function list_utterance_metrics(
     endDateTime,
     metrics,
     startDateTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4041,7 +4059,7 @@ function list_utterance_metrics(
     metrics,
     startDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4096,7 +4114,7 @@ function search_associated_transcripts(
     botVersion,
     filters,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4113,7 +4131,7 @@ function search_associated_transcripts(
     filters,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4150,7 +4168,7 @@ function start_bot_recommendation(
     botVersion,
     localeId,
     transcriptSourceSetting;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4166,7 +4184,7 @@ function start_bot_recommendation(
     localeId,
     transcriptSourceSetting,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4209,7 +4227,7 @@ function start_bot_resource_generation(
     botVersion,
     generationInputPrompt,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4225,7 +4243,7 @@ function start_bot_resource_generation(
     generationInputPrompt,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4268,7 +4286,7 @@ function start_import(
     importId,
     mergeStrategy,
     resourceSpecification;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4287,7 +4305,7 @@ function start_import(
     mergeStrategy,
     resourceSpecification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4326,7 +4344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testExecutionModality"`: Indicates whether audio or text is used.
 """
 function start_test_execution(
-    apiMode, target, testSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    apiMode, target, testSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "POST",
@@ -4341,7 +4359,7 @@ function start_test_execution(
     target,
     testSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4381,7 +4399,7 @@ function start_test_set_generation(
     roleArn,
     storageLocation,
     testSetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4402,7 +4420,7 @@ function start_test_set_generation(
     storageLocation,
     testSetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4445,7 +4463,7 @@ function stop_bot_recommendation(
     botRecommendationId,
     botVersion,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4460,7 +4478,7 @@ function stop_bot_recommendation(
     botVersion,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4485,7 +4503,7 @@ existing value is replaced with the new value.
   existing value is replaced with the new value.
 
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST",
         "/tags/$(resourceARN)",
@@ -4498,7 +4516,7 @@ function tag_resource(
     resourceARN,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "POST",
@@ -4522,7 +4540,7 @@ Removes tags from a bot, bot alias, or bot channel.
 
 """
 function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "DELETE",
@@ -4536,7 +4554,7 @@ function untag_resource(
     resourceARN,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "DELETE",
@@ -4580,7 +4598,7 @@ function update_bot(
     dataPrivacy,
     idleSessionTTLInSeconds,
     roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4602,7 +4620,7 @@ function update_bot(
     idleSessionTTLInSeconds,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4646,7 +4664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sentimentAnalysisSettings"`:
 """
 function update_bot_alias(
-    botAliasId, botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasId, botAliasName, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -4661,7 +4679,7 @@ function update_bot_alias(
     botAliasName,
     botId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4704,7 +4722,7 @@ function update_bot_locale(
     botVersion,
     localeId,
     nluIntentConfidenceThreshold;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4720,7 +4738,7 @@ function update_bot_locale(
     localeId,
     nluIntentConfidenceThreshold,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4764,7 +4782,7 @@ function update_bot_recommendation(
     botVersion,
     encryptionSetting,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4781,7 +4799,7 @@ function update_bot_recommendation(
     encryptionSetting,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4812,7 +4830,7 @@ DescribeExport operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filePassword"`: The new password to use to encrypt the export zip archive.
 """
-function update_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "PUT",
         "/exports/$(exportId)/";
@@ -4823,7 +4841,7 @@ end
 function update_export(
     exportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4883,7 +4901,7 @@ function update_intent(
     intentId,
     intentName,
     localeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4900,7 +4918,7 @@ function update_intent(
     intentName,
     localeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4936,7 +4954,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values.
 """
 function update_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -4950,7 +4968,7 @@ function update_resource_policy(
     policy,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -4999,7 +5017,7 @@ function update_slot(
     slotId,
     slotName,
     valueElicitationSetting;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -5020,7 +5038,7 @@ function update_slot(
     slotName,
     valueElicitationSetting,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -5073,7 +5091,7 @@ function update_slot_type(
     localeId,
     slotTypeId,
     slotTypeName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -5090,7 +5108,7 @@ function update_slot_type(
     slotTypeId,
     slotTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",
@@ -5118,7 +5136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The new test set description.
 """
 function update_test_set(
-    testSetId, testSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    testSetId, testSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
         "PUT",
@@ -5132,7 +5150,7 @@ function update_test_set(
     testSetId,
     testSetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
         "PUT",

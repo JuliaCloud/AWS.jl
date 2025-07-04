@@ -17,7 +17,7 @@ Cancels an ongoing ingestion of data into SPICE.
 
 """
 function cancel_ingestion(
-    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -31,7 +31,7 @@ function cancel_ingestion(
     DataSetId,
     IngestionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -78,7 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespace"`: The Amazon QuickSight namespace that you want to add customizations to.
 """
 function create_account_customization(
-    AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -92,7 +92,7 @@ function create_account_customization(
     AccountCustomization,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -217,7 +217,7 @@ function create_account_subscription(
     AuthenticationMethod,
     AwsAccountId,
     NotificationEmail;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -237,7 +237,7 @@ function create_account_subscription(
     AwsAccountId,
     NotificationEmail,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -299,7 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with definition objects. This skips the validation step for specific errors.
 """
 function create_analysis(
-    AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -314,7 +314,7 @@ function create_analysis(
     AwsAccountId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -390,7 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function create_dashboard(
-    AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -405,7 +405,7 @@ function create_dashboard(
     DashboardId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -460,7 +460,7 @@ function create_data_set(
     ImportMode,
     Name,
     PhysicalTableMap;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -482,7 +482,7 @@ function create_data_set(
     Name,
     PhysicalTableMap,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -540,7 +540,7 @@ function create_data_source(
     DataSourceId,
     Name,
     Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -556,7 +556,7 @@ function create_data_source(
     Name,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags for the folder.
 """
 function create_folder(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -612,7 +612,7 @@ function create_folder(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -641,7 +641,7 @@ function create_folder_membership(
     FolderId,
     MemberId,
     MemberType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -656,7 +656,7 @@ function create_folder_membership(
     MemberId,
     MemberType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -689,7 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the group that you want to create.
 """
 function create_group(
-    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -704,7 +704,7 @@ function create_group(
     GroupName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -737,7 +737,7 @@ function create_group_membership(
     GroupName,
     MemberName,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -752,7 +752,7 @@ function create_group_membership(
     MemberName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -795,7 +795,7 @@ function create_iampolicy_assignment(
     AssignmentStatus,
     AwsAccountId,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -813,7 +813,7 @@ function create_iampolicy_assignment(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -856,7 +856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IngestionType"`: The type of ingestion that you want to create.
 """
 function create_ingestion(
-    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -870,7 +870,7 @@ function create_ingestion(
     DataSetId,
     IngestionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -909,7 +909,7 @@ function create_namespace(
     AwsAccountId,
     IdentityStore,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -924,7 +924,7 @@ function create_namespace(
     IdentityStore,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -957,7 +957,7 @@ single dataset.
 
 """
 function create_refresh_schedule(
-    AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -972,7 +972,7 @@ function create_refresh_schedule(
     DataSetId,
     Schedule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1005,7 +1005,7 @@ function create_role_membership(
     MemberName,
     Namespace,
     Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1020,7 +1020,7 @@ function create_role_membership(
     Namespace,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1077,7 +1077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the version in the VersionDescription field.
 """
 function create_template(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -1090,7 +1090,7 @@ function create_template(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1122,7 +1122,7 @@ function create_template_alias(
     AwsAccountId,
     TemplateId,
     TemplateVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1138,7 +1138,7 @@ function create_template_alias(
     TemplateId,
     TemplateVersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1189,7 +1189,7 @@ function create_theme(
     Configuration,
     Name,
     ThemeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1208,7 +1208,7 @@ function create_theme(
     Name,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1250,7 +1250,7 @@ function create_theme_alias(
     AwsAccountId,
     ThemeId,
     ThemeVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1266,7 +1266,7 @@ function create_theme_alias(
     ThemeId,
     ThemeVersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1300,7 +1300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assigned to the dataset.
 """
 function create_topic(
-    AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -1315,7 +1315,7 @@ function create_topic(
     Topic,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1353,7 +1353,7 @@ function create_topic_refresh_schedule(
     DatasetArn,
     RefreshSchedule,
     TopicId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1369,7 +1369,7 @@ function create_topic_refresh_schedule(
     RefreshSchedule,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1417,7 +1417,7 @@ function create_vpcconnection(
     SecurityGroupIds,
     SubnetIds,
     VPCConnectionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1441,7 +1441,7 @@ function create_vpcconnection(
     SubnetIds,
     VPCConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -1481,7 +1481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from.
 """
 function delete_account_customization(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1493,7 +1493,7 @@ end
 function delete_account_customization(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1520,7 +1520,7 @@ to False, then make another call to the DeleteAccountSubscription API.
 
 """
 function delete_account_subscription(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1532,7 +1532,7 @@ end
 function delete_account_subscription(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1574,7 +1574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
 """
 function delete_analysis(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1587,7 +1587,7 @@ function delete_analysis(
     AnalysisId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1615,7 +1615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is provided, only the specified version of the dashboard is deleted.
 """
 function delete_dashboard(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1628,7 +1628,7 @@ function delete_dashboard(
     AwsAccountId,
     DashboardId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1652,7 +1652,7 @@ Deletes a dataset.
 
 """
 function delete_data_set(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1665,7 +1665,7 @@ function delete_data_set(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1688,7 +1688,7 @@ Deletes the dataset refresh properties of the dataset.
 
 """
 function delete_data_set_refresh_properties(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1701,7 +1701,7 @@ function delete_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1726,7 +1726,7 @@ the deleted data source.
 
 """
 function delete_data_source(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1739,7 +1739,7 @@ function delete_data_source(
     AwsAccountId,
     DataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1762,7 +1762,7 @@ Deletes an empty folder.
 
 """
 function delete_folder(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1775,7 +1775,7 @@ function delete_folder(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1804,7 +1804,7 @@ function delete_folder_membership(
     FolderId,
     MemberId,
     MemberType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1819,7 +1819,7 @@ function delete_folder_membership(
     MemberId,
     MemberType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1845,7 +1845,7 @@ Removes a user group from Amazon QuickSight.
 
 """
 function delete_group(
-    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1859,7 +1859,7 @@ function delete_group(
     GroupName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1890,7 +1890,7 @@ function delete_group_membership(
     GroupName,
     MemberName,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1905,7 +1905,7 @@ function delete_group_membership(
     MemberName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1933,7 +1933,7 @@ function delete_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1947,7 +1947,7 @@ function delete_iampolicy_assignment(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -1974,7 +1974,7 @@ Amazon QuickSight accounts that use IAM Identity Center.
 
 """
 function delete_identity_propagation_config(
-    AwsAccountId, Service; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Service; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -1987,7 +1987,7 @@ function delete_identity_propagation_config(
     AwsAccountId,
     Service,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2014,7 +2014,7 @@ relevant asset.
 
 """
 function delete_namespace(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2027,7 +2027,7 @@ function delete_namespace(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2051,7 +2051,7 @@ Deletes a refresh schedule from a dataset.
 
 """
 function delete_refresh_schedule(
-    AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2065,7 +2065,7 @@ function delete_refresh_schedule(
     DataSetId,
     ScheduleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2091,7 +2091,7 @@ Removes custom permissions from the role.
 
 """
 function delete_role_custom_permission(
-    AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2105,7 +2105,7 @@ function delete_role_custom_permission(
     Namespace,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2136,7 +2136,7 @@ function delete_role_membership(
     MemberName,
     Namespace,
     Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2151,7 +2151,7 @@ function delete_role_membership(
     Namespace,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2179,7 +2179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't provide a version number, DeleteTemplate deletes all versions of the template.
 """
 function delete_template(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2192,7 +2192,7 @@ function delete_template(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2220,7 +2220,7 @@ alias, you delete the version of the template that the alias points to.
 
 """
 function delete_template_alias(
-    AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2234,7 +2234,7 @@ function delete_template_alias(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2263,7 +2263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of the theme.
 """
 function delete_theme(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2276,7 +2276,7 @@ function delete_theme(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2302,7 +2302,7 @@ specific alias, you delete the version of the theme that the alias points to.
 
 """
 function delete_theme_alias(
-    AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2316,7 +2316,7 @@ function delete_theme_alias(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2341,7 +2341,7 @@ Deletes a topic.
 
 """
 function delete_topic(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2354,7 +2354,7 @@ function delete_topic(
     AwsAccountId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2379,7 +2379,7 @@ Deletes a topic refresh schedule.
 
 """
 function delete_topic_refresh_schedule(
-    AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2393,7 +2393,7 @@ function delete_topic_refresh_schedule(
     DatasetId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2420,7 +2420,7 @@ role that's making the call. The IAM user isn't deleted as a result of this call
 
 """
 function delete_user(
-    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2434,7 +2434,7 @@ function delete_user(
     Namespace,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2460,7 +2460,7 @@ Deletes a user identified by its principal ID.
 
 """
 function delete_user_by_principal_id(
-    AwsAccountId, Namespace, PrincipalId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, PrincipalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2474,7 +2474,7 @@ function delete_user_by_principal_id(
     Namespace,
     PrincipalId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2499,7 +2499,7 @@ Deletes a VPC connection.
 
 """
 function delete_vpcconnection(
-    AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -2512,7 +2512,7 @@ function delete_vpcconnection(
     AwsAccountId,
     VPCConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -2573,7 +2573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured at different levels.
 """
 function describe_account_customization(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2585,7 +2585,7 @@ end
 function describe_account_customization(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2609,7 +2609,7 @@ created in this Amazon Web Services account.
 
 """
 function describe_account_settings(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2621,7 +2621,7 @@ end
 function describe_account_settings(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2647,7 +2647,7 @@ notification email address.
 
 """
 function describe_account_subscription(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2659,7 +2659,7 @@ end
 function describe_account_subscription(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2684,7 +2684,7 @@ Provides a summary of the metadata for an analysis.
 
 """
 function describe_analysis(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2697,7 +2697,7 @@ function describe_analysis(
     AnalysisId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2724,7 +2724,7 @@ status of a recently created or updated Analysis, use the  DescribeAnalysis  ins
 
 """
 function describe_analysis_definition(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2737,7 +2737,7 @@ function describe_analysis_definition(
     AnalysisId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2763,7 +2763,7 @@ Provides the read and write permissions for an analysis.
 
 """
 function describe_analysis_permissions(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2776,7 +2776,7 @@ function describe_analysis_permissions(
     AnalysisId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2805,7 +2805,7 @@ available for 14 days after the job starts.
 
 """
 function describe_asset_bundle_export_job(
-    AssetBundleExportJobId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssetBundleExportJobId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2818,7 +2818,7 @@ function describe_asset_bundle_export_job(
     AssetBundleExportJobId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2844,7 +2844,7 @@ it has succeeded or failed. Job descriptions are available for 14 days after job
 
 """
 function describe_asset_bundle_import_job(
-    AssetBundleImportJobId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssetBundleImportJobId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2857,7 +2857,7 @@ function describe_asset_bundle_import_job(
     AssetBundleImportJobId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2886,7 +2886,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   passed, the latest published dashboard version is described.
 """
 function describe_dashboard(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2899,7 +2899,7 @@ function describe_dashboard(
     AwsAccountId,
     DashboardId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2930,7 +2930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   passed, the latest published dashboard version is described.
 """
 function describe_dashboard_definition(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2943,7 +2943,7 @@ function describe_dashboard_definition(
     AwsAccountId,
     DashboardId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -2967,7 +2967,7 @@ Describes read and write permissions for a dashboard.
 
 """
 function describe_dashboard_permissions(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -2980,7 +2980,7 @@ function describe_dashboard_permissions(
     AwsAccountId,
     DashboardId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3010,7 +3010,7 @@ function describe_dashboard_snapshot_job(
     AwsAccountId,
     DashboardId,
     SnapshotJobId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3024,7 +3024,7 @@ function describe_dashboard_snapshot_job(
     DashboardId,
     SnapshotJobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3057,7 +3057,7 @@ function describe_dashboard_snapshot_job_result(
     AwsAccountId,
     DashboardId,
     SnapshotJobId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3071,7 +3071,7 @@ function describe_dashboard_snapshot_job_result(
     DashboardId,
     SnapshotJobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3096,7 +3096,7 @@ a source.
 
 """
 function describe_data_set(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3109,7 +3109,7 @@ function describe_data_set(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3134,7 +3134,7 @@ arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 
 """
 function describe_data_set_permissions(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3147,7 +3147,7 @@ function describe_data_set_permissions(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3170,7 +3170,7 @@ Describes the refresh properties of a dataset.
 
 """
 function describe_data_set_refresh_properties(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3183,7 +3183,7 @@ function describe_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3207,7 +3207,7 @@ Describes a data source.
 
 """
 function describe_data_source(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3220,7 +3220,7 @@ function describe_data_source(
     AwsAccountId,
     DataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3244,7 +3244,7 @@ Describes the resource permissions for a data source.
 
 """
 function describe_data_source_permissions(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3257,7 +3257,7 @@ function describe_data_source_permissions(
     AwsAccountId,
     DataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3280,7 +3280,7 @@ Describes a folder.
 
 """
 function describe_folder(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3293,7 +3293,7 @@ function describe_folder(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3321,7 +3321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token for the next set of results.
 """
 function describe_folder_permissions(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3334,7 +3334,7 @@ function describe_folder_permissions(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3363,7 +3363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token for the next set of results.
 """
 function describe_folder_resolved_permissions(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3376,7 +3376,7 @@ function describe_folder_resolved_permissions(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3402,7 +3402,7 @@ Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
 
 """
 function describe_group(
-    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3416,7 +3416,7 @@ function describe_group(
     GroupName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3449,7 +3449,7 @@ function describe_group_membership(
     GroupName,
     MemberName,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3464,7 +3464,7 @@ function describe_group_membership(
     MemberName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3492,7 +3492,7 @@ function describe_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3506,7 +3506,7 @@ function describe_iampolicy_assignment(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3530,7 +3530,7 @@ Describes a SPICE ingestion.
 
 """
 function describe_ingestion(
-    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3544,7 +3544,7 @@ function describe_ingestion(
     DataSetId,
     IngestionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3566,7 +3566,7 @@ Provides a summary and status of IP rules.
 
 """
 function describe_ip_restriction(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3578,7 +3578,7 @@ end
 function describe_ip_restriction(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3604,7 +3604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"default-key-only"`: Determines whether the request returns the default key only.
 """
 function describe_key_registration(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3616,7 +3616,7 @@ end
 function describe_key_registration(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3640,7 +3640,7 @@ Describes the current namespace.
 
 """
 function describe_namespace(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3653,7 +3653,7 @@ function describe_namespace(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3677,7 +3677,7 @@ Provides a summary of a refresh schedule.
 
 """
 function describe_refresh_schedule(
-    AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3691,7 +3691,7 @@ function describe_refresh_schedule(
     DataSetId,
     ScheduleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3717,7 +3717,7 @@ Describes all custom permissions that are mapped to a role.
 
 """
 function describe_role_custom_permission(
-    AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3731,7 +3731,7 @@ function describe_role_custom_permission(
     Namespace,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3763,7 +3763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value isn't provided, the latest version of the template is described.
 """
 function describe_template(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3776,7 +3776,7 @@ function describe_template(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3804,7 +3804,7 @@ Describes the template alias for a template.
 
 """
 function describe_template_alias(
-    AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3818,7 +3818,7 @@ function describe_template_alias(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3851,7 +3851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: The version number of the template.
 """
 function describe_template_definition(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3864,7 +3864,7 @@ function describe_template_definition(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3888,7 +3888,7 @@ Describes read and write permissions on a template.
 
 """
 function describe_template_permissions(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3901,7 +3901,7 @@ function describe_template_permissions(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3933,7 +3933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value isn't provided, the latest version of the theme is described.
 """
 function describe_theme(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3946,7 +3946,7 @@ function describe_theme(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -3971,7 +3971,7 @@ Describes the alias for a theme.
 
 """
 function describe_theme_alias(
-    AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -3985,7 +3985,7 @@ function describe_theme_alias(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4009,7 +4009,7 @@ Describes the read and write permissions for a theme.
 
 """
 function describe_theme_permissions(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4022,7 +4022,7 @@ function describe_theme_permissions(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4046,7 +4046,7 @@ Describes a topic.
 
 """
 function describe_topic(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4059,7 +4059,7 @@ function describe_topic(
     AwsAccountId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4084,7 +4084,7 @@ Describes the permissions of a topic.
 
 """
 function describe_topic_permissions(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4097,7 +4097,7 @@ function describe_topic_permissions(
     AwsAccountId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4124,7 +4124,7 @@ Describes the status of a topic refresh.
 
 """
 function describe_topic_refresh(
-    AwsAccountId, RefreshId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, RefreshId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4138,7 +4138,7 @@ function describe_topic_refresh(
     RefreshId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4164,7 +4164,7 @@ Deletes a topic refresh schedule.
 
 """
 function describe_topic_refresh_schedule(
-    AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4178,7 +4178,7 @@ function describe_topic_refresh_schedule(
     DatasetId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4204,7 +4204,7 @@ Returns information about a user, given the user name.
 
 """
 function describe_user(
-    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4218,7 +4218,7 @@ function describe_user(
     Namespace,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4243,7 +4243,7 @@ Describes a VPC connection.
 
 """
 function describe_vpcconnection(
-    AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4256,7 +4256,7 @@ function describe_vpcconnection(
     AwsAccountId,
     VPCConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4321,7 +4321,7 @@ function generate_embed_url_for_anonymous_user(
     AwsAccountId,
     ExperienceConfiguration,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -4341,7 +4341,7 @@ function generate_embed_url_for_anonymous_user(
     ExperienceConfiguration,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -4405,7 +4405,7 @@ function generate_embed_url_for_registered_user(
     AwsAccountId,
     ExperienceConfiguration,
     UserArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -4422,7 +4422,7 @@ function generate_embed_url_for_registered_user(
     ExperienceConfiguration,
     UserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -4498,7 +4498,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   role-based sessions.
 """
 function get_dashboard_embed_url(
-    AwsAccountId, DashboardId, creds_type; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId,
+    DashboardId,
+    creds_type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4513,7 +4516,7 @@ function get_dashboard_embed_url(
     DashboardId,
     creds_type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4562,7 +4565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM users and IAM role-based sessions.
 """
 function get_session_embed_url(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4574,7 +4577,7 @@ end
 function get_session_embed_url(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4599,7 +4602,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/analyses";
@@ -4610,7 +4613,7 @@ end
 function list_analyses(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4641,7 +4644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_asset_bundle_export_jobs(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4653,7 +4656,7 @@ end
 function list_asset_bundle_export_jobs(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4684,7 +4687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_asset_bundle_import_jobs(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4696,7 +4699,7 @@ end
 function list_asset_bundle_import_jobs(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4725,7 +4728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_dashboard_versions(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4738,7 +4741,7 @@ function list_dashboard_versions(
     AwsAccountId,
     DashboardId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4765,7 +4768,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards";
@@ -4776,7 +4779,7 @@ end
 function list_dashboards(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4804,7 +4807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets";
@@ -4815,7 +4818,7 @@ end
 function list_data_sets(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4842,7 +4845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/data-sources";
@@ -4853,7 +4856,7 @@ end
 function list_data_sources(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4881,7 +4884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_folder_members(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4894,7 +4897,7 @@ function list_folder_members(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4920,7 +4923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/folders";
@@ -4931,7 +4934,7 @@ end
 function list_folders(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -4961,7 +4964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_group_memberships(
-    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -4975,7 +4978,7 @@ function list_group_memberships(
     GroupName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5004,7 +5007,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_groups(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5017,7 +5020,7 @@ function list_groups(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5047,7 +5050,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_iampolicy_assignments(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5060,7 +5063,7 @@ function list_iampolicy_assignments(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5091,7 +5094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_iampolicy_assignments_for_user(
-    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5105,7 +5108,7 @@ function list_iampolicy_assignments_for_user(
     Namespace,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5135,7 +5138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_identity_propagation_configs(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5147,7 +5150,7 @@ end
 function list_identity_propagation_configs(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5175,7 +5178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_ingestions(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5188,7 +5191,7 @@ function list_ingestions(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5220,7 +5223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired
   token, you will receive a HTTP 400 InvalidNextTokenException error.
 """
-function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces";
@@ -5231,7 +5234,7 @@ end
 function list_namespaces(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5254,7 +5257,7 @@ Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedule
 
 """
 function list_refresh_schedules(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5267,7 +5270,7 @@ function list_refresh_schedules(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5297,7 +5300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_role_memberships(
-    AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5311,7 +5314,7 @@ function list_role_memberships(
     Namespace,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5334,7 +5337,7 @@ Lists the tags assigned to a resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5346,7 +5349,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5375,7 +5378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_template_aliases(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5388,7 +5391,7 @@ function list_template_aliases(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5417,7 +5420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_template_versions(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5430,7 +5433,7 @@ function list_template_versions(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5457,7 +5460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/templates";
@@ -5468,7 +5471,7 @@ end
 function list_templates(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5497,7 +5500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_theme_aliases(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5510,7 +5513,7 @@ function list_theme_aliases(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5539,7 +5542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_theme_versions(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5552,7 +5555,7 @@ function list_theme_versions(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5583,7 +5586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined
   by Amazon QuickSight.
 """
-function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/themes";
@@ -5594,7 +5597,7 @@ end
 function list_themes(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5619,7 +5622,7 @@ Lists all of the refresh schedules for a topic.
 
 """
 function list_topic_refresh_schedules(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5632,7 +5635,7 @@ function list_topic_refresh_schedules(
     AwsAccountId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5659,7 +5662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-function list_topics(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_topics(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/topics";
@@ -5670,7 +5673,7 @@ end
 function list_topics(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5699,7 +5702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_user_groups(
-    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5713,7 +5716,7 @@ function list_user_groups(
     Namespace,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5742,7 +5745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_users(
-    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5755,7 +5758,7 @@ function list_users(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5784,7 +5787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_vpcconnections(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "GET",
@@ -5796,7 +5799,7 @@ end
 function list_vpcconnections(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "GET",
@@ -5823,7 +5826,7 @@ function put_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
     DataSetRefreshProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -5838,7 +5841,7 @@ function put_data_set_refresh_properties(
     DataSetId,
     DataSetRefreshProperties,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -5936,7 +5939,7 @@ function register_user(
     IdentityType,
     Namespace,
     UserRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -5955,7 +5958,7 @@ function register_user(
     Namespace,
     UserRole,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -5986,7 +5989,7 @@ Restores an analysis.
 
 """
 function restore_analysis(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -5999,7 +6002,7 @@ function restore_analysis(
     AnalysisId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6029,7 +6032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
 function search_analyses(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -6043,7 +6046,7 @@ function search_analyses(
     AwsAccountId,
     Filters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6075,7 +6078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function search_dashboards(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -6089,7 +6092,7 @@ function search_dashboards(
     AwsAccountId,
     Filters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6116,7 +6119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
 function search_data_sets(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -6130,7 +6133,7 @@ function search_data_sets(
     AwsAccountId,
     Filters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6157,7 +6160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
 function search_data_sources(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -6171,7 +6174,7 @@ function search_data_sources(
     AwsAccountId,
     Filters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6202,7 +6205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function search_folders(
-    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -6216,7 +6219,7 @@ function search_folders(
     AwsAccountId,
     Filters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6247,7 +6250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function search_groups(
-    AwsAccountId, Filters, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Filters, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -6262,7 +6265,7 @@ function search_groups(
     Filters,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6324,7 +6327,7 @@ function start_asset_bundle_export_job(
     AwsAccountId,
     ExportFormat,
     ResourceArns;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6344,7 +6347,7 @@ function start_asset_bundle_export_job(
     ExportFormat,
     ResourceArns,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6404,7 +6407,7 @@ function start_asset_bundle_import_job(
     AssetBundleImportJobId,
     AssetBundleImportSource,
     AwsAccountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6422,7 +6425,7 @@ function start_asset_bundle_import_job(
     AssetBundleImportSource,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6507,7 +6510,7 @@ function start_dashboard_snapshot_job(
     SnapshotConfiguration,
     SnapshotJobId,
     UserConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6528,7 +6531,7 @@ function start_dashboard_snapshot_job(
     SnapshotJobId,
     UserConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6574,7 +6577,7 @@ currently support the tag editor for Resource Groups.
   the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "POST",
         "/resources/$(ResourceArn)/tags",
@@ -6587,7 +6590,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -6611,7 +6614,7 @@ Removes a tag or tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, keys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, keys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "DELETE",
@@ -6625,7 +6628,7 @@ function untag_resource(
     ResourceArn,
     keys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "DELETE",
@@ -6658,7 +6661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespace"`: The namespace that you want to update Amazon QuickSight customizations for.
 """
 function update_account_customization(
-    AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -6672,7 +6675,7 @@ function update_account_customization(
     AccountCustomization,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6713,7 +6716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. A False value will allow the account to be deleted.
 """
 function update_account_settings(
-    AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -6727,7 +6730,7 @@ function update_account_settings(
     AwsAccountId,
     DefaultNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6772,7 +6775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with definition objects. This skips the validation step for specific errors.
 """
 function update_analysis(
-    AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -6787,7 +6790,7 @@ function update_analysis(
     AwsAccountId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6819,7 +6822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principal to remove them from.
 """
 function update_analysis_permissions(
-    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -6832,7 +6835,7 @@ function update_analysis_permissions(
     AnalysisId,
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6893,7 +6896,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function update_dashboard(
-    AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -6908,7 +6911,7 @@ function update_dashboard(
     DashboardId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6937,7 +6940,7 @@ function update_dashboard_links(
     AwsAccountId,
     DashboardId,
     LinkEntities;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6952,7 +6955,7 @@ function update_dashboard_links(
     DashboardId,
     LinkEntities,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -6984,7 +6987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: The permissions that you want to revoke from this resource.
 """
 function update_dashboard_permissions(
-    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -6997,7 +7000,7 @@ function update_dashboard_permissions(
     AwsAccountId,
     DashboardId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7025,7 +7028,7 @@ function update_dashboard_published_version(
     AwsAccountId,
     DashboardId,
     VersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7039,7 +7042,7 @@ function update_dashboard_published_version(
     DashboardId,
     VersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7089,7 +7092,7 @@ function update_data_set(
     ImportMode,
     Name,
     PhysicalTableMap;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7110,7 +7113,7 @@ function update_data_set(
     Name,
     PhysicalTableMap,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7149,7 +7152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: The resource permissions that you want to revoke from the dataset.
 """
 function update_data_set_permissions(
-    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -7162,7 +7165,7 @@ function update_data_set_permissions(
     AwsAccountId,
     DataSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -7198,7 +7201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use a VPC connection when connecting to your underlying source.
 """
 function update_data_source(
-    AwsAccountId, DataSourceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSourceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7213,7 +7216,7 @@ function update_data_source(
     DataSourceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7243,7 +7246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source.
 """
 function update_data_source_permissions(
-    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -7256,7 +7259,7 @@ function update_data_source_permissions(
     AwsAccountId,
     DataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -7281,7 +7284,7 @@ Updates the name of a folder.
 
 """
 function update_folder(
-    AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7296,7 +7299,7 @@ function update_folder(
     FolderId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7326,7 +7329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ARNs are not supported Principal values for folder permissions.
 """
 function update_folder_permissions(
-    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7339,7 +7342,7 @@ function update_folder_permissions(
     AwsAccountId,
     FolderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7368,7 +7371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description for the group that you want to update.
 """
 function update_group(
-    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7382,7 +7385,7 @@ function update_group(
     GroupName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7423,7 +7426,7 @@ function update_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
     Namespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7437,7 +7440,7 @@ function update_iampolicy_assignment(
     AwsAccountId,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7468,7 +7471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets for a service.
 """
 function update_identity_propagation_config(
-    AwsAccountId, Service; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Service; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -7481,7 +7484,7 @@ function update_identity_propagation_config(
     AwsAccountId,
     Service,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -7516,7 +7519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC is allowed.
 """
 function update_ip_restriction(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -7528,7 +7531,7 @@ end
 function update_ip_restriction(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -7553,7 +7556,7 @@ Updates a customer managed key in a Amazon QuickSight account.
 
 """
 function update_key_registration(
-    AwsAccountId, KeyRegistration; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, KeyRegistration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -7567,7 +7570,7 @@ function update_key_registration(
     AwsAccountId,
     KeyRegistration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -7603,7 +7606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on for an Amazon QuickSight account.
 """
 function update_public_sharing_settings(
-    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7615,7 +7618,7 @@ end
 function update_public_sharing_settings(
     AwsAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7639,7 +7642,7 @@ Updates a refresh schedule for a dataset.
 
 """
 function update_refresh_schedule(
-    AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7654,7 +7657,7 @@ function update_refresh_schedule(
     DataSetId,
     Schedule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7688,7 +7691,7 @@ function update_role_custom_permission(
     CustomPermissionsName,
     Namespace,
     Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7704,7 +7707,7 @@ function update_role_custom_permission(
     Namespace,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7737,7 +7740,7 @@ Updates the SPICE capacity configuration for a Amazon QuickSight account.
 
 """
 function update_spicecapacity_configuration(
-    AwsAccountId, PurchaseMode; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, PurchaseMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "POST",
@@ -7751,7 +7754,7 @@ function update_spicecapacity_configuration(
     AwsAccountId,
     PurchaseMode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "POST",
@@ -7797,7 +7800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field.
 """
 function update_template(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7810,7 +7813,7 @@ function update_template(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7843,7 +7846,7 @@ function update_template_alias(
     AwsAccountId,
     TemplateId,
     TemplateVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7859,7 +7862,7 @@ function update_template_alias(
     TemplateId,
     TemplateVersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7892,7 +7895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: A list of resource permissions to be revoked from the template.
 """
 function update_template_permissions(
-    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7905,7 +7908,7 @@ function update_template_permissions(
     AwsAccountId,
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7938,7 +7941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   theme maintains a description of the version in VersionDescription.
 """
 function update_theme(
-    AwsAccountId, BaseThemeId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, BaseThemeId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -7953,7 +7956,7 @@ function update_theme(
     BaseThemeId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -7985,7 +7988,7 @@ function update_theme_alias(
     AwsAccountId,
     ThemeId,
     ThemeVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8001,7 +8004,7 @@ function update_theme_alias(
     ThemeId,
     ThemeVersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8043,7 +8046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: A list of resource permissions to be revoked from the theme.
 """
 function update_theme_permissions(
-    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -8056,7 +8059,7 @@ function update_theme_permissions(
     AwsAccountId,
     ThemeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8082,7 +8085,7 @@ Updates a topic.
 
 """
 function update_topic(
-    AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -8097,7 +8100,7 @@ function update_topic(
     Topic,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8126,7 +8129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: The resource permissions that you want to revoke from the topic.
 """
 function update_topic_permissions(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return quicksight(
         "PUT",
@@ -8139,7 +8142,7 @@ function update_topic_permissions(
     AwsAccountId,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8170,7 +8173,7 @@ function update_topic_refresh_schedule(
     DatasetId,
     RefreshSchedule,
     TopicId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8186,7 +8189,7 @@ function update_topic_refresh_schedule(
     RefreshSchedule,
     TopicId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8268,7 +8271,7 @@ function update_user(
     Namespace,
     Role,
     UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8285,7 +8288,7 @@ function update_user(
     Role,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8325,7 +8328,7 @@ function update_vpcconnection(
     SecurityGroupIds,
     SubnetIds,
     VPCConnectionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",
@@ -8348,7 +8351,7 @@ function update_vpcconnection(
     SubnetIds,
     VPCConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return quicksight(
         "PUT",

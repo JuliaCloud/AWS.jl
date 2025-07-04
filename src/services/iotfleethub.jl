@@ -30,7 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_application(
-    applicationName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationName, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "POST",
@@ -48,7 +48,7 @@ function create_application(
     applicationName,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "POST",
@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 """
 function delete_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "DELETE",
@@ -98,7 +98,7 @@ end
 function delete_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "DELETE",
@@ -122,7 +122,7 @@ Gets information about a Fleet Hub for IoT Device Management web application.
 
 """
 function describe_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "GET",
@@ -134,7 +134,7 @@ end
 function describe_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "GET",
@@ -155,13 +155,13 @@ Gets a list of Fleet Hub for IoT Device Management web applications for the curr
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token used to get the next set of results.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleethub(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "GET",
@@ -183,7 +183,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "GET",
@@ -195,7 +195,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "GET",
@@ -218,7 +218,7 @@ to manage a resource.
 - `tags`: The new or modified tags for the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleethub(
         "POST",
         "/tags/$(resourceArn)",
@@ -231,7 +231,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "POST",
@@ -254,7 +254,7 @@ Removes the specified tags (metadata) from the resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "DELETE",
@@ -268,7 +268,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "DELETE",
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 """
 function update_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleethub(
         "PATCH",
@@ -310,7 +310,7 @@ end
 function update_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleethub(
         "PATCH",

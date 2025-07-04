@@ -29,7 +29,7 @@ function create_performance_analysis_report(
     Identifier,
     ServiceType,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "CreatePerformanceAnalysisReport",
@@ -49,7 +49,7 @@ function create_performance_analysis_report(
     ServiceType,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "CreatePerformanceAnalysisReport",
@@ -91,7 +91,7 @@ function delete_performance_analysis_report(
     AnalysisReportId,
     Identifier,
     ServiceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "DeletePerformanceAnalysisReport",
@@ -109,7 +109,7 @@ function delete_performance_analysis_report(
     Identifier,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "DeletePerformanceAnalysisReport",
@@ -196,7 +196,7 @@ function describe_dimension_keys(
     Metric,
     ServiceType,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "DescribeDimensionKeys",
@@ -220,7 +220,7 @@ function describe_dimension_keys(
     ServiceType,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "DescribeDimensionKeys",
@@ -283,7 +283,7 @@ function get_dimension_key_details(
     GroupIdentifier,
     Identifier,
     ServiceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetDimensionKeyDetails",
@@ -303,7 +303,7 @@ function get_dimension_key_details(
     Identifier,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetDimensionKeyDetails",
@@ -354,7 +354,7 @@ function get_performance_analysis_report(
     AnalysisReportId,
     Identifier,
     ServiceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetPerformanceAnalysisReport",
@@ -372,7 +372,7 @@ function get_performance_analysis_report(
     Identifier,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetPerformanceAnalysisReport",
@@ -409,7 +409,7 @@ a feature is turned on or off on a specific DB instance.
 
 """
 function get_resource_metadata(
-    Identifier, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "GetResourceMetadata",
@@ -422,7 +422,7 @@ function get_resource_metadata(
     Identifier,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetResourceMetadata",
@@ -494,7 +494,7 @@ function get_resource_metrics(
     MetricQueries,
     ServiceType,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetResourceMetrics",
@@ -516,7 +516,7 @@ function get_resource_metrics(
     ServiceType,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "GetResourceMetrics",
@@ -570,7 +570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value specified by MaxRecords.
 """
 function list_available_resource_dimensions(
-    Identifier, Metrics, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, Metrics, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "ListAvailableResourceDimensions",
@@ -586,7 +586,7 @@ function list_available_resource_dimensions(
     Metrics,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "ListAvailableResourceDimensions",
@@ -634,7 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value specified by MaxRecords.
 """
 function list_available_resource_metrics(
-    Identifier, MetricTypes, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, MetricTypes, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "ListAvailableResourceMetrics",
@@ -652,7 +652,7 @@ function list_available_resource_metrics(
     MetricTypes,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "ListAvailableResourceMetrics",
@@ -699,7 +699,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value specified by MaxResults.
 """
 function list_performance_analysis_reports(
-    Identifier, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "ListPerformanceAnalysisReports",
@@ -712,7 +712,7 @@ function list_performance_analysis_reports(
     Identifier,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "ListPerformanceAnalysisReports",
@@ -743,7 +743,7 @@ Retrieves all the metadata tags associated with Amazon RDS Performance Insights 
 
 """
 function list_tags_for_resource(
-    ResourceARN, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "ListTagsForResource",
@@ -756,7 +756,7 @@ function list_tags_for_resource(
     ResourceARN,
     ServiceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "ListTagsForResource",
@@ -790,7 +790,7 @@ Adds metadata tags to the Amazon RDS Performance Insights resource.
 
 """
 function tag_resource(
-    ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "TagResource",
@@ -806,7 +806,7 @@ function tag_resource(
     ServiceType,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "TagResource",
@@ -843,7 +843,7 @@ Deletes the metadata tags from the Amazon RDS Performance Insights resource.
 
 """
 function untag_resource(
-    ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pi(
         "UntagResource",
@@ -859,7 +859,7 @@ function untag_resource(
     ServiceType,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pi(
         "UntagResource",

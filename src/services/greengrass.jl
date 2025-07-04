@@ -19,7 +19,7 @@ actions against the cloud.
 
 """
 function associate_role_to_group(
-    GroupId, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -33,7 +33,7 @@ function associate_role_to_group(
     GroupId,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -58,7 +58,7 @@ role must have at least minimum permissions in the policy
 
 """
 function associate_service_role_to_account(
-    RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -69,7 +69,9 @@ function associate_service_role_to_account(
     )
 end
 function associate_service_role_to_account(
-    RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -94,7 +96,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_connector_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_connector_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/definition/connectors";
@@ -103,7 +105,7 @@ function create_connector_definition(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function create_connector_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -130,7 +132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_connector_definition_version(
-    ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -142,7 +144,7 @@ end
 function create_connector_definition_version(
     ConnectorDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -168,7 +170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_core_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_core_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/definition/cores";
@@ -177,7 +179,7 @@ function create_core_definition(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function create_core_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -204,7 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_core_definition_version(
-    CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -216,7 +218,7 @@ end
 function create_core_definition_version(
     CoreDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -246,7 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_deployment(
-    DeploymentType, GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeploymentType, GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -260,7 +262,7 @@ function create_deployment(
     DeploymentType,
     GroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -287,7 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_device_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_device_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/definition/devices";
@@ -296,7 +298,7 @@ function create_device_definition(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function create_device_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -322,7 +324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_device_definition_version(
-    DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -334,7 +336,7 @@ end
 function create_device_definition_version(
     DeviceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -361,7 +363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_function_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_function_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/definition/functions";
@@ -370,7 +372,7 @@ function create_function_definition(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function create_function_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -398,7 +400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_function_definition_version(
-    FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -410,7 +412,7 @@ end
 function create_function_definition_version(
     FunctionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -439,7 +441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/groups",
@@ -449,7 +451,7 @@ function create_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -474,7 +476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_group_certificate_authority(
-    GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -484,7 +486,9 @@ function create_group_certificate_authority(
     )
 end
 function create_group_certificate_authority(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -519,7 +523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this group.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
-function create_group_version(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_group_version(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/groups/$(GroupId)/versions";
@@ -528,7 +532,9 @@ function create_group_version(GroupId; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function create_group_version(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -553,7 +559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_logger_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_logger_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/definition/loggers";
@@ -562,7 +568,7 @@ function create_logger_definition(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function create_logger_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -588,7 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_logger_definition_version(
-    LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -600,7 +606,7 @@ end
 function create_logger_definition_version(
     LoggerDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -626,7 +632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_resource_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_resource_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/definition/resources";
@@ -635,7 +641,7 @@ function create_resource_definition(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function create_resource_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -661,7 +667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_resource_definition_version(
-    ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -673,7 +679,7 @@ end
 function create_resource_definition_version(
     ResourceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -711,7 +717,7 @@ function create_software_update_job(
     UpdateTargets,
     UpdateTargetsArchitecture,
     UpdateTargetsOperatingSystem;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -734,7 +740,7 @@ function create_software_update_job(
     UpdateTargetsArchitecture,
     UpdateTargetsOperatingSystem,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -771,7 +777,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-function create_subscription_definition(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_subscription_definition(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return greengrass(
         "POST",
         "/greengrass/definition/subscriptions";
@@ -780,7 +788,7 @@ function create_subscription_definition(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function create_subscription_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -806,7 +814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_subscription_definition_version(
-    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -818,7 +826,7 @@ end
 function create_subscription_definition_version(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -840,7 +848,7 @@ Deletes a connector definition.
 
 """
 function delete_connector_definition(
-    ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -852,7 +860,7 @@ end
 function delete_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -874,7 +882,7 @@ Deletes a core definition.
 
 """
 function delete_core_definition(
-    CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -886,7 +894,7 @@ end
 function delete_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -908,7 +916,7 @@ Deletes a device definition.
 
 """
 function delete_device_definition(
-    DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -920,7 +928,7 @@ end
 function delete_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -942,7 +950,7 @@ Deletes a Lambda function definition.
 
 """
 function delete_function_definition(
-    FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -954,7 +962,7 @@ end
 function delete_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -975,7 +983,7 @@ Deletes a group.
 - `group_id`: The ID of the Greengrass group.
 
 """
-function delete_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "DELETE",
         "/greengrass/groups/$(GroupId)";
@@ -984,7 +992,9 @@ function delete_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_group(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -1006,7 +1016,7 @@ Deletes a logger definition.
 
 """
 function delete_logger_definition(
-    LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -1018,7 +1028,7 @@ end
 function delete_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -1040,7 +1050,7 @@ Deletes a resource definition.
 
 """
 function delete_resource_definition(
-    ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -1052,7 +1062,7 @@ end
 function delete_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -1074,7 +1084,7 @@ Deletes a subscription definition.
 
 """
 function delete_subscription_definition(
-    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -1086,7 +1096,7 @@ end
 function delete_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -1108,7 +1118,7 @@ Disassociates the role from a group.
 
 """
 function disassociate_role_from_group(
-    GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -1118,7 +1128,9 @@ function disassociate_role_from_group(
     )
 end
 function disassociate_role_from_group(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -1138,7 +1150,7 @@ not work.
 
 """
 function disassociate_service_role_from_account(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -1148,7 +1160,7 @@ function disassociate_service_role_from_account(;
     )
 end
 function disassociate_service_role_from_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -1169,7 +1181,7 @@ Retrieves the role associated with a particular group.
 - `group_id`: The ID of the Greengrass group.
 
 """
-function get_associated_role(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_associated_role(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/role";
@@ -1178,7 +1190,9 @@ function get_associated_role(GroupId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function get_associated_role(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1200,7 +1214,7 @@ Returns the status of a bulk deployment.
 
 """
 function get_bulk_deployment_status(
-    BulkDeploymentId; aws_config::AbstractAWSConfig=global_aws_config()
+    BulkDeploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1212,7 +1226,7 @@ end
 function get_bulk_deployment_status(
     BulkDeploymentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1233,7 +1247,9 @@ Retrieves the connectivity information for a core.
 - `thing_name`: The thing name.
 
 """
-function get_connectivity_info(ThingName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_connectivity_info(
+    ThingName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return greengrass(
         "GET",
         "/greengrass/things/$(ThingName)/connectivityInfo";
@@ -1244,7 +1260,7 @@ end
 function get_connectivity_info(
     ThingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1266,7 +1282,7 @@ Retrieves information about a connector definition.
 
 """
 function get_connector_definition(
-    ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1278,7 +1294,7 @@ end
 function get_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1313,7 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_connector_definition_version(
     ConnectorDefinitionId,
     ConnectorDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1326,7 +1342,7 @@ function get_connector_definition_version(
     ConnectorDefinitionId,
     ConnectorDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1348,7 +1364,7 @@ Retrieves information about a core definition version.
 
 """
 function get_core_definition(
-    CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1360,7 +1376,7 @@ end
 function get_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1389,7 +1405,7 @@ Retrieves information about a core definition version.
 function get_core_definition_version(
     CoreDefinitionId,
     CoreDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1402,7 +1418,7 @@ function get_core_definition_version(
     CoreDefinitionId,
     CoreDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1425,7 +1441,7 @@ Returns the status of a deployment.
 
 """
 function get_deployment_status(
-    DeploymentId, GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeploymentId, GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1438,7 +1454,7 @@ function get_deployment_status(
     DeploymentId,
     GroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1460,7 +1476,7 @@ Retrieves information about a device definition.
 
 """
 function get_device_definition(
-    DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1472,7 +1488,7 @@ end
 function get_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1505,7 +1521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_device_definition_version(
     DeviceDefinitionId,
     DeviceDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1518,7 +1534,7 @@ function get_device_definition_version(
     DeviceDefinitionId,
     DeviceDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1541,7 +1557,7 @@ latest version.
 
 """
 function get_function_definition(
-    FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1553,7 +1569,7 @@ end
 function get_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1587,7 +1603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_function_definition_version(
     FunctionDefinitionId,
     FunctionDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1600,7 +1616,7 @@ function get_function_definition_version(
     FunctionDefinitionId,
     FunctionDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1621,7 +1637,7 @@ Retrieves information about a group.
 - `group_id`: The ID of the Greengrass group.
 
 """
-function get_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)";
@@ -1630,7 +1646,9 @@ function get_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_group(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1653,7 +1671,7 @@ Retreives the CA associated with a group. Returns the public key of the CA.
 
 """
 function get_group_certificate_authority(
-    CertificateAuthorityId, GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityId, GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1666,7 +1684,7 @@ function get_group_certificate_authority(
     CertificateAuthorityId,
     GroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1688,7 +1706,7 @@ Retrieves the current configuration for the CA used by the group.
 
 """
 function get_group_certificate_configuration(
-    GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1698,7 +1716,9 @@ function get_group_certificate_configuration(
     )
 end
 function get_group_certificate_configuration(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1725,7 +1745,7 @@ Retrieves information about a group version.
 
 """
 function get_group_version(
-    GroupId, GroupVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, GroupVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1738,7 +1758,7 @@ function get_group_version(
     GroupId,
     GroupVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1760,7 +1780,7 @@ Retrieves information about a logger definition.
 
 """
 function get_logger_definition(
-    LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1772,7 +1792,7 @@ end
 function get_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1805,7 +1825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_logger_definition_version(
     LoggerDefinitionId,
     LoggerDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1818,7 +1838,7 @@ function get_logger_definition_version(
     LoggerDefinitionId,
     LoggerDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1841,7 +1861,7 @@ version.
 
 """
 function get_resource_definition(
-    ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1853,7 +1873,7 @@ end
 function get_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1883,7 +1903,7 @@ included in the version.
 function get_resource_definition_version(
     ResourceDefinitionId,
     ResourceDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1896,7 +1916,7 @@ function get_resource_definition_version(
     ResourceDefinitionId,
     ResourceDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1914,7 +1934,7 @@ end
 Retrieves the service role that is attached to your account.
 
 """
-function get_service_role_for_account(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/servicerole";
@@ -1923,7 +1943,7 @@ function get_service_role_for_account(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function get_service_role_for_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1945,7 +1965,7 @@ Retrieves information about a subscription definition.
 
 """
 function get_subscription_definition(
-    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -1957,7 +1977,7 @@ end
 function get_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -1990,7 +2010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_subscription_definition_version(
     SubscriptionDefinitionId,
     SubscriptionDefinitionVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2003,7 +2023,7 @@ function get_subscription_definition_version(
     SubscriptionDefinitionId,
     SubscriptionDefinitionVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2025,7 +2045,7 @@ Get the runtime configuration of a thing.
 
 """
 function get_thing_runtime_configuration(
-    ThingName; aws_config::AbstractAWSConfig=global_aws_config()
+    ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2037,7 +2057,7 @@ end
 function get_thing_runtime_configuration(
     ThingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2065,7 +2085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_bulk_deployment_detailed_reports(
-    BulkDeploymentId; aws_config::AbstractAWSConfig=global_aws_config()
+    BulkDeploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2077,7 +2097,7 @@ end
 function list_bulk_deployment_detailed_reports(
     BulkDeploymentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2100,7 +2120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_bulk_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bulk_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/bulk/deployments";
@@ -2109,7 +2129,7 @@ function list_bulk_deployments(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_bulk_deployments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2138,7 +2158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_connector_definition_versions(
-    ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2150,7 +2170,7 @@ end
 function list_connector_definition_versions(
     ConnectorDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2173,7 +2193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_connector_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_connector_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/connectors";
@@ -2182,7 +2202,7 @@ function list_connector_definitions(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function list_connector_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2209,7 +2229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_core_definition_versions(
-    CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2221,7 +2241,7 @@ end
 function list_core_definition_versions(
     CoreDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2244,7 +2264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_core_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_core_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/cores";
@@ -2253,7 +2273,7 @@ function list_core_definitions(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_core_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2279,7 +2299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_deployments(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/deployments";
@@ -2288,7 +2308,9 @@ function list_deployments(GroupId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_deployments(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2315,7 +2337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_device_definition_versions(
-    DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2327,7 +2349,7 @@ end
 function list_device_definition_versions(
     DeviceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2350,7 +2372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_device_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_device_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/devices";
@@ -2359,7 +2381,7 @@ function list_device_definitions(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_device_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2386,7 +2408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_function_definition_versions(
-    FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2398,7 +2420,7 @@ end
 function list_function_definition_versions(
     FunctionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2421,7 +2443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_function_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_function_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/functions";
@@ -2430,7 +2452,7 @@ function list_function_definitions(; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_function_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2452,7 +2474,7 @@ Retrieves the current CAs for a group.
 
 """
 function list_group_certificate_authorities(
-    GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2462,7 +2484,9 @@ function list_group_certificate_authorities(
     )
 end
 function list_group_certificate_authorities(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2488,7 +2512,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_group_versions(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_group_versions(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/versions";
@@ -2497,7 +2521,9 @@ function list_group_versions(GroupId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function list_group_versions(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2520,13 +2546,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET", "/greengrass/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2553,7 +2579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_logger_definition_versions(
-    LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2565,7 +2591,7 @@ end
 function list_logger_definition_versions(
     LoggerDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2588,7 +2614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_logger_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_logger_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/loggers";
@@ -2597,7 +2623,7 @@ function list_logger_definitions(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_logger_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2624,7 +2650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_resource_definition_versions(
-    ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2636,7 +2662,7 @@ end
 function list_resource_definition_versions(
     ResourceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2659,7 +2685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_resource_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resource_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/resources";
@@ -2668,7 +2694,7 @@ function list_resource_definitions(; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_resource_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2695,7 +2721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 function list_subscription_definition_versions(
-    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2707,7 +2733,7 @@ end
 function list_subscription_definition_versions(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2730,7 +2756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
-function list_subscription_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_subscription_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
         "/greengrass/definition/subscriptions";
@@ -2739,7 +2765,7 @@ function list_subscription_definitions(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_subscription_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2761,7 +2787,7 @@ Retrieves a list of resource tags for a resource arn.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "GET",
@@ -2773,7 +2799,7 @@ end
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "GET",
@@ -2798,7 +2824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Force"`: If true, performs a best-effort only core reset.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
-function reset_deployments(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function reset_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/greengrass/groups/$(GroupId)/deployments/$reset";
@@ -2807,7 +2833,9 @@ function reset_deployments(GroupId; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function reset_deployments(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -2845,7 +2873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 function start_bulk_deployment(
-    ExecutionRoleArn, InputFileUri; aws_config::AbstractAWSConfig=global_aws_config()
+    ExecutionRoleArn, InputFileUri; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "POST",
@@ -2861,7 +2889,7 @@ function start_bulk_deployment(
     ExecutionRoleArn,
     InputFileUri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -2894,7 +2922,7 @@ or cancel pending deployments.
 
 """
 function stop_bulk_deployment(
-    BulkDeploymentId; aws_config::AbstractAWSConfig=global_aws_config()
+    BulkDeploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -2906,7 +2934,7 @@ end
 function stop_bulk_deployment(
     BulkDeploymentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -2932,7 +2960,7 @@ Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefin
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`:
 """
-function tag_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
         "/tags/$(resource-arn)";
@@ -2943,7 +2971,7 @@ end
 function tag_resource(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "POST",
@@ -2966,7 +2994,7 @@ Remove resource tags from a Greengrass Resource.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
@@ -2980,7 +3008,7 @@ function untag_resource(
     resource_arn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
@@ -3007,7 +3035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectivityInfo"`: A list of connectivity info.
 """
 function update_connectivity_info(
-    ThingName; aws_config::AbstractAWSConfig=global_aws_config()
+    ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3019,7 +3047,7 @@ end
 function update_connectivity_info(
     ThingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3044,7 +3072,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_connector_definition(
-    ConnectorDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3056,7 +3084,7 @@ end
 function update_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3081,7 +3109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_core_definition(
-    CoreDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3093,7 +3121,7 @@ end
 function update_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3118,7 +3146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_device_definition(
-    DeviceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3130,7 +3158,7 @@ end
 function update_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3155,7 +3183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_function_definition(
-    FunctionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3167,7 +3195,7 @@ end
 function update_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3191,7 +3219,7 @@ Updates a group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
-function update_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "PUT",
         "/greengrass/groups/$(GroupId)";
@@ -3200,7 +3228,9 @@ function update_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function update_group(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3226,7 +3256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires, in milliseconds.
 """
 function update_group_certificate_configuration(
-    GroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3236,7 +3266,9 @@ function update_group_certificate_configuration(
     )
 end
 function update_group_certificate_configuration(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3261,7 +3293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_logger_definition(
-    LoggerDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3273,7 +3305,7 @@ end
 function update_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3298,7 +3330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_resource_definition(
-    ResourceDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3310,7 +3342,7 @@ end
 function update_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3335,7 +3367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the definition.
 """
 function update_subscription_definition(
-    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3347,7 +3379,7 @@ end
 function update_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",
@@ -3372,7 +3404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TelemetryConfiguration"`: Configuration for telemetry service.
 """
 function update_thing_runtime_configuration(
-    ThingName; aws_config::AbstractAWSConfig=global_aws_config()
+    ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "PUT",
@@ -3384,7 +3416,7 @@ end
 function update_thing_runtime_configuration(
     ThingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "PUT",

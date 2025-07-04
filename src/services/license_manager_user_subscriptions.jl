@@ -27,7 +27,7 @@ function associate_user(
     IdentityProvider,
     InstanceId,
     Username;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -46,7 +46,7 @@ function associate_user(
     InstanceId,
     Username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -79,7 +79,7 @@ Deregisters the identity provider from providing user-based subscriptions.
 
 """
 function deregister_identity_provider(
-    IdentityProvider, Product; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -93,7 +93,7 @@ function deregister_identity_provider(
     IdentityProvider,
     Product,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -131,7 +131,7 @@ function disassociate_user(
     IdentityProvider,
     InstanceId,
     Username;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -150,7 +150,7 @@ function disassociate_user(
     InstanceId,
     Username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -182,7 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-function list_identity_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_user_subscriptions(
         "POST",
         "/identity-provider/ListIdentityProviders";
@@ -191,7 +191,7 @@ function list_identity_providers(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_identity_providers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_user_subscriptions(
         "POST",
         "/instance/ListInstances";
@@ -224,7 +224,7 @@ function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -253,7 +253,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 function list_product_subscriptions(
-    IdentityProvider, Product; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -267,7 +267,7 @@ function list_product_subscriptions(
     IdentityProvider,
     Product,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -304,7 +304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 function list_user_associations(
-    IdentityProvider, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityProvider, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -320,7 +320,7 @@ function list_user_associations(
     IdentityProvider,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   such as the subnets to provision VPC endpoints.
 """
 function register_identity_provider(
-    IdentityProvider, Product; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -369,7 +369,7 @@ function register_identity_provider(
     IdentityProvider,
     Product,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -408,7 +408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Domain"`: The domain name of the user.
 """
 function start_product_subscription(
-    IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -427,7 +427,7 @@ function start_product_subscription(
     Product,
     Username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -464,7 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Domain"`: The domain name of the user.
 """
 function stop_product_subscription(
-    IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -483,7 +483,7 @@ function stop_product_subscription(
     Product,
     Username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -524,7 +524,7 @@ function update_identity_provider_settings(
     IdentityProvider,
     Product,
     UpdateSettings;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
@@ -543,7 +543,7 @@ function update_identity_provider_settings(
     Product,
     UpdateSettings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",

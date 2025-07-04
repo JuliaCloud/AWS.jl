@@ -37,7 +37,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 function create_channel(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "POST",
@@ -53,7 +53,7 @@ function create_channel(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -97,7 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 function create_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "POST",
@@ -112,7 +112,7 @@ end
 function create_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -179,7 +179,7 @@ function create_origin_endpoint(
     ChannelName,
     ContainerType,
     OriginEndpointName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -199,7 +199,7 @@ function create_origin_endpoint(
     ContainerType,
     OriginEndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -235,7 +235,7 @@ must delete the channel's origin endpoints before you can delete the channel.
 
 """
 function delete_channel(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "DELETE",
@@ -248,7 +248,7 @@ function delete_channel(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -273,7 +273,7 @@ to the egress domain and will have to create a new channel group to replace it.
 
 """
 function delete_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "DELETE",
@@ -285,7 +285,7 @@ end
 function delete_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -310,7 +310,7 @@ Delete a channel policy.
 
 """
 function delete_channel_policy(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "DELETE",
@@ -323,7 +323,7 @@ function delete_channel_policy(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -356,7 +356,7 @@ function delete_origin_endpoint(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -370,7 +370,7 @@ function delete_origin_endpoint(
     ChannelName,
     OriginEndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -401,7 +401,7 @@ function delete_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -415,7 +415,7 @@ function delete_origin_endpoint_policy(
     ChannelName,
     OriginEndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -441,7 +441,7 @@ the origin endpoints that are associated with it.
 
 """
 function get_channel(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "GET",
@@ -454,7 +454,7 @@ function get_channel(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -478,7 +478,7 @@ including the channels and origin endpoints that are associated with it.
 
 """
 function get_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "GET",
@@ -490,7 +490,7 @@ end
 function get_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -517,7 +517,7 @@ perform on those resources.
 
 """
 function get_channel_policy(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "GET",
@@ -530,7 +530,7 @@ function get_channel_policy(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -562,7 +562,7 @@ function get_origin_endpoint(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -576,7 +576,7 @@ function get_origin_endpoint(
     ChannelName,
     OriginEndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -608,7 +608,7 @@ function get_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -622,7 +622,7 @@ function get_origin_endpoint_policy(
     ChannelName,
     OriginEndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -646,13 +646,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_channel_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_channel_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackagev2(
         "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_channel_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "GET",
@@ -680,7 +680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackagev2(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel";
@@ -691,7 +691,7 @@ end
 function list_channels(
     ChannelGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -722,7 +722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 function list_origin_endpoints(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "GET",
@@ -735,7 +735,7 @@ function list_origin_endpoints(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -757,7 +757,7 @@ Lists the tags assigned to a resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "GET",
@@ -769,7 +769,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "GET",
@@ -797,7 +797,10 @@ attach only one policy with each request.
 
 """
 function put_channel_policy(
-    ChannelGroupName, ChannelName, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName,
+    ChannelName,
+    Policy;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "PUT",
@@ -812,7 +815,7 @@ function put_channel_policy(
     ChannelName,
     Policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "PUT",
@@ -846,7 +849,7 @@ function put_origin_endpoint_policy(
     ChannelName,
     OriginEndpointName,
     Policy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -862,7 +865,7 @@ function put_origin_endpoint_policy(
     OriginEndpointName,
     Policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -891,7 +894,7 @@ resource, the new tag value that you specify replaces the previous value for tha
   the resource.
 
 """
-function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackagev2(
         "POST",
         "/tags/$(ResourceArn)",
@@ -904,7 +907,7 @@ function tag_resource(
     ResourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
@@ -927,7 +930,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "DELETE",
@@ -941,7 +944,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "DELETE",
@@ -977,7 +980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be rejected.
 """
 function update_channel(
-    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "PUT",
@@ -990,7 +993,7 @@ function update_channel(
     ChannelGroupName,
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "PUT",
@@ -1023,7 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be rejected.
 """
 function update_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackagev2(
         "PUT",
@@ -1035,7 +1038,7 @@ end
 function update_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "PUT",
@@ -1089,7 +1092,7 @@ function update_origin_endpoint(
     ChannelName,
     ContainerType,
     OriginEndpointName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "PUT",
@@ -1105,7 +1108,7 @@ function update_origin_endpoint(
     ContainerType,
     OriginEndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "PUT",

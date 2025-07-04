@@ -18,7 +18,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 """
 function batch_create_variable(
-    variableEntries; aws_config::AbstractAWSConfig=global_aws_config()
+    variableEntries; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "BatchCreateVariable",
@@ -30,7 +30,7 @@ end
 function batch_create_variable(
     variableEntries,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "BatchCreateVariable",
@@ -54,7 +54,7 @@ Gets a batch of variables.
 - `names`: The list of variable names to get.
 
 """
-function batch_get_variable(names; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_get_variable(names; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "BatchGetVariable",
         Dict{String,Any}("names" => names);
@@ -63,7 +63,7 @@ function batch_get_variable(names; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function batch_get_variable(
-    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "BatchGetVariable",
@@ -84,7 +84,7 @@ end
   will throw an error if the batch import job is in FAILED, CANCELED, or COMPLETED state.
 
 """
-function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "CancelBatchImportJob",
         Dict{String,Any}("jobId" => jobId);
@@ -93,7 +93,7 @@ function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function cancel_batch_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "CancelBatchImportJob",
@@ -114,7 +114,7 @@ Cancels the specified batch prediction job.
 
 """
 function cancel_batch_prediction_job(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "CancelBatchPredictionJob",
@@ -124,7 +124,7 @@ function cancel_batch_prediction_job(
     )
 end
 function cancel_batch_prediction_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "CancelBatchPredictionJob",
@@ -161,7 +161,7 @@ function create_batch_import_job(
     inputPath,
     jobId,
     outputPath;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateBatchImportJob",
@@ -183,7 +183,7 @@ function create_batch_import_job(
     jobId,
     outputPath,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateBatchImportJob",
@@ -234,7 +234,7 @@ function create_batch_prediction_job(
     inputPath,
     jobId,
     outputPath;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateBatchPredictionJob",
@@ -258,7 +258,7 @@ function create_batch_prediction_job(
     jobId,
     outputPath,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateBatchPredictionJob",
@@ -307,7 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 """
 function create_detector_version(
-    detectorId, rules; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "CreateDetectorVersion",
@@ -320,7 +320,7 @@ function create_detector_version(
     detectorId,
     rules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateDetectorVersion",
@@ -356,7 +356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"variableType"`:  The variable type of the list. You can only assign the variable type
   with String data type. For more information, see Variable types.
 """
-function create_list(name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_list(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "CreateList",
         Dict{String,Any}("name" => name);
@@ -365,7 +365,7 @@ function create_list(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_list(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "CreateList",
@@ -392,7 +392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 """
 function create_model(
-    eventTypeName, modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config()
+    eventTypeName, modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "CreateModel",
@@ -408,7 +408,7 @@ function create_model(
     modelId,
     modelType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateModel",
@@ -453,7 +453,7 @@ function create_model_version(
     modelType,
     trainingDataSchema,
     trainingDataSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateModelVersion",
@@ -473,7 +473,7 @@ function create_model_version(
     trainingDataSchema,
     trainingDataSource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateModelVersion",
@@ -518,7 +518,7 @@ function create_rule(
     language,
     outcomes,
     ruleId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateRule",
@@ -540,7 +540,7 @@ function create_rule(
     outcomes,
     ruleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateRule",
@@ -591,7 +591,7 @@ function create_variable(
     dataType,
     defaultValue,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateVariable",
@@ -611,7 +611,7 @@ function create_variable(
     defaultValue,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "CreateVariable",
@@ -643,7 +643,7 @@ was batch imported.
 - `job_id`: The ID of the batch import job to delete.
 
 """
-function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteBatchImportJob",
         Dict{String,Any}("jobId" => jobId);
@@ -652,7 +652,7 @@ function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function delete_batch_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteBatchImportJob",
@@ -673,7 +673,7 @@ Deletes a batch prediction job.
 
 """
 function delete_batch_prediction_job(
-    jobId; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteBatchPredictionJob",
@@ -683,7 +683,7 @@ function delete_batch_prediction_job(
     )
 end
 function delete_batch_prediction_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteBatchPredictionJob",
@@ -706,7 +706,7 @@ Fraud Detector.
 - `detector_id`: The ID of the detector to delete.
 
 """
-function delete_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteDetector",
         Dict{String,Any}("detectorId" => detectorId);
@@ -717,7 +717,7 @@ end
 function delete_detector(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteDetector",
@@ -743,7 +743,7 @@ detector and the data is no longer stored in Amazon Fraud Detector.
 
 """
 function delete_detector_version(
-    detectorId, detectorVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteDetectorVersion",
@@ -758,7 +758,7 @@ function delete_detector_version(
     detectorId,
     detectorVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteDetectorVersion",
@@ -788,7 +788,7 @@ and the data is no longer stored in Amazon Fraud Detector.
 - `name`: The name of the entity type to delete.
 
 """
-function delete_entity_type(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteEntityType",
         Dict{String,Any}("name" => name);
@@ -797,7 +797,7 @@ function delete_entity_type(name; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function delete_entity_type(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteEntityType",
@@ -826,7 +826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the event. If set to True,
 """
 function delete_event(
-    eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteEvent",
@@ -839,7 +839,7 @@ function delete_event(
     eventId,
     eventTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteEvent",
@@ -867,7 +867,7 @@ type and the data is no longer stored in Amazon Fraud Detector.
 - `name`: The name of the event type to delete.
 
 """
-function delete_event_type(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_event_type(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteEventType",
         Dict{String,Any}("name" => name);
@@ -876,7 +876,7 @@ function delete_event_type(name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_event_type(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteEventType",
@@ -897,7 +897,7 @@ Deletes all events of a particular event type.
 
 """
 function delete_events_by_event_type(
-    eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteEventsByEventType",
@@ -909,7 +909,7 @@ end
 function delete_events_by_event_type(
     eventTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteEventsByEventType",
@@ -934,7 +934,7 @@ disconnects it from Amazon Fraud Detector, but the model remains available in Sa
 
 """
 function delete_external_model(
-    modelEndpoint; aws_config::AbstractAWSConfig=global_aws_config()
+    modelEndpoint; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteExternalModel",
@@ -946,7 +946,7 @@ end
 function delete_external_model(
     modelEndpoint,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteExternalModel",
@@ -971,7 +971,7 @@ that label and the data is no longer stored in Amazon Fraud Detector.
 - `name`: The name of the label to delete.
 
 """
-function delete_label(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_label(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteLabel",
         Dict{String,Any}("name" => name);
@@ -980,7 +980,7 @@ function delete_label(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_label(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteLabel",
@@ -1001,7 +1001,7 @@ Fraud Detector permanently deletes that list and the elements in the list.
 - `name`:  The name of the list to delete.
 
 """
-function delete_list(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_list(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteList",
         Dict{String,Any}("name" => name);
@@ -1010,7 +1010,7 @@ function delete_list(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_list(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteList",
@@ -1034,7 +1034,9 @@ Amazon Fraud Detector.
 - `model_type`: The model type of the model to delete.
 
 """
-function delete_model(modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_model(
+    modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return frauddetector(
         "DeleteModel",
         Dict{String,Any}("modelId" => modelId, "modelType" => modelType);
@@ -1046,7 +1048,7 @@ function delete_model(
     modelId,
     modelType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteModel",
@@ -1081,7 +1083,7 @@ function delete_model_version(
     modelId,
     modelType,
     modelVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteModelVersion",
@@ -1099,7 +1101,7 @@ function delete_model_version(
     modelType,
     modelVersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DeleteModelVersion",
@@ -1131,7 +1133,7 @@ no longer stored in Amazon Fraud Detector.
 - `name`: The name of the outcome to delete.
 
 """
-function delete_outcome(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_outcome(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteOutcome",
         Dict{String,Any}("name" => name);
@@ -1140,7 +1142,7 @@ function delete_outcome(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_outcome(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteOutcome",
@@ -1162,7 +1164,7 @@ the data is no longer stored in Amazon Fraud Detector.
 - `rule`:
 
 """
-function delete_rule(rule; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_rule(rule; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteRule",
         Dict{String,Any}("rule" => rule);
@@ -1171,7 +1173,7 @@ function delete_rule(rule; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_rule(
-    rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteRule",
@@ -1195,7 +1197,7 @@ that variable and the data is no longer stored in Amazon Fraud Detector.
 - `name`: The name of the variable to delete.
 
 """
-function delete_variable(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_variable(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DeleteVariable",
         Dict{String,Any}("name" => name);
@@ -1204,7 +1206,7 @@ function delete_variable(name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_variable(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DeleteVariable",
@@ -1228,7 +1230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return for the request.
 - `"nextToken"`: The next token from the previous response.
 """
-function describe_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DescribeDetector",
         Dict{String,Any}("detectorId" => detectorId);
@@ -1239,7 +1241,7 @@ end
 function describe_detector(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "DescribeDetector",
@@ -1266,13 +1268,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modelVersionNumber"`: The model version number.
 - `"nextToken"`: The next token from the previous results.
 """
-function describe_model_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_model_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "DescribeModelVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_model_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "DescribeModelVersions",
@@ -1298,13 +1300,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects to return for request.
 - `"nextToken"`: The next token from the previous request.
 """
-function get_batch_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_batch_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetBatchImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_batch_import_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetBatchImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1327,13 +1329,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"nextToken"`: The next token from the previous request.
 """
-function get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetBatchPredictionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_batch_prediction_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetBatchPredictionJobs",
@@ -1354,7 +1356,7 @@ Retrieves the status of a DeleteEventsByEventType action.
 
 """
 function get_delete_events_by_event_type_status(
-    eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetDeleteEventsByEventTypeStatus",
@@ -1366,7 +1368,7 @@ end
 function get_delete_events_by_event_type_status(
     eventTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetDeleteEventsByEventTypeStatus",
@@ -1390,7 +1392,7 @@ Gets a particular detector version.
 
 """
 function get_detector_version(
-    detectorId, detectorVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetDetectorVersion",
@@ -1405,7 +1407,7 @@ function get_detector_version(
     detectorId,
     detectorVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetDetectorVersion",
@@ -1439,13 +1441,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_detectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetDetectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1468,13 +1470,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_entity_types(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_entity_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_entity_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetEntityTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1494,7 +1496,7 @@ retrieve prediction results.
 
 """
 function get_event(
-    eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetEvent",
@@ -1507,7 +1509,7 @@ function get_event(
     eventId,
     eventTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetEvent",
@@ -1565,7 +1567,7 @@ function get_event_prediction(
     eventTimestamp,
     eventTypeName,
     eventVariables;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetEventPrediction",
@@ -1589,7 +1591,7 @@ function get_event_prediction(
     eventTypeName,
     eventVariables,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetEventPrediction",
@@ -1637,7 +1639,7 @@ function get_event_prediction_metadata(
     eventId,
     eventTypeName,
     predictionTimestamp;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetEventPredictionMetadata",
@@ -1659,7 +1661,7 @@ function get_event_prediction_metadata(
     eventTypeName,
     predictionTimestamp,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetEventPredictionMetadata",
@@ -1697,13 +1699,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_event_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1727,13 +1729,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modelEndpoint"`: The Amazon SageMaker model endpoint.
 - `"nextToken"`: The next page token for the request.
 """
-function get_external_models(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_external_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetExternalModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_external_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetExternalModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1748,13 +1750,13 @@ Gets the encryption key if a KMS key has been specified to be used to encrypt co
 Amazon Fraud Detector.
 
 """
-function get_kmsencryption_key(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_kmsencryption_key(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetKMSEncryptionKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_kmsencryption_key(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetKMSEncryptionKey",
@@ -1780,13 +1782,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the label or labels to get.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_labels(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_labels(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_labels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1807,7 +1809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:  The maximum number of objects to return for the request.
 - `"nextToken"`:  The next token for the subsequent request.
 """
-function get_list_elements(name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_list_elements(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetListElements",
         Dict{String,Any}("name" => name);
@@ -1816,7 +1818,7 @@ function get_list_elements(name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_list_elements(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetListElements",
@@ -1838,13 +1840,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`:  The name of the list.
 - `"nextToken"`:  The next token for the subsequent request.
 """
-function get_lists_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_lists_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetListsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_lists_metadata(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetListsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1867,7 +1869,7 @@ function get_model_version(
     modelId,
     modelType,
     modelVersionNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetModelVersion",
@@ -1885,7 +1887,7 @@ function get_model_version(
     modelType,
     modelVersionNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetModelVersion",
@@ -1925,13 +1927,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modelType"`: The model type.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_models(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1954,13 +1956,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the outcome or outcomes to get.
 - `"nextToken"`: The next page token for the request.
 """
-function get_outcomes(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_outcomes(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetOutcomes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_outcomes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetOutcomes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1989,7 +1991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ruleId"`: The rule ID.
 - `"ruleVersion"`: The rule version.
 """
-function get_rules(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_rules(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetRules",
         Dict{String,Any}("detectorId" => detectorId);
@@ -2000,7 +2002,7 @@ end
 function get_rules(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "GetRules",
@@ -2028,13 +2030,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the variable.
 - `"nextToken"`: The next page token of the get variable request.
 """
-function get_variables(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_variables(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "GetVariables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_variables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "GetVariables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2066,13 +2068,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token expires after 24 hours.
 - `"predictionTimeRange"`:  The time period for when the predictions were generated.
 """
-function list_event_predictions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_event_predictions(; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "ListEventPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_event_predictions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "ListEventPredictions",
@@ -2099,7 +2101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next token from the previous results.
 """
 function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "ListTagsForResource",
@@ -2111,7 +2113,7 @@ end
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "ListTagsForResource",
@@ -2139,7 +2141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 """
 function put_detector(
-    detectorId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "PutDetector",
@@ -2152,7 +2154,7 @@ function put_detector(
     detectorId,
     eventTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "PutDetector",
@@ -2187,7 +2189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_entity_type(name; aws_config::AbstractAWSConfig=global_aws_config())
+function put_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "PutEntityType",
         Dict{String,Any}("name" => name);
@@ -2196,7 +2198,7 @@ function put_entity_type(name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function put_entity_type(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "PutEntityType",
@@ -2233,7 +2235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 """
 function put_event_type(
-    entityTypes, eventVariables, name; aws_config::AbstractAWSConfig=global_aws_config()
+    entityTypes, eventVariables, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "PutEventType",
@@ -2249,7 +2251,7 @@ function put_event_type(
     eventVariables,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "PutEventType",
@@ -2296,7 +2298,7 @@ function put_external_model(
     modelEndpointStatus,
     modelSource,
     outputConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "PutExternalModel",
@@ -2320,7 +2322,7 @@ function put_external_model(
     modelSource,
     outputConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "PutExternalModel",
@@ -2355,7 +2357,7 @@ Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 """
 function put_kmsencryption_key(
-    kmsEncryptionKeyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    kmsEncryptionKeyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "PutKMSEncryptionKey",
@@ -2367,7 +2369,7 @@ end
 function put_kmsencryption_key(
     kmsEncryptionKeyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "PutKMSEncryptionKey",
@@ -2399,7 +2401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The label description.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_label(name; aws_config::AbstractAWSConfig=global_aws_config())
+function put_label(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "PutLabel",
         Dict{String,Any}("name" => name);
@@ -2408,7 +2410,7 @@ function put_label(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function put_label(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "PutLabel",
@@ -2432,7 +2434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The outcome description.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_outcome(name; aws_config::AbstractAWSConfig=global_aws_config())
+function put_outcome(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "PutOutcome",
         Dict{String,Any}("name" => name);
@@ -2441,7 +2443,7 @@ function put_outcome(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function put_outcome(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "PutOutcome",
@@ -2482,7 +2484,7 @@ function send_event(
     eventTimestamp,
     eventTypeName,
     eventVariables;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "SendEvent",
@@ -2504,7 +2506,7 @@ function send_event(
     eventTypeName,
     eventVariables,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "SendEvent",
@@ -2537,7 +2539,7 @@ Assigns tags to a resource.
 - `tags`: The tags to assign to the resource.
 
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "TagResource",
         Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags);
@@ -2549,7 +2551,7 @@ function tag_resource(
     resourceARN,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "TagResource",
@@ -2577,7 +2579,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "UntagResource",
@@ -2590,7 +2592,7 @@ function untag_resource(
     resourceARN,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UntagResource",
@@ -2637,7 +2639,7 @@ function update_detector_version(
     detectorVersionId,
     externalModelEndpoints,
     rules;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateDetectorVersion",
@@ -2657,7 +2659,7 @@ function update_detector_version(
     externalModelEndpoints,
     rules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateDetectorVersion",
@@ -2695,7 +2697,7 @@ function update_detector_version_metadata(
     description,
     detectorId,
     detectorVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateDetectorVersionMetadata",
@@ -2713,7 +2715,7 @@ function update_detector_version_metadata(
     detectorId,
     detectorVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateDetectorVersionMetadata",
@@ -2748,7 +2750,10 @@ INACTIVE to ACTIVE.
 
 """
 function update_detector_version_status(
-    detectorId, detectorVersionId, status; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId,
+    detectorVersionId,
+    status;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateDetectorVersionStatus",
@@ -2766,7 +2771,7 @@ function update_detector_version_status(
     detectorVersionId,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateDetectorVersionStatus",
@@ -2805,7 +2810,7 @@ function update_event_label(
     eventId,
     eventTypeName,
     labelTimestamp;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateEventLabel",
@@ -2825,7 +2830,7 @@ function update_event_label(
     eventTypeName,
     labelTimestamp,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateEventLabel",
@@ -2868,7 +2873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a variable type of a list that already has a variable type assigned to it. You can assign a
   variable type to a list only if the list does not already have a variable type.
 """
-function update_list(name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_list(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "UpdateList",
         Dict{String,Any}("name" => name);
@@ -2877,7 +2882,7 @@ function update_list(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_list(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "UpdateList",
@@ -2901,7 +2906,9 @@ Updates model description.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The new model description.
 """
-function update_model(modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config())
+function update_model(
+    modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return frauddetector(
         "UpdateModel",
         Dict{String,Any}("modelId" => modelId, "modelType" => modelType);
@@ -2913,7 +2920,7 @@ function update_model(
     modelId,
     modelType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateModel",
@@ -2955,7 +2962,7 @@ function update_model_version(
     majorVersionNumber,
     modelId,
     modelType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateModelVersion",
@@ -2973,7 +2980,7 @@ function update_model_version(
     modelId,
     modelType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateModelVersion",
@@ -3013,7 +3020,7 @@ function update_model_version_status(
     modelType,
     modelVersionNumber,
     status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateModelVersionStatus",
@@ -3033,7 +3040,7 @@ function update_model_version_status(
     modelVersionNumber,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateModelVersionStatus",
@@ -3066,7 +3073,7 @@ Updates a rule's metadata. The description attribute can be updated.
 
 """
 function update_rule_metadata(
-    description, rule; aws_config::AbstractAWSConfig=global_aws_config()
+    description, rule; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "UpdateRuleMetadata",
@@ -3079,7 +3086,7 @@ function update_rule_metadata(
     description,
     rule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateRuleMetadata",
@@ -3114,7 +3121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to assign to the rule version.
 """
 function update_rule_version(
-    expression, language, outcomes, rule; aws_config::AbstractAWSConfig=global_aws_config()
+    expression, language, outcomes, rule; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "UpdateRuleVersion",
@@ -3134,7 +3141,7 @@ function update_rule_version(
     outcomes,
     rule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return frauddetector(
         "UpdateRuleVersion",
@@ -3170,7 +3177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The new description.
 - `"variableType"`: The variable type. For more information see Variable types.
 """
-function update_variable(name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_variable(name; aws_config::AbstractAWSConfig=current_aws_config())
     return frauddetector(
         "UpdateVariable",
         Dict{String,Any}("name" => name);
@@ -3179,7 +3186,7 @@ function update_variable(name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function update_variable(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return frauddetector(
         "UpdateVariable",

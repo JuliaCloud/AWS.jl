@@ -31,7 +31,7 @@ function create_chime_webhook_configuration(
     SnsTopicArns,
     WebhookDescription,
     WebhookUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -54,7 +54,7 @@ function create_chime_webhook_configuration(
     WebhookDescription,
     WebhookUrl,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -114,7 +114,7 @@ function create_microsoft_teams_channel_configuration(
     IamRoleArn,
     TeamId,
     TenantId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -137,7 +137,7 @@ function create_microsoft_teams_channel_configuration(
     TeamId,
     TenantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -193,7 +193,7 @@ function create_slack_channel_configuration(
     IamRoleArn,
     SlackChannelId,
     SlackTeamId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -214,7 +214,7 @@ function create_slack_channel_configuration(
     SlackChannelId,
     SlackTeamId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -247,7 +247,7 @@ Deletes a Chime Webhook Configuration
 
 """
 function delete_chime_webhook_configuration(
-    ChatConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -260,7 +260,7 @@ end
 function delete_chime_webhook_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -288,7 +288,7 @@ Deletes MS Teams Channel Configuration
 
 """
 function delete_microsoft_teams_channel_configuration(
-    ChatConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -301,7 +301,7 @@ end
 function delete_microsoft_teams_channel_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -334,7 +334,7 @@ configured to remove it.
 
 """
 function delete_microsoft_teams_configured_team(
-    TeamId; aws_config::AbstractAWSConfig=global_aws_config()
+    TeamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -345,7 +345,7 @@ function delete_microsoft_teams_configured_team(
     )
 end
 function delete_microsoft_teams_configured_team(
-    TeamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TeamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -369,7 +369,7 @@ Deletes a Teams user identity
 
 """
 function delete_microsoft_teams_user_identity(
-    ChatConfigurationArn, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -385,7 +385,7 @@ function delete_microsoft_teams_user_identity(
     ChatConfigurationArn,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -415,7 +415,7 @@ Deletes Slack Channel Configuration
 
 """
 function delete_slack_channel_configuration(
-    ChatConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -428,7 +428,7 @@ end
 function delete_slack_channel_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -462,7 +462,7 @@ function delete_slack_user_identity(
     ChatConfigurationArn,
     SlackTeamId,
     SlackUserId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -481,7 +481,7 @@ function delete_slack_user_identity(
     SlackTeamId,
     SlackUserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -514,7 +514,7 @@ workspace. This requires all configured channels in the workspace to be deleted.
 
 """
 function delete_slack_workspace_authorization(
-    SlackTeamId; aws_config::AbstractAWSConfig=global_aws_config()
+    SlackTeamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -527,7 +527,7 @@ end
 function delete_slack_workspace_authorization(
     SlackTeamId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -557,7 +557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function describe_chime_webhook_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -567,7 +567,7 @@ function describe_chime_webhook_configurations(;
     )
 end
 function describe_chime_webhook_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -595,7 +595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function describe_slack_channel_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -605,7 +605,7 @@ function describe_slack_channel_configurations(;
     )
 end
 function describe_slack_channel_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -633,7 +633,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
-function describe_slack_user_identities(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_slack_user_identities(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return chatbot(
         "POST",
         "/describe-slack-user-identities";
@@ -642,7 +644,7 @@ function describe_slack_user_identities(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_slack_user_identities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -668,7 +670,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
-function describe_slack_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_slack_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
         "/describe-slack-workspaces";
@@ -677,7 +679,7 @@ function describe_slack_workspaces(; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function describe_slack_workspaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -695,7 +697,7 @@ end
 Get Chatbot account level preferences
 
 """
-function get_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
         "/get-account-preferences";
@@ -704,7 +706,7 @@ function get_account_preferences(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function get_account_preferences(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -726,7 +728,7 @@ Get a single MS Teams Channel Configurations
 
 """
 function get_microsoft_teams_channel_configuration(
-    ChatConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -739,7 +741,7 @@ end
 function get_microsoft_teams_channel_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -776,7 +778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
 """
 function list_microsoft_teams_channel_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -786,7 +788,7 @@ function list_microsoft_teams_channel_configurations(;
     )
 end
 function list_microsoft_teams_channel_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -813,7 +815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function list_microsoft_teams_configured_teams(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -823,7 +825,7 @@ function list_microsoft_teams_configured_teams(;
     )
 end
 function list_microsoft_teams_configured_teams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -852,7 +854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 """
 function list_microsoft_teams_user_identities(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -862,7 +864,7 @@ function list_microsoft_teams_user_identities(;
     )
 end
 function list_microsoft_teams_user_identities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -884,7 +886,7 @@ Retrieves the list of tags applied to a configuration.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -897,7 +899,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -921,7 +923,7 @@ Applies the supplied tags to a configuration.
 - `tags`: A list of tags to apply to the configuration.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
         "/tag-resource",
@@ -934,7 +936,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -963,7 +965,7 @@ Removes the supplied tags from a configuration
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -977,7 +979,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -1013,7 +1015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
-function update_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_account_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
         "/update-account-preferences";
@@ -1022,7 +1024,7 @@ function update_account_preferences(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function update_account_preferences(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -1055,7 +1057,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WebhookUrl"`: URL for the Chime webhook.
 """
 function update_chime_webhook_configuration(
-    ChatConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -1068,7 +1070,7 @@ end
 function update_chime_webhook_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -1110,7 +1112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration.
 """
 function update_microsoft_teams_channel_configuration(
-    ChannelId, ChatConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelId, ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -1126,7 +1128,7 @@ function update_microsoft_teams_channel_configuration(
     ChannelId,
     ChatConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",
@@ -1172,7 +1174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration.
 """
 function update_slack_channel_configuration(
-    ChatConfigurationArn, SlackChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChatConfigurationArn, SlackChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chatbot(
         "POST",
@@ -1189,7 +1191,7 @@ function update_slack_channel_configuration(
     ChatConfigurationArn,
     SlackChannelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chatbot(
         "POST",

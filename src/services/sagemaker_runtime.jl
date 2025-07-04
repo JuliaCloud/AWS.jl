@@ -66,7 +66,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting to perform a/b testing, see Test models in production
 """
 function invoke_endpoint(
-    Body, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+    Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker_runtime(
         "POST",
@@ -80,7 +80,7 @@ function invoke_endpoint(
     Body,
     EndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_runtime(
         "POST",
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_runtime(
         "POST",
@@ -160,7 +160,7 @@ function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_runtime(
         "POST",
@@ -242,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting to perform a/b testing, see Test models in production
 """
 function invoke_endpoint_with_response_stream(
-    Body, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+    Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker_runtime(
         "POST",
@@ -256,7 +256,7 @@ function invoke_endpoint_with_response_stream(
     Body,
     EndpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_runtime(
         "POST",

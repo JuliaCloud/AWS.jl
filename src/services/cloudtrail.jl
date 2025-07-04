@@ -27,7 +27,7 @@ created (also known as its home Region).
 - `tags_list`: Contains a list of tags, up to a limit of 50
 
 """
-function add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=global_aws_config())
+function add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "AddTags",
         Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
@@ -39,7 +39,7 @@ function add_tags(
     ResourceId,
     TagsList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "AddTags",
@@ -73,7 +73,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
   the specified query is running.
 """
-function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "CancelQuery",
         Dict{String,Any}("QueryId" => QueryId);
@@ -82,7 +82,9 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function cancel_query(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "CancelQuery",
@@ -115,7 +117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 function create_channel(
-    Destinations, Name, Source; aws_config::AbstractAWSConfig=global_aws_config()
+    Destinations, Name, Source; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "CreateChannel",
@@ -131,7 +133,7 @@ function create_channel(
     Name,
     Source,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "CreateChannel",
@@ -217,7 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the event data store. If termination protection is enabled, you cannot delete the event
   data store until termination protection is disabled.
 """
-function create_event_data_store(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_event_data_store(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "CreateEventDataStore",
         Dict{String,Any}("Name" => Name);
@@ -226,7 +228,7 @@ function create_event_data_store(Name; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function create_event_data_store(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "CreateEventDataStore",
@@ -295,7 +297,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   log file delivery. The maximum length is 256 characters.
 - `"TagsList"`:
 """
-function create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_trail(
+    Name, S3BucketName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cloudtrail(
         "CreateTrail",
         Dict{String,Any}("Name" => Name, "S3BucketName" => S3BucketName);
@@ -307,7 +311,7 @@ function create_trail(
     Name,
     S3BucketName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "CreateTrail",
@@ -333,7 +337,7 @@ Deletes a channel.
 - `channel`: The ARN or the UUID value of the channel that you want to delete.
 
 """
-function delete_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "DeleteChannel",
         Dict{String,Any}("Channel" => Channel);
@@ -342,7 +346,9 @@ function delete_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_channel(
-    Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Channel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "DeleteChannel",
@@ -372,7 +378,7 @@ An event data store in the PENDING_DELETION state does not incur costs.
 
 """
 function delete_event_data_store(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DeleteEventDataStore",
@@ -384,7 +390,7 @@ end
 function delete_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "DeleteEventDataStore",
@@ -409,7 +415,7 @@ end
 
 """
 function delete_resource_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DeleteResourcePolicy",
@@ -421,7 +427,7 @@ end
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "DeleteResourcePolicy",
@@ -447,7 +453,7 @@ Regions) of a trail that is enabled in all Regions.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_trail(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "DeleteTrail",
         Dict{String,Any}("Name" => Name);
@@ -456,7 +462,7 @@ function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_trail(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DeleteTrail",
@@ -479,7 +485,7 @@ organization.
 
 """
 function deregister_organization_delegated_admin(
-    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DeregisterOrganizationDelegatedAdmin",
@@ -491,7 +497,7 @@ end
 function deregister_organization_delegated_admin(
     DelegatedAdminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "DeregisterOrganizationDelegatedAdmin",
@@ -524,13 +530,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryAlias"`:  The alias that identifies a query template.
 - `"QueryId"`: The query ID.
 """
-function describe_query(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_query(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_query(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DescribeQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -563,13 +569,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current Region and current account. To return information about a trail in another Region,
   you must specify its trail ARN.
 """
-function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_trails(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_trails(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -592,7 +598,7 @@ continue to run queries in CloudTrail Lake.
 
 """
 function disable_federation(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "DisableFederation",
@@ -604,7 +610,7 @@ end
 function disable_federation(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "DisableFederation",
@@ -642,7 +648,7 @@ event data store.
 
 """
 function enable_federation(
-    EventDataStore, FederationRoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore, FederationRoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "EnableFederation",
@@ -657,7 +663,7 @@ function enable_federation(
     EventDataStore,
     FederationRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "EnableFederation",
@@ -686,7 +692,7 @@ end
 - `channel`: The ARN or UUID of a channel.
 
 """
-function get_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
+function get_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetChannel",
         Dict{String,Any}("Channel" => Channel);
@@ -695,7 +701,9 @@ function get_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_channel(
-    Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Channel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "GetChannel",
@@ -718,7 +726,7 @@ of the ARN.
 
 """
 function get_event_data_store(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "GetEventDataStore",
@@ -730,7 +738,7 @@ end
 function get_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "GetEventDataStore",
@@ -764,7 +772,7 @@ topics in the CloudTrail User Guide:    Logging management events     Logging da
   must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function get_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetEventSelectors",
         Dict{String,Any}("TrailName" => TrailName);
@@ -775,7 +783,7 @@ end
 function get_event_selectors(
     TrailName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "GetEventSelectors",
@@ -797,7 +805,7 @@ end
 - `import_id`:  The ID for the import.
 
 """
-function get_import(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetImport",
         Dict{String,Any}("ImportId" => ImportId);
@@ -808,7 +816,7 @@ end
 function get_import(
     ImportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "GetImport",
@@ -848,13 +856,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  You cannot
   use this parameter with the EventDataStore parameter.
 """
-function get_insight_selectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_insight_selectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_insight_selectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "GetInsightSelectors",
@@ -881,7 +889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxQueryResults"`: The maximum number of query results to display on a single page.
 - `"NextToken"`: A token you can use to get the next page of query results.
 """
-function get_query_results(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_query_results(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetQueryResults",
         Dict{String,Any}("QueryId" => QueryId);
@@ -890,7 +898,9 @@ function get_query_results(QueryId; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function get_query_results(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "GetQueryResults",
@@ -913,7 +923,9 @@ channel.
   arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
 
 """
-function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cloudtrail(
         "GetResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
@@ -924,7 +936,7 @@ end
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "GetResourcePolicy",
@@ -947,7 +959,7 @@ Returns settings information for a specified trail.
   retrieve settings information.
 
 """
-function get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_trail(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetTrail",
         Dict{String,Any}("Name" => Name);
@@ -956,7 +968,7 @@ function get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_trail(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "GetTrail",
@@ -982,7 +994,7 @@ trail status from all Regions, you must call the operation on each Region.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_trail_status(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "GetTrailStatus",
         Dict{String,Any}("Name" => Name);
@@ -991,7 +1003,7 @@ function get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function get_trail_status(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "GetTrailStatus",
@@ -1015,13 +1027,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 """
-function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1039,13 +1051,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of event data stores to display on a single page.
 - `"NextToken"`: A token you can use to get the next page of event data store results.
 """
-function list_event_data_stores(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_event_data_stores(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_event_data_stores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "ListEventDataStores",
@@ -1069,7 +1081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The maximum number of failures to display on a single page.
 - `"NextToken"`:  A token you can use to get the next page of import failures.
 """
-function list_import_failures(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_import_failures(ImportId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "ListImportFailures",
         Dict{String,Any}("ImportId" => ImportId);
@@ -1080,7 +1092,7 @@ end
 function list_import_failures(
     ImportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "ListImportFailures",
@@ -1106,11 +1118,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The maximum number of imports to display on a single page.
 - `"NextToken"`:  A token you can use to get the next page of import results.
 """
-function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_imports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1163,7 +1175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is 90 days before the time of request.
 """
 function list_insights_metric_data(
-    EventName, EventSource, InsightType; aws_config::AbstractAWSConfig=global_aws_config()
+    EventName, EventSource, InsightType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "ListInsightsMetricData",
@@ -1181,7 +1193,7 @@ function list_insights_metric_data(
     EventSource,
     InsightType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "ListInsightsMetricData",
@@ -1221,13 +1233,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public keys for CloudTrail digest files. If not specified, the current time is used, and
   the current public key is returned.
 """
-function list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_public_keys(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1259,7 +1271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: Use with EndTime to bound a ListQueries request, and limit its results to
   only those queries run within a specified time period.
 """
-function list_queries(EventDataStore; aws_config::AbstractAWSConfig=global_aws_config())
+function list_queries(EventDataStore; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "ListQueries",
         Dict{String,Any}("EventDataStore" => EventDataStore);
@@ -1270,7 +1282,7 @@ end
 function list_queries(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "ListQueries",
@@ -1301,7 +1313,7 @@ Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Reserved for future use.
 """
-function list_tags(ResourceIdList; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags(ResourceIdList; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "ListTags",
         Dict{String,Any}("ResourceIdList" => ResourceIdList);
@@ -1312,7 +1324,7 @@ end
 function list_tags(
     ResourceIdList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "ListTags",
@@ -1337,11 +1349,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 """
-function list_trails(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_trails(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_trails(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1384,13 +1396,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: Specifies that only events that occur after or at the specified time are
   returned. If the specified start time is after the specified end time, an error is returned.
 """
-function lookup_events(; aws_config::AbstractAWSConfig=global_aws_config())
+function lookup_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function lookup_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1449,7 +1461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply
   EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
 """
-function put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config())
+function put_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "PutEventSelectors",
         Dict{String,Any}("TrailName" => TrailName);
@@ -1460,7 +1472,7 @@ end
 function put_event_selectors(
     TrailName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "PutEventSelectors",
@@ -1518,7 +1530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InsightsDestination parameters.
 """
 function put_insight_selectors(
-    InsightSelectors; aws_config::AbstractAWSConfig=global_aws_config()
+    InsightSelectors; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "PutInsightSelectors",
@@ -1530,7 +1542,7 @@ end
 function put_insight_selectors(
     InsightSelectors,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "PutInsightSelectors",
@@ -1565,7 +1577,7 @@ User Guide.
 
 """
 function put_resource_policy(
-    ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "PutResourcePolicy",
@@ -1578,7 +1590,7 @@ function put_resource_policy(
     ResourceArn,
     ResourcePolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "PutResourcePolicy",
@@ -1608,7 +1620,7 @@ Registers an organization’s member account as the CloudTrail delegated adminis
 
 """
 function register_organization_delegated_admin(
-    MemberAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    MemberAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "RegisterOrganizationDelegatedAdmin",
@@ -1620,7 +1632,7 @@ end
 function register_organization_delegated_admin(
     MemberAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "RegisterOrganizationDelegatedAdmin",
@@ -1651,7 +1663,7 @@ Removes the specified tags from a trail, event data store, or channel.
 
 """
 function remove_tags(
-    ResourceId, TagsList; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "RemoveTags",
@@ -1664,7 +1676,7 @@ function remove_tags(
     ResourceId,
     TagsList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "RemoveTags",
@@ -1695,7 +1707,7 @@ the size of the event data store.
 
 """
 function restore_event_data_store(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "RestoreEventDataStore",
@@ -1707,7 +1719,7 @@ end
 function restore_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "RestoreEventDataStore",
@@ -1733,7 +1745,7 @@ STOPPED_INGESTION and the eventCategory must be Management, Data, or Configurati
 
 """
 function start_event_data_store_ingestion(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "StartEventDataStoreIngestion",
@@ -1745,7 +1757,7 @@ end
 function start_event_data_store_ingestion(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "StartEventDataStoreIngestion",
@@ -1793,11 +1805,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a date between the specified StartEventTime and EndEventTime before attempting to
   import events.
 """
-function start_import(; aws_config::AbstractAWSConfig=global_aws_config())
+function start_import(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function start_import(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "StartImport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1819,7 +1831,7 @@ in which the trail was created. This operation cannot be called on the shadow tr
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function start_logging(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "StartLogging",
         Dict{String,Any}("Name" => Name);
@@ -1828,7 +1840,7 @@ function start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function start_logging(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "StartLogging",
@@ -1857,11 +1869,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryParameters"`:  The query parameters for the specified QueryAlias.
 - `"QueryStatement"`: The SQL code of your query.
 """
-function start_query(; aws_config::AbstractAWSConfig=global_aws_config())
+function start_query(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function start_query(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "StartQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1882,7 +1894,7 @@ the eventCategory must be Management, Data, or ConfigurationItem.
 
 """
 function stop_event_data_store_ingestion(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "StopEventDataStoreIngestion",
@@ -1894,7 +1906,7 @@ end
 function stop_event_data_store_ingestion(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "StopEventDataStoreIngestion",
@@ -1916,7 +1928,7 @@ end
 - `import_id`:  The ID of the import.
 
 """
-function stop_import(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "StopImport",
         Dict{String,Any}("ImportId" => ImportId);
@@ -1927,7 +1939,7 @@ end
 function stop_import(
     ImportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "StopImport",
@@ -1957,7 +1969,7 @@ all Regions.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_logging(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "StopLogging",
         Dict{String,Any}("Name" => Name);
@@ -1966,7 +1978,7 @@ function stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function stop_logging(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "StopLogging",
@@ -1991,7 +2003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   through the channel.
 - `"Name"`:  Changes the name of the channel.
 """
-function update_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
+function update_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "UpdateChannel",
         Dict{String,Any}("Channel" => Channel);
@@ -2000,7 +2012,9 @@ function update_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function update_channel(
-    Channel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Channel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "UpdateChannel",
@@ -2084,7 +2098,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the event data store cannot be automatically deleted.
 """
 function update_event_data_store(
-    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+    EventDataStore; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "UpdateEventDataStore",
@@ -2096,7 +2110,7 @@ end
 function update_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail(
         "UpdateEventDataStore",
@@ -2178,7 +2192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnsTopicName"`: Specifies the name of the Amazon SNS topic defined for notification of
   log file delivery. The maximum length is 256 characters.
 """
-function update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_trail(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail(
         "UpdateTrail",
         Dict{String,Any}("Name" => Name);
@@ -2187,7 +2201,7 @@ function update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_trail(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail(
         "UpdateTrail",

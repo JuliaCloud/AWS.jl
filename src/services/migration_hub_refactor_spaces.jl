@@ -38,7 +38,7 @@ function create_application(
     Name,
     ProxyType,
     VpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -59,7 +59,7 @@ function create_application(
     ProxyType,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services resource. Each tag consists of a key-value pair.
 """
 function create_environment(
-    Name, NetworkFabricType; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, NetworkFabricType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -127,7 +127,7 @@ function create_environment(
     Name,
     NetworkFabricType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -223,7 +223,7 @@ function create_route(
     EnvironmentIdentifier,
     RouteType,
     ServiceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -243,7 +243,7 @@ function create_route(
     RouteType,
     ServiceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -302,7 +302,7 @@ function create_service(
     EndpointType,
     EnvironmentIdentifier,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -320,7 +320,7 @@ function create_service(
     EnvironmentIdentifier,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -356,7 +356,7 @@ delete an application, you must first delete any services or routes within the a
 function delete_application(
     ApplicationIdentifier,
     EnvironmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -369,7 +369,7 @@ function delete_application(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -393,7 +393,7 @@ environment.
 
 """
 function delete_environment(
-    EnvironmentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -405,7 +405,7 @@ end
 function delete_environment(
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -427,7 +427,7 @@ Deletes the resource policy set for the environment.
 
 """
 function delete_resource_policy(
-    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -439,7 +439,7 @@ end
 function delete_resource_policy(
     Identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -466,7 +466,7 @@ function delete_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     RouteIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -480,7 +480,7 @@ function delete_route(
     EnvironmentIdentifier,
     RouteIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -510,7 +510,7 @@ function delete_service(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     ServiceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -524,7 +524,7 @@ function delete_service(
     EnvironmentIdentifier,
     ServiceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -549,7 +549,7 @@ Gets an Amazon Web Services Migration Hub Refactor Spaces application.
 function get_application(
     ApplicationIdentifier,
     EnvironmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -562,7 +562,7 @@ function get_application(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -584,7 +584,7 @@ Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
 
 """
 function get_environment(
-    EnvironmentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -596,7 +596,7 @@ end
 function get_environment(
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -617,7 +617,7 @@ Gets the resource-based permission policy that is set for the given environment.
 - `identifier`: The Amazon Resource Name (ARN) of the resource associated with the policy.
 
 """
-function get_resource_policy(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub_refactor_spaces(
         "GET",
         "/resourcepolicy/$(Identifier)";
@@ -628,7 +628,7 @@ end
 function get_resource_policy(
     Identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -655,7 +655,7 @@ function get_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     RouteIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -669,7 +669,7 @@ function get_route(
     EnvironmentIdentifier,
     RouteIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -696,7 +696,7 @@ function get_service(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     ServiceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -710,7 +710,7 @@ function get_service(
     EnvironmentIdentifier,
     ServiceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -738,7 +738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_applications(
-    EnvironmentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -750,7 +750,7 @@ end
 function list_applications(
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -778,7 +778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_environment_vpcs(
-    EnvironmentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    EnvironmentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -790,7 +790,7 @@ end
 function list_environment_vpcs(
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -814,13 +814,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub_refactor_spaces(
         "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_environments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -851,7 +851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_routes(
     ApplicationIdentifier,
     EnvironmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -864,7 +864,7 @@ function list_routes(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -895,7 +895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_services(
     ApplicationIdentifier,
     EnvironmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -908,7 +908,7 @@ function list_services(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -931,7 +931,7 @@ OwnerAccountId. Listing tags in other accounts is not supported.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -943,7 +943,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "GET",
@@ -971,7 +971,7 @@ Resource Access Manager. The policy must not contain new lines or blank lines.
 
 """
 function put_resource_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "PUT",
@@ -985,7 +985,7 @@ function put_resource_policy(
     Policy,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "PUT",
@@ -1017,7 +1017,7 @@ environment’s transit gateway.
 - `tags`: The new or modified tags for the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub_refactor_spaces(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1030,7 +1030,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "POST",
@@ -1055,7 +1055,7 @@ resource’s OwnerAccountId. Untagging resources across accounts is not supporte
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -1069,7 +1069,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "DELETE",
@@ -1100,7 +1100,7 @@ function update_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
     RouteIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "PATCH",
@@ -1116,7 +1116,7 @@ function update_route(
     EnvironmentIdentifier,
     RouteIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub_refactor_spaces(
         "PATCH",

@@ -19,7 +19,7 @@ images in a non-terminal state.
 
 """
 function cancel_image_creation(
-    clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -35,7 +35,7 @@ function cancel_image_creation(
     clientToken,
     imageBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -69,7 +69,7 @@ Cancel a specific image lifecycle policy runtime instance.
 
 """
 function cancel_lifecycle_execution(
-    clientToken, lifecycleExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, lifecycleExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -85,7 +85,7 @@ function cancel_lifecycle_execution(
     clientToken,
     lifecycleExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -155,7 +155,7 @@ function create_component(
     name,
     platform,
     semanticVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -176,7 +176,7 @@ function create_component(
     platform,
     semanticVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -249,7 +249,7 @@ function create_container_recipe(
     parentImage,
     semanticVersion,
     targetRepository;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -276,7 +276,7 @@ function create_container_recipe(
     semanticVersion,
     targetRepository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -320,7 +320,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags of the distribution configuration.
 """
 function create_distribution_configuration(
-    clientToken, distributions, name; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, distributions, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -337,7 +337,7 @@ function create_distribution_configuration(
     distributions,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -393,7 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_image(
     clientToken,
     infrastructureConfigurationArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -410,7 +410,7 @@ function create_image(
     clientToken,
     infrastructureConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -470,7 +470,7 @@ function create_image_pipeline(
     clientToken,
     infrastructureConfigurationArn,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -489,7 +489,7 @@ function create_image_pipeline(
     infrastructureConfigurationArn,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -553,7 +553,7 @@ function create_image_recipe(
     name,
     parentImage,
     semanticVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -576,7 +576,7 @@ function create_image_recipe(
     parentImage,
     semanticVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -642,7 +642,7 @@ function create_infrastructure_configuration(
     clientToken,
     instanceProfileName,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -661,7 +661,7 @@ function create_infrastructure_configuration(
     instanceProfileName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -712,7 +712,7 @@ function create_lifecycle_policy(
     policyDetails,
     resourceSelection,
     resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -737,7 +737,7 @@ function create_lifecycle_policy(
     resourceSelection,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -804,7 +804,7 @@ function create_workflow(
     name,
     semanticVersion,
     type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -825,7 +825,7 @@ function create_workflow(
     semanticVersion,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -859,7 +859,7 @@ Deletes a component build version.
 
 """
 function delete_component(
-    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -872,7 +872,7 @@ end
 function delete_component(
     componentBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -900,7 +900,7 @@ Deletes a container recipe.
 
 """
 function delete_container_recipe(
-    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -913,7 +913,7 @@ end
 function delete_container_recipe(
     containerRecipeArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -940,7 +940,7 @@ Deletes a distribution configuration.
 
 """
 function delete_distribution_configuration(
-    distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    distributionConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -953,7 +953,7 @@ end
 function delete_distribution_configuration(
     distributionConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -990,7 +990,7 @@ Amazon ECR User Guide.
 
 """
 function delete_image(
-    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -1003,7 +1003,7 @@ end
 function delete_image(
     imageBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -1031,7 +1031,7 @@ Deletes an image pipeline.
 
 """
 function delete_image_pipeline(
-    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -1044,7 +1044,7 @@ end
 function delete_image_pipeline(
     imagePipelineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -1070,7 +1070,7 @@ Deletes an image recipe.
 
 """
 function delete_image_recipe(
-    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -1083,7 +1083,7 @@ end
 function delete_image_recipe(
     imageRecipeArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -1108,7 +1108,7 @@ Deletes an infrastructure configuration.
 
 """
 function delete_infrastructure_configuration(
-    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -1123,7 +1123,7 @@ end
 function delete_infrastructure_configuration(
     infrastructureConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -1154,7 +1154,7 @@ Delete the specified lifecycle policy resource.
 
 """
 function delete_lifecycle_policy(
-    lifecyclePolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    lifecyclePolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -1167,7 +1167,7 @@ end
 function delete_lifecycle_policy(
     lifecyclePolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -1194,7 +1194,7 @@ Deletes a specific workflow resource.
 
 """
 function delete_workflow(
-    workflowBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    workflowBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -1207,7 +1207,7 @@ end
 function delete_workflow(
     workflowBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -1236,7 +1236,7 @@ Gets a component object.
 
 """
 function get_component(
-    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1249,7 +1249,7 @@ end
 function get_component(
     componentBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1278,7 +1278,7 @@ Gets a component policy.
 
 """
 function get_component_policy(
-    componentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1291,7 +1291,7 @@ end
 function get_component_policy(
     componentArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1316,7 +1316,7 @@ Retrieves a container recipe.
 
 """
 function get_container_recipe(
-    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1329,7 +1329,7 @@ end
 function get_container_recipe(
     containerRecipeArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1356,7 +1356,7 @@ Retrieves the policy for a container recipe.
 
 """
 function get_container_recipe_policy(
-    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1369,7 +1369,7 @@ end
 function get_container_recipe_policy(
     containerRecipeArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1396,7 +1396,7 @@ Gets a distribution configuration.
 
 """
 function get_distribution_configuration(
-    distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    distributionConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1409,7 +1409,7 @@ end
 function get_distribution_configuration(
     distributionConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1439,7 +1439,7 @@ Gets an image.
   get.
 
 """
-function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "GET",
         "/GetImage",
@@ -1451,7 +1451,7 @@ end
 function get_image(
     imageBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1480,7 +1480,7 @@ Gets an image pipeline.
 
 """
 function get_image_pipeline(
-    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1493,7 +1493,7 @@ end
 function get_image_pipeline(
     imagePipelineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1519,7 +1519,7 @@ Gets an image policy.
   retrieve.
 
 """
-function get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_image_policy(imageArn; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "GET",
         "/GetImagePolicy",
@@ -1531,7 +1531,7 @@ end
 function get_image_policy(
     imageArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1555,7 +1555,9 @@ Gets an image recipe.
   retrieve.
 
 """
-function get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_image_recipe(
+    imageRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return imagebuilder(
         "GET",
         "/GetImageRecipe",
@@ -1567,7 +1569,7 @@ end
 function get_image_recipe(
     imageRecipeArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1592,7 +1594,7 @@ Gets an image recipe policy.
 
 """
 function get_image_recipe_policy(
-    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1605,7 +1607,7 @@ end
 function get_image_recipe_policy(
     imageRecipeArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1630,7 +1632,7 @@ Gets an infrastructure configuration.
 
 """
 function get_infrastructure_configuration(
-    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1645,7 +1647,7 @@ end
 function get_infrastructure_configuration(
     infrastructureConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1677,7 +1679,7 @@ lifecycle policy.
 
 """
 function get_lifecycle_execution(
-    lifecycleExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    lifecycleExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1690,7 +1692,7 @@ end
 function get_lifecycle_execution(
     lifecycleExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1719,7 +1721,7 @@ Get details for the specified image lifecycle policy.
 
 """
 function get_lifecycle_policy(
-    lifecyclePolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    lifecyclePolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1732,7 +1734,7 @@ end
 function get_lifecycle_policy(
     lifecyclePolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1759,7 +1761,7 @@ Get a workflow resource object.
 
 """
 function get_workflow(
-    workflowBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    workflowBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1772,7 +1774,7 @@ end
 function get_workflow(
     workflowBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1801,7 +1803,7 @@ Get the runtime information that was logged for a specific runtime instance of t
 
 """
 function get_workflow_execution(
-    workflowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    workflowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1814,7 +1816,7 @@ end
 function get_workflow_execution(
     workflowExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1844,7 +1846,7 @@ step.
 
 """
 function get_workflow_step_execution(
-    stepExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    stepExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -1857,7 +1859,7 @@ end
 function get_workflow_step_execution(
     stepExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -1917,7 +1919,7 @@ function import_component(
     platform,
     semanticVersion,
     type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -1942,7 +1944,7 @@ function import_component(
     semanticVersion,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -2007,7 +2009,7 @@ function import_vm_image(
     platform,
     semanticVersion,
     vmImportTaskId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -2030,7 +2032,7 @@ function import_vm_image(
     semanticVersion,
     vmImportTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -2076,7 +2078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_component_build_versions(
-    componentVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2089,7 +2091,7 @@ end
 function list_component_build_versions(
     componentVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2132,13 +2134,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of owners, you can specify components that Amazon manages, third party components, or
   components that other accounts have shared with you.
 """
-function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_components(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2166,7 +2168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shared with you. You can omit this field to return container recipes belonging to your
   account.
 """
-function list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_container_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
         "/ListContainerRecipes";
@@ -2175,7 +2177,7 @@ function list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_container_recipes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2200,7 +2202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_distribution_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2210,7 +2212,7 @@ function list_distribution_configurations(;
     )
 end
 function list_distribution_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2240,7 +2242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_build_versions(
-    imageVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2253,7 +2255,7 @@ end
 function list_image_build_versions(
     imageVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2286,7 +2288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_packages(
-    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2299,7 +2301,7 @@ end
 function list_image_packages(
     imageBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2334,7 +2336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_pipeline_images(
-    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2347,7 +2349,7 @@ end
 function list_image_pipeline_images(
     imagePipelineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2377,7 +2379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
-function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_image_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
         "/ListImagePipelines";
@@ -2386,7 +2388,7 @@ function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function list_image_pipelines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2415,13 +2417,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify if you want to view image recipes owned by yourself, by Amazon, or those image
   recipes that have been shared with you by other customers.
 """
-function list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_image_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListImageRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_image_recipes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2451,7 +2453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_scan_finding_aggregations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2461,7 +2463,7 @@ function list_image_scan_finding_aggregations(;
     )
 end
 function list_image_scan_finding_aggregations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2488,7 +2490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
-function list_image_scan_findings(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_image_scan_findings(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
         "/ListImageScanFindings";
@@ -2497,7 +2499,7 @@ function list_image_scan_findings(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_image_scan_findings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2529,13 +2531,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   view images owned by yourself, by Amazon, or those images that have been shared with you by
   other customers.
 """
-function list_images(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2560,7 +2562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_infrastructure_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2570,7 +2572,7 @@ function list_infrastructure_configurations(;
     )
 end
 function list_infrastructure_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2604,7 +2606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   such as AMIs or container images stored in ECR repositories.
 """
 function list_lifecycle_execution_resources(
-    lifecycleExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    lifecycleExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2617,7 +2619,7 @@ end
 function list_lifecycle_execution_resources(
     lifecycleExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2651,7 +2653,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_lifecycle_executions(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2664,7 +2666,7 @@ end
 function list_lifecycle_executions(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2690,7 +2692,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
-function list_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
         "/ListLifecyclePolicies";
@@ -2699,7 +2701,7 @@ function list_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_lifecycle_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2722,7 +2724,7 @@ Returns the list of tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "GET",
@@ -2734,7 +2736,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "GET",
@@ -2758,7 +2760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
-function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
         "/ListWaitingWorkflowSteps";
@@ -2767,7 +2769,7 @@ function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function list_waiting_workflow_steps(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2795,7 +2797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_workflow_build_versions(
-    workflowVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    workflowVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2808,7 +2810,7 @@ end
 function list_workflow_build_versions(
     workflowVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2841,7 +2843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_workflow_executions(
-    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2854,7 +2856,7 @@ end
 function list_workflow_executions(
     imageBuildVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2889,7 +2891,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_workflow_step_executions(
-    workflowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    workflowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2902,7 +2904,7 @@ end
 function list_workflow_step_executions(
     workflowExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -2935,13 +2937,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"owner"`: Used to get a list of workflow build version filtered by the identity of the
   creator.
 """
-function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_workflows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
@@ -2968,7 +2970,7 @@ visible to all principals with whom the resource is shared.
 
 """
 function put_component_policy(
-    componentArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    componentArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -2982,7 +2984,7 @@ function put_component_policy(
     componentArn,
     policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3019,7 +3021,7 @@ is shared.
 
 """
 function put_container_recipe_policy(
-    containerRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -3033,7 +3035,7 @@ function put_container_recipe_policy(
     containerRecipeArn,
     policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3068,7 +3070,7 @@ all principals with whom the resource is shared.
 
 """
 function put_image_policy(
-    imageArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    imageArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -3082,7 +3084,7 @@ function put_image_policy(
     imageArn,
     policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3113,7 +3115,7 @@ in order for the resource to be visible to all principals with whom the resource
 
 """
 function put_image_recipe_policy(
-    imageRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    imageRecipeArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -3127,7 +3129,7 @@ function put_image_recipe_policy(
     imageRecipeArn,
     policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3168,7 +3170,7 @@ function send_workflow_step_action(
     clientToken,
     imageBuildVersionArn,
     stepExecutionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3189,7 +3191,7 @@ function send_workflow_step_action(
     imageBuildVersionArn,
     stepExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3225,7 +3227,7 @@ Manually triggers a pipeline to create an image.
 
 """
 function start_image_pipeline_execution(
-    clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -3241,7 +3243,7 @@ function start_image_pipeline_execution(
     clientToken,
     imagePipelineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3285,7 +3287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action.
 """
 function start_resource_state_update(
-    clientToken, resourceArn, state; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, resourceArn, state; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "PUT",
@@ -3302,7 +3304,7 @@ function start_resource_state_update(
     resourceArn,
     state,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3334,7 +3336,7 @@ Adds a tag to a resource.
 - `tags`: The tags to apply to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
         "/tags/$(resourceArn)",
@@ -3347,7 +3349,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "POST",
@@ -3370,7 +3372,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "DELETE",
@@ -3384,7 +3386,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "DELETE",
@@ -3417,7 +3419,7 @@ function update_distribution_configuration(
     clientToken,
     distributionConfigurationArn,
     distributions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3436,7 +3438,7 @@ function update_distribution_configuration(
     distributionConfigurationArn,
     distributions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3500,7 +3502,7 @@ function update_image_pipeline(
     clientToken,
     imagePipelineArn,
     infrastructureConfigurationArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3519,7 +3521,7 @@ function update_image_pipeline(
     imagePipelineArn,
     infrastructureConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3587,7 +3589,7 @@ function update_infrastructure_configuration(
     clientToken,
     infrastructureConfigurationArn,
     instanceProfileName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3606,7 +3608,7 @@ function update_infrastructure_configuration(
     infrastructureConfigurationArn,
     instanceProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3656,7 +3658,7 @@ function update_lifecycle_policy(
     policyDetails,
     resourceSelection,
     resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",
@@ -3681,7 +3683,7 @@ function update_lifecycle_policy(
     resourceSelection,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return imagebuilder(
         "PUT",

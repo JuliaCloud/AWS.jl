@@ -30,7 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "DeleteRecommendationPreferences",
@@ -46,7 +46,7 @@ function delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "DeleteRecommendationPreferences",
@@ -87,7 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of export jobs.
 """
 function describe_recommendation_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "DescribeRecommendationExportJobs";
@@ -96,7 +96,7 @@ function describe_recommendation_export_jobs(;
     )
 end
 function describe_recommendation_export_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "DescribeRecommendationExportJobs",
@@ -158,7 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group recommendations to export.
 """
 function export_auto_scaling_group_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportAutoScalingGroupRecommendations",
@@ -170,7 +170,7 @@ end
 function export_auto_scaling_group_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportAutoScalingGroupRecommendations",
@@ -228,7 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the account IDs parameter, is omitted.
 """
 function export_ebsvolume_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportEBSVolumeRecommendations",
@@ -240,7 +240,7 @@ end
 function export_ebsvolume_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportEBSVolumeRecommendations",
@@ -307,7 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance recommendations to export.
 """
 function export_ec2_instance_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportEC2InstanceRecommendations",
@@ -319,7 +319,7 @@ end
 function export_ec2_instance_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportEC2InstanceRecommendations",
@@ -375,7 +375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is omitted, recommendations for member accounts aren't included in the export.
 """
 function export_ecsservice_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportECSServiceRecommendations",
@@ -387,7 +387,7 @@ end
 function export_ecsservice_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportECSServiceRecommendations",
@@ -445,7 +445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the account IDs parameter, is omitted.
 """
 function export_lambda_function_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportLambdaFunctionRecommendations",
@@ -457,7 +457,7 @@ end
 function export_lambda_function_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportLambdaFunctionRecommendations",
@@ -511,7 +511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified together with the account IDs parameter. The parameters are mutually exclusive.
 """
 function export_license_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportLicenseRecommendations",
@@ -523,7 +523,7 @@ end
 function export_license_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportLicenseRecommendations",
@@ -581,7 +581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`:
 """
 function export_rdsdatabase_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "ExportRDSDatabaseRecommendations",
@@ -593,7 +593,7 @@ end
 function export_rdsdatabase_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "ExportRDSDatabaseRecommendations",
@@ -637,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group recommendations to return in the response.
 """
 function get_auto_scaling_group_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetAutoScalingGroupRecommendations";
@@ -646,7 +646,7 @@ function get_auto_scaling_group_recommendations(;
     )
 end
 function get_auto_scaling_group_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetAutoScalingGroupRecommendations",
@@ -680,7 +680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumeArns"`: The Amazon Resource Name (ARN) of the volumes for which to return
   recommendations.
 """
-function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetEBSVolumeRecommendations";
         aws_config=aws_config,
@@ -688,7 +688,7 @@ function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function get_ebsvolume_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEBSVolumeRecommendations",
@@ -725,7 +725,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance recommendations to return in the response.
 """
 function get_ec2_instance_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEC2InstanceRecommendations";
@@ -734,7 +734,7 @@ function get_ec2_instance_recommendations(;
     )
 end
 function get_ec2_instance_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEC2InstanceRecommendations",
@@ -773,7 +773,7 @@ function get_ec2_recommendation_projected_metrics(
     period,
     startTime,
     stat;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetEC2RecommendationProjectedMetrics",
@@ -795,7 +795,7 @@ function get_ec2_recommendation_projected_metrics(
     startTime,
     stat,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetEC2RecommendationProjectedMetrics",
@@ -838,7 +838,7 @@ function get_ecsservice_recommendation_projected_metrics(
     serviceArn,
     startTime,
     stat;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetECSServiceRecommendationProjectedMetrics",
@@ -860,7 +860,7 @@ function get_ecsservice_recommendation_projected_metrics(
     startTime,
     stat,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetECSServiceRecommendationProjectedMetrics",
@@ -908,7 +908,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceArns"`:  The ARN that identifies the Amazon ECS service.   The following is the
   format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
 """
-function get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ecsservice_recommendations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return compute_optimizer(
         "GetECSServiceRecommendations";
         aws_config=aws_config,
@@ -916,7 +918,7 @@ function get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function get_ecsservice_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetECSServiceRecommendations",
@@ -943,7 +945,7 @@ recommendation preferences that are in effect, or Active.
 
 """
 function get_effective_recommendation_preferences(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEffectiveRecommendationPreferences",
@@ -955,7 +957,7 @@ end
 function get_effective_recommendation_preferences(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetEffectiveRecommendationPreferences",
@@ -978,13 +980,13 @@ GetEnrollmentStatusesForOrganization action to get detailed information about th
 enrollment status of member accounts of an organization.
 
 """
-function get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_enrollment_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_enrollment_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEnrollmentStatus",
@@ -1012,7 +1014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of account enrollment statuses.
 """
 function get_enrollment_statuses_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEnrollmentStatusesForOrganization";
@@ -1021,7 +1023,7 @@ function get_enrollment_statuses_for_organization(;
     )
 end
 function get_enrollment_statuses_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetEnrollmentStatusesForOrganization",
@@ -1060,7 +1062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of function recommendations.
 """
 function get_lambda_function_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetLambdaFunctionRecommendations";
@@ -1069,7 +1071,7 @@ function get_lambda_function_recommendations(;
     )
 end
 function get_lambda_function_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetLambdaFunctionRecommendations",
@@ -1103,13 +1105,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArns"`:  The ARN that identifies the Amazon EC2 instance.   The following is
   the format of the ARN:   arn:aws:ec2:region:aws_account_id:instance/instance-id
 """
-function get_license_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_license_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_license_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetLicenseRecommendations",
@@ -1143,7 +1145,7 @@ function get_rdsdatabase_recommendation_projected_metrics(
     resourceArn,
     startTime,
     stat;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetRDSDatabaseRecommendationProjectedMetrics",
@@ -1165,7 +1167,7 @@ function get_rdsdatabase_recommendation_projected_metrics(
     startTime,
     stat,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetRDSDatabaseRecommendationProjectedMetrics",
@@ -1214,7 +1216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format of a DB Cluster ARN:   arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
 """
 function get_rdsdatabase_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetRDSDatabaseRecommendations";
@@ -1223,7 +1225,7 @@ function get_rdsdatabase_recommendations(;
     )
 end
 function get_rdsdatabase_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetRDSDatabaseRecommendations",
@@ -1262,7 +1264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function get_recommendation_preferences(
-    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetRecommendationPreferences",
@@ -1274,7 +1276,7 @@ end
 function get_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "GetRecommendationPreferences",
@@ -1308,13 +1310,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken value.
 - `"nextToken"`: The token to advance to the next page of recommendation summaries.
 """
-function get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_recommendation_summaries(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_recommendation_summaries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "GetRecommendationSummaries",
@@ -1389,7 +1391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource type.   The threshold setting isn’t available for memory utilization.
 """
 function put_recommendation_preferences(
-    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "PutRecommendationPreferences",
@@ -1401,7 +1403,7 @@ end
 function put_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return compute_optimizer(
         "PutRecommendationPreferences",
@@ -1443,7 +1445,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
   organization if the account is the management account of an organization.
 """
-function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config())
+function update_enrollment_status(
+    status; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return compute_optimizer(
         "UpdateEnrollmentStatus",
         Dict{String,Any}("status" => status);
@@ -1452,7 +1456,7 @@ function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_a
     )
 end
 function update_enrollment_status(
-    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return compute_optimizer(
         "UpdateEnrollmentStatus",

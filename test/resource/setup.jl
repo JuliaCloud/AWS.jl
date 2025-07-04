@@ -11,8 +11,6 @@ using JSON
 # TODO: Support PascalCase, https://github.com/JuliaCloud/AWS.jl/issues/642
 @service Secrets_Manager use_response_type = true
 
-global_aws_config(; region="us-east-1")
-
 include("totp.jl")
 
 function create_or_update_stack(args...; kwargs...)
@@ -177,25 +175,27 @@ if @__FILE__() == abspath(PROGRAM_FILE)
     stack_params = Dict("GitHubRepo" => prefix)
     template_body = read("aws_jl_test.yaml", String)
 
-    @info "Creating/updating stack: $stack_name"
-    parameters = [
-        Dict("ParameterKey" => k, "ParameterValue" => v) for (k, v) in stack_params
-    ]
-    create_or_update_stack(
-        stack_name,
-        Dict(
-            "Capabilities" => ["CAPABILITY_NAMED_IAM"],
-            "TemplateBody" => template_body,
-            "Parameters" => parameters,
-        ),
-    )
+    with_aws_config(AWSConfig(; region="us-east-1")) do
+        @info "Creating/updating stack: $stack_name"
+        parameters = [
+            Dict("ParameterKey" => k, "ParameterValue" => v) for (k, v) in stack_params
+        ]
+        create_or_update_stack(
+            stack_name,
+            Dict(
+                "Capabilities" => ["CAPABILITY_NAMED_IAM"],
+                "TemplateBody" => template_body,
+                "Parameters" => parameters,
+            ),
+        )
 
-    # When the stack is first created we need to wait for the user to be created
-    mfa_user = "$prefix-mfa-user"
-    @info "Waiting for $mfa_user"
-    wait_for_user_to_exist(mfa_user)
+        # When the stack is first created we need to wait for the user to be created
+        mfa_user = "$prefix-mfa-user"
+        @info "Waiting for $mfa_user"
+        wait_for_user_to_exist(mfa_user)
 
-    create_or_update_mfa_devices(;
-        user_name=mfa_user, secret_id="$prefix-mfa-user-virtual-mfa-devices"
-    )
+        create_or_update_mfa_devices(;
+            user_name=mfa_user, secret_id="$prefix-mfa-user-virtual-mfa-devices"
+        )
+    end
 end

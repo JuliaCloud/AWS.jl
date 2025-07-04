@@ -35,7 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode
   letters, digits, white space, or these symbols: _ . : / = + - @.
 """
-function create_activity(name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_activity(name; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "CreateActivity",
         Dict{String,Any}("name" => name);
@@ -44,7 +44,7 @@ function create_activity(name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function create_activity(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "CreateActivity",
@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versionDescription, but publish to false, this API action throws ValidationException.
 """
 function create_state_machine(
-    definition, name, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    definition, name, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "CreateStateMachine",
@@ -115,7 +115,7 @@ function create_state_machine(
     name,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "CreateStateMachine",
@@ -168,7 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description for the state machine alias.
 """
 function create_state_machine_alias(
-    name, routingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    name, routingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "CreateStateMachineAlias",
@@ -181,7 +181,7 @@ function create_state_machine_alias(
     name,
     routingConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "CreateStateMachineAlias",
@@ -209,7 +209,7 @@ Deletes an activity.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to delete.
 
 """
-function delete_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_activity(activityArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "DeleteActivity",
         Dict{String,Any}("activityArn" => activityArn);
@@ -220,7 +220,7 @@ end
 function delete_activity(
     activityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DeleteActivity",
@@ -258,7 +258,7 @@ executions may emit logs after DeleteStateMachine API is called.
 
 """
 function delete_state_machine(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "DeleteStateMachine",
@@ -270,7 +270,7 @@ end
 function delete_state_machine(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DeleteStateMachine",
@@ -300,7 +300,7 @@ UpdateStateMachineAlias
 
 """
 function delete_state_machine_alias(
-    stateMachineAliasArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineAliasArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "DeleteStateMachineAlias",
@@ -312,7 +312,7 @@ end
 function delete_state_machine_alias(
     stateMachineAliasArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DeleteStateMachineAlias",
@@ -346,7 +346,7 @@ version.   Related operations:     PublishStateMachineVersion     ListStateMachi
 
 """
 function delete_state_machine_version(
-    stateMachineVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "DeleteStateMachineVersion",
@@ -358,7 +358,7 @@ end
 function delete_state_machine_version(
     stateMachineVersionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DeleteStateMachineVersion",
@@ -385,7 +385,7 @@ effort and may not reflect very recent updates and changes.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to describe.
 
 """
-function describe_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_activity(activityArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "DescribeActivity",
         Dict{String,Any}("activityArn" => activityArn);
@@ -396,7 +396,7 @@ end
 function describe_activity(
     activityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DescribeActivity",
@@ -426,7 +426,9 @@ supported by DescribeExecution unless a Map Run dispatched them.
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to describe.
 
 """
-function describe_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_execution(
+    executionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return sfn(
         "DescribeExecution",
         Dict{String,Any}("executionArn" => executionArn);
@@ -437,7 +439,7 @@ end
 function describe_execution(
     executionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DescribeExecution",
@@ -461,7 +463,7 @@ Run. For more information, see Examining Map Run in the Step Functions Developer
 - `map_run_arn`: The Amazon Resource Name (ARN) that identifies a Map Run.
 
 """
-function describe_map_run(mapRunArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_map_run(mapRunArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "DescribeMapRun",
         Dict{String,Any}("mapRunArn" => mapRunArn);
@@ -472,7 +474,7 @@ end
 function describe_map_run(
     mapRunArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DescribeMapRun",
@@ -516,7 +518,7 @@ changes.
 
 """
 function describe_state_machine(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "DescribeStateMachine",
@@ -528,7 +530,7 @@ end
 function describe_state_machine(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DescribeStateMachine",
@@ -555,7 +557,7 @@ DeleteStateMachineAlias
 
 """
 function describe_state_machine_alias(
-    stateMachineAliasArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineAliasArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "DescribeStateMachineAlias",
@@ -567,7 +569,7 @@ end
 function describe_state_machine_alias(
     stateMachineAliasArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DescribeStateMachineAlias",
@@ -600,7 +602,7 @@ supported by EXPRESS state machines.
 
 """
 function describe_state_machine_for_execution(
-    executionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    executionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "DescribeStateMachineForExecution",
@@ -612,7 +614,7 @@ end
 function describe_state_machine_for_execution(
     executionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "DescribeStateMachineForExecution",
@@ -648,7 +650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workerName"`: You can provide an arbitrary name in order to identify the worker that
   the task is assigned to. This name is used when it is logged in the execution history.
 """
-function get_activity_task(activityArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_activity_task(activityArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "GetActivityTask",
         Dict{String,Any}("activityArn" => activityArn);
@@ -659,7 +661,7 @@ end
 function get_activity_task(
     activityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "GetActivityTask",
@@ -703,7 +705,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reverseOrder"`: Lists events in descending order of their timeStamp.
 """
 function get_execution_history(
-    executionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    executionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "GetExecutionHistory",
@@ -715,7 +717,7 @@ end
 function get_execution_history(
     executionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "GetExecutionHistory",
@@ -750,11 +752,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-function list_activities(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_activities(; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn("ListActivities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_activities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ListActivities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -806,11 +808,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusFilter"`: If specified, only list the executions whose current execution status
   matches the given filter.
 """
-function list_executions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn("ListExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_executions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ListExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -841,7 +843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-function list_map_runs(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_map_runs(executionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "ListMapRuns",
         Dict{String,Any}("executionArn" => executionArn);
@@ -852,7 +854,7 @@ end
 function list_map_runs(
     executionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "ListMapRuns",
@@ -896,7 +898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 """
 function list_state_machine_aliases(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ListStateMachineAliases",
@@ -908,7 +910,7 @@ end
 function list_state_machine_aliases(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "ListStateMachineAliases",
@@ -950,7 +952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 """
 function list_state_machine_versions(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ListStateMachineVersions",
@@ -962,7 +964,7 @@ end
 function list_state_machine_versions(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "ListStateMachineVersions",
@@ -999,11 +1001,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-function list_state_machines(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_state_machines(; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn("ListStateMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_state_machines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ListStateMachines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1023,7 +1025,7 @@ or these symbols: _ . : / = + - @.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ListTagsForResource",
@@ -1035,7 +1037,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "ListTagsForResource",
@@ -1078,7 +1080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when you create a state machine using the CreateStateMachine API action.
 """
 function publish_state_machine_version(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "PublishStateMachineVersion",
@@ -1090,7 +1092,7 @@ end
 function publish_state_machine_version(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "PublishStateMachineVersion",
@@ -1146,7 +1148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successfully redrive the execution. These client tokens are valid for up to 15 minutes
   after they are first used.
 """
-function redrive_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function redrive_execution(executionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "RedriveExecution",
         Dict{String,Any}("executionArn" => executionArn, "clientToken" => string(uuid4()));
@@ -1157,7 +1159,7 @@ end
 function redrive_execution(
     executionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "RedriveExecution",
@@ -1192,7 +1194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cause"`: A more detailed explanation of the cause of the failure.
 - `"error"`: The error code of the failure.
 """
-function send_task_failure(taskToken; aws_config::AbstractAWSConfig=global_aws_config())
+function send_task_failure(taskToken; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "SendTaskFailure",
         Dict{String,Any}("taskToken" => taskToken);
@@ -1203,7 +1205,7 @@ end
 function send_task_failure(
     taskToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "SendTaskFailure",
@@ -1237,7 +1239,7 @@ for heartbeats.
   enters a task state. See GetActivityTaskOutputtaskToken.
 
 """
-function send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws_config())
+function send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "SendTaskHeartbeat",
         Dict{String,Any}("taskToken" => taskToken);
@@ -1248,7 +1250,7 @@ end
 function send_task_heartbeat(
     taskToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "SendTaskHeartbeat",
@@ -1277,7 +1279,7 @@ completed successfully.
 
 """
 function send_task_success(
-    output, taskToken; aws_config::AbstractAWSConfig=global_aws_config()
+    output, taskToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "SendTaskSuccess",
@@ -1290,7 +1292,7 @@ function send_task_success(
     output,
     taskToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "SendTaskSuccess",
@@ -1371,7 +1373,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in
   the request payload.
 """
-function start_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config())
+function start_execution(
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return sfn(
         "StartExecution",
         Dict{String,Any}("stateMachineArn" => stateMachineArn);
@@ -1382,7 +1386,7 @@ end
 function start_execution(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "StartExecution",
@@ -1421,7 +1425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request payload.
 """
 function start_sync_execution(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "StartSyncExecution",
@@ -1433,7 +1437,7 @@ end
 function start_sync_execution(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "StartSyncExecution",
@@ -1461,7 +1465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cause"`: A more detailed explanation of the cause of the failure.
 - `"error"`: The error code of the failure.
 """
-function stop_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_execution(executionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "StopExecution",
         Dict{String,Any}("executionArn" => executionArn);
@@ -1472,7 +1476,7 @@ end
 function stop_execution(
     executionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "StopExecution",
@@ -1500,7 +1504,7 @@ digits, white space, or these symbols: _ . : / = + - @.
   digits, white space, or these symbols: _ . : / = + - @.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
@@ -1512,7 +1516,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "TagResource",
@@ -1571,7 +1575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permission, Step Functions throws an access denied error. By default, revealSecrets is set
   to false.
 """
-function test_state(definition, roleArn; aws_config::AbstractAWSConfig=global_aws_config())
+function test_state(definition, roleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "TestState",
         Dict{String,Any}("definition" => definition, "roleArn" => roleArn);
@@ -1583,7 +1587,7 @@ function test_state(
     definition,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "TestState",
@@ -1612,7 +1616,7 @@ Remove a tag from a Step Functions resource
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "UntagResource",
@@ -1625,7 +1629,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "UntagResource",
@@ -1659,7 +1663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toleratedFailurePercentage"`: The maximum percentage of failed items before the Map Run
   fails.
 """
-function update_map_run(mapRunArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_map_run(mapRunArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "UpdateMapRun",
         Dict{String,Any}("mapRunArn" => mapRunArn);
@@ -1670,7 +1674,7 @@ end
 function update_map_run(
     mapRunArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "UpdateMapRun",
@@ -1731,7 +1735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can only specify the versionDescription parameter if you've set publish to true.
 """
 function update_state_machine(
-    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "UpdateStateMachine",
@@ -1743,7 +1747,7 @@ end
 function update_state_machine(
     stateMachineArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "UpdateStateMachine",
@@ -1783,7 +1787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   starts executions for.
 """
 function update_state_machine_alias(
-    stateMachineAliasArn; aws_config::AbstractAWSConfig=global_aws_config()
+    stateMachineAliasArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "UpdateStateMachineAlias",
@@ -1795,7 +1799,7 @@ end
 function update_state_machine_alias(
     stateMachineAliasArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "UpdateStateMachineAlias",
@@ -1836,7 +1840,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The target type of state machine for this definition. The default is STANDARD.
 """
 function validate_state_machine_definition(
-    definition; aws_config::AbstractAWSConfig=global_aws_config()
+    definition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sfn(
         "ValidateStateMachineDefinition",
@@ -1848,7 +1852,7 @@ end
 function validate_state_machine_definition(
     definition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "ValidateStateMachineDefinition",

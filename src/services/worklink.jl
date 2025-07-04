@@ -24,7 +24,7 @@ function associate_domain(
     AcmCertificateArn,
     DomainName,
     FleetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -43,7 +43,7 @@ function associate_domain(
     DomainName,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -81,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SAML-based authorization providers.
 """
 function associate_website_authorization_provider(
-    AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -97,7 +97,7 @@ function associate_website_authorization_provider(
     AuthorizationProviderType,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -133,7 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The certificate name to display.
 """
 function associate_website_certificate_authority(
-    Certificate, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Certificate, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -147,7 +147,7 @@ function associate_website_certificate_authority(
     Certificate,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -181,7 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic through the closest AWS Region to users, which may be outside of your home Region.
 - `"Tags"`:  The tags to add to the resource. A tag is a key-value pair.
 """
-function create_fleet(FleetName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_fleet(FleetName; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
         "/createFleet",
@@ -193,7 +193,7 @@ end
 function create_fleet(
     FleetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -216,7 +216,7 @@ Deletes a fleet. Prevents users from accessing previously associated websites.
 - `fleet_arn`: The ARN of the fleet.
 
 """
-function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
         "/deleteFleet",
@@ -228,7 +228,7 @@ end
 function delete_fleet(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -252,7 +252,7 @@ Describes the configuration for delivering audit streams to the customer account
 
 """
 function describe_audit_stream_configuration(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -265,7 +265,7 @@ end
 function describe_audit_stream_configuration(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -290,7 +290,7 @@ specified fleet.
 
 """
 function describe_company_network_configuration(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -303,7 +303,7 @@ end
 function describe_company_network_configuration(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -328,7 +328,7 @@ Provides information about a user's device.
 
 """
 function describe_device(
-    DeviceId, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceId, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -342,7 +342,7 @@ function describe_device(
     DeviceId,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -370,7 +370,7 @@ Describes the device policy configuration for the specified fleet.
 
 """
 function describe_device_policy_configuration(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -383,7 +383,7 @@ end
 function describe_device_policy_configuration(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -408,7 +408,7 @@ Provides information about the domain.
 
 """
 function describe_domain(
-    DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -422,7 +422,7 @@ function describe_domain(
     DomainName,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -451,7 +451,7 @@ networking, and device configuration details.
 
 """
 function describe_fleet_metadata(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -464,7 +464,7 @@ end
 function describe_fleet_metadata(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -488,7 +488,7 @@ Describes the identity provider configuration of the specified fleet.
 
 """
 function describe_identity_provider_configuration(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -501,7 +501,7 @@ end
 function describe_identity_provider_configuration(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -526,7 +526,7 @@ Provides information about the certificate authority.
 
 """
 function describe_website_certificate_authority(
-    FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -540,7 +540,7 @@ function describe_website_certificate_authority(
     FleetArn,
     WebsiteCaId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -570,7 +570,7 @@ domain with Amazon WorkLink.
 
 """
 function disassociate_domain(
-    DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -584,7 +584,7 @@ function disassociate_domain(
     DomainName,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -615,7 +615,7 @@ provider.
 
 """
 function disassociate_website_authorization_provider(
-    AuthorizationProviderId, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AuthorizationProviderId, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -631,7 +631,7 @@ function disassociate_website_authorization_provider(
     AuthorizationProviderId,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -663,7 +663,7 @@ Removes a certificate authority (CA).
 
 """
 function disassociate_website_certificate_authority(
-    FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -677,7 +677,7 @@ function disassociate_website_certificate_authority(
     FleetArn,
     WebsiteCaId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -709,7 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function list_devices(FleetArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_devices(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
         "/listDevices",
@@ -721,7 +721,7 @@ end
 function list_devices(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -749,7 +749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function list_domains(FleetArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domains(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
         "/listDomains",
@@ -761,7 +761,7 @@ end
 function list_domains(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -786,13 +786,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_fleets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -814,7 +814,7 @@ Retrieves a list of tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "GET",
@@ -826,7 +826,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "GET",
@@ -853,7 +853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_website_authorization_providers(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -866,7 +866,7 @@ end
 function list_website_authorization_providers(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -895,7 +895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_website_certificate_authorities(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -908,7 +908,7 @@ end
 function list_website_certificate_authorities(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -933,7 +933,7 @@ Moves a domain to ACTIVE status if it was in the INACTIVE status.
 
 """
 function restore_domain_access(
-    DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -947,7 +947,7 @@ function restore_domain_access(
     DomainName,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -976,7 +976,7 @@ Moves a domain to INACTIVE status if it was in the ACTIVE status.
 
 """
 function revoke_domain_access(
-    DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -990,7 +990,7 @@ function revoke_domain_access(
     DomainName,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1020,7 +1020,7 @@ credentials.
 
 """
 function sign_out_user(
-    FleetArn, Username; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -1034,7 +1034,7 @@ function sign_out_user(
     FleetArn,
     Username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1064,7 +1064,7 @@ this operation updates its value.
 - `tags`: The tags to add to the resource. A tag is a key-value pair.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1077,7 +1077,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1100,7 +1100,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "DELETE",
@@ -1114,7 +1114,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "DELETE",
@@ -1140,7 +1140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events.
 """
 function update_audit_stream_configuration(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -1153,7 +1153,7 @@ end
 function update_audit_stream_configuration(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1185,7 +1185,7 @@ function update_company_network_configuration(
     SecurityGroupIds,
     SubnetIds,
     VpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1206,7 +1206,7 @@ function update_company_network_configuration(
     SubnetIds,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1243,7 +1243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the root certificate authority certificate used to issue device certificates.
 """
 function update_device_policy_configuration(
-    FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -1256,7 +1256,7 @@ end
 function update_device_policy_configuration(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1284,7 +1284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name to display.
 """
 function update_domain_metadata(
-    DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -1298,7 +1298,7 @@ function update_domain_metadata(
     DomainName,
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1331,7 +1331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
   traffic through the closest AWS Region to users, which may be outside of your home Region.
 """
-function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
         "/UpdateFleetMetadata",
@@ -1343,7 +1343,7 @@ end
 function update_fleet_metadata(
     FleetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",
@@ -1372,7 +1372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
 """
 function update_identity_provider_configuration(
-    FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return worklink(
         "POST",
@@ -1388,7 +1388,7 @@ function update_identity_provider_configuration(
     FleetArn,
     IdentityProviderType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return worklink(
         "POST",

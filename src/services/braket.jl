@@ -14,7 +14,7 @@ Cancels an Amazon Braket job.
 - `job_arn`: The ARN of the Amazon Braket job to cancel.
 
 """
-function cancel_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "PUT",
         "/job/$(jobArn)/cancel";
@@ -23,7 +23,7 @@ function cancel_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function cancel_job(
-    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
         "PUT",
@@ -46,7 +46,7 @@ Cancels the specified task.
 
 """
 function cancel_quantum_task(
-    clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
         "PUT",
@@ -60,7 +60,7 @@ function cancel_quantum_task(
     clientToken,
     quantumTaskArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "PUT",
@@ -117,7 +117,7 @@ function create_job(
     jobName,
     outputDataConfig,
     roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -144,7 +144,7 @@ function create_job(
     outputDataConfig,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -198,7 +198,7 @@ function create_quantum_task(
     outputS3Bucket,
     outputS3KeyPrefix,
     shots;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -223,7 +223,7 @@ function create_quantum_task(
     outputS3KeyPrefix,
     shots,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -264,7 +264,7 @@ JavaScript/TypeScript SDKs.
 - `device_arn`: The ARN of the device to retrieve.
 
 """
-function get_device(deviceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_device(deviceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "GET",
         "/device/$(deviceArn)";
@@ -275,7 +275,7 @@ end
 function get_device(
     deviceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "GET",
@@ -299,13 +299,13 @@ Retrieves the specified Amazon Braket job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"additionalAttributeNames"`: A list of attributes to return information for.
 """
-function get_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "GET", "/job/$(jobArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_job(
-    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
         "GET",
@@ -329,7 +329,9 @@ Retrieves the specified quantum task.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"additionalAttributeNames"`: A list of attributes to return information for.
 """
-function get_quantum_task(quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_quantum_task(
+    quantumTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return braket(
         "GET",
         "/quantum-task/$(quantumTaskArn)";
@@ -340,7 +342,7 @@ end
 function get_quantum_task(
     quantumTaskArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "GET",
@@ -362,7 +364,7 @@ Shows the tags associated with this resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
         "GET",
@@ -374,7 +376,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "GET",
@@ -400,7 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
   token returned from the previous request continue results where the previous request ended.
 """
-function search_devices(filters; aws_config::AbstractAWSConfig=global_aws_config())
+function search_devices(filters; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "POST",
         "/devices",
@@ -410,7 +412,9 @@ function search_devices(filters; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function search_devices(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -437,7 +441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token returned from the previous request to continue results where the previous request
   ended.
 """
-function search_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config())
+function search_jobs(filters; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "POST",
         "/jobs",
@@ -447,7 +451,9 @@ function search_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function search_jobs(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -473,7 +479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
   token returned from the previous request continue results where the previous request ended.
 """
-function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=global_aws_config())
+function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "POST",
         "/quantum-tasks",
@@ -483,7 +489,9 @@ function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function search_quantum_tasks(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -505,7 +513,7 @@ Add a tag to the specified resource.
 - `tags`: Specify the tags to add to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
         "POST",
         "/tags/$(resourceArn)",
@@ -518,7 +526,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "POST",
@@ -541,7 +549,7 @@ Remove tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
         "DELETE",
@@ -555,7 +563,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
         "DELETE",

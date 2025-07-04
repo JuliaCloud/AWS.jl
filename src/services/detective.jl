@@ -17,7 +17,7 @@ behavior graph. The member account status in the graph must be INVITED.
   invitation for. The member account status in the behavior graph must be INVITED.
 
 """
-function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "PUT",
         "/invitation",
@@ -29,7 +29,7 @@ end
 function accept_invitation(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "PUT",
@@ -55,7 +55,7 @@ Gets data source package information for the behavior graph.
 
 """
 function batch_get_graph_member_datasources(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountIds, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -69,7 +69,7 @@ function batch_get_graph_member_datasources(
     AccountIds,
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -97,7 +97,7 @@ Gets information on the data source package history for an account.
 
 """
 function batch_get_membership_datasources(
-    GraphArns; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -110,7 +110,7 @@ end
 function batch_get_membership_datasources(
     GraphArns,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -142,13 +142,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each tag, you provide the tag key and the tag value. Each tag key can contain up to 128
   characters. Each tag value can contain up to 256 characters.
 """
-function create_graph(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_graph(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_graph(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST", "/graph", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -196,7 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invited member accounts.
 """
 function create_members(
-    Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Accounts, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -210,7 +210,7 @@ function create_members(
     Accounts,
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -239,7 +239,7 @@ only be called by the administrator account for a behavior graph.
 - `graph_arn`: The ARN of the behavior graph to disable.
 
 """
-function delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_graph(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
         "/graph/removal",
@@ -251,7 +251,7 @@ end
 function delete_graph(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -288,7 +288,7 @@ API method.
 
 """
 function delete_members(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountIds, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -302,7 +302,7 @@ function delete_members(
     AccountIds,
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -332,7 +332,7 @@ only be called by the Detective administrator account for the organization.
 
 """
 function describe_organization_configuration(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -345,7 +345,7 @@ end
 function describe_organization_configuration(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -372,7 +372,7 @@ administrator account is the organization management account.
 
 """
 function disable_organization_admin_account(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -382,7 +382,7 @@ function disable_organization_admin_account(;
     )
 end
 function disable_organization_admin_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -409,7 +409,7 @@ organization accounts to enable or disable as member accounts.
 
 """
 function disassociate_membership(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -422,7 +422,7 @@ end
 function disassociate_membership(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -457,7 +457,7 @@ account.
 
 """
 function enable_organization_admin_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -470,7 +470,7 @@ end
 function enable_organization_admin_account(
     AccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -499,7 +499,7 @@ investigation for a behavior graph.
 
 """
 function get_investigation(
-    GraphArn, InvestigationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn, InvestigationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -513,7 +513,7 @@ function get_investigation(
     GraphArn,
     InvestigationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -547,7 +547,7 @@ Returns the membership details for specified member accounts for a behavior grap
 
 """
 function get_members(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountIds, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -561,7 +561,7 @@ function get_members(
     AccountIds,
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -595,7 +595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_datasource_packages(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -608,7 +608,7 @@ end
 function list_datasource_packages(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -638,13 +638,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was returned with the previous set of results. The initial request does not include a
   pagination token.
 """
-function list_graphs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_graphs(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_graphs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -678,7 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours. Using an expired pagination token will return a Validation Exception error.
 """
 function list_indicators(
-    GraphArn, InvestigationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn, InvestigationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -692,7 +692,7 @@ function list_indicators(
     GraphArn,
     InvestigationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -734,7 +734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours. Using an expired pagination token will return a Validation Exception error.
 - `"SortCriteria"`: Sorts the investigation results based on a criteria.
 """
-function list_investigations(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_investigations(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
         "/investigations/listInvestigations",
@@ -746,7 +746,7 @@ end
 function list_investigations(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -778,13 +778,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned with the previous page of results. The initial request does not include a
   pagination token.
 """
-function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_invitations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -817,7 +817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token that was returned with the previous page of results. The initial request
   does not include a pagination token.
 """
-function list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_members(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
         "/graph/members/list",
@@ -829,7 +829,7 @@ end
 function list_members(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -857,7 +857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_organization_admin_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -867,7 +867,7 @@ function list_organization_admin_accounts(;
     )
 end
 function list_organization_admin_accounts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -889,7 +889,7 @@ Returns the tag values that are assigned to a behavior graph.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "GET",
@@ -901,7 +901,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "GET",
@@ -926,7 +926,7 @@ organization behavior graph, organization accounts do not receive an invitation.
   account's current member status in the behavior graph must be INVITED.
 
 """
-function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
         "/invitation/removal",
@@ -938,7 +938,7 @@ end
 function reject_invitation(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -975,7 +975,7 @@ function start_investigation(
     GraphArn,
     ScopeEndTime,
     ScopeStartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -996,7 +996,7 @@ function start_investigation(
     ScopeEndTime,
     ScopeStartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -1034,7 +1034,7 @@ enable the member account, the status remains ACCEPTED_BUT_DISABLED.
 
 """
 function start_monitoring_member(
-    AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -1048,7 +1048,7 @@ function start_monitoring_member(
     AccountId,
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -1078,7 +1078,7 @@ Applies tag values to a behavior graph.
   characters. Each tag value can contain up to 256 characters.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1091,7 +1091,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -1115,7 +1115,7 @@ Removes tags from a behavior graph.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "DELETE",
@@ -1129,7 +1129,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "DELETE",
@@ -1152,7 +1152,7 @@ Starts a data source packages for the behavior graph.
 
 """
 function update_datasource_packages(
-    DatasourcePackages, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasourcePackages, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -1168,7 +1168,7 @@ function update_datasource_packages(
     DatasourcePackages,
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -1201,7 +1201,7 @@ Updates the state of an investigation.
 
 """
 function update_investigation_state(
-    GraphArn, InvestigationId, State; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn, InvestigationId, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -1218,7 +1218,7 @@ function update_investigation_state(
     InvestigationId,
     State,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",
@@ -1255,7 +1255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member accounts in the organization behavior graph.
 """
 function update_organization_configuration(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
         "POST",
@@ -1268,7 +1268,7 @@ end
 function update_organization_configuration(
     GraphArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
         "POST",

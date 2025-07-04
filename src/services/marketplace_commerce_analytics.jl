@@ -88,7 +88,7 @@ function generate_data_set(
     destinationS3BucketName,
     roleNameArn,
     snsTopicArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_commerce_analytics(
         "GenerateDataSet",
@@ -110,7 +110,7 @@ function generate_data_set(
     roleNameArn,
     snsTopicArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_commerce_analytics(
         "GenerateDataSet",
@@ -188,7 +188,7 @@ function start_support_data_export(
     fromDate,
     roleNameArn,
     snsTopicArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_commerce_analytics(
         "StartSupportDataExport",
@@ -210,7 +210,7 @@ function start_support_data_export(
     roleNameArn,
     snsTopicArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_commerce_analytics(
         "StartSupportDataExport",
