@@ -150,6 +150,7 @@ end
 # Only testing the invalid code paths here. Valid code paths are tested elsewhere.
 @testset "_aws_get_sso_credential_details" begin
     using AWS: _aws_get_sso_credential_details, _sso_cache_access_token
+    using AWS.AWSExceptions: InvalidAWSConfig
 
     @testset "invalid SSO configuration" begin
         #! format: off
@@ -165,9 +166,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_start_url`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "The SSO session \"my-sso\" section must define `sso_start_url`."
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -182,9 +184,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_region`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "The SSO session \"my-sso\" section must define `sso_region`."
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -199,9 +202,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_account_id`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_account_id` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -216,9 +220,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_role_name`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_role_name` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
     end
 
     @testset "invalid legacy SSO configuration" begin
@@ -232,11 +237,12 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_start_url`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_start_url` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
-                #! format: off
+        #! format: off
         ini = gen_ini(
             """
             [default]
@@ -246,9 +252,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_region`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_region` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -260,9 +267,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_account_id`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_account_id` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -274,9 +282,10 @@ end
             """
         )
         #! format: on
-        @test_throws "must define `sso_role_name`" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_role_name` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
     end
 
     @testset "inconsistent SSO/legacy SSO configuration" begin
@@ -296,9 +305,10 @@ end
             """
         )
         #! format: on
-        @test_throws "`sso_start_url` is inconsistent" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "The value for `sso_start_url` is inconsistent between the profile (https://my-legacy-sso-portal.awsapps.com/start) and the sso-session (https://my-sso-portal.awsapps.com/start).",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -316,15 +326,20 @@ end
             """
         )
         #! format: on
-        @test_throws "`sso_region` is inconsistent" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        ex = InvalidAWSConfig(
+            "The value for `sso_region` is inconsistent between the profile (us-legacy-1) and the sso-session (us-east-1).",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
     end
 
     @testset "SSO login required" begin
         # Ensure we don't accidentally use a valid session name
         session_name = "___null___"
         @test isnothing(_sso_cache_access_token(session_name))
+
+        ex = ErrorException(
+            "You must first sign in to a IAM Identity Center session via `aws sso login --profile default`. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-login for more details.",
+        )
 
         #! format: off
         ini = gen_ini(
@@ -340,9 +355,7 @@ end
             """
         )
         #! format: on
-        @test_throws "You must first sign in" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
 
         #! format: off
         ini = gen_ini(
@@ -355,9 +368,7 @@ end
             """
         )
         #! format: on
-        @test_throws "You must first sign in" begin
-            _aws_get_sso_credential_details("default", ini)
-        end
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
     end
 end
 
