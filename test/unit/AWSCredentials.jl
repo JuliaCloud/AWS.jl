@@ -1,47 +1,75 @@
-macro test_ecode(error_codes, expr)
-    quote
-        try
-            $expr
-            @test false
-        catch e
-            if e isa AWSException
-                @test e.code in [$error_codes;]
-            else
-                rethrow(e)
-            end
-        end
-    end
-end
-
 const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
 
 http_header(h::Vector, k, d="") = get(Dict(h), k, d)
 http_header(args...) = HTTP.header(args...)
 
-@testset "Load Credentials" begin
-    user = aws_user_arn(AWS_CONFIG[])
-    @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
-    AWS_CONFIG[].region = "us-east-1"
-
-    @test_ecode("InvalidAction", AWSServices.iam("GetFoo"))
-
-    @test_ecode(
-        ["AccessDenied", "NoSuchEntity"],
-        AWSServices.iam("GetUser", Dict("UserName" => "notauser"))
-    )
-
-    @test_ecode("ValidationError", AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!")))
-
-    # Please note: If testing in a managed Corporate AWS environment, this can set off alarms...
-    @test_ecode(
-        ["AccessDenied", "EntityAlreadyExists"],
-        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
-    )
-end
-
 @testset "_role_session_name" begin
     @test AWS._role_session_name("prefix-", "name", "-suffix") == "prefix-name-suffix"
     @test AWS._role_session_name("a"^22, "b"^22, "c"^22) == "a"^22 * "b"^20 * "c"^22
+end
+
+@testset "_aws_profile_config" begin
+    using AWS: _aws_profile_config
+
+    @testset "access" begin
+        #! format: off
+        buffer = IOBuffer(
+            """
+            [profile A]
+            output = json
+            region = us-east-1
+
+            [profile B]
+            role_arn = arn:aws:iam::123456789000:role/A
+            source_profile = A
+            """
+        )
+        #! format: on
+        ini = Inifile()
+        read(ini, buffer)
+
+        # Retrieve fields from profile "A"
+        config = _aws_profile_config(ini, "A")
+        @test keys(config) ⊆ Set(["output", "region"])
+        @test config["output"] == "json"
+        @test config["region"] == "us-east-1"
+
+        # Ensure that mutating the returned dictionary does not mutated the contents of the
+        # `ini`
+        config["output"] = "yaml-stream"
+        section = sections(ini)["profile A"]
+        @test section["output"] == "json"
+
+        # Use of `source_profile` does not inherit properties from the source. This mirrors
+        # the AWS CLI (version v2.27.15) behavior for `region` which can be seen using
+        # `aws configure list --profile X`
+        config = _aws_profile_config(ini, "B")
+        @test keys(config) ⊆ Set(["role_arn", "source_profile"])
+        @test config["role_arn"] == "arn:aws:iam::123456789000:role/A"
+        @test config["source_profile"] == "A"
+    end
+
+    # AWS CLI (version v2.27.15) will use "profile default" over "default" when both are
+    # defined within the configuration. This is true when `AWS_PROFILE` is unset or
+    # `AWS_PROFILE="default".
+    @testset "default profile" begin
+        #! format: off
+        buffer = IOBuffer(
+            """
+            [default]
+            region = default-1
+
+            [profile default]
+            region = default-2
+            """
+        )
+        #! format: on
+        ini = Inifile()
+        read(ini, buffer)
+
+        config = _aws_profile_config(ini, "default")
+        @test config["region"] == "default-2"
+    end
 end
 
 @testset "aws_get_profile_settings" begin
@@ -68,7 +96,7 @@ end
 
     @testset "default profile" begin
         access_key_id = "assumed_access_key_id"
-        config_dir = joinpath(@__DIR__, "configs", "default-role")
+        config_dir = joinpath(@__DIR__, "..", "config", "default-role")
 
         patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
@@ -89,7 +117,7 @@ end
 
     @testset "profile with role and MFA" begin
         access_key_id = "assumed_access_key_id"
-        config_dir = joinpath(@__DIR__, "configs", "role-with-mfa")
+        config_dir = joinpath(@__DIR__, "..", "config", "role-with-mfa")
 
         mfa_token = "123456"
         sent_token = Ref("")
@@ -213,7 +241,6 @@ end
             """
             [profile test]
             output = json
-            region = us-east-1
 
             [profile test:dev]
             source_profile = test
@@ -226,8 +253,6 @@ end
             [profile test2]
             aws_access_key_id = WRONG_ACCESS_ID
             aws_secret_access_key = WRONG_ACCESS_KEY
-            output = json
-            region = us-east-1
 
             [profile test3]
             source_profile = test:dev
@@ -264,6 +289,7 @@ end
             "AWS_DEFAULT_PROFILE" => "test",
             "AWS_PROFILE" => nothing,
             "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_REGION" => "us-east-1",
         ) do
             @testset "Loading" begin
                 # Check credentials load
