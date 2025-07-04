@@ -183,12 +183,9 @@ function _ec2_metadata(metadata_endpoint::String)
 end
 
 """
-Retrieve the SSO access token from cache using the SSO session name. The legacy IAM
-identity center uses the SSO start URL as the session name.
+Retrieve the existing SSO access token from AWS CLI cache using the SSO session name.
 """
-function _sso_cache_access_token(session_name::Union{AbstractString,Nothing})
-    isnothing(session_name) && return nothing
-
+function _sso_cache_access_token(session_name::AbstractString)
     cache_path = joinpath(homedir(), ".aws", "sso", "cache")
     cache_file = joinpath(cache_path, bytes2hex(sha1(session_name)) * ".json")
 
@@ -205,28 +202,78 @@ Retrieve sso-specific details for the given `profile`.
 """
 function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
     sso_session = _get_profile_value(ini, profile, "sso_session")
-    sso_account_id = _get_profile_value(ini, profile, "sso_account_id") # Optional but AWS.jl requires it
-    sso_role_name = _get_profile_value(ini, profile, "sso_role_name"; default_value="default") # Optional but AWS.jl requires it
-    session_token = if sso_session !== nothing
-        # new configuration
-        # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
-        sso_region = _get_sso_session_value(ini, sso_session, "sso_region") # required
-        if sso_role_name === nothing
-            error("AWS.jl requires sso_role_name is set in the profile section.")
-        end
-        sso_session
-    else
-        # legacy configuration
-        # https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-legacy.html#sso-configure-profile-manual
-        sso_start_url = _get_profile_value(ini, profile, "sso_start_url")
-        sso_region = _get_profile_value(ini, profile, "sso_region"; default_value=DEFAULT_REGION)
-        sso_start_url
+
+    # > Typically, `sso_account_id` and `sso_role_name` must be set in the profile section
+    # > so that the SDK can request SSO credentials.
+    # – https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-manual
+    sso_account_id = _get_profile_value(ini, profile, "sso_account_id")
+    sso_role_name = _get_profile_value(ini, profile, "sso_role_name")
+
+    if isnothing(sso_account_id)
+        throw(InvalidAWSConfig(
+            "Profile \"$profile\" must define `sso_account_id` in order to request " *
+            "SSO credentials."
+        ))
+    elseif isnothing(sso_role_name)
+        throw(InvalidAWSConfig(
+            "Profile \"$profile\" must define `sso_role_name` in order to request " *
+            "SSO credentials."
+        ))
     end
 
-    access_token = @mock _sso_cache_access_token(session_token)
+    if !isnothing(sso_session)
+        # IAM identity center authentication
+        # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-manual
+        sso_start_url = _get_sso_session_value(ini, sso_session, "sso_start_url")
+        sso_region = _get_sso_session_value(ini, sso_session, "sso_region")
+
+        # The AWS documentation documents the `sso_start_url` and `sso_region` keys as
+        # required. AWS.jl doesn't actually require `sso_start_url` in this case but we'll
+        # still validate this key is set.
+        if isnothing(sso_start_url)
+            throw(InvalidAWSConfig(
+                "The SSO session \"$sso_session\" section must define `sso_start_url`."
+            ))
+        elseif isnothing(sso_region)
+            throw(InvalidAWSConfig(
+                "The SSO session \"$sso_session\" section must define `sso_region`."
+            ))
+        end
+
+        access_token = @mock _sso_cache_access_token(sso_session)
+    else
+        # Legacy IAM identity center authentication
+        # https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-legacy.html#sso-configure-profile-manual
+
+        # > To manually add IAM Identity Center support to a named profile, you must add the
+        # > following keys and values to the profile definition in the config file.
+        # > - `sso_start_url`
+        # > - `sso_region`
+        # > - `sso_account_id`
+        # > - `sso_role_name`
+
+        sso_start_url = _get_profile_value(ini, profile, "sso_start_url")
+        sso_region = _get_profile_value(ini, profile, "sso_region")
+
+        if isnothing(sso_start_url)
+            throw(InvalidAWSConfig(
+                "Profile \"$profile\" must define `sso_start_url` in order to request SSO " *
+                "credentials."
+            ))
+        elseif isnothing(sso_region)
+            throw(InvalidAWSConfig(
+                "Profile \"$profile\" must define `sso_region` in order to request SSO " *
+                "credentials."
+            ))
+        end
+
+        access_token = @mock _sso_cache_access_token(sso_start_url)
+    end
+
     headers = Dict{String,Any}("x-amz-sso_bearer_token" => access_token)
     tmp_config = AWSConfig(; creds=nothing, region=sso_region)
 
+    # https://docs.aws.amazon.com/singlesignon/latest/PortalAPIReference/API_GetRoleCredentials.html
     sso_creds = @mock AWSServices.sso(
         "GET",
         "/federation/credentials?account_id=$(sso_account_id)&role_name=$(sso_role_name)",

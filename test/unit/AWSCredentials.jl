@@ -147,6 +147,123 @@ end
     end
 end
 
+# Only testing the invalid code paths here. Valid code paths are tested elsewhere.
+@testset "_aws_get_sso_credential_details" begin
+    using AWS: _aws_get_sso_credential_details
+
+    @testset "invalid SSO configuration" begin
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_start_url`" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_region`" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_account_id`" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_account_id = 111122223333
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_role_name`" _aws_get_sso_credential_details("default", ini)
+    end
+
+    @testset "invalid legacy SSO configuration" begin
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_account_id = 111122223333
+            sso_region = us-legacy-1
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_start_url`" _aws_get_sso_credential_details("default", ini)
+
+                #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_account_id = 111122223333
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_region`" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_region = us-legacy-1
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_account_id`" _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_region = us-legacy-1
+            sso_account_id = 111122223333
+            """
+        )
+        #! format: on
+        @test_throws "must define `sso_role_name`" _aws_get_sso_credential_details("default", ini)
+    end
+end
+
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id", "secret_key")
@@ -543,8 +660,13 @@ end
                         config_file,
                         """
                         [default]
-                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_session = my-sso
+                        sso_account_id = 111122223333
                         sso_role_name = role1
+
+                        [sso-session my-sso]
+                        sso_region = us-east-1
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
                         """,
                     )
                     isfile(creds_file) && rm(creds_file)
@@ -580,8 +702,10 @@ end
                         """
                         [default]
                         sso_session = my-sso
+                        sso_account_id = 111122223333
                         sso_role_name = role1
                         sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+                        sso_region = us-legacy-1
 
                         [sso-session my-sso]
                         sso_start_url = https://my-sso-portal.awsapps.com/start
@@ -607,7 +731,9 @@ end
                         """
                         [profile profile1]
                         sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_account_id = 111122223333
                         sso_role_name = role1
+                        sso_region = us-east-1
                         """,
                     )
                     write(creds_file, basic_creds_content)
@@ -768,6 +894,8 @@ end
         "Test-SSO-Profile" => "sso-test",
         "Test-SSO-start-url" => "https://test-sso.com/start",
         "Test-SSO-Role" => "SSORoleName",
+        "Test-SSO-Account-Id" => "111122223333",
+        "Test-SSO-Region" => "us-east-1",
     )
 
     @testset "~/.aws/config - Default Profile" begin
@@ -820,6 +948,8 @@ end
                 [profile $(test_values["Test-SSO-Profile"])]
                 sso_start_url=$(test_values["Test-SSO-start-url"])
                 sso_role_name=$(test_values["Test-SSO-Role"])
+                sso_account_id=$(test_values["Test-SSO-Account-Id"])
+                sso_region=$(test_values["Test-SSO-Region"])
                 """,
             )
             close(config_io)

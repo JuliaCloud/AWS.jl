@@ -83,3 +83,10 @@ function AWS.generate_service_url(aws::MinioConfig, service::String, resource::S
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
     return string(aws.endpoint, resource)
 end
+
+function gen_ini(content)
+    buffer = IOBuffer(content)
+    ini = Inifile()
+    read(ini, buffer)
+    return ini
+end
