@@ -250,9 +250,9 @@ macro service(exprs...)
         $set_features!($module_name.SERVICE_FEATURE_SET; $(features...))
         $module_name
     end
-    condition = :(!isdefined($__module__, $(QuoteNode(module_name))))
+    condition = :(isdefined($__module__, $(QuoteNode(module_name))))
 
-    return Expr(:if, esc(condition), module_def, esc(mutate_block))
+    return Expr(:if, esc(condition), esc(mutate_block), module_def)
 end
 
 abstract type Service end
