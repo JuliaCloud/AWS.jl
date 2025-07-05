@@ -16,19 +16,17 @@ SageMaker Studio and retrieved with the GetMetrics API.
 - `trial_component_name`: The name of the Trial Component to associate with the metrics.
 
 """
-function batch_put_metrics(
+batch_put_metrics(
     MetricData, TrialComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker_metrics(
+    "PUT",
+    "/BatchPutMetrics",
+    Dict{String,Any}(
+        "MetricData" => MetricData, "TrialComponentName" => TrialComponentName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker_metrics(
-        "PUT",
-        "/BatchPutMetrics",
-        Dict{String,Any}(
-            "MetricData" => MetricData, "TrialComponentName" => TrialComponentName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_put_metrics(
     MetricData,
     TrialComponentName,

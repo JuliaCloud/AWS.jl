@@ -16,17 +16,15 @@ Add up to 2 anomaly notifications channels for a profiling group.
   notifications for.
 
 """
-function add_notification_channels(
+add_notification_channels(
     channels, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "POST",
+    "/profilingGroups/$(profilingGroupName)/notificationConfiguration",
+    Dict{String,Any}("channels" => channels);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "POST",
-        "/profilingGroups/$(profilingGroupName)/notificationConfiguration",
-        Dict{String,Any}("channels" => channels);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_notification_channels(
     channels,
     profilingGroupName,
@@ -74,16 +72,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resolution after the target resolution. There are 3 valid values.     P1D — 1 day
   PT1H — 1 hour     PT5M — 5 minutes
 """
-function batch_get_frame_metric_data(
+batch_get_frame_metric_data(
     profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "POST",
+    "/profilingGroups/$(profilingGroupName)/frames/-/metrics";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "POST",
-        "/profilingGroups/$(profilingGroupName)/frames/-/metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_frame_metric_data(
     profilingGroupName,
     params::AbstractDict{String};
@@ -128,16 +124,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS - The time in milliseconds for the previous
   Lambda invocation.
 """
-function configure_agent(
-    profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguruprofiler(
+configure_agent(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "POST",
         "/profilingGroups/$(profilingGroupName)/configureAgent";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function configure_agent(
     profilingGroupName,
     params::AbstractDict{String};
@@ -174,19 +167,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   platform. If not specified, Default is used.
 - `"tags"`:  A list of tags to add to the created profiling group.
 """
-function create_profiling_group(
+create_profiling_group(
     clientToken, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "POST",
+    "/profilingGroups",
+    Dict{String,Any}(
+        "clientToken" => clientToken, "profilingGroupName" => profilingGroupName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "POST",
-        "/profilingGroups",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "profilingGroupName" => profilingGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_profiling_group(
     clientToken,
     profilingGroupName,
@@ -220,16 +211,14 @@ Deletes a profiling group.
 - `profiling_group_name`: The name of the profiling group to delete.
 
 """
-function delete_profiling_group(
+delete_profiling_group(
     profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "DELETE",
+    "/profilingGroups/$(profilingGroupName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "DELETE",
-        "/profilingGroups/$(profilingGroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_profiling_group(
     profilingGroupName,
     params::AbstractDict{String};
@@ -255,16 +244,14 @@ profiling group.
 - `profiling_group_name`:  The name of the profiling group to get information about.
 
 """
-function describe_profiling_group(
+describe_profiling_group(
     profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "GET",
+    "/profilingGroups/$(profilingGroupName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "GET",
-        "/profilingGroups/$(profilingGroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_profiling_group(
     profilingGroupName,
     params::AbstractDict{String};
@@ -302,16 +289,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.   This token should be treated as an opaque identifier that
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
-function get_findings_report_account_summary(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguruprofiler(
+get_findings_report_account_summary(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "GET",
         "/internal/findingsReports";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_findings_report_account_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -335,16 +319,14 @@ Get the current configuration for anomaly notifications for a profiling group.
   configuration for.
 
 """
-function get_notification_configuration(
+get_notification_configuration(
     profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "GET",
+    "/profilingGroups/$(profilingGroupName)/notificationConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "GET",
-        "/profilingGroups/$(profilingGroupName)/notificationConfiguration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_notification_configuration(
     profilingGroupName,
     params::AbstractDict{String};
@@ -369,14 +351,13 @@ end
 - `profiling_group_name`: The name of the profiling group.
 
 """
-function get_policy(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguruprofiler(
+get_policy(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "GET",
         "/profilingGroups/$(profilingGroupName)/policy";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_policy(
     profilingGroupName,
     params::AbstractDict{String};
@@ -461,14 +442,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both.
   &lt;/p&gt;
 """
-function get_profile(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguruprofiler(
+get_profile(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "GET",
         "/profilingGroups/$(profilingGroupName)/profile";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_profile(
     profilingGroupName,
     params::AbstractDict{String};
@@ -509,20 +489,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Republic of Korea     pt-BR - Portugese, Brazil     zh-CN - Chinese, China     zh-TW -
   Chinese, Taiwan
 """
-function get_recommendations(
+get_recommendations(
     endTime,
     profilingGroupName,
     startTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "GET",
+    "/internal/profilingGroups/$(profilingGroupName)/recommendations",
+    Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "GET",
-        "/internal/profilingGroups/$(profilingGroupName)/recommendations",
-        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_recommendations(
     endTime,
     profilingGroupName,
@@ -577,20 +555,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.   This token should be treated as an opaque identifier that
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
-function list_findings_reports(
+list_findings_reports(
     endTime,
     profilingGroupName,
     startTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "GET",
+    "/internal/profilingGroups/$(profilingGroupName)/findingsReports",
+    Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "GET",
-        "/internal/profilingGroups/$(profilingGroupName)/findingsReports",
-        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_findings_reports(
     endTime,
     profilingGroupName,
@@ -643,23 +619,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"orderBy"`: The order (ascending or descending by start time of the profile) to use when
   listing profiles. Defaults to TIMESTAMP_DESCENDING.
 """
-function list_profile_times(
+list_profile_times(
     endTime,
     period,
     profilingGroupName,
     startTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "GET",
+    "/profilingGroups/$(profilingGroupName)/profileTimes",
+    Dict{String,Any}("endTime" => endTime, "period" => period, "startTime" => startTime);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "GET",
-        "/profilingGroups/$(profilingGroupName)/profileTimes",
-        Dict{String,Any}(
-            "endTime" => endTime, "period" => period, "startTime" => startTime
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_profile_times(
     endTime,
     period,
@@ -709,11 +681,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.   This token should be treated as an opaque identifier that is only used to retrieve
   the next items in a list and not for other programmatic purposes.
 """
-function list_profiling_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguruprofiler(
+list_profiling_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "GET", "/profilingGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_profiling_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -737,16 +708,13 @@ end
   return.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguruprofiler(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -787,24 +755,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (UUID) to prevent the accidental submission of duplicate profiling data if there are
   failures and retries.
 """
-function post_agent_profile(
+post_agent_profile(
     Content_Type,
     agentProfile,
     profilingGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "POST",
+    "/profilingGroups/$(profilingGroupName)/agentProfile",
+    Dict{String,Any}(
+        "agentProfile" => agentProfile,
+        "profileToken" => string(uuid4()),
+        "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "POST",
-        "/profilingGroups/$(profilingGroupName)/agentProfile",
-        Dict{String,Any}(
-            "agentProfile" => agentProfile,
-            "profileToken" => string(uuid4()),
-            "headers" => Dict{String,Any}("Content-Type" => Content_Type),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function post_agent_profile(
     Content_Type,
     agentProfile,
@@ -871,20 +837,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profiling group for the first time. If a policy already exists on the profiling group, you
   must specify the revisionId.
 """
-function put_permission(
+put_permission(
     actionGroup,
     principals,
     profilingGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "PUT",
+    "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)",
+    Dict{String,Any}("principals" => principals);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "PUT",
-        "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)",
-        Dict{String,Any}("principals" => principals);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_permission(
     actionGroup,
     principals,
@@ -915,16 +879,14 @@ Remove one anomaly notifications channel for a profiling group.
   configuration for.
 
 """
-function remove_notification_channel(
+remove_notification_channel(
     channelId, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguruprofiler(
+    "DELETE",
+    "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "DELETE",
-        "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_notification_channel(
     channelId,
     profilingGroupName,
@@ -959,20 +921,18 @@ ConfigureAgent , and  PostAgentProfile .
   resource-based policy from which you want to remove permissions.
 
 """
-function remove_permission(
+remove_permission(
     actionGroup,
     profilingGroupName,
     revisionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "DELETE",
+    "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)",
+    Dict{String,Any}("revisionId" => revisionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "DELETE",
-        "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)",
-        Dict{String,Any}("revisionId" => revisionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_permission(
     actionGroup,
     profilingGroupName,
@@ -1009,20 +969,18 @@ useful or not.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"comment"`: Optional feedback about this anomaly.
 """
-function submit_feedback(
+submit_feedback(
     anomalyInstanceId,
     profilingGroupName,
     type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "POST",
+    "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback",
+    Dict{String,Any}("type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "POST",
-        "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback",
-        Dict{String,Any}("type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function submit_feedback(
     anomalyInstanceId,
     profilingGroupName,
@@ -1051,15 +1009,14 @@ end
 - `tags`:  The list of tags that are added to the specified resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguruprofiler(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1088,17 +1045,14 @@ end
   removed from the specified resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguruprofiler(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguruprofiler(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1126,19 +1080,17 @@ Updates a profiling group.
 - `profiling_group_name`: The name of the profiling group to update.
 
 """
-function update_profiling_group(
+update_profiling_group(
     agentOrchestrationConfig,
     profilingGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeguruprofiler(
+    "PUT",
+    "/profilingGroups/$(profilingGroupName)",
+    Dict{String,Any}("agentOrchestrationConfig" => agentOrchestrationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguruprofiler(
-        "PUT",
-        "/profilingGroups/$(profilingGroupName)",
-        Dict{String,Any}("agentOrchestrationConfig" => agentOrchestrationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_profiling_group(
     agentOrchestrationConfig,
     profilingGroupName,

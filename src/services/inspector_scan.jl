@@ -20,15 +20,13 @@ generator.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"outputFormat"`: The output format for the vulnerability report.
 """
-function scan_sbom(sbom; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector_scan(
-        "POST",
-        "/scan/sbom",
-        Dict{String,Any}("sbom" => sbom);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+scan_sbom(sbom; aws_config::AbstractAWSConfig=global_aws_config()) = inspector_scan(
+    "POST",
+    "/scan/sbom",
+    Dict{String,Any}("sbom" => sbom);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function scan_sbom(
     sbom, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

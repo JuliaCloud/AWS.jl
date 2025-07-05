@@ -15,14 +15,13 @@ event bus will start receiving events from the event source.
 - `name`: The name of the partner event source to activate.
 
 """
-function activate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+activate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "ActivateEventSource",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function activate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -44,14 +43,13 @@ Cancels the specified replay.
 - `replay_name`: The name of the replay to cancel.
 
 """
-function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+cancel_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "CancelReplay",
         Dict{String,Any}("ReplayName" => ReplayName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -87,25 +85,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InvocationRateLimitPerSecond"`: The maximum number of requests per second to send to
   the HTTP invocation endpoint.
 """
-function create_api_destination(
+create_api_destination(
     ConnectionArn,
     HttpMethod,
     InvocationEndpoint,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cloudwatch_events(
+    "CreateApiDestination",
+    Dict{String,Any}(
+        "ConnectionArn" => ConnectionArn,
+        "HttpMethod" => HttpMethod,
+        "InvocationEndpoint" => InvocationEndpoint,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "CreateApiDestination",
-        Dict{String,Any}(
-            "ConnectionArn" => ConnectionArn,
-            "HttpMethod" => HttpMethod,
-            "InvocationEndpoint" => InvocationEndpoint,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_api_destination(
     ConnectionArn,
     HttpMethod,
@@ -154,16 +150,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetentionDays"`: The number of days to retain events for. Default value is 0. If set to
   0, events are retained indefinitely
 """
-function create_archive(
+create_archive(
     ArchiveName, EventSourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudwatch_events(
+    "CreateArchive",
+    Dict{String,Any}("ArchiveName" => ArchiveName, "EventSourceArn" => EventSourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "CreateArchive",
-        Dict{String,Any}("ArchiveName" => ArchiveName, "EventSourceArn" => EventSourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_archive(
     ArchiveName,
     EventSourceArn,
@@ -203,23 +197,21 @@ for authorization with an API destination HTTP endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the connection to create.
 """
-function create_connection(
+create_connection(
     AuthParameters,
     AuthorizationType,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cloudwatch_events(
+    "CreateConnection",
+    Dict{String,Any}(
+        "AuthParameters" => AuthParameters,
+        "AuthorizationType" => AuthorizationType,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "CreateConnection",
-        Dict{String,Any}(
-            "AuthParameters" => AuthParameters,
-            "AuthorizationType" => AuthorizationType,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_connection(
     AuthParameters,
     AuthorizationType,
@@ -265,14 +257,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   event source that the new event bus will be matched with.
 - `"Tags"`: Tags to associate with the event bus.
 """
-function create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "CreateEventBus",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -314,16 +305,14 @@ these events.
   matches the name of the partner event source.
 
 """
-function create_partner_event_source(
+create_partner_event_source(
     Account, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudwatch_events(
+    "CreatePartnerEventSource",
+    Dict{String,Any}("Account" => Account, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "CreatePartnerEventSource",
-        Dict{String,Any}("Account" => Account, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_partner_event_source(
     Account,
     Name,
@@ -356,14 +345,13 @@ ActivateEventSource.
 - `name`: The name of the partner event source to deactivate.
 
 """
-function deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DeactivateEventSource",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function deactivate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -386,14 +374,13 @@ from the connection so you can reuse it without having to create a new connectio
 - `name`: The name of the connection to remove authorization from.
 
 """
-function deauthorize_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+deauthorize_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DeauthorizeConnection",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function deauthorize_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -415,14 +402,13 @@ Deletes the specified API destination.
 - `name`: The name of the destination to delete.
 
 """
-function delete_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+delete_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DeleteApiDestination",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -444,14 +430,13 @@ Deletes the specified archive.
 - `archive_name`: The name of the archive to delete.
 
 """
-function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+delete_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DeleteArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -477,14 +462,13 @@ Deletes a connection.
 - `name`: The name of the connection to delete.
 
 """
-function delete_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+delete_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DeleteConnection",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -507,14 +491,13 @@ event bus need to be deleted. You can't delete your account's default event bus.
 - `name`: The name of the event bus to delete.
 
 """
-function delete_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+delete_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DeleteEventBus",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -541,16 +524,14 @@ DELETED.
 - `name`: The name of the event source to delete.
 
 """
-function delete_partner_event_source(
+delete_partner_event_source(
     Account, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudwatch_events(
+    "DeletePartnerEventSource",
+    Dict{String,Any}("Account" => Account, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "DeletePartnerEventSource",
-        Dict{String,Any}("Account" => Account, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_partner_event_source(
     Account,
     Name,
@@ -595,14 +576,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules that are not managed rules. You can check whether a rule is a managed rule by using
   DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
-function delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "DeleteRule",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "DeleteRule",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -624,14 +603,13 @@ Retrieves details about an API destination.
 - `name`: The name of the API destination to retrieve.
 
 """
-function describe_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+describe_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DescribeApiDestination",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -653,14 +631,13 @@ Retrieves details about an archive.
 - `archive_name`: The name of the archive to retrieve.
 
 """
-function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+describe_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DescribeArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -686,14 +663,13 @@ Retrieves details about a connection.
 - `name`: The name of the connection to retrieve.
 
 """
-function describe_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+describe_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DescribeConnection",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -721,11 +697,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name or ARN of the event bus to show details for. If you omit this, the
   default event bus is displayed.
 """
-function describe_event_bus(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_event_bus(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -744,14 +718,13 @@ This operation lists details about a partner event source that is shared with yo
 - `name`: The name of the partner event source to display the details of.
 
 """
-function describe_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+describe_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DescribeEventSource",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -776,16 +749,13 @@ source that is shared with them.
 - `name`: The name of the event source to display.
 
 """
-function describe_partner_event_source(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudwatch_events(
+describe_partner_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DescribePartnerEventSource",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_partner_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -814,14 +784,13 @@ the last event replayed.
 - `replay_name`: The name of the replay to retrieve.
 
 """
-function describe_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+describe_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "DescribeReplay",
         Dict{String,Any}("ReplayName" => ReplayName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -852,14 +821,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "DescribeRule",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "DescribeRule",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -887,14 +854,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "DisableRule",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "DisableRule",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function disable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -922,14 +887,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "EnableRule",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "EnableRule",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function enable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -955,11 +918,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name that starts with the prefix are returned.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_api_destinations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+list_api_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "ListApiDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_api_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -987,11 +949,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 - `"State"`: The state of the archive.
 """
-function list_archives(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_archives(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1014,11 +974,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that starts with the prefix are returned.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1043,11 +1001,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that start with the specified prefix.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_event_buses(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_event_buses(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_event_buses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1073,11 +1029,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with the specified prefix.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_event_sources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_event_sources(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_event_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1106,16 +1060,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to this operation. Specifying this
   retrieves the next set of results.
 """
-function list_partner_event_source_accounts(
+list_partner_event_source_accounts(
     EventSourceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudwatch_events(
+    "ListPartnerEventSourceAccounts",
+    Dict{String,Any}("EventSourceName" => EventSourceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "ListPartnerEventSourceAccounts",
-        Dict{String,Any}("EventSourceName" => EventSourceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_partner_event_source_accounts(
     EventSourceName,
     params::AbstractDict{String};
@@ -1152,16 +1104,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to this operation. Specifying this
   retrieves the next set of results.
 """
-function list_partner_event_sources(
-    NamePrefix; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudwatch_events(
+list_partner_event_sources(NamePrefix; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "ListPartnerEventSources",
         Dict{String,Any}("NamePrefix" => NamePrefix);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_partner_event_sources(
     NamePrefix,
     params::AbstractDict{String};
@@ -1193,11 +1142,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 - `"State"`: The state of the replay.
 """
-function list_replays(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_replays(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events("ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_replays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1223,16 +1169,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of results to return.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_rule_names_by_target(
-    TargetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudwatch_events(
+list_rule_names_by_target(TargetArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "ListRuleNamesByTarget",
         Dict{String,Any}("TargetArn" => TargetArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_rule_names_by_target(
     TargetArn,
     params::AbstractDict{String};
@@ -1264,11 +1207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NamePrefix"`: The prefix matching the rule name.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_rules(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1288,16 +1228,13 @@ buses can be tagged.
 - `resource_arn`: The ARN of the EventBridge resource for which you want to view tags.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudwatch_events(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1329,14 +1266,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of results to return.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "ListTargetsByRule",
         Dict{String,Any}("Rule" => Rule);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_targets_by_rule(
     Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1360,14 +1296,12 @@ Sends custom events to Amazon EventBridge so that they can be matched to rules.
   with the event, and so on.
 
 """
-function put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "PutEvents",
-        Dict{String,Any}("Entries" => Entries);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "PutEvents",
+    Dict{String,Any}("Entries" => Entries);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_events(
     Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1390,14 +1324,13 @@ Services customers do not use this operation.
 - `entries`: The list of events to write to the event bus.
 
 """
-function put_partner_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+put_partner_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "PutPartnerEvents",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_partner_events(
     Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1455,11 +1388,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions to. If you later want to revoke the permission for this external account,
   specify this StatementId when you run RemovePermission.
 """
-function put_permission(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+put_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function put_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1527,14 +1458,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: Indicates whether the rule is enabled or disabled.
 - `"Tags"`: The list of key-value pairs to associate with the rule.
 """
-function put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "PutRule",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "PutRule",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1615,14 +1544,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+put_targets(Rule, Targets; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "PutTargets",
         Dict{String,Any}("Rule" => Rule, "Targets" => Targets);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_targets(
     Rule,
     Targets,
@@ -1658,11 +1586,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatementId"`: The statement ID corresponding to the account that is no longer allowed
   to put events to the default event bus.
 """
-function remove_permission(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
-        "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+remove_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events(
+    "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function remove_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1695,14 +1621,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules that are not managed rules. You can check whether a rule is a managed rule by using
   DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
-function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "RemoveTargets",
         Dict{String,Any}("Ids" => Ids, "Rule" => Rule);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function remove_targets(
     Ids,
     Rule,
@@ -1746,27 +1671,25 @@ associated with the last event replayed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the replay to start.
 """
-function start_replay(
+start_replay(
     Destination,
     EventEndTime,
     EventSourceArn,
     EventStartTime,
     ReplayName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cloudwatch_events(
+    "StartReplay",
+    Dict{String,Any}(
+        "Destination" => Destination,
+        "EventEndTime" => EventEndTime,
+        "EventSourceArn" => EventSourceArn,
+        "EventStartTime" => EventStartTime,
+        "ReplayName" => ReplayName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudwatch_events(
-        "StartReplay",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "EventEndTime" => EventEndTime,
-            "EventSourceArn" => EventSourceArn,
-            "EventStartTime" => EventStartTime,
-            "ReplayName" => ReplayName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_replay(
     Destination,
     EventEndTime,
@@ -1816,14 +1739,13 @@ many as 50 tags with a resource.
 - `tags`: The list of key-value pairs to associate with the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1862,16 +1784,13 @@ the event you want to match.
   in the Amazon EventBridge User Guide.
 
 """
-function test_event_pattern(
-    Event, EventPattern; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudwatch_events(
+test_event_pattern(Event, EventPattern; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "TestEventPattern",
         Dict{String,Any}("Event" => Event, "EventPattern" => EventPattern);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function test_event_pattern(
     Event,
     EventPattern,
@@ -1904,16 +1823,13 @@ Removes one or more tags from the specified EventBridge resource. In Amazon Even
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudwatch_events(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1952,14 +1868,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InvocationRateLimitPerSecond"`: The maximum number of invocations per second to send to
   the API destination.
 """
-function update_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+update_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "UpdateApiDestination",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1986,14 +1901,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventPattern"`: The event pattern to use to filter events sent to the archive.
 - `"RetentionDays"`: The number of days to retain events in the archive.
 """
-function update_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+update_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "UpdateArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -2024,14 +1938,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthorizationType"`: The type of authorization to use for the connection.
 - `"Description"`: A description for the connection.
 """
-function update_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudwatch_events(
+update_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudwatch_events(
         "UpdateConnection",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
