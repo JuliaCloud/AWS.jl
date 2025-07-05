@@ -18,14 +18,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"egressAccessLogs"`:
 - `"ingressAccessLogs"`:
 """
-function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "PUT",
-        "/channels/$(id)/configure_logs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "PUT",
+    "/channels/$(id)/configure_logs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function configure_logs(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -54,15 +52,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A short text description of the Channel.
 - `"tags"`:
 """
-function create_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "POST",
-        "/channels",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "POST",
+    "/channels",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -93,28 +89,26 @@ This cannot be changed after the HarvestJob is submitted.
 - `start_time`: The start of the time-window which will be harvested
 
 """
-function create_harvest_job(
+create_harvest_job(
     endTime,
     id,
     originEndpointId,
     s3Destination,
     startTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackage(
+    "POST",
+    "/harvest_jobs",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "id" => id,
+        "originEndpointId" => originEndpointId,
+        "s3Destination" => s3Destination,
+        "startTime" => startTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackage(
-        "POST",
-        "/harvest_jobs",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "id" => id,
-            "originEndpointId" => originEndpointId,
-            "s3Destination" => s3Destination,
-            "startTime" => startTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_harvest_job(
     endTime,
     id,
@@ -185,17 +179,14 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
-function create_origin_endpoint(
-    channelId, id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackage(
+create_origin_endpoint(channelId, id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "POST",
         "/origin_endpoints",
         Dict{String,Any}("channelId" => channelId, "id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_origin_endpoint(
     channelId,
     id,
@@ -225,11 +216,9 @@ Deletes an existing Channel.
 - `id`: The ID of the Channel to delete.
 
 """
-function delete_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "DELETE", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "DELETE", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -252,14 +241,13 @@ Deletes an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint to delete.
 
 """
-function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
+delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "DELETE",
         "/origin_endpoints/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_origin_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -282,11 +270,9 @@ Gets details about a Channel.
 - `id`: The ID of a Channel.
 
 """
-function describe_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "GET", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "GET", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -309,11 +295,9 @@ Gets details about an existing HarvestJob.
 - `id`: The ID of the HarvestJob.
 
 """
-function describe_harvest_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "GET", "/harvest_jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_harvest_job(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "GET", "/harvest_jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_harvest_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -336,14 +320,13 @@ Gets details about an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint.
 
 """
-function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
+describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "GET",
         "/origin_endpoints/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_origin_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -367,11 +350,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
-function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage("GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -395,11 +375,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The upper bound on the number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
-function list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "GET", "/harvest_jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "GET", "/harvest_jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_harvest_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -425,11 +403,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The upper bound on the number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
-function list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "GET", "/origin_endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "GET", "/origin_endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_origin_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -452,16 +428,13 @@ end
 - `resource-arn`:
 
 """
-function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackage(
+list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "GET",
         "/tags/$(resource-arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -487,14 +460,13 @@ deprecated. Please use RotateIngestEndpointCredentials instead
 - `id`: The ID of the channel to update.
 
 """
-function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
+rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "PUT",
         "/channels/$(id)/credentials";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function rotate_channel_credentials(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -518,16 +490,14 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 - `ingest_endpoint_id`: The id of the IngestEndpoint whose credentials should be rotated
 
 """
-function rotate_ingest_endpoint_credentials(
+rotate_ingest_endpoint_credentials(
     id, ingest_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackage(
+    "PUT",
+    "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackage(
-        "PUT",
-        "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function rotate_ingest_endpoint_credentials(
     id,
     ingest_endpoint_id,
@@ -554,15 +524,14 @@ end
 - `tags`:
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
+tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "POST",
         "/tags/$(resource-arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resource_arn,
     tags,
@@ -589,17 +558,14 @@ end
 - `tag_keys`: The key(s) of tag to be deleted
 
 """
-function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackage(
+untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "DELETE",
         "/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -628,11 +594,9 @@ Updates an existing Channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A short text description of the Channel.
 """
-function update_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
-        "PUT", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage(
+    "PUT", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function update_channel(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -679,14 +643,13 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
-function update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage(
+update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackage(
         "PUT",
         "/origin_endpoints/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_origin_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

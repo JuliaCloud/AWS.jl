@@ -18,17 +18,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ActionType"`: Delete or restore the permissions on the target database.
 - `"SourceResourceArn"`: The Amazon Resource Name (ARN) of the source resource.
 """
-function delete_resource_permission(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_sap(
+delete_resource_permission(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/delete-resource-permission",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_permission(
     ResourceArn,
     params::AbstractDict{String};
@@ -56,17 +53,14 @@ aﬀect the existing setup of your SAP workloads on Amazon EC2.
 - `application_id`: The ID of the application.
 
 """
-function deregister_application(
-    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_sap(
+deregister_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/deregister-application",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function deregister_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -96,11 +90,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationArn"`: The Amazon Resource Name (ARN) of the application.
 - `"ApplicationId"`: The ID of the application.
 """
-function get_application(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_application(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_sap(
+    "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -124,17 +116,15 @@ Gets the component of an application registered with AWS Systems Manager for SAP
 - `component_id`: The ID of the component.
 
 """
-function get_component(
+get_component(
     ApplicationId, ComponentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = ssm_sap(
+    "POST",
+    "/get-component",
+    Dict{String,Any}("ApplicationId" => ApplicationId, "ComponentId" => ComponentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ssm_sap(
-        "POST",
-        "/get-component",
-        Dict{String,Any}("ApplicationId" => ApplicationId, "ComponentId" => ComponentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_component(
     ApplicationId,
     ComponentId,
@@ -171,11 +161,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseArn"`: The Amazon Resource Name (ARN) of the database.
 - `"DatabaseId"`: The ID of the database.
 """
-function get_database(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_database(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap("POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_database(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -198,15 +185,13 @@ Gets the details of an operation by specifying the operation ID.
 - `operation_id`: The ID of the operation.
 
 """
-function get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST",
-        "/get-operation",
-        Dict{String,Any}("OperationId" => OperationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_sap(
+    "POST",
+    "/get-operation",
+    Dict{String,Any}("OperationId" => OperationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_operation(
     OperationId,
     params::AbstractDict{String};
@@ -236,17 +221,14 @@ Gets permissions associated with the target database.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ActionType"`:
 """
-function get_resource_permission(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_sap(
+get_resource_permission(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/get-resource-permission",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource_permission(
     ResourceArn,
     params::AbstractDict{String};
@@ -276,11 +258,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_sap(
+    "POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -307,11 +287,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
-function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_sap(
+    "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -339,11 +317,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
-function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_databases(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_sap(
+    "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -377,17 +353,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
-function list_operation_events(
-    OperationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_sap(
+list_operation_events(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/list-operation-events",
         Dict{String,Any}("OperationId" => OperationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_operation_events(
     OperationId,
     params::AbstractDict{String};
@@ -421,15 +394,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
-function list_operations(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
-        "POST",
-        "/list-operations",
-        Dict{String,Any}("ApplicationId" => ApplicationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_operations(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_sap(
+    "POST",
+    "/list-operations",
+    Dict{String,Any}("ApplicationId" => ApplicationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_operations(
     ApplicationId,
     params::AbstractDict{String};
@@ -457,16 +428,13 @@ Manager for SAP.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_sap(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -493,24 +461,22 @@ Adds permissions to the target database.
 - `source_resource_arn`:
 
 """
-function put_resource_permission(
+put_resource_permission(
     ActionType,
     ResourceArn,
     SourceResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = ssm_sap(
+    "POST",
+    "/put-resource-permission",
+    Dict{String,Any}(
+        "ActionType" => ActionType,
+        "ResourceArn" => ResourceArn,
+        "SourceResourceArn" => SourceResourceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ssm_sap(
-        "POST",
-        "/put-resource-permission",
-        Dict{String,Any}(
-            "ActionType" => ActionType,
-            "ResourceArn" => ResourceArn,
-            "SourceResourceArn" => SourceResourceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_permission(
     ActionType,
     ResourceArn,
@@ -561,24 +527,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sid"`: The System ID of the application.
 - `"Tags"`: The tags to be attached to the SAP application.
 """
-function register_application(
+register_application(
     ApplicationId,
     ApplicationType,
     Instances;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = ssm_sap(
+    "POST",
+    "/register-application",
+    Dict{String,Any}(
+        "ApplicationId" => ApplicationId,
+        "ApplicationType" => ApplicationType,
+        "Instances" => Instances,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ssm_sap(
-        "POST",
-        "/register-application",
-        Dict{String,Any}(
-            "ApplicationId" => ApplicationId,
-            "ApplicationType" => ApplicationType,
-            "Instances" => Instances,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_application(
     ApplicationId,
     ApplicationType,
@@ -615,15 +579,14 @@ Request is an operation which starts an application. Parameter ApplicationId is 
 - `application_id`: The ID of the application.
 
 """
-function start_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
+start_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/start-application",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -650,17 +613,15 @@ Refreshes a registered application.
 - `application_id`: The ID of the application.
 
 """
-function start_application_refresh(
+start_application_refresh(
     ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = ssm_sap(
+    "POST",
+    "/start-application-refresh",
+    Dict{String,Any}("ApplicationId" => ApplicationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ssm_sap(
-        "POST",
-        "/start-application-refresh",
-        Dict{String,Any}("ApplicationId" => ApplicationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_application_refresh(
     ApplicationId,
     params::AbstractDict{String};
@@ -695,15 +656,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StopConnectedEntity"`: Specify the ConnectedEntityType. Accepted type is DBMS. If this
   parameter is included, the connected DBMS (Database Management System) will be stopped.
 """
-function stop_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
+stop_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/stop-application",
         Dict{String,Any}("ApplicationId" => ApplicationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -731,15 +691,14 @@ Creates tag for a resource by specifying the ARN.
 - `tags`: The tags on a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_sap(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -767,17 +726,14 @@ Delete the tags for a resource.
   Systems Manager for SAP.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_sap(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ssm_sap(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -810,17 +766,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseArn"`: The Amazon Resource Name of the SAP HANA database that replaces the
   current SAP HANA connection with the SAP_ABAP application.
 """
-function update_application_settings(
+update_application_settings(
     ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = ssm_sap(
+    "POST",
+    "/update-application-settings",
+    Dict{String,Any}("ApplicationId" => ApplicationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ssm_sap(
-        "POST",
-        "/update-application-settings",
-        Dict{String,Any}("ApplicationId" => ApplicationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_application_settings(
     ApplicationId,
     params::AbstractDict{String};

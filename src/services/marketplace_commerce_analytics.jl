@@ -82,27 +82,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   structure does not exist, it will be created. If no prefix is provided, the data set will
   be published to the S3 bucket root.
 """
-function generate_data_set(
+generate_data_set(
     dataSetPublicationDate,
     dataSetType,
     destinationS3BucketName,
     roleNameArn,
     snsTopicArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = marketplace_commerce_analytics(
+    "GenerateDataSet",
+    Dict{String,Any}(
+        "dataSetPublicationDate" => dataSetPublicationDate,
+        "dataSetType" => dataSetType,
+        "destinationS3BucketName" => destinationS3BucketName,
+        "roleNameArn" => roleNameArn,
+        "snsTopicArn" => snsTopicArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_commerce_analytics(
-        "GenerateDataSet",
-        Dict{String,Any}(
-            "dataSetPublicationDate" => dataSetPublicationDate,
-            "dataSetType" => dataSetType,
-            "destinationS3BucketName" => destinationS3BucketName,
-            "roleNameArn" => roleNameArn,
-            "snsTopicArn" => snsTopicArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function generate_data_set(
     dataSetPublicationDate,
     dataSetType,
@@ -182,27 +180,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not exist, it will be created. If no prefix is provided, the data set will be published to
   the S3 bucket root.
 """
-function start_support_data_export(
+start_support_data_export(
     dataSetType,
     destinationS3BucketName,
     fromDate,
     roleNameArn,
     snsTopicArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = marketplace_commerce_analytics(
+    "StartSupportDataExport",
+    Dict{String,Any}(
+        "dataSetType" => dataSetType,
+        "destinationS3BucketName" => destinationS3BucketName,
+        "fromDate" => fromDate,
+        "roleNameArn" => roleNameArn,
+        "snsTopicArn" => snsTopicArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_commerce_analytics(
-        "StartSupportDataExport",
-        Dict{String,Any}(
-            "dataSetType" => dataSetType,
-            "destinationS3BucketName" => destinationS3BucketName,
-            "fromDate" => fromDate,
-            "roleNameArn" => roleNameArn,
-            "snsTopicArn" => snsTopicArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_support_data_export(
     dataSetType,
     destinationS3BucketName,

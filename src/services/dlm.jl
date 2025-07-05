@@ -63,21 +63,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 7
 - `"Tags"`: The tags to apply to the lifecycle policy during creation.
 """
-function create_lifecycle_policy(
+create_lifecycle_policy(
     Description, ExecutionRoleArn, State; aws_config::AbstractAWSConfig=global_aws_config()
+) = dlm(
+    "POST",
+    "/policies",
+    Dict{String,Any}(
+        "Description" => Description,
+        "ExecutionRoleArn" => ExecutionRoleArn,
+        "State" => State,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dlm(
-        "POST",
-        "/policies",
-        Dict{String,Any}(
-            "Description" => Description,
-            "ExecutionRoleArn" => ExecutionRoleArn,
-            "State" => State,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_lifecycle_policy(
     Description,
     ExecutionRoleArn,
@@ -115,16 +113,12 @@ specified. For more information about deleting a policy, see Delete lifecycle po
 - `policy_id`: The identifier of the lifecycle policy.
 
 """
-function delete_lifecycle_policy(
-    policyId; aws_config::AbstractAWSConfig=global_aws_config()
+delete_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm(
+    "DELETE",
+    "/policies/$(policyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dlm(
-        "DELETE",
-        "/policies/$(policyId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_lifecycle_policy(
     policyId,
     params::AbstractDict{String};
@@ -160,9 +154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services-added lifecycle tags.
 - `"targetTags"`: The target tag for a policy. Tags are strings in the format key=value.
 """
-function get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dlm("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dlm("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_lifecycle_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -181,14 +174,12 @@ Gets detailed information about the specified lifecycle policy.
 - `policy_id`: The identifier of the lifecycle policy.
 
 """
-function get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dlm(
-        "GET",
-        "/policies/$(policyId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm(
+    "GET",
+    "/policies/$(policyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_lifecycle_policy(
     policyId,
     params::AbstractDict{String};
@@ -213,16 +204,13 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dlm(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dlm(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -248,15 +236,13 @@ Adds the specified tags to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dlm(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = dlm(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     Tags,
     resourceArn,
@@ -283,17 +269,14 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dlm(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dlm(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -354,16 +337,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   least 1 snapshot or AMI at any given time.
 - `"State"`: The desired activation state of the lifecycle policy after creation.
 """
-function update_lifecycle_policy(
-    policyId; aws_config::AbstractAWSConfig=global_aws_config()
+update_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm(
+    "PATCH",
+    "/policies/$(policyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dlm(
-        "PATCH",
-        "/policies/$(policyId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_lifecycle_policy(
     policyId,
     params::AbstractDict{String};

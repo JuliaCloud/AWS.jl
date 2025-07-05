@@ -15,17 +15,14 @@ Returns the description for the list of fields in the request parameters.
 - `fields`: A list of unique field identifiers.
 
 """
-function batch_get_field(
-    domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+batch_get_field(domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/fields-batch",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_field(
     domainId,
     fields,
@@ -53,17 +50,15 @@ Creates and updates a set of field options for a single select field in a Cases 
 - `options`: A list of FieldOption objects.
 
 """
-function batch_put_field_options(
+batch_put_field_options(
     domainId, fieldId, options; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "PUT",
+    "/domains/$(domainId)/fields/$(fieldId)/options",
+    Dict{String,Any}("options" => options);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "PUT",
-        "/domains/$(domainId)/fields/$(fieldId)/options",
-        Dict{String,Any}("options" => options);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_put_field_options(
     domainId,
     fieldId,
@@ -108,19 +103,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"performedBy"`:
 """
-function create_case(
+create_case(
     domainId, fields, templateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "POST",
+    "/domains/$(domainId)/cases",
+    Dict{String,Any}(
+        "fields" => fields, "templateId" => templateId, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/cases",
-        Dict{String,Any}(
-            "fields" => fields, "templateId" => templateId, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_case(
     domainId,
     fields,
@@ -162,15 +155,13 @@ associate the Cases domain. For more information, see Onboard to Cases.  &lt;/im
   account.
 
 """
-function create_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_domain(name; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -199,17 +190,14 @@ Creates a field in the Cases domain. This field is used to define the case objec
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the field.
 """
-function create_field(
-    domainId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+create_field(domainId, name, type; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/fields",
         Dict{String,Any}("name" => name, "type" => type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_field(
     domainId,
     name,
@@ -244,17 +232,14 @@ configurable.
 - `name`: The name of the layout. It must be unique for the Cases domain.
 
 """
-function create_layout(
-    content, domainId, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+create_layout(content, domainId, name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/layouts",
         Dict{String,Any}("content" => content, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_layout(
     content,
     domainId,
@@ -297,17 +282,15 @@ must also have DescribeUser permission on the ARN of the user that you provide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"performedBy"`: Represents the creator of the related item.
 """
-function create_related_item(
+create_related_item(
     caseId, content, domainId, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "POST",
+    "/domains/$(domainId)/cases/$(caseId)/related-items/",
+    Dict{String,Any}("content" => content, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/cases/$(caseId)/related-items/",
-        Dict{String,Any}("content" => content, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_related_item(
     caseId,
     content,
@@ -352,15 +335,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successfully created with this template.
 - `"status"`: The status of the template.
 """
-function create_template(domainId, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+create_template(domainId, name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/templates",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_template(
     domainId,
     name,
@@ -390,14 +372,12 @@ ciation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/not
 - `domain_id`: The unique identifier of the Cases domain.
 
 """
-function delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "DELETE",
-        "/domains/$(domainId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "DELETE",
+    "/domains/$(domainId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_domain(
     domainId,
     params::AbstractDict{String};
@@ -438,14 +418,13 @@ IDs for deleted fields.
 - `field_id`: Unique identifier of the field.
 
 """
-function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "DELETE",
         "/domains/$(domainId)/fields/$(fieldId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_field(
     domainId,
     fieldId,
@@ -479,16 +458,13 @@ response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
 - `layout_id`: The unique identifier of the layout.
 
 """
-function delete_layout(
-    domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+delete_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "DELETE",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_layout(
     domainId,
     layoutId,
@@ -521,16 +497,13 @@ the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt; &lt;/li&
 - `template_id`: A unique identifier of a template.
 
 """
-function delete_template(
-    domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+delete_template(domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "DELETE",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_template(
     domainId,
     templateId,
@@ -562,17 +535,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_case(
-    caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_case(caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_case(
     caseId,
     domainId,
@@ -606,16 +576,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_case_audit_events(
-    caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_case_audit_events(caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)/audit-history";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_case_audit_events(
     caseId,
     domainId,
@@ -641,16 +608,13 @@ Returns the case event publishing configuration.
 - `domain_id`: The unique identifier of the Cases domain.
 
 """
-function get_case_event_configuration(
-    domainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_case_event_configuration(domainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/case-event-configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_case_event_configuration(
     domainId,
     params::AbstractDict{String};
@@ -675,14 +639,12 @@ Returns information about a specific domain if it exists.
 - `domain_id`: The unique identifier of the Cases domain.
 
 """
-function get_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_domain(
     domainId,
     params::AbstractDict{String};
@@ -708,14 +670,13 @@ Returns the details for the requested layout.
 - `layout_id`: The unique identifier of the layout.
 
 """
-function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_layout(
     domainId,
     layoutId,
@@ -742,16 +703,13 @@ Returns the details for the requested template.
 - `template_id`: A unique identifier of a template.
 
 """
-function get_template(
-    domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_template(domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_template(
     domainId,
     templateId,
@@ -783,17 +741,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_cases_for_contact(
+list_cases_for_contact(
     contactArn, domainId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "POST",
+    "/domains/$(domainId)/list-cases-for-contact",
+    Dict{String,Any}("contactArn" => contactArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/list-cases-for-contact",
-        Dict{String,Any}("contactArn" => contactArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_cases_for_contact(
     contactArn,
     domainId,
@@ -824,11 +780,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -858,16 +812,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"values"`: A list of FieldOption values to filter on for ListFieldOptions.
 """
-function list_field_options(
-    domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+list_field_options(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/fields/$(fieldId)/options-list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_field_options(
     domainId,
     fieldId,
@@ -898,14 +849,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_fields(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/fields-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_fields(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/fields-list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_fields(
     domainId,
     params::AbstractDict{String};
@@ -936,14 +885,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_layouts(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/layouts-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_layouts(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/layouts-list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_layouts(
     domainId,
     params::AbstractDict{String};
@@ -968,11 +915,10 @@ Lists tags for a resource.
 - `arn`: The Amazon Resource Name (ARN)
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1002,14 +948,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"status"`: A list of status values to filter on.
 """
-function list_templates(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/templates-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_templates(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/templates-list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_templates(
     domainId,
     params::AbstractDict{String};
@@ -1037,17 +981,15 @@ event message, see Create case fields in the Amazon Connect Administrator Guide
   what data is delivered.
 
 """
-function put_case_event_configuration(
+put_case_event_configuration(
     domainId, eventBridge; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "PUT",
+    "/domains/$(domainId)/case-event-configuration",
+    Dict{String,Any}("eventBridge" => eventBridge);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "PUT",
-        "/domains/$(domainId)/case-event-configuration",
-        Dict{String,Any}("eventBridge" => eventBridge);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_case_event_configuration(
     domainId,
     eventBridge,
@@ -1089,14 +1031,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sorts"`: A list of sorts where each sort specifies a field and their sort order to be
   applied to the results.
 """
-function search_cases(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/cases-search";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_cases(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/cases-search";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search_cases(
     domainId,
     params::AbstractDict{String};
@@ -1129,16 +1069,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function search_related_items(
-    caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+search_related_items(caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)/related-items-search";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_related_items(
     caseId,
     domainId,
@@ -1166,15 +1103,13 @@ Adds tags to a resource.
   organize, track, or control access for this resource.
 
 """
-function tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/tags/$(arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/tags/$(arn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     arn,
     tags,
@@ -1201,15 +1136,14 @@ Untags a resource.
 - `tag_keys`: List of tag keys.
 
 """
-function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "DELETE",
         "/tags/$(arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     arn,
     tagKeys,
@@ -1245,17 +1179,14 @@ successful, the service sends back an HTTP 200 response with an empty HTTP body.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"performedBy"`:
 """
-function update_case(
-    caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+update_case(caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_case(
     caseId,
     domainId,
@@ -1287,14 +1218,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of a field.
 - `"name"`: The name of the field.
 """
-function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+update_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/fields/$(fieldId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_field(
     domainId,
     fieldId,
@@ -1329,16 +1259,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the fields.
 - `"name"`: The name of the layout. It must be unique per domain.
 """
-function update_layout(
-    domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+update_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_layout(
     domainId,
     layoutId,
@@ -1376,16 +1303,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successfully created with this template.
 - `"status"`: The status of the template.
 """
-function update_template(
-    domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+update_template(domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_template(
     domainId,
     templateId,

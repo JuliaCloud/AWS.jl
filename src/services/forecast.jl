@@ -85,16 +85,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specifying a Time Boundary. If you don't provide a time boundary, Forecast uses a set of
   Default Time Boundaries.
 """
-function create_auto_predictor(
-    PredictorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+create_auto_predictor(PredictorName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "CreateAutoPredictor",
         Dict{String,Any}("PredictorName" => PredictorName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_auto_predictor(
     PredictorName,
     params::AbstractDict{String};
@@ -173,25 +170,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags. Tags with only the key prefix of aws do not count against your tags per resource
   limit.
 """
-function create_dataset(
+create_dataset(
     DatasetName,
     DatasetType,
     Domain,
     Schema;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreateDataset",
+    Dict{String,Any}(
+        "DatasetName" => DatasetName,
+        "DatasetType" => DatasetType,
+        "Domain" => Domain,
+        "Schema" => Schema,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateDataset",
-        Dict{String,Any}(
-            "DatasetName" => DatasetName,
-            "DatasetType" => DatasetType,
-            "Domain" => Domain,
-            "Schema" => Schema,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dataset(
     DatasetName,
     DatasetType,
@@ -261,16 +256,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   against the limit of 50 tags. Tags with only the key prefix of aws do not count against
   your tags per resource limit.
 """
-function create_dataset_group(
+create_dataset_group(
     DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "CreateDatasetGroup",
+    Dict{String,Any}("DatasetGroupName" => DatasetGroupName, "Domain" => Domain);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateDatasetGroup",
-        Dict{String,Any}("DatasetGroupName" => DatasetGroupName, "Domain" => Domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dataset_group(
     DatasetGroupName,
     Domain,
@@ -365,23 +358,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   geolocation attribute. This option is ideal for datasets that contain timestamps in
   multiple time zones and those timestamps are expressed in local time.
 """
-function create_dataset_import_job(
+create_dataset_import_job(
     DataSource,
     DatasetArn,
     DatasetImportJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreateDatasetImportJob",
+    Dict{String,Any}(
+        "DataSource" => DataSource,
+        "DatasetArn" => DatasetArn,
+        "DatasetImportJobName" => DatasetImportJobName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateDatasetImportJob",
-        Dict{String,Any}(
-            "DataSource" => DataSource,
-            "DatasetArn" => DatasetArn,
-            "DatasetImportJobName" => DatasetImportJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dataset_import_job(
     DataSource,
     DatasetArn,
@@ -476,23 +467,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefix of aws do not count against your tags per resource limit. You cannot edit or delete
   tag keys with this prefix.
 """
-function create_explainability(
+create_explainability(
     ExplainabilityConfig,
     ExplainabilityName,
     ResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreateExplainability",
+    Dict{String,Any}(
+        "ExplainabilityConfig" => ExplainabilityConfig,
+        "ExplainabilityName" => ExplainabilityName,
+        "ResourceArn" => ResourceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateExplainability",
-        Dict{String,Any}(
-            "ExplainabilityConfig" => ExplainabilityConfig,
-            "ExplainabilityName" => ExplainabilityName,
-            "ResourceArn" => ResourceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_explainability(
     ExplainabilityConfig,
     ExplainabilityName,
@@ -552,23 +541,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefix of aws do not count against your tags per resource limit. You cannot edit or delete
   tag keys with this prefix.
 """
-function create_explainability_export(
+create_explainability_export(
     Destination,
     ExplainabilityArn,
     ExplainabilityExportName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreateExplainabilityExport",
+    Dict{String,Any}(
+        "Destination" => Destination,
+        "ExplainabilityArn" => ExplainabilityArn,
+        "ExplainabilityExportName" => ExplainabilityExportName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateExplainabilityExport",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "ExplainabilityArn" => ExplainabilityArn,
-            "ExplainabilityExportName" => ExplainabilityExportName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_explainability_export(
     Destination,
     ExplainabilityArn,
@@ -647,16 +634,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   forecasts in a TimeSeriesIdentifiers object. The TimeSeriesIdentifiers object needs the
   following information:    DataSource     Format     Schema
 """
-function create_forecast(
+create_forecast(
     ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "CreateForecast",
+    Dict{String,Any}("ForecastName" => ForecastName, "PredictorArn" => PredictorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateForecast",
-        Dict{String,Any}("ForecastName" => ForecastName, "PredictorArn" => PredictorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_forecast(
     ForecastName,
     PredictorArn,
@@ -722,23 +707,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   against the limit of 50 tags. Tags with only the key prefix of aws do not count against
   your tags per resource limit.
 """
-function create_forecast_export_job(
+create_forecast_export_job(
     Destination,
     ForecastArn,
     ForecastExportJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreateForecastExportJob",
+    Dict{String,Any}(
+        "Destination" => Destination,
+        "ForecastArn" => ForecastArn,
+        "ForecastExportJobName" => ForecastExportJobName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateForecastExportJob",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "ForecastArn" => ForecastArn,
-            "ForecastExportJobName" => ForecastExportJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_forecast_export_job(
     Destination,
     ForecastArn,
@@ -780,16 +763,14 @@ see Predictor Monitoring.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of tags to apply to the monitor resource.
 """
-function create_monitor(
+create_monitor(
     MonitorName, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "CreateMonitor",
+    Dict{String,Any}("MonitorName" => MonitorName, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateMonitor",
-        Dict{String,Any}("MonitorName" => MonitorName, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_monitor(
     MonitorName,
     ResourceArn,
@@ -917,25 +898,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hyperparameters that you can override are listed in the individual algorithms. For the list
   of supported algorithms, see aws-forecast-choosing-recipes.
 """
-function create_predictor(
+create_predictor(
     FeaturizationConfig,
     ForecastHorizon,
     InputDataConfig,
     PredictorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreatePredictor",
+    Dict{String,Any}(
+        "FeaturizationConfig" => FeaturizationConfig,
+        "ForecastHorizon" => ForecastHorizon,
+        "InputDataConfig" => InputDataConfig,
+        "PredictorName" => PredictorName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreatePredictor",
-        Dict{String,Any}(
-            "FeaturizationConfig" => FeaturizationConfig,
-            "ForecastHorizon" => ForecastHorizon,
-            "InputDataConfig" => InputDataConfig,
-            "PredictorName" => PredictorName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_predictor(
     FeaturizationConfig,
     ForecastHorizon,
@@ -1000,23 +979,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefix of aws do not count against your tags per resource limit. You cannot edit or delete
   tag keys with this prefix.
 """
-function create_predictor_backtest_export_job(
+create_predictor_backtest_export_job(
     Destination,
     PredictorArn,
     PredictorBacktestExportJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreatePredictorBacktestExportJob",
+    Dict{String,Any}(
+        "Destination" => Destination,
+        "PredictorArn" => PredictorArn,
+        "PredictorBacktestExportJobName" => PredictorBacktestExportJobName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreatePredictorBacktestExportJob",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "PredictorArn" => PredictorArn,
-            "PredictorBacktestExportJobName" => PredictorBacktestExportJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_predictor_backtest_export_job(
     Destination,
     PredictorArn,
@@ -1075,18 +1052,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time series in this object. The TimeSeriesIdentifiers object needs the following
   information:    DataSource     Format     Schema
 """
-function create_what_if_analysis(
+create_what_if_analysis(
     ForecastArn, WhatIfAnalysisName; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "CreateWhatIfAnalysis",
+    Dict{String,Any}(
+        "ForecastArn" => ForecastArn, "WhatIfAnalysisName" => WhatIfAnalysisName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateWhatIfAnalysis",
-        Dict{String,Any}(
-            "ForecastArn" => ForecastArn, "WhatIfAnalysisName" => WhatIfAnalysisName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_what_if_analysis(
     ForecastArn,
     WhatIfAnalysisName,
@@ -1140,19 +1115,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied only when all conditions are met. If no conditions are provided, the action is
   applied to all items.
 """
-function create_what_if_forecast(
+create_what_if_forecast(
     WhatIfAnalysisArn, WhatIfForecastName; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "CreateWhatIfForecast",
+    Dict{String,Any}(
+        "WhatIfAnalysisArn" => WhatIfAnalysisArn,
+        "WhatIfForecastName" => WhatIfForecastName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateWhatIfForecast",
-        Dict{String,Any}(
-            "WhatIfAnalysisArn" => WhatIfAnalysisArn,
-            "WhatIfForecastName" => WhatIfForecastName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_what_if_forecast(
     WhatIfAnalysisArn,
     WhatIfForecastName,
@@ -1207,23 +1180,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Format"`: The format of the exported data, CSV or PARQUET.
 - `"Tags"`: A list of tags to apply to the what if forecast.
 """
-function create_what_if_forecast_export(
+create_what_if_forecast_export(
     Destination,
     WhatIfForecastArns,
     WhatIfForecastExportName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = forecast(
+    "CreateWhatIfForecastExport",
+    Dict{String,Any}(
+        "Destination" => Destination,
+        "WhatIfForecastArns" => WhatIfForecastArns,
+        "WhatIfForecastExportName" => WhatIfForecastExportName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "CreateWhatIfForecastExport",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "WhatIfForecastArns" => WhatIfForecastArns,
-            "WhatIfForecastExportName" => WhatIfForecastExportName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_what_if_forecast_export(
     Destination,
     WhatIfForecastArns,
@@ -1263,14 +1234,12 @@ UpdateDatasetGroup operation, omitting the deleted dataset's ARN.
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to delete.
 
 """
-function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DeleteDataset",
-        Dict{String,Any}("DatasetArn" => DatasetArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "DeleteDataset",
+    Dict{String,Any}("DatasetArn" => DatasetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1299,16 +1268,13 @@ group, not the datasets in the group.
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group to delete.
 
 """
-function delete_dataset_group(
-    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+delete_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DeleteDatasetGroup",
         Dict{String,Any}("DatasetGroupArn" => DatasetGroupArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_dataset_group(
     DatasetGroupArn,
     params::AbstractDict{String};
@@ -1339,16 +1305,14 @@ status, use the DescribeDatasetImportJob operation.
   delete.
 
 """
-function delete_dataset_import_job(
+delete_dataset_import_job(
     DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteDatasetImportJob",
+    Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteDatasetImportJob",
-        Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_dataset_import_job(
     DatasetImportJobArn,
     params::AbstractDict{String};
@@ -1380,16 +1344,14 @@ ACTIVE or CREATE_FAILED. To get the status, use the DescribeExplainability opera
   delete.
 
 """
-function delete_explainability(
+delete_explainability(
     ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteExplainability",
+    Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteExplainability",
-        Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_explainability(
     ExplainabilityArn,
     params::AbstractDict{String};
@@ -1418,16 +1380,14 @@ Deletes an Explainability export.
   to delete.
 
 """
-function delete_explainability_export(
+delete_explainability_export(
     ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteExplainabilityExport",
+    Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteExplainabilityExport",
-        Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_explainability_export(
     ExplainabilityExportArn,
     params::AbstractDict{String};
@@ -1460,14 +1420,12 @@ forecast is deleted, you can no longer query the forecast.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast to delete.
 
 """
-function delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DeleteForecast",
-        Dict{String,Any}("ForecastArn" => ForecastArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "DeleteForecast",
+    Dict{String,Any}("ForecastArn" => ForecastArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_forecast(
     ForecastArn,
     params::AbstractDict{String};
@@ -1496,16 +1454,14 @@ use the DescribeForecastExportJob operation.
   delete.
 
 """
-function delete_forecast_export_job(
+delete_forecast_export_job(
     ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteForecastExportJob",
+    Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteForecastExportJob",
-        Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_forecast_export_job(
     ForecastExportJobArn,
     params::AbstractDict{String};
@@ -1536,14 +1492,12 @@ ACTIVE_STOPPED, CREATE_FAILED, or CREATE_STOPPED.
 - `monitor_arn`: The Amazon Resource Name (ARN) of the monitor resource to delete.
 
 """
-function delete_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DeleteMonitor",
-        Dict{String,Any}("MonitorArn" => MonitorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "DeleteMonitor",
+    Dict{String,Any}("MonitorArn" => MonitorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_monitor(
     MonitorArn,
     params::AbstractDict{String};
@@ -1571,14 +1525,13 @@ use the DescribePredictor operation.
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to delete.
 
 """
-function delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
+delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DeletePredictor",
         Dict{String,Any}("PredictorArn" => PredictorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_predictor(
     PredictorArn,
     params::AbstractDict{String};
@@ -1605,16 +1558,14 @@ Deletes a predictor backtest export job.
   backtest export job to delete.
 
 """
-function delete_predictor_backtest_export_job(
+delete_predictor_backtest_export_job(
     PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeletePredictorBacktestExportJob",
+    Dict{String,Any}("PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeletePredictorBacktestExportJob",
-        Dict{String,Any}("PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_predictor_backtest_export_job(
     PredictorBacktestExportJobArn,
     params::AbstractDict{String};
@@ -1655,16 +1606,13 @@ delete datasets or exported files stored in Amazon S3.
   child resources of the parent resource will also be deleted.
 
 """
-function delete_resource_tree(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+delete_resource_tree(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DeleteResourceTree",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_tree(
     ResourceArn,
     params::AbstractDict{String};
@@ -1694,16 +1642,14 @@ forecasts are being exported.
   want to delete.
 
 """
-function delete_what_if_analysis(
+delete_what_if_analysis(
     WhatIfAnalysisArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteWhatIfAnalysis",
+    Dict{String,Any}("WhatIfAnalysisArn" => WhatIfAnalysisArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteWhatIfAnalysis",
-        Dict{String,Any}("WhatIfAnalysisArn" => WhatIfAnalysisArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_what_if_analysis(
     WhatIfAnalysisArn,
     params::AbstractDict{String};
@@ -1736,16 +1682,14 @@ analysis.
   want to delete.
 
 """
-function delete_what_if_forecast(
+delete_what_if_forecast(
     WhatIfForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteWhatIfForecast",
+    Dict{String,Any}("WhatIfForecastArn" => WhatIfForecastArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteWhatIfForecast",
-        Dict{String,Any}("WhatIfForecastArn" => WhatIfForecastArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_what_if_forecast(
     WhatIfForecastArn,
     params::AbstractDict{String};
@@ -1776,16 +1720,14 @@ To get the status, use the DescribeWhatIfForecastExport operation.
   export that you want to delete.
 
 """
-function delete_what_if_forecast_export(
+delete_what_if_forecast_export(
     WhatIfForecastExportArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DeleteWhatIfForecastExport",
+    Dict{String,Any}("WhatIfForecastExportArn" => WhatIfForecastExportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DeleteWhatIfForecastExport",
-        Dict{String,Any}("WhatIfForecastExportArn" => WhatIfForecastExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_what_if_forecast_export(
     WhatIfForecastExportArn,
     params::AbstractDict{String};
@@ -1815,16 +1757,13 @@ Describes a predictor created using the CreateAutoPredictor operation.
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor.
 
 """
-function describe_auto_predictor(
-    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+describe_auto_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DescribeAutoPredictor",
         Dict{String,Any}("PredictorArn" => PredictorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_auto_predictor(
     PredictorArn,
     params::AbstractDict{String};
@@ -1852,14 +1791,12 @@ the following dataset properties:    CreationTime     LastModificationTime     S
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset.
 
 """
-function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DescribeDataset",
-        Dict{String,Any}("DatasetArn" => DatasetArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "DescribeDataset",
+    Dict{String,Any}("DatasetArn" => DatasetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1888,16 +1825,13 @@ CreationTime     LastModificationTime     Status
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group.
 
 """
-function describe_dataset_group(
-    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+describe_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DescribeDatasetGroup",
         Dict{String,Any}("DatasetGroupArn" => DatasetGroupArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_dataset_group(
     DatasetGroupArn,
     params::AbstractDict{String};
@@ -1929,16 +1863,14 @@ about the error.
 - `dataset_import_job_arn`: The Amazon Resource Name (ARN) of the dataset import job.
 
 """
-function describe_dataset_import_job(
+describe_dataset_import_job(
     DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeDatasetImportJob",
+    Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeDatasetImportJob",
-        Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_dataset_import_job(
     DatasetImportJobArn,
     params::AbstractDict{String};
@@ -1968,16 +1900,14 @@ Describes an Explainability resource created using the CreateExplainability oper
 - `explainability_arn`: The Amazon Resource Name (ARN) of the Explaianability to describe.
 
 """
-function describe_explainability(
+describe_explainability(
     ExplainabilityArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeExplainability",
+    Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeExplainability",
-        Dict{String,Any}("ExplainabilityArn" => ExplainabilityArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_explainability(
     ExplainabilityArn,
     params::AbstractDict{String};
@@ -2005,16 +1935,14 @@ Describes an Explainability export created using the CreateExplainabilityExport 
 - `explainability_export_arn`: The Amazon Resource Name (ARN) of the Explainability export.
 
 """
-function describe_explainability_export(
+describe_explainability_export(
     ExplainabilityExportArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeExplainabilityExport",
+    Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeExplainabilityExport",
-        Dict{String,Any}("ExplainabilityExportArn" => ExplainabilityExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_explainability_export(
     ExplainabilityExportArn,
     params::AbstractDict{String};
@@ -2048,14 +1976,13 @@ information about the error.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast.
 
 """
-function describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
+describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DescribeForecast",
         Dict{String,Any}("ForecastArn" => ForecastArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_forecast(
     ForecastArn,
     params::AbstractDict{String};
@@ -2085,16 +2012,14 @@ error.
 - `forecast_export_job_arn`: The Amazon Resource Name (ARN) of the forecast export job.
 
 """
-function describe_forecast_export_job(
+describe_forecast_export_job(
     ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeForecastExportJob",
+    Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeForecastExportJob",
-        Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_forecast_export_job(
     ForecastExportJobArn,
     params::AbstractDict{String};
@@ -2127,14 +2052,12 @@ Message     Status
 - `monitor_arn`: The Amazon Resource Name (ARN) of the monitor resource to describe.
 
 """
-function describe_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DescribeMonitor",
-        Dict{String,Any}("MonitorArn" => MonitorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_monitor(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "DescribeMonitor",
+    Dict{String,Any}("MonitorArn" => MonitorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_monitor(
     MonitorArn,
     params::AbstractDict{String};
@@ -2168,14 +2091,13 @@ information about the error.
   information about.
 
 """
-function describe_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
+describe_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "DescribePredictor",
         Dict{String,Any}("PredictorArn" => PredictorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_predictor(
     PredictorArn,
     params::AbstractDict{String};
@@ -2206,16 +2128,14 @@ an error occurred)
   backtest export job.
 
 """
-function describe_predictor_backtest_export_job(
+describe_predictor_backtest_export_job(
     PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribePredictorBacktestExportJob",
+    Dict{String,Any}("PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribePredictorBacktestExportJob",
-        Dict{String,Any}("PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_predictor_backtest_export_job(
     PredictorBacktestExportJobArn,
     params::AbstractDict{String};
@@ -2251,16 +2171,14 @@ Message - If an error occurred, information about the error.    Status
   are interested in.
 
 """
-function describe_what_if_analysis(
+describe_what_if_analysis(
     WhatIfAnalysisArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeWhatIfAnalysis",
+    Dict{String,Any}("WhatIfAnalysisArn" => WhatIfAnalysisArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeWhatIfAnalysis",
-        Dict{String,Any}("WhatIfAnalysisArn" => WhatIfAnalysisArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_what_if_analysis(
     WhatIfAnalysisArn,
     params::AbstractDict{String};
@@ -2292,16 +2210,14 @@ Message - If an error occurred, information about the error.    Status
   are interested in.
 
 """
-function describe_what_if_forecast(
+describe_what_if_forecast(
     WhatIfForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeWhatIfForecast",
+    Dict{String,Any}("WhatIfForecastArn" => WhatIfForecastArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeWhatIfForecast",
-        Dict{String,Any}("WhatIfForecastArn" => WhatIfForecastArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_what_if_forecast(
     WhatIfForecastArn,
     params::AbstractDict{String};
@@ -2334,16 +2250,14 @@ Status
   export that you are interested in.
 
 """
-function describe_what_if_forecast_export(
+describe_what_if_forecast_export(
     WhatIfForecastExportArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "DescribeWhatIfForecastExport",
+    Dict{String,Any}("WhatIfForecastExportArn" => WhatIfForecastExportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "DescribeWhatIfForecastExport",
-        Dict{String,Any}("WhatIfForecastExportArn" => WhatIfForecastExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_what_if_forecast_export(
     WhatIfForecastExportArn,
     params::AbstractDict{String};
@@ -2384,16 +2298,13 @@ that training has completed. To get the status, use the DescribePredictor operat
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to get metrics for.
 
 """
-function get_accuracy_metrics(
-    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+get_accuracy_metrics(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "GetAccuracyMetrics",
         Dict{String,Any}("PredictorArn" => PredictorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_accuracy_metrics(
     PredictorArn,
     params::AbstractDict{String};
@@ -2425,11 +2336,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_dataset_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2465,11 +2373,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_dataset_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2496,9 +2402,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2529,11 +2434,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_explainabilities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListExplainabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_explainabilities(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListExplainabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_explainabilities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2567,11 +2469,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_explainability_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListExplainabilityExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_explainability_exports(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "ListExplainabilityExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_explainability_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2611,11 +2511,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListForecastExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "ListForecastExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_forecast_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2653,9 +2551,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast("ListForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_forecasts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2692,16 +2589,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_monitor_evaluations(
-    MonitorArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+list_monitor_evaluations(MonitorArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "ListMonitorEvaluations",
         Dict{String,Any}("MonitorArn" => MonitorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_monitor_evaluations(
     MonitorArn,
     params::AbstractDict{String};
@@ -2742,9 +2636,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast("ListMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_monitors(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2778,15 +2671,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_predictor_backtest_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+list_predictor_backtest_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "ListPredictorBacktestExportJobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_predictor_backtest_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2825,11 +2715,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_predictors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListPredictors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_predictors(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListPredictors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_predictors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2849,16 +2736,13 @@ Lists the tags for an Amazon Forecast resource.
   list the tags.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2901,11 +2785,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_what_if_analyses(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListWhatIfAnalyses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_what_if_analyses(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListWhatIfAnalyses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_what_if_analyses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2942,11 +2823,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next&#x2028;
   request. Tokens expire after 24 hours.
 """
-function list_what_if_forecast_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
+list_what_if_forecast_exports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "ListWhatIfForecastExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_what_if_forecast_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2985,11 +2865,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next&#x2028;
   request. Tokens expire after 24 hours.
 """
-function list_what_if_forecasts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListWhatIfForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_what_if_forecasts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast("ListWhatIfForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_what_if_forecasts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3011,14 +2888,12 @@ Resumes a stopped monitor resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the monitor resource to resume.
 
 """
-function resume_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ResumeResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+resume_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "ResumeResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function resume_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -3050,14 +2925,12 @@ Job   Explainability Job   Explainability Export Job
   ForecastArn, ForecastExportJobArn, ExplainabilityArn, and ExplainabilityExportArn.
 
 """
-function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "StopResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast(
+    "StopResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -3100,14 +2973,13 @@ a resource is deleted, the tags associated with that resource are also deleted.
   limit.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3140,16 +3012,13 @@ Deletes the specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    forecast(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3184,18 +3053,14 @@ Use the DescribeDatasetGroup operation to get the status.
 - `dataset_group_arn`: The ARN of the dataset group.
 
 """
-function update_dataset_group(
+update_dataset_group(
     DatasetArns, DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = forecast(
+    "UpdateDatasetGroup",
+    Dict{String,Any}("DatasetArns" => DatasetArns, "DatasetGroupArn" => DatasetGroupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return forecast(
-        "UpdateDatasetGroup",
-        Dict{String,Any}(
-            "DatasetArns" => DatasetArns, "DatasetGroupArn" => DatasetGroupArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_dataset_group(
     DatasetArns,
     DatasetGroupArn,

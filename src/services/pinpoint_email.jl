@@ -30,17 +30,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrackingOptions"`: An object that defines the open and click tracking options for
   emails that you send using the configuration set.
 """
-function create_configuration_set(
+create_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "POST",
+    "/v1/email/configuration-sets",
+    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "POST",
-        "/v1/email/configuration-sets",
-        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -80,23 +78,21 @@ can include more than one event destination.
   configuration set.
 
 """
-function create_configuration_set_event_destination(
+create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
     EventDestinationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = pinpoint_email(
+    "POST",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations",
+    Dict{String,Any}(
+        "EventDestination" => EventDestination,
+        "EventDestinationName" => EventDestinationName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "POST",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations",
-        Dict{String,Any}(
-            "EventDestination" => EventDestination,
-            "EventDestinationName" => EventDestinationName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -139,17 +135,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An object that defines the tags (keys and values) that you want to associate
   with the pool.
 """
-function create_dedicated_ip_pool(
-    PoolName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+create_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "POST",
         "/v1/email/dedicated-ip-pools",
         Dict{String,Any}("PoolName" => PoolName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -191,17 +184,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of objects that define the tags (keys and values) that you want to
   associate with the predictive inbox placement test.
 """
-function create_deliverability_test_report(
+create_deliverability_test_report(
     Content, FromEmailAddress; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "POST",
+    "/v1/email/deliverability-dashboard/test",
+    Dict{String,Any}("Content" => Content, "FromEmailAddress" => FromEmailAddress);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "POST",
-        "/v1/email/deliverability-dashboard/test",
-        Dict{String,Any}("Content" => Content, "FromEmailAddress" => FromEmailAddress);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_deliverability_test_report(
     Content,
     FromEmailAddress,
@@ -249,17 +240,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of objects that define the tags (keys and values) that you want to
   associate with the email identity.
 """
-function create_email_identity(
-    EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+create_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "POST",
         "/v1/email/identities",
         Dict{String,Any}("EmailIdentity" => EmailIdentity);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -290,16 +278,14 @@ applied to the email.
 - `configuration_set_name`: The name of the configuration set that you want to delete.
 
 """
-function delete_configuration_set(
+delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "DELETE",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "DELETE",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -330,18 +316,16 @@ Data Firehose to stream data to Amazon S3 for long-term storage.
 - `event_destination_name`: The name of the event destination that you want to delete.
 
 """
-function delete_configuration_set_event_destination(
+delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = pinpoint_email(
+    "DELETE",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "DELETE",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -367,16 +351,13 @@ Delete a dedicated IP pool.
 - `pool_name`: The name of the dedicated IP pool that you want to delete.
 
 """
-function delete_dedicated_ip_pool(
-    PoolName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+delete_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "DELETE",
         "/v1/email/dedicated-ip-pools/$(PoolName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -403,16 +384,13 @@ identity can be either an email address or a domain name.
   delete from your Amazon Pinpoint account.
 
 """
-function delete_email_identity(
-    EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+delete_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "DELETE",
         "/v1/email/identities/$(EmailIdentity)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -435,11 +413,9 @@ Obtain information about the email-sending status and capabilities of your Amazo
 account in the current AWS Region.
 
 """
-function get_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
-        "GET", "/v1/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email(
+    "GET", "/v1/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -464,17 +440,15 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
   email using Amazon Pinpoint or Amazon SES.
 
 """
-function get_blacklist_reports(
+get_blacklist_reports(
     BlacklistItemNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/deliverability-dashboard/blacklist-report",
+    Dict{String,Any}("BlacklistItemNames" => BlacklistItemNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/deliverability-dashboard/blacklist-report",
-        Dict{String,Any}("BlacklistItemNames" => BlacklistItemNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_blacklist_reports(
     BlacklistItemNames,
     params::AbstractDict{String};
@@ -509,16 +483,14 @@ rules in that configuration set are applied to the email.
   information about.
 
 """
-function get_configuration_set(
+get_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -549,16 +521,14 @@ to Amazon S3 for long-term storage.
   destination.
 
 """
-function get_configuration_set_event_destinations(
+get_configuration_set_event_destinations(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configuration_set_event_destinations(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -587,14 +557,12 @@ address.
   account.
 
 """
-function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
-        "GET",
-        "/v1/email/dedicated-ips/$(IP)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email(
+    "GET",
+    "/v1/email/dedicated-ips/$(IP)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_dedicated_ip(
     IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -622,14 +590,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response includes a NextToken element, which you can use to obtain additional results.
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
-function get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
-        "GET",
-        "/v1/email/dedicated-ips";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email(
+    "GET",
+    "/v1/email/dedicated-ips";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_dedicated_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -656,16 +622,13 @@ about the features and cost of a Deliverability dashboard subscription, see Amaz
 Pricing.
 
 """
-function get_deliverability_dashboard_options(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "GET",
         "/v1/email/deliverability-dashboard";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_deliverability_dashboard_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -688,16 +651,14 @@ Retrieve the results of a predictive inbox placement test.
 - `report_id`: A unique string that identifies the predictive inbox placement test.
 
 """
-function get_deliverability_test_report(
+get_deliverability_test_report(
     ReportId; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/deliverability-dashboard/test-reports/$(ReportId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/deliverability-dashboard/test-reports/$(ReportId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_deliverability_test_report(
     ReportId,
     params::AbstractDict{String};
@@ -727,16 +688,14 @@ dashboard is enabled for (PutDeliverabilityDashboardOption operation).
   using the Amazon Pinpoint API or the Amazon Pinpoint console.
 
 """
-function get_domain_deliverability_campaign(
+get_domain_deliverability_campaign(
     CampaignId; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_domain_deliverability_campaign(
     CampaignId,
     params::AbstractDict{String};
@@ -766,17 +725,15 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
   metrics for.
 
 """
-function get_domain_statistics_report(
+get_domain_statistics_report(
     Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/deliverability-dashboard/statistics-report/$(Domain)",
+    Dict{String,Any}("EndDate" => EndDate, "StartDate" => StartDate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/deliverability-dashboard/statistics-report/$(Domain)",
-        Dict{String,Any}("EndDate" => EndDate, "StartDate" => StartDate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_domain_statistics_report(
     Domain,
     EndDate,
@@ -811,16 +768,13 @@ its custom Mail-From settings.
 - `email_identity`: The email identity that you want to retrieve details for.
 
 """
-function get_email_identity(
-    EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+get_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "GET",
         "/v1/email/identities/$(EmailIdentity)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -854,14 +808,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the number of results is larger than the number you specified in this parameter, then the
   response includes a NextToken element, which you can use to obtain additional results.
 """
-function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
+list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "GET",
         "/v1/email/configuration-sets";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -889,14 +842,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the number of results is larger than the number you specified in this parameter, then the
   response includes a NextToken element, which you can use to obtain additional results.
 """
-function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
+list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "GET",
         "/v1/email/dedicated-ip-pools";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_dedicated_ip_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -927,16 +879,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to obtain additional results. The value you specify has to be at least 0, and can be no
   more than 1000.
 """
-function list_deliverability_test_reports(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "GET",
         "/v1/email/deliverability-dashboard/test-reports";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_deliverability_test_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -976,17 +925,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the number that you specify in this parameter, the response includes a NextToken element,
   which you can use to obtain additional results.
 """
-function list_domain_deliverability_campaigns(
+list_domain_deliverability_campaigns(
     EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "GET",
+    "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns",
+    Dict{String,Any}("EndDate" => EndDate, "StartDate" => StartDate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "GET",
-        "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns",
-        Dict{String,Any}("EndDate" => EndDate, "StartDate" => StartDate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_domain_deliverability_campaigns(
     EndDate,
     StartDate,
@@ -1026,14 +973,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results. The
   value you specify has to be at least 0, and can be no more than 1000.
 """
-function list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
-        "GET",
-        "/v1/email/identities";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email(
+    "GET",
+    "/v1/email/identities";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_email_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1061,17 +1006,14 @@ tag value acts as a descriptor within a tag key.
   tag information for.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "GET",
         "/v1/email/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1100,16 +1042,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   addresses that are associated with your Amazon Pinpoint account in the current AWS Region.
   Set to true to enable the automatic warm-up feature, or set to false to disable it.
 """
-function put_account_dedicated_ip_warmup_attributes(;
+put_account_dedicated_ip_warmup_attributes(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/account/dedicated-ips/warmup";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/account/dedicated-ips/warmup";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_account_dedicated_ip_warmup_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1135,14 +1075,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account's ability to send email, you can't use this operation to resume your account's
   ability to send email.
 """
-function put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
+put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "PUT",
         "/v1/email/account/sending";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_account_sending_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1175,16 +1114,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a TLS connection can be established. If the value is Optional, messages can be delivered in
   plain text if a TLS connection can't be established.
 """
-function put_configuration_set_delivery_options(
+put_configuration_set_delivery_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_configuration_set_delivery_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1216,16 +1153,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration set. If false, tracking of reputation metrics is disabled for the
   configuration set.
 """
-function put_configuration_set_reputation_options(
+put_configuration_set_reputation_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_configuration_set_reputation_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1256,16 +1191,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SendingEnabled"`: If true, email sending is enabled for the configuration set. If
   false, email sending is disabled for the configuration set.
 """
-function put_configuration_set_sending_options(
+put_configuration_set_sending_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/sending";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/sending";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_configuration_set_sending_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1295,16 +1228,14 @@ using Amazon Pinpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CustomRedirectDomain"`: The domain that you want to use to track open and click events.
 """
-function put_configuration_set_tracking_options(
+put_configuration_set_tracking_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_configuration_set_tracking_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1336,17 +1267,15 @@ by using the CreateDedicatedIpPool operation.
   account.
 
 """
-function put_dedicated_ip_in_pool(
+put_dedicated_ip_in_pool(
     DestinationPoolName, IP; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/dedicated-ips/$(IP)/pool",
+    Dict{String,Any}("DestinationPoolName" => DestinationPoolName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/dedicated-ips/$(IP)/pool",
-        Dict{String,Any}("DestinationPoolName" => DestinationPoolName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_dedicated_ip_in_pool(
     DestinationPoolName,
     IP,
@@ -1380,17 +1309,15 @@ end
   IP address.
 
 """
-function put_dedicated_ip_warmup_attributes(
+put_dedicated_ip_warmup_attributes(
     IP, WarmupPercentage; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/dedicated-ips/$(IP)/warmup",
+    Dict{String,Any}("WarmupPercentage" => WarmupPercentage);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/dedicated-ips/$(IP)/warmup",
-        Dict{String,Any}("WarmupPercentage" => WarmupPercentage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_dedicated_ip_warmup_attributes(
     IP,
     WarmupPercentage,
@@ -1431,17 +1358,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscribedDomains"`: An array of objects, one for each verified domain that you use to
   send email and enabled the Deliverability dashboard for.
 """
-function put_deliverability_dashboard_option(
+put_deliverability_dashboard_option(
     DashboardEnabled; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/deliverability-dashboard",
+    Dict{String,Any}("DashboardEnabled" => DashboardEnabled);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/deliverability-dashboard",
-        Dict{String,Any}("DashboardEnabled" => DashboardEnabled);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_deliverability_dashboard_option(
     DashboardEnabled,
     params::AbstractDict{String};
@@ -1476,16 +1401,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends
   from the identity aren't DKIM-signed.
 """
-function put_email_identity_dkim_attributes(
+put_email_identity_dkim_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/identities/$(EmailIdentity)/dkim";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/identities/$(EmailIdentity)/dkim";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_email_identity_dkim_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1531,16 +1454,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bounce or complaint notifications, Amazon Pinpoint sends an email notification when these
   events occur (even if this setting is disabled).
 """
-function put_email_identity_feedback_attributes(
+put_email_identity_feedback_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/identities/$(EmailIdentity)/feedback";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/identities/$(EmailIdentity)/feedback";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_email_identity_feedback_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1578,16 +1499,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the verified identity.   It can't be used to receive email.   It can't be used in a
   \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
-function put_email_identity_mail_from_attributes(
+put_email_identity_mail_from_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/identities/$(EmailIdentity)/mail-from";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/identities/$(EmailIdentity)/mail-from";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_email_identity_mail_from_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1633,15 +1552,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplyToAddresses"`: The \"Reply-to\" email addresses for the message. When the
   recipient replies to the message, each Reply-to address receives the reply.
 """
-function send_email(Content, Destination; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
+send_email(Content, Destination; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "POST",
         "/v1/email/outbound-emails",
         Dict{String,Any}("Content" => Content, "Destination" => Destination);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function send_email(
     Content,
     Destination,
@@ -1683,15 +1601,14 @@ descriptor within a tag key.
   is 128 characters. The maximum length of a tag value is 256 characters.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint_email(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "POST",
         "/v1/email/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1729,17 +1646,14 @@ Remove one or more tags (keys and values) from a specified resource.
   /v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint_email(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pinpoint_email(
         "DELETE",
         "/v1/email/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1779,20 +1693,18 @@ S3 for long-term storage.
 - `event_destination_name`: The name of the event destination that you want to modify.
 
 """
-function update_configuration_set_event_destination(
+update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
     EventDestinationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = pinpoint_email(
+    "PUT",
+    "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)",
+    Dict{String,Any}("EventDestination" => EventDestination);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pinpoint_email(
-        "PUT",
-        "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)",
-        Dict{String,Any}("EventDestination" => EventDestination);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,

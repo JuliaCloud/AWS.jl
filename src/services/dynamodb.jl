@@ -11,11 +11,11 @@ using AWS.UUIDs
 This operation allows you to perform batch reads or writes on data stored in DynamoDB,
 using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality
 condition on all key attributes. This enforces that each SELECT statement in a batch
-returns at most a single item.  The entire batch must consist of either read statements or
-write statements, you cannot mix both in one batch.   A HTTP 200 response does not mean
-that all statements in the BatchExecuteStatement succeeded. Error details for individual
-statements can be found under the Error field of the BatchStatementResponse for each
-statement.
+returns at most a single item. For more information, see Running batch operations with
+PartiQL for DynamoDB .  The entire batch must consist of either read statements or write
+statements, you cannot mix both in one batch.   A HTTP 200 response does not mean that all
+statements in the BatchExecuteStatement succeeded. Error details for individual statements
+can be found under the Error field of the BatchStatementResponse for each statement.
 
 # Arguments
 - `statements`: The list of PartiQL statements representing the batch to run.
@@ -24,16 +24,13 @@ statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ReturnConsumedCapacity"`:
 """
-function batch_execute_statement(
-    Statements; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+batch_execute_statement(Statements; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "BatchExecuteStatement",
         Dict{String,Any}("Statements" => Statements);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_execute_statement(
     Statements,
     params::AbstractDict{String};
@@ -123,14 +120,12 @@ Working with Tables in the Amazon DynamoDB Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ReturnConsumedCapacity"`:
 """
-function batch_get_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "BatchGetItem",
-        Dict{String,Any}("RequestItems" => RequestItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "BatchGetItem",
+    Dict{String,Any}("RequestItems" => RequestItems);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_item(
     RequestItems,
     params::AbstractDict{String};
@@ -165,9 +160,12 @@ internal processing failure occurs, the failed operations are returned in the
 UnprocessedItems response parameter. You can investigate and optionally resend the
 requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check
 for unprocessed items and submit a new BatchWriteItem request with those unprocessed items
-until all items have been processed. If none of the items can be processed due to
-insufficient provisioned throughput on all of the tables in the request, then
-BatchWriteItem returns a ProvisionedThroughputExceededException.  If DynamoDB returns any
+until all items have been processed. For tables and indexes with provisioned capacity, if
+none of the items can be processed due to insufficient provisioned throughput on all of the
+tables in the request, then BatchWriteItem returns a
+ProvisionedThroughputExceededException. For all tables and indexes, if none of the items
+can be processed due to other throttling scenarios (such as exceeding partition level
+limits), then BatchWriteItem returns a ThrottlingException.  If DynamoDB returns any
 unprocessed items, you should retry the batch operation on those items. However, we
 strongly recommend that you use an exponential backoff algorithm. If you retry the batch
 operation immediately, the underlying read or write requests can still fail due to
@@ -225,14 +223,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   modified during the operation are returned in the response. If set to NONE (the default),
   no statistics are returned.
 """
-function batch_write_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
+batch_write_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "BatchWriteItem",
         Dict{String,Any}("RequestItems" => RequestItems);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_write_item(
     RequestItems,
     params::AbstractDict{String};
@@ -273,16 +270,13 @@ write capacity
   of the table in this parameter.
 
 """
-function create_backup(
-    BackupName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+create_backup(BackupName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "CreateBackup",
         Dict{String,Any}("BackupName" => BackupName, "TableName" => TableName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_backup(
     BackupName,
     TableName,
@@ -338,18 +332,16 @@ secondary indexes across your global table.
 - `replication_group`: The Regions where the global table needs to be created.
 
 """
-function create_global_table(
+create_global_table(
     GlobalTableName, ReplicationGroup; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "CreateGlobalTable",
+    Dict{String,Any}(
+        "GlobalTableName" => GlobalTableName, "ReplicationGroup" => ReplicationGroup
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "CreateGlobalTable",
-        Dict{String,Any}(
-            "GlobalTableName" => GlobalTableName, "ReplicationGroup" => ReplicationGroup
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_global_table(
     GlobalTableName,
     ReplicationGroup,
@@ -487,23 +479,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs to label the table. For more information, see Tagging
   for DynamoDB.
 """
-function create_table(
+create_table(
     AttributeDefinitions,
     KeySchema,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = dynamodb(
+    "CreateTable",
+    Dict{String,Any}(
+        "AttributeDefinitions" => AttributeDefinitions,
+        "KeySchema" => KeySchema,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "CreateTable",
-        Dict{String,Any}(
-            "AttributeDefinitions" => AttributeDefinitions,
-            "KeySchema" => KeySchema,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_table(
     AttributeDefinitions,
     KeySchema,
@@ -540,14 +530,12 @@ times per second.
 - `backup_arn`: The ARN associated with the backup.
 
 """
-function delete_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DeleteBackup",
-        Dict{String,Any}("BackupArn" => BackupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DeleteBackup",
+    Dict{String,Any}("BackupArn" => BackupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_backup(
     BackupArn,
     params::AbstractDict{String};
@@ -640,14 +628,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cost associated with requesting a return value aside from the small network and processing
   overhead of receiving a larger response. No read capacity units are consumed.
 """
-function delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DeleteItem",
-        Dict{String,Any}("Key" => Key, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DeleteItem",
+    Dict{String,Any}("Key" => Key, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_item(
     Key,
     TableName,
@@ -696,16 +682,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on the resource doesn't match or if there's no policy attached to the resource, the request
   will fail and return a PolicyNotFoundException.
 """
-function delete_resource_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -733,25 +716,23 @@ does not exist, DynamoDB returns a ResourceNotFoundException. If table is alread
 DELETING state, no error is returned.   For global tables, this operation only applies to
 global tables using Version 2019.11.21 (Current version).    DynamoDB might continue to
 accept data read and write operations, such as GetItem and PutItem, on a table in the
-DELETING state until the table deletion is complete.  When you delete a table, any indexes
-on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the
-corresponding stream on that table goes into the DISABLED state, and the stream is
-automatically deleted after 24 hours. Use the DescribeTable action to check the status of
-the table.
+DELETING state until the table deletion is complete. For the full list of table states, see
+TableStatus.  When you delete a table, any indexes on that table are also deleted. If you
+have DynamoDB Streams enabled on the table, then the corresponding stream on that table
+goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use
+the DescribeTable action to check the status of the table.
 
 # Arguments
 - `table_name`: The name of the table to delete. You can also provide the Amazon Resource
   Name (ARN) of the table in this parameter.
 
 """
-function delete_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DeleteTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DeleteTable",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_table(
     TableName,
     params::AbstractDict{String};
@@ -778,14 +759,12 @@ Describes an existing backup of a table. You can call DescribeBackup at a maximu
 - `backup_arn`: The Amazon Resource Name (ARN) associated with the backup.
 
 """
-function describe_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeBackup",
-        Dict{String,Any}("BackupArn" => BackupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DescribeBackup",
+    Dict{String,Any}("BackupArn" => BackupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_backup(
     BackupArn,
     params::AbstractDict{String};
@@ -820,16 +799,13 @@ time during the last 35 days.  You can call DescribeContinuousBackups at a maxim
   (ARN) of the table in this parameter.
 
 """
-function describe_continuous_backups(
-    TableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+describe_continuous_backups(TableName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "DescribeContinuousBackups",
         Dict{String,Any}("TableName" => TableName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_continuous_backups(
     TableName,
     params::AbstractDict{String};
@@ -859,16 +835,14 @@ Returns information about contributor insights for a given table or global secon
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IndexName"`: The name of the global secondary index to describe, if applicable.
 """
-function describe_contributor_insights(
+describe_contributor_insights(
     TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "DescribeContributorInsights",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "DescribeContributorInsights",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_contributor_insights(
     TableName,
     params::AbstractDict{String};
@@ -892,11 +866,8 @@ Returns the regional endpoint information. For more information on policy permis
 please see Internetwork traffic privacy.
 
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -915,14 +886,12 @@ Describes an existing table export.
 - `export_arn`: The Amazon Resource Name (ARN) associated with the export.
 
 """
-function describe_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeExport",
-        Dict{String,Any}("ExportArn" => ExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DescribeExport",
+    Dict{String,Any}("ExportArn" => ExportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_export(
     ExportArn,
     params::AbstractDict{String};
@@ -954,16 +923,13 @@ table version you are using. To update existing global tables from version 2017.
 - `global_table_name`: The name of the global table.
 
 """
-function describe_global_table(
-    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+describe_global_table(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "DescribeGlobalTable",
         Dict{String,Any}("GlobalTableName" => GlobalTableName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_global_table(
     GlobalTableName,
     params::AbstractDict{String};
@@ -997,16 +963,14 @@ table version you are using. To update existing global tables from version 2017.
 - `global_table_name`: The name of the global table to describe.
 
 """
-function describe_global_table_settings(
+describe_global_table_settings(
     GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "DescribeGlobalTableSettings",
+    Dict{String,Any}("GlobalTableName" => GlobalTableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "DescribeGlobalTableSettings",
-        Dict{String,Any}("GlobalTableName" => GlobalTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_global_table_settings(
     GlobalTableName,
     params::AbstractDict{String};
@@ -1035,14 +999,12 @@ end
   to.
 
 """
-function describe_import(ImportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeImport",
-        Dict{String,Any}("ImportArn" => ImportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_import(ImportArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DescribeImport",
+    Dict{String,Any}("ImportArn" => ImportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_import(
     ImportArn,
     params::AbstractDict{String};
@@ -1069,16 +1031,14 @@ Returns information about the status of Kinesis streaming.
   Resource Name (ARN) of the table in this parameter.
 
 """
-function describe_kinesis_streaming_destination(
+describe_kinesis_streaming_destination(
     TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "DescribeKinesisStreamingDestination",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "DescribeKinesisStreamingDestination",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_kinesis_streaming_destination(
     TableName,
     params::AbstractDict{String};
@@ -1130,11 +1090,8 @@ periodically. You can expect throttling errors if you call it more than once in 
 The DescribeLimits Request element has no content.
 
 """
-function describe_limits(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_limits(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("DescribeLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1160,14 +1117,12 @@ Wait for a few seconds, and then try the DescribeTable request again.
   Name (ARN) of the table in this parameter.
 
 """
-function describe_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "DescribeTable",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_table(
     TableName,
     params::AbstractDict{String};
@@ -1196,16 +1151,14 @@ version).
   of the table in this parameter.
 
 """
-function describe_table_replica_auto_scaling(
+describe_table_replica_auto_scaling(
     TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "DescribeTableReplicaAutoScaling",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "DescribeTableReplicaAutoScaling",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_table_replica_auto_scaling(
     TableName,
     params::AbstractDict{String};
@@ -1232,14 +1185,13 @@ Gives a description of the Time to Live (TTL) status on the specified table.
   Resource Name (ARN) of the table in this parameter.
 
 """
-function describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
+describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "DescribeTimeToLive",
         Dict{String,Any}("TableName" => TableName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_time_to_live(
     TableName,
     params::AbstractDict{String};
@@ -1272,16 +1224,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableKinesisStreamingConfiguration"`: The source for the Kinesis streaming information
   that is being enabled.
 """
-function disable_kinesis_streaming_destination(
+disable_kinesis_streaming_destination(
     StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "DisableKinesisStreamingDestination",
+    Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "DisableKinesisStreamingDestination",
-        Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_kinesis_streaming_destination(
     StreamArn,
     TableName,
@@ -1321,16 +1271,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableKinesisStreamingConfiguration"`: The source for the Kinesis streaming information
   that is being enabled.
 """
-function enable_kinesis_streaming_destination(
+enable_kinesis_streaming_destination(
     StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "EnableKinesisStreamingDestination",
+    Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "EnableKinesisStreamingDestination",
-        Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_kinesis_streaming_destination(
     StreamArn,
     TableName,
@@ -1389,14 +1337,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional cost associated with requesting a return value aside from the small network and
   processing overhead of receiving a larger response. No read capacity units are consumed.
 """
-function execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "ExecuteStatement",
-        Dict{String,Any}("Statement" => Statement);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "ExecuteStatement",
+    Dict{String,Any}("Statement" => Statement);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function execute_statement(
     Statement,
     params::AbstractDict{String};
@@ -1433,10 +1379,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on-demand throughput consumption that is returned in the response. For more information,
   see TransactGetItems and TransactWriteItems.
 """
-function execute_transaction(
-    TransactStatements; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+execute_transaction(TransactStatements; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "ExecuteTransaction",
         Dict{String,Any}(
             "TransactStatements" => TransactStatements,
@@ -1445,7 +1389,6 @@ function execute_transaction(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function execute_transaction(
     TransactStatements,
     params::AbstractDict{String};
@@ -1510,18 +1453,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3SseKmsKeyId"`: The ID of the KMS managed key used to encrypt the S3 bucket where
   export data will be stored (if applicable).
 """
-function export_table_to_point_in_time(
+export_table_to_point_in_time(
     S3Bucket, TableArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "ExportTableToPointInTime",
+    Dict{String,Any}(
+        "S3Bucket" => S3Bucket, "TableArn" => TableArn, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "ExportTableToPointInTime",
-        Dict{String,Any}(
-            "S3Bucket" => S3Bucket, "TableArn" => TableArn, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_table_to_point_in_time(
     S3Bucket,
     TableArn,
@@ -1596,14 +1537,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Attributes in the Amazon DynamoDB Developer Guide.
 - `"ReturnConsumedCapacity"`:
 """
-function get_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "GetItem",
-        Dict{String,Any}("Key" => Key, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "GetItem",
+    Dict{String,Any}("Key" => Key, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_item(
     Key,
     TableName,
@@ -1649,14 +1588,13 @@ CreateTable request will always be applied to all requests for that table.
   policy is attached. The resources you can specify include tables and streams.
 
 """
-function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
+get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "GetResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1698,24 +1636,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   imported table.
 - `"InputFormatOptions"`:  Additional properties that specify how the input is formatted,
 """
-function import_table(
+import_table(
     InputFormat,
     S3BucketSource,
     TableCreationParameters;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = dynamodb(
+    "ImportTable",
+    Dict{String,Any}(
+        "InputFormat" => InputFormat,
+        "S3BucketSource" => S3BucketSource,
+        "TableCreationParameters" => TableCreationParameters,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "ImportTable",
-        Dict{String,Any}(
-            "InputFormat" => InputFormat,
-            "S3BucketSource" => S3BucketSource,
-            "TableCreationParameters" => TableCreationParameters,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function import_table(
     InputFormat,
     S3BucketSource,
@@ -1773,9 +1709,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRangeUpperBound"`: Only backups created before this time are listed.
   TimeRangeUpperBound is exclusive.
 """
-function list_backups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_backups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("ListBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_backups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1798,11 +1733,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableName"`: The name of the table. You can also provide the Amazon Resource Name (ARN)
   of the table in this parameter.
 """
-function list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "ListContributorInsights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "ListContributorInsights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_contributor_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1828,9 +1761,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 - `"TableArn"`: The Amazon Resource Name (ARN) associated with the exported table.
 """
-function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_exports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1862,11 +1794,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ExclusiveStartGlobalTableName parameter.
 - `"RegionName"`: Lists the global tables in a specific Region.
 """
-function list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "ListGlobalTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("ListGlobalTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_global_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1890,9 +1819,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableArn"`:  The Amazon Resource Name (ARN) associated with the table that was imported
   to.
 """
-function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_imports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1916,9 +1844,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: A maximum number of table names to return. If this parameter is not specified,
   the limit is 100.
 """
-function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_tables(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1945,16 +1872,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call to ListTagOfResource. When provided in this manner, this API fetches the next
   page of results.
 """
-function list_tags_of_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+list_tags_of_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "ListTagsOfResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_of_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2062,14 +1986,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cost associated with requesting a return value aside from the small network and processing
   overhead of receiving a larger response. No read capacity units are consumed.
 """
-function put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "PutItem",
-        Dict{String,Any}("Item" => Item, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "PutItem",
+    Dict{String,Any}("Item" => Item, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_item(
     Item,
     TableName,
@@ -2132,16 +2054,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attach a policy when no policy exists for the resource, specify NO_POLICY for the revision
   ID.
 """
-function put_resource_policy(
+put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "PutResourcePolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "PutResourcePolicy",
-        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -2341,14 +2261,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for
   Select will return an error.
 """
-function query(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "Query",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+query(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "Query",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function query(
     TableName,
     params::AbstractDict{String};
@@ -2392,16 +2310,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SSESpecificationOverride"`: The new server-side encryption settings for the restored
   table.
 """
-function restore_table_from_backup(
+restore_table_from_backup(
     BackupArn, TargetTableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "RestoreTableFromBackup",
+    Dict{String,Any}("BackupArn" => BackupArn, "TargetTableName" => TargetTableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "RestoreTableFromBackup",
-        Dict{String,Any}("BackupArn" => BackupArn, "TargetTableName" => TargetTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function restore_table_from_backup(
     BackupArn,
     TargetTableName,
@@ -2464,16 +2380,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UseLatestRestorableTime"`: Restore the table to the latest possible time.
   LatestRestorableDateTime is typically 5 minutes before the current time.
 """
-function restore_table_to_point_in_time(
+restore_table_to_point_in_time(
     TargetTableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "RestoreTableToPointInTime",
+    Dict{String,Any}("TargetTableName" => TargetTableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "RestoreTableToPointInTime",
-        Dict{String,Any}("TargetTableName" => TargetTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function restore_table_to_point_in_time(
     TargetTableName,
     params::AbstractDict{String};
@@ -2643,14 +2557,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation will be sequential rather than parallel. If you specify TotalSegments, you must
   also specify Segment.
 """
-function scan(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "Scan",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+scan(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "Scan",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function scan(
     TableName,
     params::AbstractDict{String};
@@ -2682,14 +2594,13 @@ DynamoDB Developer Guide.
 - `tags`: The tags to be assigned to the Amazon DynamoDB resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2736,16 +2647,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned, and a value of NONE prevents that information from being returned. No other value
   is valid.
 """
-function transact_get_items(
-    TransactItems; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+transact_get_items(TransactItems; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "TransactGetItems",
         Dict{String,Any}("TransactItems" => TransactItems);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function transact_get_items(
     TransactItems,
     params::AbstractDict{String};
@@ -2824,10 +2732,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   modified during the operation and are returned in the response. If set to NONE (the
   default), no statistics are returned.
 """
-function transact_write_items(
-    TransactItems; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+transact_write_items(TransactItems; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "TransactWriteItems",
         Dict{String,Any}(
             "TransactItems" => TransactItems, "ClientRequestToken" => string(uuid4())
@@ -2835,7 +2741,6 @@ function transact_write_items(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function transact_write_items(
     TransactItems,
     params::AbstractDict{String};
@@ -2873,16 +2778,13 @@ DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Gu
   this list will be removed from the DynamoDB resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2923,21 +2825,19 @@ your table to any point in time during the last 35 days.
   of the table in this parameter.
 
 """
-function update_continuous_backups(
+update_continuous_backups(
     PointInTimeRecoverySpecification,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = dynamodb(
+    "UpdateContinuousBackups",
+    Dict{String,Any}(
+        "PointInTimeRecoverySpecification" => PointInTimeRecoverySpecification,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateContinuousBackups",
-        Dict{String,Any}(
-            "PointInTimeRecoverySpecification" => PointInTimeRecoverySpecification,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_continuous_backups(
     PointInTimeRecoverySpecification,
     TableName,
@@ -2982,19 +2882,17 @@ for this table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IndexName"`: The global secondary index name, if applicable.
 """
-function update_contributor_insights(
+update_contributor_insights(
     ContributorInsightsAction, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "UpdateContributorInsights",
+    Dict{String,Any}(
+        "ContributorInsightsAction" => ContributorInsightsAction,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateContributorInsights",
-        Dict{String,Any}(
-            "ContributorInsightsAction" => ContributorInsightsAction,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contributor_insights(
     ContributorInsightsAction,
     TableName,
@@ -3047,18 +2945,16 @@ global secondary indexes must have the same provisioned and maximum write capaci
   table.
 
 """
-function update_global_table(
+update_global_table(
     GlobalTableName, ReplicaUpdates; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "UpdateGlobalTable",
+    Dict{String,Any}(
+        "GlobalTableName" => GlobalTableName, "ReplicaUpdates" => ReplicaUpdates
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateGlobalTable",
-        Dict{String,Any}(
-            "GlobalTableName" => GlobalTableName, "ReplicaUpdates" => ReplicaUpdates
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_global_table(
     GlobalTableName,
     ReplicaUpdates,
@@ -3113,16 +3009,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplicaSettingsUpdate"`: Represents the settings for a global table in a Region that
   will be modified.
 """
-function update_global_table_settings(
+update_global_table_settings(
     GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "UpdateGlobalTableSettings",
+    Dict{String,Any}("GlobalTableName" => GlobalTableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateGlobalTableSettings",
-        Dict{String,Any}("GlobalTableName" => GlobalTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_global_table_settings(
     GlobalTableName,
     params::AbstractDict{String};
@@ -3260,14 +3154,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information on update expressions, see Modifying Items and Attributes in the Amazon
   DynamoDB Developer Guide.
 """
-function update_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "UpdateItem",
-        Dict{String,Any}("Key" => Key, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "UpdateItem",
+    Dict{String,Any}("Key" => Key, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_item(
     Key,
     TableName,
@@ -3302,16 +3194,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdateKinesisStreamingConfiguration"`: The command to update the Kinesis stream
   configuration.
 """
-function update_kinesis_streaming_destination(
+update_kinesis_streaming_destination(
     StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "UpdateKinesisStreamingDestination",
+    Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateKinesisStreamingDestination",
-        Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_kinesis_streaming_destination(
     StreamArn,
     TableName,
@@ -3388,14 +3278,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableClass"`: The table class of the table to be updated. Valid values are STANDARD and
   STANDARD_INFREQUENT_ACCESS.
 """
-function update_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "UpdateTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb(
+    "UpdateTable",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_table(
     TableName,
     params::AbstractDict{String};
@@ -3430,16 +3318,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplicaUpdates"`: Represents the auto scaling settings of replicas of the table that
   will be modified.
 """
-function update_table_replica_auto_scaling(
+update_table_replica_auto_scaling(
     TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "UpdateTableReplicaAutoScaling",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateTableReplicaAutoScaling",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_table_replica_auto_scaling(
     TableName,
     params::AbstractDict{String};
@@ -3483,18 +3369,16 @@ Guide.
   Live for the specified table.
 
 """
-function update_time_to_live(
+update_time_to_live(
     TableName, TimeToLiveSpecification; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb(
+    "UpdateTimeToLive",
+    Dict{String,Any}(
+        "TableName" => TableName, "TimeToLiveSpecification" => TimeToLiveSpecification
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb(
-        "UpdateTimeToLive",
-        Dict{String,Any}(
-            "TableName" => TableName, "TimeToLiveSpecification" => TimeToLiveSpecification
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_time_to_live(
     TableName,
     TimeToLiveSpecification,

@@ -30,16 +30,14 @@ AWS Marketplace Seller Guide.
   UsageRecords at a time.
 
 """
-function batch_meter_usage(
+batch_meter_usage(
     ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config()
+) = marketplace_metering(
+    "BatchMeterUsage",
+    Dict{String,Any}("ProductCode" => ProductCode, "UsageRecords" => UsageRecords);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_metering(
-        "BatchMeterUsage",
-        Dict{String,Any}("ProductCode" => ProductCode, "UsageRecords" => UsageRecords);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_meter_usage(
     ProductCode,
     UsageRecords,
@@ -93,23 +91,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UsageAllocation must have a unique set of tags (include no tags).
 - `"UsageQuantity"`: Consumption value for the hour. Defaults to 0 if not specified.
 """
-function meter_usage(
+meter_usage(
     ProductCode,
     Timestamp,
     UsageDimension;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = marketplace_metering(
+    "MeterUsage",
+    Dict{String,Any}(
+        "ProductCode" => ProductCode,
+        "Timestamp" => Timestamp,
+        "UsageDimension" => UsageDimension,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_metering(
-        "MeterUsage",
-        Dict{String,Any}(
-            "ProductCode" => ProductCode,
-            "Timestamp" => Timestamp,
-            "UsageDimension" => UsageDimension,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function meter_usage(
     ProductCode,
     Timestamp,
@@ -175,18 +171,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Nonce"`: (Optional) To scope down the registration to a specific running software
   instance and guard against replay attacks.
 """
-function register_usage(
+register_usage(
     ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = marketplace_metering(
+    "RegisterUsage",
+    Dict{String,Any}("ProductCode" => ProductCode, "PublicKeyVersion" => PublicKeyVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_metering(
-        "RegisterUsage",
-        Dict{String,Any}(
-            "ProductCode" => ProductCode, "PublicKeyVersion" => PublicKeyVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_usage(
     ProductCode,
     PublicKeyVersion,
@@ -227,16 +219,13 @@ example in the AWS Marketplace Seller Guide.
   resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
 
 """
-function resolve_customer(
-    RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_metering(
+resolve_customer(RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_metering(
         "ResolveCustomer",
         Dict{String,Any}("RegistrationToken" => RegistrationToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function resolve_customer(
     RegistrationToken,
     params::AbstractDict{String};

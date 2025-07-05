@@ -18,19 +18,17 @@ Retrieves multiple analysis templates within a collaboration by their Amazon Res
   templates belong to. Currently accepts collaboration ID.
 
 """
-function batch_get_collaboration_analysis_template(
+batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/collaborations/$(collaborationIdentifier)/batch-analysistemplates",
+    Dict{String,Any}("analysisTemplateArns" => analysisTemplateArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/collaborations/$(collaborationIdentifier)/batch-analysistemplates",
-        Dict{String,Any}("analysisTemplateArns" => analysisTemplateArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier,
@@ -64,17 +62,15 @@ Retrieves multiple schemas by their identifiers.
 - `names`: The names for the schema objects to retrieve.
 
 """
-function batch_get_schema(
+batch_get_schema(
     collaborationIdentifier, names; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "POST",
+    "/collaborations/$(collaborationIdentifier)/batch-schema",
+    Dict{String,Any}("names" => names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/collaborations/$(collaborationIdentifier)/batch-schema",
-        Dict{String,Any}("names" => names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_schema(
     collaborationIdentifier,
     names,
@@ -103,19 +99,17 @@ Retrieves multiple analysis rule schemas.
   analysis rule.
 
 """
-function batch_get_schema_analysis_rule(
+batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/collaborations/$(collaborationIdentifier)/batch-schema-analysis-rule",
+    Dict{String,Any}("schemaAnalysisRuleRequests" => schemaAnalysisRuleRequests);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/collaborations/$(collaborationIdentifier)/batch-schema-analysis-rule",
-        Dict{String,Any}("schemaAnalysisRuleRequests" => schemaAnalysisRuleRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests,
@@ -161,21 +155,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_analysis_template(
+create_analysis_template(
     format,
     membershipIdentifier,
     name,
     source;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/analysistemplates",
+    Dict{String,Any}("format" => format, "name" => name, "source" => source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships/$(membershipIdentifier)/analysistemplates",
-        Dict{String,Any}("format" => format, "name" => name, "source" => source);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_analysis_template(
     format,
     membershipIdentifier,
@@ -226,7 +218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_collaboration(
+create_collaboration(
     creatorDisplayName,
     creatorMemberAbilities,
     description,
@@ -234,22 +226,20 @@ function create_collaboration(
     name,
     queryLogStatus;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/collaborations",
+    Dict{String,Any}(
+        "creatorDisplayName" => creatorDisplayName,
+        "creatorMemberAbilities" => creatorMemberAbilities,
+        "description" => description,
+        "members" => members,
+        "name" => name,
+        "queryLogStatus" => queryLogStatus,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/collaborations",
-        Dict{String,Any}(
-            "creatorDisplayName" => creatorDisplayName,
-            "creatorMemberAbilities" => creatorMemberAbilities,
-            "description" => description,
-            "members" => members,
-            "name" => name,
-            "queryLogStatus" => queryLogStatus,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_collaboration(
     creatorDisplayName,
     creatorMemberAbilities,
@@ -314,26 +304,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_configured_audience_model_association(
+create_configured_audience_model_association(
     configuredAudienceModelArn,
     configuredAudienceModelAssociationName,
     manageResourcePolicies,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations",
+    Dict{String,Any}(
+        "configuredAudienceModelArn" => configuredAudienceModelArn,
+        "configuredAudienceModelAssociationName" =>
+            configuredAudienceModelAssociationName,
+        "manageResourcePolicies" => manageResourcePolicies,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations",
-        Dict{String,Any}(
-            "configuredAudienceModelArn" => configuredAudienceModelArn,
-            "configuredAudienceModelAssociationName" =>
-                configuredAudienceModelAssociationName,
-            "manageResourcePolicies" => manageResourcePolicies,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configured_audience_model_association(
     configuredAudienceModelArn,
     configuredAudienceModelAssociationName,
@@ -384,26 +372,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_configured_table(
+create_configured_table(
     allowedColumns,
     analysisMethod,
     name,
     tableReference;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/configuredTables",
+    Dict{String,Any}(
+        "allowedColumns" => allowedColumns,
+        "analysisMethod" => analysisMethod,
+        "name" => name,
+        "tableReference" => tableReference,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/configuredTables",
-        Dict{String,Any}(
-            "allowedColumns" => allowedColumns,
-            "analysisMethod" => analysisMethod,
-            "name" => name,
-            "tableReference" => tableReference,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configured_table(
     allowedColumns,
     analysisMethod,
@@ -440,29 +426,28 @@ Creates a new analysis rule for a configured table. Currently, only one analysis
 be created for a given configured table.
 
 # Arguments
-- `analysis_rule_policy`: The entire created configured table analysis rule object.
+- `analysis_rule_policy`: The analysis rule policy that was created for the configured
+  table.
 - `analysis_rule_type`: The type of analysis rule.
 - `configured_table_identifier`: The identifier for the configured table to create the
   analysis rule for. Currently accepts the configured table ID.
 
 """
-function create_configured_table_analysis_rule(
+create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
     configuredTableIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/configuredTables/$(configuredTableIdentifier)/analysisRule",
+    Dict{String,Any}(
+        "analysisRulePolicy" => analysisRulePolicy,
+        "analysisRuleType" => analysisRuleType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/configuredTables/$(configuredTableIdentifier)/analysisRule",
-        Dict{String,Any}(
-            "analysisRulePolicy" => analysisRulePolicy,
-            "analysisRuleType" => analysisRuleType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -514,25 +499,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_configured_table_association(
+create_configured_table_association(
     configuredTableIdentifier,
     membershipIdentifier,
     name,
     roleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations",
+    Dict{String,Any}(
+        "configuredTableIdentifier" => configuredTableIdentifier,
+        "name" => name,
+        "roleArn" => roleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships/$(membershipIdentifier)/configuredTableAssociations",
-        Dict{String,Any}(
-            "configuredTableIdentifier" => configuredTableIdentifier,
-            "name" => name,
-            "roleArn" => roleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configured_table_association(
     configuredTableIdentifier,
     membershipIdentifier,
@@ -551,6 +534,181 @@ function create_configured_table_association(
                     "configuredTableIdentifier" => configuredTableIdentifier,
                     "name" => name,
                     "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+ Creates a new analysis rule for an associated configured table.
+
+# Arguments
+- `analysis_rule_policy`: The analysis rule policy that was created for the configured
+  table association.
+- `analysis_rule_type`:  The type of analysis rule.
+- `configured_table_association_identifier`:  The unique ID for the configured table
+  association. Currently accepts the configured table association ID.
+- `membership_identifier`:  A unique identifier for the membership that the configured
+  table association belongs to. Currently accepts the membership ID.
+
+"""
+create_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule",
+    Dict{String,Any}(
+        "analysisRulePolicy" => analysisRulePolicy,
+        "analysisRuleType" => analysisRuleType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analysisRulePolicy" => analysisRulePolicy,
+                    "analysisRuleType" => analysisRuleType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_id_mapping_table(input_reference_config, membership_identifier, name)
+    create_id_mapping_table(input_reference_config, membership_identifier, name, params::Dict{String,<:Any})
+
+Creates an ID mapping table.
+
+# Arguments
+- `input_reference_config`: The input reference configuration needed to create the ID
+  mapping table.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table.
+- `name`: A name for the ID mapping table.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description of the ID mapping table.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services KMS key. This
+  value is used to encrypt the mapping table data that is stored by Clean Rooms.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+create_id_mapping_table(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/idmappingtables",
+    Dict{String,Any}("inputReferenceConfig" => inputReferenceConfig, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_id_mapping_table(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idmappingtables",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputReferenceConfig" => inputReferenceConfig, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_id_namespace_association(input_reference_config, membership_identifier, name)
+    create_id_namespace_association(input_reference_config, membership_identifier, name, params::Dict{String,<:Any})
+
+Creates an ID namespace association.
+
+# Arguments
+- `input_reference_config`: The input reference configuration needed to create the ID
+  namespace association.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association.
+- `name`: The name for the ID namespace association.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the ID namespace association.
+- `"idMappingConfig"`: The configuration settings for the ID mapping table.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+create_id_namespace_association(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/idnamespaceassociations",
+    Dict{String,Any}("inputReferenceConfig" => inputReferenceConfig, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_id_namespace_association(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputReferenceConfig" => inputReferenceConfig, "name" => name
                 ),
                 params,
             ),
@@ -584,22 +742,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_membership(
+create_membership(
     collaborationIdentifier,
     queryLogStatus;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships",
+    Dict{String,Any}(
+        "collaborationIdentifier" => collaborationIdentifier,
+        "queryLogStatus" => queryLogStatus,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships",
-        Dict{String,Any}(
-            "collaborationIdentifier" => collaborationIdentifier,
-            "queryLogStatus" => queryLogStatus,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_membership(
     collaborationIdentifier,
     queryLogStatus,
@@ -652,25 +808,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging, you can also use tag-based access control in IAM policies to control access to
   this resource.
 """
-function create_privacy_budget_template(
+create_privacy_budget_template(
     autoRefresh,
     membershipIdentifier,
     parameters,
     privacyBudgetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/privacybudgettemplates",
+    Dict{String,Any}(
+        "autoRefresh" => autoRefresh,
+        "parameters" => parameters,
+        "privacyBudgetType" => privacyBudgetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships/$(membershipIdentifier)/privacybudgettemplates",
-        Dict{String,Any}(
-            "autoRefresh" => autoRefresh,
-            "parameters" => parameters,
-            "privacyBudgetType" => privacyBudgetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_privacy_budget_template(
     autoRefresh,
     membershipIdentifier,
@@ -709,18 +863,16 @@ Deletes an analysis template.
 - `membership_identifier`: The identifier for a membership resource.
 
 """
-function delete_analysis_template(
+delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -746,16 +898,14 @@ Deletes a collaboration. It can only be called by the collaboration owner.
 - `collaboration_identifier`: The identifier for the collaboration.
 
 """
-function delete_collaboration(
+delete_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "DELETE",
+    "/collaborations/$(collaborationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/collaborations/$(collaborationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -783,18 +933,16 @@ Provides the information necessary to delete a configured audience model associa
   model association that you want to delete.
 
 """
-function delete_configured_audience_model_association(
+delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -820,16 +968,14 @@ Deletes a configured table.
 - `configured_table_identifier`: The unique ID for the configured table to delete.
 
 """
-function delete_configured_table(
+delete_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "DELETE",
+    "/configuredTables/$(configuredTableIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/configuredTables/$(configuredTableIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -857,18 +1003,16 @@ Deletes a configured table analysis rule.
   analysis rule applies to. Currently accepts the configured table ID.
 
 """
-function delete_configured_table_analysis_rule(
+delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -897,18 +1041,16 @@ Deletes a configured table association.
   association belongs to. Currently accepts the membership ID.
 
 """
-function delete_configured_table_association(
+delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -918,6 +1060,123 @@ function delete_configured_table_association(
     return cleanrooms(
         "DELETE",
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    delete_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an analysis rule for a configured table association.
+
+# Arguments
+- `analysis_rule_type`: The type of the analysis rule that you want to delete.
+- `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
+  association that's related to the analysis rule that you want to delete.
+- `membership_identifier`:  A unique identifier for the membership that the configured
+  table association belongs to. Currently accepts the membership ID.
+
+"""
+delete_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    delete_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an ID mapping table.
+
+# Arguments
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
+  want to delete.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to delete.
+
+"""
+delete_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_id_namespace_association(id_namespace_association_identifier, membership_identifier)
+    delete_id_namespace_association(id_namespace_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an ID namespace association.
+
+# Arguments
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to delete.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to delete.
+
+"""
+delete_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -937,16 +1196,14 @@ inaccessible to active members of the collaboration.
 - `collaboration_identifier`: The unique identifier for the associated collaboration.
 
 """
-function delete_member(
+delete_member(
     accountId, collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "DELETE",
+    "/collaborations/$(collaborationIdentifier)/member/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/collaborations/$(collaborationIdentifier)/member/$(accountId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_member(
     accountId,
     collaborationIdentifier,
@@ -972,16 +1229,13 @@ Deletes a specified membership. All resources under a membership must be deleted
 - `membership_identifier`: The identifier for a membership resource.
 
 """
-function delete_membership(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+delete_membership(membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "DELETE",
         "/memberships/$(membershipIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1010,18 +1264,16 @@ Deletes a privacy budget template for a specified membership.
   template.
 
 """
-function delete_privacy_budget_template(
+delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "DELETE",
+    "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "DELETE",
-        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1048,18 +1300,16 @@ Retrieves an analysis template.
 - `membership_identifier`: The identifier for a membership resource.
 
 """
-function get_analysis_template(
+get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -1085,16 +1335,14 @@ Returns metadata about a collaboration.
 - `collaboration_identifier`: The identifier for the collaboration.
 
 """
-function get_collaboration(
+get_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1122,18 +1370,16 @@ Retrieves an analysis template within a collaboration.
   templates belong to. Currently accepts collaboration ID.
 
 """
-function get_collaboration_analysis_template(
+get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/analysistemplates/$(analysisTemplateArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/analysistemplates/$(analysisTemplateArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier,
@@ -1162,18 +1408,16 @@ Retrieves a configured audience model association within a collaboration.
   configured audience model association that you want to retrieve.
 
 """
-function get_collaboration_configured_audience_model_association(
+get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier,
@@ -1183,6 +1427,44 @@ function get_collaboration_configured_audience_model_association(
     return cleanrooms(
         "GET",
         "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_collaboration_id_namespace_association(collaboration_identifier, id_namespace_association_identifier)
+    get_collaboration_id_namespace_association(collaboration_identifier, id_namespace_association_identifier, params::Dict{String,<:Any})
+
+Retrieves an ID namespace association from a specific collaboration.
+
+# Arguments
+- `collaboration_identifier`: The unique identifier of the collaboration that contains the
+  ID namespace association that you want to retrieve.
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to retrieve.
+
+"""
+get_collaboration_id_namespace_association(
+    collaborationIdentifier,
+    idNamespaceAssociationIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_collaboration_id_namespace_association(
+    collaborationIdentifier,
+    idNamespaceAssociationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1201,18 +1483,16 @@ Returns details about a specified privacy budget template.
   templates.
 
 """
-function get_collaboration_privacy_budget_template(
+get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1241,18 +1521,16 @@ Returns information about a configured audience model association.
   configured audience model association that you want to retrieve.
 
 """
-function get_configured_audience_model_association(
+get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -1278,16 +1556,14 @@ Retrieves a configured table.
 - `configured_table_identifier`: The unique ID for the configured table to retrieve.
 
 """
-function get_configured_table(
+get_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/configuredTables/$(configuredTableIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/configuredTables/$(configuredTableIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -1315,18 +1591,16 @@ Retrieves a configured table analysis rule.
   retrieve. Currently accepts the configured table ID.
 
 """
-function get_configured_table_analysis_rule(
+get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -1355,18 +1629,16 @@ Retrieves a configured table association.
   association belongs to. Currently accepts the membership ID.
 
 """
-function get_configured_table_association(
+get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -1383,6 +1655,123 @@ function get_configured_table_association(
 end
 
 """
+    get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+ Retrieves the analysis rule for a configured table association.
+
+# Arguments
+- `analysis_rule_type`:  The type of analysis rule that you want to retrieve.
+- `configured_table_association_identifier`:  The identiﬁer for the conﬁgured table
+  association that's related to the analysis rule.
+- `membership_identifier`:  A unique identifier for the membership that the configured
+  table association belongs to. Currently accepts the membership ID.
+
+"""
+get_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    get_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Retrieves an ID mapping table.
+
+# Arguments
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table identifier
+  that you want to retrieve.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to retrieve.
+
+"""
+get_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_id_namespace_association(id_namespace_association_identifier, membership_identifier)
+    get_id_namespace_association(id_namespace_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Retrieves an ID namespace association.
+
+# Arguments
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to retrieve.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to retrieve.
+
+"""
+get_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_membership(membership_identifier)
     get_membership(membership_identifier, params::Dict{String,<:Any})
 
@@ -1392,16 +1781,13 @@ Retrieves a specified membership for an identifier.
 - `membership_identifier`: The identifier for a membership resource.
 
 """
-function get_membership(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+get_membership(membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "GET",
         "/memberships/$(membershipIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1430,18 +1816,16 @@ Returns details for a specified privacy budget template.
   template.
 
 """
-function get_privacy_budget_template(
+get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1468,18 +1852,16 @@ Returns query processing metadata.
 - `protected_query_identifier`: The identifier for a protected query instance.
 
 """
-function get_protected_query(
+get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
@@ -1507,16 +1889,14 @@ Retrieves the schema for a relation within a collaboration.
 - `name`: The name of the relation to retrieve the schema for.
 
 """
-function get_schema(
+get_schema(
     collaborationIdentifier, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/schemas/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/schemas/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_schema(
     collaborationIdentifier,
     name,
@@ -1546,16 +1926,14 @@ Retrieves a schema analysis rule.
   uniquely identified by a combination of the collaboration, the schema name, and their type.
 
 """
-function get_schema_analysis_rule(
+get_schema_analysis_rule(
     collaborationIdentifier, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/schemas/$(name)/analysisRule/$(type)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/schemas/$(name)/analysisRule/$(type)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_schema_analysis_rule(
     collaborationIdentifier,
     name,
@@ -1587,16 +1965,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_analysis_templates(
+list_analysis_templates(
     membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/analysistemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/analysistemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_analysis_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1627,16 +2003,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_collaboration_analysis_templates(
+list_collaboration_analysis_templates(
     collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/analysistemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/analysistemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_collaboration_analysis_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1667,16 +2041,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_collaboration_configured_audience_model_associations(
+list_collaboration_configured_audience_model_associations(
     collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_collaboration_configured_audience_model_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1685,6 +2057,45 @@ function list_collaboration_configured_audience_model_associations(
     return cleanrooms(
         "GET",
         "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_id_namespace_associations(collaboration_identifier)
+    list_collaboration_id_namespace_associations(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns a list of the ID namespace associations in a collaboration.
+
+# Arguments
+- `collaboration_identifier`: The unique identifier of the collaboration that contains the
+  ID namespace associations that you want to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.&gt;
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+list_collaboration_id_namespace_associations(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/idnamespaceassociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_collaboration_id_namespace_associations(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/idnamespaceassociations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1708,16 +2119,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_collaboration_privacy_budget_templates(
+list_collaboration_privacy_budget_templates(
     collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/privacybudgettemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/privacybudgettemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_collaboration_privacy_budget_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1752,19 +2161,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_collaboration_privacy_budgets(
+list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/collaborations/$(collaborationIdentifier)/privacybudgets",
+    Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/collaborations/$(collaborationIdentifier)/privacybudgets",
-        Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType,
@@ -1799,11 +2206,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_collaborations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cleanrooms(
-        "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_collaborations(; aws_config::AbstractAWSConfig=global_aws_config()) = cleanrooms(
+    "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_collaborations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1834,16 +2239,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_configured_audience_model_associations(
+list_configured_audience_model_associations(
     membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_configured_audience_model_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1874,16 +2277,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_configured_table_associations(
+list_configured_table_associations(
     membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/configuredTableAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_configured_table_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1910,17 +2311,93 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_configured_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cleanrooms(
-        "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_configured_tables(; aws_config::AbstractAWSConfig=global_aws_config()) = cleanrooms(
+    "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_configured_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cleanrooms(
         "GET",
         "/configuredTables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_id_mapping_tables(membership_identifier)
+    list_id_mapping_tables(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of ID mapping tables.
+
+# Arguments
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping tables that you want to view.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+list_id_mapping_tables(
+    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/idmappingtables";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_id_mapping_tables(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idmappingtables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_id_namespace_associations(membership_identifier)
+    list_id_namespace_associations(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of ID namespace associations.
+
+# Arguments
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to view.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+list_id_namespace_associations(
+    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/idnamespaceassociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_id_namespace_associations(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1943,16 +2420,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_members(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+list_members(collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "GET",
         "/collaborations/$(collaborationIdentifier)/members";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_members(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1980,11 +2454,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"status"`: A filter which will return only memberships in the specified status.
 """
-function list_memberships(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cleanrooms(
-        "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_memberships(; aws_config::AbstractAWSConfig=global_aws_config()) = cleanrooms(
+    "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_memberships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2016,16 +2488,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_privacy_budget_templates(
+list_privacy_budget_templates(
     membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/privacybudgettemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/privacybudgettemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_privacy_budget_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2060,19 +2530,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_privacy_budgets(
+list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/privacybudgets",
+    Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/privacybudgets",
-        Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType,
@@ -2110,16 +2578,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"status"`: A filter on the status of the protected query.
 """
-function list_protected_queries(
+list_protected_queries(
     membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "GET",
+    "/memberships/$(membershipIdentifier)/protectedQueries";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "GET",
-        "/memberships/$(membershipIdentifier)/protectedQueries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_protected_queries(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2152,16 +2618,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaType"`: If present, filter schemas by schema type. The only valid schema type is
   currently `TABLE`.
 """
-function list_schemas(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+list_schemas(collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "GET",
         "/collaborations/$(collaborationIdentifier)/schemas";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_schemas(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2187,16 +2650,13 @@ Lists all of the tags that have been added to a resource.
   list tags on.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2205,6 +2665,44 @@ function list_tags_for_resource(
     return cleanrooms(
         "GET",
         "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    populate_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    populate_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Defines the information that's necessary to populate an ID mapping table.
+
+# Arguments
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
+  want to populate.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to populate.
+
+"""
+populate_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)/populate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function populate_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)/populate",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2224,17 +2722,15 @@ given epsilon and noise parameters.
 - `parameters`: Specifies the desired epsilon and noise parameters to preview.
 
 """
-function preview_privacy_impact(
+preview_privacy_impact(
     membershipIdentifier, parameters; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/previewprivacyimpact",
+    Dict{String,Any}("parameters" => parameters);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships/$(membershipIdentifier)/previewprivacyimpact",
-        Dict{String,Any}("parameters" => parameters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function preview_privacy_impact(
     membershipIdentifier,
     parameters,
@@ -2268,20 +2764,18 @@ Creates a protected query that is started by Clean Rooms.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"resultConfiguration"`: The details needed to write the query results.
 """
-function start_protected_query(
+start_protected_query(
     membershipIdentifier,
     sqlParameters,
     type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "POST",
+    "/memberships/$(membershipIdentifier)/protectedQueries",
+    Dict{String,Any}("sqlParameters" => sqlParameters, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "POST",
-        "/memberships/$(membershipIdentifier)/protectedQueries",
-        Dict{String,Any}("sqlParameters" => sqlParameters, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_protected_query(
     membershipIdentifier,
     sqlParameters,
@@ -2316,15 +2810,14 @@ Tags a resource.
 - `tags`: A map of objects specifying each key name and value.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return cleanrooms(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -2352,17 +2845,14 @@ Removes a tag or list of tags from a resource.
 - `tag_keys`: A list of key names of tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2392,18 +2882,16 @@ Updates the analysis template metadata.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A new description for the analysis template.
 """
-function update_analysis_template(
+update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -2434,16 +2922,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A human-readable identifier provided by the collaboration owner. Display names
   are not unique.
 """
-function update_collaboration(
+update_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "PATCH",
+    "/collaborations/$(collaborationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/collaborations/$(collaborationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2475,18 +2961,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A new description for the configured audience model association.
 - `"name"`: A new name for the configured audience model association.
 """
-function update_configured_audience_model_association(
+update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -2517,16 +3001,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A new description for the configured table.
 - `"name"`: A new name for the configured table.
 """
-function update_configured_table(
+update_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = cleanrooms(
+    "PATCH",
+    "/configuredTables/$(configuredTableIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/configuredTables/$(configuredTableIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -2556,20 +3038,18 @@ Updates a configured table analysis rule.
   analysis rule applies to. Currently accepts the configured table ID.
 
 """
-function update_configured_table_analysis_rule(
+update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
     configuredTableIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)",
+    Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/configuredTables/$(configuredTableIdentifier)/analysisRule/$(analysisRuleType)",
-        Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -2608,18 +3088,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The service will assume this role to access catalog metadata and query the
   table.
 """
-function update_configured_table_association(
+update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -2629,6 +3107,141 @@ function update_configured_table_association(
     return cleanrooms(
         "PATCH",
         "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+ Updates the analysis rule for a configured table association.
+
+# Arguments
+- `analysis_rule_policy`:  The updated analysis rule policy for the conﬁgured table
+  association.
+- `analysis_rule_type`:  The analysis rule type that you want to update.
+- `configured_table_association_identifier`:  The identifier for the configured table
+  association to update.
+- `membership_identifier`:  A unique identifier for the membership that the configured
+  table association belongs to. Currently accepts the membership ID.
+
+"""
+update_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+    Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    update_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Provides the details that are necessary to update an ID mapping table.
+
+# Arguments
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
+  want to update.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A new description for the ID mapping table.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
+"""
+update_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_id_namespace_association(id_namespace_association_identifier, membership_identifier)
+    update_id_namespace_association(id_namespace_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Provides the details that are necessary to update an ID namespace association.
+
+# Arguments
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to update.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A new description for the ID namespace association.
+- `"idMappingConfig"`: The configuration settings for the ID mapping table.
+- `"name"`: A new name for the ID namespace association.
+"""
+update_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2651,16 +3264,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"queryLogStatus"`: An indicator as to whether query logging has been enabled or disabled
   for the membership.
 """
-function update_membership(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cleanrooms(
+update_membership(membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cleanrooms(
         "PATCH",
         "/memberships/$(membershipIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2694,20 +3304,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: Specifies the epsilon and noise parameters for the privacy budget
   template.
 """
-function update_privacy_budget_template(
+update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
     privacyBudgetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
+    Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
-        Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -2741,20 +3349,18 @@ Updates the processing of a currently running query.
   currently running query.
 
 """
-function update_protected_query(
+update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
     targetStatus;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cleanrooms(
+    "PATCH",
+    "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)",
+    Dict{String,Any}("targetStatus" => targetStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanrooms(
-        "PATCH",
-        "/memberships/$(membershipIdentifier)/protectedQueries/$(protectedQueryIdentifier)",
-        Dict{String,Any}("targetStatus" => targetStatus);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
