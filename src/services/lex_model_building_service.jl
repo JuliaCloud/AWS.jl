@@ -32,7 +32,7 @@ function create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/bots/$(name)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_bot_version(
@@ -43,7 +43,7 @@ function create_bot_version(
         "/bots/$(name)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -77,7 +77,7 @@ function create_intent_version(name; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/intents/$(name)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_intent_version(
@@ -88,7 +88,7 @@ function create_intent_version(
         "/intents/$(name)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -121,7 +121,7 @@ function create_slot_type_version(name; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/slottypes/$(name)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_slot_type_version(
@@ -132,7 +132,7 @@ function create_slot_type_version(
         "/slottypes/$(name)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -158,7 +158,7 @@ lex:DeleteBot action.
 """
 function delete_bot(name; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "DELETE", "/bots/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/bots/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_bot(
@@ -169,7 +169,7 @@ function delete_bot(
         "/bots/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -194,7 +194,7 @@ function delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/bots/$(botName)/aliases/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_bot_alias(
@@ -208,7 +208,7 @@ function delete_bot_alias(
         "/bots/$(botName)/aliases/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -233,7 +233,7 @@ function delete_bot_channel_association(
         "DELETE",
         "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_bot_channel_association(
@@ -248,7 +248,7 @@ function delete_bot_channel_association(
         "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -272,7 +272,7 @@ function delete_bot_version(
         "DELETE",
         "/bots/$(name)/versions/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_bot_version(
@@ -286,7 +286,7 @@ function delete_bot_version(
         "/bots/$(name)/versions/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -310,7 +310,10 @@ This operation requires permission for the lex:DeleteIntent action.
 """
 function delete_intent(name; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "DELETE", "/intents/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/intents/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_intent(
@@ -321,7 +324,7 @@ function delete_intent(
         "/intents/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -346,7 +349,7 @@ function delete_intent_version(
         "DELETE",
         "/intents/$(name)/versions/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_intent_version(
@@ -360,7 +363,7 @@ function delete_intent_version(
         "/intents/$(name)/versions/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -388,7 +391,7 @@ function delete_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config(
         "DELETE",
         "/slottypes/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_slot_type(
@@ -399,7 +402,7 @@ function delete_slot_type(
         "/slottypes/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -424,7 +427,7 @@ function delete_slot_type_version(
         "DELETE",
         "/slottypes/$(name)/version/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_slot_type_version(
@@ -438,7 +441,7 @@ function delete_slot_type_version(
         "/slottypes/$(name)/version/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -469,7 +472,7 @@ function delete_utterances(
         "DELETE",
         "/bots/$(botName)/utterances/$(userId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_utterances(
@@ -483,7 +486,7 @@ function delete_utterances(
         "/bots/$(botName)/utterances/$(userId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -504,7 +507,7 @@ function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/bots/$(name)/versions/$(versionoralias)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bot(
@@ -518,7 +521,7 @@ function get_bot(
         "/bots/$(name)/versions/$(versionoralias)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -539,7 +542,7 @@ function get_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/bots/$(botName)/aliases/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bot_alias(
@@ -553,7 +556,7 @@ function get_bot_alias(
         "/bots/$(botName)/aliases/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -583,7 +586,7 @@ function get_bot_aliases(botName; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/bots/$(botName)/aliases/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bot_aliases(
@@ -594,7 +597,7 @@ function get_bot_aliases(
         "/bots/$(botName)/aliases/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -620,7 +623,7 @@ function get_bot_channel_association(
         "GET",
         "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bot_channel_association(
@@ -635,7 +638,7 @@ function get_bot_channel_association(
         "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -671,7 +674,7 @@ function get_bot_channel_associations(
         "GET",
         "/bots/$(botName)/aliases/$(aliasName)/channels/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bot_channel_associations(
@@ -685,7 +688,7 @@ function get_bot_channel_associations(
         "/bots/$(botName)/aliases/$(aliasName)/channels/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -716,7 +719,7 @@ function get_bot_versions(name; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/bots/$(name)/versions/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bot_versions(
@@ -727,7 +730,7 @@ function get_bot_versions(
         "/bots/$(name)/versions/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,14 +756,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_bots(; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "GET", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -781,7 +784,7 @@ function get_builtin_intent(signature; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/builtins/intents/$(signature)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_builtin_intent(
@@ -794,7 +797,7 @@ function get_builtin_intent(
         "/builtins/intents/$(signature)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -820,7 +823,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_builtin_intents(; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "GET", "/builtins/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/builtins/intents/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_builtin_intents(
@@ -831,7 +837,7 @@ function get_builtin_intents(
         "/builtins/intents/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -861,7 +867,7 @@ function get_builtin_slot_types(; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/builtins/slottypes/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_builtin_slot_types(
@@ -872,7 +878,7 @@ function get_builtin_slot_types(
         "/builtins/slottypes/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -906,7 +912,7 @@ function get_export(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_export(
@@ -933,7 +939,7 @@ function get_export(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -952,7 +958,7 @@ function get_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/imports/$(importId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_import(
@@ -965,7 +971,7 @@ function get_import(
         "/imports/$(importId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -986,7 +992,7 @@ function get_intent(name, version; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/intents/$(name)/versions/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_intent(
@@ -1000,7 +1006,7 @@ function get_intent(
         "/intents/$(name)/versions/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1031,7 +1037,7 @@ function get_intent_versions(name; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/intents/$(name)/versions/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_intent_versions(
@@ -1042,7 +1048,7 @@ function get_intent_versions(
         "/intents/$(name)/versions/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1068,14 +1074,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_intents(; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "GET", "/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_intents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/intents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1097,7 +1103,7 @@ function get_migration(migrationId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/migrations/$(migrationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_migration(
@@ -1110,7 +1116,7 @@ function get_migration(
         "/migrations/$(migrationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1137,14 +1143,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_migrations(; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "GET", "/migrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/migrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_migrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/migrations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/migrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1166,7 +1176,7 @@ function get_slot_type(name, version; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/slottypes/$(name)/versions/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_slot_type(
@@ -1180,7 +1190,7 @@ function get_slot_type(
         "/slottypes/$(name)/versions/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1212,7 +1222,7 @@ function get_slot_type_versions(name; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/slottypes/$(name)/versions/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_slot_type_versions(
@@ -1223,7 +1233,7 @@ function get_slot_type_versions(
         "/slottypes/$(name)/versions/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1250,14 +1260,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_slot_types(; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_model_building_service(
-        "GET", "/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_slot_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/slottypes/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/slottypes/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1298,7 +1312,7 @@ function get_utterances_view(
         "/bots/$(botname)/utterances?view=aggregation",
         Dict{String,Any}("bot_versions" => bot_versions, "status_type" => status_type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_utterances_view(
@@ -1321,7 +1335,7 @@ function get_utterances_view(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1343,7 +1357,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1356,7 +1370,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1500,7 +1514,7 @@ function put_bot(
         "/bots/$(name)/versions/$LATEST",
         Dict{String,Any}("childDirected" => childDirected, "locale" => locale);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_bot(
@@ -1521,7 +1535,7 @@ function put_bot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1561,7 +1575,7 @@ function put_bot_alias(
         "/bots/$(botName)/aliases/$(name)",
         Dict{String,Any}("botVersion" => botVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_bot_alias(
@@ -1578,7 +1592,7 @@ function put_bot_alias(
             mergewith(_merge, Dict{String,Any}("botVersion" => botVersion), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1686,7 +1700,7 @@ function put_intent(name; aws_config::AbstractAWSConfig=global_aws_config())
         "PUT",
         "/intents/$(name)/versions/$LATEST";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_intent(
@@ -1697,7 +1711,7 @@ function put_intent(
         "/intents/$(name)/versions/$LATEST",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1762,7 +1776,7 @@ function put_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config())
         "PUT",
         "/slottypes/$(name)/versions/$LATEST";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_slot_type(
@@ -1773,7 +1787,7 @@ function put_slot_type(
         "/slottypes/$(name)/versions/$LATEST",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1815,7 +1829,7 @@ function start_import(
             "resourceType" => resourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_import(
@@ -1840,7 +1854,7 @@ function start_import(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1887,7 +1901,7 @@ function start_migration(
             "v2BotRole" => v2BotRole,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_migration(
@@ -1916,7 +1930,7 @@ function start_migration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1940,7 +1954,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1954,7 +1968,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1978,7 +1992,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1992,6 +2006,6 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -23,7 +23,7 @@ function accept_input_device_transfer(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/accept";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_input_device_transfer(
@@ -36,7 +36,7 @@ function accept_input_device_transfer(
         "/prod/inputDevices/$(inputDeviceId)/accept",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -55,7 +55,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function batch_delete(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "POST", "/prod/batch/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/prod/batch/delete";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete(
@@ -66,7 +69,7 @@ function batch_delete(
         "/prod/batch/delete",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -83,7 +86,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function batch_start(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "POST", "/prod/batch/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/prod/batch/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_start(
@@ -94,7 +100,7 @@ function batch_start(
         "/prod/batch/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -111,7 +117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function batch_stop(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function batch_stop(
@@ -122,7 +128,7 @@ function batch_stop(
         "/prod/batch/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -145,7 +151,7 @@ function batch_update_schedule(channelId; aws_config::AbstractAWSConfig=global_a
         "PUT",
         "/prod/channels/$(channelId)/schedule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_schedule(
@@ -158,7 +164,7 @@ function batch_update_schedule(
         "/prod/channels/$(channelId)/schedule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -180,7 +186,7 @@ function cancel_input_device_transfer(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/cancel";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_input_device_transfer(
@@ -193,7 +199,7 @@ function cancel_input_device_transfer(
         "/prod/inputDevices/$(inputDeviceId)/cancel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -210,7 +216,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function claim_device(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/prod/claimDevice";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function claim_device(
@@ -221,7 +230,7 @@ function claim_device(
         "/prod/claimDevice",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -258,7 +267,7 @@ function create_channel(; aws_config::AbstractAWSConfig=global_aws_config())
         "/prod/channels",
         Dict{String,Any}("requestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel(
@@ -271,7 +280,7 @@ function create_channel(
             mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +343,7 @@ function create_cloud_watch_alarm_template(
             "treatMissingData" => treatMissingData,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cloud_watch_alarm_template(
@@ -373,7 +382,7 @@ function create_cloud_watch_alarm_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -401,7 +410,7 @@ function create_cloud_watch_alarm_template_group(
         "/prod/cloudwatch-alarm-template-groups",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cloud_watch_alarm_template_group(
@@ -412,7 +421,7 @@ function create_cloud_watch_alarm_template_group(
         "/prod/cloudwatch-alarm-template-groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -446,7 +455,7 @@ function create_event_bridge_rule_template(
             "eventType" => eventType, "groupIdentifier" => groupIdentifier, "name" => name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_bridge_rule_template(
@@ -471,7 +480,7 @@ function create_event_bridge_rule_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -499,7 +508,7 @@ function create_event_bridge_rule_template_group(
         "/prod/eventbridge-rule-template-groups",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_bridge_rule_template_group(
@@ -510,7 +519,7 @@ function create_event_bridge_rule_template_group(
         "/prod/eventbridge-rule-template-groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -553,7 +562,7 @@ function create_input(; aws_config::AbstractAWSConfig=global_aws_config())
         "/prod/inputs",
         Dict{String,Any}("requestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_input(
@@ -566,7 +575,7 @@ function create_input(
             mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -586,7 +595,7 @@ function create_input_security_group(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/prod/inputSecurityGroups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_input_security_group(
@@ -597,7 +606,7 @@ function create_input_security_group(
         "/prod/inputSecurityGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -636,7 +645,7 @@ function create_multiplex(
             "requestId" => requestId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_multiplex(
@@ -663,7 +672,7 @@ function create_multiplex(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -697,7 +706,7 @@ function create_multiplex_program(
             "requestId" => requestId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_multiplex_program(
@@ -723,7 +732,7 @@ function create_multiplex_program(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -749,7 +758,7 @@ function create_partner_input(inputId; aws_config::AbstractAWSConfig=global_aws_
         "/prod/inputs/$(inputId)/partners",
         Dict{String,Any}("requestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_partner_input(
@@ -762,7 +771,7 @@ function create_partner_input(
             mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -796,7 +805,7 @@ function create_signal_map(
             "discoveryEntryPointArn" => discoveryEntryPointArn, "name" => name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_signal_map(
@@ -818,7 +827,7 @@ function create_signal_map(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -840,7 +849,7 @@ function create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/prod/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_tags(
@@ -853,7 +862,7 @@ function create_tags(
         "/prod/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -872,7 +881,7 @@ function delete_channel(channelId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/prod/channels/$(channelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel(
@@ -885,7 +894,7 @@ function delete_channel(
         "/prod/channels/$(channelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,7 +916,7 @@ function delete_cloud_watch_alarm_template(
         "DELETE",
         "/prod/cloudwatch-alarm-templates/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cloud_watch_alarm_template(
@@ -920,7 +929,7 @@ function delete_cloud_watch_alarm_template(
         "/prod/cloudwatch-alarm-templates/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -943,7 +952,7 @@ function delete_cloud_watch_alarm_template_group(
         "DELETE",
         "/prod/cloudwatch-alarm-template-groups/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cloud_watch_alarm_template_group(
@@ -956,7 +965,7 @@ function delete_cloud_watch_alarm_template_group(
         "/prod/cloudwatch-alarm-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -978,7 +987,7 @@ function delete_event_bridge_rule_template(
         "DELETE",
         "/prod/eventbridge-rule-templates/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_bridge_rule_template(
@@ -991,7 +1000,7 @@ function delete_event_bridge_rule_template(
         "/prod/eventbridge-rule-templates/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1014,7 +1023,7 @@ function delete_event_bridge_rule_template_group(
         "DELETE",
         "/prod/eventbridge-rule-template-groups/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_bridge_rule_template_group(
@@ -1027,7 +1036,7 @@ function delete_event_bridge_rule_template_group(
         "/prod/eventbridge-rule-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1046,7 +1055,7 @@ function delete_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()
         "DELETE",
         "/prod/inputs/$(inputId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_input(
@@ -1057,7 +1066,7 @@ function delete_input(
         "/prod/inputs/$(inputId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1078,7 +1087,7 @@ function delete_input_security_group(
         "DELETE",
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_input_security_group(
@@ -1091,7 +1100,7 @@ function delete_input_security_group(
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1110,7 +1119,7 @@ function delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/prod/multiplexes/$(multiplexId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_multiplex(
@@ -1123,7 +1132,7 @@ function delete_multiplex(
         "/prod/multiplexes/$(multiplexId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1145,7 +1154,7 @@ function delete_multiplex_program(
         "DELETE",
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_multiplex_program(
@@ -1159,7 +1168,7 @@ function delete_multiplex_program(
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1180,7 +1189,7 @@ function delete_reservation(
         "DELETE",
         "/prod/reservations/$(reservationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_reservation(
@@ -1193,7 +1202,7 @@ function delete_reservation(
         "/prod/reservations/$(reservationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1212,7 +1221,7 @@ function delete_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/prod/channels/$(channelId)/schedule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_schedule(
@@ -1225,7 +1234,7 @@ function delete_schedule(
         "/prod/channels/$(channelId)/schedule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1244,7 +1253,7 @@ function delete_signal_map(identifier; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/prod/signal-maps/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_signal_map(
@@ -1257,7 +1266,7 @@ function delete_signal_map(
         "/prod/signal-maps/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1280,7 +1289,7 @@ function delete_tags(
         "/prod/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_tags(
@@ -1294,7 +1303,7 @@ function delete_tags(
         "/prod/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1310,7 +1319,7 @@ function describe_account_configuration(; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/prod/accountConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_configuration(
@@ -1321,7 +1330,7 @@ function describe_account_configuration(
         "/prod/accountConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1340,7 +1349,7 @@ function describe_channel(channelId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/prod/channels/$(channelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel(
@@ -1353,7 +1362,7 @@ function describe_channel(
         "/prod/channels/$(channelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1372,7 +1381,7 @@ function describe_input(inputId; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/prod/inputs/$(inputId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_input(
@@ -1383,7 +1392,7 @@ function describe_input(
         "/prod/inputs/$(inputId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1404,7 +1413,7 @@ function describe_input_device(
         "GET",
         "/prod/inputDevices/$(inputDeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_input_device(
@@ -1417,7 +1426,7 @@ function describe_input_device(
         "/prod/inputDevices/$(inputDeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1440,7 +1449,7 @@ function describe_input_device_thumbnail(
         "/prod/inputDevices/$(inputDeviceId)/thumbnailData",
         Dict{String,Any}("headers" => Dict{String,Any}("accept" => accept));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_input_device_thumbnail(
@@ -1460,7 +1469,7 @@ function describe_input_device_thumbnail(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1481,7 +1490,7 @@ function describe_input_security_group(
         "GET",
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_input_security_group(
@@ -1494,7 +1503,7 @@ function describe_input_security_group(
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1513,7 +1522,7 @@ function describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/prod/multiplexes/$(multiplexId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_multiplex(
@@ -1526,7 +1535,7 @@ function describe_multiplex(
         "/prod/multiplexes/$(multiplexId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1548,7 +1557,7 @@ function describe_multiplex_program(
         "GET",
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_multiplex_program(
@@ -1562,7 +1571,7 @@ function describe_multiplex_program(
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1581,7 +1590,7 @@ function describe_offering(offeringId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/prod/offerings/$(offeringId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_offering(
@@ -1594,7 +1603,7 @@ function describe_offering(
         "/prod/offerings/$(offeringId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1615,7 +1624,7 @@ function describe_reservation(
         "GET",
         "/prod/reservations/$(reservationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_reservation(
@@ -1628,7 +1637,7 @@ function describe_reservation(
         "/prod/reservations/$(reservationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1651,7 +1660,7 @@ function describe_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/prod/channels/$(channelId)/schedule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_schedule(
@@ -1664,7 +1673,7 @@ function describe_schedule(
         "/prod/channels/$(channelId)/schedule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1688,7 +1697,7 @@ function describe_thumbnails(
         "/prod/channels/$(channelId)/thumbnails",
         Dict{String,Any}("pipelineId" => pipelineId, "thumbnailType" => thumbnailType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_thumbnails(
@@ -1711,7 +1720,7 @@ function describe_thumbnails(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1733,7 +1742,7 @@ function get_cloud_watch_alarm_template(
         "GET",
         "/prod/cloudwatch-alarm-templates/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cloud_watch_alarm_template(
@@ -1746,7 +1755,7 @@ function get_cloud_watch_alarm_template(
         "/prod/cloudwatch-alarm-templates/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1768,7 +1777,7 @@ function get_cloud_watch_alarm_template_group(
         "GET",
         "/prod/cloudwatch-alarm-template-groups/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cloud_watch_alarm_template_group(
@@ -1781,7 +1790,7 @@ function get_cloud_watch_alarm_template_group(
         "/prod/cloudwatch-alarm-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1803,7 +1812,7 @@ function get_event_bridge_rule_template(
         "GET",
         "/prod/eventbridge-rule-templates/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_bridge_rule_template(
@@ -1816,7 +1825,7 @@ function get_event_bridge_rule_template(
         "/prod/eventbridge-rule-templates/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1838,7 +1847,7 @@ function get_event_bridge_rule_template_group(
         "GET",
         "/prod/eventbridge-rule-template-groups/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_bridge_rule_template_group(
@@ -1851,7 +1860,7 @@ function get_event_bridge_rule_template_group(
         "/prod/eventbridge-rule-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1870,7 +1879,7 @@ function get_signal_map(identifier; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/prod/signal-maps/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_signal_map(
@@ -1883,7 +1892,7 @@ function get_signal_map(
         "/prod/signal-maps/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1900,7 +1909,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_channels(
@@ -1911,7 +1920,7 @@ function list_channels(
         "/prod/channels",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1938,7 +1947,7 @@ function list_cloud_watch_alarm_template_groups(;
         "GET",
         "/prod/cloudwatch-alarm-template-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_cloud_watch_alarm_template_groups(
@@ -1949,7 +1958,7 @@ function list_cloud_watch_alarm_template_groups(
         "/prod/cloudwatch-alarm-template-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1978,7 +1987,7 @@ function list_cloud_watch_alarm_templates(;
         "GET",
         "/prod/cloudwatch-alarm-templates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_cloud_watch_alarm_templates(
@@ -1989,7 +1998,7 @@ function list_cloud_watch_alarm_templates(
         "/prod/cloudwatch-alarm-templates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2014,7 +2023,7 @@ function list_event_bridge_rule_template_groups(;
         "GET",
         "/prod/eventbridge-rule-template-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_event_bridge_rule_template_groups(
@@ -2025,7 +2034,7 @@ function list_event_bridge_rule_template_groups(
         "/prod/eventbridge-rule-template-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2052,7 +2061,7 @@ function list_event_bridge_rule_templates(;
         "GET",
         "/prod/eventbridge-rule-templates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_event_bridge_rule_templates(
@@ -2063,7 +2072,7 @@ function list_event_bridge_rule_templates(
         "/prod/eventbridge-rule-templates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2091,7 +2100,7 @@ function list_input_device_transfers(
         "/prod/inputDeviceTransfers",
         Dict{String,Any}("transferType" => transferType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_input_device_transfers(
@@ -2106,7 +2115,7 @@ function list_input_device_transfers(
             mergewith(_merge, Dict{String,Any}("transferType" => transferType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2123,7 +2132,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/inputDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/prod/inputDevices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_input_devices(
@@ -2134,7 +2146,7 @@ function list_input_devices(
         "/prod/inputDevices",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2154,7 +2166,7 @@ function list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/prod/inputSecurityGroups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_input_security_groups(
@@ -2165,7 +2177,7 @@ function list_input_security_groups(
         "/prod/inputSecurityGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2182,7 +2194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_inputs(
@@ -2193,7 +2205,7 @@ function list_inputs(
         "/prod/inputs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2218,7 +2230,7 @@ function list_multiplex_programs(
         "GET",
         "/prod/multiplexes/$(multiplexId)/programs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_multiplex_programs(
@@ -2231,7 +2243,7 @@ function list_multiplex_programs(
         "/prod/multiplexes/$(multiplexId)/programs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2248,7 +2260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_multiplexes(
@@ -2259,7 +2271,7 @@ function list_multiplexes(
         "/prod/multiplexes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2287,7 +2299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_offerings(
@@ -2298,7 +2310,7 @@ function list_offerings(
         "/prod/offerings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2323,7 +2335,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/prod/reservations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_reservations(
@@ -2334,7 +2349,7 @@ function list_reservations(
         "/prod/reservations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2356,7 +2371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_signal_maps(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(
-        "GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_signal_maps(
@@ -2367,7 +2382,7 @@ function list_signal_maps(
         "/prod/signal-maps",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2388,7 +2403,7 @@ function list_tags_for_resource(
         "GET",
         "/prod/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2401,7 +2416,7 @@ function list_tags_for_resource(
         "/prod/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2434,7 +2449,7 @@ function purchase_offering(
         "/prod/offerings/$(offeringId)/purchase",
         Dict{String,Any}("count" => count, "requestId" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function purchase_offering(
@@ -2454,7 +2469,7 @@ function purchase_offering(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2484,7 +2499,7 @@ function reboot_input_device(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/reboot";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reboot_input_device(
@@ -2497,7 +2512,7 @@ function reboot_input_device(
         "/prod/inputDevices/$(inputDeviceId)/reboot",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2519,7 +2534,7 @@ function reject_input_device_transfer(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/reject";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reject_input_device_transfer(
@@ -2532,7 +2547,7 @@ function reject_input_device_transfer(
         "/prod/inputDevices/$(inputDeviceId)/reject",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2557,7 +2572,7 @@ function restart_channel_pipelines(
         "POST",
         "/prod/channels/$(channelId)/restartChannelPipelines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restart_channel_pipelines(
@@ -2570,7 +2585,7 @@ function restart_channel_pipelines(
         "/prod/channels/$(channelId)/restartChannelPipelines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2589,7 +2604,7 @@ function start_channel(channelId; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/prod/channels/$(channelId)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_channel(
@@ -2602,7 +2617,7 @@ function start_channel(
         "/prod/channels/$(channelId)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2623,7 +2638,7 @@ function start_delete_monitor_deployment(
         "DELETE",
         "/prod/signal-maps/$(identifier)/monitor-deployment";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_delete_monitor_deployment(
@@ -2636,7 +2651,7 @@ function start_delete_monitor_deployment(
         "/prod/signal-maps/$(identifier)/monitor-deployment",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2660,7 +2675,7 @@ function start_input_device(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_input_device(
@@ -2673,7 +2688,7 @@ function start_input_device(
         "/prod/inputDevices/$(inputDeviceId)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2701,7 +2716,7 @@ function start_input_device_maintenance_window(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_input_device_maintenance_window(
@@ -2714,7 +2729,7 @@ function start_input_device_maintenance_window(
         "/prod/inputDevices/$(inputDeviceId)/startInputDeviceMaintenanceWindow",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2738,7 +2753,7 @@ function start_monitor_deployment(
         "POST",
         "/prod/signal-maps/$(identifier)/monitor-deployment";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_monitor_deployment(
@@ -2751,7 +2766,7 @@ function start_monitor_deployment(
         "/prod/signal-maps/$(identifier)/monitor-deployment",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2771,7 +2786,7 @@ function start_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/prod/multiplexes/$(multiplexId)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_multiplex(
@@ -2784,7 +2799,7 @@ function start_multiplex(
         "/prod/multiplexes/$(multiplexId)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2817,7 +2832,7 @@ function start_update_signal_map(
         "PATCH",
         "/prod/signal-maps/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_update_signal_map(
@@ -2830,7 +2845,7 @@ function start_update_signal_map(
         "/prod/signal-maps/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2849,7 +2864,7 @@ function stop_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config
         "POST",
         "/prod/channels/$(channelId)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_channel(
@@ -2862,7 +2877,7 @@ function stop_channel(
         "/prod/channels/$(channelId)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2884,7 +2899,7 @@ function stop_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_a
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_input_device(
@@ -2897,7 +2912,7 @@ function stop_input_device(
         "/prod/inputDevices/$(inputDeviceId)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2916,7 +2931,7 @@ function stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/prod/multiplexes/$(multiplexId)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_multiplex(
@@ -2929,7 +2944,7 @@ function stop_multiplex(
         "/prod/multiplexes/$(multiplexId)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2957,7 +2972,7 @@ function transfer_input_device(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/transfer";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function transfer_input_device(
@@ -2970,7 +2985,7 @@ function transfer_input_device(
         "/prod/inputDevices/$(inputDeviceId)/transfer",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2989,7 +3004,7 @@ function update_account_configuration(; aws_config::AbstractAWSConfig=global_aws
         "PUT",
         "/prod/accountConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_account_configuration(
@@ -3000,7 +3015,7 @@ function update_account_configuration(
         "/prod/accountConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3032,7 +3047,7 @@ function update_channel(channelId; aws_config::AbstractAWSConfig=global_aws_conf
         "PUT",
         "/prod/channels/$(channelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel(
@@ -3045,7 +3060,7 @@ function update_channel(
         "/prod/channels/$(channelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3071,7 +3086,7 @@ function update_channel_class(
         "/prod/channels/$(channelId)/channelClass",
         Dict{String,Any}("channelClass" => channelClass);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel_class(
@@ -3087,7 +3102,7 @@ function update_channel_class(
             mergewith(_merge, Dict{String,Any}("channelClass" => channelClass), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3128,7 +3143,7 @@ function update_cloud_watch_alarm_template(
         "PATCH",
         "/prod/cloudwatch-alarm-templates/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cloud_watch_alarm_template(
@@ -3141,7 +3156,7 @@ function update_cloud_watch_alarm_template(
         "/prod/cloudwatch-alarm-templates/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3166,7 +3181,7 @@ function update_cloud_watch_alarm_template_group(
         "PATCH",
         "/prod/cloudwatch-alarm-template-groups/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cloud_watch_alarm_template_group(
@@ -3179,7 +3194,7 @@ function update_cloud_watch_alarm_template_group(
         "/prod/cloudwatch-alarm-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3210,7 +3225,7 @@ function update_event_bridge_rule_template(
         "PATCH",
         "/prod/eventbridge-rule-templates/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_event_bridge_rule_template(
@@ -3223,7 +3238,7 @@ function update_event_bridge_rule_template(
         "/prod/eventbridge-rule-templates/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3248,7 +3263,7 @@ function update_event_bridge_rule_template_group(
         "PATCH",
         "/prod/eventbridge-rule-template-groups/$(identifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_event_bridge_rule_template_group(
@@ -3261,7 +3276,7 @@ function update_event_bridge_rule_template_group(
         "/prod/eventbridge-rule-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3300,7 +3315,7 @@ function update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()
         "PUT",
         "/prod/inputs/$(inputId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_input(
@@ -3311,7 +3326,7 @@ function update_input(
         "/prod/inputs/$(inputId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3338,7 +3353,7 @@ function update_input_device(
         "PUT",
         "/prod/inputDevices/$(inputDeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_input_device(
@@ -3351,7 +3366,7 @@ function update_input_device(
         "/prod/inputDevices/$(inputDeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3376,7 +3391,7 @@ function update_input_security_group(
         "PUT",
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_input_security_group(
@@ -3389,7 +3404,7 @@ function update_input_security_group(
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3412,7 +3427,7 @@ function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_
         "PUT",
         "/prod/multiplexes/$(multiplexId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_multiplex(
@@ -3425,7 +3440,7 @@ function update_multiplex(
         "/prod/multiplexes/$(multiplexId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3450,7 +3465,7 @@ function update_multiplex_program(
         "PUT",
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_multiplex_program(
@@ -3464,7 +3479,7 @@ function update_multiplex_program(
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3489,7 +3504,7 @@ function update_reservation(
         "PUT",
         "/prod/reservations/$(reservationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_reservation(
@@ -3502,6 +3517,6 @@ function update_reservation(
         "/prod/reservations/$(reservationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

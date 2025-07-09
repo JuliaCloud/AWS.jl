@@ -31,7 +31,7 @@ function create_bill_of_materials_import_job(
         "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs",
         Dict{String,Any}("s3uri" => s3uri, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_bill_of_materials_import_job(
@@ -51,7 +51,7 @@ function create_bill_of_materials_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -73,7 +73,7 @@ function get_bill_of_materials_import_job(
         "GET",
         "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bill_of_materials_import_job(
@@ -87,7 +87,7 @@ function get_bill_of_materials_import_job(
         "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -126,7 +126,7 @@ function send_data_integration_event(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_data_integration_event(
@@ -153,6 +153,6 @@ function send_data_integration_event(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

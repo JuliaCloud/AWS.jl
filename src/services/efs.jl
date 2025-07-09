@@ -56,7 +56,7 @@ function create_access_point(
         "/2015-02-01/access-points",
         Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_access_point(
@@ -78,7 +78,7 @@ function create_access_point(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -190,7 +190,7 @@ function create_file_system(
         "/2015-02-01/file-systems",
         Dict{String,Any}("CreationToken" => CreationToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_file_system(
@@ -205,7 +205,7 @@ function create_file_system(
             mergewith(_merge, Dict{String,Any}("CreationToken" => CreationToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -289,7 +289,7 @@ function create_mount_target(
         "/2015-02-01/mount-targets",
         Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_mount_target(
@@ -309,7 +309,7 @@ function create_mount_target(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -368,7 +368,7 @@ function create_replication_configuration(
         "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration",
         Dict{String,Any}("Destinations" => Destinations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_replication_configuration(
@@ -384,7 +384,7 @@ function create_replication_configuration(
             mergewith(_merge, Dict{String,Any}("Destinations" => Destinations), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -412,7 +412,7 @@ function create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aw
         "/2015-02-01/create-tags/$(FileSystemId)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_tags(
@@ -426,7 +426,7 @@ function create_tags(
         "/2015-02-01/create-tags/$(FileSystemId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -450,7 +450,7 @@ function delete_access_point(
         "DELETE",
         "/2015-02-01/access-points/$(AccessPointId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_access_point(
@@ -463,7 +463,7 @@ function delete_access_point(
         "/2015-02-01/access-points/$(AccessPointId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -495,7 +495,7 @@ function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/2015-02-01/file-systems/$(FileSystemId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_file_system(
@@ -508,7 +508,7 @@ function delete_file_system(
         "/2015-02-01/file-systems/$(FileSystemId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -532,7 +532,7 @@ function delete_file_system_policy(
         "DELETE",
         "/2015-02-01/file-systems/$(FileSystemId)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_file_system_policy(
@@ -545,7 +545,7 @@ function delete_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -578,7 +578,7 @@ function delete_mount_target(
         "DELETE",
         "/2015-02-01/mount-targets/$(MountTargetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_mount_target(
@@ -591,7 +591,7 @@ function delete_mount_target(
         "/2015-02-01/mount-targets/$(MountTargetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -617,7 +617,7 @@ function delete_replication_configuration(
         "DELETE",
         "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_replication_configuration(
@@ -630,7 +630,7 @@ function delete_replication_configuration(
         "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -658,7 +658,7 @@ function delete_tags(
         "/2015-02-01/delete-tags/$(FileSystemId)",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_tags(
@@ -672,7 +672,7 @@ function delete_tags(
         "/2015-02-01/delete-tags/$(FileSystemId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -703,7 +703,7 @@ function describe_access_points(; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/2015-02-01/access-points";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_access_points(
@@ -714,7 +714,7 @@ function describe_access_points(
         "/2015-02-01/access-points",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -738,7 +738,7 @@ function describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/2015-02-01/account-preferences";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_preferences(
@@ -749,7 +749,7 @@ function describe_account_preferences(
         "/2015-02-01/account-preferences",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -770,7 +770,7 @@ function describe_backup_policy(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_backup_policy(
@@ -783,7 +783,7 @@ function describe_backup_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -805,7 +805,7 @@ function describe_file_system_policy(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_file_system_policy(
@@ -818,7 +818,7 @@ function describe_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/2015-02-01/file-systems";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_file_systems(
@@ -871,7 +871,7 @@ function describe_file_systems(
         "/2015-02-01/file-systems",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -897,7 +897,7 @@ function describe_lifecycle_configuration(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_lifecycle_configuration(
@@ -910,7 +910,7 @@ function describe_lifecycle_configuration(
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -936,7 +936,7 @@ function describe_mount_target_security_groups(
         "GET",
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_mount_target_security_groups(
@@ -949,7 +949,7 @@ function describe_mount_target_security_groups(
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -987,7 +987,7 @@ function describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/2015-02-01/mount-targets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_mount_targets(
@@ -998,7 +998,7 @@ function describe_mount_targets(
         "/2015-02-01/mount-targets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1026,7 +1026,7 @@ function describe_replication_configurations(;
         "GET",
         "/2015-02-01/file-systems/replication-configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_replication_configurations(
@@ -1037,7 +1037,7 @@ function describe_replication_configurations(
         "/2015-02-01/file-systems/replication-configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1069,7 +1069,7 @@ function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/2015-02-01/tags/$(FileSystemId)/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_tags(
@@ -1082,7 +1082,7 @@ function describe_tags(
         "/2015-02-01/tags/$(FileSystemId)/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1112,7 +1112,7 @@ function list_tags_for_resource(
         "GET",
         "/2015-02-01/resource-tags/$(ResourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1125,7 +1125,7 @@ function list_tags_for_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1157,7 +1157,7 @@ function modify_mount_target_security_groups(
         "PUT",
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function modify_mount_target_security_groups(
@@ -1170,7 +1170,7 @@ function modify_mount_target_security_groups(
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1203,7 +1203,7 @@ function put_account_preferences(
         "/2015-02-01/account-preferences",
         Dict{String,Any}("ResourceIdType" => ResourceIdType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_account_preferences(
@@ -1218,7 +1218,7 @@ function put_account_preferences(
             mergewith(_merge, Dict{String,Any}("ResourceIdType" => ResourceIdType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1242,7 +1242,7 @@ function put_backup_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
         Dict{String,Any}("BackupPolicy" => BackupPolicy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_backup_policy(
@@ -1258,7 +1258,7 @@ function put_backup_policy(
             mergewith(_merge, Dict{String,Any}("BackupPolicy" => BackupPolicy), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1300,7 +1300,7 @@ function put_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         Dict{String,Any}("Policy" => Policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_file_system_policy(
@@ -1314,7 +1314,7 @@ function put_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1379,7 +1379,7 @@ function put_lifecycle_configuration(
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
         Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_lifecycle_configuration(
@@ -1397,7 +1397,7 @@ function put_lifecycle_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1420,7 +1420,7 @@ function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1434,7 +1434,7 @@ function tag_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1460,7 +1460,7 @@ function untag_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1474,7 +1474,7 @@ function untag_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1505,7 +1505,7 @@ function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_a
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_file_system(
@@ -1518,7 +1518,7 @@ function update_file_system(
         "/2015-02-01/file-systems/$(FileSystemId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1552,7 +1552,7 @@ function update_file_system_protection(
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)/protection";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_file_system_protection(
@@ -1565,6 +1565,6 @@ function update_file_system_protection(
         "/2015-02-01/file-systems/$(FileSystemId)/protection",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

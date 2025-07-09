@@ -27,7 +27,7 @@ function associate_accounts(
         "/associate-accounts",
         Dict{String,Any}("AccountIds" => AccountIds, "Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_accounts(
@@ -45,7 +45,7 @@ function associate_accounts(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -69,7 +69,7 @@ function associate_pricing_rules(
         "/associate-pricing-rules",
         Dict{String,Any}("Arn" => Arn, "PricingRuleArns" => PricingRuleArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_pricing_rules(
@@ -89,7 +89,7 @@ function associate_pricing_rules(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -115,7 +115,7 @@ function batch_associate_resources_to_custom_line_item(
         "/batch-associate-resources-to-custom-line-item",
         Dict{String,Any}("ResourceArns" => ResourceArns, "TargetArn" => TargetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_associate_resources_to_custom_line_item(
@@ -135,7 +135,7 @@ function batch_associate_resources_to_custom_line_item(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -161,7 +161,7 @@ function batch_disassociate_resources_from_custom_line_item(
         "/batch-disassociate-resources-from-custom-line-item",
         Dict{String,Any}("ResourceArns" => ResourceArns, "TargetArn" => TargetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_disassociate_resources_from_custom_line_item(
@@ -181,7 +181,7 @@ function batch_disassociate_resources_from_custom_line_item(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -224,7 +224,7 @@ function create_billing_group(
             "X-Amzn-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_billing_group(
@@ -250,7 +250,7 @@ function create_billing_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +299,7 @@ function create_custom_line_item(
             "X-Amzn-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_custom_line_item(
@@ -327,7 +327,7 @@ function create_custom_line_item(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -357,7 +357,7 @@ function create_pricing_plan(Name; aws_config::AbstractAWSConfig=global_aws_conf
         "/create-pricing-plan",
         Dict{String,Any}("Name" => Name, "X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pricing_plan(
@@ -374,7 +374,7 @@ function create_pricing_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -427,7 +427,7 @@ function create_pricing_rule(
             "X-Amzn-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pricing_rule(
@@ -453,7 +453,7 @@ function create_pricing_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -473,7 +473,7 @@ function delete_billing_group(Arn; aws_config::AbstractAWSConfig=global_aws_conf
         "/delete-billing-group",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_billing_group(
@@ -484,7 +484,7 @@ function delete_billing_group(
         "/delete-billing-group",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -508,7 +508,7 @@ function delete_custom_line_item(Arn; aws_config::AbstractAWSConfig=global_aws_c
         "/delete-custom-line-item",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_custom_line_item(
@@ -519,7 +519,7 @@ function delete_custom_line_item(
         "/delete-custom-line-item",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -540,7 +540,7 @@ function delete_pricing_plan(Arn; aws_config::AbstractAWSConfig=global_aws_confi
         "/delete-pricing-plan",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pricing_plan(
@@ -551,7 +551,7 @@ function delete_pricing_plan(
         "/delete-pricing-plan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -571,7 +571,7 @@ function delete_pricing_rule(Arn; aws_config::AbstractAWSConfig=global_aws_confi
         "/delete-pricing-rule",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pricing_rule(
@@ -582,7 +582,7 @@ function delete_pricing_rule(
         "/delete-pricing-rule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -606,7 +606,7 @@ function disassociate_accounts(
         "/disassociate-accounts",
         Dict{String,Any}("AccountIds" => AccountIds, "Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_accounts(
@@ -624,7 +624,7 @@ function disassociate_accounts(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -648,7 +648,7 @@ function disassociate_pricing_rules(
         "/disassociate-pricing-rules",
         Dict{String,Any}("Arn" => Arn, "PricingRuleArns" => PricingRuleArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_pricing_rules(
@@ -668,7 +668,7 @@ function disassociate_pricing_rules(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -700,7 +700,7 @@ function get_billing_group_cost_report(
         "/get-billing-group-cost-report",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_billing_group_cost_report(
@@ -711,7 +711,7 @@ function get_billing_group_cost_report(
         "/get-billing-group-cost-report",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -739,7 +739,7 @@ function list_account_associations(; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/list-account-associations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_account_associations(
@@ -750,7 +750,7 @@ function list_account_associations(
         "/list-account-associations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -777,7 +777,7 @@ function list_billing_group_cost_reports(;
         "POST",
         "/list-billing-group-cost-reports";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_billing_group_cost_reports(
@@ -788,7 +788,7 @@ function list_billing_group_cost_reports(
         "/list-billing-group-cost-reports",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -813,7 +813,7 @@ function list_billing_groups(; aws_config::AbstractAWSConfig=global_aws_config()
         "POST",
         "/list-billing-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_billing_groups(
@@ -824,7 +824,7 @@ function list_billing_groups(
         "/list-billing-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -853,7 +853,7 @@ function list_custom_line_item_versions(
         "/list-custom-line-item-versions",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_custom_line_item_versions(
@@ -864,7 +864,7 @@ function list_custom_line_item_versions(
         "/list-custom-line-item-versions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -889,7 +889,7 @@ function list_custom_line_items(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/list-custom-line-items";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_custom_line_items(
@@ -900,7 +900,7 @@ function list_custom_line_items(
         "/list-custom-line-items",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -924,7 +924,7 @@ function list_pricing_plans(; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/list-pricing-plans";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pricing_plans(
@@ -935,7 +935,7 @@ function list_pricing_plans(
         "/list-pricing-plans",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -964,7 +964,7 @@ function list_pricing_plans_associated_with_pricing_rule(
         "/list-pricing-plans-associated-with-pricing-rule",
         Dict{String,Any}("PricingRuleArn" => PricingRuleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pricing_plans_associated_with_pricing_rule(
@@ -979,7 +979,7 @@ function list_pricing_plans_associated_with_pricing_rule(
             mergewith(_merge, Dict{String,Any}("PricingRuleArn" => PricingRuleArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1003,7 +1003,7 @@ function list_pricing_rules(; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/list-pricing-rules";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pricing_rules(
@@ -1014,7 +1014,7 @@ function list_pricing_rules(
         "/list-pricing-rules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1043,7 +1043,7 @@ function list_pricing_rules_associated_to_pricing_plan(
         "/list-pricing-rules-associated-to-pricing-plan",
         Dict{String,Any}("PricingPlanArn" => PricingPlanArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pricing_rules_associated_to_pricing_plan(
@@ -1058,7 +1058,7 @@ function list_pricing_rules_associated_to_pricing_plan(
             mergewith(_merge, Dict{String,Any}("PricingPlanArn" => PricingPlanArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1089,7 +1089,7 @@ function list_resources_associated_to_custom_line_item(
         "/list-resources-associated-to-custom-line-item",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resources_associated_to_custom_line_item(
@@ -1100,7 +1100,7 @@ function list_resources_associated_to_custom_line_item(
         "/list-resources-associated-to-custom-line-item",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1122,7 +1122,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1135,7 +1135,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1157,7 +1157,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1171,7 +1171,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1194,7 +1194,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1208,7 +1208,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1237,7 @@ function update_billing_group(Arn; aws_config::AbstractAWSConfig=global_aws_conf
         "/update-billing-group",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_billing_group(
@@ -1248,7 +1248,7 @@ function update_billing_group(
         "/update-billing-group",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1275,7 +1275,7 @@ function update_custom_line_item(Arn; aws_config::AbstractAWSConfig=global_aws_c
         "/update-custom-line-item",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_custom_line_item(
@@ -1286,7 +1286,7 @@ function update_custom_line_item(
         "/update-custom-line-item",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1310,7 +1310,7 @@ function update_pricing_plan(Arn; aws_config::AbstractAWSConfig=global_aws_confi
         "/update-pricing-plan",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pricing_plan(
@@ -1321,7 +1321,7 @@ function update_pricing_plan(
         "/update-pricing-plan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1349,7 +1349,7 @@ function update_pricing_rule(Arn; aws_config::AbstractAWSConfig=global_aws_confi
         "/update-pricing-rule",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pricing_rule(
@@ -1360,6 +1360,6 @@ function update_pricing_rule(
         "/update-pricing-rule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

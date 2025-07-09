@@ -22,7 +22,7 @@ function get_application_component_details(
         "GET",
         "/get-applicationcomponent-details/$(applicationComponentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_component_details(
@@ -35,7 +35,7 @@ function get_application_component_details(
         "/get-applicationcomponent-details/$(applicationComponentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -58,7 +58,7 @@ function get_application_component_strategies(
         "GET",
         "/get-applicationcomponent-strategies/$(applicationComponentId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_component_strategies(
@@ -71,7 +71,7 @@ function get_application_component_strategies(
         "/get-applicationcomponent-strategies/$(applicationComponentId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -90,7 +90,7 @@ function get_assessment(id; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/get-assessment/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_assessment(
@@ -101,7 +101,7 @@ function get_assessment(
         "/get-assessment/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -121,7 +121,7 @@ function get_import_file_task(id; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/get-import-file-task/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_import_file_task(
@@ -132,7 +132,7 @@ function get_import_file_task(
         "/get-import-file-task/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -148,7 +148,7 @@ function get_latest_assessment_id(; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/get-latest-assessment-id";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_latest_assessment_id(
@@ -159,7 +159,7 @@ function get_latest_assessment_id(
         "/get-latest-assessment-id",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -175,7 +175,7 @@ function get_portfolio_preferences(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/get-portfolio-preferences";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_portfolio_preferences(
@@ -186,7 +186,7 @@ function get_portfolio_preferences(
         "/get-portfolio-preferences",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -203,7 +203,7 @@ function get_portfolio_summary(; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/get-portfolio-summary";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_portfolio_summary(
@@ -214,7 +214,7 @@ function get_portfolio_summary(
         "/get-portfolio-summary",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -236,7 +236,7 @@ function get_recommendation_report_details(
         "GET",
         "/get-recommendation-report-details/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommendation_report_details(
@@ -247,7 +247,7 @@ function get_recommendation_report_details(
         "/get-recommendation-report-details/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -274,7 +274,7 @@ function get_server_details(serverId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/get-server-details/$(serverId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_server_details(
@@ -287,7 +287,7 @@ function get_server_details(
         "/get-server-details/$(serverId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -306,7 +306,7 @@ function get_server_strategies(serverId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/get-server-strategies/$(serverId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_server_strategies(
@@ -319,7 +319,7 @@ function get_server_strategies(
         "/get-server-strategies/$(serverId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -345,7 +345,7 @@ function list_analyzable_servers(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/list-analyzable-servers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_analyzable_servers(
@@ -356,7 +356,7 @@ function list_analyzable_servers(
         "/list-analyzable-servers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -388,7 +388,7 @@ function list_application_components(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/list-applicationcomponents";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_components(
@@ -399,7 +399,7 @@ function list_application_components(
         "/list-applicationcomponents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_collectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return migrationhubstrategy(
-        "GET", "/list-collectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/list-collectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_collectors(
@@ -431,7 +431,7 @@ function list_collectors(
         "/list-collectors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -454,7 +454,7 @@ function list_import_file_task(; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/list-import-file-task";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_import_file_task(
@@ -465,7 +465,7 @@ function list_import_file_task(
         "/list-import-file-task",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -493,7 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_servers(; aws_config::AbstractAWSConfig=global_aws_config())
     return migrationhubstrategy(
-        "POST", "/list-servers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-servers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_servers(
@@ -504,7 +504,7 @@ function list_servers(
         "/list-servers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -527,7 +527,7 @@ function put_portfolio_preferences(; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/put-portfolio-preferences";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_portfolio_preferences(
@@ -538,7 +538,7 @@ function put_portfolio_preferences(
         "/put-portfolio-preferences",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -559,7 +559,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function start_assessment(; aws_config::AbstractAWSConfig=global_aws_config())
     return migrationhubstrategy(
-        "POST", "/start-assessment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/start-assessment";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_assessment(
@@ -570,7 +573,7 @@ function start_assessment(
         "/start-assessment",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -604,7 +607,7 @@ function start_import_file_task(
         "/start-import-file-task",
         Dict{String,Any}("S3Bucket" => S3Bucket, "name" => name, "s3key" => s3key);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_import_file_task(
@@ -625,7 +628,7 @@ function start_import_file_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -648,7 +651,7 @@ function start_recommendation_report_generation(;
         "POST",
         "/start-recommendation-report-generation";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_recommendation_report_generation(
@@ -659,7 +662,7 @@ function start_recommendation_report_generation(
         "/start-recommendation-report-generation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -679,7 +682,7 @@ function stop_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_
         "/stop-assessment",
         Dict{String,Any}("assessmentId" => assessmentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_assessment(
@@ -694,7 +697,7 @@ function stop_assessment(
             mergewith(_merge, Dict{String,Any}("assessmentId" => assessmentId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -730,7 +733,7 @@ function update_application_component_config(
         "/update-applicationcomponent-config/",
         Dict{String,Any}("applicationComponentId" => applicationComponentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application_component_config(
@@ -749,7 +752,7 @@ function update_application_component_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -773,7 +776,7 @@ function update_server_config(serverId; aws_config::AbstractAWSConfig=global_aws
         "/update-server-config/",
         Dict{String,Any}("serverId" => serverId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_server_config(
@@ -788,6 +791,6 @@ function update_server_config(
             mergewith(_merge, Dict{String,Any}("serverId" => serverId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

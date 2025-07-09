@@ -37,7 +37,7 @@ function create_application_instance(
             "ManifestPayload" => ManifestPayload,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application_instance(
@@ -60,7 +60,7 @@ function create_application_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +86,7 @@ function create_job_for_devices(
         "/jobs",
         Dict{String,Any}("DeviceIds" => DeviceIds, "JobType" => JobType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_job_for_devices(
@@ -106,7 +106,7 @@ function create_job_for_devices(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -147,7 +147,7 @@ function create_node_from_template_job(
             "TemplateType" => TemplateType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_node_from_template_job(
@@ -176,7 +176,7 @@ function create_node_from_template_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -199,7 +199,7 @@ function create_package(PackageName; aws_config::AbstractAWSConfig=global_aws_co
         "/packages",
         Dict{String,Any}("PackageName" => PackageName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_package(
@@ -214,7 +214,7 @@ function create_package(
             mergewith(_merge, Dict{String,Any}("PackageName" => PackageName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -251,7 +251,7 @@ function create_package_import_job(
             "OutputConfig" => OutputConfig,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_package_import_job(
@@ -278,7 +278,7 @@ function create_package_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -297,7 +297,7 @@ function delete_device(DeviceId; aws_config::AbstractAWSConfig=global_aws_config
         "DELETE",
         "/devices/$(DeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_device(
@@ -310,7 +310,7 @@ function delete_device(
         "/devices/$(DeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +334,7 @@ function delete_package(PackageId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/packages/$(PackageId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_package(
@@ -347,7 +347,7 @@ function delete_package(
         "/packages/$(PackageId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -378,7 +378,7 @@ function deregister_package_version(
         "DELETE",
         "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_package_version(
@@ -393,7 +393,7 @@ function deregister_package_version(
         "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -414,7 +414,7 @@ function describe_application_instance(
         "GET",
         "/application-instances/$(ApplicationInstanceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application_instance(
@@ -427,7 +427,7 @@ function describe_application_instance(
         "/application-instances/$(ApplicationInstanceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -448,7 +448,7 @@ function describe_application_instance_details(
         "GET",
         "/application-instances/$(ApplicationInstanceId)/details";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application_instance_details(
@@ -461,7 +461,7 @@ function describe_application_instance_details(
         "/application-instances/$(ApplicationInstanceId)/details",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -480,7 +480,7 @@ function describe_device(DeviceId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/devices/$(DeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_device(
@@ -493,7 +493,7 @@ function describe_device(
         "/devices/$(DeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -509,7 +509,7 @@ Returns information about a device job.
 """
 function describe_device_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
     return panorama(
-        "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_device_job(
@@ -520,7 +520,7 @@ function describe_device_job(
         "/jobs/$(JobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -539,7 +539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_node(NodeId; aws_config::AbstractAWSConfig=global_aws_config())
     return panorama(
-        "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_node(
@@ -550,7 +550,7 @@ function describe_node(
         "/nodes/$(NodeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -571,7 +571,7 @@ function describe_node_from_template_job(
         "GET",
         "/packages/template-job/$(JobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_node_from_template_job(
@@ -582,7 +582,7 @@ function describe_node_from_template_job(
         "/packages/template-job/$(JobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -601,7 +601,7 @@ function describe_package(PackageId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/packages/metadata/$(PackageId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_package(
@@ -614,7 +614,7 @@ function describe_package(
         "/packages/metadata/$(PackageId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -635,7 +635,7 @@ function describe_package_import_job(
         "GET",
         "/packages/import-jobs/$(JobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_package_import_job(
@@ -646,7 +646,7 @@ function describe_package_import_job(
         "/packages/import-jobs/$(JobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -672,7 +672,7 @@ function describe_package_version(
         "GET",
         "/packages/metadata/$(PackageId)/versions/$(PackageVersion)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_package_version(
@@ -686,7 +686,7 @@ function describe_package_version(
         "/packages/metadata/$(PackageId)/versions/$(PackageVersion)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -713,7 +713,7 @@ function list_application_instance_dependencies(
         "GET",
         "/application-instances/$(ApplicationInstanceId)/package-dependencies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_instance_dependencies(
@@ -726,7 +726,7 @@ function list_application_instance_dependencies(
         "/application-instances/$(ApplicationInstanceId)/package-dependencies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -752,7 +752,7 @@ function list_application_instance_node_instances(
         "GET",
         "/application-instances/$(ApplicationInstanceId)/node-instances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_instance_node_instances(
@@ -765,7 +765,7 @@ function list_application_instance_node_instances(
         "/application-instances/$(ApplicationInstanceId)/node-instances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -789,7 +789,7 @@ function list_application_instances(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/application-instances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_instances(
@@ -800,7 +800,7 @@ function list_application_instances(
         "/application-instances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -823,14 +823,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
     return panorama(
-        "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
-        "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -848,13 +848,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_devices_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return panorama(
+        "GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_devices_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
-        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -876,7 +878,7 @@ function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/packages/template-job";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_node_from_template_jobs(
@@ -887,7 +889,7 @@ function list_node_from_template_jobs(
         "/packages/template-job",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -909,13 +911,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"patchVersion"`: Search for nodes by patch version.
 """
 function list_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return panorama(
+        "GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
-        "GET", "/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -937,7 +941,7 @@ function list_package_import_jobs(; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/packages/import-jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_package_import_jobs(
@@ -948,7 +952,7 @@ function list_package_import_jobs(
         "/packages/import-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -966,14 +970,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_packages(; aws_config::AbstractAWSConfig=global_aws_config())
     return panorama(
-        "GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return panorama(
-        "GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -994,7 +998,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1007,7 +1011,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1036,7 +1040,7 @@ function provision_device(Name; aws_config::AbstractAWSConfig=global_aws_config(
         "/devices",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function provision_device(
@@ -1047,7 +1051,7 @@ function provision_device(
         "/devices",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1077,7 +1081,7 @@ function register_package_version(
         "PUT",
         "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_package_version(
@@ -1092,7 +1096,7 @@ function register_package_version(
         "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1113,7 +1117,7 @@ function remove_application_instance(
         "DELETE",
         "/application-instances/$(ApplicationInstanceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_application_instance(
@@ -1126,7 +1130,7 @@ function remove_application_instance(
         "/application-instances/$(ApplicationInstanceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1149,7 +1153,7 @@ function signal_application_instance_node_instances(
         "/application-instances/$(ApplicationInstanceId)/node-signals",
         Dict{String,Any}("NodeSignals" => NodeSignals);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function signal_application_instance_node_instances(
@@ -1165,7 +1169,7 @@ function signal_application_instance_node_instances(
             mergewith(_merge, Dict{String,Any}("NodeSignals" => NodeSignals), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1186,7 +1190,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1200,7 +1204,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1223,7 +1227,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1237,7 +1241,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1259,7 +1263,7 @@ function update_device_metadata(DeviceId; aws_config::AbstractAWSConfig=global_a
         "PUT",
         "/devices/$(DeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_device_metadata(
@@ -1272,6 +1276,6 @@ function update_device_metadata(
         "/devices/$(DeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

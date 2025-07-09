@@ -68,7 +68,7 @@ function create_schedule(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_schedule(
@@ -95,7 +95,7 @@ function create_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -121,7 +121,7 @@ function create_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_co
         "/schedule-groups/$(Name)",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_schedule_group(
@@ -134,7 +134,7 @@ function create_schedule_group(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -161,7 +161,7 @@ function delete_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config()
         "/schedules/$(Name)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_schedule(
@@ -174,7 +174,7 @@ function delete_schedule(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function delete_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_co
         "/schedule-groups/$(Name)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_schedule_group(
@@ -217,7 +217,7 @@ function delete_schedule_group(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -237,7 +237,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return scheduler(
-        "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/schedules/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_schedule(
@@ -248,7 +251,7 @@ function get_schedule(
         "/schedules/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -267,7 +270,7 @@ function get_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/schedule-groups/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_schedule_group(
@@ -278,7 +281,7 @@ function get_schedule_group(
         "/schedule-groups/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_schedule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return scheduler(
-        "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_schedule_groups(
@@ -310,7 +313,7 @@ function list_schedule_groups(
         "/schedule-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,14 +337,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
     return scheduler(
-        "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return scheduler(
-        "GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/schedules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -363,7 +370,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -376,7 +383,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -399,7 +406,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -413,7 +420,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -437,7 +444,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -451,7 +458,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -527,7 +534,7 @@ function update_schedule(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_schedule(
@@ -554,6 +561,6 @@ function update_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -56,7 +56,7 @@ function create_token(
             "clientId" => clientId, "clientSecret" => clientSecret, "grantType" => grantType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_token(
@@ -81,7 +81,7 @@ function create_token(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,7 +149,7 @@ function create_token_with_iam(
         "/token?aws_iam=t",
         Dict{String,Any}("clientId" => clientId, "grantType" => grantType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_token_with_iam(
@@ -169,7 +169,7 @@ function create_token_with_iam(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -210,7 +210,7 @@ function register_client(
         "/client/register",
         Dict{String,Any}("clientName" => clientName, "clientType" => clientType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_client(
@@ -230,7 +230,7 @@ function register_client(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -261,7 +261,7 @@ function start_device_authorization(
             "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_device_authorization(
@@ -286,6 +286,6 @@ function start_device_authorization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

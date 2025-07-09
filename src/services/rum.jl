@@ -66,7 +66,7 @@ function batch_create_rum_metric_definitions(
             "Destination" => Destination, "MetricDefinitions" => MetricDefinitions
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_create_rum_metric_definitions(
@@ -89,7 +89,7 @@ function batch_create_rum_metric_definitions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -132,7 +132,7 @@ function batch_delete_rum_metric_definitions(
             "destination" => destination, "metricDefinitionIds" => metricDefinitionIds
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_rum_metric_definitions(
@@ -156,7 +156,7 @@ function batch_delete_rum_metric_definitions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -192,7 +192,7 @@ function batch_get_rum_metric_definitions(
         "/rummetrics/$(AppMonitorName)/metrics",
         Dict{String,Any}("destination" => destination);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_rum_metric_definitions(
@@ -208,7 +208,7 @@ function batch_get_rum_metric_definitions(
             mergewith(_merge, Dict{String,Any}("destination" => destination), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -259,7 +259,7 @@ function create_app_monitor(Domain, Name; aws_config::AbstractAWSConfig=global_a
         "/appmonitor",
         Dict{String,Any}("Domain" => Domain, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_monitor(
@@ -275,7 +275,7 @@ function create_app_monitor(
             mergewith(_merge, Dict{String,Any}("Domain" => Domain, "Name" => Name), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -294,7 +294,7 @@ function delete_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "DELETE",
         "/appmonitor/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_monitor(
@@ -305,7 +305,7 @@ function delete_app_monitor(
         "/appmonitor/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -336,7 +336,7 @@ function delete_rum_metrics_destination(
         "/rummetrics/$(AppMonitorName)/metricsdestination",
         Dict{String,Any}("destination" => destination);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_rum_metrics_destination(
@@ -352,7 +352,7 @@ function delete_rum_metrics_destination(
             mergewith(_merge, Dict{String,Any}("destination" => destination), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -368,7 +368,10 @@ Retrieves the complete configuration information for one app monitor.
 """
 function get_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return rum(
-        "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/appmonitor/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_app_monitor(
@@ -379,7 +382,7 @@ function get_app_monitor(
         "/appmonitor/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,7 +414,7 @@ function get_app_monitor_data(
         "/appmonitor/$(Name)/data",
         Dict{String,Any}("TimeRange" => TimeRange);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_app_monitor_data(
@@ -427,7 +430,7 @@ function get_app_monitor_data(
             mergewith(_merge, Dict{String,Any}("TimeRange" => TimeRange), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -446,7 +449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_app_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
     return rum(
-        "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_app_monitors(
@@ -457,7 +460,7 @@ function list_app_monitors(
         "/appmonitors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -487,7 +490,7 @@ function list_rum_metrics_destinations(
         "GET",
         "/rummetrics/$(AppMonitorName)/metricsdestination";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rum_metrics_destinations(
@@ -500,7 +503,7 @@ function list_rum_metrics_destinations(
         "/rummetrics/$(AppMonitorName)/metricsdestination",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -521,7 +524,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -534,7 +537,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -575,7 +578,7 @@ function put_rum_events(
             "UserDetails" => UserDetails,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_rum_events(
@@ -603,7 +606,7 @@ function put_rum_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -642,7 +645,7 @@ function put_rum_metrics_destination(
         "/rummetrics/$(AppMonitorName)/metricsdestination",
         Dict{String,Any}("Destination" => Destination);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_rum_metrics_destination(
@@ -658,7 +661,7 @@ function put_rum_metrics_destination(
             mergewith(_merge, Dict{String,Any}("Destination" => Destination), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -689,7 +692,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -703,7 +706,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -726,7 +729,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -740,7 +743,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -783,7 +786,7 @@ function update_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_confi
         "PATCH",
         "/appmonitor/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_monitor(
@@ -794,7 +797,7 @@ function update_app_monitor(
         "/appmonitor/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -838,7 +841,7 @@ function update_rum_metric_definition(
             "MetricDefinitionId" => MetricDefinitionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_rum_metric_definition(
@@ -864,6 +867,6 @@ function update_rum_metric_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -25,7 +25,7 @@ function bulk_publish(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/identitypools/$(IdentityPoolId)/bulkpublish";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function bulk_publish(
@@ -38,7 +38,7 @@ function bulk_publish(
         "/identitypools/$(IdentityPoolId)/bulkpublish",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -73,7 +73,7 @@ function delete_dataset(
         "DELETE",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset(
@@ -88,7 +88,7 @@ function delete_dataset(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -123,7 +123,7 @@ function describe_dataset(
         "GET",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dataset(
@@ -138,7 +138,7 @@ function describe_dataset(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -163,7 +163,7 @@ function describe_identity_pool_usage(
         "GET",
         "/identitypools/$(IdentityPoolId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_identity_pool_usage(
@@ -176,7 +176,7 @@ function describe_identity_pool_usage(
         "/identitypools/$(IdentityPoolId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -204,7 +204,7 @@ function describe_identity_usage(
         "GET",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_identity_usage(
@@ -218,7 +218,7 @@ function describe_identity_usage(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -243,7 +243,7 @@ function get_bulk_publish_details(
         "POST",
         "/identitypools/$(IdentityPoolId)/getBulkPublishDetails";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bulk_publish_details(
@@ -256,7 +256,7 @@ function get_bulk_publish_details(
         "/identitypools/$(IdentityPoolId)/getBulkPublishDetails",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -279,7 +279,7 @@ function get_cognito_events(
         "GET",
         "/identitypools/$(IdentityPoolId)/events";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_cognito_events(
@@ -292,7 +292,7 @@ function get_cognito_events(
         "/identitypools/$(IdentityPoolId)/events",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -317,7 +317,7 @@ function get_identity_pool_configuration(
         "GET",
         "/identitypools/$(IdentityPoolId)/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_pool_configuration(
@@ -330,7 +330,7 @@ function get_identity_pool_configuration(
         "/identitypools/$(IdentityPoolId)/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -364,7 +364,7 @@ function list_datasets(
         "GET",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_datasets(
@@ -378,7 +378,7 @@ function list_datasets(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -397,7 +397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_identity_pool_usage(; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_sync(
-        "GET", "/identitypools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/identitypools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_identity_pool_usage(
@@ -408,7 +408,7 @@ function list_identity_pool_usage(
         "/identitypools",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -450,7 +450,7 @@ function list_records(
         "GET",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_records(
@@ -465,7 +465,7 @@ function list_records(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -498,7 +498,7 @@ function register_device(
         "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device",
         Dict{String,Any}("Platform" => Platform, "Token" => Token);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_device(
@@ -518,7 +518,7 @@ function register_device(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -545,7 +545,7 @@ function set_cognito_events(
         "/identitypools/$(IdentityPoolId)/events",
         Dict{String,Any}("Events" => Events);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_cognito_events(
@@ -559,7 +559,7 @@ function set_cognito_events(
         "/identitypools/$(IdentityPoolId)/events",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Events" => Events), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -588,7 +588,7 @@ function set_identity_pool_configuration(
         "POST",
         "/identitypools/$(IdentityPoolId)/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_pool_configuration(
@@ -601,7 +601,7 @@ function set_identity_pool_configuration(
         "/identitypools/$(IdentityPoolId)/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -633,7 +633,7 @@ function subscribe_to_dataset(
         "POST",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function subscribe_to_dataset(
@@ -649,7 +649,7 @@ function subscribe_to_dataset(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +681,7 @@ function unsubscribe_from_dataset(
         "DELETE",
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function unsubscribe_from_dataset(
@@ -697,7 +697,7 @@ function unsubscribe_from_dataset(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -749,7 +749,7 @@ function update_records(
         "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)",
         Dict{String,Any}("SyncSessionToken" => SyncSessionToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_records(
@@ -769,6 +769,6 @@ function update_records(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

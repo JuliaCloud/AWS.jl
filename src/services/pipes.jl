@@ -38,7 +38,7 @@ function create_pipe(
         "/v1/pipes/$(Name)",
         Dict{String,Any}("RoleArn" => RoleArn, "Source" => Source, "Target" => Target);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pipe(
@@ -62,7 +62,7 @@ function create_pipe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -82,7 +82,7 @@ function delete_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/v1/pipes/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pipe(
@@ -93,7 +93,7 @@ function delete_pipe(
         "/v1/pipes/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -110,7 +110,7 @@ EventBridge Pipes in the Amazon EventBridge User Guide.
 """
 function describe_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return pipes(
-        "GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_pipe(
@@ -121,7 +121,7 @@ function describe_pipe(
         "/v1/pipes/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -149,13 +149,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetPrefix"`: The prefix matching the pipe target.
 """
 function list_pipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pipes("GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return pipes(
+        "GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_pipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return pipes(
-        "GET", "/v1/pipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/pipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -176,7 +178,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -189,7 +191,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -208,7 +210,7 @@ function start_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/v1/pipes/$(Name)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_pipe(
@@ -219,7 +221,7 @@ function start_pipe(
         "/v1/pipes/$(Name)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -238,7 +240,7 @@ function stop_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/v1/pipes/$(Name)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_pipe(
@@ -249,7 +251,7 @@ function stop_pipe(
         "/v1/pipes/$(Name)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -278,7 +280,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -292,7 +294,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -315,7 +317,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -329,7 +331,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -370,7 +372,7 @@ function update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_con
         "/v1/pipes/$(Name)",
         Dict{String,Any}("RoleArn" => RoleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pipe(
@@ -384,6 +386,6 @@ function update_pipe(
         "/v1/pipes/$(Name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

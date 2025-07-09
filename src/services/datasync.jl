@@ -53,7 +53,7 @@ function add_storage_system(
             "SystemType" => SystemType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_storage_system(
@@ -81,7 +81,7 @@ function add_storage_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -108,7 +108,7 @@ function cancel_task_execution(
         "CancelTaskExecution",
         Dict{String,Any}("TaskExecutionArn" => TaskExecutionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_task_execution(
@@ -124,7 +124,7 @@ function cancel_task_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -164,7 +164,7 @@ function create_agent(ActivationKey; aws_config::AbstractAWSConfig=global_aws_co
         "CreateAgent",
         Dict{String,Any}("ActivationKey" => ActivationKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_agent(
@@ -178,7 +178,7 @@ function create_agent(
             mergewith(_merge, Dict{String,Any}("ActivationKey" => ActivationKey), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -231,7 +231,7 @@ function create_location_azure_blob(
             "ContainerUrl" => ContainerUrl,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_azure_blob(
@@ -255,7 +255,7 @@ function create_location_azure_blob(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -297,7 +297,7 @@ function create_location_efs(
         "CreateLocationEfs",
         Dict{String,Any}("Ec2Config" => Ec2Config, "EfsFilesystemArn" => EfsFilesystemArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_efs(
@@ -318,7 +318,7 @@ function create_location_efs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -353,7 +353,7 @@ function create_location_fsx_lustre(
             "FsxFilesystemArn" => FsxFilesystemArn, "SecurityGroupArns" => SecurityGroupArns
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_fsx_lustre(
@@ -375,7 +375,7 @@ function create_location_fsx_lustre(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -422,7 +422,7 @@ function create_location_fsx_ontap(
             "StorageVirtualMachineArn" => StorageVirtualMachineArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_fsx_ontap(
@@ -446,7 +446,7 @@ function create_location_fsx_ontap(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -488,7 +488,7 @@ function create_location_fsx_open_zfs(
             "SecurityGroupArns" => SecurityGroupArns,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_fsx_open_zfs(
@@ -512,7 +512,7 @@ function create_location_fsx_open_zfs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -568,7 +568,7 @@ function create_location_fsx_windows(
             "User" => User,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_fsx_windows(
@@ -594,7 +594,7 @@ function create_location_fsx_windows(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -663,7 +663,7 @@ function create_location_hdfs(
             "NameNodes" => NameNodes,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_hdfs(
@@ -687,7 +687,7 @@ function create_location_hdfs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -732,7 +732,7 @@ function create_location_nfs(
             "Subdirectory" => Subdirectory,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_nfs(
@@ -756,7 +756,7 @@ function create_location_nfs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -814,7 +814,7 @@ function create_location_object_storage(
             "ServerHostname" => ServerHostname,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_object_storage(
@@ -838,7 +838,7 @@ function create_location_object_storage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -885,7 +885,7 @@ function create_location_s3(
         "CreateLocationS3",
         Dict{String,Any}("S3BucketArn" => S3BucketArn, "S3Config" => S3Config);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_s3(
@@ -904,7 +904,7 @@ function create_location_s3(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -963,7 +963,7 @@ function create_location_smb(
             "User" => User,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_location_smb(
@@ -991,7 +991,7 @@ function create_location_smb(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1049,7 +1049,7 @@ function create_task(
             "SourceLocationArn" => SourceLocationArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_task(
@@ -1071,7 +1071,7 @@ function create_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function delete_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(
         "DeleteAgent",
         Dict{String,Any}("AgentArn" => AgentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_agent(
@@ -1108,7 +1108,7 @@ function delete_agent(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1127,7 +1127,7 @@ function delete_location(LocationArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteLocation",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_location(
@@ -1141,7 +1141,7 @@ function delete_location(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1160,7 +1160,7 @@ function delete_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteTask",
         Dict{String,Any}("TaskArn" => TaskArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_task(
@@ -1170,7 +1170,7 @@ function delete_task(
         "DeleteTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1191,7 +1191,7 @@ function describe_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_confi
         "DescribeAgent",
         Dict{String,Any}("AgentArn" => AgentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_agent(
@@ -1205,7 +1205,7 @@ function describe_agent(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1227,7 +1227,7 @@ function describe_discovery_job(
         "DescribeDiscoveryJob",
         Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_discovery_job(
@@ -1243,7 +1243,7 @@ function describe_discovery_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1266,7 +1266,7 @@ function describe_location_azure_blob(
         "DescribeLocationAzureBlob",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_azure_blob(
@@ -1280,7 +1280,7 @@ function describe_location_azure_blob(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1303,7 +1303,7 @@ function describe_location_efs(
         "DescribeLocationEfs",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_efs(
@@ -1317,7 +1317,7 @@ function describe_location_efs(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1340,7 +1340,7 @@ function describe_location_fsx_lustre(
         "DescribeLocationFsxLustre",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_fsx_lustre(
@@ -1354,7 +1354,7 @@ function describe_location_fsx_lustre(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1378,7 +1378,7 @@ function describe_location_fsx_ontap(
         "DescribeLocationFsxOntap",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_fsx_ontap(
@@ -1392,7 +1392,7 @@ function describe_location_fsx_ontap(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1416,7 +1416,7 @@ function describe_location_fsx_open_zfs(
         "DescribeLocationFsxOpenZfs",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_fsx_open_zfs(
@@ -1430,7 +1430,7 @@ function describe_location_fsx_open_zfs(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1453,7 +1453,7 @@ function describe_location_fsx_windows(
         "DescribeLocationFsxWindows",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_fsx_windows(
@@ -1467,7 +1467,7 @@ function describe_location_fsx_windows(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1489,7 +1489,7 @@ function describe_location_hdfs(
         "DescribeLocationHdfs",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_hdfs(
@@ -1503,7 +1503,7 @@ function describe_location_hdfs(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1526,7 +1526,7 @@ function describe_location_nfs(
         "DescribeLocationNfs",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_nfs(
@@ -1540,7 +1540,7 @@ function describe_location_nfs(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1563,7 +1563,7 @@ function describe_location_object_storage(
         "DescribeLocationObjectStorage",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_object_storage(
@@ -1577,7 +1577,7 @@ function describe_location_object_storage(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1598,7 +1598,7 @@ function describe_location_s3(
         "DescribeLocationS3",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_s3(
@@ -1612,7 +1612,7 @@ function describe_location_s3(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1635,7 +1635,7 @@ function describe_location_smb(
         "DescribeLocationSmb",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_location_smb(
@@ -1649,7 +1649,7 @@ function describe_location_smb(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1672,7 +1672,7 @@ function describe_storage_system(
         "DescribeStorageSystem",
         Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_storage_system(
@@ -1688,7 +1688,7 @@ function describe_storage_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1731,7 +1731,7 @@ function describe_storage_system_resource_metrics(
             "ResourceType" => ResourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_storage_system_resource_metrics(
@@ -1755,7 +1755,7 @@ function describe_storage_system_resource_metrics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1793,7 +1793,7 @@ function describe_storage_system_resources(
             "DiscoveryJobArn" => DiscoveryJobArn, "ResourceType" => ResourceType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_storage_system_resources(
@@ -1814,7 +1814,7 @@ function describe_storage_system_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1834,7 +1834,7 @@ function describe_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config(
         "DescribeTask",
         Dict{String,Any}("TaskArn" => TaskArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_task(
@@ -1844,7 +1844,7 @@ function describe_task(
         "DescribeTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1867,7 +1867,7 @@ function describe_task_execution(
         "DescribeTaskExecution",
         Dict{String,Any}("TaskExecutionArn" => TaskExecutionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_task_execution(
@@ -1883,7 +1883,7 @@ function describe_task_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1920,7 +1920,7 @@ function generate_recommendations(
             "ResourceType" => ResourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_recommendations(
@@ -1944,7 +1944,7 @@ function generate_recommendations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1970,13 +1970,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of results in the response.
 """
 function list_agents(; aws_config::AbstractAWSConfig=global_aws_config())
-    return datasync("ListAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return datasync("ListAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return datasync(
-        "ListAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1998,14 +1998,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_discovery_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return datasync(
-        "ListDiscoveryJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDiscoveryJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_discovery_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return datasync(
-        "ListDiscoveryJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDiscoveryJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2028,13 +2031,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of locations.
 """
 function list_locations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return datasync("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return datasync(
+        "ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return datasync(
-        "ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2052,14 +2057,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_storage_systems(; aws_config::AbstractAWSConfig=global_aws_config())
     return datasync(
-        "ListStorageSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStorageSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_storage_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return datasync(
-        "ListStorageSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStorageSystems",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2086,7 +2094,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2100,7 +2108,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2120,14 +2128,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_task_executions(; aws_config::AbstractAWSConfig=global_aws_config())
     return datasync(
-        "ListTaskExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTaskExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_task_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return datasync(
-        "ListTaskExecutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTaskExecutions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2147,13 +2158,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of tasks.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return datasync("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return datasync("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return datasync(
-        "ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2176,7 +2187,7 @@ function remove_storage_system(
         "RemoveStorageSystem",
         Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_storage_system(
@@ -2192,7 +2203,7 @@ function remove_storage_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2234,7 +2245,7 @@ function start_discovery_job(
             "StorageSystemArn" => StorageSystemArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_discovery_job(
@@ -2258,7 +2269,7 @@ function start_discovery_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2307,7 +2318,7 @@ function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=global_aws_
         "StartTaskExecution",
         Dict{String,Any}("TaskArn" => TaskArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_task_execution(
@@ -2317,7 +2328,7 @@ function start_task_execution(
         "StartTaskExecution",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2342,7 +2353,7 @@ function stop_discovery_job(
         "StopDiscoveryJob",
         Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_discovery_job(
@@ -2358,7 +2369,7 @@ function stop_discovery_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2381,7 +2392,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2400,7 +2411,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2423,7 +2434,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("Keys" => Keys, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2442,7 +2453,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2464,7 +2475,7 @@ function update_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config(
         "UpdateAgent",
         Dict{String,Any}("AgentArn" => AgentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_agent(
@@ -2478,7 +2489,7 @@ function update_agent(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2508,7 +2519,7 @@ function update_discovery_job(
             "DiscoveryJobArn" => DiscoveryJobArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_discovery_job(
@@ -2530,7 +2541,7 @@ function update_discovery_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2571,7 +2582,7 @@ function update_location_azure_blob(
         "UpdateLocationAzureBlob",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_location_azure_blob(
@@ -2585,7 +2596,7 @@ function update_location_azure_blob(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2636,7 +2647,7 @@ function update_location_hdfs(
         "UpdateLocationHdfs",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_location_hdfs(
@@ -2650,7 +2661,7 @@ function update_location_hdfs(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2680,7 +2691,7 @@ function update_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_a
         "UpdateLocationNfs",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_location_nfs(
@@ -2694,7 +2705,7 @@ function update_location_nfs(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2743,7 +2754,7 @@ function update_location_object_storage(
         "UpdateLocationObjectStorage",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_location_object_storage(
@@ -2757,7 +2768,7 @@ function update_location_object_storage(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2799,7 +2810,7 @@ function update_location_smb(LocationArn; aws_config::AbstractAWSConfig=global_a
         "UpdateLocationSmb",
         Dict{String,Any}("LocationArn" => LocationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_location_smb(
@@ -2813,7 +2824,7 @@ function update_location_smb(
             mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2847,7 +2858,7 @@ function update_storage_system(
         "UpdateStorageSystem",
         Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_storage_system(
@@ -2863,7 +2874,7 @@ function update_storage_system(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2909,7 +2920,7 @@ function update_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdateTask",
         Dict{String,Any}("TaskArn" => TaskArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_task(
@@ -2919,7 +2930,7 @@ function update_task(
         "UpdateTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2944,7 +2955,7 @@ function update_task_execution(
         "UpdateTaskExecution",
         Dict{String,Any}("Options" => Options, "TaskExecutionArn" => TaskExecutionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_task_execution(
@@ -2965,6 +2976,6 @@ function update_task_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

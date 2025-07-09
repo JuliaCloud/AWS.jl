@@ -27,7 +27,7 @@ function copy_image_set(
         "/datastore/$(datastoreId)/imageSet/$(sourceImageSetId)/copyImageSet",
         Dict{String,Any}("copyImageSetInformation" => copyImageSetInformation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_image_set(
@@ -48,7 +48,7 @@ function copy_image_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -74,7 +74,7 @@ function create_datastore(clientToken; aws_config::AbstractAWSConfig=global_aws_
         "/datastore",
         Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_datastore(
@@ -89,7 +89,7 @@ function create_datastore(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -109,7 +109,7 @@ function delete_datastore(datastoreId; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/datastore/$(datastoreId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_datastore(
@@ -122,7 +122,7 @@ function delete_datastore(
         "/datastore/$(datastoreId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -144,7 +144,7 @@ function delete_image_set(
         "POST",
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/deleteImageSet";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image_set(
@@ -158,7 +158,7 @@ function delete_image_set(
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/deleteImageSet",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -177,7 +177,7 @@ function get_datastore(datastoreId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/datastore/$(datastoreId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_datastore(
@@ -190,7 +190,7 @@ function get_datastore(
         "/datastore/$(datastoreId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -216,7 +216,7 @@ function get_dicomimport_job(
         "GET",
         "/getDICOMImportJob/datastore/$(datastoreId)/job/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dicomimport_job(
@@ -230,7 +230,7 @@ function get_dicomimport_job(
         "/getDICOMImportJob/datastore/$(datastoreId)/job/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -257,7 +257,7 @@ function get_image_frame(
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageFrame",
         Dict{String,Any}("imageFrameInformation" => imageFrameInformation);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_frame(
@@ -278,7 +278,7 @@ function get_image_frame(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -303,7 +303,7 @@ function get_image_set(
         "POST",
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSet";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_set(
@@ -317,7 +317,7 @@ function get_image_set(
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSet",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -342,7 +342,7 @@ function get_image_set_metadata(
         "POST",
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSetMetadata";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_set_metadata(
@@ -356,7 +356,7 @@ function get_image_set_metadata(
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSetMetadata",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -375,14 +375,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_datastores(; aws_config::AbstractAWSConfig=global_aws_config())
     return medical_imaging(
-        "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return medical_imaging(
-        "GET", "/datastore", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/datastore",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -409,7 +413,7 @@ function list_dicomimport_jobs(
         "GET",
         "/listDICOMImportJobs/datastore/$(datastoreId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dicomimport_jobs(
@@ -422,7 +426,7 @@ function list_dicomimport_jobs(
         "/listDICOMImportJobs/datastore/$(datastoreId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -449,7 +453,7 @@ function list_image_set_versions(
         "POST",
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/listImageSetVersions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_set_versions(
@@ -463,7 +467,7 @@ function list_image_set_versions(
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/listImageSetVersions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -485,7 +489,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -498,7 +502,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -529,7 +533,7 @@ function search_image_sets(datastoreId; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/datastore/$(datastoreId)/searchImageSets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_image_sets(
@@ -542,7 +546,7 @@ function search_image_sets(
         "/datastore/$(datastoreId)/searchImageSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -587,7 +591,7 @@ function start_dicomimport_job(
             "outputS3Uri" => outputS3Uri,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_dicomimport_job(
@@ -615,7 +619,7 @@ function start_dicomimport_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -637,7 +641,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -651,7 +655,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -675,7 +679,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -689,7 +693,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -721,7 +725,7 @@ function update_image_set_metadata(
             "updateImageSetMetadataUpdates" => updateImageSetMetadataUpdates,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_image_set_metadata(
@@ -746,6 +750,6 @@ function update_image_set_metadata(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

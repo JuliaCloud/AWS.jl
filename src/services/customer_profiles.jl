@@ -38,7 +38,7 @@ function add_profile_key(
             "KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_profile_key(
@@ -62,7 +62,7 @@ function add_profile_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -103,7 +103,7 @@ function create_calculated_attribute_definition(
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
         Dict{String,Any}("AttributeDetails" => AttributeDetails, "Statistic" => Statistic);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_calculated_attribute_definition(
@@ -127,7 +127,7 @@ function create_calculated_attribute_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -185,7 +185,7 @@ function create_domain(
         "/domains/$(DomainName)",
         Dict{String,Any}("DefaultExpirationDays" => DefaultExpirationDays);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain(
@@ -205,7 +205,7 @@ function create_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -236,7 +236,7 @@ function create_event_stream(
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         Dict{String,Any}("Uri" => Uri);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_stream(
@@ -251,7 +251,7 @@ function create_event_stream(
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -293,7 +293,7 @@ function create_integration_workflow(
             "WorkflowType" => WorkflowType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_integration_workflow(
@@ -321,7 +321,7 @@ function create_integration_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -370,7 +370,7 @@ function create_profile(DomainName; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/domains/$(DomainName)/profiles";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_profile(
@@ -383,7 +383,7 @@ function create_profile(
         "/domains/$(DomainName)/profiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -408,7 +408,7 @@ function delete_calculated_attribute_definition(
         "DELETE",
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_calculated_attribute_definition(
@@ -422,7 +422,7 @@ function delete_calculated_attribute_definition(
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -442,7 +442,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/domains/$(DomainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain(
@@ -455,7 +455,7 @@ function delete_domain(
         "/domains/$(DomainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -477,7 +477,7 @@ function delete_event_stream(
         "DELETE",
         "/domains/$(DomainName)/event-streams/$(EventStreamName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_stream(
@@ -491,7 +491,7 @@ function delete_event_stream(
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -514,7 +514,7 @@ function delete_integration(
         "/domains/$(DomainName)/integrations/delete",
         Dict{String,Any}("Uri" => Uri);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_integration(
@@ -528,7 +528,7 @@ function delete_integration(
         "/domains/$(DomainName)/integrations/delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -551,7 +551,7 @@ function delete_profile(
         "/domains/$(DomainName)/profiles/delete",
         Dict{String,Any}("ProfileId" => ProfileId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile(
@@ -567,7 +567,7 @@ function delete_profile(
             mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -598,7 +598,7 @@ function delete_profile_key(
             "KeyName" => KeyName, "ProfileId" => ProfileId, "Values" => Values
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile_key(
@@ -622,7 +622,7 @@ function delete_profile_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -656,7 +656,7 @@ function delete_profile_object(
             "ProfileObjectUniqueKey" => ProfileObjectUniqueKey,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile_object(
@@ -682,7 +682,7 @@ function delete_profile_object(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -707,7 +707,7 @@ function delete_profile_object_type(
         "DELETE",
         "/domains/$(DomainName)/object-types/$(ObjectTypeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile_object_type(
@@ -721,7 +721,7 @@ function delete_profile_object_type(
         "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -744,7 +744,7 @@ function delete_workflow(
         "DELETE",
         "/domains/$(DomainName)/workflows/$(WorkflowId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workflow(
@@ -758,7 +758,7 @@ function delete_workflow(
         "/domains/$(DomainName)/workflows/$(WorkflowId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -781,7 +781,7 @@ function detect_profile_object_type(
         "/domains/$(DomainName)/detect/object-types",
         Dict{String,Any}("Objects" => Objects);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_profile_object_type(
@@ -795,7 +795,7 @@ function detect_profile_object_type(
         "/domains/$(DomainName)/detect/object-types",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Objects" => Objects), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -838,7 +838,7 @@ function get_auto_merging_preview(
             "ConflictResolution" => ConflictResolution, "Consolidation" => Consolidation
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_auto_merging_preview(
@@ -862,7 +862,7 @@ function get_auto_merging_preview(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -884,7 +884,7 @@ function get_calculated_attribute_definition(
         "GET",
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_calculated_attribute_definition(
@@ -898,7 +898,7 @@ function get_calculated_attribute_definition(
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -924,7 +924,7 @@ function get_calculated_attribute_for_profile(
         "GET",
         "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_calculated_attribute_for_profile(
@@ -939,7 +939,7 @@ function get_calculated_attribute_for_profile(
         "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -958,7 +958,7 @@ function get_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/domains/$(DomainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_domain(
@@ -971,7 +971,7 @@ function get_domain(
         "/domains/$(DomainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -993,7 +993,7 @@ function get_event_stream(
         "GET",
         "/domains/$(DomainName)/event-streams/$(EventStreamName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_stream(
@@ -1007,7 +1007,7 @@ function get_event_stream(
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1031,7 +1031,7 @@ function get_identity_resolution_job(
         "GET",
         "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_resolution_job(
@@ -1045,7 +1045,7 @@ function get_identity_resolution_job(
         "/domains/$(DomainName)/identity-resolution-jobs/$(JobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1066,7 +1066,7 @@ function get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_a
         "/domains/$(DomainName)/integrations",
         Dict{String,Any}("Uri" => Uri);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_integration(
@@ -1080,7 +1080,7 @@ function get_integration(
         "/domains/$(DomainName)/integrations",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1119,7 +1119,7 @@ function get_matches(DomainName; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/domains/$(DomainName)/matches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_matches(
@@ -1132,7 +1132,7 @@ function get_matches(
         "/domains/$(DomainName)/matches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1154,7 +1154,7 @@ function get_profile_object_type(
         "GET",
         "/domains/$(DomainName)/object-types/$(ObjectTypeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_profile_object_type(
@@ -1168,7 +1168,7 @@ function get_profile_object_type(
         "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1192,7 +1192,7 @@ function get_profile_object_type_template(
         "GET",
         "/templates/$(TemplateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_profile_object_type_template(
@@ -1205,7 +1205,7 @@ function get_profile_object_type_template(
         "/templates/$(TemplateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1242,7 +1242,7 @@ function get_similar_profiles(
             "MatchType" => MatchType, "SearchKey" => SearchKey, "SearchValue" => SearchValue
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_similar_profiles(
@@ -1268,7 +1268,7 @@ function get_similar_profiles(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1290,7 +1290,7 @@ function get_workflow(
         "GET",
         "/domains/$(DomainName)/workflows/$(WorkflowId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow(
@@ -1304,7 +1304,7 @@ function get_workflow(
         "/domains/$(DomainName)/workflows/$(WorkflowId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1331,7 +1331,7 @@ function get_workflow_steps(
         "GET",
         "/domains/$(DomainName)/workflows/$(WorkflowId)/steps";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow_steps(
@@ -1345,7 +1345,7 @@ function get_workflow_steps(
         "/domains/$(DomainName)/workflows/$(WorkflowId)/steps",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1371,7 +1371,7 @@ function list_account_integrations(Uri; aws_config::AbstractAWSConfig=global_aws
         "/integrations",
         Dict{String,Any}("Uri" => Uri);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_account_integrations(
@@ -1382,7 +1382,7 @@ function list_account_integrations(
         "/integrations",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1408,7 +1408,7 @@ function list_calculated_attribute_definitions(
         "GET",
         "/domains/$(DomainName)/calculated-attributes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_calculated_attribute_definitions(
@@ -1421,7 +1421,7 @@ function list_calculated_attribute_definitions(
         "/domains/$(DomainName)/calculated-attributes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1448,7 +1448,7 @@ function list_calculated_attributes_for_profile(
         "GET",
         "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_calculated_attributes_for_profile(
@@ -1462,7 +1462,7 @@ function list_calculated_attributes_for_profile(
         "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1479,14 +1479,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
     return customer_profiles(
-        "GET", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return customer_profiles(
-        "GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1509,7 +1509,7 @@ function list_event_streams(DomainName; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/domains/$(DomainName)/event-streams";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_event_streams(
@@ -1522,7 +1522,7 @@ function list_event_streams(
         "/domains/$(DomainName)/event-streams",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1549,7 +1549,7 @@ function list_identity_resolution_jobs(
         "GET",
         "/domains/$(DomainName)/identity-resolution-jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_resolution_jobs(
@@ -1562,7 +1562,7 @@ function list_identity_resolution_jobs(
         "/domains/$(DomainName)/identity-resolution-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1587,7 +1587,7 @@ function list_integrations(DomainName; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/domains/$(DomainName)/integrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_integrations(
@@ -1600,7 +1600,7 @@ function list_integrations(
         "/domains/$(DomainName)/integrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1619,14 +1619,18 @@ function list_profile_object_type_templates(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return customer_profiles(
-        "GET", "/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_profile_object_type_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return customer_profiles(
-        "GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1651,7 +1655,7 @@ function list_profile_object_types(
         "GET",
         "/domains/$(DomainName)/object-types";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_profile_object_types(
@@ -1664,7 +1668,7 @@ function list_profile_object_types(
         "/domains/$(DomainName)/object-types",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1694,7 +1698,7 @@ function list_profile_objects(
         "/domains/$(DomainName)/profiles/objects",
         Dict{String,Any}("ObjectTypeName" => ObjectTypeName, "ProfileId" => ProfileId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_profile_objects(
@@ -1717,7 +1721,7 @@ function list_profile_objects(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1742,7 +1746,7 @@ function list_rule_based_matches(
         "GET",
         "/domains/$(DomainName)/profiles/ruleBasedMatches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_rule_based_matches(
@@ -1755,7 +1759,7 @@ function list_rule_based_matches(
         "/domains/$(DomainName)/profiles/ruleBasedMatches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1777,7 +1781,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1790,7 +1794,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1818,7 +1822,7 @@ function list_workflows(DomainName; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/domains/$(DomainName)/workflows";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflows(
@@ -1831,7 +1835,7 @@ function list_workflows(
         "/domains/$(DomainName)/workflows",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1877,7 +1881,7 @@ function merge_profiles(
             "MainProfileId" => MainProfileId, "ProfileIdsToBeMerged" => ProfileIdsToBeMerged
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function merge_profiles(
@@ -1901,7 +1905,7 @@ function merge_profiles(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1934,7 +1938,7 @@ function put_integration(DomainName; aws_config::AbstractAWSConfig=global_aws_co
         "PUT",
         "/domains/$(DomainName)/integrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_integration(
@@ -1947,7 +1951,7 @@ function put_integration(
         "/domains/$(DomainName)/integrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1978,7 +1982,7 @@ function put_profile_object(
         "/domains/$(DomainName)/profiles/objects",
         Dict{String,Any}("Object" => Object, "ObjectTypeName" => ObjectTypeName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_profile_object(
@@ -1999,7 +2003,7 @@ function put_profile_object(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2050,7 +2054,7 @@ function put_profile_object_type(
         "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
         Dict{String,Any}("Description" => Description);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_profile_object_type(
@@ -2067,7 +2071,7 @@ function put_profile_object_type(
             mergewith(_merge, Dict{String,Any}("Description" => Description), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2117,7 +2121,7 @@ function search_profiles(
         "/domains/$(DomainName)/profiles/search",
         Dict{String,Any}("KeyName" => KeyName, "Values" => Values);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_profiles(
@@ -2136,7 +2140,7 @@ function search_profiles(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2166,7 +2170,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2180,7 +2184,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2204,7 +2208,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2218,7 +2222,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2248,7 +2252,7 @@ function update_calculated_attribute_definition(
         "PUT",
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_calculated_attribute_definition(
@@ -2262,7 +2266,7 @@ function update_calculated_attribute_definition(
         "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2313,7 +2317,7 @@ function update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_conf
         "PUT",
         "/domains/$(DomainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_domain(
@@ -2326,7 +2330,7 @@ function update_domain(
         "/domains/$(DomainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2381,7 +2385,7 @@ function update_profile(
         "/domains/$(DomainName)/profiles",
         Dict{String,Any}("ProfileId" => ProfileId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_profile(
@@ -2397,6 +2401,6 @@ function update_profile(
             mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

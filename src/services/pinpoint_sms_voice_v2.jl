@@ -44,7 +44,7 @@ function associate_origination_identity(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_origination_identity(
@@ -69,7 +69,7 @@ function associate_origination_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -99,7 +99,7 @@ function associate_protect_configuration(
             "ProtectConfigurationId" => ProtectConfigurationId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_protect_configuration(
@@ -121,7 +121,7 @@ function associate_protect_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function create_configuration_set(
             "ConfigurationSetName" => ConfigurationSetName, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configuration_set(
@@ -175,7 +175,7 @@ function create_configuration_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -227,7 +227,7 @@ function create_event_destination(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_destination(
@@ -252,7 +252,7 @@ function create_event_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -286,7 +286,7 @@ function create_opt_out_list(
             "OptOutListName" => OptOutListName, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_opt_out_list(
@@ -306,7 +306,7 @@ function create_opt_out_list(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -358,7 +358,7 @@ function create_pool(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_pool(
@@ -383,7 +383,7 @@ function create_pool(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -410,7 +410,7 @@ function create_protect_configuration(; aws_config::AbstractAWSConfig=global_aws
         "CreateProtectConfiguration",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_protect_configuration(
@@ -422,7 +422,7 @@ function create_protect_configuration(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -452,7 +452,7 @@ function create_registration(
             "RegistrationType" => RegistrationType, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_registration(
@@ -472,7 +472,7 @@ function create_registration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -495,7 +495,7 @@ function create_registration_association(
         "CreateRegistrationAssociation",
         Dict{String,Any}("RegistrationId" => RegistrationId, "ResourceId" => ResourceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_registration_association(
@@ -516,7 +516,7 @@ function create_registration_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -546,7 +546,7 @@ function create_registration_attachment(; aws_config::AbstractAWSConfig=global_a
         "CreateRegistrationAttachment",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_registration_attachment(
@@ -558,7 +558,7 @@ function create_registration_attachment(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -580,7 +580,7 @@ function create_registration_version(
         "CreateRegistrationVersion",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_registration_version(
@@ -594,7 +594,7 @@ function create_registration_version(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -625,7 +625,7 @@ function create_verified_destination_number(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_verified_destination_number(
@@ -646,7 +646,7 @@ function create_verified_destination_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -663,7 +663,7 @@ function delete_account_default_protect_configuration(;
     return pinpoint_sms_voice_v2(
         "DeleteAccountDefaultProtectConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_account_default_protect_configuration(
@@ -673,7 +673,7 @@ function delete_account_default_protect_configuration(
         "DeleteAccountDefaultProtectConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -698,7 +698,7 @@ function delete_configuration_set(
         "DeleteConfigurationSet",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_set(
@@ -716,7 +716,7 @@ function delete_configuration_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -744,7 +744,7 @@ function delete_default_message_type(
         "DeleteDefaultMessageType",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_default_message_type(
@@ -762,7 +762,7 @@ function delete_default_message_type(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -787,7 +787,7 @@ function delete_default_sender_id(
         "DeleteDefaultSenderId",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_default_sender_id(
@@ -805,7 +805,7 @@ function delete_default_sender_id(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -837,7 +837,7 @@ function delete_event_destination(
             "EventDestinationName" => EventDestinationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_destination(
@@ -859,7 +859,7 @@ function delete_event_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -890,7 +890,7 @@ function delete_keyword(
             "Keyword" => Keyword, "OriginationIdentity" => OriginationIdentity
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_keyword(
@@ -911,7 +911,7 @@ function delete_keyword(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -931,7 +931,7 @@ function delete_media_message_spend_limit_override(;
     return pinpoint_sms_voice_v2(
         "DeleteMediaMessageSpendLimitOverride";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_media_message_spend_limit_override(
@@ -941,7 +941,7 @@ function delete_media_message_spend_limit_override(
         "DeleteMediaMessageSpendLimitOverride",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -965,7 +965,7 @@ function delete_opt_out_list(
         "DeleteOptOutList",
         Dict{String,Any}("OptOutListName" => OptOutListName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_opt_out_list(
@@ -979,7 +979,7 @@ function delete_opt_out_list(
             mergewith(_merge, Dict{String,Any}("OptOutListName" => OptOutListName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1006,7 +1006,7 @@ function delete_opted_out_number(
             "OptOutListName" => OptOutListName, "OptedOutNumber" => OptedOutNumber
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_opted_out_number(
@@ -1027,7 +1027,7 @@ function delete_opted_out_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1051,7 +1051,7 @@ function delete_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
         "DeletePool",
         Dict{String,Any}("PoolId" => PoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pool(
@@ -1061,7 +1061,7 @@ function delete_pool(
         "DeletePool",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1084,7 +1084,7 @@ function delete_protect_configuration(
         "DeleteProtectConfiguration",
         Dict{String,Any}("ProtectConfigurationId" => ProtectConfigurationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_protect_configuration(
@@ -1102,7 +1102,7 @@ function delete_protect_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1123,7 +1123,7 @@ function delete_registration(
         "DeleteRegistration",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_registration(
@@ -1137,7 +1137,7 @@ function delete_registration(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1158,7 +1158,7 @@ function delete_registration_attachment(
         "DeleteRegistrationAttachment",
         Dict{String,Any}("RegistrationAttachmentId" => RegistrationAttachmentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_registration_attachment(
@@ -1176,7 +1176,7 @@ function delete_registration_attachment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1199,7 +1199,7 @@ function delete_registration_field_value(
         "DeleteRegistrationFieldValue",
         Dict{String,Any}("FieldPath" => FieldPath, "RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_registration_field_value(
@@ -1220,7 +1220,7 @@ function delete_registration_field_value(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1240,7 +1240,7 @@ function delete_text_message_spend_limit_override(;
     return pinpoint_sms_voice_v2(
         "DeleteTextMessageSpendLimitOverride";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_text_message_spend_limit_override(
@@ -1250,7 +1250,7 @@ function delete_text_message_spend_limit_override(
         "DeleteTextMessageSpendLimitOverride",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1272,7 +1272,7 @@ function delete_verified_destination_number(
         "DeleteVerifiedDestinationNumber",
         Dict{String,Any}("VerifiedDestinationNumberId" => VerifiedDestinationNumberId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_verified_destination_number(
@@ -1292,7 +1292,7 @@ function delete_verified_destination_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1312,7 +1312,7 @@ function delete_voice_message_spend_limit_override(;
     return pinpoint_sms_voice_v2(
         "DeleteVoiceMessageSpendLimitOverride";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_message_spend_limit_override(
@@ -1322,7 +1322,7 @@ function delete_voice_message_spend_limit_override(
         "DeleteVoiceMessageSpendLimitOverride",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1345,7 +1345,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAccountAttributes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_attributes(
@@ -1355,7 +1357,7 @@ function describe_account_attributes(
         "DescribeAccountAttributes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1378,7 +1380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_account_limits(
@@ -1388,7 +1390,7 @@ function describe_account_limits(
         "DescribeAccountLimits",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1414,7 +1416,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeConfigurationSets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_sets(
@@ -1424,7 +1428,7 @@ function describe_configuration_sets(
         "DescribeConfigurationSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1460,7 +1464,7 @@ function describe_keywords(
         "DescribeKeywords",
         Dict{String,Any}("OriginationIdentity" => OriginationIdentity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_keywords(
@@ -1478,7 +1482,7 @@ function describe_keywords(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1502,7 +1506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_opt_out_lists(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeOptOutLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeOptOutLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_opt_out_lists(
@@ -1512,7 +1516,7 @@ function describe_opt_out_lists(
         "DescribeOptOutLists",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1547,7 +1551,7 @@ function describe_opted_out_numbers(
         "DescribeOptedOutNumbers",
         Dict{String,Any}("OptOutListName" => OptOutListName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_opted_out_numbers(
@@ -1561,7 +1565,7 @@ function describe_opted_out_numbers(
             mergewith(_merge, Dict{String,Any}("OptOutListName" => OptOutListName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1587,7 +1591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribePhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribePhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_phone_numbers(
@@ -1597,7 +1601,7 @@ function describe_phone_numbers(
         "DescribePhoneNumbers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1624,14 +1628,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_pools(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return pinpoint_sms_voice_v2(
-        "DescribePools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribePools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1656,7 +1660,7 @@ function describe_protect_configurations(;
     return pinpoint_sms_voice_v2(
         "DescribeProtectConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_protect_configurations(
@@ -1666,7 +1670,7 @@ function describe_protect_configurations(
         "DescribeProtectConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1692,7 +1696,7 @@ function describe_registration_attachments(;
     return pinpoint_sms_voice_v2(
         "DescribeRegistrationAttachments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registration_attachments(
@@ -1702,7 +1706,7 @@ function describe_registration_attachments(
         "DescribeRegistrationAttachments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1733,7 +1737,7 @@ function describe_registration_field_definitions(
         "DescribeRegistrationFieldDefinitions",
         Dict{String,Any}("RegistrationType" => RegistrationType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registration_field_definitions(
@@ -1749,7 +1753,7 @@ function describe_registration_field_definitions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1778,7 +1782,7 @@ function describe_registration_field_values(
         "DescribeRegistrationFieldValues",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registration_field_values(
@@ -1792,7 +1796,7 @@ function describe_registration_field_values(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1822,7 +1826,7 @@ function describe_registration_section_definitions(
         "DescribeRegistrationSectionDefinitions",
         Dict{String,Any}("RegistrationType" => RegistrationType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registration_section_definitions(
@@ -1838,7 +1842,7 @@ function describe_registration_section_definitions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1865,7 +1869,7 @@ function describe_registration_type_definitions(;
     return pinpoint_sms_voice_v2(
         "DescribeRegistrationTypeDefinitions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registration_type_definitions(
@@ -1875,7 +1879,7 @@ function describe_registration_type_definitions(
         "DescribeRegistrationTypeDefinitions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1903,7 +1907,7 @@ function describe_registration_versions(
         "DescribeRegistrationVersions",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_registration_versions(
@@ -1917,7 +1921,7 @@ function describe_registration_versions(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1937,7 +1941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_registrations(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_registrations(
@@ -1947,7 +1951,7 @@ function describe_registrations(
         "DescribeRegistrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1972,14 +1976,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_sender_ids(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeSenderIds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSenderIds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_sender_ids(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return pinpoint_sms_voice_v2(
-        "DescribeSenderIds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSenderIds",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2001,7 +2008,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_spend_limits(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint_sms_voice_v2(
-        "DescribeSpendLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSpendLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_spend_limits(
@@ -2011,7 +2018,7 @@ function describe_spend_limits(
         "DescribeSpendLimits",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2037,7 +2044,7 @@ function describe_verified_destination_numbers(;
     return pinpoint_sms_voice_v2(
         "DescribeVerifiedDestinationNumbers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_verified_destination_numbers(
@@ -2047,7 +2054,7 @@ function describe_verified_destination_numbers(
         "DescribeVerifiedDestinationNumbers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2089,7 +2096,7 @@ function disassociate_origination_identity(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_origination_identity(
@@ -2114,7 +2121,7 @@ function disassociate_origination_identity(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2141,7 +2148,7 @@ function disassociate_protect_configuration(
             "ProtectConfigurationId" => ProtectConfigurationId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_protect_configuration(
@@ -2163,7 +2170,7 @@ function disassociate_protect_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2184,7 +2191,7 @@ function discard_registration_version(
         "DiscardRegistrationVersion",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function discard_registration_version(
@@ -2198,7 +2205,7 @@ function discard_registration_version(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2226,7 +2233,7 @@ function get_protect_configuration_country_rule_set(
             "ProtectConfigurationId" => ProtectConfigurationId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_protect_configuration_country_rule_set(
@@ -2248,7 +2255,7 @@ function get_protect_configuration_country_rule_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2278,7 +2285,7 @@ function list_pool_origination_identities(
         "ListPoolOriginationIdentities",
         Dict{String,Any}("PoolId" => PoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_pool_origination_identities(
@@ -2288,7 +2295,7 @@ function list_pool_origination_identities(
         "ListPoolOriginationIdentities",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2316,7 +2323,7 @@ function list_registration_associations(
         "ListRegistrationAssociations",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_registration_associations(
@@ -2330,7 +2337,7 @@ function list_registration_associations(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2351,7 +2358,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2365,7 +2372,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2408,7 +2415,7 @@ function put_keyword(
             "OriginationIdentity" => OriginationIdentity,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_keyword(
@@ -2432,7 +2439,7 @@ function put_keyword(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2457,7 +2464,7 @@ function put_opted_out_number(
             "OptOutListName" => OptOutListName, "OptedOutNumber" => OptedOutNumber
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_opted_out_number(
@@ -2478,7 +2485,7 @@ function put_opted_out_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2506,7 +2513,7 @@ function put_registration_field_value(
         "PutRegistrationFieldValue",
         Dict{String,Any}("FieldPath" => FieldPath, "RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_registration_field_value(
@@ -2527,7 +2534,7 @@ function put_registration_field_value(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2551,7 +2558,7 @@ function release_phone_number(
         "ReleasePhoneNumber",
         Dict{String,Any}("PhoneNumberId" => PhoneNumberId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function release_phone_number(
@@ -2565,7 +2572,7 @@ function release_phone_number(
             mergewith(_merge, Dict{String,Any}("PhoneNumberId" => PhoneNumberId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2588,7 +2595,7 @@ function release_sender_id(
         "ReleaseSenderId",
         Dict{String,Any}("IsoCountryCode" => IsoCountryCode, "SenderId" => SenderId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function release_sender_id(
@@ -2609,7 +2616,7 @@ function release_sender_id(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2663,7 +2670,7 @@ function request_phone_number(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function request_phone_number(
@@ -2690,7 +2697,7 @@ function request_phone_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2728,7 +2735,7 @@ function request_sender_id(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function request_sender_id(
@@ -2751,7 +2758,7 @@ function request_sender_id(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2795,7 +2802,7 @@ function send_destination_number_verification_code(
             "VerifiedDestinationNumberId" => VerifiedDestinationNumberId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_destination_number_verification_code(
@@ -2817,7 +2824,7 @@ function send_destination_number_verification_code(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2862,7 +2869,7 @@ function send_media_message(
             "OriginationIdentity" => OriginationIdentity,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_media_message(
@@ -2884,7 +2891,7 @@ function send_media_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2932,7 +2939,7 @@ function send_text_message(
         "SendTextMessage",
         Dict{String,Any}("DestinationPhoneNumber" => DestinationPhoneNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_text_message(
@@ -2950,7 +2957,7 @@ function send_text_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2997,7 +3004,7 @@ function send_voice_message(
             "OriginationIdentity" => OriginationIdentity,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_voice_message(
@@ -3019,7 +3026,7 @@ function send_voice_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3042,7 +3049,7 @@ function set_account_default_protect_configuration(
         "SetAccountDefaultProtectConfiguration",
         Dict{String,Any}("ProtectConfigurationId" => ProtectConfigurationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_account_default_protect_configuration(
@@ -3060,7 +3067,7 @@ function set_account_default_protect_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3091,7 +3098,7 @@ function set_default_message_type(
             "ConfigurationSetName" => ConfigurationSetName, "MessageType" => MessageType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_default_message_type(
@@ -3113,7 +3120,7 @@ function set_default_message_type(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3145,7 +3152,7 @@ function set_default_sender_id(
             "ConfigurationSetName" => ConfigurationSetName, "SenderId" => SenderId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_default_sender_id(
@@ -3166,7 +3173,7 @@ function set_default_sender_id(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3189,7 +3196,7 @@ function set_media_message_spend_limit_override(
         "SetMediaMessageSpendLimitOverride",
         Dict{String,Any}("MonthlyLimit" => MonthlyLimit);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_media_message_spend_limit_override(
@@ -3203,7 +3210,7 @@ function set_media_message_spend_limit_override(
             mergewith(_merge, Dict{String,Any}("MonthlyLimit" => MonthlyLimit), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3226,7 +3233,7 @@ function set_text_message_spend_limit_override(
         "SetTextMessageSpendLimitOverride",
         Dict{String,Any}("MonthlyLimit" => MonthlyLimit);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_text_message_spend_limit_override(
@@ -3240,7 +3247,7 @@ function set_text_message_spend_limit_override(
             mergewith(_merge, Dict{String,Any}("MonthlyLimit" => MonthlyLimit), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3263,7 +3270,7 @@ function set_voice_message_spend_limit_override(
         "SetVoiceMessageSpendLimitOverride",
         Dict{String,Any}("MonthlyLimit" => MonthlyLimit);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_voice_message_spend_limit_override(
@@ -3277,7 +3284,7 @@ function set_voice_message_spend_limit_override(
             mergewith(_merge, Dict{String,Any}("MonthlyLimit" => MonthlyLimit), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3298,7 +3305,7 @@ function submit_registration_version(
         "SubmitRegistrationVersion",
         Dict{String,Any}("RegistrationId" => RegistrationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function submit_registration_version(
@@ -3312,7 +3319,7 @@ function submit_registration_version(
             mergewith(_merge, Dict{String,Any}("RegistrationId" => RegistrationId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3336,7 +3343,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3355,7 +3362,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3379,7 +3386,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3398,7 +3405,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3441,7 +3448,7 @@ function update_event_destination(
             "EventDestinationName" => EventDestinationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_event_destination(
@@ -3463,7 +3470,7 @@ function update_event_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3504,7 +3511,7 @@ function update_phone_number(
         "UpdatePhoneNumber",
         Dict{String,Any}("PhoneNumberId" => PhoneNumberId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_phone_number(
@@ -3518,7 +3525,7 @@ function update_phone_number(
             mergewith(_merge, Dict{String,Any}("PhoneNumberId" => PhoneNumberId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3556,7 +3563,7 @@ function update_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdatePool",
         Dict{String,Any}("PoolId" => PoolId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pool(
@@ -3566,7 +3573,7 @@ function update_pool(
         "UpdatePool",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3591,7 +3598,7 @@ function update_protect_configuration(
         "UpdateProtectConfiguration",
         Dict{String,Any}("ProtectConfigurationId" => ProtectConfigurationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_protect_configuration(
@@ -3609,7 +3616,7 @@ function update_protect_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3644,7 +3651,7 @@ function update_protect_configuration_country_rule_set(
             "ProtectConfigurationId" => ProtectConfigurationId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_protect_configuration_country_rule_set(
@@ -3668,7 +3675,7 @@ function update_protect_configuration_country_rule_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3695,7 +3702,7 @@ function update_sender_id(
         "UpdateSenderId",
         Dict{String,Any}("IsoCountryCode" => IsoCountryCode, "SenderId" => SenderId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sender_id(
@@ -3716,7 +3723,7 @@ function update_sender_id(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3746,7 +3753,7 @@ function verify_destination_number(
             "VerifiedDestinationNumberId" => VerifiedDestinationNumberId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_destination_number(
@@ -3768,6 +3775,6 @@ function verify_destination_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

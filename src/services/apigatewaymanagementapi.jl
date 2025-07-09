@@ -19,7 +19,7 @@ function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aw
         "DELETE",
         "/@connections/$(connectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_connection(
@@ -32,7 +32,7 @@ function delete_connection(
         "/@connections/$(connectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -51,7 +51,7 @@ function get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/@connections/$(connectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_connection(
@@ -64,7 +64,7 @@ function get_connection(
         "/@connections/$(connectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -87,7 +87,7 @@ function post_to_connection(
         "/@connections/$(connectionId)",
         Dict{String,Any}("Data" => Data);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function post_to_connection(
@@ -101,6 +101,6 @@ function post_to_connection(
         "/@connections/$(connectionId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Data" => Data), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

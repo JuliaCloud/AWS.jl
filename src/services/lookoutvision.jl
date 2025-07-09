@@ -51,7 +51,7 @@ function create_dataset(
             "DatasetType" => DatasetType, "X-Amzn-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dataset(
@@ -73,7 +73,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -124,7 +124,7 @@ function create_model(
             "OutputConfig" => OutputConfig, "X-Amzn-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_model(
@@ -146,7 +146,7 @@ function create_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -182,7 +182,7 @@ function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_co
             "ProjectName" => ProjectName, "X-Amzn-Client-Token" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_project(
@@ -203,7 +203,7 @@ function create_project(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -247,7 +247,7 @@ function delete_dataset(
         "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset(
@@ -265,7 +265,7 @@ function delete_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -303,7 +303,7 @@ function delete_model(
         "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_model(
@@ -321,7 +321,7 @@ function delete_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -358,7 +358,7 @@ function delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_co
         "/2020-11-20/projects/$(projectName)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project(
@@ -375,7 +375,7 @@ function delete_project(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -401,7 +401,7 @@ function describe_dataset(
         "GET",
         "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dataset(
@@ -415,7 +415,7 @@ function describe_dataset(
         "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -439,7 +439,7 @@ function describe_model(
         "GET",
         "/2020-11-20/projects/$(projectName)/models/$(modelVersion)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_model(
@@ -453,7 +453,7 @@ function describe_model(
         "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -479,7 +479,7 @@ function describe_model_packaging_job(
         "GET",
         "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_model_packaging_job(
@@ -493,7 +493,7 @@ function describe_model_packaging_job(
         "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -513,7 +513,7 @@ function describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/2020-11-20/projects/$(projectName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_project(
@@ -526,7 +526,7 @@ function describe_project(
         "/2020-11-20/projects/$(projectName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -568,7 +568,7 @@ function detect_anomalies(
             "Body" => Body, "headers" => Dict{String,Any}("Content-Type" => Content_Type)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_anomalies(
@@ -593,7 +593,7 @@ function detect_anomalies(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -640,7 +640,7 @@ function list_dataset_entries(
         "GET",
         "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dataset_entries(
@@ -654,7 +654,7 @@ function list_dataset_entries(
         "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -687,7 +687,7 @@ function list_model_packaging_jobs(
         "GET",
         "/2020-11-20/projects/$(projectName)/modelpackagingjobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_model_packaging_jobs(
@@ -700,7 +700,7 @@ function list_model_packaging_jobs(
         "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -731,7 +731,7 @@ function list_models(projectName; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/2020-11-20/projects/$(projectName)/models";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_models(
@@ -744,7 +744,7 @@ function list_models(
         "/2020-11-20/projects/$(projectName)/models",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -772,7 +772,7 @@ function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2020-11-20/projects";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_projects(
@@ -783,7 +783,7 @@ function list_projects(
         "/2020-11-20/projects",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -806,7 +806,7 @@ function list_tags_for_resource(
         "GET",
         "/2020-11-20/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -819,7 +819,7 @@ function list_tags_for_resource(
         "/2020-11-20/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -869,7 +869,7 @@ function start_model(
             "X-Amzn-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_model(
@@ -893,7 +893,7 @@ function start_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -951,7 +951,7 @@ function start_model_packaging_job(
             "X-Amzn-Client-Token" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_model_packaging_job(
@@ -976,7 +976,7 @@ function start_model_packaging_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1013,7 +1013,7 @@ function stop_model(
         "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_model(
@@ -1031,7 +1031,7 @@ function stop_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1054,7 +1054,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/2020-11-20/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1068,7 +1068,7 @@ function tag_resource(
         "/2020-11-20/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function untag_resource(
         "/2020-11-20/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1108,7 +1108,7 @@ function untag_resource(
         "/2020-11-20/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1156,7 +1156,7 @@ function update_dataset_entries(
         "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
         Dict{String,Any}("Changes" => Changes, "X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dataset_entries(
@@ -1179,6 +1179,6 @@ function update_dataset_entries(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

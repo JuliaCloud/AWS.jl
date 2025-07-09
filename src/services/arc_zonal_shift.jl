@@ -22,7 +22,7 @@ function cancel_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/zonalshifts/$(zonalShiftId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_zonal_shift(
@@ -35,7 +35,7 @@ function cancel_zonal_shift(
         "/zonalshifts/$(zonalShiftId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -93,7 +93,7 @@ function create_practice_run_configuration(
             "outcomeAlarms" => outcomeAlarms, "resourceIdentifier" => resourceIdentifier
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_practice_run_configuration(
@@ -116,7 +116,7 @@ function create_practice_run_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -141,7 +141,7 @@ function delete_practice_run_configuration(
         "DELETE",
         "/configuration/$(resourceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_practice_run_configuration(
@@ -154,7 +154,7 @@ function delete_practice_run_configuration(
         "/configuration/$(resourceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -183,7 +183,7 @@ function get_managed_resource(
         "GET",
         "/managedresources/$(resourceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_managed_resource(
@@ -196,7 +196,7 @@ function get_managed_resource(
         "/managedresources/$(resourceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,14 +217,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_autoshifts(; aws_config::AbstractAWSConfig=global_aws_config())
     return arc_zonal_shift(
-        "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_autoshifts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return arc_zonal_shift(
-        "GET", "/autoshifts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/autoshifts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -248,7 +252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_managed_resources(; aws_config::AbstractAWSConfig=global_aws_config())
     return arc_zonal_shift(
-        "GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_managed_resources(
@@ -259,7 +263,7 @@ function list_managed_resources(
         "/managedresources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -290,7 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_zonal_shifts(; aws_config::AbstractAWSConfig=global_aws_config())
     return arc_zonal_shift(
-        "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_zonal_shifts(
@@ -301,7 +305,7 @@ function list_zonal_shifts(
         "/zonalshifts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -363,7 +367,7 @@ function start_zonal_shift(
             "resourceIdentifier" => resourceIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_zonal_shift(
@@ -390,7 +394,7 @@ function start_zonal_shift(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -436,7 +440,7 @@ function update_practice_run_configuration(
         "PATCH",
         "/configuration/$(resourceIdentifier)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_practice_run_configuration(
@@ -449,7 +453,7 @@ function update_practice_run_configuration(
         "/configuration/$(resourceIdentifier)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -480,7 +484,7 @@ function update_zonal_autoshift_configuration(
         "/managedresources/$(resourceIdentifier)",
         Dict{String,Any}("zonalAutoshiftStatus" => zonalAutoshiftStatus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_zonal_autoshift_configuration(
@@ -500,7 +504,7 @@ function update_zonal_autoshift_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -536,7 +540,7 @@ function update_zonal_shift(zonalShiftId; aws_config::AbstractAWSConfig=global_a
         "PATCH",
         "/zonalshifts/$(zonalShiftId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_zonal_shift(
@@ -549,6 +553,6 @@ function update_zonal_shift(
         "/zonalshifts/$(zonalShiftId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

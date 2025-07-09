@@ -26,7 +26,7 @@ function scan_sbom(sbom; aws_config::AbstractAWSConfig=global_aws_config())
         "/scan/sbom",
         Dict{String,Any}("sbom" => sbom);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function scan_sbom(
@@ -37,6 +37,6 @@ function scan_sbom(
         "/scan/sbom",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sbom" => sbom), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

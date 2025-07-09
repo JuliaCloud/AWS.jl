@@ -44,7 +44,7 @@ function associate_external_connection(
             "repository" => repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_external_connection(
@@ -69,7 +69,7 @@ function associate_external_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -133,7 +133,7 @@ function copy_package_versions(
             "source-repository" => source_repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_package_versions(
@@ -162,7 +162,7 @@ function copy_package_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -203,7 +203,7 @@ function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()
         "/v1/domain",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain(
@@ -214,7 +214,7 @@ function create_domain(
         "/v1/domain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -246,7 +246,7 @@ function create_package_group(
         "/v1/package-group",
         Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_package_group(
@@ -266,7 +266,7 @@ function create_package_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +299,7 @@ function create_repository(
         "/v1/repository",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_repository(
@@ -319,7 +319,7 @@ function create_repository(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -344,7 +344,7 @@ function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()
         "/v1/domain",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain(
@@ -355,7 +355,7 @@ function delete_domain(
         "/v1/domain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -384,7 +384,7 @@ function delete_domain_permissions_policy(
         "/v1/domain/permissions/policy",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain_permissions_policy(
@@ -395,7 +395,7 @@ function delete_domain_permissions_policy(
         "/v1/domain/permissions/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -437,7 +437,7 @@ function delete_package(
             "repository" => repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_package(
@@ -464,7 +464,7 @@ function delete_package(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -495,7 +495,7 @@ function delete_package_group(
         "/v1/package-group",
         Dict{String,Any}("domain" => domain, "package-group" => package_group);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_package_group(
@@ -515,7 +515,7 @@ function delete_package_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -568,7 +568,7 @@ function delete_package_versions(
             "versions" => versions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_package_versions(
@@ -597,7 +597,7 @@ function delete_package_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,7 +624,7 @@ function delete_repository(
         "/v1/repository",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_repository(
@@ -644,7 +644,7 @@ function delete_repository(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +681,7 @@ function delete_repository_permissions_policy(
         "/v1/repository/permissions/policies",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_repository_permissions_policy(
@@ -701,7 +701,7 @@ function delete_repository_permissions_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -725,7 +725,7 @@ function describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config
         "/v1/domain",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_domain(
@@ -736,7 +736,7 @@ function describe_domain(
         "/v1/domain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -777,7 +777,7 @@ function describe_package(
             "repository" => repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_package(
@@ -804,7 +804,7 @@ function describe_package(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -832,7 +832,7 @@ function describe_package_group(
         "/v1/package-group",
         Dict{String,Any}("domain" => domain, "package-group" => package_group);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_package_group(
@@ -852,7 +852,7 @@ function describe_package_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -902,7 +902,7 @@ function describe_package_version(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_package_version(
@@ -931,7 +931,7 @@ function describe_package_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -959,7 +959,7 @@ function describe_repository(
         "/v1/repository",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_repository(
@@ -979,7 +979,7 @@ function describe_repository(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1017,7 @@ function disassociate_external_connection(
             "repository" => repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_external_connection(
@@ -1042,7 +1042,7 @@ function disassociate_external_connection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1097,7 +1097,7 @@ function dispose_package_versions(
             "versions" => versions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function dispose_package_versions(
@@ -1126,7 +1126,7 @@ function dispose_package_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,7 +1169,7 @@ function get_associated_package_group(
         "/v1/get-associated-package-group",
         Dict{String,Any}("domain" => domain, "format" => format, "package" => package);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_associated_package_group(
@@ -1192,7 +1192,7 @@ function get_associated_package_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1233,7 +1233,7 @@ function get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aw
         "/v1/authorization-token",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_authorization_token(
@@ -1244,7 +1244,7 @@ function get_authorization_token(
         "/v1/authorization-token",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1272,7 +1272,7 @@ function get_domain_permissions_policy(
         "/v1/domain/permissions/policy",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_domain_permissions_policy(
@@ -1283,7 +1283,7 @@ function get_domain_permissions_policy(
         "/v1/domain/permissions/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1341,7 +1341,7 @@ function get_package_version_asset(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_package_version_asset(
@@ -1372,7 +1372,7 @@ function get_package_version_asset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1425,7 +1425,7 @@ function get_package_version_readme(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_package_version_readme(
@@ -1454,7 +1454,7 @@ function get_package_version_readme(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1487,7 +1487,7 @@ function get_repository_endpoint(
             "domain" => domain, "format" => format, "repository" => repository
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_repository_endpoint(
@@ -1510,7 +1510,7 @@ function get_repository_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1539,7 +1539,7 @@ function get_repository_permissions_policy(
         "/v1/repository/permissions/policy",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_repository_permissions_policy(
@@ -1559,7 +1559,7 @@ function get_repository_permissions_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1601,7 +1601,7 @@ function list_allowed_repositories_for_group(
             "package-group" => package_group,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_allowed_repositories_for_group(
@@ -1626,7 +1626,7 @@ function list_allowed_repositories_for_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1662,7 +1662,7 @@ function list_associated_packages(
         "/v1/list-associated-packages",
         Dict{String,Any}("domain" => domain, "package-group" => package_group);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_associated_packages(
@@ -1682,7 +1682,7 @@ function list_associated_packages(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1702,7 +1702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
     return codeartifact(
-        "POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_domains(
@@ -1713,7 +1713,7 @@ function list_domains(
         "/v1/domains",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1742,7 +1742,7 @@ function list_package_groups(domain; aws_config::AbstractAWSConfig=global_aws_co
         "/v1/package-groups",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_package_groups(
@@ -1753,7 +1753,7 @@ function list_package_groups(
         "/v1/package-groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1807,7 +1807,7 @@ function list_package_version_assets(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_package_version_assets(
@@ -1836,7 +1836,7 @@ function list_package_version_assets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1891,7 +1891,7 @@ function list_package_version_dependencies(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_package_version_dependencies(
@@ -1920,7 +1920,7 @@ function list_package_version_dependencies(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1971,7 +1971,7 @@ function list_package_versions(
             "repository" => repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_package_versions(
@@ -1998,7 +1998,7 @@ function list_package_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2048,7 +2048,7 @@ function list_packages(
         "/v1/packages",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_packages(
@@ -2068,7 +2068,7 @@ function list_packages(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2090,7 +2090,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
     return codeartifact(
-        "POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_repositories(
@@ -2101,7 +2101,7 @@ function list_repositories(
         "/v1/repositories",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2135,7 +2135,7 @@ function list_repositories_in_domain(
         "/v1/domain/repositories",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_repositories_in_domain(
@@ -2146,7 +2146,7 @@ function list_repositories_in_domain(
         "/v1/domain/repositories",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2179,7 +2179,7 @@ function list_sub_package_groups(
         "/v1/package-groups/sub-groups",
         Dict{String,Any}("domain" => domain, "package-group" => package_group);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sub_package_groups(
@@ -2199,7 +2199,7 @@ function list_sub_package_groups(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2222,7 +2222,7 @@ function list_tags_for_resource(
         "/v1/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2237,7 +2237,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2304,7 +2304,7 @@ function publish_package_version(
             "headers" => Dict{String,Any}("x-amz-content-sha256" => x_amz_content_sha256),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function publish_package_version(
@@ -2340,7 +2340,7 @@ function publish_package_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2374,7 +2374,7 @@ function put_domain_permissions_policy(
         "/v1/domain/permissions/policy",
         Dict{String,Any}("domain" => domain, "policyDocument" => policyDocument);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_domain_permissions_policy(
@@ -2394,7 +2394,7 @@ function put_domain_permissions_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2456,7 +2456,7 @@ function put_package_origin_configuration(
             "restrictions" => restrictions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_package_origin_configuration(
@@ -2485,7 +2485,7 @@ function put_package_origin_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2526,7 +2526,7 @@ function put_repository_permissions_policy(
             "repository" => repository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_repository_permissions_policy(
@@ -2551,7 +2551,7 @@ function put_repository_permissions_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2573,7 +2573,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/v1/tag",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2593,7 +2593,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2617,7 +2617,7 @@ function untag_resource(
         "/v1/untag",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2637,7 +2637,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2669,7 +2669,7 @@ function update_package_group(
         "/v1/package-group",
         Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_package_group(
@@ -2689,7 +2689,7 @@ function update_package_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2729,7 +2729,7 @@ function update_package_group_origin_configuration(
         "/v1/package-group-origin-configuration",
         Dict{String,Any}("domain" => domain, "package-group" => package_group);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_package_group_origin_configuration(
@@ -2749,7 +2749,7 @@ function update_package_group_origin_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2811,7 +2811,7 @@ function update_package_versions_status(
             "versions" => versions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_package_versions_status(
@@ -2842,7 +2842,7 @@ function update_package_versions_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2874,7 +2874,7 @@ function update_repository(
         "/v1/repository",
         Dict{String,Any}("domain" => domain, "repository" => repository);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_repository(
@@ -2894,6 +2894,6 @@ function update_repository(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

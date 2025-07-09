@@ -31,7 +31,7 @@ function batch_get_aggregate_resource_config(
             "ResourceIdentifiers" => ResourceIdentifiers,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_aggregate_resource_config(
@@ -53,7 +53,7 @@ function batch_get_aggregate_resource_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -80,7 +80,7 @@ function batch_get_resource_config(
         "BatchGetResourceConfig",
         Dict{String,Any}("resourceKeys" => resourceKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_resource_config(
@@ -94,7 +94,7 @@ function batch_get_resource_config(
             mergewith(_merge, Dict{String,Any}("resourceKeys" => resourceKeys), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -123,7 +123,7 @@ function delete_aggregation_authorization(
             "AuthorizedAwsRegion" => AuthorizedAwsRegion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_aggregation_authorization(
@@ -145,7 +145,7 @@ function delete_aggregation_authorization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -170,7 +170,7 @@ function delete_config_rule(
         "DeleteConfigRule",
         Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_config_rule(
@@ -184,7 +184,7 @@ function delete_config_rule(
             mergewith(_merge, Dict{String,Any}("ConfigRuleName" => ConfigRuleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -206,7 +206,7 @@ function delete_configuration_aggregator(
         "DeleteConfigurationAggregator",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_aggregator(
@@ -226,7 +226,7 @@ function delete_configuration_aggregator(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -254,7 +254,7 @@ function delete_configuration_recorder(
         "DeleteConfigurationRecorder",
         Dict{String,Any}("ConfigurationRecorderName" => ConfigurationRecorderName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_recorder(
@@ -272,7 +272,7 @@ function delete_configuration_recorder(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -296,7 +296,7 @@ function delete_conformance_pack(
         "DeleteConformancePack",
         Dict{String,Any}("ConformancePackName" => ConformancePackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_conformance_pack(
@@ -314,7 +314,7 @@ function delete_conformance_pack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -336,7 +336,7 @@ function delete_delivery_channel(
         "DeleteDeliveryChannel",
         Dict{String,Any}("DeliveryChannelName" => DeliveryChannelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_delivery_channel(
@@ -354,7 +354,7 @@ function delete_delivery_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -379,7 +379,7 @@ function delete_evaluation_results(
         "DeleteEvaluationResults",
         Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_evaluation_results(
@@ -393,7 +393,7 @@ function delete_evaluation_results(
             mergewith(_merge, Dict{String,Any}("ConfigRuleName" => ConfigRuleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -420,7 +420,7 @@ function delete_organization_config_rule(
         "DeleteOrganizationConfigRule",
         Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_organization_config_rule(
@@ -440,7 +440,7 @@ function delete_organization_config_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +470,7 @@ function delete_organization_conformance_pack(
             "OrganizationConformancePackName" => OrganizationConformancePackName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_organization_conformance_pack(
@@ -490,7 +490,7 @@ function delete_organization_conformance_pack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -519,7 +519,7 @@ function delete_pending_aggregation_request(
             "RequesterAwsRegion" => RequesterAwsRegion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_pending_aggregation_request(
@@ -541,7 +541,7 @@ function delete_pending_aggregation_request(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -566,7 +566,7 @@ function delete_remediation_configuration(
         "DeleteRemediationConfiguration",
         Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_remediation_configuration(
@@ -580,7 +580,7 @@ function delete_remediation_configuration(
             mergewith(_merge, Dict{String,Any}("ConfigRuleName" => ConfigRuleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -610,7 +610,7 @@ function delete_remediation_exceptions(
             "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_remediation_exceptions(
@@ -631,7 +631,7 @@ function delete_remediation_exceptions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -655,7 +655,7 @@ function delete_resource_config(
         "DeleteResourceConfig",
         Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_config(
@@ -676,7 +676,7 @@ function delete_resource_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -697,7 +697,7 @@ function delete_retention_configuration(
         "DeleteRetentionConfiguration",
         Dict{String,Any}("RetentionConfigurationName" => RetentionConfigurationName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_retention_configuration(
@@ -717,7 +717,7 @@ function delete_retention_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -737,7 +737,7 @@ function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws
         "DeleteStoredQuery",
         Dict{String,Any}("QueryName" => QueryName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_stored_query(
@@ -751,7 +751,7 @@ function delete_stored_query(
             mergewith(_merge, Dict{String,Any}("QueryName" => QueryName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -777,7 +777,7 @@ function deliver_config_snapshot(
         "DeliverConfigSnapshot",
         Dict{String,Any}("deliveryChannelName" => deliveryChannelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deliver_config_snapshot(
@@ -795,7 +795,7 @@ function deliver_config_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -826,7 +826,7 @@ function describe_aggregate_compliance_by_config_rules(
         "DescribeAggregateComplianceByConfigRules",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_aggregate_compliance_by_config_rules(
@@ -846,7 +846,7 @@ function describe_aggregate_compliance_by_config_rules(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -878,7 +878,7 @@ function describe_aggregate_compliance_by_conformance_packs(
         "DescribeAggregateComplianceByConformancePacks",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_aggregate_compliance_by_conformance_packs(
@@ -898,7 +898,7 @@ function describe_aggregate_compliance_by_conformance_packs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -921,7 +921,7 @@ function describe_aggregation_authorizations(;
     return config_service(
         "DescribeAggregationAuthorizations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_aggregation_authorizations(
@@ -931,7 +931,7 @@ function describe_aggregation_authorizations(
         "DescribeAggregationAuthorizations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -966,7 +966,7 @@ function describe_compliance_by_config_rule(;
     return config_service(
         "DescribeComplianceByConfigRule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_compliance_by_config_rule(
@@ -976,7 +976,7 @@ function describe_compliance_by_config_rule(
         "DescribeComplianceByConfigRule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1019,7 +1019,7 @@ function describe_compliance_by_resource(;
     return config_service(
         "DescribeComplianceByResource";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_compliance_by_resource(
@@ -1029,7 +1029,7 @@ function describe_compliance_by_resource(
         "DescribeComplianceByResource",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1059,7 +1059,7 @@ function describe_config_rule_evaluation_status(;
     return config_service(
         "DescribeConfigRuleEvaluationStatus";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_config_rule_evaluation_status(
@@ -1069,7 +1069,7 @@ function describe_config_rule_evaluation_status(
         "DescribeConfigRuleEvaluationStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1091,7 +1091,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_config_rules(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "DescribeConfigRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeConfigRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_config_rules(
@@ -1101,7 +1101,7 @@ function describe_config_rules(
         "DescribeConfigRules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1134,7 +1134,7 @@ function describe_configuration_aggregator_sources_status(
         "DescribeConfigurationAggregatorSourcesStatus",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_aggregator_sources_status(
@@ -1154,7 +1154,7 @@ function describe_configuration_aggregator_sources_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1180,7 +1180,7 @@ function describe_configuration_aggregators(;
     return config_service(
         "DescribeConfigurationAggregators";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_aggregators(
@@ -1190,7 +1190,7 @@ function describe_configuration_aggregators(
         "DescribeConfigurationAggregators",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1217,7 +1217,7 @@ function describe_configuration_recorder_status(;
     return config_service(
         "DescribeConfigurationRecorderStatus";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_recorder_status(
@@ -1227,7 +1227,7 @@ function describe_configuration_recorder_status(
         "DescribeConfigurationRecorderStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1250,7 +1250,7 @@ function describe_configuration_recorders(;
     return config_service(
         "DescribeConfigurationRecorders";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_recorders(
@@ -1260,7 +1260,7 @@ function describe_configuration_recorders(
         "DescribeConfigurationRecorders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1289,7 +1289,7 @@ function describe_conformance_pack_compliance(
         "DescribeConformancePackCompliance",
         Dict{String,Any}("ConformancePackName" => ConformancePackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_conformance_pack_compliance(
@@ -1307,7 +1307,7 @@ function describe_conformance_pack_compliance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1331,7 +1331,7 @@ function describe_conformance_pack_status(;
     return config_service(
         "DescribeConformancePackStatus";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_conformance_pack_status(
@@ -1341,7 +1341,7 @@ function describe_conformance_pack_status(
         "DescribeConformancePackStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1362,7 +1362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "DescribeConformancePacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeConformancePacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_conformance_packs(
@@ -1372,7 +1372,7 @@ function describe_conformance_packs(
         "DescribeConformancePacks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1395,7 +1395,7 @@ function describe_delivery_channel_status(;
     return config_service(
         "DescribeDeliveryChannelStatus";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_delivery_channel_status(
@@ -1405,7 +1405,7 @@ function describe_delivery_channel_status(
         "DescribeDeliveryChannelStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1423,7 +1423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_delivery_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "DescribeDeliveryChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDeliveryChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_delivery_channels(
@@ -1433,7 +1433,7 @@ function describe_delivery_channels(
         "DescribeDeliveryChannels",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1464,7 +1464,7 @@ function describe_organization_config_rule_statuses(;
     return config_service(
         "DescribeOrganizationConfigRuleStatuses";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_config_rule_statuses(
@@ -1474,7 +1474,7 @@ function describe_organization_config_rule_statuses(
         "DescribeOrganizationConfigRuleStatuses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1512,7 +1512,7 @@ function describe_organization_config_rules(;
     return config_service(
         "DescribeOrganizationConfigRules";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_config_rules(
@@ -1522,7 +1522,7 @@ function describe_organization_config_rules(
         "DescribeOrganizationConfigRules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1553,7 +1553,7 @@ function describe_organization_conformance_pack_statuses(;
     return config_service(
         "DescribeOrganizationConformancePackStatuses";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_conformance_pack_statuses(
@@ -1563,7 +1563,7 @@ function describe_organization_conformance_pack_statuses(
         "DescribeOrganizationConformancePackStatuses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1600,7 +1600,7 @@ function describe_organization_conformance_packs(;
     return config_service(
         "DescribeOrganizationConformancePacks";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_organization_conformance_packs(
@@ -1610,7 +1610,7 @@ function describe_organization_conformance_packs(
         "DescribeOrganizationConformancePacks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1633,7 +1633,7 @@ function describe_pending_aggregation_requests(;
     return config_service(
         "DescribePendingAggregationRequests";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_pending_aggregation_requests(
@@ -1643,7 +1643,7 @@ function describe_pending_aggregation_requests(
         "DescribePendingAggregationRequests",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1665,7 +1665,7 @@ function describe_remediation_configurations(
         "DescribeRemediationConfigurations",
         Dict{String,Any}("ConfigRuleNames" => ConfigRuleNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_remediation_configurations(
@@ -1681,7 +1681,7 @@ function describe_remediation_configurations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1718,7 +1718,7 @@ function describe_remediation_exceptions(
         "DescribeRemediationExceptions",
         Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_remediation_exceptions(
@@ -1732,7 +1732,7 @@ function describe_remediation_exceptions(
             mergewith(_merge, Dict{String,Any}("ConfigRuleName" => ConfigRuleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1764,7 +1764,7 @@ function describe_remediation_execution_status(
         "DescribeRemediationExecutionStatus",
         Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_remediation_execution_status(
@@ -1778,7 +1778,7 @@ function describe_remediation_execution_status(
             mergewith(_merge, Dict{String,Any}("ConfigRuleName" => ConfigRuleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1806,7 +1806,7 @@ function describe_retention_configurations(;
     return config_service(
         "DescribeRetentionConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_retention_configurations(
@@ -1816,7 +1816,7 @@ function describe_retention_configurations(
         "DescribeRetentionConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1863,7 +1863,7 @@ function get_aggregate_compliance_details_by_config_rule(
             "ConfigurationAggregatorName" => ConfigurationAggregatorName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_aggregate_compliance_details_by_config_rule(
@@ -1889,7 +1889,7 @@ function get_aggregate_compliance_details_by_config_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1921,7 +1921,7 @@ function get_aggregate_config_rule_compliance_summary(
         "GetAggregateConfigRuleComplianceSummary",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_aggregate_config_rule_compliance_summary(
@@ -1941,7 +1941,7 @@ function get_aggregate_config_rule_compliance_summary(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1975,7 +1975,7 @@ function get_aggregate_conformance_pack_compliance_summary(
         "GetAggregateConformancePackComplianceSummary",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_aggregate_conformance_pack_compliance_summary(
@@ -1995,7 +1995,7 @@ function get_aggregate_conformance_pack_compliance_summary(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2030,7 +2030,7 @@ function get_aggregate_discovered_resource_counts(
         "GetAggregateDiscoveredResourceCounts",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_aggregate_discovered_resource_counts(
@@ -2050,7 +2050,7 @@ function get_aggregate_discovered_resource_counts(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2078,7 +2078,7 @@ function get_aggregate_resource_config(
             "ResourceIdentifier" => ResourceIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_aggregate_resource_config(
@@ -2100,7 +2100,7 @@ function get_aggregate_resource_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2132,7 +2132,7 @@ function get_compliance_details_by_config_rule(
         "GetComplianceDetailsByConfigRule",
         Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compliance_details_by_config_rule(
@@ -2146,7 +2146,7 @@ function get_compliance_details_by_config_rule(
             mergewith(_merge, Dict{String,Any}("ConfigRuleName" => ConfigRuleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2179,7 +2179,7 @@ function get_compliance_details_by_resource(;
     return config_service(
         "GetComplianceDetailsByResource";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compliance_details_by_resource(
@@ -2189,7 +2189,7 @@ function get_compliance_details_by_resource(
         "GetComplianceDetailsByResource",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2207,7 +2207,7 @@ function get_compliance_summary_by_config_rule(;
     return config_service(
         "GetComplianceSummaryByConfigRule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compliance_summary_by_config_rule(
@@ -2217,7 +2217,7 @@ function get_compliance_summary_by_config_rule(
         "GetComplianceSummaryByConfigRule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2243,7 +2243,7 @@ function get_compliance_summary_by_resource_type(;
     return config_service(
         "GetComplianceSummaryByResourceType";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_compliance_summary_by_resource_type(
@@ -2253,7 +2253,7 @@ function get_compliance_summary_by_resource_type(
         "GetComplianceSummaryByResourceType",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2282,7 +2282,7 @@ function get_conformance_pack_compliance_details(
         "GetConformancePackComplianceDetails",
         Dict{String,Any}("ConformancePackName" => ConformancePackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_conformance_pack_compliance_details(
@@ -2300,7 +2300,7 @@ function get_conformance_pack_compliance_details(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2327,7 +2327,7 @@ function get_conformance_pack_compliance_summary(
         "GetConformancePackComplianceSummary",
         Dict{String,Any}("ConformancePackNames" => ConformancePackNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_conformance_pack_compliance_summary(
@@ -2345,7 +2345,7 @@ function get_conformance_pack_compliance_summary(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2361,7 +2361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_custom_rule_policy(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "GetCustomRulePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetCustomRulePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_custom_rule_policy(
@@ -2371,7 +2371,7 @@ function get_custom_rule_policy(
         "GetCustomRulePolicy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2414,7 +2414,7 @@ function get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_a
     return config_service(
         "GetDiscoveredResourceCounts";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_discovered_resource_counts(
@@ -2424,7 +2424,7 @@ function get_discovered_resource_counts(
         "GetDiscoveredResourceCounts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2454,7 +2454,7 @@ function get_organization_config_rule_detailed_status(
         "GetOrganizationConfigRuleDetailedStatus",
         Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_organization_config_rule_detailed_status(
@@ -2474,7 +2474,7 @@ function get_organization_config_rule_detailed_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2506,7 +2506,7 @@ function get_organization_conformance_pack_detailed_status(
             "OrganizationConformancePackName" => OrganizationConformancePackName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_organization_conformance_pack_detailed_status(
@@ -2526,7 +2526,7 @@ function get_organization_conformance_pack_detailed_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2548,7 +2548,7 @@ function get_organization_custom_rule_policy(
         "GetOrganizationCustomRulePolicy",
         Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_organization_custom_rule_policy(
@@ -2568,7 +2568,7 @@ function get_organization_custom_rule_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2616,7 +2616,7 @@ function get_resource_config_history(
         "GetResourceConfigHistory",
         Dict{String,Any}("resourceId" => resourceId, "resourceType" => resourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_config_history(
@@ -2637,7 +2637,7 @@ function get_resource_config_history(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2665,7 +2665,7 @@ function get_resource_evaluation_summary(
         "GetResourceEvaluationSummary",
         Dict{String,Any}("ResourceEvaluationId" => ResourceEvaluationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_evaluation_summary(
@@ -2683,7 +2683,7 @@ function get_resource_evaluation_summary(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2702,7 +2702,7 @@ function get_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_co
         "GetStoredQuery",
         Dict{String,Any}("QueryName" => QueryName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_stored_query(
@@ -2716,7 +2716,7 @@ function get_stored_query(
             mergewith(_merge, Dict{String,Any}("QueryName" => QueryName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2757,7 +2757,7 @@ function list_aggregate_discovered_resources(
             "ResourceType" => ResourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_aggregate_discovered_resources(
@@ -2779,7 +2779,7 @@ function list_aggregate_discovered_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2820,7 +2820,7 @@ function list_conformance_pack_compliance_scores(;
     return config_service(
         "ListConformancePackComplianceScores";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_conformance_pack_compliance_scores(
@@ -2830,7 +2830,7 @@ function list_conformance_pack_compliance_scores(
         "ListConformancePackComplianceScores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2876,7 +2876,7 @@ function list_discovered_resources(
         "ListDiscoveredResources",
         Dict{String,Any}("resourceType" => resourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_discovered_resources(
@@ -2890,7 +2890,7 @@ function list_discovered_resources(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2910,7 +2910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_resource_evaluations(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "ListResourceEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListResourceEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_resource_evaluations(
@@ -2920,7 +2920,7 @@ function list_resource_evaluations(
         "ListResourceEvaluations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2939,14 +2939,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "ListStoredQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStoredQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_stored_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return config_service(
-        "ListStoredQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStoredQueries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2975,7 +2978,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2989,7 +2992,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3025,7 +3028,7 @@ function put_aggregation_authorization(
             "AuthorizedAwsRegion" => AuthorizedAwsRegion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_aggregation_authorization(
@@ -3047,7 +3050,7 @@ function put_aggregation_authorization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3095,7 +3098,7 @@ function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=global_aws_co
         "PutConfigRule",
         Dict{String,Any}("ConfigRule" => ConfigRule);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_config_rule(
@@ -3109,7 +3112,7 @@ function put_config_rule(
             mergewith(_merge, Dict{String,Any}("ConfigRule" => ConfigRule), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3151,7 +3154,7 @@ function put_configuration_aggregator(
         "PutConfigurationAggregator",
         Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_configuration_aggregator(
@@ -3171,7 +3174,7 @@ function put_configuration_aggregator(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3198,7 +3201,7 @@ function put_configuration_recorder(
         "PutConfigurationRecorder",
         Dict{String,Any}("ConfigurationRecorder" => ConfigurationRecorder);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_configuration_recorder(
@@ -3216,7 +3219,7 @@ function put_configuration_recorder(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3263,7 +3266,7 @@ function put_conformance_pack(
         "PutConformancePack",
         Dict{String,Any}("ConformancePackName" => ConformancePackName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_conformance_pack(
@@ -3281,7 +3284,7 @@ function put_conformance_pack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3311,7 +3314,7 @@ function put_delivery_channel(
         "PutDeliveryChannel",
         Dict{String,Any}("DeliveryChannel" => DeliveryChannel);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_delivery_channel(
@@ -3327,7 +3330,7 @@ function put_delivery_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3358,7 +3361,7 @@ function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=global_aws_c
         "PutEvaluations",
         Dict{String,Any}("ResultToken" => ResultToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_evaluations(
@@ -3372,7 +3375,7 @@ function put_evaluations(
             mergewith(_merge, Dict{String,Any}("ResultToken" => ResultToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3398,7 +3401,7 @@ function put_external_evaluation(
             "ConfigRuleName" => ConfigRuleName, "ExternalEvaluation" => ExternalEvaluation
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_external_evaluation(
@@ -3420,7 +3423,7 @@ function put_external_evaluation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3492,7 +3495,7 @@ function put_organization_config_rule(
         "PutOrganizationConfigRule",
         Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_organization_config_rule(
@@ -3512,7 +3515,7 @@ function put_organization_config_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3570,7 +3573,7 @@ function put_organization_conformance_pack(
             "OrganizationConformancePackName" => OrganizationConformancePackName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_organization_conformance_pack(
@@ -3590,7 +3593,7 @@ function put_organization_conformance_pack(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3633,7 +3636,7 @@ function put_remediation_configurations(
         "PutRemediationConfigurations",
         Dict{String,Any}("RemediationConfigurations" => RemediationConfigurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_remediation_configurations(
@@ -3651,7 +3654,7 @@ function put_remediation_configurations(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3707,7 +3710,7 @@ function put_remediation_exceptions(
             "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_remediation_exceptions(
@@ -3728,7 +3731,7 @@ function put_remediation_exceptions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3782,7 +3785,7 @@ function put_resource_config(
             "SchemaVersionId" => SchemaVersionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_config(
@@ -3808,7 +3811,7 @@ function put_resource_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3834,7 +3837,7 @@ function put_retention_configuration(
         "PutRetentionConfiguration",
         Dict{String,Any}("RetentionPeriodInDays" => RetentionPeriodInDays);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_retention_configuration(
@@ -3852,7 +3855,7 @@ function put_retention_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3883,7 +3886,7 @@ function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=global_aws_
         "PutStoredQuery",
         Dict{String,Any}("StoredQuery" => StoredQuery);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_stored_query(
@@ -3897,7 +3900,7 @@ function put_stored_query(
             mergewith(_merge, Dict{String,Any}("StoredQuery" => StoredQuery), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3941,7 +3944,7 @@ function select_aggregate_resource_config(
             "Expression" => Expression,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function select_aggregate_resource_config(
@@ -3963,7 +3966,7 @@ function select_aggregate_resource_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3991,7 +3994,7 @@ function select_resource_config(
         "SelectResourceConfig",
         Dict{String,Any}("Expression" => Expression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function select_resource_config(
@@ -4005,7 +4008,7 @@ function select_resource_config(
             mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4037,7 +4040,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=global_aws_config())
     return config_service(
-        "StartConfigRulesEvaluation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "StartConfigRulesEvaluation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_config_rules_evaluation(
@@ -4047,7 +4052,7 @@ function start_config_rules_evaluation(
         "StartConfigRulesEvaluation",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4071,7 +4076,7 @@ function start_configuration_recorder(
         "StartConfigurationRecorder",
         Dict{String,Any}("ConfigurationRecorderName" => ConfigurationRecorderName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_configuration_recorder(
@@ -4089,7 +4094,7 @@ function start_configuration_recorder(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4119,7 +4124,7 @@ function start_remediation_execution(
             "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_remediation_execution(
@@ -4140,7 +4145,7 @@ function start_remediation_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4188,7 +4193,7 @@ function start_resource_evaluation(
             "EvaluationMode" => EvaluationMode, "ResourceDetails" => ResourceDetails
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_resource_evaluation(
@@ -4209,7 +4214,7 @@ function start_resource_evaluation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4232,7 +4237,7 @@ function stop_configuration_recorder(
         "StopConfigurationRecorder",
         Dict{String,Any}("ConfigurationRecorderName" => ConfigurationRecorderName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_configuration_recorder(
@@ -4250,7 +4255,7 @@ function stop_configuration_recorder(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4275,7 +4280,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -4294,7 +4299,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4318,7 +4323,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -4337,6 +4342,6 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

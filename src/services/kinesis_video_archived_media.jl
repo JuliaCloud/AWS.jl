@@ -46,7 +46,7 @@ function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws
         "/getClip",
         Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_clip(
@@ -65,7 +65,7 @@ function get_clip(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -221,7 +221,7 @@ function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aw
         "POST",
         "/getDASHStreamingSessionURL";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dashstreaming_session_url(
@@ -232,7 +232,7 @@ function get_dashstreaming_session_url(
         "/getDASHStreamingSessionURL",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -427,7 +427,7 @@ function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/getHLSStreamingSessionURL";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_hlsstreaming_session_url(
@@ -438,7 +438,7 @@ function get_hlsstreaming_session_url(
         "/getHLSStreamingSessionURL",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -510,7 +510,7 @@ function get_images(
             "StartTimestamp" => StartTimestamp,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_images(
@@ -537,7 +537,7 @@ function get_images(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -579,7 +579,7 @@ function get_media_for_fragment_list(
         "/getMediaForFragmentList",
         Dict{String,Any}("Fragments" => Fragments);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_media_for_fragment_list(
@@ -594,7 +594,7 @@ function get_media_for_fragment_list(
             mergewith(_merge, Dict{String,Any}("Fragments" => Fragments), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -636,7 +636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video_archived_media(
-        "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_fragments(
@@ -647,6 +647,6 @@ function list_fragments(
         "/listFragments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

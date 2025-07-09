@@ -24,7 +24,7 @@ function cancel_resource_request(
         "CancelResourceRequest",
         Dict{String,Any}("RequestToken" => RequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_resource_request(
@@ -38,7 +38,7 @@ function cancel_resource_request(
             mergewith(_merge, Dict{String,Any}("RequestToken" => RequestToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -94,7 +94,7 @@ function create_resource(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_resource(
@@ -117,7 +117,7 @@ function create_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -173,7 +173,7 @@ function delete_resource(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource(
@@ -196,7 +196,7 @@ function delete_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -240,7 +240,7 @@ function get_resource(
         "GetResource",
         Dict{String,Any}("Identifier" => Identifier, "TypeName" => TypeName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource(
@@ -259,7 +259,7 @@ function get_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -284,7 +284,7 @@ function get_resource_request_status(
         "GetResourceRequestStatus",
         Dict{String,Any}("RequestToken" => RequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_request_status(
@@ -298,7 +298,7 @@ function get_resource_request_status(
             mergewith(_merge, Dict{String,Any}("RequestToken" => RequestToken), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -325,7 +325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_resource_requests(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudcontrol(
-        "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_resource_requests(
@@ -335,7 +335,7 @@ function list_resource_requests(
         "ListResourceRequests",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -376,7 +376,7 @@ function list_resources(TypeName; aws_config::AbstractAWSConfig=global_aws_confi
         "ListResources",
         Dict{String,Any}("TypeName" => TypeName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resources(
@@ -390,7 +390,7 @@ function list_resources(
             mergewith(_merge, Dict{String,Any}("TypeName" => TypeName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -456,7 +456,7 @@ function update_resource(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_resource(
@@ -481,6 +481,6 @@ function update_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

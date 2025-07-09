@@ -30,7 +30,7 @@ function create_signaling_channel(
         "/createSignalingChannel",
         Dict{String,Any}("ChannelName" => ChannelName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_signaling_channel(
@@ -45,7 +45,7 @@ function create_signaling_channel(
             mergewith(_merge, Dict{String,Any}("ChannelName" => ChannelName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -91,7 +91,7 @@ function create_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_conf
         "/createStream",
         Dict{String,Any}("StreamName" => StreamName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_stream(
@@ -106,7 +106,7 @@ function create_stream(
             mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -134,7 +134,7 @@ function delete_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/deleteEdgeConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_edge_configuration(
@@ -145,7 +145,7 @@ function delete_edge_configuration(
         "/deleteEdgeConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -174,7 +174,7 @@ function delete_signaling_channel(
         "/deleteSignalingChannel",
         Dict{String,Any}("ChannelARN" => ChannelARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_signaling_channel(
@@ -189,7 +189,7 @@ function delete_signaling_channel(
             mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -221,7 +221,7 @@ function delete_stream(StreamARN; aws_config::AbstractAWSConfig=global_aws_confi
         "/deleteStream",
         Dict{String,Any}("StreamARN" => StreamARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_stream(
@@ -236,7 +236,7 @@ function delete_stream(
             mergewith(_merge, Dict{String,Any}("StreamARN" => StreamARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -262,7 +262,7 @@ function describe_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/describeEdgeConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_edge_configuration(
@@ -273,7 +273,7 @@ function describe_edge_configuration(
         "/describeEdgeConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -298,7 +298,7 @@ function describe_image_generation_configuration(;
         "POST",
         "/describeImageGenerationConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_image_generation_configuration(
@@ -309,7 +309,7 @@ function describe_image_generation_configuration(
         "/describeImageGenerationConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +334,7 @@ function describe_mapped_resource_configuration(;
         "POST",
         "/describeMappedResourceConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_mapped_resource_configuration(
@@ -345,7 +345,7 @@ function describe_mapped_resource_configuration(
         "/describeMappedResourceConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -368,7 +368,7 @@ function describe_media_storage_configuration(;
         "POST",
         "/describeMediaStorageConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_media_storage_configuration(
@@ -379,7 +379,7 @@ function describe_media_storage_configuration(
         "/describeMediaStorageConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -404,7 +404,7 @@ function describe_notification_configuration(;
         "POST",
         "/describeNotificationConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_notification_configuration(
@@ -415,7 +415,7 @@ function describe_notification_configuration(
         "/describeNotificationConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -436,7 +436,7 @@ function describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/describeSignalingChannel";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_signaling_channel(
@@ -447,7 +447,7 @@ function describe_signaling_channel(
         "/describeSignalingChannel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -465,7 +465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video(
-        "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_stream(
@@ -476,7 +476,7 @@ function describe_stream(
         "/describeStream",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -507,7 +507,7 @@ function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_con
         "/getDataEndpoint",
         Dict{String,Any}("APIName" => APIName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_endpoint(
@@ -518,7 +518,7 @@ function get_data_endpoint(
         "/getDataEndpoint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("APIName" => APIName), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -553,7 +553,7 @@ function get_signaling_channel_endpoint(
         "/getSignalingChannelEndpoint",
         Dict{String,Any}("ChannelARN" => ChannelARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_signaling_channel_endpoint(
@@ -568,7 +568,7 @@ function get_signaling_channel_endpoint(
             mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -599,7 +599,7 @@ function list_edge_agent_configurations(
         "/listEdgeAgentConfigurations",
         Dict{String,Any}("HubDeviceArn" => HubDeviceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_edge_agent_configurations(
@@ -614,7 +614,7 @@ function list_edge_agent_configurations(
             mergewith(_merge, Dict{String,Any}("HubDeviceArn" => HubDeviceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -641,7 +641,7 @@ function list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/listSignalingChannels";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_signaling_channels(
@@ -652,7 +652,7 @@ function list_signaling_channels(
         "/listSignalingChannels",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -675,7 +675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video(
-        "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_streams(
@@ -686,7 +686,7 @@ function list_streams(
         "/listStreams",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -714,7 +714,7 @@ function list_tags_for_resource(
         "/ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -729,7 +729,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -751,7 +751,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video(
-        "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/listTagsForStream";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_stream(
@@ -762,7 +765,7 @@ function list_tags_for_stream(
         "/listTagsForStream",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -803,7 +806,7 @@ function start_edge_configuration_update(
         "/startEdgeConfigurationUpdate",
         Dict{String,Any}("EdgeConfig" => EdgeConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_edge_configuration_update(
@@ -818,7 +821,7 @@ function start_edge_configuration_update(
             mergewith(_merge, Dict{String,Any}("EdgeConfig" => EdgeConfig), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -845,7 +848,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -865,7 +868,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -897,7 +900,7 @@ function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config())
         "/tagStream",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_stream(
@@ -908,7 +911,7 @@ function tag_stream(
         "/tagStream",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -934,7 +937,7 @@ function untag_resource(
         "/UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeyList" => TagKeyList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -954,7 +957,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -981,7 +984,7 @@ function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=global_aws_confi
         "/untagStream",
         Dict{String,Any}("TagKeyList" => TagKeyList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_stream(
@@ -996,7 +999,7 @@ function untag_stream(
             mergewith(_merge, Dict{String,Any}("TagKeyList" => TagKeyList), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1050,7 @@ function update_data_retention(
             "Operation" => Operation,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_retention(
@@ -1072,7 +1075,7 @@ function update_data_retention(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1100,7 +1103,7 @@ function update_image_generation_configuration(;
         "POST",
         "/updateImageGenerationConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_image_generation_configuration(
@@ -1111,7 +1114,7 @@ function update_image_generation_configuration(
         "/updateImageGenerationConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1145,7 +1148,7 @@ function update_media_storage_configuration(
             "MediaStorageConfiguration" => MediaStorageConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_media_storage_configuration(
@@ -1168,7 +1171,7 @@ function update_media_storage_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1195,7 +1198,7 @@ function update_notification_configuration(;
         "POST",
         "/updateNotificationConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_notification_configuration(
@@ -1206,7 +1209,7 @@ function update_notification_configuration(
         "/updateNotificationConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1240,7 @@ function update_signaling_channel(
         "/updateSignalingChannel",
         Dict{String,Any}("ChannelARN" => ChannelARN, "CurrentVersion" => CurrentVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_signaling_channel(
@@ -1259,7 +1262,7 @@ function update_signaling_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1296,7 +1299,7 @@ function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=global_aws_
         "/updateStream",
         Dict{String,Any}("CurrentVersion" => CurrentVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_stream(
@@ -1311,6 +1314,6 @@ function update_stream(
             mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

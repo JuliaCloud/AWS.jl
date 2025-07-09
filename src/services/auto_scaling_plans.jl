@@ -34,7 +34,7 @@ function create_scaling_plan(
             "ScalingPlanName" => ScalingPlanName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scaling_plan(
@@ -58,7 +58,7 @@ function create_scaling_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +86,7 @@ function delete_scaling_plan(
             "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scaling_plan(
@@ -108,7 +108,7 @@ function delete_scaling_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -138,7 +138,7 @@ function describe_scaling_plan_resources(
             "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_scaling_plan_resources(
@@ -160,7 +160,7 @@ function describe_scaling_plan_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -185,7 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config())
     return auto_scaling_plans(
-        "DescribeScalingPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeScalingPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_scaling_plans(
@@ -195,7 +195,7 @@ function describe_scaling_plans(
         "DescribeScalingPlans",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -258,7 +258,7 @@ function get_scaling_plan_resource_forecast_data(
             "StartTime" => StartTime,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_scaling_plan_resource_forecast_data(
@@ -292,7 +292,7 @@ function get_scaling_plan_resource_forecast_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -324,7 +324,7 @@ function update_scaling_plan(
             "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_scaling_plan(
@@ -346,6 +346,6 @@ function update_scaling_plan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

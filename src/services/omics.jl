@@ -22,7 +22,7 @@ function abort_multipart_read_set_upload(
         "DELETE",
         "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function abort_multipart_read_set_upload(
@@ -36,7 +36,7 @@ function abort_multipart_read_set_upload(
         "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -52,7 +52,10 @@ Accept a resource share request.
 """
 function accept_share(shareId; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/share/$(shareId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function accept_share(
@@ -63,7 +66,7 @@ function accept_share(
         "/share/$(shareId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +89,7 @@ function batch_delete_read_set(
         "/sequencestore/$(sequenceStoreId)/readset/batch/delete",
         Dict{String,Any}("ids" => ids);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_read_set(
@@ -100,7 +103,7 @@ function batch_delete_read_set(
         "/sequencestore/$(sequenceStoreId)/readset/batch/delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -121,7 +124,7 @@ function cancel_annotation_import_job(
         "DELETE",
         "/import/annotation/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_annotation_import_job(
@@ -132,7 +135,7 @@ function cancel_annotation_import_job(
         "/import/annotation/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -148,7 +151,10 @@ Cancels a run.
 """
 function cancel_run(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/run/$(id)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/run/$(id)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_run(
@@ -159,7 +165,7 @@ function cancel_run(
         "/run/$(id)/cancel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -178,7 +184,7 @@ function cancel_variant_import_job(jobId; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/import/variant/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_variant_import_job(
@@ -189,7 +195,7 @@ function cancel_variant_import_job(
         "/import/variant/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -213,7 +219,7 @@ function complete_multipart_read_set_upload(
         "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete",
         Dict{String,Any}("parts" => parts);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function complete_multipart_read_set_upload(
@@ -228,7 +234,7 @@ function complete_multipart_read_set_upload(
         "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("parts" => parts), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -260,7 +266,7 @@ function create_annotation_store(
         "/annotationStore",
         Dict{String,Any}("storeFormat" => storeFormat);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_annotation_store(
@@ -275,7 +281,7 @@ function create_annotation_store(
             mergewith(_merge, Dict{String,Any}("storeFormat" => storeFormat), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -304,7 +310,7 @@ function create_annotation_store_version(
         "/annotationStore/$(name)/version",
         Dict{String,Any}("versionName" => versionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_annotation_store_version(
@@ -320,7 +326,7 @@ function create_annotation_store_version(
             mergewith(_merge, Dict{String,Any}("versionName" => versionName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -365,7 +371,7 @@ function create_multipart_read_set_upload(
             "subjectId" => subjectId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_multipart_read_set_upload(
@@ -393,7 +399,7 @@ function create_multipart_read_set_upload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -420,7 +426,7 @@ function create_reference_store(name; aws_config::AbstractAWSConfig=global_aws_c
         "/referencestore",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_reference_store(
@@ -431,7 +437,7 @@ function create_reference_store(
         "/referencestore",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -460,7 +466,7 @@ function create_run_group(requestId; aws_config::AbstractAWSConfig=global_aws_co
         "/runGroup",
         Dict{String,Any}("requestId" => requestId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_run_group(
@@ -475,7 +481,7 @@ function create_run_group(
             mergewith(_merge, Dict{String,Any}("requestId" => requestId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +511,7 @@ function create_sequence_store(name; aws_config::AbstractAWSConfig=global_aws_co
         "/sequencestore",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sequence_store(
@@ -516,7 +522,7 @@ function create_sequence_store(
         "/sequencestore",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -548,7 +554,7 @@ function create_share(
             "principalSubscriber" => principalSubscriber, "resourceArn" => resourceArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_share(
@@ -571,7 +577,7 @@ function create_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -597,7 +603,7 @@ function create_variant_store(reference; aws_config::AbstractAWSConfig=global_aw
         "/variantStore",
         Dict{String,Any}("reference" => reference);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_variant_store(
@@ -612,7 +618,7 @@ function create_variant_store(
             mergewith(_merge, Dict{String,Any}("reference" => reference), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -645,7 +651,7 @@ function create_workflow(requestId; aws_config::AbstractAWSConfig=global_aws_con
         "/workflow",
         Dict{String,Any}("requestId" => requestId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workflow(
@@ -660,7 +666,7 @@ function create_workflow(
             mergewith(_merge, Dict{String,Any}("requestId" => requestId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -682,7 +688,7 @@ function delete_annotation_store(name; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/annotationStore/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_annotation_store(
@@ -693,7 +699,7 @@ function delete_annotation_store(
         "/annotationStore/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -720,7 +726,7 @@ function delete_annotation_store_versions(
         "/annotationStore/$(name)/versions/delete",
         Dict{String,Any}("versions" => versions);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_annotation_store_versions(
@@ -736,7 +742,7 @@ function delete_annotation_store_versions(
             mergewith(_merge, Dict{String,Any}("versions" => versions), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -758,7 +764,7 @@ function delete_reference(
         "DELETE",
         "/referencestore/$(referenceStoreId)/reference/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_reference(
@@ -772,7 +778,7 @@ function delete_reference(
         "/referencestore/$(referenceStoreId)/reference/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -791,7 +797,7 @@ function delete_reference_store(id; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/referencestore/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_reference_store(
@@ -802,7 +808,7 @@ function delete_reference_store(
         "/referencestore/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -818,7 +824,7 @@ Deletes a workflow run.
 """
 function delete_run(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "DELETE", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_run(
@@ -829,7 +835,7 @@ function delete_run(
         "/run/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -845,7 +851,10 @@ Deletes a workflow run group.
 """
 function delete_run_group(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "DELETE", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/runGroup/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_run_group(
@@ -856,7 +865,7 @@ function delete_run_group(
         "/runGroup/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +884,7 @@ function delete_sequence_store(id; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/sequencestore/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sequence_store(
@@ -886,7 +895,7 @@ function delete_sequence_store(
         "/sequencestore/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,7 +916,7 @@ function delete_share(shareId; aws_config::AbstractAWSConfig=global_aws_config()
         "DELETE",
         "/share/$(shareId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_share(
@@ -918,7 +927,7 @@ function delete_share(
         "/share/$(shareId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -940,7 +949,7 @@ function delete_variant_store(name; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/variantStore/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_variant_store(
@@ -951,7 +960,7 @@ function delete_variant_store(
         "/variantStore/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -967,7 +976,10 @@ Deletes a workflow.
 """
 function delete_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "DELETE", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/workflow/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workflow(
@@ -978,7 +990,7 @@ function delete_workflow(
         "/workflow/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -997,7 +1009,7 @@ function get_annotation_import_job(jobId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/import/annotation/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_annotation_import_job(
@@ -1008,7 +1020,7 @@ function get_annotation_import_job(
         "/import/annotation/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1027,7 +1039,7 @@ function get_annotation_store(name; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/annotationStore/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_annotation_store(
@@ -1038,7 +1050,7 @@ function get_annotation_store(
         "/annotationStore/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1061,7 +1073,7 @@ function get_annotation_store_version(
         "GET",
         "/annotationStore/$(name)/version/$(versionName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_annotation_store_version(
@@ -1075,7 +1087,7 @@ function get_annotation_store_version(
         "/annotationStore/$(name)/version/$(versionName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1102,7 +1114,7 @@ function get_read_set(
         "/sequencestore/$(sequenceStoreId)/readset/$(id)",
         Dict{String,Any}("partNumber" => partNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_read_set(
@@ -1119,7 +1131,7 @@ function get_read_set(
             mergewith(_merge, Dict{String,Any}("partNumber" => partNumber), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1141,7 +1153,7 @@ function get_read_set_activation_job(
         "GET",
         "/sequencestore/$(sequenceStoreId)/activationjob/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_read_set_activation_job(
@@ -1155,7 +1167,7 @@ function get_read_set_activation_job(
         "/sequencestore/$(sequenceStoreId)/activationjob/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1177,7 +1189,7 @@ function get_read_set_export_job(
         "GET",
         "/sequencestore/$(sequenceStoreId)/exportjob/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_read_set_export_job(
@@ -1191,7 +1203,7 @@ function get_read_set_export_job(
         "/sequencestore/$(sequenceStoreId)/exportjob/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1213,7 +1225,7 @@ function get_read_set_import_job(
         "GET",
         "/sequencestore/$(sequenceStoreId)/importjob/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_read_set_import_job(
@@ -1227,7 +1239,7 @@ function get_read_set_import_job(
         "/sequencestore/$(sequenceStoreId)/importjob/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1249,7 +1261,7 @@ function get_read_set_metadata(
         "GET",
         "/sequencestore/$(sequenceStoreId)/readset/$(id)/metadata";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_read_set_metadata(
@@ -1263,7 +1275,7 @@ function get_read_set_metadata(
         "/sequencestore/$(sequenceStoreId)/readset/$(id)/metadata",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1291,7 +1303,7 @@ function get_reference(
         "/referencestore/$(referenceStoreId)/reference/$(id)",
         Dict{String,Any}("partNumber" => partNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_reference(
@@ -1308,7 +1320,7 @@ function get_reference(
             mergewith(_merge, Dict{String,Any}("partNumber" => partNumber), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1330,7 +1342,7 @@ function get_reference_import_job(
         "GET",
         "/referencestore/$(referenceStoreId)/importjob/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_reference_import_job(
@@ -1344,7 +1356,7 @@ function get_reference_import_job(
         "/referencestore/$(referenceStoreId)/importjob/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1366,7 +1378,7 @@ function get_reference_metadata(
         "GET",
         "/referencestore/$(referenceStoreId)/reference/$(id)/metadata";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_reference_metadata(
@@ -1380,7 +1392,7 @@ function get_reference_metadata(
         "/referencestore/$(referenceStoreId)/reference/$(id)/metadata",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1399,7 +1411,7 @@ function get_reference_store(id; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/referencestore/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_reference_store(
@@ -1410,7 +1422,7 @@ function get_reference_store(
         "/referencestore/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1430,14 +1442,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_run(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "GET", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return omics(
-        "GET", "/run/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/run/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1453,7 +1469,7 @@ Gets information about a workflow run group.
 """
 function get_run_group(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "GET", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_run_group(
@@ -1464,7 +1480,7 @@ function get_run_group(
         "/runGroup/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1484,7 +1500,7 @@ function get_run_task(id, taskId; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/run/$(id)/task/$(taskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_run_task(
@@ -1498,7 +1514,7 @@ function get_run_task(
         "/run/$(id)/task/$(taskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1517,7 +1533,7 @@ function get_sequence_store(id; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/sequencestore/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sequence_store(
@@ -1528,7 +1544,7 @@ function get_sequence_store(
         "/sequencestore/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1544,7 +1560,7 @@ Retrieves the metadata for the specified resource share.
 """
 function get_share(shareId; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_share(
@@ -1555,7 +1571,7 @@ function get_share(
         "/share/$(shareId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1574,7 +1590,7 @@ function get_variant_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/import/variant/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_variant_import_job(
@@ -1585,7 +1601,7 @@ function get_variant_import_job(
         "/import/variant/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1604,7 +1620,7 @@ function get_variant_store(name; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/variantStore/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_variant_store(
@@ -1615,7 +1631,7 @@ function get_variant_store(
         "/variantStore/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1637,7 +1653,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "GET", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_workflow(
@@ -1648,7 +1664,7 @@ function get_workflow(
         "/workflow/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1671,7 +1687,7 @@ function list_annotation_import_jobs(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/import/annotations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_annotation_import_jobs(
@@ -1682,7 +1698,7 @@ function list_annotation_import_jobs(
         "/import/annotations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1710,7 +1726,7 @@ function list_annotation_store_versions(
         "POST",
         "/annotationStore/$(name)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_annotation_store_versions(
@@ -1721,7 +1737,7 @@ function list_annotation_store_versions(
         "/annotationStore/$(name)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1741,7 +1757,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_annotation_stores(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/annotationStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/annotationStores";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_annotation_stores(
@@ -1752,7 +1771,7 @@ function list_annotation_stores(
         "/annotationStores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1779,7 +1798,7 @@ function list_multipart_read_set_uploads(
         "POST",
         "/sequencestore/$(sequenceStoreId)/uploads";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_multipart_read_set_uploads(
@@ -1792,7 +1811,7 @@ function list_multipart_read_set_uploads(
         "/sequencestore/$(sequenceStoreId)/uploads",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1820,7 +1839,7 @@ function list_read_set_activation_jobs(
         "POST",
         "/sequencestore/$(sequenceStoreId)/activationjobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_read_set_activation_jobs(
@@ -1833,7 +1852,7 @@ function list_read_set_activation_jobs(
         "/sequencestore/$(sequenceStoreId)/activationjobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1860,7 +1879,7 @@ function list_read_set_export_jobs(
         "POST",
         "/sequencestore/$(sequenceStoreId)/exportjobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_read_set_export_jobs(
@@ -1873,7 +1892,7 @@ function list_read_set_export_jobs(
         "/sequencestore/$(sequenceStoreId)/exportjobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1900,7 +1919,7 @@ function list_read_set_import_jobs(
         "POST",
         "/sequencestore/$(sequenceStoreId)/importjobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_read_set_import_jobs(
@@ -1913,7 +1932,7 @@ function list_read_set_import_jobs(
         "/sequencestore/$(sequenceStoreId)/importjobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1943,7 +1962,7 @@ function list_read_set_upload_parts(
         "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts",
         Dict{String,Any}("partSource" => partSource);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_read_set_upload_parts(
@@ -1960,7 +1979,7 @@ function list_read_set_upload_parts(
             mergewith(_merge, Dict{String,Any}("partSource" => partSource), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1985,7 +2004,7 @@ function list_read_sets(sequenceStoreId; aws_config::AbstractAWSConfig=global_aw
         "POST",
         "/sequencestore/$(sequenceStoreId)/readsets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_read_sets(
@@ -1998,7 +2017,7 @@ function list_read_sets(
         "/sequencestore/$(sequenceStoreId)/readsets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2025,7 +2044,7 @@ function list_reference_import_jobs(
         "POST",
         "/referencestore/$(referenceStoreId)/importjobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_reference_import_jobs(
@@ -2038,7 +2057,7 @@ function list_reference_import_jobs(
         "/referencestore/$(referenceStoreId)/importjobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2057,7 +2076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_reference_stores(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/referencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/referencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_reference_stores(
@@ -2068,7 +2087,7 @@ function list_reference_stores(
         "/referencestores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2095,7 +2114,7 @@ function list_references(
         "POST",
         "/referencestore/$(referenceStoreId)/references";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_references(
@@ -2108,7 +2127,7 @@ function list_references(
         "/referencestore/$(referenceStoreId)/references",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2126,13 +2145,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 function list_run_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return omics("GET", "/runGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return omics(
+        "GET", "/runGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_run_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return omics(
-        "GET", "/runGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/runGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2154,7 +2175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_run_tasks(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "GET", "/run/$(id)/task"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/run/$(id)/task"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_run_tasks(
@@ -2165,7 +2186,7 @@ function list_run_tasks(
         "/run/$(id)/task",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2185,13 +2206,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of a run.
 """
 function list_runs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return omics(
-        "GET", "/run", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/run", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2210,7 +2231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_sequence_stores(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/sequencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/sequencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_sequence_stores(
@@ -2221,7 +2242,7 @@ function list_sequence_stores(
         "/sequencestores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2248,7 +2269,7 @@ function list_shares(resourceOwner; aws_config::AbstractAWSConfig=global_aws_con
         "/shares",
         Dict{String,Any}("resourceOwner" => resourceOwner);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_shares(
@@ -2263,7 +2284,7 @@ function list_shares(
             mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2284,7 +2305,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2297,7 +2318,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2317,7 +2338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_variant_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/import/variants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/import/variants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_variant_import_jobs(
@@ -2328,7 +2349,7 @@ function list_variant_import_jobs(
         "/import/variants",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2348,7 +2369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_variant_stores(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/variantStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/variantStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_variant_stores(
@@ -2359,7 +2380,7 @@ function list_variant_stores(
         "/variantStores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2378,13 +2399,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: Filter the list by workflow type.
 """
 function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
-    return omics("GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return omics(
+        "GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return omics(
-        "GET", "/workflow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/workflow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2416,7 +2439,7 @@ function start_annotation_import_job(
             "destinationName" => destinationName, "items" => items, "roleArn" => roleArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_annotation_import_job(
@@ -2441,7 +2464,7 @@ function start_annotation_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2469,7 +2492,7 @@ function start_read_set_activation_job(
         "/sequencestore/$(sequenceStoreId)/activationjob",
         Dict{String,Any}("sources" => sources);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_read_set_activation_job(
@@ -2483,7 +2506,7 @@ function start_read_set_activation_job(
         "/sequencestore/$(sequenceStoreId)/activationjob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2518,7 +2541,7 @@ function start_read_set_export_job(
             "destination" => destination, "roleArn" => roleArn, "sources" => sources
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_read_set_export_job(
@@ -2542,7 +2565,7 @@ function start_read_set_export_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2570,7 +2593,7 @@ function start_read_set_import_job(
         "/sequencestore/$(sequenceStoreId)/importjob",
         Dict{String,Any}("roleArn" => roleArn, "sources" => sources);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_read_set_import_job(
@@ -2589,7 +2612,7 @@ function start_read_set_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2617,7 +2640,7 @@ function start_reference_import_job(
         "/referencestore/$(referenceStoreId)/importjob",
         Dict{String,Any}("roleArn" => roleArn, "sources" => sources);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_reference_import_job(
@@ -2636,7 +2659,7 @@ function start_reference_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2686,7 +2709,7 @@ function start_run(requestId, roleArn; aws_config::AbstractAWSConfig=global_aws_
         "/run",
         Dict{String,Any}("requestId" => requestId, "roleArn" => roleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_run(
@@ -2706,7 +2729,7 @@ function start_run(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2736,7 +2759,7 @@ function start_variant_import_job(
             "destinationName" => destinationName, "items" => items, "roleArn" => roleArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_variant_import_job(
@@ -2761,7 +2784,7 @@ function start_variant_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2782,7 +2805,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2796,7 +2819,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2819,7 +2842,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2833,7 +2856,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2855,7 +2878,7 @@ function update_annotation_store(name; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/annotationStore/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_annotation_store(
@@ -2866,7 +2889,7 @@ function update_annotation_store(
         "/annotationStore/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2891,7 +2914,7 @@ function update_annotation_store_version(
         "POST",
         "/annotationStore/$(name)/version/$(versionName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_annotation_store_version(
@@ -2905,7 +2928,7 @@ function update_annotation_store_version(
         "/annotationStore/$(name)/version/$(versionName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2928,7 +2951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_run_group(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_run_group(
@@ -2939,7 +2962,7 @@ function update_run_group(
         "/runGroup/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2961,7 +2984,7 @@ function update_variant_store(name; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/variantStore/$(name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_variant_store(
@@ -2972,7 +2995,7 @@ function update_variant_store(
         "/variantStore/$(name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2992,7 +3015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
-        "POST", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_workflow(
@@ -3003,7 +3026,7 @@ function update_workflow(
         "/workflow/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3037,7 +3060,7 @@ function upload_read_set_part(
             "partNumber" => partNumber, "partSource" => partSource, "payload" => payload
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function upload_read_set_part(
@@ -3064,6 +3087,6 @@ function upload_read_set_part(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

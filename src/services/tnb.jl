@@ -22,7 +22,7 @@ function cancel_sol_network_operation(
         "POST",
         "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)/cancel";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_sol_network_operation(
@@ -35,7 +35,7 @@ function cancel_sol_network_operation(
         "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)/cancel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -63,7 +63,7 @@ function create_sol_function_package(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/sol/vnfpkgm/v1/vnf_packages";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sol_function_package(
@@ -74,7 +74,7 @@ function create_sol_function_package(
         "/sol/vnfpkgm/v1/vnf_packages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -109,7 +109,7 @@ function create_sol_network_instance(
         "/sol/nslcm/v1/ns_instances",
         Dict{String,Any}("nsName" => nsName, "nsdInfoId" => nsdInfoId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sol_network_instance(
@@ -129,7 +129,7 @@ function create_sol_network_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +159,7 @@ function create_sol_network_package(; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/sol/nsd/v1/ns_descriptors";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sol_network_package(
@@ -170,7 +170,7 @@ function create_sol_network_package(
         "/sol/nsd/v1/ns_descriptors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -195,7 +195,7 @@ function delete_sol_function_package(
         "DELETE",
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sol_function_package(
@@ -208,7 +208,7 @@ function delete_sol_function_package(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -233,7 +233,7 @@ function delete_sol_network_instance(
         "DELETE",
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sol_network_instance(
@@ -246,7 +246,7 @@ function delete_sol_network_instance(
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -270,7 +270,7 @@ function delete_sol_network_package(
         "DELETE",
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sol_network_package(
@@ -283,7 +283,7 @@ function delete_sol_network_package(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -306,7 +306,7 @@ function get_sol_function_instance(
         "GET",
         "/sol/vnflcm/v1/vnf_instances/$(vnfInstanceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_function_instance(
@@ -319,7 +319,7 @@ function get_sol_function_instance(
         "/sol/vnflcm/v1/vnf_instances/$(vnfInstanceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -344,7 +344,7 @@ function get_sol_function_package(
         "GET",
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_function_package(
@@ -357,7 +357,7 @@ function get_sol_function_package(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -383,7 +383,7 @@ function get_sol_function_package_content(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
         Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_function_package_content(
@@ -403,7 +403,7 @@ function get_sol_function_package_content(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -432,7 +432,7 @@ function get_sol_function_package_descriptor(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/vnfd",
         Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_function_package_descriptor(
@@ -452,7 +452,7 @@ function get_sol_function_package_descriptor(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -475,7 +475,7 @@ function get_sol_network_instance(
         "GET",
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_network_instance(
@@ -488,7 +488,7 @@ function get_sol_network_instance(
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -511,7 +511,7 @@ function get_sol_network_operation(
         "GET",
         "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_network_operation(
@@ -524,7 +524,7 @@ function get_sol_network_operation(
         "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -547,7 +547,7 @@ function get_sol_network_package(
         "GET",
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_network_package(
@@ -560,7 +560,7 @@ function get_sol_network_package(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -585,7 +585,7 @@ function get_sol_network_package_content(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
         Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_network_package_content(
@@ -605,7 +605,7 @@ function get_sol_network_package_content(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -629,7 +629,7 @@ function get_sol_network_package_descriptor(
         "GET",
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sol_network_package_descriptor(
@@ -642,7 +642,7 @@ function get_sol_network_package_descriptor(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -676,7 +676,7 @@ function instantiate_sol_network_instance(
         "POST",
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/instantiate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function instantiate_sol_network_instance(
@@ -689,7 +689,7 @@ function instantiate_sol_network_instance(
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/instantiate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -710,7 +710,7 @@ function list_sol_function_instances(; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/sol/vnflcm/v1/vnf_instances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sol_function_instances(
@@ -721,7 +721,7 @@ function list_sol_function_instances(
         "/sol/vnflcm/v1/vnf_instances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -744,7 +744,7 @@ function list_sol_function_packages(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/sol/vnfpkgm/v1/vnf_packages";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sol_function_packages(
@@ -755,7 +755,7 @@ function list_sol_function_packages(
         "/sol/vnfpkgm/v1/vnf_packages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -777,7 +777,7 @@ function list_sol_network_instances(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/sol/nslcm/v1/ns_instances";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sol_network_instances(
@@ -788,7 +788,7 @@ function list_sol_network_instances(
         "/sol/nslcm/v1/ns_instances",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -810,7 +810,7 @@ function list_sol_network_operations(; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/sol/nslcm/v1/ns_lcm_op_occs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sol_network_operations(
@@ -821,7 +821,7 @@ function list_sol_network_operations(
         "/sol/nslcm/v1/ns_lcm_op_occs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -843,7 +843,7 @@ function list_sol_network_packages(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/sol/nsd/v1/ns_descriptors";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sol_network_packages(
@@ -854,7 +854,7 @@ function list_sol_network_packages(
         "/sol/nsd/v1/ns_descriptors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +875,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -888,7 +888,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -917,7 +917,7 @@ function put_sol_function_package_content(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
         Dict{String,Any}("file" => file);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_sol_function_package_content(
@@ -931,7 +931,7 @@ function put_sol_function_package_content(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("file" => file), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -959,7 +959,7 @@ function put_sol_network_package_content(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
         Dict{String,Any}("file" => file);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_sol_network_package_content(
@@ -973,7 +973,7 @@ function put_sol_network_package_content(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("file" => file), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -998,7 +998,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1012,7 +1012,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1042,7 +1042,7 @@ function terminate_sol_network_instance(
         "POST",
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/terminate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function terminate_sol_network_instance(
@@ -1055,7 +1055,7 @@ function terminate_sol_network_instance(
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/terminate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1080,7 +1080,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1094,7 +1094,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1120,7 +1120,7 @@ function update_sol_function_package(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)",
         Dict{String,Any}("operationalState" => operationalState);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sol_function_package(
@@ -1138,7 +1138,7 @@ function update_sol_function_package(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1171,7 +1171,7 @@ function update_sol_network_instance(
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/update",
         Dict{String,Any}("updateType" => updateType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sol_network_instance(
@@ -1187,7 +1187,7 @@ function update_sol_network_instance(
             mergewith(_merge, Dict{String,Any}("updateType" => updateType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1216,7 +1216,7 @@ function update_sol_network_package(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)",
         Dict{String,Any}("nsdOperationalState" => nsdOperationalState);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sol_network_package(
@@ -1236,7 +1236,7 @@ function update_sol_network_package(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1266,7 +1266,7 @@ function validate_sol_function_package_content(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content/validate",
         Dict{String,Any}("file" => file);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_sol_function_package_content(
@@ -1280,7 +1280,7 @@ function validate_sol_function_package_content(
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content/validate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("file" => file), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1309,7 +1309,7 @@ function validate_sol_network_package_content(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content/validate",
         Dict{String,Any}("file" => file);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_sol_network_package_content(
@@ -1323,6 +1323,6 @@ function validate_sol_network_package_content(
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content/validate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("file" => file), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

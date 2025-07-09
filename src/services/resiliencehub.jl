@@ -34,7 +34,7 @@ function add_draft_app_version_resource_mappings(
         "/add-draft-app-version-resource-mappings",
         Dict{String,Any}("appArn" => appArn, "resourceMappings" => resourceMappings);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_draft_app_version_resource_mappings(
@@ -56,7 +56,7 @@ function add_draft_app_version_resource_mappings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -83,7 +83,7 @@ function batch_update_recommendation_status(
         "/batch-update-recommendation-status",
         Dict{String,Any}("appArn" => appArn, "requestEntries" => requestEntries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_recommendation_status(
@@ -103,7 +103,7 @@ function batch_update_recommendation_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -152,7 +152,7 @@ function create_app(name; aws_config::AbstractAWSConfig=global_aws_config())
         "/create-app",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app(
@@ -169,7 +169,7 @@ function create_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -213,7 +213,7 @@ function create_app_version_app_component(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_version_app_component(
@@ -239,7 +239,7 @@ function create_app_version_app_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -296,7 +296,7 @@ function create_app_version_resource(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app_version_resource(
@@ -326,7 +326,7 @@ function create_app_version_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -372,7 +372,7 @@ function create_recommendation_template(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_recommendation_template(
@@ -396,7 +396,7 @@ function create_recommendation_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -442,7 +442,7 @@ function create_resiliency_policy(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_resiliency_policy(
@@ -468,7 +468,7 @@ function create_resiliency_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -497,7 +497,7 @@ function delete_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
         "/delete-app",
         Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app(
@@ -514,7 +514,7 @@ function delete_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -547,7 +547,7 @@ function delete_app_assessment(
             "assessmentArn" => assessmentArn, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_assessment(
@@ -568,7 +568,7 @@ function delete_app_assessment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -604,7 +604,7 @@ function delete_app_input_source(appArn; aws_config::AbstractAWSConfig=global_aw
         "/delete-app-input-source",
         Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_input_source(
@@ -621,7 +621,7 @@ function delete_app_input_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -656,7 +656,7 @@ function delete_app_version_app_component(
         "/delete-app-version-app-component",
         Dict{String,Any}("appArn" => appArn, "id" => id, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_version_app_component(
@@ -678,7 +678,7 @@ function delete_app_version_app_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -717,7 +717,7 @@ function delete_app_version_resource(
         "/delete-app-version-resource",
         Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app_version_resource(
@@ -734,7 +734,7 @@ function delete_app_version_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -765,7 +765,7 @@ function delete_recommendation_template(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_recommendation_template(
@@ -787,7 +787,7 @@ function delete_recommendation_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -817,7 +817,7 @@ function delete_resiliency_policy(
         "/delete-resiliency-policy",
         Dict{String,Any}("policyArn" => policyArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resiliency_policy(
@@ -838,7 +838,7 @@ function delete_resiliency_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -861,7 +861,7 @@ function describe_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
         "/describe-app",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app(
@@ -872,7 +872,7 @@ function describe_app(
         "/describe-app",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -897,7 +897,7 @@ function describe_app_assessment(
         "/describe-app-assessment",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_assessment(
@@ -912,7 +912,7 @@ function describe_app_assessment(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -938,7 +938,7 @@ function describe_app_version(
         "/describe-app-version",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_version(
@@ -958,7 +958,7 @@ function describe_app_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -985,7 +985,7 @@ function describe_app_version_app_component(
         "/describe-app-version-app-component",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion, "id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_version_app_component(
@@ -1008,7 +1008,7 @@ function describe_app_version_app_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1044,7 +1044,7 @@ function describe_app_version_resource(
         "/describe-app-version-resource",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_version_resource(
@@ -1064,7 +1064,7 @@ function describe_app_version_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function describe_app_version_resources_resolution_status(
         "/describe-app-version-resources-resolution-status",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_version_resources_resolution_status(
@@ -1114,7 +1114,7 @@ function describe_app_version_resources_resolution_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1140,7 +1140,7 @@ function describe_app_version_template(
         "/describe-app-version-template",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_app_version_template(
@@ -1160,7 +1160,7 @@ function describe_app_version_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1188,7 +1188,7 @@ function describe_draft_app_version_resources_import_status(
         "/describe-draft-app-version-resources-import-status",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_draft_app_version_resources_import_status(
@@ -1199,7 +1199,7 @@ function describe_draft_app_version_resources_import_status(
         "/describe-draft-app-version-resources-import-status",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1226,7 +1226,7 @@ function describe_resiliency_policy(
         "/describe-resiliency-policy",
         Dict{String,Any}("policyArn" => policyArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_resiliency_policy(
@@ -1241,7 +1241,7 @@ function describe_resiliency_policy(
             mergewith(_merge, Dict{String,Any}("policyArn" => policyArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1276,7 +1276,7 @@ function import_resources_to_draft_app_version(
         "/import-resources-to-draft-app-version",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_resources_to_draft_app_version(
@@ -1287,7 +1287,7 @@ function import_resources_to_draft_app_version(
         "/import-resources-to-draft-app-version",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1318,7 +1318,7 @@ function list_alarm_recommendations(
         "/list-alarm-recommendations",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_alarm_recommendations(
@@ -1333,7 +1333,7 @@ function list_alarm_recommendations(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1363,7 +1363,7 @@ function list_app_assessment_compliance_drifts(
         "/list-app-assessment-compliance-drifts",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_assessment_compliance_drifts(
@@ -1378,7 +1378,7 @@ function list_app_assessment_compliance_drifts(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1409,7 +1409,7 @@ function list_app_assessment_resource_drifts(
         "/list-app-assessment-resource-drifts",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_assessment_resource_drifts(
@@ -1424,7 +1424,7 @@ function list_app_assessment_resource_drifts(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1458,7 +1458,7 @@ function list_app_assessments(; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/list-app-assessments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_assessments(
@@ -1469,7 +1469,7 @@ function list_app_assessments(
         "/list-app-assessments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1500,7 +1500,7 @@ function list_app_component_compliances(
         "/list-app-component-compliances",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_component_compliances(
@@ -1515,7 +1515,7 @@ function list_app_component_compliances(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1546,7 +1546,7 @@ function list_app_component_recommendations(
         "/list-app-component-recommendations",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_component_recommendations(
@@ -1561,7 +1561,7 @@ function list_app_component_recommendations(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1594,7 +1594,7 @@ function list_app_input_sources(
         "/list-app-input-sources",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_input_sources(
@@ -1614,7 +1614,7 @@ function list_app_input_sources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1645,7 +1645,7 @@ function list_app_version_app_components(
         "/list-app-version-app-components",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_version_app_components(
@@ -1665,7 +1665,7 @@ function list_app_version_app_components(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1699,7 +1699,7 @@ function list_app_version_resource_mappings(
         "/list-app-version-resource-mappings",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_version_resource_mappings(
@@ -1719,7 +1719,7 @@ function list_app_version_resource_mappings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1752,7 +1752,7 @@ function list_app_version_resources(
         "/list-app-version-resources",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_version_resources(
@@ -1772,7 +1772,7 @@ function list_app_version_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1803,7 +1803,7 @@ function list_app_versions(appArn; aws_config::AbstractAWSConfig=global_aws_conf
         "/list-app-versions",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_app_versions(
@@ -1814,7 +1814,7 @@ function list_app_versions(
         "/list-app-versions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1848,14 +1848,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config())
     return resiliencehub(
-        "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resiliencehub(
-        "GET", "/list-apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/list-apps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1887,7 +1891,7 @@ function list_recommendation_templates(; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/list-recommendation-templates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_recommendation_templates(
@@ -1898,7 +1902,7 @@ function list_recommendation_templates(
         "/list-recommendation-templates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1921,7 +1925,7 @@ function list_resiliency_policies(; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/list-resiliency-policies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resiliency_policies(
@@ -1932,7 +1936,7 @@ function list_resiliency_policies(
         "/list-resiliency-policies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1964,7 +1968,7 @@ function list_sop_recommendations(
         "/list-sop-recommendations",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sop_recommendations(
@@ -1979,7 +1983,7 @@ function list_sop_recommendations(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2003,7 +2007,7 @@ function list_suggested_resiliency_policies(;
         "GET",
         "/list-suggested-resiliency-policies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_suggested_resiliency_policies(
@@ -2014,7 +2018,7 @@ function list_suggested_resiliency_policies(
         "/list-suggested-resiliency-policies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2036,7 +2040,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2049,7 +2053,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2080,7 +2084,7 @@ function list_test_recommendations(
         "/list-test-recommendations",
         Dict{String,Any}("assessmentArn" => assessmentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_test_recommendations(
@@ -2095,7 +2099,7 @@ function list_test_recommendations(
             mergewith(_merge, Dict{String,Any}("assessmentArn" => assessmentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2130,7 +2134,7 @@ function list_unsupported_app_version_resources(
         "/list-unsupported-app-version-resources",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_unsupported_app_version_resources(
@@ -2150,7 +2154,7 @@ function list_unsupported_app_version_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2176,7 +2180,7 @@ function publish_app_version(appArn; aws_config::AbstractAWSConfig=global_aws_co
         "/publish-app-version",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function publish_app_version(
@@ -2187,7 +2191,7 @@ function publish_app_version(
         "/publish-app-version",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2264,7 +2268,7 @@ function put_draft_app_version_template(
         "/put-draft-app-version-template",
         Dict{String,Any}("appArn" => appArn, "appTemplateBody" => appTemplateBody);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_draft_app_version_template(
@@ -2284,7 +2288,7 @@ function put_draft_app_version_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2324,7 +2328,7 @@ function remove_draft_app_version_resource_mappings(
         "/remove-draft-app-version-resource-mappings",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_draft_app_version_resource_mappings(
@@ -2335,7 +2339,7 @@ function remove_draft_app_version_resource_mappings(
         "/remove-draft-app-version-resource-mappings",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2361,7 +2365,7 @@ function resolve_app_version_resources(
         "/resolve-app-version-resources",
         Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function resolve_app_version_resources(
@@ -2381,7 +2385,7 @@ function resolve_app_version_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2420,7 +2424,7 @@ function start_app_assessment(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_app_assessment(
@@ -2446,7 +2450,7 @@ function start_app_assessment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2467,7 +2471,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2481,7 +2485,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2504,7 +2508,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2518,7 +2522,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2555,7 +2559,7 @@ function update_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
         "/update-app",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app(
@@ -2566,7 +2570,7 @@ function update_app(
         "/update-app",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2599,7 +2603,7 @@ function update_app_version(appArn; aws_config::AbstractAWSConfig=global_aws_con
         "/update-app-version",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_version(
@@ -2610,7 +2614,7 @@ function update_app_version(
         "/update-app-version",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2646,7 +2650,7 @@ function update_app_version_app_component(
         "/update-app-version-app-component",
         Dict{String,Any}("appArn" => appArn, "id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_version_app_component(
@@ -2662,7 +2666,7 @@ function update_app_version_app_component(
             mergewith(_merge, Dict{String,Any}("appArn" => appArn, "id" => id), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2704,7 +2708,7 @@ function update_app_version_resource(
         "/update-app-version-resource",
         Dict{String,Any}("appArn" => appArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_app_version_resource(
@@ -2715,7 +2719,7 @@ function update_app_version_resource(
         "/update-app-version-resource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2754,7 +2758,7 @@ function update_resiliency_policy(
         "/update-resiliency-policy",
         Dict{String,Any}("policyArn" => policyArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_resiliency_policy(
@@ -2769,6 +2773,6 @@ function update_resiliency_policy(
             mergewith(_merge, Dict{String,Any}("policyArn" => policyArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -37,7 +37,7 @@ function create_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config
         "CreateAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_alias(
@@ -51,7 +51,7 @@ function create_alias(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -111,7 +111,7 @@ function create_key(
         "CreateKey",
         Dict{String,Any}("Exportable" => Exportable, "KeyAttributes" => KeyAttributes);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_key(
@@ -132,7 +132,7 @@ function create_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +159,7 @@ function delete_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_alias(
@@ -173,7 +173,7 @@ function delete_alias(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -208,7 +208,7 @@ function delete_key(KeyIdentifier; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_key(
@@ -222,7 +222,7 @@ function delete_key(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -337,7 +337,7 @@ function export_key(
             "ExportKeyIdentifier" => ExportKeyIdentifier, "KeyMaterial" => KeyMaterial
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_key(
@@ -359,7 +359,7 @@ function export_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -381,7 +381,7 @@ function get_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config())
         "GetAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_alias(
@@ -395,7 +395,7 @@ function get_alias(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -417,7 +417,7 @@ function get_key(KeyIdentifier; aws_config::AbstractAWSConfig=global_aws_config(
         "GetKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_key(
@@ -431,7 +431,7 @@ function get_key(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -466,7 +466,7 @@ function get_parameters_for_export(
             "SigningKeyAlgorithm" => SigningKeyAlgorithm,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_parameters_for_export(
@@ -488,7 +488,7 @@ function get_parameters_for_export(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,7 +526,7 @@ function get_parameters_for_import(
             "WrappingKeyAlgorithm" => WrappingKeyAlgorithm,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_parameters_for_import(
@@ -548,7 +548,7 @@ function get_parameters_for_import(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -576,7 +576,7 @@ function get_public_key_certificate(
         "GetPublicKeyCertificate",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_public_key_certificate(
@@ -590,7 +590,7 @@ function get_public_key_certificate(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -711,7 +711,7 @@ function import_key(KeyMaterial; aws_config::AbstractAWSConfig=global_aws_config
         "ImportKey",
         Dict{String,Any}("KeyMaterial" => KeyMaterial);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_key(
@@ -725,7 +725,7 @@ function import_key(
             mergewith(_merge, Dict{String,Any}("KeyMaterial" => KeyMaterial), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -757,14 +757,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_aliases(; aws_config::AbstractAWSConfig=global_aws_config())
     return payment_cryptography(
-        "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return payment_cryptography(
-        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -795,14 +795,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_keys(; aws_config::AbstractAWSConfig=global_aws_config())
     return payment_cryptography(
-        "ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return payment_cryptography(
-        "ListKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -839,7 +839,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -853,7 +853,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +879,7 @@ function restore_key(KeyIdentifier; aws_config::AbstractAWSConfig=global_aws_con
         "RestoreKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_key(
@@ -893,7 +893,7 @@ function restore_key(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -915,7 +915,7 @@ function start_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=global_aws
         "StartKeyUsage",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_key_usage(
@@ -929,7 +929,7 @@ function start_key_usage(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -952,7 +952,7 @@ function stop_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=global_aws_
         "StopKeyUsage",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_key_usage(
@@ -966,7 +966,7 @@ function stop_key_usage(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1001,7 +1001,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1020,7 +1020,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1048,7 +1048,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1067,7 +1067,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1095,7 +1095,7 @@ function update_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config
         "UpdateAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_alias(
@@ -1109,6 +1109,6 @@ function update_alias(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

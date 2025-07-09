@@ -45,7 +45,7 @@ function associate_assets(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_assets(
@@ -70,7 +70,7 @@ function associate_assets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -109,7 +109,7 @@ function associate_time_series_to_asset_property(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_time_series_to_asset_property(
@@ -135,7 +135,7 @@ function associate_time_series_to_asset_property(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -163,7 +163,7 @@ function batch_associate_project_assets(
         "/projects/$(projectId)/assets/associate",
         Dict{String,Any}("assetIds" => assetIds, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_associate_project_assets(
@@ -183,7 +183,7 @@ function batch_associate_project_assets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -211,7 +211,7 @@ function batch_disassociate_project_assets(
         "/projects/$(projectId)/assets/disassociate",
         Dict{String,Any}("assetIds" => assetIds, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_disassociate_project_assets(
@@ -231,7 +231,7 @@ function batch_disassociate_project_assets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -262,7 +262,7 @@ function batch_get_asset_property_aggregates(
         "/properties/batch/aggregates",
         Dict{String,Any}("entries" => entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_asset_property_aggregates(
@@ -273,7 +273,7 @@ function batch_get_asset_property_aggregates(
         "/properties/batch/aggregates",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -300,7 +300,7 @@ function batch_get_asset_property_value(
         "/properties/batch/latest",
         Dict{String,Any}("entries" => entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_asset_property_value(
@@ -311,7 +311,7 @@ function batch_get_asset_property_value(
         "/properties/batch/latest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -342,7 +342,7 @@ function batch_get_asset_property_value_history(
         "/properties/batch/history",
         Dict{String,Any}("entries" => entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_asset_property_value_history(
@@ -353,7 +353,7 @@ function batch_get_asset_property_value_history(
         "/properties/batch/history",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -389,7 +389,7 @@ function batch_put_asset_property_value(
         "/properties",
         Dict{String,Any}("entries" => entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_asset_property_value(
@@ -400,7 +400,7 @@ function batch_put_asset_property_value(
         "/properties",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -444,7 +444,7 @@ function create_access_policy(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_access_policy(
@@ -470,7 +470,7 @@ function create_access_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -516,7 +516,7 @@ function create_asset(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_asset(
@@ -540,7 +540,7 @@ function create_asset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -605,7 +605,7 @@ function create_asset_model(
             "assetModelName" => assetModelName, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_asset_model(
@@ -626,7 +626,7 @@ function create_asset_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -690,7 +690,7 @@ function create_asset_model_composite_model(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_asset_model_composite_model(
@@ -715,7 +715,7 @@ function create_asset_model_composite_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -766,7 +766,7 @@ function create_bulk_import_job(
             "jobRoleArn" => jobRoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_bulk_import_job(
@@ -795,7 +795,7 @@ function create_bulk_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -836,7 +836,7 @@ function create_dashboard(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dashboard(
@@ -862,7 +862,7 @@ function create_dashboard(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -894,7 +894,7 @@ function create_gateway(
             "gatewayName" => gatewayName, "gatewayPlatform" => gatewayPlatform
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_gateway(
@@ -916,7 +916,7 @@ function create_gateway(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -979,7 +979,7 @@ function create_portal(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_portal(
@@ -1005,7 +1005,7 @@ function create_portal(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1041,7 +1041,7 @@ function create_project(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_project(
@@ -1065,7 +1065,7 @@ function create_project(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function delete_access_policy(
         "/access-policies/$(accessPolicyId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_access_policy(
@@ -1109,7 +1109,7 @@ function delete_access_policy(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1138,7 +1138,7 @@ function delete_asset(assetId; aws_config::AbstractAWSConfig=global_aws_config()
         "/assets/$(assetId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_asset(
@@ -1151,7 +1151,7 @@ function delete_asset(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1182,7 +1182,7 @@ function delete_asset_model(assetModelId; aws_config::AbstractAWSConfig=global_a
         "/asset-models/$(assetModelId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_asset_model(
@@ -1197,7 +1197,7 @@ function delete_asset_model(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1231,7 +1231,7 @@ function delete_asset_model_composite_model(
         "/asset-models/$(assetModelId)/composite-models/$(assetModelCompositeModelId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_asset_model_composite_model(
@@ -1247,7 +1247,7 @@ function delete_asset_model_composite_model(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1272,7 +1272,7 @@ function delete_dashboard(dashboardId; aws_config::AbstractAWSConfig=global_aws_
         "/dashboards/$(dashboardId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dashboard(
@@ -1287,7 +1287,7 @@ function delete_dashboard(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1307,7 +1307,7 @@ function delete_gateway(gatewayId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/20200301/gateways/$(gatewayId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_gateway(
@@ -1320,7 +1320,7 @@ function delete_gateway(
         "/20200301/gateways/$(gatewayId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1345,7 +1345,7 @@ function delete_portal(portalId; aws_config::AbstractAWSConfig=global_aws_config
         "/portals/$(portalId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_portal(
@@ -1360,7 +1360,7 @@ function delete_portal(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1385,7 +1385,7 @@ function delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_conf
         "/projects/$(projectId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project(
@@ -1400,7 +1400,7 @@ function delete_project(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1436,7 +1436,7 @@ function delete_time_series(; aws_config::AbstractAWSConfig=global_aws_config())
         "/timeseries/delete/",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_time_series(
@@ -1449,7 +1449,7 @@ function delete_time_series(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1471,7 +1471,7 @@ function describe_access_policy(
         "GET",
         "/access-policies/$(accessPolicyId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_access_policy(
@@ -1484,7 +1484,7 @@ function describe_access_policy(
         "/access-policies/$(accessPolicyId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1503,7 +1503,7 @@ function describe_action(actionId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/actions/$(actionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_action(
@@ -1516,7 +1516,7 @@ function describe_action(
         "/actions/$(actionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1537,7 +1537,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_asset(assetId; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/assets/$(assetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/assets/$(assetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset(
@@ -1548,7 +1551,7 @@ function describe_asset(
         "/assets/$(assetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1577,7 +1580,7 @@ function describe_asset_composite_model(
         "GET",
         "/assets/$(assetId)/composite-models/$(assetCompositeModelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset_composite_model(
@@ -1591,7 +1594,7 @@ function describe_asset_composite_model(
         "/assets/$(assetId)/composite-models/$(assetCompositeModelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1618,7 +1621,7 @@ function describe_asset_model(
         "GET",
         "/asset-models/$(assetModelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset_model(
@@ -1631,7 +1634,7 @@ function describe_asset_model(
         "/asset-models/$(assetModelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1662,7 +1665,7 @@ function describe_asset_model_composite_model(
         "GET",
         "/asset-models/$(assetModelId)/composite-models/$(assetModelCompositeModelId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset_model_composite_model(
@@ -1676,7 +1679,7 @@ function describe_asset_model_composite_model(
         "/asset-models/$(assetModelId)/composite-models/$(assetModelCompositeModelId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1706,7 +1709,7 @@ function describe_asset_property(
         "GET",
         "/assets/$(assetId)/properties/$(propertyId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset_property(
@@ -1720,7 +1723,7 @@ function describe_asset_property(
         "/assets/$(assetId)/properties/$(propertyId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1737,7 +1740,7 @@ bulk import job (CLI) in the Amazon Simple Storage Service User Guide.
 """
 function describe_bulk_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_bulk_import_job(
@@ -1748,7 +1751,7 @@ function describe_bulk_import_job(
         "/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1767,7 +1770,7 @@ function describe_dashboard(dashboardId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/dashboards/$(dashboardId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dashboard(
@@ -1780,7 +1783,7 @@ function describe_dashboard(
         "/dashboards/$(dashboardId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1800,7 +1803,7 @@ function describe_default_encryption_configuration(;
         "GET",
         "/configuration/account/encryption";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_default_encryption_configuration(
@@ -1811,7 +1814,7 @@ function describe_default_encryption_configuration(
         "/configuration/account/encryption",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1830,7 +1833,7 @@ function describe_gateway(gatewayId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/20200301/gateways/$(gatewayId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_gateway(
@@ -1843,7 +1846,7 @@ function describe_gateway(
         "/20200301/gateways/$(gatewayId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1872,7 +1875,7 @@ function describe_gateway_capability_configuration(
         "GET",
         "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_gateway_capability_configuration(
@@ -1886,7 +1889,7 @@ function describe_gateway_capability_configuration(
         "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1899,14 +1902,14 @@ Retrieves the current IoT SiteWise logging options.
 """
 function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsitewise(
-        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1925,7 +1928,7 @@ function describe_portal(portalId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/portals/$(portalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_portal(
@@ -1938,7 +1941,7 @@ function describe_portal(
         "/portals/$(portalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1957,7 +1960,7 @@ function describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/projects/$(projectId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_project(
@@ -1970,7 +1973,7 @@ function describe_project(
         "/projects/$(projectId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1986,7 +1989,7 @@ function describe_storage_configuration(; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/configuration/account/storage";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_storage_configuration(
@@ -1997,7 +2000,7 @@ function describe_storage_configuration(
         "/configuration/account/storage",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2027,7 +2030,7 @@ function describe_time_series(; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/timeseries/describe/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_time_series(
@@ -2038,7 +2041,7 @@ function describe_time_series(
         "/timeseries/describe/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2083,7 +2086,7 @@ function disassociate_assets(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_assets(
@@ -2108,7 +2111,7 @@ function disassociate_assets(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2147,7 +2150,7 @@ function disassociate_time_series_from_asset_property(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_time_series_from_asset_property(
@@ -2173,7 +2176,7 @@ function disassociate_time_series_from_asset_property(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2209,7 +2212,7 @@ function execute_action(
             "targetResource" => targetResource,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function execute_action(
@@ -2234,7 +2237,7 @@ function execute_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2259,7 +2262,7 @@ function execute_query(queryStatement; aws_config::AbstractAWSConfig=global_aws_
         "/queries/execution",
         Dict{String,Any}("queryStatement" => queryStatement);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function execute_query(
@@ -2274,7 +2277,7 @@ function execute_query(
             mergewith(_merge, Dict{String,Any}("queryStatement" => queryStatement), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2329,7 +2332,7 @@ function get_asset_property_aggregates(
             "startDate" => startDate,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_asset_property_aggregates(
@@ -2356,7 +2359,7 @@ function get_asset_property_aggregates(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2380,7 +2383,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_asset_property_value(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/properties/latest"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/properties/latest";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_asset_property_value(
@@ -2391,7 +2397,7 @@ function get_asset_property_value(
         "/properties/latest",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2430,7 +2436,10 @@ function get_asset_property_value_history(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsitewise(
-        "GET", "/properties/history"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/properties/history";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_asset_property_value_history(
@@ -2441,7 +2450,7 @@ function get_asset_property_value_history(
         "/properties/history",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2528,7 +2537,7 @@ function get_interpolated_asset_property_values(
             "type" => type,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_interpolated_asset_property_values(
@@ -2557,7 +2566,7 @@ function get_interpolated_asset_property_values(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2587,7 +2596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_access_policies(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_access_policies(
@@ -2598,7 +2607,7 @@ function list_access_policies(
         "/access-policies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2628,7 +2637,7 @@ function list_actions(
             "targetResourceType" => targetResourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_actions(
@@ -2651,7 +2660,7 @@ function list_actions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2679,7 +2688,7 @@ function list_asset_model_composite_models(
         "GET",
         "/asset-models/$(assetModelId)/composite-models";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_asset_model_composite_models(
@@ -2692,7 +2701,7 @@ function list_asset_model_composite_models(
         "/asset-models/$(assetModelId)/composite-models",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2726,7 +2735,7 @@ function list_asset_model_properties(
         "GET",
         "/asset-models/$(assetModelId)/properties";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_asset_model_properties(
@@ -2739,7 +2748,7 @@ function list_asset_model_properties(
         "/asset-models/$(assetModelId)/properties",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2761,7 +2770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_asset_models(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/asset-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/asset-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_asset_models(
@@ -2772,7 +2781,7 @@ function list_asset_models(
         "/asset-models",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2804,7 +2813,7 @@ function list_asset_properties(assetId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/assets/$(assetId)/properties";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_asset_properties(
@@ -2815,7 +2824,7 @@ function list_asset_properties(
         "/assets/$(assetId)/properties",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2848,7 +2857,7 @@ function list_asset_relationships(
         "/assets/$(assetId)/assetRelationships",
         Dict{String,Any}("traversalType" => traversalType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_asset_relationships(
@@ -2864,7 +2873,7 @@ function list_asset_relationships(
             mergewith(_merge, Dict{String,Any}("traversalType" => traversalType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2894,14 +2903,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_assets(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_assets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsitewise(
-        "GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2940,7 +2949,7 @@ function list_associated_assets(assetId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/assets/$(assetId)/hierarchies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_associated_assets(
@@ -2951,7 +2960,7 @@ function list_associated_assets(
         "/assets/$(assetId)/hierarchies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2970,14 +2979,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_bulk_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_bulk_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsitewise(
-        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3006,7 +3015,7 @@ function list_composition_relationships(
         "GET",
         "/asset-models/$(assetModelId)/composition-relationships";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_composition_relationships(
@@ -3019,7 +3028,7 @@ function list_composition_relationships(
         "/asset-models/$(assetModelId)/composition-relationships",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3044,7 +3053,7 @@ function list_dashboards(projectId; aws_config::AbstractAWSConfig=global_aws_con
         "/dashboards",
         Dict{String,Any}("projectId" => projectId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dashboards(
@@ -3059,7 +3068,7 @@ function list_dashboards(
             mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3077,7 +3086,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/20200301/gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/20200301/gateways";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_gateways(
@@ -3088,7 +3100,7 @@ function list_gateways(
         "/20200301/gateways",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3106,14 +3118,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_portals(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_portals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotsitewise(
-        "GET", "/portals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/portals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3137,7 +3149,7 @@ function list_project_assets(projectId; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/projects/$(projectId)/assets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_project_assets(
@@ -3150,7 +3162,7 @@ function list_project_assets(
         "/projects/$(projectId)/assets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3175,7 +3187,7 @@ function list_projects(portalId; aws_config::AbstractAWSConfig=global_aws_config
         "/projects",
         Dict{String,Any}("portalId" => portalId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_projects(
@@ -3190,7 +3202,7 @@ function list_projects(
             mergewith(_merge, Dict{String,Any}("portalId" => portalId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3212,7 +3224,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -3227,7 +3239,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3252,7 +3264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_time_series(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotsitewise(
-        "GET", "/timeseries/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/timeseries/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_time_series(
@@ -3263,7 +3275,7 @@ function list_time_series(
         "/timeseries/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3290,7 +3302,7 @@ function put_default_encryption_configuration(
         "/configuration/account/encryption",
         Dict{String,Any}("encryptionType" => encryptionType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_default_encryption_configuration(
@@ -3305,7 +3317,7 @@ function put_default_encryption_configuration(
             mergewith(_merge, Dict{String,Any}("encryptionType" => encryptionType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3327,7 +3339,7 @@ function put_logging_options(
         "/logging",
         Dict{String,Any}("loggingOptions" => loggingOptions);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_logging_options(
@@ -3342,7 +3354,7 @@ function put_logging_options(
             mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3385,7 +3397,7 @@ function put_storage_configuration(
         "/configuration/account/storage",
         Dict{String,Any}("storageType" => storageType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_storage_configuration(
@@ -3400,7 +3412,7 @@ function put_storage_configuration(
             mergewith(_merge, Dict{String,Any}("storageType" => storageType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3423,7 +3435,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3443,7 +3455,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3466,7 +3478,7 @@ function untag_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3486,7 +3498,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3529,7 +3541,7 @@ function update_access_policy(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_access_policy(
@@ -3556,7 +3568,7 @@ function update_access_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3589,7 +3601,7 @@ function update_asset(assetId, assetName; aws_config::AbstractAWSConfig=global_a
         "/assets/$(assetId)",
         Dict{String,Any}("assetName" => assetName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_asset(
@@ -3611,7 +3623,7 @@ function update_asset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3671,7 +3683,7 @@ function update_asset_model(
             "assetModelName" => assetModelName, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_asset_model(
@@ -3693,7 +3705,7 @@ function update_asset_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3744,7 +3756,7 @@ function update_asset_model_composite_model(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_asset_model_composite_model(
@@ -3768,7 +3780,7 @@ function update_asset_model_composite_model(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3815,7 +3827,7 @@ function update_asset_property(
         "/assets/$(assetId)/properties/$(propertyId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_asset_property(
@@ -3831,7 +3843,7 @@ function update_asset_property(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3869,7 +3881,7 @@ function update_dashboard(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dashboard(
@@ -3894,7 +3906,7 @@ function update_dashboard(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3917,7 +3929,7 @@ function update_gateway(
         "/20200301/gateways/$(gatewayId)",
         Dict{String,Any}("gatewayName" => gatewayName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_gateway(
@@ -3933,7 +3945,7 @@ function update_gateway(
             mergewith(_merge, Dict{String,Any}("gatewayName" => gatewayName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3972,7 +3984,7 @@ function update_gateway_capability_configuration(
             "capabilityNamespace" => capabilityNamespace,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_gateway_capability_configuration(
@@ -3996,7 +4008,7 @@ function update_gateway_capability_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4044,7 +4056,7 @@ function update_portal(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_portal(
@@ -4071,7 +4083,7 @@ function update_portal(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4100,7 +4112,7 @@ function update_project(
         "/projects/$(projectId)",
         Dict{String,Any}("projectName" => projectName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_project(
@@ -4122,6 +4134,6 @@ function update_project(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -25,7 +25,7 @@ function associate_gateway_to_server(
         "AssociateGatewayToServer",
         Dict{String,Any}("GatewayArn" => GatewayArn, "ServerArn" => ServerArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_gateway_to_server(
@@ -44,7 +44,7 @@ function associate_gateway_to_server(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -78,7 +78,7 @@ function create_gateway(
             "GatewayType" => GatewayType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_gateway(
@@ -102,7 +102,7 @@ function create_gateway(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -121,7 +121,7 @@ function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteGateway",
         Dict{String,Any}("GatewayArn" => GatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_gateway(
@@ -135,7 +135,7 @@ function delete_gateway(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function delete_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=global_a
         "DeleteHypervisor",
         Dict{String,Any}("HypervisorArn" => HypervisorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_hypervisor(
@@ -168,7 +168,7 @@ function delete_hypervisor(
             mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -190,7 +190,7 @@ function disassociate_gateway_from_server(
         "DisassociateGatewayFromServer",
         Dict{String,Any}("GatewayArn" => GatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_gateway_from_server(
@@ -204,7 +204,7 @@ function disassociate_gateway_from_server(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -228,7 +228,7 @@ function get_bandwidth_rate_limit_schedule(
         "GetBandwidthRateLimitSchedule",
         Dict{String,Any}("GatewayArn" => GatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_bandwidth_rate_limit_schedule(
@@ -242,7 +242,7 @@ function get_bandwidth_rate_limit_schedule(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -261,7 +261,7 @@ function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config
         "GetGateway",
         Dict{String,Any}("GatewayArn" => GatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_gateway(
@@ -275,7 +275,7 @@ function get_gateway(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -296,7 +296,7 @@ function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=global_aws_
         "GetHypervisor",
         Dict{String,Any}("HypervisorArn" => HypervisorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_hypervisor(
@@ -310,7 +310,7 @@ function get_hypervisor(
             mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -333,7 +333,7 @@ function get_hypervisor_property_mappings(
         "GetHypervisorPropertyMappings",
         Dict{String,Any}("HypervisorArn" => HypervisorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_hypervisor_property_mappings(
@@ -347,7 +347,7 @@ function get_hypervisor_property_mappings(
             mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -366,7 +366,7 @@ function get_virtual_machine(ResourceArn; aws_config::AbstractAWSConfig=global_a
         "GetVirtualMachine",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_virtual_machine(
@@ -380,7 +380,7 @@ function get_virtual_machine(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -409,7 +409,7 @@ function import_hypervisor_configuration(
         "ImportHypervisorConfiguration",
         Dict{String,Any}("Host" => Host, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_hypervisor_configuration(
@@ -424,7 +424,7 @@ function import_hypervisor_configuration(
             mergewith(_merge, Dict{String,Any}("Host" => Host, "Name" => Name), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -444,14 +444,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup_gateway(
-        "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return backup_gateway(
-        "ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -470,14 +470,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_hypervisors(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup_gateway(
-        "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_hypervisors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return backup_gateway(
-        "ListHypervisors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListHypervisors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -498,7 +498,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -512,7 +512,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_virtual_machines(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup_gateway(
-        "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_virtual_machines(
@@ -543,7 +543,7 @@ function list_virtual_machines(
         "ListVirtualMachines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -575,7 +575,7 @@ function put_bandwidth_rate_limit_schedule(
             "GatewayArn" => GatewayArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_bandwidth_rate_limit_schedule(
@@ -597,7 +597,7 @@ function put_bandwidth_rate_limit_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -630,7 +630,7 @@ function put_hypervisor_property_mappings(
             "VmwareToAwsTagMappings" => VmwareToAwsTagMappings,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_hypervisor_property_mappings(
@@ -654,7 +654,7 @@ function put_hypervisor_property_mappings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -687,7 +687,7 @@ function put_maintenance_start_time(
             "MinuteOfHour" => MinuteOfHour,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_maintenance_start_time(
@@ -711,7 +711,7 @@ function put_maintenance_start_time(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -732,7 +732,7 @@ function start_virtual_machines_metadata_sync(
         "StartVirtualMachinesMetadataSync",
         Dict{String,Any}("HypervisorArn" => HypervisorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_virtual_machines_metadata_sync(
@@ -746,7 +746,7 @@ function start_virtual_machines_metadata_sync(
             mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -766,7 +766,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -785,7 +785,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -813,7 +813,7 @@ function test_hypervisor_configuration(
         "TestHypervisorConfiguration",
         Dict{String,Any}("GatewayArn" => GatewayArn, "Host" => Host);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function test_hypervisor_configuration(
@@ -830,7 +830,7 @@ function test_hypervisor_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -852,7 +852,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -871,7 +871,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -896,7 +896,7 @@ function update_gateway_information(
         "UpdateGatewayInformation",
         Dict{String,Any}("GatewayArn" => GatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_gateway_information(
@@ -910,7 +910,7 @@ function update_gateway_information(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -933,7 +933,7 @@ function update_gateway_software_now(
         "UpdateGatewaySoftwareNow",
         Dict{String,Any}("GatewayArn" => GatewayArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_gateway_software_now(
@@ -947,7 +947,7 @@ function update_gateway_software_now(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -976,7 +976,7 @@ function update_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=global_a
         "UpdateHypervisor",
         Dict{String,Any}("HypervisorArn" => HypervisorArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_hypervisor(
@@ -990,6 +990,6 @@ function update_hypervisor(
             mergewith(_merge, Dict{String,Any}("HypervisorArn" => HypervisorArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

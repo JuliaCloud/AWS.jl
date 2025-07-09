@@ -29,7 +29,7 @@ function convert_recovery_point_to_snapshot(
             "recoveryPointId" => recoveryPointId, "snapshotName" => snapshotName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function convert_recovery_point_to_snapshot(
@@ -50,7 +50,7 @@ function convert_recovery_point_to_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -81,7 +81,7 @@ function create_custom_domain_association(
             "workgroupName" => workgroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_custom_domain_association(
@@ -105,7 +105,7 @@ function create_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -145,7 +145,7 @@ function create_endpoint_access(
             "workgroupName" => workgroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_endpoint_access(
@@ -169,7 +169,7 @@ function create_endpoint_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -212,7 +212,7 @@ function create_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aw
         "CreateNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_namespace(
@@ -226,7 +226,7 @@ function create_namespace(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -285,7 +285,7 @@ function create_scheduled_action(
             "targetAction" => targetAction,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scheduled_action(
@@ -313,7 +313,7 @@ function create_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -340,7 +340,7 @@ function create_snapshot(
         "CreateSnapshot",
         Dict{String,Any}("namespaceName" => namespaceName, "snapshotName" => snapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_snapshot(
@@ -361,7 +361,7 @@ function create_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -393,7 +393,7 @@ function create_snapshot_copy_configuration(
             "destinationRegion" => destinationRegion, "namespaceName" => namespaceName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_snapshot_copy_configuration(
@@ -415,7 +415,7 @@ function create_snapshot_copy_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -450,7 +450,7 @@ function create_usage_limit(
             "amount" => amount, "resourceArn" => resourceArn, "usageType" => usageType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_usage_limit(
@@ -474,7 +474,7 @@ function create_usage_limit(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -520,7 +520,7 @@ function create_workgroup(
             "namespaceName" => namespaceName, "workgroupName" => workgroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workgroup(
@@ -541,7 +541,7 @@ function create_workgroup(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -565,7 +565,7 @@ function delete_custom_domain_association(
             "customDomainName" => customDomainName, "workgroupName" => workgroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_custom_domain_association(
@@ -586,7 +586,7 @@ function delete_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -607,7 +607,7 @@ function delete_endpoint_access(
         "DeleteEndpointAccess",
         Dict{String,Any}("endpointName" => endpointName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_endpoint_access(
@@ -621,7 +621,7 @@ function delete_endpoint_access(
             mergewith(_merge, Dict{String,Any}("endpointName" => endpointName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -646,7 +646,7 @@ function delete_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aw
         "DeleteNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_namespace(
@@ -660,7 +660,7 @@ function delete_namespace(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +681,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -695,7 +695,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -716,7 +716,7 @@ function delete_scheduled_action(
         "DeleteScheduledAction",
         Dict{String,Any}("scheduledActionName" => scheduledActionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scheduled_action(
@@ -734,7 +734,7 @@ function delete_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +753,7 @@ function delete_snapshot(snapshotName; aws_config::AbstractAWSConfig=global_aws_
         "DeleteSnapshot",
         Dict{String,Any}("snapshotName" => snapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_snapshot(
@@ -767,7 +767,7 @@ function delete_snapshot(
             mergewith(_merge, Dict{String,Any}("snapshotName" => snapshotName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -788,7 +788,7 @@ function delete_snapshot_copy_configuration(
         "DeleteSnapshotCopyConfiguration",
         Dict{String,Any}("snapshotCopyConfigurationId" => snapshotCopyConfigurationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_snapshot_copy_configuration(
@@ -808,7 +808,7 @@ function delete_snapshot_copy_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -827,7 +827,7 @@ function delete_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=global_a
         "DeleteUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_usage_limit(
@@ -841,7 +841,7 @@ function delete_usage_limit(
             mergewith(_merge, Dict{String,Any}("usageLimitId" => usageLimitId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function delete_workgroup(workgroupName; aws_config::AbstractAWSConfig=global_aw
         "DeleteWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workgroup(
@@ -874,7 +874,7 @@ function delete_workgroup(
             mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,14 +907,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_credentials(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "GetCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_credentials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "GetCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -938,7 +938,7 @@ function get_custom_domain_association(
             "customDomainName" => customDomainName, "workgroupName" => workgroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_custom_domain_association(
@@ -959,7 +959,7 @@ function get_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -980,7 +980,7 @@ function get_endpoint_access(
         "GetEndpointAccess",
         Dict{String,Any}("endpointName" => endpointName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_endpoint_access(
@@ -994,7 +994,7 @@ function get_endpoint_access(
             mergewith(_merge, Dict{String,Any}("endpointName" => endpointName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1013,7 +1013,7 @@ function get_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_c
         "GetNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_namespace(
@@ -1027,7 +1027,7 @@ function get_namespace(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1049,7 +1049,7 @@ function get_recovery_point(
         "GetRecoveryPoint",
         Dict{String,Any}("recoveryPointId" => recoveryPointId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recovery_point(
@@ -1065,7 +1065,7 @@ function get_recovery_point(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1084,7 +1084,7 @@ function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_a
         "GetResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -1098,7 +1098,7 @@ function get_resource_policy(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1119,7 +1119,7 @@ function get_scheduled_action(
         "GetScheduledAction",
         Dict{String,Any}("scheduledActionName" => scheduledActionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_scheduled_action(
@@ -1137,7 +1137,7 @@ function get_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1156,14 +1156,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_snapshot(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "GetSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_snapshot(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "GetSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1185,7 +1185,7 @@ function get_table_restore_status(
         "GetTableRestoreStatus",
         Dict{String,Any}("tableRestoreRequestId" => tableRestoreRequestId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_table_restore_status(
@@ -1203,7 +1203,7 @@ function get_table_restore_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1222,7 +1222,7 @@ function get_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=global_aws_
         "GetUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_usage_limit(
@@ -1236,7 +1236,7 @@ function get_usage_limit(
             mergewith(_merge, Dict{String,Any}("usageLimitId" => usageLimitId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1255,7 +1255,7 @@ function get_workgroup(workgroupName; aws_config::AbstractAWSConfig=global_aws_c
         "GetWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workgroup(
@@ -1269,7 +1269,7 @@ function get_workgroup(
             mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1296,7 +1296,7 @@ function list_custom_domain_associations(;
     return redshift_serverless(
         "ListCustomDomainAssociations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_custom_domain_associations(
@@ -1306,7 +1306,7 @@ function list_custom_domain_associations(
         "ListCustomDomainAssociations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1331,14 +1331,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "ListEndpointAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEndpointAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1358,14 +1361,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1390,14 +1393,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_recovery_points(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListRecoveryPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecoveryPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_recovery_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "ListRecoveryPoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecoveryPoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1419,7 +1425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_scheduled_actions(
@@ -1429,7 +1435,7 @@ function list_scheduled_actions(
         "ListScheduledActions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1454,7 +1460,7 @@ function list_snapshot_copy_configurations(;
     return redshift_serverless(
         "ListSnapshotCopyConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_snapshot_copy_configurations(
@@ -1464,7 +1470,7 @@ function list_snapshot_copy_configurations(
         "ListSnapshotCopyConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1490,14 +1496,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "ListSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1521,7 +1527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_table_restore_status(
@@ -1531,7 +1537,7 @@ function list_table_restore_status(
         "ListTableRestoreStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1552,7 +1558,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1566,7 +1572,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1589,14 +1595,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_usage_limits(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_usage_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "ListUsageLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListUsageLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1618,14 +1624,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_workgroups(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "ListWorkgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWorkgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_workgroups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift_serverless(
-        "ListWorkgroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWorkgroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1652,7 +1658,7 @@ function put_resource_policy(
         "PutResourcePolicy",
         Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -1671,7 +1677,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1701,7 +1707,7 @@ function restore_from_recovery_point(
             "workgroupName" => workgroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_from_recovery_point(
@@ -1725,7 +1731,7 @@ function restore_from_recovery_point(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1765,7 +1771,7 @@ function restore_from_snapshot(
             "namespaceName" => namespaceName, "workgroupName" => workgroupName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_from_snapshot(
@@ -1786,7 +1792,7 @@ function restore_from_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1836,7 +1842,7 @@ function restore_table_from_recovery_point(
             "workgroupName" => workgroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_table_from_recovery_point(
@@ -1866,7 +1872,7 @@ function restore_table_from_recovery_point(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1916,7 +1922,7 @@ function restore_table_from_snapshot(
             "workgroupName" => workgroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_table_from_snapshot(
@@ -1946,7 +1952,7 @@ function restore_table_from_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1966,7 +1972,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1985,7 +1991,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2007,7 +2013,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2026,7 +2032,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2057,7 +2063,7 @@ function update_custom_domain_association(
             "workgroupName" => workgroupName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_custom_domain_association(
@@ -2081,7 +2087,7 @@ function update_custom_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2106,7 +2112,7 @@ function update_endpoint_access(
         "UpdateEndpointAccess",
         Dict{String,Any}("endpointName" => endpointName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_endpoint_access(
@@ -2120,7 +2126,7 @@ function update_endpoint_access(
             mergewith(_merge, Dict{String,Any}("endpointName" => endpointName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2165,7 +2171,7 @@ function update_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aw
         "UpdateNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_namespace(
@@ -2179,7 +2185,7 @@ function update_namespace(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2220,7 +2226,7 @@ function update_scheduled_action(
         "UpdateScheduledAction",
         Dict{String,Any}("scheduledActionName" => scheduledActionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_scheduled_action(
@@ -2238,7 +2244,7 @@ function update_scheduled_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2260,7 +2266,7 @@ function update_snapshot(snapshotName; aws_config::AbstractAWSConfig=global_aws_
         "UpdateSnapshot",
         Dict{String,Any}("snapshotName" => snapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_snapshot(
@@ -2274,7 +2280,7 @@ function update_snapshot(
             mergewith(_merge, Dict{String,Any}("snapshotName" => snapshotName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2299,7 +2305,7 @@ function update_snapshot_copy_configuration(
         "UpdateSnapshotCopyConfiguration",
         Dict{String,Any}("snapshotCopyConfigurationId" => snapshotCopyConfigurationId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_snapshot_copy_configuration(
@@ -2319,7 +2325,7 @@ function update_snapshot_copy_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2346,7 +2352,7 @@ function update_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=global_a
         "UpdateUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_usage_limit(
@@ -2360,7 +2366,7 @@ function update_usage_limit(
             mergewith(_merge, Dict{String,Any}("usageLimitId" => usageLimitId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2403,7 +2409,7 @@ function update_workgroup(workgroupName; aws_config::AbstractAWSConfig=global_aw
         "UpdateWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workgroup(
@@ -2417,6 +2423,6 @@ function update_workgroup(
             mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

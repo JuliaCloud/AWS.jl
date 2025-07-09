@@ -31,7 +31,7 @@ function put_audit_events(
         "/PutAuditEvents",
         Dict{String,Any}("auditEvents" => auditEvents, "channelArn" => channelArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_audit_events(
@@ -51,6 +51,6 @@ function put_audit_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

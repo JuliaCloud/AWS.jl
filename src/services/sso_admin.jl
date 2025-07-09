@@ -33,7 +33,7 @@ function attach_customer_managed_policy_reference_to_permission_set(
             "PermissionSetArn" => PermissionSetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function attach_customer_managed_policy_reference_to_permission_set(
@@ -57,7 +57,7 @@ function attach_customer_managed_policy_reference_to_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -94,7 +94,7 @@ function attach_managed_policy_to_permission_set(
             "PermissionSetArn" => PermissionSetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function attach_managed_policy_to_permission_set(
@@ -118,7 +118,7 @@ function attach_managed_policy_to_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -173,7 +173,7 @@ function create_account_assignment(
             "TargetType" => TargetType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_account_assignment(
@@ -203,7 +203,7 @@ function create_account_assignment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -252,7 +252,7 @@ function create_application(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application(
@@ -277,7 +277,7 @@ function create_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -310,7 +310,7 @@ function create_application_assignment(
             "PrincipalType" => PrincipalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_application_assignment(
@@ -334,7 +334,7 @@ function create_application_assignment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -367,7 +367,7 @@ function create_instance(; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateInstance",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_instance(
@@ -379,7 +379,7 @@ function create_instance(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -419,7 +419,7 @@ function create_instance_access_control_attribute_configuration(
             "InstanceArn" => InstanceArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_instance_access_control_attribute_configuration(
@@ -442,7 +442,7 @@ function create_instance_access_control_attribute_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -475,7 +475,7 @@ function create_permission_set(
         "CreatePermissionSet",
         Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_permission_set(
@@ -494,7 +494,7 @@ function create_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -547,7 +547,7 @@ function create_trusted_token_issuer(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_trusted_token_issuer(
@@ -574,7 +574,7 @@ function create_trusted_token_issuer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -621,7 +621,7 @@ function delete_account_assignment(
             "TargetType" => TargetType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_account_assignment(
@@ -651,7 +651,7 @@ function delete_account_assignment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -674,7 +674,7 @@ function delete_application(
         "DeleteApplication",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application(
@@ -688,7 +688,7 @@ function delete_application(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -710,7 +710,7 @@ function delete_application_access_scope(
         "DeleteApplicationAccessScope",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application_access_scope(
@@ -729,7 +729,7 @@ function delete_application_access_scope(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -763,7 +763,7 @@ function delete_application_assignment(
             "PrincipalType" => PrincipalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application_assignment(
@@ -787,7 +787,7 @@ function delete_application_assignment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -816,7 +816,7 @@ function delete_application_authentication_method(
             "AuthenticationMethodType" => AuthenticationMethodType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application_authentication_method(
@@ -838,7 +838,7 @@ function delete_application_authentication_method(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function delete_application_grant(
         "DeleteApplicationGrant",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "GrantType" => GrantType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_application_grant(
@@ -881,7 +881,7 @@ function delete_application_grant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,7 +907,7 @@ function delete_inline_policy_from_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_inline_policy_from_permission_set(
@@ -928,7 +928,7 @@ function delete_inline_policy_from_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -950,7 +950,7 @@ function delete_instance(InstanceArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteInstance",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_instance(
@@ -964,7 +964,7 @@ function delete_instance(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -990,7 +990,7 @@ function delete_instance_access_control_attribute_configuration(
         "DeleteInstanceAccessControlAttributeConfiguration",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_instance_access_control_attribute_configuration(
@@ -1004,7 +1004,7 @@ function delete_instance_access_control_attribute_configuration(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1030,7 +1030,7 @@ function delete_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_permission_set(
@@ -1051,7 +1051,7 @@ function delete_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1076,7 +1076,7 @@ function delete_permissions_boundary_from_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_permissions_boundary_from_permission_set(
@@ -1097,7 +1097,7 @@ function delete_permissions_boundary_from_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1121,7 +1121,7 @@ function delete_trusted_token_issuer(
         "DeleteTrustedTokenIssuer",
         Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_trusted_token_issuer(
@@ -1139,7 +1139,7 @@ function delete_trusted_token_issuer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,7 +1169,7 @@ function describe_account_assignment_creation_status(
             "InstanceArn" => InstanceArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_assignment_creation_status(
@@ -1192,7 +1192,7 @@ function describe_account_assignment_creation_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1222,7 +1222,7 @@ function describe_account_assignment_deletion_status(
             "InstanceArn" => InstanceArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_assignment_deletion_status(
@@ -1245,7 +1245,7 @@ function describe_account_assignment_deletion_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1268,7 +1268,7 @@ function describe_application(
         "DescribeApplication",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application(
@@ -1282,7 +1282,7 @@ function describe_application(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1320,7 +1320,7 @@ function describe_application_assignment(
             "PrincipalType" => PrincipalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application_assignment(
@@ -1344,7 +1344,7 @@ function describe_application_assignment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1367,7 +1367,7 @@ function describe_application_provider(
         "DescribeApplicationProvider",
         Dict{String,Any}("ApplicationProviderArn" => ApplicationProviderArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_application_provider(
@@ -1385,7 +1385,7 @@ function describe_application_provider(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1411,7 +1411,7 @@ function describe_instance(InstanceArn; aws_config::AbstractAWSConfig=global_aws
         "DescribeInstance",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_instance(
@@ -1425,7 +1425,7 @@ function describe_instance(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1451,7 +1451,7 @@ function describe_instance_access_control_attribute_configuration(
         "DescribeInstanceAccessControlAttributeConfiguration",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_instance_access_control_attribute_configuration(
@@ -1465,7 +1465,7 @@ function describe_instance_access_control_attribute_configuration(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1491,7 +1491,7 @@ function describe_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_permission_set(
@@ -1512,7 +1512,7 @@ function describe_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1542,7 +1542,7 @@ function describe_permission_set_provisioning_status(
             "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_permission_set_provisioning_status(
@@ -1564,7 +1564,7 @@ function describe_permission_set_provisioning_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1589,7 +1589,7 @@ function describe_trusted_token_issuer(
         "DescribeTrustedTokenIssuer",
         Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_trusted_token_issuer(
@@ -1607,7 +1607,7 @@ function describe_trusted_token_issuer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1640,7 +1640,7 @@ function detach_customer_managed_policy_reference_from_permission_set(
             "PermissionSetArn" => PermissionSetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detach_customer_managed_policy_reference_from_permission_set(
@@ -1664,7 +1664,7 @@ function detach_customer_managed_policy_reference_from_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1699,7 +1699,7 @@ function detach_managed_policy_from_permission_set(
             "PermissionSetArn" => PermissionSetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detach_managed_policy_from_permission_set(
@@ -1723,7 +1723,7 @@ function detach_managed_policy_from_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1746,7 +1746,7 @@ function get_application_access_scope(
         "GetApplicationAccessScope",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_access_scope(
@@ -1765,7 +1765,7 @@ function get_application_access_scope(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1788,7 +1788,7 @@ function get_application_assignment_configuration(
         "GetApplicationAssignmentConfiguration",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_assignment_configuration(
@@ -1802,7 +1802,7 @@ function get_application_assignment_configuration(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1830,7 +1830,7 @@ function get_application_authentication_method(
             "AuthenticationMethodType" => AuthenticationMethodType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_authentication_method(
@@ -1852,7 +1852,7 @@ function get_application_authentication_method(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1874,7 +1874,7 @@ function get_application_grant(
         "GetApplicationGrant",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "GrantType" => GrantType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_grant(
@@ -1895,7 +1895,7 @@ function get_application_grant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1921,7 +1921,7 @@ function get_inline_policy_for_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_inline_policy_for_permission_set(
@@ -1942,7 +1942,7 @@ function get_inline_policy_for_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1967,7 +1967,7 @@ function get_permissions_boundary_for_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_permissions_boundary_for_permission_set(
@@ -1988,7 +1988,7 @@ function get_permissions_boundary_for_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2018,7 +2018,7 @@ function list_account_assignment_creation_status(
         "ListAccountAssignmentCreationStatus",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_account_assignment_creation_status(
@@ -2032,7 +2032,7 @@ function list_account_assignment_creation_status(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2062,7 +2062,7 @@ function list_account_assignment_deletion_status(
         "ListAccountAssignmentDeletionStatus",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_account_assignment_deletion_status(
@@ -2076,7 +2076,7 @@ function list_account_assignment_deletion_status(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2115,7 +2115,7 @@ function list_account_assignments(
             "PermissionSetArn" => PermissionSetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_account_assignments(
@@ -2139,7 +2139,7 @@ function list_account_assignments(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2187,7 +2187,7 @@ function list_account_assignments_for_principal(
             "PrincipalType" => PrincipalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_account_assignments_for_principal(
@@ -2211,7 +2211,7 @@ function list_account_assignments_for_principal(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2246,7 +2246,7 @@ function list_accounts_for_provisioned_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_accounts_for_provisioned_permission_set(
@@ -2267,7 +2267,7 @@ function list_accounts_for_provisioned_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2301,7 +2301,7 @@ function list_application_access_scopes(
         "ListApplicationAccessScopes",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_access_scopes(
@@ -2315,7 +2315,7 @@ function list_application_access_scopes(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2349,7 +2349,7 @@ function list_application_assignments(
         "ListApplicationAssignments",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_assignments(
@@ -2363,7 +2363,7 @@ function list_application_assignments(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2411,7 +2411,7 @@ function list_application_assignments_for_principal(
             "PrincipalType" => PrincipalType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_assignments_for_principal(
@@ -2435,7 +2435,7 @@ function list_application_assignments_for_principal(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2463,7 +2463,7 @@ function list_application_authentication_methods(
         "ListApplicationAuthenticationMethods",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_authentication_methods(
@@ -2477,7 +2477,7 @@ function list_application_authentication_methods(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2504,7 +2504,7 @@ function list_application_grants(
         "ListApplicationGrants",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_application_grants(
@@ -2518,7 +2518,7 @@ function list_application_grants(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2544,7 +2544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_application_providers(; aws_config::AbstractAWSConfig=global_aws_config())
     return sso_admin(
-        "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_application_providers(
@@ -2554,7 +2554,7 @@ function list_application_providers(
         "ListApplicationProviders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2592,7 +2592,7 @@ function list_applications(InstanceArn; aws_config::AbstractAWSConfig=global_aws
         "ListApplications",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_applications(
@@ -2606,7 +2606,7 @@ function list_applications(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2636,7 +2636,7 @@ function list_customer_managed_policy_references_in_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_customer_managed_policy_references_in_permission_set(
@@ -2657,7 +2657,7 @@ function list_customer_managed_policy_references_in_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2676,14 +2676,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     return sso_admin(
-        "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sso_admin(
-        "ListInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2714,7 +2714,7 @@ function list_managed_policies_in_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_managed_policies_in_permission_set(
@@ -2735,7 +2735,7 @@ function list_managed_policies_in_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2765,7 +2765,7 @@ function list_permission_set_provisioning_status(
         "ListPermissionSetProvisioningStatus",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_permission_set_provisioning_status(
@@ -2779,7 +2779,7 @@ function list_permission_set_provisioning_status(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2807,7 +2807,7 @@ function list_permission_sets(
         "ListPermissionSets",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_permission_sets(
@@ -2821,7 +2821,7 @@ function list_permission_sets(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2853,7 +2853,7 @@ function list_permission_sets_provisioned_to_account(
         "ListPermissionSetsProvisionedToAccount",
         Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_permission_sets_provisioned_to_account(
@@ -2872,7 +2872,7 @@ function list_permission_sets_provisioned_to_account(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2900,7 +2900,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2914,7 +2914,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2949,7 +2949,7 @@ function list_trusted_token_issuers(
         "ListTrustedTokenIssuers",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_trusted_token_issuers(
@@ -2963,7 +2963,7 @@ function list_trusted_token_issuers(
             mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2999,7 +2999,7 @@ function provision_permission_set(
             "TargetType" => TargetType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function provision_permission_set(
@@ -3023,7 +3023,7 @@ function provision_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3052,7 +3052,7 @@ function put_application_access_scope(
         "PutApplicationAccessScope",
         Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_application_access_scope(
@@ -3071,7 +3071,7 @@ function put_application_access_scope(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3103,7 +3103,7 @@ function put_application_assignment_configuration(
             "ApplicationArn" => ApplicationArn, "AssignmentRequired" => AssignmentRequired
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_application_assignment_configuration(
@@ -3125,7 +3125,7 @@ function put_application_assignment_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3159,7 +3159,7 @@ function put_application_authentication_method(
             "AuthenticationMethodType" => AuthenticationMethodType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_application_authentication_method(
@@ -3183,7 +3183,7 @@ function put_application_authentication_method(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3208,7 +3208,7 @@ function put_application_grant(
             "ApplicationArn" => ApplicationArn, "Grant" => Grant, "GrantType" => GrantType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_application_grant(
@@ -3232,7 +3232,7 @@ function put_application_grant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3266,7 +3266,7 @@ function put_inline_policy_to_permission_set(
             "PermissionSetArn" => PermissionSetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_inline_policy_to_permission_set(
@@ -3290,7 +3290,7 @@ function put_inline_policy_to_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3323,7 +3323,7 @@ function put_permissions_boundary_to_permission_set(
             "PermissionsBoundary" => PermissionsBoundary,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_permissions_boundary_to_permission_set(
@@ -3347,7 +3347,7 @@ function put_permissions_boundary_to_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3372,7 +3372,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3391,7 +3391,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3418,7 +3418,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3437,7 +3437,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3467,7 +3467,7 @@ function update_application(
         "UpdateApplication",
         Dict{String,Any}("ApplicationArn" => ApplicationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application(
@@ -3481,7 +3481,7 @@ function update_application(
             mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3506,7 +3506,7 @@ function update_instance(
         "UpdateInstance",
         Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_instance(
@@ -3525,7 +3525,7 @@ function update_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3561,7 +3561,7 @@ function update_instance_access_control_attribute_configuration(
             "InstanceArn" => InstanceArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_instance_access_control_attribute_configuration(
@@ -3584,7 +3584,7 @@ function update_instance_access_control_attribute_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3617,7 +3617,7 @@ function update_permission_set(
             "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_permission_set(
@@ -3638,7 +3638,7 @@ function update_permission_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3670,7 +3670,7 @@ function update_trusted_token_issuer(
         "UpdateTrustedTokenIssuer",
         Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_trusted_token_issuer(
@@ -3688,6 +3688,6 @@ function update_trusted_token_issuer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

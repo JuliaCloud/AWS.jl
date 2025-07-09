@@ -28,7 +28,7 @@ function add_lftags_to_resource(
         "/AddLFTagsToResource",
         Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_lftags_to_resource(
@@ -46,7 +46,7 @@ function add_lftags_to_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -93,7 +93,7 @@ function assume_decorated_role_with_saml(
             "SAMLAssertion" => SAMLAssertion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function assume_decorated_role_with_saml(
@@ -118,7 +118,7 @@ function assume_decorated_role_with_saml(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -144,7 +144,7 @@ function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_a
         "/BatchGrantPermissions",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_grant_permissions(
@@ -155,7 +155,7 @@ function batch_grant_permissions(
         "/BatchGrantPermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -183,7 +183,7 @@ function batch_revoke_permissions(
         "/BatchRevokePermissions",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_revoke_permissions(
@@ -194,7 +194,7 @@ function batch_revoke_permissions(
         "/BatchRevokePermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -217,7 +217,7 @@ function cancel_transaction(
         "/CancelTransaction",
         Dict{String,Any}("TransactionId" => TransactionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_transaction(
@@ -232,7 +232,7 @@ function cancel_transaction(
             mergewith(_merge, Dict{String,Any}("TransactionId" => TransactionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -256,7 +256,7 @@ function commit_transaction(
         "/CommitTransaction",
         Dict{String,Any}("TransactionId" => TransactionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function commit_transaction(
@@ -271,7 +271,7 @@ function commit_transaction(
             mergewith(_merge, Dict{String,Any}("TransactionId" => TransactionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -294,7 +294,7 @@ function create_data_cells_filter(
         "/CreateDataCellsFilter",
         Dict{String,Any}("TableData" => TableData);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_cells_filter(
@@ -309,7 +309,7 @@ function create_data_cells_filter(
             mergewith(_merge, Dict{String,Any}("TableData" => TableData), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -344,7 +344,7 @@ function create_lake_formation_identity_center_configuration(;
         "POST",
         "/CreateLakeFormationIdentityCenterConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_lake_formation_identity_center_configuration(
@@ -355,7 +355,7 @@ function create_lake_formation_identity_center_configuration(
         "/CreateLakeFormationIdentityCenterConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -378,7 +378,7 @@ function create_lake_formation_opt_in(
         "/CreateLakeFormationOptIn",
         Dict{String,Any}("Principal" => Principal, "Resource" => Resource);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_lake_formation_opt_in(
@@ -398,7 +398,7 @@ function create_lake_formation_opt_in(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -424,7 +424,7 @@ function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aw
         "/CreateLFTag",
         Dict{String,Any}("TagKey" => TagKey, "TagValues" => TagValues);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_lftag(
@@ -444,7 +444,7 @@ function create_lftag(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -466,7 +466,7 @@ function delete_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/DeleteDataCellsFilter";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_cells_filter(
@@ -477,7 +477,7 @@ function delete_data_cells_filter(
         "/DeleteDataCellsFilter",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -501,7 +501,7 @@ function delete_lake_formation_identity_center_configuration(;
         "POST",
         "/DeleteLakeFormationIdentityCenterConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_lake_formation_identity_center_configuration(
@@ -512,7 +512,7 @@ function delete_lake_formation_identity_center_configuration(
         "/DeleteLakeFormationIdentityCenterConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -536,7 +536,7 @@ function delete_lake_formation_opt_in(
         "/DeleteLakeFormationOptIn",
         Dict{String,Any}("Principal" => Principal, "Resource" => Resource);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_lake_formation_opt_in(
@@ -556,7 +556,7 @@ function delete_lake_formation_opt_in(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -585,7 +585,7 @@ function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteLFTag",
         Dict{String,Any}("TagKey" => TagKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_lftag(
@@ -596,7 +596,7 @@ function delete_lftag(
         "/DeleteLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -640,7 +640,7 @@ function delete_objects_on_cancel(
             "TransactionId" => TransactionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_objects_on_cancel(
@@ -667,7 +667,7 @@ function delete_objects_on_cancel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -689,7 +689,7 @@ function deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_a
         "/DeregisterResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_resource(
@@ -704,7 +704,7 @@ function deregister_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -727,7 +727,7 @@ function describe_lake_formation_identity_center_configuration(;
         "POST",
         "/DescribeLakeFormationIdentityCenterConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_lake_formation_identity_center_configuration(
@@ -738,7 +738,7 @@ function describe_lake_formation_identity_center_configuration(
         "/DescribeLakeFormationIdentityCenterConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -758,7 +758,7 @@ function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws
         "/DescribeResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_resource(
@@ -773,7 +773,7 @@ function describe_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -795,7 +795,7 @@ function describe_transaction(
         "/DescribeTransaction",
         Dict{String,Any}("TransactionId" => TransactionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_transaction(
@@ -810,7 +810,7 @@ function describe_transaction(
             mergewith(_merge, Dict{String,Any}("TransactionId" => TransactionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -828,7 +828,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function extend_transaction(; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "POST", "/ExtendTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ExtendTransaction";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function extend_transaction(
@@ -839,7 +842,7 @@ function extend_transaction(
         "/ExtendTransaction",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -873,7 +876,7 @@ function get_data_cells_filter(
             "TableName" => TableName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_cells_filter(
@@ -900,7 +903,7 @@ function get_data_cells_filter(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +919,7 @@ function get_data_lake_principal(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/GetDataLakePrincipal";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_lake_principal(
@@ -927,7 +930,7 @@ function get_data_lake_principal(
         "/GetDataLakePrincipal",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -948,7 +951,7 @@ function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/GetDataLakeSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_lake_settings(
@@ -959,7 +962,7 @@ function get_data_lake_settings(
         "/GetDataLakeSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -991,7 +994,7 @@ function get_effective_permissions_for_path(
         "/GetEffectivePermissionsForPath",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_effective_permissions_for_path(
@@ -1006,7 +1009,7 @@ function get_effective_permissions_for_path(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1031,7 +1034,7 @@ function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetLFTag",
         Dict{String,Any}("TagKey" => TagKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lftag(
@@ -1042,7 +1045,7 @@ function get_lftag(
         "/GetLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1065,7 +1068,7 @@ function get_query_state(QueryId; aws_config::AbstractAWSConfig=global_aws_confi
         "/GetQueryState",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_state(
@@ -1076,7 +1079,7 @@ function get_query_state(
         "/GetQueryState",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1096,7 +1099,7 @@ function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=global_aws_
         "/GetQueryStatistics",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_statistics(
@@ -1107,7 +1110,7 @@ function get_query_statistics(
         "/GetQueryStatistics",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1133,7 +1136,7 @@ function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_
         "/GetResourceLFTags",
         Dict{String,Any}("Resource" => Resource);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_lftags(
@@ -1148,7 +1151,7 @@ function get_resource_lftags(
             mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1190,7 +1193,7 @@ function get_table_objects(
         "/GetTableObjects",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_table_objects(
@@ -1210,7 +1213,7 @@ function get_table_objects(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1246,7 +1249,7 @@ function get_temporary_glue_partition_credentials(
         "/GetTemporaryGluePartitionCredentials",
         Dict{String,Any}("Partition" => Partition, "TableArn" => TableArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_temporary_glue_partition_credentials(
@@ -1266,7 +1269,7 @@ function get_temporary_glue_partition_credentials(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1306,7 +1309,7 @@ function get_temporary_glue_table_credentials(
         "/GetTemporaryGlueTableCredentials",
         Dict{String,Any}("TableArn" => TableArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_temporary_glue_table_credentials(
@@ -1321,7 +1324,7 @@ function get_temporary_glue_table_credentials(
             mergewith(_merge, Dict{String,Any}("TableArn" => TableArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1353,7 +1356,7 @@ function get_work_unit_results(
             "WorkUnitToken" => WorkUnitToken,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_work_unit_results(
@@ -1378,7 +1381,7 @@ function get_work_unit_results(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1405,7 +1408,7 @@ function get_work_units(QueryId; aws_config::AbstractAWSConfig=global_aws_config
         "/GetWorkUnits",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_work_units(
@@ -1416,7 +1419,7 @@ function get_work_units(
         "/GetWorkUnits",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1460,7 +1463,7 @@ function grant_permissions(
             "Permissions" => Permissions, "Principal" => Principal, "Resource" => Resource
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function grant_permissions(
@@ -1485,7 +1488,7 @@ function grant_permissions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1506,7 +1509,7 @@ function list_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/ListDataCellsFilter";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_cells_filter(
@@ -1517,7 +1520,7 @@ function list_data_cells_filter(
         "/ListDataCellsFilter",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1540,7 +1543,7 @@ function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/ListLakeFormationOptIns";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lake_formation_opt_ins(
@@ -1551,7 +1554,7 @@ function list_lake_formation_opt_ins(
         "/ListLakeFormationOptIns",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1575,7 +1578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_lftags(; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "POST", "/ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_lftags(
@@ -1586,7 +1589,7 @@ function list_lftags(
         "/ListLFTags",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1616,7 +1619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "POST", "/ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_permissions(
@@ -1627,7 +1630,7 @@ function list_permissions(
         "/ListPermissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1647,7 +1650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_resources(; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "POST", "/ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_resources(
@@ -1658,7 +1661,7 @@ function list_resources(
         "/ListResources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1688,7 +1691,7 @@ function list_table_storage_optimizers(
         "/ListTableStorageOptimizers",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_table_storage_optimizers(
@@ -1708,7 +1711,7 @@ function list_table_storage_optimizers(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1733,7 +1736,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_transactions(; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "POST", "/ListTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListTransactions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_transactions(
@@ -1744,7 +1750,7 @@ function list_transactions(
         "/ListTransactions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1776,7 +1782,7 @@ function put_data_lake_settings(
         "/PutDataLakeSettings",
         Dict{String,Any}("DataLakeSettings" => DataLakeSettings);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_data_lake_settings(
@@ -1793,7 +1799,7 @@ function put_data_lake_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1834,7 +1840,7 @@ function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws
         "/RegisterResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_resource(
@@ -1849,7 +1855,7 @@ function register_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1879,7 +1885,7 @@ function remove_lftags_from_resource(
         "/RemoveLFTagsFromResource",
         Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_lftags_from_resource(
@@ -1897,7 +1903,7 @@ function remove_lftags_from_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1932,7 +1938,7 @@ function revoke_permissions(
             "Permissions" => Permissions, "Principal" => Principal, "Resource" => Resource
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function revoke_permissions(
@@ -1957,7 +1963,7 @@ function revoke_permissions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1989,7 +1995,7 @@ function search_databases_by_lftags(
         "/SearchDatabasesByLFTags",
         Dict{String,Any}("Expression" => Expression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_databases_by_lftags(
@@ -2004,7 +2010,7 @@ function search_databases_by_lftags(
             mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2036,7 +2042,7 @@ function search_tables_by_lftags(
         "/SearchTablesByLFTags",
         Dict{String,Any}("Expression" => Expression);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_tables_by_lftags(
@@ -2051,7 +2057,7 @@ function search_tables_by_lftags(
             mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2078,7 +2084,7 @@ function start_query_planning(
             "QueryPlanningContext" => QueryPlanningContext, "QueryString" => QueryString
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_query_planning(
@@ -2101,7 +2107,7 @@ function start_query_planning(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2120,7 +2126,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function start_transaction(; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "POST", "/StartTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/StartTransaction";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_transaction(
@@ -2131,7 +2140,7 @@ function start_transaction(
         "/StartTransaction",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2154,7 +2163,7 @@ function update_data_cells_filter(
         "/UpdateDataCellsFilter",
         Dict{String,Any}("TableData" => TableData);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_cells_filter(
@@ -2169,7 +2178,7 @@ function update_data_cells_filter(
             mergewith(_merge, Dict{String,Any}("TableData" => TableData), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2203,7 +2212,7 @@ function update_lake_formation_identity_center_configuration(;
         "POST",
         "/UpdateLakeFormationIdentityCenterConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_lake_formation_identity_center_configuration(
@@ -2214,7 +2223,7 @@ function update_lake_formation_identity_center_configuration(
         "/UpdateLakeFormationIdentityCenterConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2245,7 +2254,7 @@ function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
         "/UpdateLFTag",
         Dict{String,Any}("TagKey" => TagKey);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_lftag(
@@ -2256,7 +2265,7 @@ function update_lftag(
         "/UpdateLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2286,7 +2295,7 @@ function update_resource(
         "/UpdateResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "RoleArn" => RoleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_resource(
@@ -2306,7 +2315,7 @@ function update_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2343,7 +2352,7 @@ function update_table_objects(
             "WriteOperations" => WriteOperations,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_table_objects(
@@ -2368,7 +2377,7 @@ function update_table_objects(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2402,7 +2411,7 @@ function update_table_storage_optimizer(
             "TableName" => TableName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_table_storage_optimizer(
@@ -2427,6 +2436,6 @@ function update_table_storage_optimizer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

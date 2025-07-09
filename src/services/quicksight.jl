@@ -23,7 +23,7 @@ function cancel_ingestion(
         "DELETE",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_ingestion(
@@ -38,7 +38,7 @@ function cancel_ingestion(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -85,7 +85,7 @@ function create_account_customization(
         "/accounts/$(AwsAccountId)/customizations",
         Dict{String,Any}("AccountCustomization" => AccountCustomization);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_account_customization(
@@ -105,7 +105,7 @@ function create_account_customization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -228,7 +228,7 @@ function create_account_subscription(
             "NotificationEmail" => NotificationEmail,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_account_subscription(
@@ -254,7 +254,7 @@ function create_account_subscription(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -306,7 +306,7 @@ function create_analysis(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_analysis(
@@ -321,7 +321,7 @@ function create_analysis(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -397,7 +397,7 @@ function create_dashboard(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dashboard(
@@ -412,7 +412,7 @@ function create_dashboard(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -472,7 +472,7 @@ function create_data_set(
             "PhysicalTableMap" => PhysicalTableMap,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_set(
@@ -500,7 +500,7 @@ function create_data_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -547,7 +547,7 @@ function create_data_source(
         "/accounts/$(AwsAccountId)/data-sources",
         Dict{String,Any}("DataSourceId" => DataSourceId, "Name" => Name, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_source(
@@ -571,7 +571,7 @@ function create_data_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -605,7 +605,7 @@ function create_folder(
         "POST",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_folder(
@@ -619,7 +619,7 @@ function create_folder(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -647,7 +647,7 @@ function create_folder_membership(
         "PUT",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_folder_membership(
@@ -663,7 +663,7 @@ function create_folder_membership(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -696,7 +696,7 @@ function create_group(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
         Dict{String,Any}("GroupName" => GroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_group(
@@ -713,7 +713,7 @@ function create_group(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -743,7 +743,7 @@ function create_group_membership(
         "PUT",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_group_membership(
@@ -759,7 +759,7 @@ function create_group_membership(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -804,7 +804,7 @@ function create_iampolicy_assignment(
             "AssignmentName" => AssignmentName, "AssignmentStatus" => AssignmentStatus
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_iampolicy_assignment(
@@ -829,7 +829,7 @@ function create_iampolicy_assignment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -862,7 +862,7 @@ function create_ingestion(
         "PUT",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_ingestion(
@@ -877,7 +877,7 @@ function create_ingestion(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +916,7 @@ function create_namespace(
         "/accounts/$(AwsAccountId)",
         Dict{String,Any}("IdentityStore" => IdentityStore, "Namespace" => Namespace);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_namespace(
@@ -939,7 +939,7 @@ function create_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -964,7 +964,7 @@ function create_refresh_schedule(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
         Dict{String,Any}("Schedule" => Schedule);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_refresh_schedule(
@@ -981,7 +981,7 @@ function create_refresh_schedule(
             mergewith(_merge, Dict{String,Any}("Schedule" => Schedule), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1011,7 +1011,7 @@ function create_role_membership(
         "POST",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/members/$(MemberName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_role_membership(
@@ -1027,7 +1027,7 @@ function create_role_membership(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/members/$(MemberName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1083,7 +1083,7 @@ function create_template(
         "POST",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_template(
@@ -1097,7 +1097,7 @@ function create_template(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1129,7 +1129,7 @@ function create_template_alias(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
         Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_template_alias(
@@ -1151,7 +1151,7 @@ function create_template_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1198,7 +1198,7 @@ function create_theme(
             "BaseThemeId" => BaseThemeId, "Configuration" => Configuration, "Name" => Name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_theme(
@@ -1225,7 +1225,7 @@ function create_theme(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1257,7 +1257,7 @@ function create_theme_alias(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
         Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_theme_alias(
@@ -1277,7 +1277,7 @@ function create_theme_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1307,7 +1307,7 @@ function create_topic(
         "/accounts/$(AwsAccountId)/topics",
         Dict{String,Any}("Topic" => Topic, "TopicId" => TopicId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_topic(
@@ -1326,7 +1326,7 @@ function create_topic(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1360,7 +1360,7 @@ function create_topic_refresh_schedule(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules",
         Dict{String,Any}("DatasetArn" => DatasetArn, "RefreshSchedule" => RefreshSchedule);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_topic_refresh_schedule(
@@ -1384,7 +1384,7 @@ function create_topic_refresh_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1430,7 +1430,7 @@ function create_vpcconnection(
             "VPCConnectionId" => VPCConnectionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vpcconnection(
@@ -1460,7 +1460,7 @@ function create_vpcconnection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1487,7 +1487,7 @@ function delete_account_customization(
         "DELETE",
         "/accounts/$(AwsAccountId)/customizations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_account_customization(
@@ -1500,7 +1500,7 @@ function delete_account_customization(
         "/accounts/$(AwsAccountId)/customizations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1526,7 +1526,7 @@ function delete_account_subscription(
         "DELETE",
         "/account/$(AwsAccountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_account_subscription(
@@ -1539,7 +1539,7 @@ function delete_account_subscription(
         "/account/$(AwsAccountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1580,7 +1580,7 @@ function delete_analysis(
         "DELETE",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_analysis(
@@ -1594,7 +1594,7 @@ function delete_analysis(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1621,7 +1621,7 @@ function delete_dashboard(
         "DELETE",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dashboard(
@@ -1635,7 +1635,7 @@ function delete_dashboard(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1658,7 +1658,7 @@ function delete_data_set(
         "DELETE",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_set(
@@ -1672,7 +1672,7 @@ function delete_data_set(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1694,7 +1694,7 @@ function delete_data_set_refresh_properties(
         "DELETE",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_set_refresh_properties(
@@ -1708,7 +1708,7 @@ function delete_data_set_refresh_properties(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1732,7 +1732,7 @@ function delete_data_source(
         "DELETE",
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_data_source(
@@ -1746,7 +1746,7 @@ function delete_data_source(
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1768,7 +1768,7 @@ function delete_folder(
         "DELETE",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_folder(
@@ -1782,7 +1782,7 @@ function delete_folder(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1810,7 +1810,7 @@ function delete_folder_membership(
         "DELETE",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_folder_membership(
@@ -1826,7 +1826,7 @@ function delete_folder_membership(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1851,7 +1851,7 @@ function delete_group(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_group(
@@ -1866,7 +1866,7 @@ function delete_group(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1896,7 +1896,7 @@ function delete_group_membership(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_group_membership(
@@ -1912,7 +1912,7 @@ function delete_group_membership(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1939,7 +1939,7 @@ function delete_iampolicy_assignment(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_iampolicy_assignment(
@@ -1954,7 +1954,7 @@ function delete_iampolicy_assignment(
         "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1980,7 +1980,7 @@ function delete_identity_propagation_config(
         "DELETE",
         "/accounts/$(AwsAccountId)/identity-propagation-config/$(Service)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_identity_propagation_config(
@@ -1994,7 +1994,7 @@ function delete_identity_propagation_config(
         "/accounts/$(AwsAccountId)/identity-propagation-config/$(Service)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2020,7 +2020,7 @@ function delete_namespace(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_namespace(
@@ -2034,7 +2034,7 @@ function delete_namespace(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2057,7 +2057,7 @@ function delete_refresh_schedule(
         "DELETE",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_refresh_schedule(
@@ -2072,7 +2072,7 @@ function delete_refresh_schedule(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2097,7 +2097,7 @@ function delete_role_custom_permission(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/custom-permission";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_role_custom_permission(
@@ -2112,7 +2112,7 @@ function delete_role_custom_permission(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/custom-permission",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2142,7 +2142,7 @@ function delete_role_membership(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/members/$(MemberName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_role_membership(
@@ -2158,7 +2158,7 @@ function delete_role_membership(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/members/$(MemberName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2185,7 +2185,7 @@ function delete_template(
         "DELETE",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_template(
@@ -2199,7 +2199,7 @@ function delete_template(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2226,7 +2226,7 @@ function delete_template_alias(
         "DELETE",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_template_alias(
@@ -2241,7 +2241,7 @@ function delete_template_alias(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2269,7 +2269,7 @@ function delete_theme(
         "DELETE",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_theme(
@@ -2283,7 +2283,7 @@ function delete_theme(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2308,7 +2308,7 @@ function delete_theme_alias(
         "DELETE",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_theme_alias(
@@ -2323,7 +2323,7 @@ function delete_theme_alias(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2347,7 +2347,7 @@ function delete_topic(
         "DELETE",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_topic(
@@ -2361,7 +2361,7 @@ function delete_topic(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2385,7 +2385,7 @@ function delete_topic_refresh_schedule(
         "DELETE",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_topic_refresh_schedule(
@@ -2400,7 +2400,7 @@ function delete_topic_refresh_schedule(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2426,7 +2426,7 @@ function delete_user(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user(
@@ -2441,7 +2441,7 @@ function delete_user(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2466,7 +2466,7 @@ function delete_user_by_principal_id(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user_by_principal_id(
@@ -2481,7 +2481,7 @@ function delete_user_by_principal_id(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2505,7 +2505,7 @@ function delete_vpcconnection(
         "DELETE",
         "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vpcconnection(
@@ -2519,7 +2519,7 @@ function delete_vpcconnection(
         "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2579,7 +2579,7 @@ function describe_account_customization(
         "GET",
         "/accounts/$(AwsAccountId)/customizations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_customization(
@@ -2592,7 +2592,7 @@ function describe_account_customization(
         "/accounts/$(AwsAccountId)/customizations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2615,7 +2615,7 @@ function describe_account_settings(
         "GET",
         "/accounts/$(AwsAccountId)/settings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_settings(
@@ -2628,7 +2628,7 @@ function describe_account_settings(
         "/accounts/$(AwsAccountId)/settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2653,7 +2653,7 @@ function describe_account_subscription(
         "GET",
         "/account/$(AwsAccountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_account_subscription(
@@ -2666,7 +2666,7 @@ function describe_account_subscription(
         "/account/$(AwsAccountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2690,7 +2690,7 @@ function describe_analysis(
         "GET",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_analysis(
@@ -2704,7 +2704,7 @@ function describe_analysis(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2730,7 +2730,7 @@ function describe_analysis_definition(
         "GET",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/definition";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_analysis_definition(
@@ -2744,7 +2744,7 @@ function describe_analysis_definition(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/definition",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2769,7 +2769,7 @@ function describe_analysis_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_analysis_permissions(
@@ -2783,7 +2783,7 @@ function describe_analysis_permissions(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2811,7 +2811,7 @@ function describe_asset_bundle_export_job(
         "GET",
         "/accounts/$(AwsAccountId)/asset-bundle-export-jobs/$(AssetBundleExportJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset_bundle_export_job(
@@ -2825,7 +2825,7 @@ function describe_asset_bundle_export_job(
         "/accounts/$(AwsAccountId)/asset-bundle-export-jobs/$(AssetBundleExportJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2850,7 +2850,7 @@ function describe_asset_bundle_import_job(
         "GET",
         "/accounts/$(AwsAccountId)/asset-bundle-import-jobs/$(AssetBundleImportJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_asset_bundle_import_job(
@@ -2864,7 +2864,7 @@ function describe_asset_bundle_import_job(
         "/accounts/$(AwsAccountId)/asset-bundle-import-jobs/$(AssetBundleImportJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2892,7 +2892,7 @@ function describe_dashboard(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dashboard(
@@ -2906,7 +2906,7 @@ function describe_dashboard(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2936,7 +2936,7 @@ function describe_dashboard_definition(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/definition";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dashboard_definition(
@@ -2950,7 +2950,7 @@ function describe_dashboard_definition(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/definition",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2973,7 +2973,7 @@ function describe_dashboard_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dashboard_permissions(
@@ -2987,7 +2987,7 @@ function describe_dashboard_permissions(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3016,7 +3016,7 @@ function describe_dashboard_snapshot_job(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/snapshot-jobs/$(SnapshotJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dashboard_snapshot_job(
@@ -3031,7 +3031,7 @@ function describe_dashboard_snapshot_job(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/snapshot-jobs/$(SnapshotJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3063,7 +3063,7 @@ function describe_dashboard_snapshot_job_result(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/snapshot-jobs/$(SnapshotJobId)/result";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dashboard_snapshot_job_result(
@@ -3078,7 +3078,7 @@ function describe_dashboard_snapshot_job_result(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/snapshot-jobs/$(SnapshotJobId)/result",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3102,7 +3102,7 @@ function describe_data_set(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_set(
@@ -3116,7 +3116,7 @@ function describe_data_set(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3140,7 +3140,7 @@ function describe_data_set_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_set_permissions(
@@ -3154,7 +3154,7 @@ function describe_data_set_permissions(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3176,7 +3176,7 @@ function describe_data_set_refresh_properties(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_set_refresh_properties(
@@ -3190,7 +3190,7 @@ function describe_data_set_refresh_properties(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3213,7 +3213,7 @@ function describe_data_source(
         "GET",
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_source(
@@ -3227,7 +3227,7 @@ function describe_data_source(
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3250,7 +3250,7 @@ function describe_data_source_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_data_source_permissions(
@@ -3264,7 +3264,7 @@ function describe_data_source_permissions(
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3286,7 +3286,7 @@ function describe_folder(
         "GET",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_folder(
@@ -3300,7 +3300,7 @@ function describe_folder(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3327,7 +3327,7 @@ function describe_folder_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_folder_permissions(
@@ -3341,7 +3341,7 @@ function describe_folder_permissions(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3369,7 +3369,7 @@ function describe_folder_resolved_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_folder_resolved_permissions(
@@ -3383,7 +3383,7 @@ function describe_folder_resolved_permissions(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3408,7 +3408,7 @@ function describe_group(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_group(
@@ -3423,7 +3423,7 @@ function describe_group(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3455,7 +3455,7 @@ function describe_group_membership(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_group_membership(
@@ -3471,7 +3471,7 @@ function describe_group_membership(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3498,7 +3498,7 @@ function describe_iampolicy_assignment(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_iampolicy_assignment(
@@ -3513,7 +3513,7 @@ function describe_iampolicy_assignment(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3536,7 +3536,7 @@ function describe_ingestion(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_ingestion(
@@ -3551,7 +3551,7 @@ function describe_ingestion(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3572,7 +3572,7 @@ function describe_ip_restriction(
         "GET",
         "/accounts/$(AwsAccountId)/ip-restriction";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_ip_restriction(
@@ -3585,7 +3585,7 @@ function describe_ip_restriction(
         "/accounts/$(AwsAccountId)/ip-restriction",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3610,7 +3610,7 @@ function describe_key_registration(
         "GET",
         "/accounts/$(AwsAccountId)/key-registration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_key_registration(
@@ -3623,7 +3623,7 @@ function describe_key_registration(
         "/accounts/$(AwsAccountId)/key-registration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3646,7 +3646,7 @@ function describe_namespace(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_namespace(
@@ -3660,7 +3660,7 @@ function describe_namespace(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3683,7 +3683,7 @@ function describe_refresh_schedule(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_refresh_schedule(
@@ -3698,7 +3698,7 @@ function describe_refresh_schedule(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3723,7 +3723,7 @@ function describe_role_custom_permission(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/custom-permission";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_role_custom_permission(
@@ -3738,7 +3738,7 @@ function describe_role_custom_permission(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/custom-permission",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3769,7 +3769,7 @@ function describe_template(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_template(
@@ -3783,7 +3783,7 @@ function describe_template(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3810,7 +3810,7 @@ function describe_template_alias(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_template_alias(
@@ -3825,7 +3825,7 @@ function describe_template_alias(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3857,7 +3857,7 @@ function describe_template_definition(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/definition";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_template_definition(
@@ -3871,7 +3871,7 @@ function describe_template_definition(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/definition",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3894,7 +3894,7 @@ function describe_template_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_template_permissions(
@@ -3908,7 +3908,7 @@ function describe_template_permissions(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3939,7 +3939,7 @@ function describe_theme(
         "GET",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_theme(
@@ -3953,7 +3953,7 @@ function describe_theme(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3977,7 +3977,7 @@ function describe_theme_alias(
         "GET",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_theme_alias(
@@ -3992,7 +3992,7 @@ function describe_theme_alias(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4015,7 +4015,7 @@ function describe_theme_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_theme_permissions(
@@ -4029,7 +4029,7 @@ function describe_theme_permissions(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4052,7 +4052,7 @@ function describe_topic(
         "GET",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_topic(
@@ -4066,7 +4066,7 @@ function describe_topic(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4090,7 +4090,7 @@ function describe_topic_permissions(
         "GET",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_topic_permissions(
@@ -4104,7 +4104,7 @@ function describe_topic_permissions(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4130,7 +4130,7 @@ function describe_topic_refresh(
         "GET",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/refresh/$(RefreshId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_topic_refresh(
@@ -4145,7 +4145,7 @@ function describe_topic_refresh(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/refresh/$(RefreshId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4170,7 +4170,7 @@ function describe_topic_refresh_schedule(
         "GET",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_topic_refresh_schedule(
@@ -4185,7 +4185,7 @@ function describe_topic_refresh_schedule(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4210,7 +4210,7 @@ function describe_user(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_user(
@@ -4225,7 +4225,7 @@ function describe_user(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4249,7 +4249,7 @@ function describe_vpcconnection(
         "GET",
         "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vpcconnection(
@@ -4263,7 +4263,7 @@ function describe_vpcconnection(
         "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4332,7 +4332,7 @@ function generate_embed_url_for_anonymous_user(
             "Namespace" => Namespace,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_embed_url_for_anonymous_user(
@@ -4358,7 +4358,7 @@ function generate_embed_url_for_anonymous_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4414,7 +4414,7 @@ function generate_embed_url_for_registered_user(
             "ExperienceConfiguration" => ExperienceConfiguration, "UserArn" => UserArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_embed_url_for_registered_user(
@@ -4438,7 +4438,7 @@ function generate_embed_url_for_registered_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4505,7 +4505,7 @@ function get_dashboard_embed_url(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url",
         Dict{String,Any}("creds-type" => creds_type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dashboard_embed_url(
@@ -4522,7 +4522,7 @@ function get_dashboard_embed_url(
             mergewith(_merge, Dict{String,Any}("creds-type" => creds_type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4568,7 +4568,7 @@ function get_session_embed_url(
         "GET",
         "/accounts/$(AwsAccountId)/session-embed-url";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session_embed_url(
@@ -4581,7 +4581,7 @@ function get_session_embed_url(
         "/accounts/$(AwsAccountId)/session-embed-url",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4604,7 +4604,7 @@ function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/accounts/$(AwsAccountId)/analyses";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_analyses(
@@ -4617,7 +4617,7 @@ function list_analyses(
         "/accounts/$(AwsAccountId)/analyses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4647,7 +4647,7 @@ function list_asset_bundle_export_jobs(
         "GET",
         "/accounts/$(AwsAccountId)/asset-bundle-export-jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_asset_bundle_export_jobs(
@@ -4660,7 +4660,7 @@ function list_asset_bundle_export_jobs(
         "/accounts/$(AwsAccountId)/asset-bundle-export-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4690,7 +4690,7 @@ function list_asset_bundle_import_jobs(
         "GET",
         "/accounts/$(AwsAccountId)/asset-bundle-import-jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_asset_bundle_import_jobs(
@@ -4703,7 +4703,7 @@ function list_asset_bundle_import_jobs(
         "/accounts/$(AwsAccountId)/asset-bundle-import-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4731,7 +4731,7 @@ function list_dashboard_versions(
         "GET",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dashboard_versions(
@@ -4745,7 +4745,7 @@ function list_dashboard_versions(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4770,7 +4770,7 @@ function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/accounts/$(AwsAccountId)/dashboards";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dashboards(
@@ -4783,7 +4783,7 @@ function list_dashboards(
         "/accounts/$(AwsAccountId)/dashboards",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4809,7 +4809,7 @@ function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/accounts/$(AwsAccountId)/data-sets";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_sets(
@@ -4822,7 +4822,7 @@ function list_data_sets(
         "/accounts/$(AwsAccountId)/data-sets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4847,7 +4847,7 @@ function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/accounts/$(AwsAccountId)/data-sources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_sources(
@@ -4860,7 +4860,7 @@ function list_data_sources(
         "/accounts/$(AwsAccountId)/data-sources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4887,7 +4887,7 @@ function list_folder_members(
         "GET",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_folder_members(
@@ -4901,7 +4901,7 @@ function list_folder_members(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4925,7 +4925,7 @@ function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/accounts/$(AwsAccountId)/folders";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_folders(
@@ -4938,7 +4938,7 @@ function list_folders(
         "/accounts/$(AwsAccountId)/folders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4967,7 +4967,7 @@ function list_group_memberships(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_group_memberships(
@@ -4982,7 +4982,7 @@ function list_group_memberships(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5010,7 +5010,7 @@ function list_groups(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_groups(
@@ -5024,7 +5024,7 @@ function list_groups(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5053,7 +5053,7 @@ function list_iampolicy_assignments(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/v2/iam-policy-assignments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_iampolicy_assignments(
@@ -5067,7 +5067,7 @@ function list_iampolicy_assignments(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/v2/iam-policy-assignments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5097,7 +5097,7 @@ function list_iampolicy_assignments_for_user(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_iampolicy_assignments_for_user(
@@ -5112,7 +5112,7 @@ function list_iampolicy_assignments_for_user(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5141,7 +5141,7 @@ function list_identity_propagation_configs(
         "GET",
         "/accounts/$(AwsAccountId)/identity-propagation-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_propagation_configs(
@@ -5154,7 +5154,7 @@ function list_identity_propagation_configs(
         "/accounts/$(AwsAccountId)/identity-propagation-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5181,7 +5181,7 @@ function list_ingestions(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_ingestions(
@@ -5195,7 +5195,7 @@ function list_ingestions(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5225,7 +5225,7 @@ function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/accounts/$(AwsAccountId)/namespaces";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_namespaces(
@@ -5238,7 +5238,7 @@ function list_namespaces(
         "/accounts/$(AwsAccountId)/namespaces",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5260,7 +5260,7 @@ function list_refresh_schedules(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_refresh_schedules(
@@ -5274,7 +5274,7 @@ function list_refresh_schedules(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5303,7 +5303,7 @@ function list_role_memberships(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/members";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_role_memberships(
@@ -5318,7 +5318,7 @@ function list_role_memberships(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/members",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5340,7 +5340,7 @@ function list_tags_for_resource(
         "GET",
         "/resources/$(ResourceArn)/tags";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -5353,7 +5353,7 @@ function list_tags_for_resource(
         "/resources/$(ResourceArn)/tags",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5381,7 +5381,7 @@ function list_template_aliases(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_aliases(
@@ -5395,7 +5395,7 @@ function list_template_aliases(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5423,7 +5423,7 @@ function list_template_versions(
         "GET",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_versions(
@@ -5437,7 +5437,7 @@ function list_template_versions(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5462,7 +5462,7 @@ function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/accounts/$(AwsAccountId)/templates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_templates(
@@ -5475,7 +5475,7 @@ function list_templates(
         "/accounts/$(AwsAccountId)/templates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5503,7 +5503,7 @@ function list_theme_aliases(
         "GET",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_theme_aliases(
@@ -5517,7 +5517,7 @@ function list_theme_aliases(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5545,7 +5545,7 @@ function list_theme_versions(
         "GET",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_theme_versions(
@@ -5559,7 +5559,7 @@ function list_theme_versions(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5588,7 +5588,7 @@ function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/accounts/$(AwsAccountId)/themes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_themes(
@@ -5601,7 +5601,7 @@ function list_themes(
         "/accounts/$(AwsAccountId)/themes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5625,7 +5625,7 @@ function list_topic_refresh_schedules(
         "GET",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_topic_refresh_schedules(
@@ -5639,7 +5639,7 @@ function list_topic_refresh_schedules(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5664,7 +5664,7 @@ function list_topics(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_conf
         "GET",
         "/accounts/$(AwsAccountId)/topics";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_topics(
@@ -5677,7 +5677,7 @@ function list_topics(
         "/accounts/$(AwsAccountId)/topics",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5705,7 +5705,7 @@ function list_user_groups(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_user_groups(
@@ -5720,7 +5720,7 @@ function list_user_groups(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5748,7 +5748,7 @@ function list_users(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_users(
@@ -5762,7 +5762,7 @@ function list_users(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5790,7 +5790,7 @@ function list_vpcconnections(
         "GET",
         "/accounts/$(AwsAccountId)/vpc-connections";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_vpcconnections(
@@ -5803,7 +5803,7 @@ function list_vpcconnections(
         "/accounts/$(AwsAccountId)/vpc-connections",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5830,7 +5830,7 @@ function put_data_set_refresh_properties(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
         Dict{String,Any}("DataSetRefreshProperties" => DataSetRefreshProperties);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_data_set_refresh_properties(
@@ -5851,7 +5851,7 @@ function put_data_set_refresh_properties(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5945,7 +5945,7 @@ function register_user(
             "Email" => Email, "IdentityType" => IdentityType, "UserRole" => UserRole
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_user(
@@ -5970,7 +5970,7 @@ function register_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5992,7 +5992,7 @@ function restore_analysis(
         "POST",
         "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_analysis(
@@ -6006,7 +6006,7 @@ function restore_analysis(
         "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6036,7 +6036,7 @@ function search_analyses(
         "/accounts/$(AwsAccountId)/search/analyses",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_analyses(
@@ -6050,7 +6050,7 @@ function search_analyses(
         "/accounts/$(AwsAccountId)/search/analyses",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6082,7 +6082,7 @@ function search_dashboards(
         "/accounts/$(AwsAccountId)/search/dashboards",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_dashboards(
@@ -6096,7 +6096,7 @@ function search_dashboards(
         "/accounts/$(AwsAccountId)/search/dashboards",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6123,7 +6123,7 @@ function search_data_sets(
         "/accounts/$(AwsAccountId)/search/data-sets",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_data_sets(
@@ -6137,7 +6137,7 @@ function search_data_sets(
         "/accounts/$(AwsAccountId)/search/data-sets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6164,7 +6164,7 @@ function search_data_sources(
         "/accounts/$(AwsAccountId)/search/data-sources",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_data_sources(
@@ -6178,7 +6178,7 @@ function search_data_sources(
         "/accounts/$(AwsAccountId)/search/data-sources",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6209,7 +6209,7 @@ function search_folders(
         "/accounts/$(AwsAccountId)/search/folders",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_folders(
@@ -6223,7 +6223,7 @@ function search_folders(
         "/accounts/$(AwsAccountId)/search/folders",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6254,7 +6254,7 @@ function search_groups(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups-search",
         Dict{String,Any}("Filters" => Filters);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_groups(
@@ -6269,7 +6269,7 @@ function search_groups(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups-search",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6335,7 +6335,7 @@ function start_asset_bundle_export_job(
             "ResourceArns" => ResourceArns,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_asset_bundle_export_job(
@@ -6361,7 +6361,7 @@ function start_asset_bundle_export_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6414,7 +6414,7 @@ function start_asset_bundle_import_job(
             "AssetBundleImportSource" => AssetBundleImportSource,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_asset_bundle_import_job(
@@ -6438,7 +6438,7 @@ function start_asset_bundle_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6518,7 +6518,7 @@ function start_dashboard_snapshot_job(
             "UserConfiguration" => UserConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_dashboard_snapshot_job(
@@ -6545,7 +6545,7 @@ function start_dashboard_snapshot_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6580,7 +6580,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/resources/$(ResourceArn)/tags",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -6594,7 +6594,7 @@ function tag_resource(
         "/resources/$(ResourceArn)/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6618,7 +6618,7 @@ function untag_resource(
         "/resources/$(ResourceArn)/tags",
         Dict{String,Any}("keys" => keys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -6632,7 +6632,7 @@ function untag_resource(
         "/resources/$(ResourceArn)/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("keys" => keys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6665,7 +6665,7 @@ function update_account_customization(
         "/accounts/$(AwsAccountId)/customizations",
         Dict{String,Any}("AccountCustomization" => AccountCustomization);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_account_customization(
@@ -6685,7 +6685,7 @@ function update_account_customization(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6720,7 +6720,7 @@ function update_account_settings(
         "/accounts/$(AwsAccountId)/settings",
         Dict{String,Any}("DefaultNamespace" => DefaultNamespace);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_account_settings(
@@ -6738,7 +6738,7 @@ function update_account_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6779,7 +6779,7 @@ function update_analysis(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_analysis(
@@ -6794,7 +6794,7 @@ function update_analysis(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6825,7 +6825,7 @@ function update_analysis_permissions(
         "PUT",
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_analysis_permissions(
@@ -6839,7 +6839,7 @@ function update_analysis_permissions(
         "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6900,7 +6900,7 @@ function update_dashboard(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dashboard(
@@ -6915,7 +6915,7 @@ function update_dashboard(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6944,7 +6944,7 @@ function update_dashboard_links(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/linked-entities",
         Dict{String,Any}("LinkEntities" => LinkEntities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dashboard_links(
@@ -6961,7 +6961,7 @@ function update_dashboard_links(
             mergewith(_merge, Dict{String,Any}("LinkEntities" => LinkEntities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -6990,7 +6990,7 @@ function update_dashboard_permissions(
         "PUT",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dashboard_permissions(
@@ -7004,7 +7004,7 @@ function update_dashboard_permissions(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7031,7 +7031,7 @@ function update_dashboard_published_version(
         "PUT",
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dashboard_published_version(
@@ -7046,7 +7046,7 @@ function update_dashboard_published_version(
         "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7100,7 +7100,7 @@ function update_data_set(
             "PhysicalTableMap" => PhysicalTableMap,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_set(
@@ -7127,7 +7127,7 @@ function update_data_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7155,7 +7155,7 @@ function update_data_set_permissions(
         "POST",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_set_permissions(
@@ -7169,7 +7169,7 @@ function update_data_set_permissions(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7205,7 +7205,7 @@ function update_data_source(
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_source(
@@ -7220,7 +7220,7 @@ function update_data_source(
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7249,7 +7249,7 @@ function update_data_source_permissions(
         "POST",
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_data_source_permissions(
@@ -7263,7 +7263,7 @@ function update_data_source_permissions(
         "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7288,7 +7288,7 @@ function update_folder(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_folder(
@@ -7303,7 +7303,7 @@ function update_folder(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7332,7 +7332,7 @@ function update_folder_permissions(
         "PUT",
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_folder_permissions(
@@ -7346,7 +7346,7 @@ function update_folder_permissions(
         "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7374,7 +7374,7 @@ function update_group(
         "PUT",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_group(
@@ -7389,7 +7389,7 @@ function update_group(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7429,7 +7429,7 @@ function update_iampolicy_assignment(
         "PUT",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_iampolicy_assignment(
@@ -7444,7 +7444,7 @@ function update_iampolicy_assignment(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7474,7 +7474,7 @@ function update_identity_propagation_config(
         "POST",
         "/accounts/$(AwsAccountId)/identity-propagation-config/$(Service)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_identity_propagation_config(
@@ -7488,7 +7488,7 @@ function update_identity_propagation_config(
         "/accounts/$(AwsAccountId)/identity-propagation-config/$(Service)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7522,7 +7522,7 @@ function update_ip_restriction(
         "POST",
         "/accounts/$(AwsAccountId)/ip-restriction";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_ip_restriction(
@@ -7535,7 +7535,7 @@ function update_ip_restriction(
         "/accounts/$(AwsAccountId)/ip-restriction",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7560,7 +7560,7 @@ function update_key_registration(
         "/accounts/$(AwsAccountId)/key-registration",
         Dict{String,Any}("KeyRegistration" => KeyRegistration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_key_registration(
@@ -7578,7 +7578,7 @@ function update_key_registration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7609,7 +7609,7 @@ function update_public_sharing_settings(
         "PUT",
         "/accounts/$(AwsAccountId)/public-sharing-settings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_public_sharing_settings(
@@ -7622,7 +7622,7 @@ function update_public_sharing_settings(
         "/accounts/$(AwsAccountId)/public-sharing-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7646,7 +7646,7 @@ function update_refresh_schedule(
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
         Dict{String,Any}("Schedule" => Schedule);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_refresh_schedule(
@@ -7663,7 +7663,7 @@ function update_refresh_schedule(
             mergewith(_merge, Dict{String,Any}("Schedule" => Schedule), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7695,7 +7695,7 @@ function update_role_custom_permission(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/roles/$(Role)/custom-permission",
         Dict{String,Any}("CustomPermissionsName" => CustomPermissionsName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_role_custom_permission(
@@ -7717,7 +7717,7 @@ function update_role_custom_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7744,7 +7744,7 @@ function update_spicecapacity_configuration(
         "/accounts/$(AwsAccountId)/spice-capacity-configuration",
         Dict{String,Any}("PurchaseMode" => PurchaseMode);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_spicecapacity_configuration(
@@ -7760,7 +7760,7 @@ function update_spicecapacity_configuration(
             mergewith(_merge, Dict{String,Any}("PurchaseMode" => PurchaseMode), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7803,7 +7803,7 @@ function update_template(
         "PUT",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template(
@@ -7817,7 +7817,7 @@ function update_template(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7850,7 +7850,7 @@ function update_template_alias(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
         Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template_alias(
@@ -7872,7 +7872,7 @@ function update_template_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7898,7 +7898,7 @@ function update_template_permissions(
         "PUT",
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template_permissions(
@@ -7912,7 +7912,7 @@ function update_template_permissions(
         "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7945,7 +7945,7 @@ function update_theme(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
         Dict{String,Any}("BaseThemeId" => BaseThemeId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_theme(
@@ -7962,7 +7962,7 @@ function update_theme(
             mergewith(_merge, Dict{String,Any}("BaseThemeId" => BaseThemeId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -7992,7 +7992,7 @@ function update_theme_alias(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
         Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_theme_alias(
@@ -8012,7 +8012,7 @@ function update_theme_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -8049,7 +8049,7 @@ function update_theme_permissions(
         "PUT",
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_theme_permissions(
@@ -8063,7 +8063,7 @@ function update_theme_permissions(
         "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -8089,7 +8089,7 @@ function update_topic(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)",
         Dict{String,Any}("Topic" => Topic);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_topic(
@@ -8104,7 +8104,7 @@ function update_topic(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Topic" => Topic), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -8132,7 +8132,7 @@ function update_topic_permissions(
         "PUT",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_topic_permissions(
@@ -8146,7 +8146,7 @@ function update_topic_permissions(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -8177,7 +8177,7 @@ function update_topic_refresh_schedule(
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
         Dict{String,Any}("RefreshSchedule" => RefreshSchedule);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_topic_refresh_schedule(
@@ -8197,7 +8197,7 @@ function update_topic_refresh_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -8275,7 +8275,7 @@ function update_user(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
         Dict{String,Any}("Email" => Email, "Role" => Role);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_user(
@@ -8294,7 +8294,7 @@ function update_user(
             mergewith(_merge, Dict{String,Any}("Email" => Email, "Role" => Role), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -8337,7 +8337,7 @@ function update_vpcconnection(
             "SubnetIds" => SubnetIds,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_vpcconnection(
@@ -8366,6 +8366,6 @@ function update_vpcconnection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

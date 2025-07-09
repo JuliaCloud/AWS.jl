@@ -20,7 +20,7 @@ function describe_agreement(agreementId; aws_config::AbstractAWSConfig=global_aw
         "DescribeAgreement",
         Dict{String,Any}("agreementId" => agreementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_agreement(
@@ -34,7 +34,7 @@ function describe_agreement(
             mergewith(_merge, Dict{String,Any}("agreementId" => agreementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -64,7 +64,7 @@ function get_agreement_terms(agreementId; aws_config::AbstractAWSConfig=global_a
         "GetAgreementTerms",
         Dict{String,Any}("agreementId" => agreementId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_agreement_terms(
@@ -78,7 +78,7 @@ function get_agreement_terms(
             mergewith(_merge, Dict{String,Any}("agreementId" => agreementId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -124,13 +124,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function search_agreements(; aws_config::AbstractAWSConfig=global_aws_config())
     return marketplace_agreement(
-        "SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function search_agreements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return marketplace_agreement(
-        "SearchAgreements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchAgreements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end

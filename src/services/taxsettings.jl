@@ -25,7 +25,7 @@ function batch_delete_tax_registration(
         "/BatchDeleteTaxRegistration",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_tax_registration(
@@ -40,7 +40,7 @@ function batch_delete_tax_registration(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -113,7 +113,7 @@ function batch_put_tax_registration(
             "accountIds" => accountIds, "taxRegistrationEntry" => taxRegistrationEntry
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_tax_registration(
@@ -136,7 +136,7 @@ function batch_put_tax_registration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -159,7 +159,7 @@ function delete_tax_registration(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/DeleteTaxRegistration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_tax_registration(
@@ -170,7 +170,7 @@ function delete_tax_registration(
         "/DeleteTaxRegistration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -189,7 +189,7 @@ function get_tax_registration(; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/GetTaxRegistration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_tax_registration(
@@ -200,7 +200,7 @@ function get_tax_registration(
         "/GetTaxRegistration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -229,7 +229,7 @@ function get_tax_registration_document(
             "taxDocumentMetadata" => taxDocumentMetadata,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_tax_registration_document(
@@ -252,7 +252,7 @@ function get_tax_registration_document(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -273,7 +273,7 @@ function list_tax_registrations(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/ListTaxRegistrations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tax_registrations(
@@ -284,7 +284,7 @@ function list_tax_registrations(
         "/ListTaxRegistrations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -356,7 +356,7 @@ function put_tax_registration(
         "/PutTaxRegistration",
         Dict{String,Any}("taxRegistrationEntry" => taxRegistrationEntry);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_tax_registration(
@@ -375,6 +375,6 @@ function put_tax_registration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

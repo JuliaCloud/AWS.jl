@@ -24,7 +24,7 @@ function batch_put_property_values(
         "/workspaces/$(workspaceId)/entity-properties",
         Dict{String,Any}("entries" => entries);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_put_property_values(
@@ -38,7 +38,7 @@ function batch_put_property_values(
         "/workspaces/$(workspaceId)/entity-properties",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -59,7 +59,7 @@ function cancel_metadata_transfer_job(
         "PUT",
         "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_metadata_transfer_job(
@@ -72,7 +72,7 @@ function cancel_metadata_transfer_job(
         "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -110,7 +110,7 @@ function create_component_type(
         "POST",
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_component_type(
@@ -124,7 +124,7 @@ function create_component_type(
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -158,7 +158,7 @@ function create_entity(
         "/workspaces/$(workspaceId)/entities",
         Dict{String,Any}("entityName" => entityName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_entity(
@@ -174,7 +174,7 @@ function create_entity(
             mergewith(_merge, Dict{String,Any}("entityName" => entityName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -201,7 +201,7 @@ function create_metadata_transfer_job(
         "/metadata-transfer-jobs",
         Dict{String,Any}("destination" => destination, "sources" => sources);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_metadata_transfer_job(
@@ -221,7 +221,7 @@ function create_metadata_transfer_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -252,7 +252,7 @@ function create_scene(
         "/workspaces/$(workspaceId)/scenes",
         Dict{String,Any}("contentLocation" => contentLocation, "sceneId" => sceneId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scene(
@@ -275,7 +275,7 @@ function create_scene(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -303,7 +303,7 @@ function create_sync_job(
         "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
         Dict{String,Any}("syncRole" => syncRole);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sync_job(
@@ -320,7 +320,7 @@ function create_sync_job(
             mergewith(_merge, Dict{String,Any}("syncRole" => syncRole), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -346,7 +346,7 @@ function create_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workspace(
@@ -359,7 +359,7 @@ function create_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -381,7 +381,7 @@ function delete_component_type(
         "DELETE",
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_component_type(
@@ -395,7 +395,7 @@ function delete_component_type(
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -421,7 +421,7 @@ function delete_entity(
         "DELETE",
         "/workspaces/$(workspaceId)/entities/$(entityId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_entity(
@@ -435,7 +435,7 @@ function delete_entity(
         "/workspaces/$(workspaceId)/entities/$(entityId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -457,7 +457,7 @@ function delete_scene(
         "DELETE",
         "/workspaces/$(workspaceId)/scenes/$(sceneId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_scene(
@@ -471,7 +471,7 @@ function delete_scene(
         "/workspaces/$(workspaceId)/scenes/$(sceneId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -493,7 +493,7 @@ function delete_sync_job(
         "DELETE",
         "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sync_job(
@@ -507,7 +507,7 @@ function delete_sync_job(
         "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,7 +526,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workspace(
@@ -539,7 +539,7 @@ function delete_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -568,7 +568,7 @@ function execute_query(
         "/queries/execution",
         Dict{String,Any}("queryStatement" => queryStatement, "workspaceId" => workspaceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function execute_query(
@@ -590,7 +590,7 @@ function execute_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -612,7 +612,7 @@ function get_component_type(
         "GET",
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_component_type(
@@ -626,7 +626,7 @@ function get_component_type(
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -648,7 +648,7 @@ function get_entity(
         "GET",
         "/workspaces/$(workspaceId)/entities/$(entityId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_entity(
@@ -662,7 +662,7 @@ function get_entity(
         "/workspaces/$(workspaceId)/entities/$(entityId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -683,7 +683,7 @@ function get_metadata_transfer_job(
         "GET",
         "/metadata-transfer-jobs/$(metadataTransferJobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_metadata_transfer_job(
@@ -696,7 +696,7 @@ function get_metadata_transfer_job(
         "/metadata-transfer-jobs/$(metadataTransferJobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -709,7 +709,7 @@ Gets the pricing plan.
 """
 function get_pricing_plan(; aws_config::AbstractAWSConfig=global_aws_config())
     return iottwinmaker(
-        "GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_pricing_plan(
@@ -720,7 +720,7 @@ function get_pricing_plan(
         "/pricingplan",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -757,7 +757,7 @@ function get_property_value(
         "/workspaces/$(workspaceId)/entity-properties/value",
         Dict{String,Any}("selectedProperties" => selectedProperties);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_property_value(
@@ -775,7 +775,7 @@ function get_property_value(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -821,7 +821,7 @@ function get_property_value_history(
         "/workspaces/$(workspaceId)/entity-properties/history",
         Dict{String,Any}("selectedProperties" => selectedProperties);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_property_value_history(
@@ -839,7 +839,7 @@ function get_property_value_history(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -859,7 +859,7 @@ function get_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/workspaces/$(workspaceId)/scenes/$(sceneId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_scene(
@@ -873,7 +873,7 @@ function get_scene(
         "/workspaces/$(workspaceId)/scenes/$(sceneId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -895,7 +895,7 @@ function get_sync_job(syncSource; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/sync-jobs/$(syncSource)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sync_job(
@@ -908,7 +908,7 @@ function get_sync_job(
         "/sync-jobs/$(syncSource)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -927,7 +927,7 @@ function get_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workspace(
@@ -940,7 +940,7 @@ function get_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -967,7 +967,7 @@ function list_component_types(
         "POST",
         "/workspaces/$(workspaceId)/component-types-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_component_types(
@@ -980,7 +980,7 @@ function list_component_types(
         "/workspaces/$(workspaceId)/component-types-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1009,7 +1009,7 @@ function list_components(
         "POST",
         "/workspaces/$(workspaceId)/entities/$(entityId)/components-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_components(
@@ -1023,7 +1023,7 @@ function list_components(
         "/workspaces/$(workspaceId)/entities/$(entityId)/components-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1049,7 +1049,7 @@ function list_entities(workspaceId; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/workspaces/$(workspaceId)/entities-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_entities(
@@ -1062,7 +1062,7 @@ function list_entities(
         "/workspaces/$(workspaceId)/entities-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1090,7 +1090,7 @@ function list_metadata_transfer_jobs(
         "/metadata-transfer-jobs-list",
         Dict{String,Any}("destinationType" => destinationType, "sourceType" => sourceType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_metadata_transfer_jobs(
@@ -1112,7 +1112,7 @@ function list_metadata_transfer_jobs(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1144,7 +1144,7 @@ function list_properties(
         "/workspaces/$(workspaceId)/properties-list",
         Dict{String,Any}("entityId" => entityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_properties(
@@ -1160,7 +1160,7 @@ function list_properties(
             mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1183,7 +1183,7 @@ function list_scenes(workspaceId; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/workspaces/$(workspaceId)/scenes-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_scenes(
@@ -1196,7 +1196,7 @@ function list_scenes(
         "/workspaces/$(workspaceId)/scenes-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1220,7 +1220,7 @@ function list_sync_jobs(workspaceId; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/workspaces/$(workspaceId)/sync-jobs-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sync_jobs(
@@ -1233,7 +1233,7 @@ function list_sync_jobs(
         "/workspaces/$(workspaceId)/sync-jobs-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1263,7 +1263,7 @@ function list_sync_resources(
         "POST",
         "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sync_resources(
@@ -1277,7 +1277,7 @@ function list_sync_resources(
         "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1304,7 +1304,7 @@ function list_tags_for_resource(
         "/tags-list",
         Dict{String,Any}("resourceARN" => resourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1319,7 +1319,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceARN" => resourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1337,7 +1337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return iottwinmaker(
-        "POST", "/workspaces-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/workspaces-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_workspaces(
@@ -1348,7 +1348,7 @@ function list_workspaces(
         "/workspaces-list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1369,7 +1369,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags",
         Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1389,7 +1389,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1413,7 +1413,7 @@ function untag_resource(
         "/tags",
         Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1433,7 +1433,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1470,7 +1470,7 @@ function update_component_type(
         "PUT",
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_component_type(
@@ -1484,7 +1484,7 @@ function update_component_type(
         "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1516,7 +1516,7 @@ function update_entity(
         "PUT",
         "/workspaces/$(workspaceId)/entities/$(entityId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_entity(
@@ -1530,7 +1530,7 @@ function update_entity(
         "/workspaces/$(workspaceId)/entities/$(entityId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1553,7 +1553,7 @@ function update_pricing_plan(pricingMode; aws_config::AbstractAWSConfig=global_a
         "/pricingplan",
         Dict{String,Any}("pricingMode" => pricingMode);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_pricing_plan(
@@ -1568,7 +1568,7 @@ function update_pricing_plan(
             mergewith(_merge, Dict{String,Any}("pricingMode" => pricingMode), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1597,7 +1597,7 @@ function update_scene(
         "PUT",
         "/workspaces/$(workspaceId)/scenes/$(sceneId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_scene(
@@ -1611,7 +1611,7 @@ function update_scene(
         "/workspaces/$(workspaceId)/scenes/$(sceneId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1636,7 +1636,7 @@ function update_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "PUT",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workspace(
@@ -1649,6 +1649,6 @@ function update_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

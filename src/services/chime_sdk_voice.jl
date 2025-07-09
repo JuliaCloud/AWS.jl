@@ -28,7 +28,7 @@ function associate_phone_numbers_with_voice_connector(
         "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_phone_numbers_with_voice_connector(
@@ -46,7 +46,7 @@ function associate_phone_numbers_with_voice_connector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -76,7 +76,7 @@ function associate_phone_numbers_with_voice_connector_group(
         "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_phone_numbers_with_voice_connector_group(
@@ -94,7 +94,7 @@ function associate_phone_numbers_with_voice_connector_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -118,7 +118,7 @@ function batch_delete_phone_number(
         "/phone-numbers?operation=batch-delete",
         Dict{String,Any}("PhoneNumberIds" => PhoneNumberIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_phone_number(
@@ -133,7 +133,7 @@ function batch_delete_phone_number(
             mergewith(_merge, Dict{String,Any}("PhoneNumberIds" => PhoneNumberIds), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -158,7 +158,7 @@ function batch_update_phone_number(
         "/phone-numbers?operation=batch-update",
         Dict{String,Any}("UpdatePhoneNumberRequestItems" => UpdatePhoneNumberRequestItems);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_phone_number(
@@ -179,7 +179,7 @@ function batch_update_phone_number(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -208,7 +208,7 @@ function create_phone_number_order(
             "E164PhoneNumbers" => E164PhoneNumbers, "ProductType" => ProductType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_phone_number_order(
@@ -230,7 +230,7 @@ function create_phone_number_order(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -270,7 +270,7 @@ function create_proxy_session(
             "ParticipantPhoneNumbers" => ParticipantPhoneNumbers,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_proxy_session(
@@ -294,7 +294,7 @@ function create_proxy_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -324,7 +324,7 @@ function create_sip_media_application(
             "AwsRegion" => AwsRegion, "Endpoints" => Endpoints, "Name" => Name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sip_media_application(
@@ -347,7 +347,7 @@ function create_sip_media_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -383,7 +383,7 @@ function create_sip_media_application_call(
             "FromPhoneNumber" => FromPhoneNumber, "ToPhoneNumber" => ToPhoneNumber
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sip_media_application_call(
@@ -406,7 +406,7 @@ function create_sip_media_application_call(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -446,7 +446,7 @@ function create_sip_rule(
             "Name" => Name, "TriggerType" => TriggerType, "TriggerValue" => TriggerValue
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sip_rule(
@@ -471,7 +471,7 @@ function create_sip_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -501,7 +501,7 @@ function create_voice_connector(
         "/voice-connectors",
         Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_voice_connector(
@@ -521,7 +521,7 @@ function create_voice_connector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -550,7 +550,7 @@ function create_voice_connector_group(
         "/voice-connector-groups",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_voice_connector_group(
@@ -561,7 +561,7 @@ function create_voice_connector_group(
         "/voice-connector-groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -588,7 +588,7 @@ function create_voice_profile(
         "/voice-profiles",
         Dict{String,Any}("SpeakerSearchTaskId" => SpeakerSearchTaskId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_voice_profile(
@@ -607,7 +607,7 @@ function create_voice_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -647,7 +647,7 @@ function create_voice_profile_domain(
             "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_voice_profile_domain(
@@ -671,7 +671,7 @@ function create_voice_profile_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -695,7 +695,7 @@ function delete_phone_number(
         "DELETE",
         "/phone-numbers/$(phoneNumberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_phone_number(
@@ -708,7 +708,7 @@ function delete_phone_number(
         "/phone-numbers/$(phoneNumberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -730,7 +730,7 @@ function delete_proxy_session(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_proxy_session(
@@ -744,7 +744,7 @@ function delete_proxy_session(
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -765,7 +765,7 @@ function delete_sip_media_application(
         "DELETE",
         "/sip-media-applications/$(sipMediaApplicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sip_media_application(
@@ -778,7 +778,7 @@ function delete_sip_media_application(
         "/sip-media-applications/$(sipMediaApplicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -797,7 +797,7 @@ function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/sip-rules/$(sipRuleId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sip_rule(
@@ -810,7 +810,7 @@ function delete_sip_rule(
         "/sip-rules/$(sipRuleId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -832,7 +832,7 @@ function delete_voice_connector(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector(
@@ -845,7 +845,7 @@ function delete_voice_connector(
         "/voice-connectors/$(voiceConnectorId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -866,7 +866,7 @@ function delete_voice_connector_emergency_calling_configuration(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_emergency_calling_configuration(
@@ -879,7 +879,7 @@ function delete_voice_connector_emergency_calling_configuration(
         "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -901,7 +901,7 @@ function delete_voice_connector_group(
         "DELETE",
         "/voice-connector-groups/$(voiceConnectorGroupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_group(
@@ -914,7 +914,7 @@ function delete_voice_connector_group(
         "/voice-connector-groups/$(voiceConnectorGroupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -937,7 +937,7 @@ function delete_voice_connector_origination(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)/origination";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_origination(
@@ -950,7 +950,7 @@ function delete_voice_connector_origination(
         "/voice-connectors/$(voiceConnectorId)/origination",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -971,7 +971,7 @@ function delete_voice_connector_proxy(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_proxy(
@@ -984,7 +984,7 @@ function delete_voice_connector_proxy(
         "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1005,7 +1005,7 @@ function delete_voice_connector_streaming_configuration(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_streaming_configuration(
@@ -1018,7 +1018,7 @@ function delete_voice_connector_streaming_configuration(
         "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1041,7 +1041,7 @@ function delete_voice_connector_termination(
         "DELETE",
         "/voice-connectors/$(voiceConnectorId)/termination";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_termination(
@@ -1054,7 +1054,7 @@ function delete_voice_connector_termination(
         "/voice-connectors/$(voiceConnectorId)/termination",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1079,7 +1079,7 @@ function delete_voice_connector_termination_credentials(
         "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
         Dict{String,Any}("Usernames" => Usernames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_connector_termination_credentials(
@@ -1095,7 +1095,7 @@ function delete_voice_connector_termination_credentials(
             mergewith(_merge, Dict{String,Any}("Usernames" => Usernames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1117,7 +1117,7 @@ function delete_voice_profile(
         "DELETE",
         "/voice-profiles/$(VoiceProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_profile(
@@ -1130,7 +1130,7 @@ function delete_voice_profile(
         "/voice-profiles/$(VoiceProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1151,7 +1151,7 @@ function delete_voice_profile_domain(
         "DELETE",
         "/voice-profile-domains/$(VoiceProfileDomainId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_profile_domain(
@@ -1164,7 +1164,7 @@ function delete_voice_profile_domain(
         "/voice-profile-domains/$(VoiceProfileDomainId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1188,7 +1188,7 @@ function disassociate_phone_numbers_from_voice_connector(
         "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_phone_numbers_from_voice_connector(
@@ -1206,7 +1206,7 @@ function disassociate_phone_numbers_from_voice_connector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1232,7 +1232,7 @@ function disassociate_phone_numbers_from_voice_connector_group(
         "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_phone_numbers_from_voice_connector_group(
@@ -1250,7 +1250,7 @@ function disassociate_phone_numbers_from_voice_connector_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1263,14 +1263,14 @@ Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AW
 """
 function get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return chime_sdk_voice(
-        "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return chime_sdk_voice(
-        "GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1290,7 +1290,7 @@ function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/phone-numbers/$(phoneNumberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_phone_number(
@@ -1303,7 +1303,7 @@ function get_phone_number(
         "/phone-numbers/$(phoneNumberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1325,7 +1325,7 @@ function get_phone_number_order(
         "GET",
         "/phone-number-orders/$(phoneNumberOrderId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_phone_number_order(
@@ -1338,7 +1338,7 @@ function get_phone_number_order(
         "/phone-number-orders/$(phoneNumberOrderId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1355,7 +1355,7 @@ function get_phone_number_settings(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/settings/phone-number";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_phone_number_settings(
@@ -1366,7 +1366,7 @@ function get_phone_number_settings(
         "/settings/phone-number",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1389,7 +1389,7 @@ function get_proxy_session(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_proxy_session(
@@ -1403,7 +1403,7 @@ function get_proxy_session(
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1425,7 +1425,7 @@ function get_sip_media_application(
         "GET",
         "/sip-media-applications/$(sipMediaApplicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sip_media_application(
@@ -1438,7 +1438,7 @@ function get_sip_media_application(
         "/sip-media-applications/$(sipMediaApplicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1461,7 +1461,7 @@ function get_sip_media_application_alexa_skill_configuration(
         "GET",
         "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sip_media_application_alexa_skill_configuration(
@@ -1474,7 +1474,7 @@ function get_sip_media_application_alexa_skill_configuration(
         "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1495,7 +1495,7 @@ function get_sip_media_application_logging_configuration(
         "GET",
         "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sip_media_application_logging_configuration(
@@ -1508,7 +1508,7 @@ function get_sip_media_application_logging_configuration(
         "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1528,7 +1528,7 @@ function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/sip-rules/$(sipRuleId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sip_rule(
@@ -1541,7 +1541,7 @@ function get_sip_rule(
         "/sip-rules/$(sipRuleId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1563,7 +1563,7 @@ function get_speaker_search_task(
         "GET",
         "/voice-connectors/$(VoiceConnectorId)/speaker-search-tasks/$(SpeakerSearchTaskId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_speaker_search_task(
@@ -1577,7 +1577,7 @@ function get_speaker_search_task(
         "/voice-connectors/$(VoiceConnectorId)/speaker-search-tasks/$(SpeakerSearchTaskId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1599,7 +1599,7 @@ function get_voice_connector(
         "GET",
         "/voice-connectors/$(voiceConnectorId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector(
@@ -1612,7 +1612,7 @@ function get_voice_connector(
         "/voice-connectors/$(voiceConnectorId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1633,7 +1633,7 @@ function get_voice_connector_emergency_calling_configuration(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_emergency_calling_configuration(
@@ -1646,7 +1646,7 @@ function get_voice_connector_emergency_calling_configuration(
         "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1668,7 +1668,7 @@ function get_voice_connector_group(
         "GET",
         "/voice-connector-groups/$(voiceConnectorGroupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_group(
@@ -1681,7 +1681,7 @@ function get_voice_connector_group(
         "/voice-connector-groups/$(voiceConnectorGroupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1703,7 +1703,7 @@ function get_voice_connector_logging_configuration(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/logging-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_logging_configuration(
@@ -1716,7 +1716,7 @@ function get_voice_connector_logging_configuration(
         "/voice-connectors/$(voiceConnectorId)/logging-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1737,7 +1737,7 @@ function get_voice_connector_origination(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/origination";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_origination(
@@ -1750,7 +1750,7 @@ function get_voice_connector_origination(
         "/voice-connectors/$(voiceConnectorId)/origination",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1772,7 +1772,7 @@ function get_voice_connector_proxy(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_proxy(
@@ -1785,7 +1785,7 @@ function get_voice_connector_proxy(
         "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1808,7 +1808,7 @@ function get_voice_connector_streaming_configuration(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_streaming_configuration(
@@ -1821,7 +1821,7 @@ function get_voice_connector_streaming_configuration(
         "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1842,7 +1842,7 @@ function get_voice_connector_termination(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/termination";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_termination(
@@ -1855,7 +1855,7 @@ function get_voice_connector_termination(
         "/voice-connectors/$(voiceConnectorId)/termination",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1877,7 +1877,7 @@ function get_voice_connector_termination_health(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/termination/health";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_connector_termination_health(
@@ -1890,7 +1890,7 @@ function get_voice_connector_termination_health(
         "/voice-connectors/$(voiceConnectorId)/termination/health",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1911,7 +1911,7 @@ function get_voice_profile(
         "GET",
         "/voice-profiles/$(VoiceProfileId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_profile(
@@ -1924,7 +1924,7 @@ function get_voice_profile(
         "/voice-profiles/$(VoiceProfileId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1945,7 +1945,7 @@ function get_voice_profile_domain(
         "GET",
         "/voice-profile-domains/$(VoiceProfileDomainId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_profile_domain(
@@ -1958,7 +1958,7 @@ function get_voice_profile_domain(
         "/voice-profile-domains/$(VoiceProfileDomainId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1986,7 +1986,7 @@ function get_voice_tone_analysis_task(
         "/voice-connectors/$(VoiceConnectorId)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)",
         Dict{String,Any}("isCaller" => isCaller);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_tone_analysis_task(
@@ -2003,7 +2003,7 @@ function get_voice_tone_analysis_task(
             mergewith(_merge, Dict{String,Any}("isCaller" => isCaller), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2021,7 +2021,7 @@ function list_available_voice_connector_regions(;
         "GET",
         "/voice-connector-regions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_available_voice_connector_regions(
@@ -2032,7 +2032,7 @@ function list_available_voice_connector_regions(
         "/voice-connector-regions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2052,7 +2052,7 @@ function list_phone_number_orders(; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/phone-number-orders";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_phone_number_orders(
@@ -2063,7 +2063,7 @@ function list_phone_number_orders(
         "/phone-number-orders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2085,7 +2085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
     return chime_sdk_voice(
-        "GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_phone_numbers(
@@ -2096,7 +2096,7 @@ function list_phone_numbers(
         "/phone-numbers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2122,7 +2122,7 @@ function list_proxy_sessions(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_proxy_sessions(
@@ -2135,7 +2135,7 @@ function list_proxy_sessions(
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2156,7 +2156,7 @@ function list_sip_media_applications(; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/sip-media-applications";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_sip_media_applications(
@@ -2167,7 +2167,7 @@ function list_sip_media_applications(
         "/sip-media-applications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2186,14 +2186,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config())
     return chime_sdk_voice(
-        "GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_sip_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return chime_sdk_voice(
-        "GET", "/sip-rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/sip-rules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2215,7 +2219,7 @@ function list_supported_phone_number_countries(
         "/phone-number-countries",
         Dict{String,Any}("product-type" => product_type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_supported_phone_number_countries(
@@ -2230,7 +2234,7 @@ function list_supported_phone_number_countries(
             mergewith(_merge, Dict{String,Any}("product-type" => product_type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2250,7 +2254,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
         "/tags",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2261,7 +2265,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2281,7 +2285,7 @@ function list_voice_connector_groups(; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/voice-connector-groups";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_voice_connector_groups(
@@ -2292,7 +2296,7 @@ function list_voice_connector_groups(
         "/voice-connector-groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2313,7 +2317,7 @@ function list_voice_connector_termination_credentials(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/termination/credentials";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_voice_connector_termination_credentials(
@@ -2326,7 +2330,7 @@ function list_voice_connector_termination_credentials(
         "/voice-connectors/$(voiceConnectorId)/termination/credentials",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2343,7 +2347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_voice_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return chime_sdk_voice(
-        "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_voice_connectors(
@@ -2354,7 +2358,7 @@ function list_voice_connectors(
         "/voice-connectors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2374,7 +2378,7 @@ function list_voice_profile_domains(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/voice-profile-domains";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_voice_profile_domains(
@@ -2385,7 +2389,7 @@ function list_voice_profile_domains(
         "/voice-profile-domains",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2411,7 +2415,7 @@ function list_voice_profiles(
         "/voice-profiles",
         Dict{String,Any}("voice-profile-domain-id" => voice_profile_domain_id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_voice_profiles(
@@ -2430,7 +2434,7 @@ function list_voice_profiles(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2456,7 +2460,7 @@ function put_sip_media_application_alexa_skill_configuration(
         "PUT",
         "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_sip_media_application_alexa_skill_configuration(
@@ -2469,7 +2473,7 @@ function put_sip_media_application_alexa_skill_configuration(
         "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2494,7 +2498,7 @@ function put_sip_media_application_logging_configuration(
         "PUT",
         "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_sip_media_application_logging_configuration(
@@ -2507,7 +2511,7 @@ function put_sip_media_application_logging_configuration(
         "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2532,7 +2536,7 @@ function put_voice_connector_emergency_calling_configuration(
         "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
         Dict{String,Any}("EmergencyCallingConfiguration" => EmergencyCallingConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_emergency_calling_configuration(
@@ -2554,7 +2558,7 @@ function put_voice_connector_emergency_calling_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2579,7 +2583,7 @@ function put_voice_connector_logging_configuration(
         "/voice-connectors/$(voiceConnectorId)/logging-configuration",
         Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_logging_configuration(
@@ -2599,7 +2603,7 @@ function put_voice_connector_logging_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2622,7 +2626,7 @@ function put_voice_connector_origination(
         "/voice-connectors/$(voiceConnectorId)/origination",
         Dict{String,Any}("Origination" => Origination);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_origination(
@@ -2638,7 +2642,7 @@ function put_voice_connector_origination(
             mergewith(_merge, Dict{String,Any}("Origination" => Origination), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2673,7 +2677,7 @@ function put_voice_connector_proxy(
             "PhoneNumberPoolCountries" => PhoneNumberPoolCountries,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_proxy(
@@ -2697,7 +2701,7 @@ function put_voice_connector_proxy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2722,7 +2726,7 @@ function put_voice_connector_streaming_configuration(
         "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
         Dict{String,Any}("StreamingConfiguration" => StreamingConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_streaming_configuration(
@@ -2742,7 +2746,7 @@ function put_voice_connector_streaming_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2765,7 +2769,7 @@ function put_voice_connector_termination(
         "/voice-connectors/$(voiceConnectorId)/termination",
         Dict{String,Any}("Termination" => Termination);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_termination(
@@ -2781,7 +2785,7 @@ function put_voice_connector_termination(
             mergewith(_merge, Dict{String,Any}("Termination" => Termination), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2805,7 +2809,7 @@ function put_voice_connector_termination_credentials(
         "POST",
         "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_voice_connector_termination_credentials(
@@ -2818,7 +2822,7 @@ function put_voice_connector_termination_credentials(
         "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2839,7 +2843,7 @@ function restore_phone_number(
         "POST",
         "/phone-numbers/$(phoneNumberId)?operation=restore";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_phone_number(
@@ -2852,7 +2856,7 @@ function restore_phone_number(
         "/phone-numbers/$(phoneNumberId)?operation=restore",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2883,7 +2887,7 @@ function search_available_phone_numbers(; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/search?type=phone-numbers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_available_phone_numbers(
@@ -2894,7 +2898,7 @@ function search_available_phone_numbers(
         "/search?type=phone-numbers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2931,7 +2935,7 @@ function start_speaker_search_task(
             "TransactionId" => TransactionId, "VoiceProfileDomainId" => VoiceProfileDomainId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_speaker_search_task(
@@ -2955,7 +2959,7 @@ function start_speaker_search_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2990,7 +2994,7 @@ function start_voice_tone_analysis_task(
         "/voice-connectors/$(VoiceConnectorId)/voice-tone-analysis-tasks",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TransactionId" => TransactionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_voice_tone_analysis_task(
@@ -3013,7 +3017,7 @@ function start_voice_tone_analysis_task(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3035,7 +3039,7 @@ function stop_speaker_search_task(
         "POST",
         "/voice-connectors/$(VoiceConnectorId)/speaker-search-tasks/$(SpeakerSearchTaskId)?operation=stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_speaker_search_task(
@@ -3049,7 +3053,7 @@ function stop_speaker_search_task(
         "/voice-connectors/$(VoiceConnectorId)/speaker-search-tasks/$(SpeakerSearchTaskId)?operation=stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3073,7 +3077,7 @@ function stop_voice_tone_analysis_task(
         "POST",
         "/voice-connectors/$(VoiceConnectorId)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)?operation=stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_voice_tone_analysis_task(
@@ -3087,7 +3091,7 @@ function stop_voice_tone_analysis_task(
         "/voice-connectors/$(VoiceConnectorId)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)?operation=stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3108,7 +3112,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags?operation=tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3128,7 +3132,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3151,7 +3155,7 @@ function untag_resource(
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3171,7 +3175,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3187,14 +3191,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return chime_sdk_voice(
-        "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return chime_sdk_voice(
-        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -3226,7 +3230,7 @@ function update_phone_number(
         "POST",
         "/phone-numbers/$(phoneNumberId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_phone_number(
@@ -3239,7 +3243,7 @@ function update_phone_number(
         "/phone-numbers/$(phoneNumberId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3263,7 +3267,7 @@ function update_phone_number_settings(
         "/settings/phone-number",
         Dict{String,Any}("CallingName" => CallingName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_phone_number_settings(
@@ -3278,7 +3282,7 @@ function update_phone_number_settings(
             mergewith(_merge, Dict{String,Any}("CallingName" => CallingName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3308,7 +3312,7 @@ function update_proxy_session(
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
         Dict{String,Any}("Capabilities" => Capabilities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_proxy_session(
@@ -3325,7 +3329,7 @@ function update_proxy_session(
             mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3350,7 +3354,7 @@ function update_sip_media_application(
         "PUT",
         "/sip-media-applications/$(sipMediaApplicationId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sip_media_application(
@@ -3363,7 +3367,7 @@ function update_sip_media_application(
         "/sip-media-applications/$(sipMediaApplicationId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3392,7 +3396,7 @@ function update_sip_media_application_call(
         "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
         Dict{String,Any}("Arguments" => Arguments);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sip_media_application_call(
@@ -3409,7 +3413,7 @@ function update_sip_media_application_call(
             mergewith(_merge, Dict{String,Any}("Arguments" => Arguments), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3434,7 +3438,7 @@ function update_sip_rule(Name, sipRuleId; aws_config::AbstractAWSConfig=global_a
         "/sip-rules/$(sipRuleId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sip_rule(
@@ -3448,7 +3452,7 @@ function update_sip_rule(
         "/sip-rules/$(sipRuleId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3475,7 +3479,7 @@ function update_voice_connector(
         "/voice-connectors/$(voiceConnectorId)",
         Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_voice_connector(
@@ -3496,7 +3500,7 @@ function update_voice_connector(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3524,7 +3528,7 @@ function update_voice_connector_group(
         "/voice-connector-groups/$(voiceConnectorGroupId)",
         Dict{String,Any}("Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_voice_connector_group(
@@ -3547,7 +3551,7 @@ function update_voice_connector_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3578,7 +3582,7 @@ function update_voice_profile(
         "/voice-profiles/$(VoiceProfileId)",
         Dict{String,Any}("SpeakerSearchTaskId" => SpeakerSearchTaskId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_voice_profile(
@@ -3598,7 +3602,7 @@ function update_voice_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3623,7 +3627,7 @@ function update_voice_profile_domain(
         "PUT",
         "/voice-profile-domains/$(VoiceProfileDomainId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_voice_profile_domain(
@@ -3636,7 +3640,7 @@ function update_voice_profile_domain(
         "/voice-profile-domains/$(VoiceProfileDomainId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3682,7 +3686,7 @@ function validate_e911_address(
             "StreetNumber" => StreetNumber,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function validate_e911_address(
@@ -3715,6 +3719,6 @@ function validate_e911_address(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

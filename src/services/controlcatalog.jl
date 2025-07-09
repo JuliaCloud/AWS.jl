@@ -22,7 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_common_controls(; aws_config::AbstractAWSConfig=global_aws_config())
     return controlcatalog(
-        "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_common_controls(
@@ -33,7 +33,7 @@ function list_common_controls(
         "/common-controls",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -50,14 +50,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
     return controlcatalog(
-        "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return controlcatalog(
-        "POST", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -79,7 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_objectives(; aws_config::AbstractAWSConfig=global_aws_config())
     return controlcatalog(
-        "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_objectives(
@@ -90,6 +90,6 @@ function list_objectives(
         "/objectives",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

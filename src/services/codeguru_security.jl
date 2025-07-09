@@ -23,7 +23,7 @@ function batch_get_findings(
         "/batchGetFindings",
         Dict{String,Any}("findingIdentifiers" => findingIdentifiers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_get_findings(
@@ -40,7 +40,7 @@ function batch_get_findings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -86,7 +86,7 @@ function create_scan(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_scan(
@@ -110,7 +110,7 @@ function create_scan(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -134,7 +134,7 @@ function create_upload_url(scanName; aws_config::AbstractAWSConfig=global_aws_co
         "/uploadUrl",
         Dict{String,Any}("scanName" => scanName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_upload_url(
@@ -149,7 +149,7 @@ function create_upload_url(
             mergewith(_merge, Dict{String,Any}("scanName" => scanName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -165,7 +165,7 @@ function get_account_configuration(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/accountConfiguration/get";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_account_configuration(
@@ -176,7 +176,7 @@ function get_account_configuration(
         "/accountConfiguration/get",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -206,7 +206,7 @@ function get_findings(scanName; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/findings/$(scanName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_findings(
@@ -219,7 +219,7 @@ function get_findings(
         "/findings/$(scanName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -242,7 +242,7 @@ function get_metrics_summary(date; aws_config::AbstractAWSConfig=global_aws_conf
         "/metrics/summary",
         Dict{String,Any}("date" => date);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_metrics_summary(
@@ -253,7 +253,7 @@ function get_metrics_summary(
         "/metrics/summary",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("date" => date), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -274,7 +274,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_scan(scanName; aws_config::AbstractAWSConfig=global_aws_config())
     return codeguru_security(
-        "GET", "/scans/$(scanName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/scans/$(scanName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_scan(
@@ -287,7 +290,7 @@ function get_scan(
         "/scans/$(scanName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -322,7 +325,7 @@ function list_findings_metrics(
         "/metrics/findings",
         Dict{String,Any}("endDate" => endDate, "startDate" => startDate);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_findings_metrics(
@@ -342,7 +345,7 @@ function list_findings_metrics(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -365,14 +368,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_scans(; aws_config::AbstractAWSConfig=global_aws_config())
     return codeguru_security(
-        "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codeguru_security(
-        "GET", "/scans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/scans", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -394,7 +397,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -407,7 +410,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -433,7 +436,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -447,7 +450,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -471,7 +474,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -485,7 +488,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -510,7 +513,7 @@ function update_account_configuration(
         "/updateAccountConfiguration",
         Dict{String,Any}("encryptionConfig" => encryptionConfig);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_account_configuration(
@@ -527,6 +530,6 @@ function update_account_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

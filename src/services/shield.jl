@@ -25,7 +25,7 @@ function associate_drtlog_bucket(
         "AssociateDRTLogBucket",
         Dict{String,Any}("LogBucket" => LogBucket);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_drtlog_bucket(
@@ -39,7 +39,7 @@ function associate_drtlog_bucket(
             mergewith(_merge, Dict{String,Any}("LogBucket" => LogBucket), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -78,7 +78,7 @@ function associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=global_aws_con
         "AssociateDRTRole",
         Dict{String,Any}("RoleArn" => RoleArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_drtrole(
@@ -88,7 +88,7 @@ function associate_drtrole(
         "AssociateDRTRole",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -118,7 +118,7 @@ function associate_health_check(
             "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_health_check(
@@ -139,7 +139,7 @@ function associate_health_check(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -174,7 +174,7 @@ function associate_proactive_engagement_details(
         "AssociateProactiveEngagementDetails",
         Dict{String,Any}("EmergencyContactList" => EmergencyContactList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_proactive_engagement_details(
@@ -192,7 +192,7 @@ function associate_proactive_engagement_details(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,7 +234,7 @@ function create_protection(
         "CreateProtection",
         Dict{String,Any}("Name" => Name, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_protection(
@@ -253,7 +253,7 @@ function create_protection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -306,7 +306,7 @@ function create_protection_group(
             "ProtectionGroupId" => ProtectionGroupId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_protection_group(
@@ -330,7 +330,7 @@ function create_protection_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -348,14 +348,17 @@ an UpdateSubscription request.
 """
 function create_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "CreateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "CreateSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -374,7 +377,7 @@ function delete_protection(ProtectionId; aws_config::AbstractAWSConfig=global_aw
         "DeleteProtection",
         Dict{String,Any}("ProtectionId" => ProtectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_protection(
@@ -388,7 +391,7 @@ function delete_protection(
             mergewith(_merge, Dict{String,Any}("ProtectionId" => ProtectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,7 +414,7 @@ function delete_protection_group(
         "DeleteProtectionGroup",
         Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_protection_group(
@@ -427,7 +430,7 @@ function delete_protection_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -441,14 +444,17 @@ commitment. You cannot delete a subscription prior to the completion of that com
 """
 function delete_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DeleteSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeleteSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "DeleteSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeleteSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -467,7 +473,7 @@ function describe_attack(AttackId; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeAttack",
         Dict{String,Any}("AttackId" => AttackId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_attack(
@@ -481,7 +487,7 @@ function describe_attack(
             mergewith(_merge, Dict{String,Any}("AttackId" => AttackId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -501,7 +507,7 @@ indicates the period covered by the attack statistics data items.
 """
 function describe_attack_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DescribeAttackStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAttackStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_attack_statistics(
@@ -511,7 +517,7 @@ function describe_attack_statistics(
         "DescribeAttackStatistics",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -525,14 +531,17 @@ Returns the current role and list of Amazon S3 log buckets used by the Shield Re
 """
 function describe_drtaccess(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DescribeDRTAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDRTAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_drtaccess(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "DescribeDRTAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDRTAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -551,7 +560,7 @@ function describe_emergency_contact_settings(;
     return shield(
         "DescribeEmergencyContactSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_emergency_contact_settings(
@@ -561,7 +570,7 @@ function describe_emergency_contact_settings(
         "DescribeEmergencyContactSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -582,14 +591,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_protection(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DescribeProtection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProtection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_protection(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "DescribeProtection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProtection",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -612,7 +624,7 @@ function describe_protection_group(
         "DescribeProtectionGroup",
         Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_protection_group(
@@ -628,7 +640,7 @@ function describe_protection_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -641,7 +653,7 @@ Provides details about the Shield Advanced subscription for an account.
 """
 function describe_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DescribeSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_subscription(
@@ -651,7 +663,7 @@ function describe_subscription(
         "DescribeSubscription",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -674,7 +686,7 @@ function disable_application_layer_automatic_response(
         "DisableApplicationLayerAutomaticResponse",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_application_layer_automatic_response(
@@ -688,7 +700,7 @@ function disable_application_layer_automatic_response(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -702,7 +714,9 @@ escalations to the SRT and to initiate proactive customer support.
 """
 function disable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DisableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DisableProactiveEngagement";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_proactive_engagement(
@@ -712,7 +726,7 @@ function disable_proactive_engagement(
         "DisableProactiveEngagement",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -734,7 +748,7 @@ function disassociate_drtlog_bucket(
         "DisassociateDRTLogBucket",
         Dict{String,Any}("LogBucket" => LogBucket);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_drtlog_bucket(
@@ -748,7 +762,7 @@ function disassociate_drtlog_bucket(
             mergewith(_merge, Dict{String,Any}("LogBucket" => LogBucket), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -761,7 +775,7 @@ Removes the Shield Response Team's (SRT) access to your Amazon Web Services acco
 """
 function disassociate_drtrole(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "DisassociateDRTRole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DisassociateDRTRole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function disassociate_drtrole(
@@ -771,7 +785,7 @@ function disassociate_drtrole(
         "DisassociateDRTRole",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -802,7 +816,7 @@ function disassociate_health_check(
             "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_health_check(
@@ -823,7 +837,7 @@ function disassociate_health_check(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -864,7 +878,7 @@ function enable_application_layer_automatic_response(
         "EnableApplicationLayerAutomaticResponse",
         Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_application_layer_automatic_response(
@@ -883,7 +897,7 @@ function enable_application_layer_automatic_response(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -897,7 +911,9 @@ escalations to the SRT and to initiate proactive customer support.
 """
 function enable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "EnableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "EnableProactiveEngagement";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_proactive_engagement(
@@ -907,7 +923,7 @@ function enable_proactive_engagement(
         "EnableProactiveEngagement",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -920,7 +936,7 @@ Returns the SubscriptionState, either Active or Inactive.
 """
 function get_subscription_state(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "GetSubscriptionState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSubscriptionState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_subscription_state(
@@ -930,7 +946,7 @@ function get_subscription_state(
         "GetSubscriptionState",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -967,13 +983,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time in any valid timestamp format setting.
 """
 function list_attacks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return shield("ListAttacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return shield("ListAttacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_attacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "ListAttacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAttacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1010,7 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_protection_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "ListProtectionGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProtectionGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_protection_groups(
@@ -1020,7 +1036,7 @@ function list_protection_groups(
         "ListProtectionGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1056,13 +1072,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   empty.
 """
 function list_protections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return shield("ListProtections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return shield(
+        "ListProtections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_protections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "ListProtections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProtections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1102,7 +1120,7 @@ function list_resources_in_protection_group(
         "ListResourcesInProtectionGroup",
         Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_resources_in_protection_group(
@@ -1118,7 +1136,7 @@ function list_resources_in_protection_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1140,7 +1158,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1154,7 +1172,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1175,7 +1193,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1194,7 +1212,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1217,7 +1235,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1236,7 +1254,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1264,7 +1282,7 @@ function update_application_layer_automatic_response(
         "UpdateApplicationLayerAutomaticResponse",
         Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application_layer_automatic_response(
@@ -1283,7 +1301,7 @@ function update_application_layer_automatic_response(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1308,7 +1326,7 @@ function update_emergency_contact_settings(;
     return shield(
         "UpdateEmergencyContactSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_emergency_contact_settings(
@@ -1318,7 +1336,7 @@ function update_emergency_contact_settings(
         "UpdateEmergencyContactSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1370,7 +1388,7 @@ function update_protection_group(
             "ProtectionGroupId" => ProtectionGroupId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_protection_group(
@@ -1394,7 +1412,7 @@ function update_protection_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1418,13 +1436,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
     return shield(
-        "UpdateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return shield(
-        "UpdateSubscription", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdateSubscription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

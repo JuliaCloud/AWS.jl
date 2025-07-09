@@ -44,7 +44,7 @@ function create_environment(desktopArn; aws_config::AbstractAWSConfig=global_aws
         "/environments",
         Dict{String,Any}("desktopArn" => desktopArn, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_environment(
@@ -65,7 +65,7 @@ function create_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -95,7 +95,7 @@ function delete_device(id; aws_config::AbstractAWSConfig=global_aws_config())
         "/devices/$(id)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_device(
@@ -108,7 +108,7 @@ function delete_device(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -138,7 +138,7 @@ function delete_environment(id; aws_config::AbstractAWSConfig=global_aws_config(
         "/environments/$(id)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_environment(
@@ -151,7 +151,7 @@ function delete_environment(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -182,7 +182,7 @@ function deregister_device(id; aws_config::AbstractAWSConfig=global_aws_config()
         "/deregister-device/$(id)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_device(
@@ -195,7 +195,7 @@ function deregister_device(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -211,7 +211,7 @@ Returns information for a thin client device.
 """
 function get_device(id; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "GET", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_device(
@@ -222,7 +222,7 @@ function get_device(
         "/devices/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -238,7 +238,10 @@ Returns information for an environment.
 """
 function get_environment(id; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "GET", "/environments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/environments/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_environment(
@@ -249,7 +252,7 @@ function get_environment(
         "/environments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -265,7 +268,10 @@ Returns information for a software set.
 """
 function get_software_set(id; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "GET", "/softwaresets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/softwaresets/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_software_set(
@@ -276,7 +282,7 @@ function get_software_set(
         "/softwaresets/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,14 +305,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workspaces_thin_client(
-        "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -329,7 +335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_environments(
@@ -340,7 +346,7 @@ function list_environments(
         "/environments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -363,7 +369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_software_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "GET", "/softwaresets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/softwaresets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_software_sets(
@@ -374,7 +380,7 @@ function list_software_sets(
         "/softwaresets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -396,7 +402,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -409,7 +415,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -430,7 +436,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -444,7 +450,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -468,7 +474,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -482,7 +488,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -504,7 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_device(id; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_thin_client(
-        "PATCH", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_device(
@@ -515,7 +521,7 @@ function update_device(
         "/devices/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -548,7 +554,7 @@ function update_environment(id; aws_config::AbstractAWSConfig=global_aws_config(
         "PATCH",
         "/environments/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_environment(
@@ -559,7 +565,7 @@ function update_environment(
         "/environments/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -582,7 +588,7 @@ function update_software_set(
         "/softwaresets/$(id)",
         Dict{String,Any}("validationStatus" => validationStatus);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_software_set(
@@ -600,6 +606,6 @@ function update_software_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

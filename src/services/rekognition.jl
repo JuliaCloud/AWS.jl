@@ -52,7 +52,7 @@ function associate_faces(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_faces(
@@ -77,7 +77,7 @@ function associate_faces(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -153,7 +153,7 @@ function compare_faces(
         "CompareFaces",
         Dict{String,Any}("SourceImage" => SourceImage, "TargetImage" => TargetImage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function compare_faces(
@@ -174,7 +174,7 @@ function compare_faces(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -241,7 +241,7 @@ function copy_project_version(
             "VersionName" => VersionName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_project_version(
@@ -269,7 +269,7 @@ function copy_project_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -299,7 +299,7 @@ function create_collection(CollectionId; aws_config::AbstractAWSConfig=global_aw
         "CreateCollection",
         Dict{String,Any}("CollectionId" => CollectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_collection(
@@ -313,7 +313,7 @@ function create_collection(
             mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -357,7 +357,7 @@ function create_dataset(
         "CreateDataset",
         Dict{String,Any}("DatasetType" => DatasetType, "ProjectArn" => ProjectArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dataset(
@@ -376,7 +376,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -406,7 +406,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_face_liveness_session(; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
-        "CreateFaceLivenessSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "CreateFaceLivenessSession";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_face_liveness_session(
@@ -416,7 +418,7 @@ function create_face_liveness_session(
         "CreateFaceLivenessSession",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -447,7 +449,7 @@ function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_co
         "CreateProject",
         Dict{String,Any}("ProjectName" => ProjectName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_project(
@@ -461,7 +463,7 @@ function create_project(
             mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -531,7 +533,7 @@ function create_project_version(
             "VersionName" => VersionName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_project_version(
@@ -555,7 +557,7 @@ function create_project_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -645,7 +647,7 @@ function create_stream_processor(
             "Settings" => Settings,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_stream_processor(
@@ -673,7 +675,7 @@ function create_stream_processor(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -712,7 +714,7 @@ function create_user(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user(
@@ -735,7 +737,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -756,7 +758,7 @@ function delete_collection(CollectionId; aws_config::AbstractAWSConfig=global_aw
         "DeleteCollection",
         Dict{String,Any}("CollectionId" => CollectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_collection(
@@ -770,7 +772,7 @@ function delete_collection(
             mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -796,7 +798,7 @@ function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteDataset",
         Dict{String,Any}("DatasetArn" => DatasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset(
@@ -810,7 +812,7 @@ function delete_dataset(
             mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -834,7 +836,7 @@ function delete_faces(
         "DeleteFaces",
         Dict{String,Any}("CollectionId" => CollectionId, "FaceIds" => FaceIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_faces(
@@ -853,7 +855,7 @@ function delete_faces(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -878,7 +880,7 @@ function delete_project(ProjectArn; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteProject",
         Dict{String,Any}("ProjectArn" => ProjectArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project(
@@ -892,7 +894,7 @@ function delete_project(
             mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -921,7 +923,7 @@ function delete_project_policy(
         "DeleteProjectPolicy",
         Dict{String,Any}("PolicyName" => PolicyName, "ProjectArn" => ProjectArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project_policy(
@@ -940,7 +942,7 @@ function delete_project_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -967,7 +969,7 @@ function delete_project_version(
         "DeleteProjectVersion",
         Dict{String,Any}("ProjectVersionArn" => ProjectVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_project_version(
@@ -983,7 +985,7 @@ function delete_project_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1004,7 +1006,7 @@ function delete_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_
         "DeleteStreamProcessor",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_stream_processor(
@@ -1014,7 +1016,7 @@ function delete_stream_processor(
         "DeleteStreamProcessor",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1050,7 +1052,7 @@ function delete_user(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user(
@@ -1073,7 +1075,7 @@ function delete_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1097,7 +1099,7 @@ function describe_collection(
         "DescribeCollection",
         Dict{String,Any}("CollectionId" => CollectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_collection(
@@ -1111,7 +1113,7 @@ function describe_collection(
             mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1133,7 +1135,7 @@ function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_c
         "DescribeDataset",
         Dict{String,Any}("DatasetArn" => DatasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_dataset(
@@ -1147,7 +1149,7 @@ function describe_dataset(
             mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1186,7 +1188,7 @@ function describe_project_versions(
         "DescribeProjectVersions",
         Dict{String,Any}("ProjectArn" => ProjectArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_project_versions(
@@ -1200,7 +1202,7 @@ function describe_project_versions(
             mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1227,14 +1229,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_projects(; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
-        "DescribeProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return rekognition(
-        "DescribeProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1255,7 +1257,7 @@ function describe_stream_processor(Name; aws_config::AbstractAWSConfig=global_aw
         "DescribeStreamProcessor",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_stream_processor(
@@ -1265,7 +1267,7 @@ function describe_stream_processor(
         "DescribeStreamProcessor",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1326,7 +1328,7 @@ function detect_custom_labels(
         "DetectCustomLabels",
         Dict{String,Any}("Image" => Image, "ProjectVersionArn" => ProjectVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_custom_labels(
@@ -1347,7 +1349,7 @@ function detect_custom_labels(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1394,7 +1396,7 @@ function detect_faces(Image; aws_config::AbstractAWSConfig=global_aws_config())
         "DetectFaces",
         Dict{String,Any}("Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_faces(
@@ -1404,7 +1406,7 @@ function detect_faces(
         "DetectFaces",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1497,7 +1499,7 @@ function detect_labels(Image; aws_config::AbstractAWSConfig=global_aws_config())
         "DetectLabels",
         Dict{String,Any}("Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_labels(
@@ -1507,7 +1509,7 @@ function detect_labels(
         "DetectLabels",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1549,7 +1551,7 @@ function detect_moderation_labels(Image; aws_config::AbstractAWSConfig=global_aw
         "DetectModerationLabels",
         Dict{String,Any}("Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_moderation_labels(
@@ -1559,7 +1561,7 @@ function detect_moderation_labels(
         "DetectModerationLabels",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1600,7 +1602,7 @@ function detect_protective_equipment(
         "DetectProtectiveEquipment",
         Dict{String,Any}("Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_protective_equipment(
@@ -1610,7 +1612,7 @@ function detect_protective_equipment(
         "DetectProtectiveEquipment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1655,7 +1657,7 @@ function detect_text(Image; aws_config::AbstractAWSConfig=global_aws_config())
         "DetectText",
         Dict{String,Any}("Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function detect_text(
@@ -1665,7 +1667,7 @@ function detect_text(
         "DetectText",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1705,7 +1707,7 @@ function disassociate_faces(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_faces(
@@ -1730,7 +1732,7 @@ function disassociate_faces(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1763,7 +1765,7 @@ function distribute_dataset_entries(
         "DistributeDatasetEntries",
         Dict{String,Any}("Datasets" => Datasets);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function distribute_dataset_entries(
@@ -1777,7 +1779,7 @@ function distribute_dataset_entries(
             mergewith(_merge, Dict{String,Any}("Datasets" => Datasets), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1801,7 +1803,7 @@ function get_celebrity_info(Id; aws_config::AbstractAWSConfig=global_aws_config(
         "GetCelebrityInfo",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_celebrity_info(
@@ -1811,7 +1813,7 @@ function get_celebrity_info(
         "GetCelebrityInfo",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1871,7 +1873,7 @@ function get_celebrity_recognition(JobId; aws_config::AbstractAWSConfig=global_a
         "GetCelebrityRecognition",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_celebrity_recognition(
@@ -1881,7 +1883,7 @@ function get_celebrity_recognition(
         "GetCelebrityRecognition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1938,7 +1940,7 @@ function get_content_moderation(JobId; aws_config::AbstractAWSConfig=global_aws_
         "GetContentModeration",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_content_moderation(
@@ -1948,7 +1950,7 @@ function get_content_moderation(
         "GetContentModeration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1991,7 +1993,7 @@ function get_face_detection(JobId; aws_config::AbstractAWSConfig=global_aws_conf
         "GetFaceDetection",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_face_detection(
@@ -2001,7 +2003,7 @@ function get_face_detection(
         "GetFaceDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2029,7 +2031,7 @@ function get_face_liveness_session_results(
         "GetFaceLivenessSessionResults",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_face_liveness_session_results(
@@ -2043,7 +2045,7 @@ function get_face_liveness_session_results(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2092,7 +2094,7 @@ function get_face_search(JobId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetFaceSearch",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_face_search(
@@ -2102,7 +2104,7 @@ function get_face_search(
         "GetFaceSearch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2174,7 +2176,7 @@ function get_label_detection(JobId; aws_config::AbstractAWSConfig=global_aws_con
         "GetLabelDetection",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_label_detection(
@@ -2184,7 +2186,7 @@ function get_label_detection(
         "GetLabelDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2205,7 +2207,7 @@ function get_media_analysis_job(JobId; aws_config::AbstractAWSConfig=global_aws_
         "GetMediaAnalysisJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_media_analysis_job(
@@ -2215,7 +2217,7 @@ function get_media_analysis_job(
         "GetMediaAnalysisJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2265,7 +2267,7 @@ function get_person_tracking(JobId; aws_config::AbstractAWSConfig=global_aws_con
         "GetPersonTracking",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_person_tracking(
@@ -2275,7 +2277,7 @@ function get_person_tracking(
         "GetPersonTracking",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2321,7 +2323,7 @@ function get_segment_detection(JobId; aws_config::AbstractAWSConfig=global_aws_c
         "GetSegmentDetection",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segment_detection(
@@ -2331,7 +2333,7 @@ function get_segment_detection(
         "GetSegmentDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2375,7 +2377,7 @@ function get_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_conf
         "GetTextDetection",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_text_detection(
@@ -2385,7 +2387,7 @@ function get_text_detection(
         "GetTextDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2488,7 +2490,7 @@ function index_faces(CollectionId, Image; aws_config::AbstractAWSConfig=global_a
         "IndexFaces",
         Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function index_faces(
@@ -2507,7 +2509,7 @@ function index_faces(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2528,14 +2530,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_collections(; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
-        "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return rekognition(
-        "ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2583,7 +2585,7 @@ function list_dataset_entries(DatasetArn; aws_config::AbstractAWSConfig=global_a
         "ListDatasetEntries",
         Dict{String,Any}("DatasetArn" => DatasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dataset_entries(
@@ -2597,7 +2599,7 @@ function list_dataset_entries(
             mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2628,7 +2630,7 @@ function list_dataset_labels(DatasetArn; aws_config::AbstractAWSConfig=global_aw
         "ListDatasetLabels",
         Dict{String,Any}("DatasetArn" => DatasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dataset_labels(
@@ -2642,7 +2644,7 @@ function list_dataset_labels(
             mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2675,7 +2677,7 @@ function list_faces(CollectionId; aws_config::AbstractAWSConfig=global_aws_confi
         "ListFaces",
         Dict{String,Any}("CollectionId" => CollectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_faces(
@@ -2689,7 +2691,7 @@ function list_faces(
             mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2709,7 +2711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_media_analysis_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
-        "ListMediaAnalysisJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMediaAnalysisJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_media_analysis_jobs(
@@ -2719,7 +2721,7 @@ function list_media_analysis_jobs(
         "ListMediaAnalysisJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2751,7 +2753,7 @@ function list_project_policies(
         "ListProjectPolicies",
         Dict{String,Any}("ProjectArn" => ProjectArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_project_policies(
@@ -2765,7 +2767,7 @@ function list_project_policies(
             mergewith(_merge, Dict{String,Any}("ProjectArn" => ProjectArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2785,7 +2787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_stream_processors(; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
-        "ListStreamProcessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStreamProcessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_stream_processors(
@@ -2795,7 +2797,7 @@ function list_stream_processors(
         "ListStreamProcessors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2819,7 +2821,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2833,7 +2835,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2860,7 +2862,7 @@ function list_users(CollectionId; aws_config::AbstractAWSConfig=global_aws_confi
         "ListUsers",
         Dict{String,Any}("CollectionId" => CollectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_users(
@@ -2874,7 +2876,7 @@ function list_users(
             mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2925,7 +2927,7 @@ function put_project_policy(
             "ProjectArn" => ProjectArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_project_policy(
@@ -2949,7 +2951,7 @@ function put_project_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2990,7 +2992,7 @@ function recognize_celebrities(Image; aws_config::AbstractAWSConfig=global_aws_c
         "RecognizeCelebrities",
         Dict{String,Any}("Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function recognize_celebrities(
@@ -3000,7 +3002,7 @@ function recognize_celebrities(
         "RecognizeCelebrities",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3039,7 +3041,7 @@ function search_faces(
         "SearchFaces",
         Dict{String,Any}("CollectionId" => CollectionId, "FaceId" => FaceId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_faces(
@@ -3058,7 +3060,7 @@ function search_faces(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3124,7 +3126,7 @@ function search_faces_by_image(
         "SearchFacesByImage",
         Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_faces_by_image(
@@ -3143,7 +3145,7 @@ function search_faces_by_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3175,7 +3177,7 @@ function search_users(CollectionId; aws_config::AbstractAWSConfig=global_aws_con
         "SearchUsers",
         Dict{String,Any}("CollectionId" => CollectionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_users(
@@ -3189,7 +3191,7 @@ function search_users(
             mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3226,7 +3228,7 @@ function search_users_by_image(
         "SearchUsersByImage",
         Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search_users_by_image(
@@ -3245,7 +3247,7 @@ function search_users_by_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3289,7 +3291,7 @@ function start_celebrity_recognition(
         "StartCelebrityRecognition",
         Dict{String,Any}("Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_celebrity_recognition(
@@ -3299,7 +3301,7 @@ function start_celebrity_recognition(
         "StartCelebrityRecognition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3350,7 +3352,7 @@ function start_content_moderation(Video; aws_config::AbstractAWSConfig=global_aw
         "StartContentModeration",
         Dict{String,Any}("Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_content_moderation(
@@ -3360,7 +3362,7 @@ function start_content_moderation(
         "StartContentModeration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3404,7 +3406,7 @@ function start_face_detection(Video; aws_config::AbstractAWSConfig=global_aws_co
         "StartFaceDetection",
         Dict{String,Any}("Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_face_detection(
@@ -3414,7 +3416,7 @@ function start_face_detection(
         "StartFaceDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3459,7 +3461,7 @@ function start_face_search(
         "StartFaceSearch",
         Dict{String,Any}("CollectionId" => CollectionId, "Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_face_search(
@@ -3478,7 +3480,7 @@ function start_face_search(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3539,7 +3541,7 @@ function start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_c
         "StartLabelDetection",
         Dict{String,Any}("Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_label_detection(
@@ -3549,7 +3551,7 @@ function start_label_detection(
         "StartLabelDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3588,7 +3590,7 @@ function start_media_analysis_job(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_media_analysis_job(
@@ -3613,7 +3615,7 @@ function start_media_analysis_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3653,7 +3655,7 @@ function start_person_tracking(Video; aws_config::AbstractAWSConfig=global_aws_c
         "StartPersonTracking",
         Dict{String,Any}("Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_person_tracking(
@@ -3663,7 +3665,7 @@ function start_person_tracking(
         "StartPersonTracking",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3701,7 +3703,7 @@ function start_project_version(
             "ProjectVersionArn" => ProjectVersionArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_project_version(
@@ -3723,7 +3725,7 @@ function start_project_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3773,7 +3775,7 @@ function start_segment_detection(
         "StartSegmentDetection",
         Dict{String,Any}("SegmentTypes" => SegmentTypes, "Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_segment_detection(
@@ -3792,7 +3794,7 @@ function start_segment_detection(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3825,7 +3827,7 @@ function start_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_c
         "StartStreamProcessor",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_stream_processor(
@@ -3835,7 +3837,7 @@ function start_stream_processor(
         "StartStreamProcessor",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3873,7 +3875,7 @@ function start_text_detection(Video; aws_config::AbstractAWSConfig=global_aws_co
         "StartTextDetection",
         Dict{String,Any}("Video" => Video);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_text_detection(
@@ -3883,7 +3885,7 @@ function start_text_detection(
         "StartTextDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Video" => Video), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3909,7 +3911,7 @@ function stop_project_version(
         "StopProjectVersion",
         Dict{String,Any}("ProjectVersionArn" => ProjectVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_project_version(
@@ -3925,7 +3927,7 @@ function stop_project_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3944,7 +3946,7 @@ function stop_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_co
         "StopStreamProcessor",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_stream_processor(
@@ -3954,7 +3956,7 @@ function stop_stream_processor(
         "StopStreamProcessor",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3977,7 +3979,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3996,7 +3998,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4021,7 +4023,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -4040,7 +4042,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4078,7 +4080,7 @@ function update_dataset_entries(
         "UpdateDatasetEntries",
         Dict{String,Any}("Changes" => Changes, "DatasetArn" => DatasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dataset_entries(
@@ -4097,7 +4099,7 @@ function update_dataset_entries(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4131,7 +4133,7 @@ function update_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_
         "UpdateStreamProcessor",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_stream_processor(
@@ -4141,6 +4143,6 @@ function update_stream_processor(
         "UpdateStreamProcessor",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

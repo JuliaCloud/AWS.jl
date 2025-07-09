@@ -28,7 +28,7 @@ function create_landing_zone(
         "/create-landingzone",
         Dict{String,Any}("manifest" => manifest, "version" => version);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_landing_zone(
@@ -48,7 +48,7 @@ function create_landing_zone(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -72,7 +72,7 @@ function delete_landing_zone(
         "/delete-landingzone",
         Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_landing_zone(
@@ -91,7 +91,7 @@ function delete_landing_zone(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -117,7 +117,7 @@ function disable_baseline(
         "/disable-baseline",
         Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_baseline(
@@ -136,7 +136,7 @@ function disable_baseline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -167,7 +167,7 @@ function disable_control(
             "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_control(
@@ -190,7 +190,7 @@ function disable_control(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -229,7 +229,7 @@ function enable_baseline(
             "targetIdentifier" => targetIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_baseline(
@@ -254,7 +254,7 @@ function enable_baseline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -290,7 +290,7 @@ function enable_control(
             "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_control(
@@ -313,7 +313,7 @@ function enable_control(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +334,7 @@ function get_baseline(baselineIdentifier; aws_config::AbstractAWSConfig=global_a
         "/get-baseline",
         Dict{String,Any}("baselineIdentifier" => baselineIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_baseline(
@@ -351,7 +351,7 @@ function get_baseline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -377,7 +377,7 @@ function get_baseline_operation(
         "/get-baseline-operation",
         Dict{String,Any}("operationIdentifier" => operationIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_baseline_operation(
@@ -396,7 +396,7 @@ function get_baseline_operation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -421,7 +421,7 @@ function get_control_operation(
         "/get-control-operation",
         Dict{String,Any}("operationIdentifier" => operationIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_control_operation(
@@ -440,7 +440,7 @@ function get_control_operation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -463,7 +463,7 @@ function get_enabled_baseline(
         "/get-enabled-baseline",
         Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_enabled_baseline(
@@ -482,7 +482,7 @@ function get_enabled_baseline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +505,7 @@ function get_enabled_control(
         "/get-enabled-control",
         Dict{String,Any}("enabledControlIdentifier" => enabledControlIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_enabled_control(
@@ -524,7 +524,7 @@ function get_enabled_control(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -546,7 +546,7 @@ function get_landing_zone(
         "/get-landingzone",
         Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_landing_zone(
@@ -565,7 +565,7 @@ function get_landing_zone(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -588,7 +588,7 @@ function get_landing_zone_operation(
         "/get-landingzone-operation",
         Dict{String,Any}("operationIdentifier" => operationIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_landing_zone_operation(
@@ -607,7 +607,7 @@ function get_landing_zone_operation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -625,7 +625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_baselines(; aws_config::AbstractAWSConfig=global_aws_config())
     return controltower(
-        "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_baselines(
@@ -636,7 +636,7 @@ function list_baselines(
         "/list-baselines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -658,7 +658,7 @@ function list_control_operations(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/list-control-operations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_control_operations(
@@ -669,7 +669,7 @@ function list_control_operations(
         "/list-control-operations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -693,7 +693,7 @@ function list_enabled_baselines(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/list-enabled-baselines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_enabled_baselines(
@@ -704,7 +704,7 @@ function list_enabled_baselines(
         "/list-enabled-baselines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -731,7 +731,7 @@ function list_enabled_controls(; aws_config::AbstractAWSConfig=global_aws_config
         "POST",
         "/list-enabled-controls";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_enabled_controls(
@@ -742,7 +742,7 @@ function list_enabled_controls(
         "/list-enabled-controls",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -762,7 +762,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_landing_zones(; aws_config::AbstractAWSConfig=global_aws_config())
     return controltower(
-        "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/list-landingzones";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_landing_zones(
@@ -773,7 +776,7 @@ function list_landing_zones(
         "/list-landingzones",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -795,7 +798,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -808,7 +811,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -833,7 +836,7 @@ function reset_enabled_baseline(
         "/reset-enabled-baseline",
         Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reset_enabled_baseline(
@@ -852,7 +855,7 @@ function reset_enabled_baseline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -875,7 +878,7 @@ function reset_landing_zone(
         "/reset-landingzone",
         Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reset_landing_zone(
@@ -894,7 +897,7 @@ function reset_landing_zone(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -916,7 +919,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -930,7 +933,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -954,7 +957,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -968,7 +971,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1001,7 +1004,7 @@ function update_enabled_baseline(
             "enabledBaselineIdentifier" => enabledBaselineIdentifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_enabled_baseline(
@@ -1024,7 +1027,7 @@ function update_enabled_baseline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1058,7 +1061,7 @@ function update_enabled_control(
             "parameters" => parameters,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_enabled_control(
@@ -1081,7 +1084,7 @@ function update_enabled_control(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1115,7 +1118,7 @@ function update_landing_zone(
             "version" => version,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_landing_zone(
@@ -1140,6 +1143,6 @@ function update_landing_zone(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
