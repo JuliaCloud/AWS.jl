@@ -4,6 +4,10 @@ end
 
 testset_role(role_name) = "AWS.jl-$role_name"
 
+http_header(h::Dict, k, d="") = get(h, k, d)
+http_header(h::Vector, k, d="") = http_header(Dict(h), k, d)
+http_header(args...) = HTTP.header(args...)
+
 macro test_ecode(error_codes, expr)
     quote
         try
@@ -78,4 +82,11 @@ AWS.check_credentials(c::SimpleCredentials) = c
 function AWS.generate_service_url(aws::MinioConfig, service::String, resource::String)
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
     return string(aws.endpoint, resource)
+end
+
+function gen_ini(content)
+    buffer = IOBuffer(content)
+    ini = Inifile()
+    read(ini, buffer)
+    return ini
 end

@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Debug OIDC Claims
         if: ${{ env.RUN_INTEGRATION_TESTS == 'true' && runner.os == 'Linux' }}
-        uses: github/actions-oidc-debugger@main
+        uses: github/actions-oidc-debugger@v1
         with:
           audience: sts.amazonaws.com
       - name: Assume AWS role

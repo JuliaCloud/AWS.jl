@@ -1,8 +1,5 @@
 const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
 
-http_header(h::Vector, k, d="") = get(Dict(h), k, d)
-http_header(args...) = HTTP.header(args...)
-
 @testset "_role_session_name" begin
     @test AWS._role_session_name("prefix-", "name", "-suffix") == "prefix-name-suffix"
     @test AWS._role_session_name("a"^22, "b"^22, "c"^22) == "a"^22 * "b"^20 * "c"^22
@@ -147,6 +144,231 @@ end
         @test cred.access_key_id == access_key_id
         @test cred.expiry == server_time + Second(1234)
         @test sent_token[] == mfa_token
+    end
+end
+
+# Only testing the invalid code paths here. Valid code paths are tested elsewhere.
+@testset "_aws_get_sso_credential_details" begin
+    using AWS: _aws_get_sso_credential_details, _sso_cache_access_token
+    using AWS.AWSExceptions: InvalidAWSConfig
+
+    @testset "invalid SSO configuration" begin
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "The SSO session \"my-sso\" section must define `sso_start_url`."
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "The SSO session \"my-sso\" section must define `sso_region`."
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_account_id` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_account_id = 111122223333
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_role_name` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+    end
+
+    @testset "invalid legacy SSO configuration" begin
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_account_id = 111122223333
+            sso_region = us-legacy-1
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_start_url` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_account_id = 111122223333
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_region` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_region = us-legacy-1
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_account_id` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_region = us-legacy-1
+            sso_account_id = 111122223333
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "Profile \"default\" must define `sso_role_name` in order to request SSO credentials.",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+    end
+
+    @testset "inconsistent SSO/legacy SSO configuration" begin
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "The value for `sso_start_url` is inconsistent between the profile (https://my-legacy-sso-portal.awsapps.com/start) and the sso-session (https://my-sso-portal.awsapps.com/start).",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = my-sso
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-legacy-1
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session my-sso]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        ex = InvalidAWSConfig(
+            "The value for `sso_region` is inconsistent between the profile (us-legacy-1) and the sso-session (us-east-1).",
+        )
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+    end
+
+    @testset "SSO login required" begin
+        # Ensure we don't accidentally use a valid session name
+        session_name = "___null___"
+        @test isnothing(_sso_cache_access_token(session_name))
+
+        ex = ErrorException(
+            "You must first sign in to a IAM Identity Center session via `aws sso login --profile default`. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-login for more details.",
+        )
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_session = $session_name
+            sso_account_id = 111122223333
+            sso_role_name = role1
+
+            [sso-session $session_name]
+            sso_start_url = https://my-sso-portal.awsapps.com/start
+            sso_region = us-east-1
+            """
+        )
+        #! format: on
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
+
+        #! format: off
+        ini = gen_ini(
+            """
+            [default]
+            sso_start_url = $session_name
+            sso_region = us-east-1
+            sso_account_id = 111122223333
+            sso_role_name = role1
+            """
+        )
+        #! format: on
+        @test_throws ex _aws_get_sso_credential_details("default", ini)
     end
 end
 
@@ -541,13 +763,18 @@ end
                     end
                 end
 
-                @testset "Web identity preferred over SSO" begin
+                @testset "Web identity preferred over IAM Identity Center (SSO)" begin
                     write(
                         config_file,
                         """
                         [default]
-                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_session = my-sso
+                        sso_account_id = 111122223333
                         sso_role_name = role1
+
+                        [sso-session my-sso]
+                        sso_region = us-east-1
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
                         """,
                     )
                     isfile(creds_file) && rm(creds_file)
@@ -577,36 +804,44 @@ end
                     end
                 end
 
-                # TODO: Additional, precedence tests should be added for IAM Identity Center
-                # once support has been introduced.
-                @testset "IAM Identity Center preferred over legacy SSO" begin
+                @testset "IAM Identity Center (SSO) preferred over Legacy IAM Identity Center" begin
                     write(
                         config_file,
                         """
-                        [sso-session my-sso]
-                        sso_region = us-east-1
-                        sso_start_url = https://my-sso-portal.awsapps.com/start
-
                         [default]
                         sso_session = my-sso
-                        sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+                        sso_account_id = 111122223333
                         sso_role_name = role1
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_region = us-east-1
+
+                        [sso-session my-sso]
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_region = us-east-1
                         """,
                     )
                     isfile(creds_file) && rm(creds_file)
 
                     apply(Patches.sso_service_patches("AKI_SSO", "SAK_SSO")) do
-                        @test_throws ErrorException AWSCredentials()
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI_SSO"
+
+                        # Using the credential token to identify the which SSO system is
+                        # used. For legacy SSO this would be `sso_start_url` instead of
+                        # `sso_session`.
+                        @test creds.token == "my-sso"
                     end
                 end
 
-                @testset "SSO preferred over credentials file" begin
+                @testset "Legacy IAM Identity Center (SSO) preferred over credentials file" begin
                     write(
                         config_file,
                         """
                         [profile profile1]
                         sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_account_id = 111122223333
                         sso_role_name = role1
+                        sso_region = us-east-1
                         """,
                     )
                     write(creds_file, basic_creds_content)
@@ -767,6 +1002,8 @@ end
         "Test-SSO-Profile" => "sso-test",
         "Test-SSO-start-url" => "https://test-sso.com/start",
         "Test-SSO-Role" => "SSORoleName",
+        "Test-SSO-Account-Id" => "111122223333",
+        "Test-SSO-Region" => "us-east-1",
     )
 
     @testset "~/.aws/config - Default Profile" begin
@@ -819,6 +1056,8 @@ end
                 [profile $(test_values["Test-SSO-Profile"])]
                 sso_start_url=$(test_values["Test-SSO-start-url"])
                 sso_role_name=$(test_values["Test-SSO-Role"])
+                sso_account_id=$(test_values["Test-SSO-Account-Id"])
+                sso_region=$(test_values["Test-SSO-Region"])
                 """,
             )
             close(config_io)
