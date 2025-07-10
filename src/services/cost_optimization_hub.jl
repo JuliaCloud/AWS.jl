@@ -14,13 +14,13 @@ are presented—estimated savings after discounts or estimated savings before di
 for example.
 
 """
-function get_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "GetPreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_preferences(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "GetPreferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -41,7 +41,7 @@ ListRecommendations API.
 
 """
 function get_recommendation(
-    recommendationId; aws_config::AbstractAWSConfig=global_aws_config()
+    recommendationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "GetRecommendation",
@@ -53,7 +53,7 @@ end
 function get_recommendation(
     recommendationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_optimization_hub(
         "GetRecommendation",
@@ -82,13 +82,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects that are returned for the request.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
-function list_enrollment_statuses(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_enrollment_statuses(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "ListEnrollmentStatuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_enrollment_statuses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "ListEnrollmentStatuses",
@@ -116,7 +116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_recommendation_summaries(
-    groupBy; aws_config::AbstractAWSConfig=global_aws_config()
+    groupBy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "ListRecommendationSummaries",
@@ -126,7 +126,9 @@ function list_recommendation_summaries(
     )
 end
 function list_recommendation_summaries(
-    groupBy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    groupBy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_optimization_hub(
         "ListRecommendationSummaries",
@@ -151,13 +153,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"orderBy"`: The ordering of recommendations by a dimension.
 """
-function list_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "ListRecommendations",
@@ -186,7 +188,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
   organization if the account is the management account.
 """
-function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config())
+function update_enrollment_status(
+    status; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cost_optimization_hub(
         "UpdateEnrollmentStatus",
         Dict{String,Any}("status" => status);
@@ -195,7 +199,7 @@ function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_a
     )
 end
 function update_enrollment_status(
-    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "UpdateEnrollmentStatus",
@@ -219,13 +223,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preference.
 - `"savingsEstimationMode"`: Sets the \"savings estimation mode\" preference.
 """
-function update_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "UpdatePreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_preferences(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_optimization_hub(
         "UpdatePreferences", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

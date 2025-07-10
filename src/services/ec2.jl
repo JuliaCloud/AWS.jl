@@ -24,7 +24,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, to find all resources that have a tag with the key Owner and the value TeamA,
   specify tag:Owner for the filter name and TeamA for the filter value.
 """
-function accept_address_transfer(Address; aws_config::AbstractAWSConfig=global_aws_config())
+function accept_address_transfer(
+    Address; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "AcceptAddressTransfer",
         Dict{String,Any}("Address" => Address);
@@ -33,7 +35,9 @@ function accept_address_transfer(Address; aws_config::AbstractAWSConfig=global_a
     )
 end
 function accept_address_transfer(
-    Address, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Address,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AcceptAddressTransfer",
@@ -63,7 +67,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exchange for your current Convertible Reserved Instances.
 """
 function accept_reserved_instances_exchange_quote(
-    ReservedInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ReservedInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptReservedInstancesExchangeQuote",
@@ -75,7 +79,7 @@ end
 function accept_reserved_instances_exchange_quote(
     ReservedInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AcceptReservedInstancesExchangeQuote",
@@ -106,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
 function accept_transit_gateway_multicast_domain_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptTransitGatewayMulticastDomainAssociations";
@@ -115,7 +119,7 @@ function accept_transit_gateway_multicast_domain_associations(;
     )
 end
 function accept_transit_gateway_multicast_domain_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptTransitGatewayMulticastDomainAssociations",
@@ -142,7 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_transit_gateway_peering_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptTransitGatewayPeeringAttachment",
@@ -154,7 +158,7 @@ end
 function accept_transit_gateway_peering_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AcceptTransitGatewayPeeringAttachment",
@@ -191,7 +195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_transit_gateway_vpc_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptTransitGatewayVpcAttachment",
@@ -203,7 +207,7 @@ end
 function accept_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AcceptTransitGatewayVpcAttachment",
@@ -238,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_vpc_endpoint_connections(
-    ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptVpcEndpointConnections",
@@ -251,7 +255,7 @@ function accept_vpc_endpoint_connections(
     ServiceId,
     VpcEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AcceptVpcEndpointConnections",
@@ -290,7 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function accept_vpc_peering_connection(
-    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AcceptVpcPeeringConnection",
@@ -302,7 +306,7 @@ end
 function accept_vpc_peering_connection(
     vpcPeeringConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AcceptVpcPeeringConnection",
@@ -351,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    us-west-2-lax-1   us-west-2-phx-2    You cannot provision or advertise BYOIPv6 address
   ranges in Local Zones at this time.
 """
-function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "AdvertiseByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
@@ -360,7 +364,7 @@ function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function advertise_byoip_cidr(
-    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AdvertiseByoipCidr",
@@ -408,11 +412,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function allocate_address(; aws_config::AbstractAWSConfig=global_aws_config())
+function allocate_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("AllocateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function allocate_address(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AllocateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -470,7 +474,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on each specified hardware asset. If you specify both AssetIds and Quantity, then the value
   that you specify for Quantity must be equal to the number of asset IDs specified.
 """
-function allocate_hosts(availabilityZone; aws_config::AbstractAWSConfig=global_aws_config())
+function allocate_hosts(
+    availabilityZone; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "AllocateHosts",
         Dict{String,Any}("availabilityZone" => availabilityZone);
@@ -481,7 +487,7 @@ end
 function allocate_hosts(
     availabilityZone,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AllocateHosts",
@@ -537,7 +543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreviewNextCidr"`: A preview of the next available CIDR in a pool.
 """
 function allocate_ipam_pool_cidr(
-    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AllocateIpamPoolCidr",
@@ -549,7 +555,7 @@ end
 function allocate_ipam_pool_cidr(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AllocateIpamPoolCidr",
@@ -591,7 +597,7 @@ function apply_security_groups_to_client_vpn_target_network(
     ClientVpnEndpointId,
     SecurityGroupId,
     VpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ApplySecurityGroupsToClientVpnTargetNetwork",
@@ -609,7 +615,7 @@ function apply_security_groups_to_client_vpn_target_network(
     SecurityGroupId,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ApplySecurityGroupsToClientVpnTargetNetwork",
@@ -662,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this option if you're specifying a number of IPv6 addresses.
 """
 function assign_ipv6_addresses(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssignIpv6Addresses",
@@ -674,7 +680,7 @@ end
 function assign_ipv6_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssignIpv6Addresses",
@@ -729,7 +735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   addresses.
 """
 function assign_private_ip_addresses(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssignPrivateIpAddresses",
@@ -741,7 +747,7 @@ end
 function assign_private_ip_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssignPrivateIpAddresses",
@@ -776,7 +782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   gateway. You can't specify this parameter when also specifying private IP addresses.
 """
 function assign_private_nat_gateway_address(
-    NatGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssignPrivateNatGatewayAddress",
@@ -788,7 +794,7 @@ end
 function assign_private_nat_gateway_address(
     NatGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssignPrivateNatGatewayAddress",
@@ -837,11 +843,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elastic IP address. If no private IP address is specified, the Elastic IP address is
   associated with the primary private IP address.
 """
-function associate_address(; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("AssociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function associate_address(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -874,7 +880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_client_vpn_target_network(
-    ClientVpnEndpointId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateClientVpnTargetNetwork",
@@ -891,7 +897,7 @@ function associate_client_vpn_target_network(
     ClientVpnEndpointId,
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateClientVpnTargetNetwork",
@@ -935,7 +941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_dhcp_options(
-    DhcpOptionsId, VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    DhcpOptionsId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateDhcpOptions",
@@ -948,7 +954,7 @@ function associate_dhcp_options(
     DhcpOptionsId,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateDhcpOptions",
@@ -994,7 +1000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function associate_enclave_certificate_iam_role(
-    CertificateArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateEnclaveCertificateIamRole",
@@ -1007,7 +1013,7 @@ function associate_enclave_certificate_iam_role(
     CertificateArn,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateEnclaveCertificateIamRole",
@@ -1036,7 +1042,7 @@ more than one IAM instance profile with an instance.
 
 """
 function associate_iam_instance_profile(
-    IamInstanceProfile, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    IamInstanceProfile, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateIamInstanceProfile",
@@ -1051,7 +1057,7 @@ function associate_iam_instance_profile(
     IamInstanceProfile,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateIamInstanceProfile",
@@ -1090,7 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_instance_event_window(
     AssociationTarget,
     InstanceEventWindowId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateInstanceEventWindow",
@@ -1106,7 +1112,7 @@ function associate_instance_event_window(
     AssociationTarget,
     InstanceEventWindowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateInstanceEventWindow",
@@ -1145,7 +1151,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function associate_ipam_byoasn(Asn, Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_ipam_byoasn(
+    Asn, Cidr; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "AssociateIpamByoasn",
         Dict{String,Any}("Asn" => Asn, "Cidr" => Cidr);
@@ -1157,7 +1165,7 @@ function associate_ipam_byoasn(
     Asn,
     Cidr,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateIpamByoasn",
@@ -1190,7 +1198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: Tag specifications.
 """
 function associate_ipam_resource_discovery(
-    IpamId, IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamId, IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateIpamResourceDiscovery",
@@ -1207,7 +1215,7 @@ function associate_ipam_resource_discovery(
     IpamId,
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateIpamResourceDiscovery",
@@ -1258,7 +1266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   gateway.
 """
 function associate_nat_gateway_address(
-    AllocationId, NatGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    AllocationId, NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateNatGatewayAddress",
@@ -1271,7 +1279,7 @@ function associate_nat_gateway_address(
     AllocationId,
     NatGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateNatGatewayAddress",
@@ -1312,7 +1320,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subnetId"`: The ID of the subnet.
 """
 function associate_route_table(
-    routeTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    routeTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateRouteTable",
@@ -1324,7 +1332,7 @@ end
 function associate_route_table(
     routeTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateRouteTable",
@@ -1353,7 +1361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ipv6CidrBlock"`: The IPv6 CIDR block for your subnet.
 """
 function associate_subnet_cidr_block(
-    subnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    subnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateSubnetCidrBlock",
@@ -1365,7 +1373,7 @@ end
 function associate_subnet_cidr_block(
     subnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateSubnetCidrBlock",
@@ -1404,7 +1412,7 @@ function associate_transit_gateway_multicast_domain(
     TransitGatewayAttachmentId,
     TransitGatewayMulticastDomainId,
     item;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTransitGatewayMulticastDomain",
@@ -1422,7 +1430,7 @@ function associate_transit_gateway_multicast_domain(
     TransitGatewayMulticastDomainId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTransitGatewayMulticastDomain",
@@ -1463,7 +1471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_transit_gateway_policy_table(
     TransitGatewayAttachmentId,
     TransitGatewayPolicyTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTransitGatewayPolicyTable",
@@ -1479,7 +1487,7 @@ function associate_transit_gateway_policy_table(
     TransitGatewayAttachmentId,
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTransitGatewayPolicyTable",
@@ -1518,7 +1526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_transit_gateway_route_table(
     TransitGatewayAttachmentId,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTransitGatewayRouteTable",
@@ -1534,7 +1542,7 @@ function associate_transit_gateway_route_table(
     TransitGatewayAttachmentId,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTransitGatewayRouteTable",
@@ -1577,7 +1585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VlanId"`: The ID of the VLAN. This applies to the VLAN protocol.
 """
 function associate_trunk_interface(
-    BranchInterfaceId, TrunkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    BranchInterfaceId, TrunkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateTrunkInterface",
@@ -1594,7 +1602,7 @@ function associate_trunk_interface(
     BranchInterfaceId,
     TrunkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AssociateTrunkInterface",
@@ -1655,7 +1663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefix length for the VPC. You cannot specify the range of IPv6 addresses or the size of
   the CIDR block.
 """
-function associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "AssociateVpcCidrBlock",
         Dict{String,Any}("vpcId" => vpcId);
@@ -1664,7 +1672,7 @@ function associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function associate_vpc_cidr_block(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AssociateVpcCidrBlock",
@@ -1700,7 +1708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_classic_link_vpc(
-    SecurityGroupId, instanceId, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    SecurityGroupId, instanceId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AttachClassicLinkVpc",
@@ -1718,7 +1726,7 @@ function attach_classic_link_vpc(
     instanceId,
     vpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachClassicLinkVpc",
@@ -1757,7 +1765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_internet_gateway(
-    internetGatewayId, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    internetGatewayId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AttachInternetGateway",
@@ -1770,7 +1778,7 @@ function attach_internet_gateway(
     internetGatewayId,
     vpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachInternetGateway",
@@ -1814,7 +1822,7 @@ function attach_network_interface(
     deviceIndex,
     instanceId,
     networkInterfaceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachNetworkInterface",
@@ -1832,7 +1840,7 @@ function attach_network_interface(
     instanceId,
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachNetworkInterface",
@@ -1874,7 +1882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function attach_verified_access_trust_provider(
     VerifiedAccessInstanceId,
     VerifiedAccessTrustProviderId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachVerifiedAccessTrustProvider",
@@ -1891,7 +1899,7 @@ function attach_verified_access_trust_provider(
     VerifiedAccessInstanceId,
     VerifiedAccessTrustProviderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachVerifiedAccessTrustProvider",
@@ -1940,7 +1948,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_volume(
-    Device, InstanceId, VolumeId; aws_config::AbstractAWSConfig=global_aws_config()
+    Device, InstanceId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AttachVolume",
@@ -1956,7 +1964,7 @@ function attach_volume(
     InstanceId,
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachVolume",
@@ -1993,7 +2001,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function attach_vpn_gateway(
-    VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AttachVpnGateway",
@@ -2006,7 +2014,7 @@ function attach_vpn_gateway(
     VpcId,
     VpnGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AttachVpnGateway",
@@ -2054,7 +2062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function authorize_client_vpn_ingress(
     ClientVpnEndpointId,
     TargetNetworkCidr;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AuthorizeClientVpnIngress",
@@ -2071,7 +2079,7 @@ function authorize_client_vpn_ingress(
     ClientVpnEndpointId,
     TargetNetworkCidr,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AuthorizeClientVpnIngress",
@@ -2127,7 +2135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toPort"`: Not supported. Use IP permissions instead.
 """
 function authorize_security_group_egress(
-    groupId; aws_config::AbstractAWSConfig=global_aws_config()
+    groupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AuthorizeSecurityGroupEgress",
@@ -2137,7 +2145,9 @@ function authorize_security_group_egress(
     )
 end
 function authorize_security_group_egress(
-    groupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    groupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "AuthorizeSecurityGroupEgress",
@@ -2200,7 +2210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function authorize_security_group_ingress(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AuthorizeSecurityGroupIngress";
@@ -2209,7 +2219,7 @@ function authorize_security_group_ingress(;
     )
 end
 function authorize_security_group_ingress(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "AuthorizeSecurityGroupIngress",
@@ -2241,7 +2251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function bundle_instance(
-    InstanceId, Storage; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Storage; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "BundleInstance",
@@ -2254,7 +2264,7 @@ function bundle_instance(
     InstanceId,
     Storage,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "BundleInstance",
@@ -2285,7 +2295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function cancel_bundle_task(BundleId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_bundle_task(BundleId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CancelBundleTask",
         Dict{String,Any}("BundleId" => BundleId);
@@ -2296,7 +2306,7 @@ end
 function cancel_bundle_task(
     BundleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelBundleTask",
@@ -2329,7 +2339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_capacity_reservation(
-    CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelCapacityReservation",
@@ -2341,7 +2351,7 @@ end
 function cancel_capacity_reservation(
     CapacityReservationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelCapacityReservation",
@@ -2377,7 +2387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_capacity_reservation_fleets(
-    CapacityReservationFleetId; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationFleetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelCapacityReservationFleets",
@@ -2389,7 +2399,7 @@ end
 function cancel_capacity_reservation_fleets(
     CapacityReservationFleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelCapacityReservationFleets",
@@ -2428,7 +2438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reasonMessage"`: The reason for canceling the conversion task.
 """
 function cancel_conversion_task(
-    conversionTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    conversionTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelConversionTask",
@@ -2440,7 +2450,7 @@ end
 function cancel_conversion_task(
     conversionTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelConversionTask",
@@ -2467,7 +2477,9 @@ process of transferring the final disk image, the command fails and returns an e
   CreateInstanceExportTask and ExportImage operations.
 
 """
-function cancel_export_task(exportTaskId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_export_task(
+    exportTaskId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "CancelExportTask",
         Dict{String,Any}("exportTaskId" => exportTaskId);
@@ -2478,7 +2490,7 @@ end
 function cancel_export_task(
     exportTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelExportTask",
@@ -2508,7 +2520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_image_launch_permission(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelImageLaunchPermission",
@@ -2518,7 +2530,9 @@ function cancel_image_launch_permission(
     )
 end
 function cancel_image_launch_permission(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelImageLaunchPermission",
@@ -2542,11 +2556,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"ImportTaskId"`: The ID of the import image or import snapshot task to be canceled.
 """
-function cancel_import_task(; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_import_task(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("CancelImportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function cancel_import_task(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelImportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2566,7 +2580,7 @@ Guide.
 
 """
 function cancel_reserved_instances_listing(
-    reservedInstancesListingId; aws_config::AbstractAWSConfig=global_aws_config()
+    reservedInstancesListingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelReservedInstancesListing",
@@ -2578,7 +2592,7 @@ end
 function cancel_reserved_instances_listing(
     reservedInstancesListingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelReservedInstancesListing",
@@ -2625,7 +2639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function cancel_spot_fleet_requests(
     spotFleetRequestId,
     terminateInstances;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelSpotFleetRequests",
@@ -2641,7 +2655,7 @@ function cancel_spot_fleet_requests(
     spotFleetRequestId,
     terminateInstances,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelSpotFleetRequests",
@@ -2677,7 +2691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function cancel_spot_instance_requests(
-    SpotInstanceRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    SpotInstanceRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CancelSpotInstanceRequests",
@@ -2689,7 +2703,7 @@ end
 function cancel_spot_instance_requests(
     SpotInstanceRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CancelSpotInstanceRequests",
@@ -2724,7 +2738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function confirm_product_instance(
-    InstanceId, ProductCode; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ProductCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ConfirmProductInstance",
@@ -2737,7 +2751,7 @@ function confirm_product_instance(
     InstanceId,
     ProductCode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ConfirmProductInstance",
@@ -2774,7 +2788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name for the new AFI. The default is the name of the source AFI.
 """
 function copy_fpga_image(
-    SourceFpgaImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    SourceFpgaImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CopyFpgaImage",
@@ -2789,7 +2803,7 @@ function copy_fpga_image(
     SourceFpgaImageId,
     SourceRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CopyFpgaImage",
@@ -2873,7 +2887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must exist in the destination Region. Amazon EBS does not support asymmetric KMS keys.
 """
 function copy_image(
-    Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CopyImage",
@@ -2889,7 +2903,7 @@ function copy_image(
     SourceImageId,
     SourceRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CopyImage",
@@ -2979,7 +2993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   copy operation to fail asynchronously, and the snapshot will move to an error state.
 """
 function copy_snapshot(
-    SourceRegion, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    SourceRegion, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CopySnapshot",
@@ -2994,7 +3008,7 @@ function copy_snapshot(
     SourceRegion,
     SourceSnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CopySnapshot",
@@ -3094,7 +3108,7 @@ function create_capacity_reservation(
     InstanceCount,
     InstancePlatform,
     InstanceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateCapacityReservation",
@@ -3112,7 +3126,7 @@ function create_capacity_reservation(
     InstancePlatform,
     InstanceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateCapacityReservation",
@@ -3182,7 +3196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_capacity_reservation_fleet(
     InstanceTypeSpecification,
     TotalTargetCapacity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateCapacityReservationFleet",
@@ -3199,7 +3213,7 @@ function create_capacity_reservation_fleet(
     InstanceTypeSpecification,
     TotalTargetCapacity,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateCapacityReservationFleet",
@@ -3238,7 +3252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"TagSpecification"`: The tags to associate with the carrier gateway.
 """
-function create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateCarrierGateway",
         Dict{String,Any}("VpcId" => VpcId, "ClientToken" => string(uuid4()));
@@ -3247,7 +3261,7 @@ function create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function create_carrier_gateway(
-    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateCarrierGateway",
@@ -3324,7 +3338,7 @@ function create_client_vpn_endpoint(
     ClientCidrBlock,
     ConnectionLogOptions,
     ServerCertificateArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateClientVpnEndpoint",
@@ -3345,7 +3359,7 @@ function create_client_vpn_endpoint(
     ConnectionLogOptions,
     ServerCertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateClientVpnEndpoint",
@@ -3399,7 +3413,7 @@ function create_client_vpn_route(
     ClientVpnEndpointId,
     DestinationCidrBlock,
     TargetVpcSubnetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateClientVpnRoute",
@@ -3418,7 +3432,7 @@ function create_client_vpn_route(
     DestinationCidrBlock,
     TargetVpcSubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateClientVpnRoute",
@@ -3456,7 +3470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_coip_cidr(
-    Cidr, CoipPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateCoipCidr",
@@ -3469,7 +3483,7 @@ function create_coip_cidr(
     Cidr,
     CoipPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateCoipCidr",
@@ -3500,7 +3514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`:  The tags to assign to the CoIP address pool.
 """
 function create_coip_pool(
-    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateCoipPool",
@@ -3512,7 +3526,7 @@ end
 function create_coip_pool(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateCoipPool",
@@ -3572,7 +3586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_customer_gateway(Type; aws_config::AbstractAWSConfig=global_aws_config())
+function create_customer_gateway(Type; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateCustomerGateway",
         Dict{String,Any}("Type" => Type);
@@ -3581,7 +3595,7 @@ function create_customer_gateway(Type; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function create_customer_gateway(
-    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateCustomerGateway",
@@ -3612,7 +3626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only subnet.
 """
 function create_default_subnet(
-    AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config()
+    AvailabilityZone; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateDefaultSubnet",
@@ -3624,7 +3638,7 @@ end
 function create_default_subnet(
     AvailabilityZone,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateDefaultSubnet",
@@ -3654,11 +3668,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_default_vpc(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_default_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("CreateDefaultVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function create_default_vpc(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateDefaultVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3707,7 +3721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_dhcp_options(
-    dhcpConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    dhcpConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateDhcpOptions",
@@ -3719,7 +3733,7 @@ end
 function create_dhcp_options(
     dhcpConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateDhcpOptions",
@@ -3755,7 +3769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to assign to the egress-only internet gateway.
 """
 function create_egress_only_internet_gateway(
-    VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateEgressOnlyInternetGateway",
@@ -3765,7 +3779,7 @@ function create_egress_only_internet_gateway(
     )
 end
 function create_egress_only_internet_gateway(
-    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateEgressOnlyInternetGateway",
@@ -3830,7 +3844,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fulfill the request. If no value is specified, the request remains until you cancel it.
 """
 function create_fleet(
-    TargetCapacitySpecification, item; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetCapacitySpecification, item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateFleet",
@@ -3845,7 +3859,7 @@ function create_fleet(
     TargetCapacitySpecification,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateFleet",
@@ -3930,7 +3944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required for the other resource types.
 """
 function create_flow_logs(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateFlowLogs",
@@ -3943,7 +3957,7 @@ function create_flow_logs(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateFlowLogs",
@@ -3988,7 +4002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to apply to the FPGA image during creation.
 """
 function create_fpga_image(
-    InputStorageLocation; aws_config::AbstractAWSConfig=global_aws_config()
+    InputStorageLocation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateFpgaImage",
@@ -4000,7 +4014,7 @@ end
 function create_fpga_image(
     InputStorageLocation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateFpgaImage",
@@ -4063,7 +4077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   image. This ensures that all buffered data and data in memory is written to the volumes
   before the snapshots are created.   Default: false
 """
-function create_image(instanceId, name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_image(instanceId, name; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateImage",
         Dict{String,Any}("instanceId" => instanceId, "name" => name);
@@ -4075,7 +4089,7 @@ function create_image(
     instanceId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateImage",
@@ -4119,7 +4133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creation.
 """
 function create_instance_connect_endpoint(
-    SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateInstanceConnectEndpoint",
@@ -4131,7 +4145,7 @@ end
 function create_instance_connect_endpoint(
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateInstanceConnectEndpoint",
@@ -4182,13 +4196,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRange"`: The time range for the event window. If you specify a time range, you
   can't specify a cron expression.
 """
-function create_instance_event_window(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_instance_event_window(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateInstanceEventWindow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_instance_event_window(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateInstanceEventWindow",
@@ -4222,7 +4236,7 @@ function create_instance_export_task(
     exportToS3,
     instanceId,
     targetEnvironment;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateInstanceExportTask",
@@ -4240,7 +4254,7 @@ function create_instance_export_task(
     instanceId,
     targetEnvironment,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateInstanceExportTask",
@@ -4275,13 +4289,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_internet_gateway(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_internet_gateway(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateInternetGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_internet_gateway(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateInternetGateway",
@@ -4322,7 +4336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the features available in each tier and the costs associated with the tiers, see Amazon VPC
   pricing &gt; IPAM tab.
 """
-function create_ipam(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_ipam(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateIpam",
         Dict{String,Any}("ClientToken" => string(uuid4()));
@@ -4331,7 +4345,7 @@ function create_ipam(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_ipam(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateIpam",
@@ -4417,7 +4431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the filter name and TeamA for the filter value.
 """
 function create_ipam_pool(
-    AddressFamily, IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+    AddressFamily, IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateIpamPool",
@@ -4434,7 +4448,7 @@ function create_ipam_pool(
     AddressFamily,
     IpamScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateIpamPool",
@@ -4474,7 +4488,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operating Regions.
 - `"TagSpecification"`: Tag specifications for the IPAM resource discovery.
 """
-function create_ipam_resource_discovery(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_ipam_resource_discovery(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "CreateIpamResourceDiscovery",
         Dict{String,Any}("ClientToken" => string(uuid4()));
@@ -4483,7 +4499,7 @@ function create_ipam_resource_discovery(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function create_ipam_resource_discovery(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateIpamResourceDiscovery",
@@ -4522,7 +4538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
   the filter name and TeamA for the filter value.
 """
-function create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateIpamScope",
         Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
@@ -4531,7 +4547,7 @@ function create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function create_ipam_scope(
-    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateIpamScope",
@@ -4574,7 +4590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_key_pair(KeyName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_key_pair(KeyName; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateKeyPair",
         Dict{String,Any}("KeyName" => KeyName);
@@ -4583,7 +4599,9 @@ function create_key_pair(KeyName; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function create_key_pair(
-    KeyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    KeyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateKeyPair",
@@ -4626,7 +4644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_launch_template(
     LaunchTemplateData,
     LaunchTemplateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLaunchTemplate",
@@ -4642,7 +4660,7 @@ function create_launch_template(
     LaunchTemplateData,
     LaunchTemplateName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLaunchTemplate",
@@ -4702,7 +4720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionDescription"`: A description for the version of the launch template.
 """
 function create_launch_template_version(
-    LaunchTemplateData; aws_config::AbstractAWSConfig=global_aws_config()
+    LaunchTemplateData; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateLaunchTemplateVersion",
@@ -4714,7 +4732,7 @@ end
 function create_launch_template_version(
     LaunchTemplateData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLaunchTemplateVersion",
@@ -4752,7 +4770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceId"`: The ID of the network interface.
 """
 function create_local_gateway_route(
-    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateLocalGatewayRoute",
@@ -4764,7 +4782,7 @@ end
 function create_local_gateway_route(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLocalGatewayRoute",
@@ -4798,7 +4816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`:  The tags assigned to the local gateway route table.
 """
 function create_local_gateway_route_table(
-    LocalGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateLocalGatewayRouteTable",
@@ -4810,7 +4828,7 @@ end
 function create_local_gateway_route_table(
     LocalGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLocalGatewayRouteTable",
@@ -4844,7 +4862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_local_gateway_route_table_virtual_interface_group_association(
     LocalGatewayRouteTableId,
     LocalGatewayVirtualInterfaceGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
@@ -4860,7 +4878,7 @@ function create_local_gateway_route_table_virtual_interface_group_association(
     LocalGatewayRouteTableId,
     LocalGatewayVirtualInterfaceGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
@@ -4898,7 +4916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to assign to the local gateway route table VPC association.
 """
 function create_local_gateway_route_table_vpc_association(
-    LocalGatewayRouteTableId, VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateLocalGatewayRouteTableVpcAssociation",
@@ -4913,7 +4931,7 @@ function create_local_gateway_route_table_vpc_association(
     LocalGatewayRouteTableId,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateLocalGatewayRouteTableVpcAssociation",
@@ -4959,7 +4977,7 @@ function create_managed_prefix_list(
     AddressFamily,
     MaxEntries,
     PrefixListName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateManagedPrefixList",
@@ -4978,7 +4996,7 @@ function create_managed_prefix_list(
     MaxEntries,
     PrefixListName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateManagedPrefixList",
@@ -5048,7 +5066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   secondary addresses, see Create a NAT gateway in the Amazon VPC User Guide.
 - `"TagSpecification"`: The tags to assign to the NAT gateway.
 """
-function create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateNatGateway",
         Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4()));
@@ -5059,7 +5077,7 @@ end
 function create_nat_gateway(
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNatGateway",
@@ -5095,7 +5113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_network_acl(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_network_acl(vpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateNetworkAcl",
         Dict{String,Any}("vpcId" => vpcId, "ClientToken" => string(uuid4()));
@@ -5104,7 +5122,7 @@ function create_network_acl(vpcId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function create_network_acl(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateNetworkAcl",
@@ -5172,7 +5190,7 @@ function create_network_acl_entry(
     protocol,
     ruleAction,
     ruleNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNetworkAclEntry",
@@ -5194,7 +5212,7 @@ function create_network_acl_entry(
     ruleAction,
     ruleNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNetworkAclEntry",
@@ -5239,7 +5257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to apply.
 """
 function create_network_insights_access_scope(
-    ClientToken; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateNetworkInsightsAccessScope",
@@ -5251,7 +5269,7 @@ end
 function create_network_insights_access_scope(
     ClientToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNetworkInsightsAccessScope",
@@ -5297,7 +5315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to add to the path.
 """
 function create_network_insights_path(
-    ClientToken, Protocol, Source; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken, Protocol, Source; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateNetworkInsightsPath",
@@ -5313,7 +5331,7 @@ function create_network_insights_path(
     Protocol,
     Source,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNetworkInsightsPath",
@@ -5407,7 +5425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefixes.
 """
 function create_network_interface(
-    subnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    subnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateNetworkInterface",
@@ -5419,7 +5437,7 @@ end
 function create_network_interface(
     subnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNetworkInterface",
@@ -5456,7 +5474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_network_interface_permission(
-    NetworkInterfaceId, Permission; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInterfaceId, Permission; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateNetworkInterfacePermission",
@@ -5471,7 +5489,7 @@ function create_network_interface_permission(
     NetworkInterfaceId,
     Permission,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateNetworkInterfacePermission",
@@ -5516,13 +5534,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account for the Region. Constraints: Up to 255 ASCII characters
 - `"strategy"`: The placement strategy.
 """
-function create_placement_group(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_placement_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreatePlacementGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_placement_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreatePlacementGroup",
@@ -5551,13 +5569,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
   the filter name and TeamA for the filter value.
 """
-function create_public_ipv4_pool(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_public_ipv4_pool(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreatePublicIpv4Pool"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_public_ipv4_pool(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreatePublicIpv4Pool",
@@ -5604,7 +5622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to apply to the root volume replacement task.
 """
 function create_replace_root_volume_task(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateReplaceRootVolumeTask",
@@ -5616,7 +5634,7 @@ end
 function create_replace_root_volume_task(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateReplaceRootVolumeTask",
@@ -5672,7 +5690,7 @@ function create_reserved_instances_listing(
     instanceCount,
     priceSchedules,
     reservedInstancesId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateReservedInstancesListing",
@@ -5692,7 +5710,7 @@ function create_reserved_instances_listing(
     priceSchedules,
     reservedInstancesId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateReservedInstancesListing",
@@ -5741,7 +5759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied to all of the snapshots that are created.
 """
 function create_restore_image_task(
-    Bucket, ObjectKey; aws_config::AbstractAWSConfig=global_aws_config()
+    Bucket, ObjectKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateRestoreImageTask",
@@ -5754,7 +5772,7 @@ function create_restore_image_task(
     Bucket,
     ObjectKey,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateRestoreImageTask",
@@ -5817,7 +5835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkInterfaceId"`: The ID of a network interface.
 - `"vpcPeeringConnectionId"`: The ID of a VPC peering connection.
 """
-function create_route(routeTableId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateRoute",
         Dict{String,Any}("routeTableId" => routeTableId);
@@ -5828,7 +5846,7 @@ end
 function create_route(
     routeTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateRoute",
@@ -5860,7 +5878,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_route_table(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_route_table(vpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateRouteTable",
         Dict{String,Any}("vpcId" => vpcId, "ClientToken" => string(uuid4()));
@@ -5869,7 +5887,7 @@ function create_route_table(vpcId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function create_route_table(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateRouteTable",
@@ -5918,7 +5936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function create_security_group(
-    GroupDescription, GroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupDescription, GroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateSecurityGroup",
@@ -5931,7 +5949,7 @@ function create_security_group(
     GroupDescription,
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateSecurityGroup",
@@ -5995,7 +6013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_snapshot(VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_snapshot(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateSnapshot",
         Dict{String,Any}("VolumeId" => VolumeId);
@@ -6006,7 +6024,7 @@ end
 function create_snapshot(
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateSnapshot",
@@ -6056,7 +6074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: Tags to apply to every snapshot specified by the instance.
 """
 function create_snapshots(
-    InstanceSpecification; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceSpecification; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateSnapshots",
@@ -6068,7 +6086,7 @@ end
 function create_snapshots(
     InstanceSpecification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateSnapshots",
@@ -6105,7 +6123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prefix"`: The prefix for the data feed file names.
 """
 function create_spot_datafeed_subscription(
-    bucket; aws_config::AbstractAWSConfig=global_aws_config()
+    bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateSpotDatafeedSubscription",
@@ -6115,7 +6133,7 @@ function create_spot_datafeed_subscription(
     )
 end
 function create_spot_datafeed_subscription(
-    bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateSpotDatafeedSubscription",
@@ -6149,7 +6167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket.
 """
 function create_store_image_task(
-    Bucket, ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    Bucket, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateStoreImageTask",
@@ -6162,7 +6180,7 @@ function create_store_image_task(
     Bucket,
     ImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateStoreImageTask",
@@ -6226,7 +6244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_subnet(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_subnet(VpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateSubnet",
         Dict{String,Any}("VpcId" => VpcId);
@@ -6235,7 +6253,7 @@ function create_subnet(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_subnet(
-    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateSubnet",
@@ -6270,7 +6288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to assign to the subnet CIDR reservation.
 """
 function create_subnet_cidr_reservation(
-    Cidr, ReservationType, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, ReservationType, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateSubnetCidrReservation",
@@ -6286,7 +6304,7 @@ function create_subnet_cidr_reservation(
     ReservationType,
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateSubnetCidrReservation",
@@ -6331,7 +6349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_tags(ResourceId, Tag; aws_config::AbstractAWSConfig=global_aws_config())
+function create_tags(ResourceId, Tag; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateTags",
         Dict{String,Any}("ResourceId" => ResourceId, "Tag" => Tag);
@@ -6343,7 +6361,7 @@ function create_tags(
     ResourceId,
     Tag,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTags",
@@ -6377,7 +6395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"TagSpecification"`: The tags to assign to a Traffic Mirror filter.
 """
-function create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateTrafficMirrorFilter",
         Dict{String,Any}("ClientToken" => string(uuid4()));
@@ -6386,7 +6404,7 @@ function create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function create_traffic_mirror_filter(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTrafficMirrorFilter",
@@ -6437,7 +6455,7 @@ function create_traffic_mirror_filter_rule(
     SourceCidrBlock,
     TrafficDirection,
     TrafficMirrorFilterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTrafficMirrorFilterRule",
@@ -6462,7 +6480,7 @@ function create_traffic_mirror_filter_rule(
     TrafficDirection,
     TrafficMirrorFilterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTrafficMirrorFilterRule",
@@ -6533,7 +6551,7 @@ function create_traffic_mirror_session(
     SessionNumber,
     TrafficMirrorFilterId,
     TrafficMirrorTargetId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTrafficMirrorSession",
@@ -6554,7 +6572,7 @@ function create_traffic_mirror_session(
     TrafficMirrorFilterId,
     TrafficMirrorTargetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTrafficMirrorSession",
@@ -6601,7 +6619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is associated with the target.
 - `"TagSpecification"`: The tags to assign to the Traffic Mirror target.
 """
-function create_traffic_mirror_target(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_traffic_mirror_target(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateTrafficMirrorTarget",
         Dict{String,Any}("ClientToken" => string(uuid4()));
@@ -6610,7 +6628,7 @@ function create_traffic_mirror_target(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function create_traffic_mirror_target(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTrafficMirrorTarget",
@@ -6650,13 +6668,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: The transit gateway options.
 - `"TagSpecification"`: The tags to apply to the transit gateway.
 """
-function create_transit_gateway(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_transit_gateway(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateTransitGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_transit_gateway(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTransitGateway",
@@ -6690,7 +6708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_transit_gateway_connect(
     Options,
     TransportTransitGatewayAttachmentId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayConnect",
@@ -6706,7 +6724,7 @@ function create_transit_gateway_connect(
     Options,
     TransportTransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayConnect",
@@ -6764,7 +6782,7 @@ function create_transit_gateway_connect_peer(
     PeerAddress,
     TransitGatewayAttachmentId,
     item;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayConnectPeer",
@@ -6782,7 +6800,7 @@ function create_transit_gateway_connect_peer(
     TransitGatewayAttachmentId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayConnectPeer",
@@ -6822,7 +6840,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags for the transit gateway multicast domain.
 """
 function create_transit_gateway_multicast_domain(
-    TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTransitGatewayMulticastDomain",
@@ -6834,7 +6852,7 @@ end
 function create_transit_gateway_multicast_domain(
     TransitGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayMulticastDomain",
@@ -6878,7 +6896,7 @@ function create_transit_gateway_peering_attachment(
     PeerRegion,
     PeerTransitGatewayId,
     TransitGatewayId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayPeeringAttachment",
@@ -6898,7 +6916,7 @@ function create_transit_gateway_peering_attachment(
     PeerTransitGatewayId,
     TransitGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayPeeringAttachment",
@@ -6937,7 +6955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created during the request.
 """
 function create_transit_gateway_policy_table(
-    TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTransitGatewayPolicyTable",
@@ -6949,7 +6967,7 @@ end
 function create_transit_gateway_policy_table(
     TransitGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayPolicyTable",
@@ -6984,7 +7002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayPrefixListReference",
@@ -7000,7 +7018,7 @@ function create_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayPrefixListReference",
@@ -7041,7 +7059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayRoute",
@@ -7057,7 +7075,7 @@ function create_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayRoute",
@@ -7093,7 +7111,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecifications"`: The tags to apply to the transit gateway route table.
 """
 function create_transit_gateway_route_table(
-    TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTransitGatewayRouteTable",
@@ -7105,7 +7123,7 @@ end
 function create_transit_gateway_route_table(
     TransitGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayRouteTable",
@@ -7140,7 +7158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_transit_gateway_route_table_announcement(
     PeeringAttachmentId,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayRouteTableAnnouncement",
@@ -7156,7 +7174,7 @@ function create_transit_gateway_route_table_announcement(
     PeeringAttachmentId,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayRouteTableAnnouncement",
@@ -7204,7 +7222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecifications"`: The tags to apply to the VPC attachment.
 """
 function create_transit_gateway_vpc_attachment(
-    TransitGatewayId, VpcId, item; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayId, VpcId, item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateTransitGatewayVpcAttachment",
@@ -7220,7 +7238,7 @@ function create_transit_gateway_vpc_attachment(
     VpcId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateTransitGatewayVpcAttachment",
@@ -7282,7 +7300,7 @@ function create_verified_access_endpoint(
     EndpointDomainPrefix,
     EndpointType,
     VerifiedAccessGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVerifiedAccessEndpoint",
@@ -7307,7 +7325,7 @@ function create_verified_access_endpoint(
     EndpointType,
     VerifiedAccessGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVerifiedAccessEndpoint",
@@ -7357,7 +7375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to assign to the Verified Access group.
 """
 function create_verified_access_group(
-    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVerifiedAccessGroup",
@@ -7372,7 +7390,7 @@ end
 function create_verified_access_group(
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVerifiedAccessGroup",
@@ -7411,7 +7429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to assign to the Verified Access instance.
 """
 function create_verified_access_instance(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVerifiedAccessInstance",
@@ -7421,7 +7439,7 @@ function create_verified_access_instance(;
     )
 end
 function create_verified_access_instance(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVerifiedAccessInstance",
@@ -7468,7 +7486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_verified_access_trust_provider(
     PolicyReferenceName,
     TrustProviderType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVerifiedAccessTrustProvider",
@@ -7485,7 +7503,7 @@ function create_verified_access_trust_provider(
     PolicyReferenceName,
     TrustProviderType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVerifiedAccessTrustProvider",
@@ -7577,7 +7595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EBS volumes must be attached to instances that support Amazon EBS encryption. For more
   information, see Supported instance types.
 """
-function create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config())
+function create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateVolume",
         Dict{String,Any}(
@@ -7590,7 +7608,7 @@ end
 function create_volume(
     AvailabilityZone,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVolume",
@@ -7662,11 +7680,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used
   with this parameter. Use the default or dedicated values only. Default: default
 """
-function create_vpc(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("CreateVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function create_vpc(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2("CreateVpc", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -7718,7 +7736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcEndpointType"`: The type of endpoint. Default: Gateway
 """
 function create_vpc_endpoint(
-    ServiceName, VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceName, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpcEndpoint",
@@ -7731,7 +7749,7 @@ function create_vpc_endpoint(
     ServiceName,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVpcEndpoint",
@@ -7775,7 +7793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcEndpointId"`: The ID of the endpoint.
 """
 function create_vpc_endpoint_connection_notification(
-    ConnectionNotificationArn, item; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionNotificationArn, item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpcEndpointConnectionNotification",
@@ -7790,7 +7808,7 @@ function create_vpc_endpoint_connection_notification(
     ConnectionNotificationArn,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVpcEndpointConnectionNotification",
@@ -7840,7 +7858,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to associate with the service.
 """
 function create_vpc_endpoint_service_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpcEndpointServiceConfiguration";
@@ -7849,7 +7867,7 @@ function create_vpc_endpoint_service_configuration(;
     )
 end
 function create_vpc_endpoint_service_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpcEndpointServiceConfiguration",
@@ -7892,7 +7910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify this parameter in the request.
 """
 function create_vpc_peering_connection(
-    vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpcPeeringConnection",
@@ -7902,7 +7920,7 @@ function create_vpc_peering_connection(
     )
 end
 function create_vpc_peering_connection(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpcPeeringConnection",
@@ -7944,7 +7962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"options"`: The options for the VPN connection.
 """
 function create_vpn_connection(
-    CustomerGatewayId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    CustomerGatewayId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpnConnection",
@@ -7957,7 +7975,7 @@ function create_vpn_connection(
     CustomerGatewayId,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVpnConnection",
@@ -7989,7 +8007,9 @@ Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide
 
 """
 function create_vpn_connection_route(
-    DestinationCidrBlock, VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DestinationCidrBlock,
+    VpnConnectionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVpnConnectionRoute",
@@ -8005,7 +8025,7 @@ function create_vpn_connection_route(
     DestinationCidrBlock,
     VpnConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "CreateVpnConnectionRoute",
@@ -8047,7 +8067,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function create_vpn_gateway(Type; aws_config::AbstractAWSConfig=global_aws_config())
+function create_vpn_gateway(Type; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "CreateVpnGateway",
         Dict{String,Any}("Type" => Type);
@@ -8056,7 +8076,7 @@ function create_vpn_gateway(Type; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function create_vpn_gateway(
-    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "CreateVpnGateway",
@@ -8084,7 +8104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_carrier_gateway(
-    CarrierGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    CarrierGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteCarrierGateway",
@@ -8096,7 +8116,7 @@ end
 function delete_carrier_gateway(
     CarrierGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteCarrierGateway",
@@ -8127,7 +8147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_client_vpn_endpoint(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteClientVpnEndpoint",
@@ -8139,7 +8159,7 @@ end
 function delete_client_vpn_endpoint(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteClientVpnEndpoint",
@@ -8180,7 +8200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_client_vpn_route(
     ClientVpnEndpointId,
     DestinationCidrBlock;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteClientVpnRoute",
@@ -8196,7 +8216,7 @@ function delete_client_vpn_route(
     ClientVpnEndpointId,
     DestinationCidrBlock,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteClientVpnRoute",
@@ -8232,7 +8252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_coip_cidr(
-    Cidr, CoipPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteCoipCidr",
@@ -8245,7 +8265,7 @@ function delete_coip_cidr(
     Cidr,
     CoipPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteCoipCidr",
@@ -8274,7 +8294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_coip_pool(CoipPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_coip_pool(CoipPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteCoipPool",
         Dict{String,Any}("CoipPoolId" => CoipPoolId);
@@ -8285,7 +8305,7 @@ end
 function delete_coip_pool(
     CoipPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteCoipPool",
@@ -8314,7 +8334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_customer_gateway(
-    CustomerGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    CustomerGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteCustomerGateway",
@@ -8326,7 +8346,7 @@ end
 function delete_customer_gateway(
     CustomerGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteCustomerGateway",
@@ -8358,7 +8378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_dhcp_options(
-    DhcpOptionsId; aws_config::AbstractAWSConfig=global_aws_config()
+    DhcpOptionsId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteDhcpOptions",
@@ -8370,7 +8390,7 @@ end
 function delete_dhcp_options(
     DhcpOptionsId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteDhcpOptions",
@@ -8398,7 +8418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_egress_only_internet_gateway(
-    EgressOnlyInternetGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    EgressOnlyInternetGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteEgressOnlyInternetGateway",
@@ -8410,7 +8430,7 @@ end
 function delete_egress_only_internet_gateway(
     EgressOnlyInternetGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteEgressOnlyInternetGateway",
@@ -8462,7 +8482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_fleets(
-    FleetId, TerminateInstances; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetId, TerminateInstances; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteFleets",
@@ -8475,7 +8495,7 @@ function delete_fleets(
     FleetId,
     TerminateInstances,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteFleets",
@@ -8508,7 +8528,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_flow_logs(FlowLogId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_flow_logs(FlowLogId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteFlowLogs",
         Dict{String,Any}("FlowLogId" => FlowLogId);
@@ -8519,7 +8539,7 @@ end
 function delete_flow_logs(
     FlowLogId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteFlowLogs",
@@ -8546,7 +8566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteFpgaImage",
         Dict{String,Any}("FpgaImageId" => FpgaImageId);
@@ -8557,7 +8577,7 @@ end
 function delete_fpga_image(
     FpgaImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteFpgaImage",
@@ -8585,7 +8605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_instance_connect_endpoint(
-    InstanceConnectEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceConnectEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteInstanceConnectEndpoint",
@@ -8597,7 +8617,7 @@ end
 function delete_instance_connect_endpoint(
     InstanceConnectEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteInstanceConnectEndpoint",
@@ -8632,7 +8652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter if the event window is currently associated with targets.
 """
 function delete_instance_event_window(
-    InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteInstanceEventWindow",
@@ -8644,7 +8664,7 @@ end
 function delete_instance_event_window(
     InstanceEventWindowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteInstanceEventWindow",
@@ -8677,7 +8697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_internet_gateway(
-    internetGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    internetGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteInternetGateway",
@@ -8689,7 +8709,7 @@ end
 function delete_internet_gateway(
     internetGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteInternetGateway",
@@ -8729,7 +8749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteIpam",
         Dict{String,Any}("IpamId" => IpamId);
@@ -8738,7 +8758,7 @@ function delete_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_ipam(
-    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteIpam",
@@ -8771,7 +8791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteIpamPool",
         Dict{String,Any}("IpamPoolId" => IpamPoolId);
@@ -8782,7 +8802,7 @@ end
 function delete_ipam_pool(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteIpamPool",
@@ -8811,7 +8831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_ipam_resource_discovery(
-    IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteIpamResourceDiscovery",
@@ -8823,7 +8843,7 @@ end
 function delete_ipam_resource_discovery(
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteIpamResourceDiscovery",
@@ -8855,7 +8875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteIpamScope",
         Dict{String,Any}("IpamScopeId" => IpamScopeId);
@@ -8866,7 +8886,7 @@ end
 function delete_ipam_scope(
     IpamScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteIpamScope",
@@ -8892,11 +8912,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_key_pair(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_key_pair(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DeleteKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function delete_key_pair(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteKeyPair", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -8919,13 +8939,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LaunchTemplateName"`: The name of the launch template. You must specify either the
   launch template ID or the launch template name, but not both.
 """
-function delete_launch_template(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_launch_template(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_launch_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteLaunchTemplate",
@@ -8962,7 +8982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launch template ID or the launch template name, but not both.
 """
 function delete_launch_template_versions(
-    LaunchTemplateVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    LaunchTemplateVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteLaunchTemplateVersions",
@@ -8974,7 +8994,7 @@ end
 function delete_launch_template_versions(
     LaunchTemplateVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLaunchTemplateVersions",
@@ -9010,7 +9030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_local_gateway_route(
-    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteLocalGatewayRoute",
@@ -9022,7 +9042,7 @@ end
 function delete_local_gateway_route(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLocalGatewayRoute",
@@ -9054,7 +9074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_local_gateway_route_table(
-    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteLocalGatewayRouteTable",
@@ -9066,7 +9086,7 @@ end
 function delete_local_gateway_route_table(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLocalGatewayRouteTable",
@@ -9100,7 +9120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_local_gateway_route_table_virtual_interface_group_association(
     LocalGatewayRouteTableVirtualInterfaceGroupAssociationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
@@ -9115,7 +9135,7 @@ end
 function delete_local_gateway_route_table_virtual_interface_group_association(
     LocalGatewayRouteTableVirtualInterfaceGroupAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
@@ -9151,7 +9171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_local_gateway_route_table_vpc_association(
     LocalGatewayRouteTableVpcAssociationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLocalGatewayRouteTableVpcAssociation",
@@ -9166,7 +9186,7 @@ end
 function delete_local_gateway_route_table_vpc_association(
     LocalGatewayRouteTableVpcAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteLocalGatewayRouteTableVpcAssociation",
@@ -9202,7 +9222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_managed_prefix_list(
-    PrefixListId; aws_config::AbstractAWSConfig=global_aws_config()
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteManagedPrefixList",
@@ -9214,7 +9234,7 @@ end
 function delete_managed_prefix_list(
     PrefixListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteManagedPrefixList",
@@ -9243,7 +9263,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_nat_gateway(NatGatewayId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_nat_gateway(
+    NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DeleteNatGateway",
         Dict{String,Any}("NatGatewayId" => NatGatewayId);
@@ -9254,7 +9276,7 @@ end
 function delete_nat_gateway(
     NatGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNatGateway",
@@ -9282,7 +9304,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_network_acl(networkAclId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_network_acl(
+    networkAclId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DeleteNetworkAcl",
         Dict{String,Any}("networkAclId" => networkAclId);
@@ -9293,7 +9317,7 @@ end
 function delete_network_acl(
     networkAclId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkAcl",
@@ -9323,7 +9347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_acl_entry(
-    egress, networkAclId, ruleNumber; aws_config::AbstractAWSConfig=global_aws_config()
+    egress, networkAclId, ruleNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkAclEntry",
@@ -9339,7 +9363,7 @@ function delete_network_acl_entry(
     networkAclId,
     ruleNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkAclEntry",
@@ -9375,7 +9399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_insights_access_scope(
-    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkInsightsAccessScope",
@@ -9387,7 +9411,7 @@ end
 function delete_network_insights_access_scope(
     NetworkInsightsAccessScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkInsightsAccessScope",
@@ -9421,7 +9445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_insights_access_scope_analysis(
-    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkInsightsAccessScopeAnalysis",
@@ -9435,7 +9459,7 @@ end
 function delete_network_insights_access_scope_analysis(
     NetworkInsightsAccessScopeAnalysisId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkInsightsAccessScopeAnalysis",
@@ -9470,7 +9494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_insights_analysis(
-    NetworkInsightsAnalysisId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInsightsAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkInsightsAnalysis",
@@ -9482,7 +9506,7 @@ end
 function delete_network_insights_analysis(
     NetworkInsightsAnalysisId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkInsightsAnalysis",
@@ -9514,7 +9538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_insights_path(
-    NetworkInsightsPathId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInsightsPathId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkInsightsPath",
@@ -9526,7 +9550,7 @@ end
 function delete_network_insights_path(
     NetworkInsightsPathId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkInsightsPath",
@@ -9559,7 +9583,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_network_interface(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkInterface",
@@ -9571,7 +9595,7 @@ end
 function delete_network_interface(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkInterface",
@@ -9605,7 +9629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attached to an instance.
 """
 function delete_network_interface_permission(
-    NetworkInterfacePermissionId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInterfacePermissionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteNetworkInterfacePermission",
@@ -9617,7 +9641,7 @@ end
 function delete_network_interface_permission(
     NetworkInterfacePermissionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteNetworkInterfacePermission",
@@ -9653,7 +9677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_placement_group(
-    groupName; aws_config::AbstractAWSConfig=global_aws_config()
+    groupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeletePlacementGroup",
@@ -9665,7 +9689,7 @@ end
 function delete_placement_group(
     groupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeletePlacementGroup",
@@ -9694,7 +9718,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeletePublicIpv4Pool",
         Dict{String,Any}("PoolId" => PoolId);
@@ -9703,7 +9727,7 @@ function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function delete_public_ipv4_pool(
-    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeletePublicIpv4Pool",
@@ -9729,7 +9753,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_queued_reserved_instances(
-    ReservedInstancesId; aws_config::AbstractAWSConfig=global_aws_config()
+    ReservedInstancesId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteQueuedReservedInstances",
@@ -9741,7 +9765,7 @@ end
 function delete_queued_reserved_instances(
     ReservedInstancesId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteQueuedReservedInstances",
@@ -9777,7 +9801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_route(routeTableId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteRoute",
         Dict{String,Any}("routeTableId" => routeTableId);
@@ -9788,7 +9812,7 @@ end
 function delete_route(
     routeTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteRoute",
@@ -9816,7 +9840,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_route_table(routeTableId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_route_table(
+    routeTableId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DeleteRouteTable",
         Dict{String,Any}("routeTableId" => routeTableId);
@@ -9827,7 +9853,7 @@ end
 function delete_route_table(
     routeTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteRouteTable",
@@ -9857,13 +9883,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_security_group(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_security_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteSecurityGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_security_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteSecurityGroup",
@@ -9895,7 +9921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteSnapshot",
         Dict{String,Any}("SnapshotId" => SnapshotId);
@@ -9906,7 +9932,7 @@ end
 function delete_snapshot(
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteSnapshot",
@@ -9931,7 +9957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_spot_datafeed_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteSpotDatafeedSubscription";
@@ -9940,7 +9966,7 @@ function delete_spot_datafeed_subscription(;
     )
 end
 function delete_spot_datafeed_subscription(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteSpotDatafeedSubscription",
@@ -9966,7 +9992,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_subnet(SubnetId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_subnet(SubnetId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteSubnet",
         Dict{String,Any}("SubnetId" => SubnetId);
@@ -9977,7 +10003,7 @@ end
 function delete_subnet(
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteSubnet",
@@ -10005,7 +10031,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_subnet_cidr_reservation(
-    SubnetCidrReservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubnetCidrReservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteSubnetCidrReservation",
@@ -10017,7 +10043,7 @@ end
 function delete_subnet_cidr_reservation(
     SubnetCidrReservationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteSubnetCidrReservation",
@@ -10057,7 +10083,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   we delete all user-defined tags for the specified resources. We do not delete Amazon Web
   Services-generated tags (tags that have the aws: prefix). Constraints: Up to 1000 tags.
 """
-function delete_tags(resourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tags(resourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteTags",
         Dict{String,Any}("resourceId" => resourceId);
@@ -10068,7 +10094,7 @@ end
 function delete_tags(
     resourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTags",
@@ -10097,7 +10123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_filter(
-    TrafficMirrorFilterId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTrafficMirrorFilter",
@@ -10109,7 +10135,7 @@ end
 function delete_traffic_mirror_filter(
     TrafficMirrorFilterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTrafficMirrorFilter",
@@ -10141,7 +10167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_filter_rule(
-    TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTrafficMirrorFilterRule",
@@ -10153,7 +10179,7 @@ end
 function delete_traffic_mirror_filter_rule(
     TrafficMirrorFilterRuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTrafficMirrorFilterRule",
@@ -10185,7 +10211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_session(
-    TrafficMirrorSessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorSessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTrafficMirrorSession",
@@ -10197,7 +10223,7 @@ end
 function delete_traffic_mirror_session(
     TrafficMirrorSessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTrafficMirrorSession",
@@ -10230,7 +10256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_traffic_mirror_target(
-    TrafficMirrorTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorTargetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTrafficMirrorTarget",
@@ -10242,7 +10268,7 @@ end
 function delete_traffic_mirror_target(
     TrafficMirrorTargetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTrafficMirrorTarget",
@@ -10274,7 +10300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway(
-    TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGateway",
@@ -10286,7 +10312,7 @@ end
 function delete_transit_gateway(
     TransitGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGateway",
@@ -10317,7 +10343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_connect(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayConnect",
@@ -10329,7 +10355,7 @@ end
 function delete_transit_gateway_connect(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayConnect",
@@ -10363,7 +10389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_connect_peer(
-    TransitGatewayConnectPeerId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayConnectPeerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayConnectPeer",
@@ -10375,7 +10401,7 @@ end
 function delete_transit_gateway_connect_peer(
     TransitGatewayConnectPeerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayConnectPeer",
@@ -10409,7 +10435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_multicast_domain(
-    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayMulticastDomain",
@@ -10423,7 +10449,7 @@ end
 function delete_transit_gateway_multicast_domain(
     TransitGatewayMulticastDomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayMulticastDomain",
@@ -10457,7 +10483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_peering_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayPeeringAttachment",
@@ -10469,7 +10495,7 @@ end
 function delete_transit_gateway_peering_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayPeeringAttachment",
@@ -10503,7 +10529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_policy_table(
-    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayPolicyTable",
@@ -10515,7 +10541,7 @@ end
 function delete_transit_gateway_policy_table(
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayPolicyTable",
@@ -10552,7 +10578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayPrefixListReference",
@@ -10568,7 +10594,7 @@ function delete_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayPrefixListReference",
@@ -10607,7 +10633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayRoute",
@@ -10623,7 +10649,7 @@ function delete_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayRoute",
@@ -10661,7 +10687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_route_table(
-    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayRouteTable",
@@ -10673,7 +10699,7 @@ end
 function delete_transit_gateway_route_table(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayRouteTable",
@@ -10709,7 +10735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_transit_gateway_route_table_announcement(
     TransitGatewayRouteTableAnnouncementId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayRouteTableAnnouncement",
@@ -10724,7 +10750,7 @@ end
 function delete_transit_gateway_route_table_announcement(
     TransitGatewayRouteTableAnnouncementId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayRouteTableAnnouncement",
@@ -10759,7 +10785,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_transit_gateway_vpc_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteTransitGatewayVpcAttachment",
@@ -10771,7 +10797,7 @@ end
 function delete_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteTransitGatewayVpcAttachment",
@@ -10807,7 +10833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_verified_access_endpoint(
-    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVerifiedAccessEndpoint",
@@ -10822,7 +10848,7 @@ end
 function delete_verified_access_endpoint(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVerifiedAccessEndpoint",
@@ -10859,7 +10885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_verified_access_group(
-    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVerifiedAccessGroup",
@@ -10874,7 +10900,7 @@ end
 function delete_verified_access_group(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVerifiedAccessGroup",
@@ -10911,7 +10937,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_verified_access_instance(
-    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVerifiedAccessInstance",
@@ -10926,7 +10952,7 @@ end
 function delete_verified_access_instance(
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVerifiedAccessInstance",
@@ -10963,7 +10989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_verified_access_trust_provider(
-    VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVerifiedAccessTrustProvider",
@@ -10978,7 +11004,7 @@ end
 function delete_verified_access_trust_provider(
     VerifiedAccessTrustProviderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVerifiedAccessTrustProvider",
@@ -11014,7 +11040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteVolume",
         Dict{String,Any}("VolumeId" => VolumeId);
@@ -11025,7 +11051,7 @@ end
 function delete_volume(
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVolume",
@@ -11057,7 +11083,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_vpc(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_vpc(VpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeleteVpc",
         Dict{String,Any}("VpcId" => VpcId);
@@ -11066,7 +11092,7 @@ function delete_vpc(VpcId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_vpc(
-    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVpc",
@@ -11092,7 +11118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_endpoint_connection_notifications(
-    ConnectionNotificationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionNotificationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVpcEndpointConnectionNotifications",
@@ -11104,7 +11130,7 @@ end
 function delete_vpc_endpoint_connection_notifications(
     ConnectionNotificationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpcEndpointConnectionNotifications",
@@ -11138,7 +11164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_endpoint_service_configurations(
-    ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVpcEndpointServiceConfigurations",
@@ -11150,7 +11176,7 @@ end
 function delete_vpc_endpoint_service_configurations(
     ServiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpcEndpointServiceConfigurations",
@@ -11182,7 +11208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_endpoints(
-    VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVpcEndpoints",
@@ -11194,7 +11220,7 @@ end
 function delete_vpc_endpoints(
     VpcEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpcEndpoints",
@@ -11225,7 +11251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpc_peering_connection(
-    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVpcPeeringConnection",
@@ -11237,7 +11263,7 @@ end
 function delete_vpc_peering_connection(
     vpcPeeringConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpcPeeringConnection",
@@ -11278,7 +11304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function delete_vpn_connection(
-    VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeleteVpnConnection",
@@ -11290,7 +11316,7 @@ end
 function delete_vpn_connection(
     VpnConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpnConnection",
@@ -11319,7 +11345,9 @@ routed from the virtual private gateway to the VPN customer gateway.
 
 """
 function delete_vpn_connection_route(
-    DestinationCidrBlock, VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    DestinationCidrBlock,
+    VpnConnectionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpnConnectionRoute",
@@ -11335,7 +11363,7 @@ function delete_vpn_connection_route(
     DestinationCidrBlock,
     VpnConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpnConnectionRoute",
@@ -11371,7 +11399,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function delete_vpn_gateway(VpnGatewayId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_vpn_gateway(
+    VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DeleteVpnGateway",
         Dict{String,Any}("VpnGatewayId" => VpnGatewayId);
@@ -11382,7 +11412,7 @@ end
 function delete_vpn_gateway(
     VpnGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeleteVpnGateway",
@@ -11414,7 +11444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeprovisionByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
@@ -11423,7 +11453,7 @@ function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function deprovision_byoip_cidr(
-    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeprovisionByoipCidr",
@@ -11453,7 +11483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function deprovision_ipam_byoasn(
-    Asn, IpamId; aws_config::AbstractAWSConfig=global_aws_config()
+    Asn, IpamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeprovisionIpamByoasn",
@@ -11466,7 +11496,7 @@ function deprovision_ipam_byoasn(
     Asn,
     IpamId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeprovisionIpamByoasn",
@@ -11497,7 +11527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function deprovision_ipam_pool_cidr(
-    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeprovisionIpamPoolCidr",
@@ -11509,7 +11539,7 @@ end
 function deprovision_ipam_pool_cidr(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeprovisionIpamPoolCidr",
@@ -11541,7 +11571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function deprovision_public_ipv4_pool_cidr(
-    Cidr, PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, PoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeprovisionPublicIpv4PoolCidr",
@@ -11554,7 +11584,7 @@ function deprovision_public_ipv4_pool_cidr(
     Cidr,
     PoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeprovisionPublicIpv4PoolCidr",
@@ -11589,7 +11619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function deregister_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function deregister_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DeregisterImage",
         Dict{String,Any}("ImageId" => ImageId);
@@ -11598,7 +11628,9 @@ function deregister_image(ImageId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function deregister_image(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeregisterImage",
@@ -11625,7 +11657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function deregister_instance_event_notification_attributes(
-    InstanceTagAttribute; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceTagAttribute; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeregisterInstanceEventNotificationAttributes",
@@ -11637,7 +11669,7 @@ end
 function deregister_instance_event_notification_attributes(
     InstanceTagAttribute,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DeregisterInstanceEventNotificationAttributes",
@@ -11670,7 +11702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
 function deregister_transit_gateway_multicast_group_members(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeregisterTransitGatewayMulticastGroupMembers";
@@ -11679,7 +11711,7 @@ function deregister_transit_gateway_multicast_group_members(;
     )
 end
 function deregister_transit_gateway_multicast_group_members(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeregisterTransitGatewayMulticastGroupMembers",
@@ -11706,7 +11738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
 function deregister_transit_gateway_multicast_group_sources(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeregisterTransitGatewayMulticastGroupSources";
@@ -11715,7 +11747,7 @@ function deregister_transit_gateway_multicast_group_sources(;
     )
 end
 function deregister_transit_gateway_multicast_group_sources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DeregisterTransitGatewayMulticastGroupSources",
@@ -11748,13 +11780,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_account_attributes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAccountAttributes",
@@ -11787,13 +11819,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function describe_address_transfers(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_address_transfers(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeAddressTransfers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_address_transfers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAddressTransfers",
@@ -11832,11 +11864,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_addresses(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_addresses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -11861,13 +11893,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_addresses_attribute(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_addresses_attribute(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeAddressesAttribute"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_addresses_attribute(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAddressesAttribute",
@@ -11899,13 +11931,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_aggregate_id_format(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_aggregate_id_format(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeAggregateIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_aggregate_id_format(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAggregateIdFormat",
@@ -11953,13 +11985,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_availability_zones(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_availability_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeAvailabilityZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_availability_zones(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAvailabilityZones",
@@ -11986,7 +12018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_aws_network_performance_metric_subscriptions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAwsNetworkPerformanceMetricSubscriptions";
@@ -11995,7 +12027,7 @@ function describe_aws_network_performance_metric_subscriptions(;
     )
 end
 function describe_aws_network_performance_metric_subscriptions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeAwsNetworkPerformanceMetricSubscriptions",
@@ -12031,13 +12063,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_bundle_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_bundle_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeBundleTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_bundle_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeBundleTasks",
@@ -12066,7 +12098,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_byoip_cidrs(MaxResults; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_byoip_cidrs(
+    MaxResults; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DescribeByoipCidrs",
         Dict{String,Any}("MaxResults" => MaxResults);
@@ -12077,7 +12111,7 @@ end
 function describe_byoip_cidrs(
     MaxResults,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeByoipCidrs",
@@ -12119,7 +12153,7 @@ function describe_capacity_block_offerings(
     CapacityDurationHours,
     InstanceCount,
     InstanceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeCapacityBlockOfferings",
@@ -12137,7 +12171,7 @@ function describe_capacity_block_offerings(
     InstanceCount,
     InstanceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeCapacityBlockOfferings",
@@ -12181,7 +12215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
 function describe_capacity_reservation_fleets(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeCapacityReservationFleets";
@@ -12190,7 +12224,7 @@ function describe_capacity_reservation_fleets(;
     )
 end
 function describe_capacity_reservation_fleets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeCapacityReservationFleets",
@@ -12255,7 +12289,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Pagination.
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-function describe_capacity_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_capacity_reservations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DescribeCapacityReservations";
         aws_config=aws_config,
@@ -12263,7 +12299,7 @@ function describe_capacity_reservations(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_capacity_reservations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeCapacityReservations",
@@ -12299,13 +12335,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_carrier_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_carrier_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeCarrierGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_carrier_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeCarrierGateways",
@@ -12345,7 +12381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_classic_link_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClassicLinkInstances";
@@ -12354,7 +12390,7 @@ function describe_classic_link_instances(;
     )
 end
 function describe_classic_link_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClassicLinkInstances",
@@ -12387,7 +12423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_authorization_rules(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClientVpnAuthorizationRules",
@@ -12399,7 +12435,7 @@ end
 function describe_client_vpn_authorization_rules(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeClientVpnAuthorizationRules",
@@ -12438,7 +12474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_connections(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClientVpnConnections",
@@ -12450,7 +12486,7 @@ end
 function describe_client_vpn_connections(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeClientVpnConnections",
@@ -12485,13 +12521,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The remaining results can be seen by sending another request with the nextToken value.
 - `"NextToken"`: The token to retrieve the next page of results.
 """
-function describe_client_vpn_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_client_vpn_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeClientVpnEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_client_vpn_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClientVpnEndpoints",
@@ -12524,7 +12560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_routes(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClientVpnRoutes",
@@ -12536,7 +12572,7 @@ end
 function describe_client_vpn_routes(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeClientVpnRoutes",
@@ -12576,7 +12612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 """
 function describe_client_vpn_target_networks(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeClientVpnTargetNetworks",
@@ -12588,7 +12624,7 @@ end
 function describe_client_vpn_target_networks(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeClientVpnTargetNetworks",
@@ -12623,11 +12659,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PoolId"`: The IDs of the address pools.
 """
-function describe_coip_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_coip_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeCoipPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_coip_pools(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeCoipPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -12649,13 +12685,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_conversion_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_conversion_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeConversionTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_conversion_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeConversionTasks",
@@ -12691,13 +12727,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_customer_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_customer_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeCustomerGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_customer_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeCustomerGateways",
@@ -12737,13 +12773,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_dhcp_options(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_dhcp_options(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeDhcpOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_dhcp_options(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeDhcpOptions",
@@ -12781,7 +12817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_egress_only_internet_gateways(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeEgressOnlyInternetGateways";
@@ -12790,7 +12826,7 @@ function describe_egress_only_internet_gateways(;
     )
 end
 function describe_egress_only_internet_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeEgressOnlyInternetGateways",
@@ -12825,13 +12861,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   between 5 and 1000.
 - `"NextToken"`: The token to request the next page of results.
 """
-function describe_elastic_gpus(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_elastic_gpus(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeElasticGpus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_elastic_gpus(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeElasticGpus",
@@ -12858,13 +12894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: A token that indicates the next page of results.
 """
-function describe_export_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_export_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeExportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_export_image_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeExportImageTasks",
@@ -12885,13 +12921,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: the filters for the export tasks.
 - `"exportTaskId"`: The export task IDs.
 """
-function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_export_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeExportTasks",
@@ -12922,13 +12958,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_fast_launch_images(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_fast_launch_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeFastLaunchImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_fast_launch_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFastLaunchImages",
@@ -12961,7 +12997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_fast_snapshot_restores(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFastSnapshotRestores";
@@ -12970,7 +13006,7 @@ function describe_fast_snapshot_restores(;
     )
 end
 function describe_fast_snapshot_restores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFastSnapshotRestores",
@@ -13008,7 +13044,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_fleet_history(
-    FleetId, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFleetHistory",
@@ -13021,7 +13057,7 @@ function describe_fleet_history(
     FleetId,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeFleetHistory",
@@ -13062,7 +13098,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_fleet_instances(
-    FleetId; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFleetInstances",
@@ -13072,7 +13108,9 @@ function describe_fleet_instances(
     )
 end
 function describe_fleet_instances(
-    FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeFleetInstances",
@@ -13112,11 +13150,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_fleets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -13154,11 +13192,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of items. Pagination continues from the
   end of the items returned by the previous request.
 """
-function describe_flow_logs(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_flow_logs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeFlowLogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_flow_logs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFlowLogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -13182,7 +13220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_fpga_image_attribute(
-    Attribute, FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFpgaImageAttribute",
@@ -13195,7 +13233,7 @@ function describe_fpga_image_attribute(
     Attribute,
     FpgaImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeFpgaImageAttribute",
@@ -13243,11 +13281,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (owner is the sender of the request), or an Amazon Web Services owner alias (valid values
   are amazon | aws-marketplace).
 """
-function describe_fpga_images(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_fpga_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeFpgaImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_fpga_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeFpgaImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -13286,7 +13324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OfferingId"`: The ID of the reservation offering.
 """
 function describe_host_reservation_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeHostReservationOfferings";
@@ -13295,7 +13333,7 @@ function describe_host_reservation_offerings(;
     )
 end
 function describe_host_reservation_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeHostReservationOfferings",
@@ -13329,13 +13367,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive an error.
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-function describe_host_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_host_reservations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeHostReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_host_reservations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeHostReservations",
@@ -13374,11 +13412,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same request.
 - `"nextToken"`: The token to use to retrieve the next page of results.
 """
-function describe_hosts(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_hosts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -13403,7 +13441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_iam_instance_profile_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIamInstanceProfileAssociations";
@@ -13412,7 +13450,7 @@ function describe_iam_instance_profile_associations(;
     )
 end
 function describe_iam_instance_profile_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIamInstanceProfileAssociations",
@@ -13453,11 +13491,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint |
   vpc-peering-connection | vpn-connection | vpn-gateway
 """
-function describe_id_format(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_id_format(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_id_format(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIdFormat", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -13498,7 +13536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   vpc-peering-connection | vpn-connection | vpn-gateway
 """
 function describe_identity_id_format(
-    principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIdentityIdFormat",
@@ -13510,7 +13548,7 @@ end
 function describe_identity_id_format(
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeIdentityIdFormat",
@@ -13544,7 +13582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_image_attribute(
-    Attribute, ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeImageAttribute",
@@ -13557,7 +13595,7 @@ function describe_image_attribute(
     Attribute,
     ImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeImageAttribute",
@@ -13657,11 +13695,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_images(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -13686,13 +13724,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: A token that indicates the next page of results.
 """
-function describe_import_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_import_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeImportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_import_image_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeImportImageTasks",
@@ -13719,7 +13757,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: A token that indicates the next page of results.
 """
-function describe_import_snapshot_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_import_snapshot_tasks(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DescribeImportSnapshotTasks";
         aws_config=aws_config,
@@ -13727,7 +13767,7 @@ function describe_import_snapshot_tasks(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_import_snapshot_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeImportSnapshotTasks",
@@ -13759,7 +13799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_instance_attribute(
-    attribute, instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    attribute, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceAttribute",
@@ -13772,7 +13812,7 @@ function describe_instance_attribute(
     attribute,
     instanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeInstanceAttribute",
@@ -13821,7 +13861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_instance_connect_endpoints(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceConnectEndpoints";
@@ -13830,7 +13870,7 @@ function describe_instance_connect_endpoints(;
     )
 end
 function describe_instance_connect_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceConnectEndpoints",
@@ -13875,7 +13915,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_instance_credit_specifications(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceCreditSpecifications";
@@ -13884,7 +13924,7 @@ function describe_instance_credit_specifications(;
     )
 end
 function describe_instance_credit_specifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceCreditSpecifications",
@@ -13908,7 +13948,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_instance_event_notification_attributes(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceEventNotificationAttributes";
@@ -13917,7 +13957,7 @@ function describe_instance_event_notification_attributes(;
     )
 end
 function describe_instance_event_notification_attributes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceEventNotificationAttributes",
@@ -13966,7 +14006,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of results.
 """
 function describe_instance_event_windows(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceEventWindows";
@@ -13975,7 +14015,7 @@ function describe_instance_event_windows(;
     )
 end
 function describe_instance_event_windows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceEventWindows",
@@ -14024,7 +14064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      system-status.reachability - Filters on system status where the name is reachability
   (passed | failed | initializing | insufficient-data).    system-status.status - The system
   status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
-  
+
 - `"InstanceId"`: The instance IDs. Default: Describes all your instances. Constraints:
   Maximum 100 explicitly specified instance IDs.
 - `"MaxResults"`: The maximum number of items to return for this request. To get the next
@@ -14039,13 +14079,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeAllInstances"`: When true, includes the health status for all instances. When
   false, includes the health status for running instances only. Default: false
 """
-function describe_instance_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_instance_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeInstanceStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_instance_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceStatus",
@@ -14091,13 +14131,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_instance_topology(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_instance_topology(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeInstanceTopology"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_instance_topology(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceTopology",
@@ -14135,7 +14175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_instance_type_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceTypeOfferings";
@@ -14144,7 +14184,7 @@ function describe_instance_type_offerings(;
     )
 end
 function describe_instance_type_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceTypeOfferings",
@@ -14237,13 +14277,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_instance_types(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_instance_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeInstanceTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_instance_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstanceTypes",
@@ -14469,11 +14509,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14511,13 +14551,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"internetGatewayId"`: The IDs of the internet gateways. Default: Describes all your
   internet gateways.
 """
-function describe_internet_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_internet_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeInternetGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_internet_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeInternetGateways",
@@ -14544,11 +14584,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_ipam_byoasn(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ipam_byoasn(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpamByoasn"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_ipam_byoasn(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamByoasn", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14572,11 +14612,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_ipam_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ipam_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpamPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_ipam_pools(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamPools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14603,7 +14643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function describe_ipam_resource_discoveries(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamResourceDiscoveries";
@@ -14612,7 +14652,7 @@ function describe_ipam_resource_discoveries(;
     )
 end
 function describe_ipam_resource_discoveries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamResourceDiscoveries",
@@ -14642,7 +14682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function describe_ipam_resource_discovery_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamResourceDiscoveryAssociations";
@@ -14651,7 +14691,7 @@ function describe_ipam_resource_discovery_associations(;
     )
 end
 function describe_ipam_resource_discovery_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamResourceDiscoveryAssociations",
@@ -14678,11 +14718,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_ipam_scopes(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ipam_scopes(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpamScopes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_ipam_scopes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpamScopes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14707,11 +14747,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_ipams(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ipams(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_ipams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14740,11 +14780,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PoolId"`: The IDs of the IPv6 address pools.
 """
-function describe_ipv6_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ipv6_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpv6Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_ipv6_pools(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeIpv6Pools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14776,11 +14816,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_key_pairs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeKeyPairs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -14842,7 +14882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EC2 User Guide. Default: false
 """
 function describe_launch_template_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLaunchTemplateVersions";
@@ -14851,7 +14891,7 @@ function describe_launch_template_versions(;
     )
 end
 function describe_launch_template_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLaunchTemplateVersions",
@@ -14887,13 +14927,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   between 1 and 200.
 - `"NextToken"`: The token to request the next page of results.
 """
-function describe_launch_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_launch_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeLaunchTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_launch_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLaunchTemplates",
@@ -14929,7 +14969,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_local_gateway_route_table_virtual_interface_group_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations";
@@ -14938,7 +14978,7 @@ function describe_local_gateway_route_table_virtual_interface_group_associations
     )
 end
 function describe_local_gateway_route_table_virtual_interface_group_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations",
@@ -14972,7 +15012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_local_gateway_route_table_vpc_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayRouteTableVpcAssociations";
@@ -14981,7 +15021,7 @@ function describe_local_gateway_route_table_vpc_associations(;
     )
 end
 function describe_local_gateway_route_table_vpc_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayRouteTableVpcAssociations",
@@ -15015,7 +15055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_local_gateway_route_tables(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayRouteTables";
@@ -15024,7 +15064,7 @@ function describe_local_gateway_route_tables(;
     )
 end
 function describe_local_gateway_route_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayRouteTables",
@@ -15055,7 +15095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_local_gateway_virtual_interface_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayVirtualInterfaceGroups";
@@ -15064,7 +15104,7 @@ function describe_local_gateway_virtual_interface_groups(;
     )
 end
 function describe_local_gateway_virtual_interface_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayVirtualInterfaceGroups",
@@ -15097,7 +15137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_local_gateway_virtual_interfaces(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayVirtualInterfaces";
@@ -15106,7 +15146,7 @@ function describe_local_gateway_virtual_interfaces(;
     )
 end
 function describe_local_gateway_virtual_interfaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGatewayVirtualInterfaces",
@@ -15137,13 +15177,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-function describe_local_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_local_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeLocalGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_local_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLocalGateways",
@@ -15173,13 +15213,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"SnapshotId"`: The IDs of the snapshots for which to view the lock status.
 """
-function describe_locked_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_locked_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeLockedSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_locked_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeLockedSnapshots",
@@ -15207,11 +15247,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive an error.
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-function describe_mac_hosts(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_mac_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeMacHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_mac_hosts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeMacHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -15238,13 +15278,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PrefixListId"`: One or more prefix list IDs.
 """
-function describe_managed_prefix_lists(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_managed_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeManagedPrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_managed_prefix_lists(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeManagedPrefixLists",
@@ -15277,13 +15317,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"publicIp"`: One or more Elastic IP addresses.
 """
-function describe_moving_addresses(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_moving_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeMovingAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_moving_addresses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeMovingAddresses",
@@ -15322,13 +15362,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_nat_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_nat_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeNatGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_nat_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNatGateways",
@@ -15380,13 +15420,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_network_acls(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_network_acls(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeNetworkAcls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_network_acls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkAcls",
@@ -15419,7 +15459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_network_insights_access_scope_analyses(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsAccessScopeAnalyses";
@@ -15428,7 +15468,7 @@ function describe_network_insights_access_scope_analyses(;
     )
 end
 function describe_network_insights_access_scope_analyses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsAccessScopeAnalyses",
@@ -15456,7 +15496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_network_insights_access_scopes(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsAccessScopes";
@@ -15465,7 +15505,7 @@ function describe_network_insights_access_scopes(;
     )
 end
 function describe_network_insights_access_scopes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsAccessScopes",
@@ -15500,7 +15540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_network_insights_analyses(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsAnalyses";
@@ -15509,7 +15549,7 @@ function describe_network_insights_analyses(;
     )
 end
 function describe_network_insights_analyses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsAnalyses",
@@ -15546,7 +15586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_network_insights_paths(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsPaths";
@@ -15555,7 +15595,7 @@ function describe_network_insights_paths(;
     )
 end
 function describe_network_insights_paths(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInsightsPaths",
@@ -15582,7 +15622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_network_interface_attribute(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInterfaceAttribute",
@@ -15594,7 +15634,7 @@ end
 function describe_network_interface_attribute(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeNetworkInterfaceAttribute",
@@ -15632,7 +15672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_network_interface_permissions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInterfacePermissions";
@@ -15641,7 +15681,7 @@ function describe_network_interface_permissions(;
     )
 end
 function describe_network_interface_permissions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInterfacePermissions",
@@ -15723,13 +15763,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource. Use this filter to find all resources assigned a tag with a specific key,
   regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
 """
-function describe_network_interfaces(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_network_interfaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeNetworkInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_network_interfaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeNetworkInterfaces",
@@ -15765,13 +15805,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The names of the placement groups. Default: Describes all your placement
   groups, or only those otherwise specified.
 """
-function describe_placement_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_placement_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribePlacementGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_placement_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribePlacementGroups",
@@ -15801,13 +15841,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PrefixListId"`: One or more prefix list IDs.
 """
-function describe_prefix_lists(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribePrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_prefix_lists(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribePrefixLists",
@@ -15850,13 +15890,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint |
   vpc-peering-connection | vpn-connection | vpn-gateway
 """
-function describe_principal_id_format(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_principal_id_format(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribePrincipalIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_principal_id_format(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribePrincipalIdFormat",
@@ -15885,13 +15925,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"PoolId"`: The IDs of the address pools.
 """
-function describe_public_ipv4_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_public_ipv4_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribePublicIpv4Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_public_ipv4_pools(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribePublicIpv4Pools",
@@ -15926,11 +15966,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_regions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_regions(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_regions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeRegions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -15959,7 +15999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplaceRootVolumeTaskId"`: The ID of the root volume replacement task to view.
 """
 function describe_replace_root_volume_tasks(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReplaceRootVolumeTasks";
@@ -15968,7 +16008,7 @@ function describe_replace_root_volume_tasks(;
     )
 end
 function describe_replace_root_volume_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReplaceRootVolumeTasks",
@@ -16019,13 +16059,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved
   Instance offering type.
 """
-function describe_reserved_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeReservedInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_reserved_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstances",
@@ -16065,7 +16105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reservedInstancesListingId"`: One or more Reserved Instance listing IDs.
 """
 function describe_reserved_instances_listings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstancesListings";
@@ -16074,7 +16114,7 @@ function describe_reserved_instances_listings(;
     )
 end
 function describe_reserved_instances_listings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstancesListings",
@@ -16115,7 +16155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next page of results.
 """
 function describe_reserved_instances_modifications(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstancesModifications";
@@ -16124,7 +16164,7 @@ function describe_reserved_instances_modifications(;
     )
 end
 function describe_reserved_instances_modifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstancesModifications",
@@ -16196,7 +16236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instance offering type.
 """
 function describe_reserved_instances_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstancesOfferings";
@@ -16205,7 +16245,7 @@ function describe_reserved_instances_offerings(;
     )
 end
 function describe_reserved_instances_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeReservedInstancesOfferings",
@@ -16269,13 +16309,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_route_tables(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_route_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeRouteTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_route_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeRouteTables",
@@ -16320,7 +16360,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results.
 """
 function describe_scheduled_instance_availability(
-    FirstSlotStartTimeRange, Recurrence; aws_config::AbstractAWSConfig=global_aws_config()
+    FirstSlotStartTimeRange, Recurrence; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeScheduledInstanceAvailability",
@@ -16335,7 +16375,7 @@ function describe_scheduled_instance_availability(
     FirstSlotStartTimeRange,
     Recurrence,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeScheduledInstanceAvailability",
@@ -16375,13 +16415,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduledInstanceId"`: The Scheduled Instance IDs.
 - `"SlotStartTimeRange"`: The time period for the first schedule to start.
 """
-function describe_scheduled_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_scheduled_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeScheduledInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_scheduled_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeScheduledInstances",
@@ -16409,7 +16449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupId"`: The IDs of the security groups in your account.
 """
 function describe_security_group_references(
-    item; aws_config::AbstractAWSConfig=global_aws_config()
+    item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSecurityGroupReferences",
@@ -16419,7 +16459,7 @@ function describe_security_group_references(
     )
 end
 function describe_security_group_references(
-    item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSecurityGroupReferences",
@@ -16454,13 +16494,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"SecurityGroupRuleId"`: The IDs of the security group rules.
 """
-function describe_security_group_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_security_group_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeSecurityGroupRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_security_group_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSecurityGroupRules",
@@ -16529,13 +16569,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_security_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_security_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_security_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSecurityGroups",
@@ -16564,7 +16604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_snapshot_attribute(
-    Attribute, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSnapshotAttribute",
@@ -16577,7 +16617,7 @@ function describe_snapshot_attribute(
     Attribute,
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeSnapshotAttribute",
@@ -16615,13 +16655,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeSnapshotTierStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_snapshot_tier_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSnapshotTierStatus",
@@ -16697,11 +16737,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -16722,7 +16762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_spot_datafeed_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotDatafeedSubscription";
@@ -16731,7 +16771,7 @@ function describe_spot_datafeed_subscription(;
     )
 end
 function describe_spot_datafeed_subscription(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotDatafeedSubscription",
@@ -16762,7 +16802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This value is null when there are no more items to return.
 """
 function describe_spot_fleet_instances(
-    spotFleetRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    spotFleetRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotFleetInstances",
@@ -16774,7 +16814,7 @@ end
 function describe_spot_fleet_instances(
     spotFleetRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeSpotFleetInstances",
@@ -16816,7 +16856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This value is null when there are no more items to return.
 """
 function describe_spot_fleet_request_history(
-    spotFleetRequestId, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+    spotFleetRequestId, startTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotFleetRequestHistory",
@@ -16831,7 +16871,7 @@ function describe_spot_fleet_request_history(
     spotFleetRequestId,
     startTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeSpotFleetRequestHistory",
@@ -16868,13 +16908,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This value is null when there are no more items to return.
 - `"spotFleetRequestId"`: The IDs of the Spot Fleet requests.
 """
-function describe_spot_fleet_requests(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_spot_fleet_requests(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeSpotFleetRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_spot_fleet_requests(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotFleetRequests",
@@ -16957,7 +16997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_spot_instance_requests(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotInstanceRequests";
@@ -16966,7 +17006,7 @@ function describe_spot_instance_requests(;
     )
 end
 function describe_spot_instance_requests(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotInstanceRequests",
@@ -17012,13 +17052,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The date and time, up to the past 90 days, from which to start retrieving
   the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
 """
-function describe_spot_price_history(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_spot_price_history(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeSpotPriceHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_spot_price_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSpotPriceHistory",
@@ -17052,7 +17092,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_stale_security_groups(
-    VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeStaleSecurityGroups",
@@ -17062,7 +17102,7 @@ function describe_stale_security_groups(
     )
 end
 function describe_stale_security_groups(
-    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeStaleSecurityGroups",
@@ -17105,13 +17145,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_store_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_store_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeStoreImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_store_image_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeStoreImageTasks",
@@ -17181,11 +17221,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_subnets(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_subnets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeSubnets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_subnets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeSubnets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -17219,11 +17259,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_tags(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -17257,7 +17297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficMirrorFilterRuleId"`: Traffic filter rule IDs.
 """
 function describe_traffic_mirror_filter_rules(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorFilterRules";
@@ -17266,7 +17306,7 @@ function describe_traffic_mirror_filter_rules(;
     )
 end
 function describe_traffic_mirror_filter_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorFilterRules",
@@ -17296,7 +17336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficMirrorFilterId"`: The ID of the Traffic Mirror filter.
 """
 function describe_traffic_mirror_filters(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorFilters";
@@ -17305,7 +17345,7 @@ function describe_traffic_mirror_filters(;
     )
 end
 function describe_traffic_mirror_filters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorFilters",
@@ -17341,7 +17381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficMirrorSessionId"`: The ID of the Traffic Mirror session.
 """
 function describe_traffic_mirror_sessions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorSessions";
@@ -17350,7 +17390,7 @@ function describe_traffic_mirror_sessions(;
     )
 end
 function describe_traffic_mirror_sessions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorSessions",
@@ -17383,7 +17423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficMirrorTargetId"`: The ID of the Traffic Mirror targets.
 """
 function describe_traffic_mirror_targets(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorTargets";
@@ -17392,7 +17432,7 @@ function describe_traffic_mirror_targets(;
     )
 end
 function describe_traffic_mirror_targets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrafficMirrorTargets",
@@ -17432,7 +17472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentIds"`: The IDs of the attachments.
 """
 function describe_transit_gateway_attachments(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayAttachments";
@@ -17441,7 +17481,7 @@ function describe_transit_gateway_attachments(;
     )
 end
 function describe_transit_gateway_attachments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayAttachments",
@@ -17471,7 +17511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayConnectPeerIds"`: The IDs of the Connect peers.
 """
 function describe_transit_gateway_connect_peers(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayConnectPeers";
@@ -17480,7 +17520,7 @@ function describe_transit_gateway_connect_peers(;
     )
 end
 function describe_transit_gateway_connect_peers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayConnectPeers",
@@ -17514,7 +17554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentIds"`: The IDs of the attachments.
 """
 function describe_transit_gateway_connects(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayConnects";
@@ -17523,7 +17563,7 @@ function describe_transit_gateway_connects(;
     )
 end
 function describe_transit_gateway_connects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayConnects",
@@ -17554,7 +17594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayMulticastDomainIds"`: The ID of the transit gateway multicast domain.
 """
 function describe_transit_gateway_multicast_domains(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayMulticastDomains";
@@ -17563,7 +17603,7 @@ function describe_transit_gateway_multicast_domains(;
     )
 end
 function describe_transit_gateway_multicast_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayMulticastDomains",
@@ -17604,7 +17644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attachments.
 """
 function describe_transit_gateway_peering_attachments(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayPeeringAttachments";
@@ -17613,7 +17653,7 @@ function describe_transit_gateway_peering_attachments(;
     )
 end
 function describe_transit_gateway_peering_attachments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayPeeringAttachments",
@@ -17641,7 +17681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayPolicyTableIds"`: The IDs of the transit gateway policy tables.
 """
 function describe_transit_gateway_policy_tables(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayPolicyTables";
@@ -17650,7 +17690,7 @@ function describe_transit_gateway_policy_tables(;
     )
 end
 function describe_transit_gateway_policy_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayPolicyTables",
@@ -17679,7 +17719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are being advertised.
 """
 function describe_transit_gateway_route_table_announcements(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayRouteTableAnnouncements";
@@ -17688,7 +17728,7 @@ function describe_transit_gateway_route_table_announcements(;
     )
 end
 function describe_transit_gateway_route_table_announcements(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayRouteTableAnnouncements",
@@ -17723,7 +17763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayRouteTableIds"`: The IDs of the transit gateway route tables.
 """
 function describe_transit_gateway_route_tables(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayRouteTables";
@@ -17732,7 +17772,7 @@ function describe_transit_gateway_route_tables(;
     )
 end
 function describe_transit_gateway_route_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayRouteTables",
@@ -17765,7 +17805,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayAttachmentIds"`: The IDs of the attachments.
 """
 function describe_transit_gateway_vpc_attachments(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayVpcAttachments";
@@ -17774,7 +17814,7 @@ function describe_transit_gateway_vpc_attachments(;
     )
 end
 function describe_transit_gateway_vpc_attachments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGatewayVpcAttachments",
@@ -17819,13 +17859,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 - `"TransitGatewayIds"`: The IDs of the transit gateways.
 """
-function describe_transit_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_transit_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeTransitGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_transit_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTransitGateways",
@@ -17854,7 +17894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function describe_trunk_interface_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrunkInterfaceAssociations";
@@ -17863,7 +17903,7 @@ function describe_trunk_interface_associations(;
     )
 end
 function describe_trunk_interface_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeTrunkInterfaceAssociations",
@@ -17893,7 +17933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
 function describe_verified_access_endpoints(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessEndpoints";
@@ -17902,7 +17942,7 @@ function describe_verified_access_endpoints(;
     )
 end
 function describe_verified_access_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessEndpoints",
@@ -17931,7 +17971,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
 function describe_verified_access_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessGroups";
@@ -17940,7 +17980,7 @@ function describe_verified_access_groups(;
     )
 end
 function describe_verified_access_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessGroups",
@@ -17968,7 +18008,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessInstanceId"`: The IDs of the Verified Access instances.
 """
 function describe_verified_access_instance_logging_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessInstanceLoggingConfigurations";
@@ -17977,7 +18017,7 @@ function describe_verified_access_instance_logging_configurations(;
     )
 end
 function describe_verified_access_instance_logging_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessInstanceLoggingConfigurations",
@@ -18005,7 +18045,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessInstanceId"`: The IDs of the Verified Access instances.
 """
 function describe_verified_access_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessInstances";
@@ -18014,7 +18054,7 @@ function describe_verified_access_instances(;
     )
 end
 function describe_verified_access_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessInstances",
@@ -18042,7 +18082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessTrustProviderId"`: The IDs of the Verified Access trust providers.
 """
 function describe_verified_access_trust_providers(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessTrustProviders";
@@ -18051,7 +18091,7 @@ function describe_verified_access_trust_providers(;
     )
 end
 function describe_verified_access_trust_providers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVerifiedAccessTrustProviders",
@@ -18080,7 +18120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_volume_attribute(
-    Attribute, VolumeId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVolumeAttribute",
@@ -18093,7 +18133,7 @@ function describe_volume_attribute(
     Attribute,
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeVolumeAttribute",
@@ -18165,13 +18205,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_volume_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_volume_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeVolumeStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_volume_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVolumeStatus",
@@ -18225,11 +18265,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_volumes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -18267,7 +18307,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 - `"VolumeId"`: The IDs of the volumes.
 """
-function describe_volumes_modifications(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_volumes_modifications(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DescribeVolumesModifications";
         aws_config=aws_config,
@@ -18275,7 +18317,7 @@ function describe_volumes_modifications(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_volumes_modifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVolumesModifications",
@@ -18303,7 +18345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_vpc_attribute(
-    Attribute, VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcAttribute",
@@ -18316,7 +18358,7 @@ function describe_vpc_attribute(
     Attribute,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeVpcAttribute",
@@ -18350,13 +18392,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_vpc_classic_link(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vpc_classic_link(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeVpcClassicLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_vpc_classic_link(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcClassicLink",
@@ -18386,7 +18428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function describe_vpc_classic_link_dns_support(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcClassicLinkDnsSupport";
@@ -18395,7 +18437,7 @@ function describe_vpc_classic_link_dns_support(;
     )
 end
 function describe_vpc_classic_link_dns_support(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcClassicLinkDnsSupport",
@@ -18427,7 +18469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of results.
 """
 function describe_vpc_endpoint_connection_notifications(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointConnectionNotifications";
@@ -18436,7 +18478,7 @@ function describe_vpc_endpoint_connection_notifications(;
     )
 end
 function describe_vpc_endpoint_connection_notifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointConnectionNotifications",
@@ -18470,7 +18512,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 """
 function describe_vpc_endpoint_connections(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointConnections";
@@ -18479,7 +18521,7 @@ function describe_vpc_endpoint_connections(;
     )
 end
 function describe_vpc_endpoint_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointConnections",
@@ -18517,7 +18559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceId"`: The IDs of the endpoint services.
 """
 function describe_vpc_endpoint_service_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointServiceConfigurations";
@@ -18526,7 +18568,7 @@ function describe_vpc_endpoint_service_configurations(;
     )
 end
 function describe_vpc_endpoint_service_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointServiceConfigurations",
@@ -18560,7 +18602,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next page of results.
 """
 function describe_vpc_endpoint_service_permissions(
-    ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointServicePermissions",
@@ -18572,7 +18614,7 @@ end
 function describe_vpc_endpoint_service_permissions(
     ServiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DescribeVpcEndpointServicePermissions",
@@ -18616,7 +18658,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a prior call.)
 - `"ServiceName"`: The service names.
 """
-function describe_vpc_endpoint_services(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vpc_endpoint_services(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "DescribeVpcEndpointServices";
         aws_config=aws_config,
@@ -18624,7 +18668,7 @@ function describe_vpc_endpoint_services(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_vpc_endpoint_services(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpointServices",
@@ -18665,13 +18709,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a prior call.)
 - `"VpcEndpointId"`: The IDs of the VPC endpoints.
 """
-function describe_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_vpc_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcEndpoints",
@@ -18720,7 +18764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function describe_vpc_peering_connections(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcPeeringConnections";
@@ -18729,7 +18773,7 @@ function describe_vpc_peering_connections(;
     )
 end
 function describe_vpc_peering_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcPeeringConnections",
@@ -18779,11 +18823,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_vpcs(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vpcs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeVpcs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_vpcs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpcs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -18822,13 +18866,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_vpn_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vpn_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeVpnConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_vpn_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpnConnections",
@@ -18866,13 +18910,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function describe_vpn_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vpn_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DescribeVpnGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_vpn_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DescribeVpnGateways",
@@ -18901,7 +18945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function detach_classic_link_vpc(
-    instanceId, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DetachClassicLinkVpc",
@@ -18914,7 +18958,7 @@ function detach_classic_link_vpc(
     instanceId,
     vpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachClassicLinkVpc",
@@ -18949,7 +18993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function detach_internet_gateway(
-    internetGatewayId, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    internetGatewayId, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DetachInternetGateway",
@@ -18962,7 +19006,7 @@ function detach_internet_gateway(
     internetGatewayId,
     vpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachInternetGateway",
@@ -19004,7 +19048,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   start the instance.
 """
 function detach_network_interface(
-    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DetachNetworkInterface",
@@ -19016,7 +19060,7 @@ end
 function detach_network_interface(
     attachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachNetworkInterface",
@@ -19050,7 +19094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function detach_verified_access_trust_provider(
     VerifiedAccessInstanceId,
     VerifiedAccessTrustProviderId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachVerifiedAccessTrustProvider",
@@ -19067,7 +19111,7 @@ function detach_verified_access_trust_provider(
     VerifiedAccessInstanceId,
     VerifiedAccessTrustProviderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachVerifiedAccessTrustProvider",
@@ -19122,7 +19166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function detach_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
+function detach_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DetachVolume",
         Dict{String,Any}("VolumeId" => VolumeId);
@@ -19133,7 +19177,7 @@ end
 function detach_volume(
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachVolume",
@@ -19167,7 +19211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function detach_vpn_gateway(
-    VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, VpnGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DetachVpnGateway",
@@ -19180,7 +19224,7 @@ function detach_vpn_gateway(
     VpcId,
     VpnGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DetachVpnGateway",
@@ -19213,7 +19257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_address_transfer(
-    AllocationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AllocationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableAddressTransfer",
@@ -19225,7 +19269,7 @@ end
 function disable_address_transfer(
     AllocationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableAddressTransfer",
@@ -19256,7 +19300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Statistic"`: The statistic used for the disabled subscription.
 """
 function disable_aws_network_performance_metric_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableAwsNetworkPerformanceMetricSubscription";
@@ -19265,7 +19309,7 @@ function disable_aws_network_performance_metric_subscription(;
     )
 end
 function disable_aws_network_performance_metric_subscription(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableAwsNetworkPerformanceMetricSubscription",
@@ -19292,7 +19336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_ebs_encryption_by_default(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableEbsEncryptionByDefault";
@@ -19301,7 +19345,7 @@ function disable_ebs_encryption_by_default(;
     )
 end
 function disable_ebs_encryption_by_default(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableEbsEncryptionByDefault",
@@ -19333,7 +19377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AMI. This parameter overrides any errors that are encountered while cleaning up resources
   in your account.
 """
-function disable_fast_launch(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DisableFastLaunch",
         Dict{String,Any}("ImageId" => ImageId);
@@ -19342,7 +19386,9 @@ function disable_fast_launch(ImageId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function disable_fast_launch(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableFastLaunch",
@@ -19371,7 +19417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_fast_snapshot_restores(
-    AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableFastSnapshotRestores",
@@ -19386,7 +19432,7 @@ function disable_fast_snapshot_restores(
     AvailabilityZone,
     SourceSnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableFastSnapshotRestores",
@@ -19426,7 +19472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function disable_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DisableImage",
         Dict{String,Any}("ImageId" => ImageId);
@@ -19435,7 +19481,9 @@ function disable_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function disable_image(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableImage",
@@ -19464,7 +19512,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_image_block_public_access(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableImageBlockPublicAccess";
@@ -19473,7 +19521,7 @@ function disable_image_block_public_access(;
     )
 end
 function disable_image_block_public_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableImageBlockPublicAccess",
@@ -19500,7 +19548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_image_deprecation(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableImageDeprecation",
@@ -19510,7 +19558,9 @@ function disable_image_deprecation(
     )
 end
 function disable_image_deprecation(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableImageDeprecation",
@@ -19540,7 +19590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_image_deregistration_protection(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableImageDeregistrationProtection",
@@ -19550,7 +19600,9 @@ function disable_image_deregistration_protection(
     )
 end
 function disable_image_deregistration_protection(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableImageDeregistrationProtection",
@@ -19578,7 +19630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_ipam_organization_admin_account(
-    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableIpamOrganizationAdminAccount",
@@ -19590,7 +19642,7 @@ end
 function disable_ipam_organization_admin_account(
     DelegatedAdminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableIpamOrganizationAdminAccount",
@@ -19620,13 +19672,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function disable_serial_console_access(; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_serial_console_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DisableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function disable_serial_console_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableSerialConsoleAccess",
@@ -19655,7 +19707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_snapshot_block_public_access(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableSnapshotBlockPublicAccess";
@@ -19664,7 +19716,7 @@ function disable_snapshot_block_public_access(;
     )
 end
 function disable_snapshot_block_public_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableSnapshotBlockPublicAccess",
@@ -19693,7 +19745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayRouteTableAnnouncementId"`: The ID of the route table announcement.
 """
 function disable_transit_gateway_route_table_propagation(
-    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableTransitGatewayRouteTablePropagation",
@@ -19705,7 +19757,7 @@ end
 function disable_transit_gateway_route_table_propagation(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableTransitGatewayRouteTablePropagation",
@@ -19741,7 +19793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disable_vgw_route_propagation(
-    GatewayId, RouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayId, RouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableVgwRoutePropagation",
@@ -19754,7 +19806,7 @@ function disable_vgw_route_propagation(
     GatewayId,
     RouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisableVgwRoutePropagation",
@@ -19786,7 +19838,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DisableVpcClassicLink",
         Dict{String,Any}("vpcId" => vpcId);
@@ -19795,7 +19847,7 @@ function disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function disable_vpc_classic_link(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableVpcClassicLink",
@@ -19819,7 +19871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcId"`: The ID of the VPC.
 """
 function disable_vpc_classic_link_dns_support(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableVpcClassicLinkDnsSupport";
@@ -19828,7 +19880,7 @@ function disable_vpc_classic_link_dns_support(;
     )
 end
 function disable_vpc_classic_link_dns_support(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisableVpcClassicLinkDnsSupport",
@@ -19854,13 +19906,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function disassociate_address(; aws_config::AbstractAWSConfig=global_aws_config())
+function disassociate_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "DisassociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function disassociate_address(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateAddress",
@@ -19892,7 +19944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_client_vpn_target_network(
-    AssociationId, ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateClientVpnTargetNetwork",
@@ -19907,7 +19959,7 @@ function disassociate_client_vpn_target_network(
     AssociationId,
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateClientVpnTargetNetwork",
@@ -19947,7 +19999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_enclave_certificate_iam_role(
-    CertificateArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateEnclaveCertificateIamRole",
@@ -19960,7 +20012,7 @@ function disassociate_enclave_certificate_iam_role(
     CertificateArn,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateEnclaveCertificateIamRole",
@@ -19988,7 +20040,7 @@ DescribeIamInstanceProfileAssociations to get the association ID.
 
 """
 function disassociate_iam_instance_profile(
-    AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateIamInstanceProfile",
@@ -20000,7 +20052,7 @@ end
 function disassociate_iam_instance_profile(
     AssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateIamInstanceProfile",
@@ -20032,7 +20084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disassociate_instance_event_window(
     AssociationTarget,
     InstanceEventWindowId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateInstanceEventWindow",
@@ -20048,7 +20100,7 @@ function disassociate_instance_event_window(
     AssociationTarget,
     InstanceEventWindowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateInstanceEventWindow",
@@ -20086,7 +20138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_ipam_byoasn(
-    Asn, Cidr; aws_config::AbstractAWSConfig=global_aws_config()
+    Asn, Cidr; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateIpamByoasn",
@@ -20099,7 +20151,7 @@ function disassociate_ipam_byoasn(
     Asn,
     Cidr,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateIpamByoasn",
@@ -20129,7 +20181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_ipam_resource_discovery(
-    IpamResourceDiscoveryAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamResourceDiscoveryAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateIpamResourceDiscovery",
@@ -20143,7 +20195,7 @@ end
 function disassociate_ipam_resource_discovery(
     IpamResourceDiscoveryAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateIpamResourceDiscovery",
@@ -20191,7 +20243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   350 seconds.
 """
 function disassociate_nat_gateway_address(
-    AssociationId, NatGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateNatGatewayAddress",
@@ -20204,7 +20256,7 @@ function disassociate_nat_gateway_address(
     AssociationId,
     NatGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateNatGatewayAddress",
@@ -20242,7 +20294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_route_table(
-    associationId; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateRouteTable",
@@ -20254,7 +20306,7 @@ end
 function disassociate_route_table(
     associationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateRouteTable",
@@ -20279,7 +20331,7 @@ the CIDR block before you can disassociate it.
 
 """
 function disassociate_subnet_cidr_block(
-    associationId; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateSubnetCidrBlock",
@@ -20291,7 +20343,7 @@ end
 function disassociate_subnet_cidr_block(
     associationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateSubnetCidrBlock",
@@ -20325,7 +20377,7 @@ function disassociate_transit_gateway_multicast_domain(
     TransitGatewayAttachmentId,
     TransitGatewayMulticastDomainId,
     item;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTransitGatewayMulticastDomain",
@@ -20343,7 +20395,7 @@ function disassociate_transit_gateway_multicast_domain(
     TransitGatewayMulticastDomainId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTransitGatewayMulticastDomain",
@@ -20383,7 +20435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disassociate_transit_gateway_policy_table(
     TransitGatewayAttachmentId,
     TransitGatewayPolicyTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTransitGatewayPolicyTable",
@@ -20399,7 +20451,7 @@ function disassociate_transit_gateway_policy_table(
     TransitGatewayAttachmentId,
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTransitGatewayPolicyTable",
@@ -20437,7 +20489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disassociate_transit_gateway_route_table(
     TransitGatewayAttachmentId,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTransitGatewayRouteTable",
@@ -20453,7 +20505,7 @@ function disassociate_transit_gateway_route_table(
     TransitGatewayAttachmentId,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTransitGatewayRouteTable",
@@ -20490,7 +20542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function disassociate_trunk_interface(
-    AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateTrunkInterface",
@@ -20504,7 +20556,7 @@ end
 function disassociate_trunk_interface(
     AssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateTrunkInterface",
@@ -20537,7 +20589,7 @@ the VPC (the primary CIDR block).
 
 """
 function disassociate_vpc_cidr_block(
-    associationId; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "DisassociateVpcCidrBlock",
@@ -20549,7 +20601,7 @@ end
 function disassociate_vpc_cidr_block(
     associationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "DisassociateVpcCidrBlock",
@@ -20580,7 +20632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_address_transfer(
-    AllocationId, TransferAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AllocationId, TransferAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableAddressTransfer",
@@ -20595,7 +20647,7 @@ function enable_address_transfer(
     AllocationId,
     TransferAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableAddressTransfer",
@@ -20634,7 +20686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Statistic"`: The statistic used for the enabled subscription.
 """
 function enable_aws_network_performance_metric_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableAwsNetworkPerformanceMetricSubscription";
@@ -20643,7 +20695,7 @@ function enable_aws_network_performance_metric_subscription(;
     )
 end
 function enable_aws_network_performance_metric_subscription(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableAwsNetworkPerformanceMetricSubscription",
@@ -20674,7 +20726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_ebs_encryption_by_default(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableEbsEncryptionByDefault";
@@ -20683,7 +20735,7 @@ function enable_ebs_encryption_by_default(;
     )
 end
 function enable_ebs_encryption_by_default(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableEbsEncryptionByDefault",
@@ -20725,7 +20777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are used for pre-provisioning the AMI for Windows fast launch. The associated
   ResourceType must be snapshot.
 """
-function enable_fast_launch(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "EnableFastLaunch",
         Dict{String,Any}("ImageId" => ImageId);
@@ -20734,7 +20786,9 @@ function enable_fast_launch(ImageId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function enable_fast_launch(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableFastLaunch",
@@ -20768,7 +20822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_fast_snapshot_restores(
-    AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableFastSnapshotRestores",
@@ -20783,7 +20837,7 @@ function enable_fast_snapshot_restores(
     AvailabilityZone,
     SourceSnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableFastSnapshotRestores",
@@ -20822,7 +20876,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function enable_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "EnableImage",
         Dict{String,Any}("ImageId" => ImageId);
@@ -20831,7 +20885,9 @@ function enable_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function enable_image(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableImage",
@@ -20865,7 +20921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_image_block_public_access(
-    ImageBlockPublicAccessState; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageBlockPublicAccessState; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableImageBlockPublicAccess",
@@ -20877,7 +20933,7 @@ end
 function enable_image_block_public_access(
     ImageBlockPublicAccessState,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableImageBlockPublicAccess",
@@ -20917,7 +20973,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_image_deprecation(
-    DeprecateAt, ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeprecateAt, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableImageDeprecation",
@@ -20930,7 +20986,7 @@ function enable_image_deprecation(
     DeprecateAt,
     ImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableImageDeprecation",
@@ -20967,7 +21023,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deregistration protection is disabled.
 """
 function enable_image_deregistration_protection(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableImageDeregistrationProtection",
@@ -20977,7 +21033,9 @@ function enable_image_deregistration_protection(
     )
 end
 function enable_image_deregistration_protection(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableImageDeregistrationProtection",
@@ -21006,7 +21064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_ipam_organization_admin_account(
-    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    DelegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableIpamOrganizationAdminAccount",
@@ -21018,7 +21076,7 @@ end
 function enable_ipam_organization_admin_account(
     DelegatedAdminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableIpamOrganizationAdminAccount",
@@ -21051,7 +21109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_reachability_analyzer_organization_sharing(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableReachabilityAnalyzerOrganizationSharing";
@@ -21060,7 +21118,7 @@ function enable_reachability_analyzer_organization_sharing(;
     )
 end
 function enable_reachability_analyzer_organization_sharing(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableReachabilityAnalyzerOrganizationSharing",
@@ -21084,13 +21142,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function enable_serial_console_access(; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_serial_console_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "EnableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function enable_serial_console_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableSerialConsoleAccess",
@@ -21136,7 +21194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_snapshot_block_public_access(
-    State; aws_config::AbstractAWSConfig=global_aws_config()
+    State; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableSnapshotBlockPublicAccess",
@@ -21146,7 +21204,7 @@ function enable_snapshot_block_public_access(
     )
 end
 function enable_snapshot_block_public_access(
-    State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableSnapshotBlockPublicAccess",
@@ -21176,7 +21234,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   announcement.
 """
 function enable_transit_gateway_route_table_propagation(
-    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableTransitGatewayRouteTablePropagation",
@@ -21188,7 +21246,7 @@ end
 function enable_transit_gateway_route_table_propagation(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableTransitGatewayRouteTablePropagation",
@@ -21227,7 +21285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function enable_vgw_route_propagation(
-    GatewayId, RouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayId, RouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableVgwRoutePropagation",
@@ -21240,7 +21298,7 @@ function enable_vgw_route_propagation(
     GatewayId,
     RouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableVgwRoutePropagation",
@@ -21272,7 +21330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function enable_volume_io(volumeId; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_volume_io(volumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "EnableVolumeIO",
         Dict{String,Any}("volumeId" => volumeId);
@@ -21283,7 +21341,7 @@ end
 function enable_volume_io(
     volumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "EnableVolumeIO",
@@ -21314,7 +21372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "EnableVpcClassicLink",
         Dict{String,Any}("vpcId" => vpcId);
@@ -21323,7 +21381,7 @@ function enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function enable_vpc_classic_link(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableVpcClassicLink",
@@ -21348,7 +21406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcId"`: The ID of the VPC.
 """
 function enable_vpc_classic_link_dns_support(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableVpcClassicLinkDnsSupport";
@@ -21357,7 +21415,7 @@ function enable_vpc_classic_link_dns_support(;
     )
 end
 function enable_vpc_classic_link_dns_support(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "EnableVpcClassicLinkDnsSupport",
@@ -21383,7 +21441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function export_client_vpn_client_certificate_revocation_list(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ExportClientVpnClientCertificateRevocationList",
@@ -21395,7 +21453,7 @@ end
 function export_client_vpn_client_certificate_revocation_list(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ExportClientVpnClientCertificateRevocationList",
@@ -21430,7 +21488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function export_client_vpn_client_configuration(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ExportClientVpnClientConfiguration",
@@ -21442,7 +21500,7 @@ end
 function export_client_vpn_client_configuration(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ExportClientVpnClientConfiguration",
@@ -21488,7 +21546,7 @@ function export_image(
     DiskImageFormat,
     ImageId,
     S3ExportLocation;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ExportImage",
@@ -21507,7 +21565,7 @@ function export_image(
     ImageId,
     S3ExportLocation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ExportImage",
@@ -21560,7 +21618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (propagated | static).
 """
 function export_transit_gateway_routes(
-    S3Bucket, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    S3Bucket, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ExportTransitGatewayRoutes",
@@ -21576,7 +21634,7 @@ function export_transit_gateway_routes(
     S3Bucket,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ExportTransitGatewayRoutes",
@@ -21615,7 +21673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_associated_enclave_certificate_iam_roles(
-    CertificateArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetAssociatedEnclaveCertificateIamRoles",
@@ -21627,7 +21685,7 @@ end
 function get_associated_enclave_certificate_iam_roles(
     CertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetAssociatedEnclaveCertificateIamRoles",
@@ -21658,7 +21716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_associated_ipv6_pool_cidrs(
-    PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetAssociatedIpv6PoolCidrs",
@@ -21668,7 +21726,7 @@ function get_associated_ipv6_pool_cidrs(
     )
 end
 function get_associated_ipv6_pool_cidrs(
-    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetAssociatedIpv6PoolCidrs",
@@ -21699,7 +21757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be formatted as yyyy-mm-ddThh:mm:ss. For example, 2022-06-10T12:00:00.000Z.
 """
 function get_aws_network_performance_data(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetAwsNetworkPerformanceData";
@@ -21708,7 +21766,7 @@ function get_aws_network_performance_data(;
     )
 end
 function get_aws_network_performance_data(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetAwsNetworkPerformanceData",
@@ -21741,7 +21799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
 function get_capacity_reservation_usage(
-    CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetCapacityReservationUsage",
@@ -21753,7 +21811,7 @@ end
 function get_capacity_reservation_usage(
     CapacityReservationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetCapacityReservationUsage",
@@ -21792,7 +21850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-function get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "GetCoipPoolUsage",
         Dict{String,Any}("PoolId" => PoolId);
@@ -21801,7 +21859,7 @@ function get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function get_coip_pool_usage(
-    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetCoipPoolUsage",
@@ -21837,7 +21895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function get_console_output(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_console_output(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "GetConsoleOutput",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -21848,7 +21906,7 @@ end
 function get_console_output(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetConsoleOutput",
@@ -21880,7 +21938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   standby or \"sleep\" mode.
 """
 function get_console_screenshot(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetConsoleScreenshot",
@@ -21892,7 +21950,7 @@ end
 function get_console_screenshot(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetConsoleScreenshot",
@@ -21922,7 +21980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_default_credit_specification(
-    InstanceFamily; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceFamily; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetDefaultCreditSpecification",
@@ -21934,7 +21992,7 @@ end
 function get_default_credit_specification(
     InstanceFamily,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetDefaultCreditSpecification",
@@ -21961,13 +22019,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function get_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "GetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_ebs_default_kms_key_id(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetEbsDefaultKmsKeyId",
@@ -21990,13 +22048,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "GetEbsEncryptionByDefault"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_ebs_encryption_by_default(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetEbsEncryptionByDefault",
@@ -22036,7 +22094,7 @@ function get_flow_logs_integration_template(
     ConfigDeliveryS3DestinationArn,
     FlowLogId,
     IntegrateService;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetFlowLogsIntegrationTemplate",
@@ -22054,7 +22112,7 @@ function get_flow_logs_integration_template(
     FlowLogId,
     IntegrateService,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetFlowLogsIntegrationTemplate",
@@ -22096,7 +22154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
 function get_groups_for_capacity_reservation(
-    CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetGroupsForCapacityReservation",
@@ -22108,7 +22166,7 @@ end
 function get_groups_for_capacity_reservation(
     CapacityReservationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetGroupsForCapacityReservation",
@@ -22142,7 +22200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HostIdSet"`: The IDs of the Dedicated Hosts with which the reservation is associated.
 """
 function get_host_reservation_purchase_preview(
-    OfferingId, item; aws_config::AbstractAWSConfig=global_aws_config()
+    OfferingId, item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetHostReservationPurchasePreview",
@@ -22155,7 +22213,7 @@ function get_host_reservation_purchase_preview(
     OfferingId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetHostReservationPurchasePreview",
@@ -22184,7 +22242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_image_block_public_access_state(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetImageBlockPublicAccessState";
@@ -22193,7 +22251,7 @@ function get_image_block_public_access_state(;
     )
 end
 function get_image_block_public_access_state(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetImageBlockPublicAccessState",
@@ -22217,7 +22275,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function get_instance_metadata_defaults(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_instance_metadata_defaults(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "GetInstanceMetadataDefaults";
         aws_config=aws_config,
@@ -22225,7 +22285,7 @@ function get_instance_metadata_defaults(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function get_instance_metadata_defaults(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetInstanceMetadataDefaults",
@@ -22256,7 +22316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Otherwise, the response is UnauthorizedOperation.
 """
 function get_instance_tpm_ek_pub(
-    InstanceId, KeyFormat, KeyType; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, KeyFormat, KeyType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetInstanceTpmEkPub",
@@ -22272,7 +22332,7 @@ function get_instance_tpm_ek_pub(
     KeyFormat,
     KeyType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetInstanceTpmEkPub",
@@ -22326,7 +22386,7 @@ function get_instance_types_from_instance_requirements(
     ArchitectureType,
     InstanceRequirements,
     VirtualizationType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetInstanceTypesFromInstanceRequirements",
@@ -22344,7 +22404,7 @@ function get_instance_types_from_instance_requirements(
     InstanceRequirements,
     VirtualizationType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetInstanceTypesFromInstanceRequirements",
@@ -22387,7 +22447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_instance_uefi_data(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetInstanceUefiData",
@@ -22399,7 +22459,7 @@ end
 function get_instance_uefi_data(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetInstanceUefiData",
@@ -22439,7 +22499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcId"`: The ID of the VPC you want your history records filtered by.
 """
 function get_ipam_address_history(
-    Cidr, IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetIpamAddressHistory",
@@ -22452,7 +22512,7 @@ function get_ipam_address_history(
     Cidr,
     IpamScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamAddressHistory",
@@ -22496,7 +22556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_ipam_discovered_accounts(
     DiscoveryRegion,
     IpamResourceDiscoveryId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamDiscoveredAccounts",
@@ -22512,7 +22572,7 @@ function get_ipam_discovered_accounts(
     DiscoveryRegion,
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamDiscoveredAccounts",
@@ -22554,7 +22614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_ipam_discovered_public_addresses(
     AddressRegion,
     IpamResourceDiscoveryId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamDiscoveredPublicAddresses",
@@ -22570,7 +22630,7 @@ function get_ipam_discovered_public_addresses(
     AddressRegion,
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamDiscoveredPublicAddresses",
@@ -22615,7 +22675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_ipam_discovered_resource_cidrs(
     IpamResourceDiscoveryId,
     ResourceRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamDiscoveredResourceCidrs",
@@ -22631,7 +22691,7 @@ function get_ipam_discovered_resource_cidrs(
     IpamResourceDiscoveryId,
     ResourceRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamDiscoveredResourceCidrs",
@@ -22675,7 +22735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_ipam_pool_allocations(
-    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetIpamPoolAllocations",
@@ -22687,7 +22747,7 @@ end
 function get_ipam_pool_allocations(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamPoolAllocations",
@@ -22718,7 +22778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in the request.
 - `"NextToken"`: The token for the next page of results.
 """
-function get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "GetIpamPoolCidrs",
         Dict{String,Any}("IpamPoolId" => IpamPoolId);
@@ -22729,7 +22789,7 @@ end
 function get_ipam_pool_cidrs(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamPoolCidrs",
@@ -22769,7 +22829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: The resource type.
 """
 function get_ipam_resource_cidrs(
-    IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetIpamResourceCidrs",
@@ -22781,7 +22841,7 @@ end
 function get_ipam_resource_cidrs(
     IpamScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetIpamResourceCidrs",
@@ -22814,7 +22874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_launch_template_data(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetLaunchTemplateData",
@@ -22826,7 +22886,7 @@ end
 function get_launch_template_data(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetLaunchTemplateData",
@@ -22858,7 +22918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_managed_prefix_list_associations(
-    PrefixListId; aws_config::AbstractAWSConfig=global_aws_config()
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetManagedPrefixListAssociations",
@@ -22870,7 +22930,7 @@ end
 function get_managed_prefix_list_associations(
     PrefixListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetManagedPrefixListAssociations",
@@ -22903,7 +22963,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is the current version.
 """
 function get_managed_prefix_list_entries(
-    PrefixListId; aws_config::AbstractAWSConfig=global_aws_config()
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetManagedPrefixListEntries",
@@ -22915,7 +22975,7 @@ end
 function get_managed_prefix_list_entries(
     PrefixListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetManagedPrefixListEntries",
@@ -22946,7 +23006,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_network_insights_access_scope_analysis_findings(
-    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInsightsAccessScopeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetNetworkInsightsAccessScopeAnalysisFindings",
@@ -22960,7 +23020,7 @@ end
 function get_network_insights_access_scope_analysis_findings(
     NetworkInsightsAccessScopeAnalysisId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetNetworkInsightsAccessScopeAnalysisFindings",
@@ -22995,7 +23055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_network_insights_access_scope_content(
-    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=global_aws_config()
+    NetworkInsightsAccessScopeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetNetworkInsightsAccessScopeContent",
@@ -23007,7 +23067,7 @@ end
 function get_network_insights_access_scope_content(
     NetworkInsightsAccessScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetNetworkInsightsAccessScopeContent",
@@ -23050,7 +23110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function get_password_data(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_password_data(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "GetPasswordData",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -23061,7 +23121,7 @@ end
 function get_password_data(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetPasswordData",
@@ -23094,7 +23154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exchange for your current Convertible Reserved Instances.
 """
 function get_reserved_instances_exchange_quote(
-    ReservedInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ReservedInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetReservedInstancesExchangeQuote",
@@ -23106,7 +23166,7 @@ end
 function get_reserved_instances_exchange_quote(
     ReservedInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetReservedInstancesExchangeQuote",
@@ -23146,7 +23206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function get_security_groups_for_vpc(
-    VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSecurityGroupsForVpc",
@@ -23156,7 +23216,7 @@ function get_security_groups_for_vpc(
     )
 end
 function get_security_groups_for_vpc(
-    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSecurityGroupsForVpc",
@@ -23182,7 +23242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_serial_console_access_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSerialConsoleAccessStatus";
@@ -23191,7 +23251,7 @@ function get_serial_console_access_status(;
     )
 end
 function get_serial_console_access_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSerialConsoleAccessStatus",
@@ -23216,7 +23276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_snapshot_block_public_access_state(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSnapshotBlockPublicAccessState";
@@ -23225,7 +23285,7 @@ function get_snapshot_block_public_access_state(;
     )
 end
 function get_snapshot_block_public_access_state(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSnapshotBlockPublicAccessState",
@@ -23276,7 +23336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetCapacityUnitType"`: The unit for the target capacity.
 """
 function get_spot_placement_scores(
-    TargetCapacity; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetCapacity; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSpotPlacementScores",
@@ -23288,7 +23348,7 @@ end
 function get_spot_placement_scores(
     TargetCapacity,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetSpotPlacementScores",
@@ -23326,7 +23386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_subnet_cidr_reservations(
-    SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetSubnetCidrReservations",
@@ -23338,7 +23398,7 @@ end
 function get_subnet_cidr_reservations(
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetSubnetCidrReservations",
@@ -23371,7 +23431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_attachment_propagations(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayAttachmentPropagations",
@@ -23383,7 +23443,7 @@ end
 function get_transit_gateway_attachment_propagations(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayAttachmentPropagations",
@@ -23425,7 +23485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_multicast_domain_associations(
-    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayMulticastDomainAssociations",
@@ -23439,7 +23499,7 @@ end
 function get_transit_gateway_multicast_domain_associations(
     TransitGatewayMulticastDomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayMulticastDomainAssociations",
@@ -23477,7 +23537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_policy_table_associations(
-    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayPolicyTableAssociations",
@@ -23489,7 +23549,7 @@ end
 function get_transit_gateway_policy_table_associations(
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayPolicyTableAssociations",
@@ -23527,7 +23587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_policy_table_entries(
-    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayPolicyTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayPolicyTableEntries",
@@ -23539,7 +23599,7 @@ end
 function get_transit_gateway_policy_table_entries(
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayPolicyTableEntries",
@@ -23584,7 +23644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_prefix_list_references(
-    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayPrefixListReferences",
@@ -23596,7 +23656,7 @@ end
 function get_transit_gateway_prefix_list_references(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayPrefixListReferences",
@@ -23637,7 +23697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_route_table_associations(
-    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayRouteTableAssociations",
@@ -23649,7 +23709,7 @@ end
 function get_transit_gateway_route_table_associations(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayRouteTableAssociations",
@@ -23691,7 +23751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function get_transit_gateway_route_table_propagations(
-    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetTransitGatewayRouteTablePropagations",
@@ -23703,7 +23763,7 @@ end
 function get_transit_gateway_route_table_propagations(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetTransitGatewayRouteTablePropagations",
@@ -23737,7 +23797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_verified_access_endpoint_policy(
-    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetVerifiedAccessEndpointPolicy",
@@ -23749,7 +23809,7 @@ end
 function get_verified_access_endpoint_policy(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetVerifiedAccessEndpointPolicy",
@@ -23781,7 +23841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function get_verified_access_group_policy(
-    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetVerifiedAccessGroupPolicy",
@@ -23793,7 +23853,7 @@ end
 function get_verified_access_group_policy(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetVerifiedAccessGroupPolicy",
@@ -23834,7 +23894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_vpn_connection_device_sample_configuration(
     VpnConnectionDeviceTypeId,
     VpnConnectionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetVpnConnectionDeviceSampleConfiguration",
@@ -23850,7 +23910,7 @@ function get_vpn_connection_device_sample_configuration(
     VpnConnectionDeviceTypeId,
     VpnConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetVpnConnectionDeviceSampleConfiguration",
@@ -23895,7 +23955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the NextToken value. This value is null when there are no more results to return.
 """
 function get_vpn_connection_device_types(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetVpnConnectionDeviceTypes";
@@ -23904,7 +23964,7 @@ function get_vpn_connection_device_types(;
     )
 end
 function get_vpn_connection_device_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "GetVpnConnectionDeviceTypes",
@@ -23933,7 +23993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_vpn_tunnel_replacement_status(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetVpnTunnelReplacementStatus",
@@ -23949,7 +24009,7 @@ function get_vpn_tunnel_replacement_status(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "GetVpnTunnelReplacementStatus",
@@ -23993,7 +24053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function import_client_vpn_client_certificate_revocation_list(
     CertificateRevocationList,
     ClientVpnEndpointId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ImportClientVpnClientCertificateRevocationList",
@@ -24009,7 +24069,7 @@ function import_client_vpn_client_certificate_revocation_list(
     CertificateRevocationList,
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ImportClientVpnClientCertificateRevocationList",
@@ -24092,11 +24152,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UsageOperation"`: The usage operation value. For more information, see Licensing
   options in the VM Import/Export User Guide.
 """
-function import_image(; aws_config::AbstractAWSConfig=global_aws_config())
+function import_image(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("ImportImage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function import_image(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ImportImage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -24128,7 +24188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"launchSpecification"`: The launch specification.
 """
-function import_instance(platform; aws_config::AbstractAWSConfig=global_aws_config())
+function import_instance(platform; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ImportInstance",
         Dict{String,Any}("platform" => platform);
@@ -24139,7 +24199,7 @@ end
 function import_instance(
     platform,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ImportInstance",
@@ -24176,7 +24236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function import_key_pair(
-    keyName, publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config()
+    keyName, publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ImportKeyPair",
@@ -24189,7 +24249,7 @@ function import_key_pair(
     keyName,
     publicKeyMaterial,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ImportKeyPair",
@@ -24245,11 +24305,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleName"`: The name of the role to use when not using the default role, 'vmimport'.
 - `"TagSpecification"`: The tags to apply to the import snapshot task during creation.
 """
-function import_snapshot(; aws_config::AbstractAWSConfig=global_aws_config())
+function import_snapshot(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("ImportSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function import_snapshot(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ImportSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -24281,7 +24341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function import_volume(
-    availabilityZone, image, volume; aws_config::AbstractAWSConfig=global_aws_config()
+    availabilityZone, image, volume; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ImportVolume",
@@ -24297,7 +24357,7 @@ function import_volume(
     image,
     volume,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ImportVolume",
@@ -24337,13 +24397,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function list_images_in_recycle_bin(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_images_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ListImagesInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_images_in_recycle_bin(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ListImagesInRecycleBin",
@@ -24372,13 +24432,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotId"`: The IDs of the snapshots to list. Omit this parameter to list all of the
   snapshots that are in the Recycle Bin.
 """
-function list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ListSnapshotsInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_snapshots_in_recycle_bin(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ListSnapshotsInRecycleBin",
@@ -24440,7 +24500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter or ExpirationDate, but not both. Allowed values: Min: 1, max 36500
 """
 function lock_snapshot(
-    LockMode, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    LockMode, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "LockSnapshot",
@@ -24453,7 +24513,7 @@ function lock_snapshot(
     LockMode,
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "LockSnapshot",
@@ -24487,7 +24547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_address_attribute(
-    AllocationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AllocationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyAddressAttribute",
@@ -24499,7 +24559,7 @@ end
 function modify_address_attribute(
     AllocationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyAddressAttribute",
@@ -24531,7 +24591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_availability_zone_group(
-    GroupName, OptInStatus; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, OptInStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyAvailabilityZoneGroup",
@@ -24544,7 +24604,7 @@ function modify_availability_zone_group(
     GroupName,
     OptInStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyAvailabilityZoneGroup",
@@ -24596,7 +24656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances can't be increased or decreased by more than 1000 in a single request.
 """
 function modify_capacity_reservation(
-    CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyCapacityReservation",
@@ -24608,7 +24668,7 @@ end
 function modify_capacity_reservation(
     CapacityReservationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyCapacityReservation",
@@ -24659,7 +24719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workload. For more information, see Total target capacity in the Amazon EC2 User Guide.
 """
 function modify_capacity_reservation_fleet(
-    CapacityReservationFleetId; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationFleetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyCapacityReservationFleet",
@@ -24671,7 +24731,7 @@ end
 function modify_capacity_reservation_fleet(
     CapacityReservationFleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyCapacityReservationFleet",
@@ -24732,7 +24792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic. Valid Values: 443 | 1194  Default Value: 443
 """
 function modify_client_vpn_endpoint(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyClientVpnEndpoint",
@@ -24744,7 +24804,7 @@ end
 function modify_client_vpn_endpoint(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyClientVpnEndpoint",
@@ -24787,7 +24847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_default_credit_specification(
-    CpuCredits, InstanceFamily; aws_config::AbstractAWSConfig=global_aws_config()
+    CpuCredits, InstanceFamily; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyDefaultCreditSpecification",
@@ -24800,7 +24860,7 @@ function modify_default_credit_specification(
     CpuCredits,
     InstanceFamily,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyDefaultCreditSpecification",
@@ -24851,7 +24911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_ebs_default_kms_key_id(
-    KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config()
+    KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyEbsDefaultKmsKeyId",
@@ -24863,7 +24923,7 @@ end
 function modify_ebs_default_kms_key_id(
     KmsKeyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyEbsDefaultKmsKeyId",
@@ -24915,7 +24975,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LaunchTemplateConfig"`: The launch template and overrides.
 - `"TargetCapacitySpecification"`: The size of the EC2 Fleet.
 """
-function modify_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_fleet(FleetId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyFleet",
         Dict{String,Any}("FleetId" => FleetId);
@@ -24924,7 +24984,9 @@ function modify_fleet(FleetId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function modify_fleet(
-    FleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    FleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyFleet",
@@ -24961,7 +25023,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   modifying the loadPermission attribute.
 """
 function modify_fpga_image_attribute(
-    FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyFpgaImageAttribute",
@@ -24973,7 +25035,7 @@ end
 function modify_fpga_image_attribute(
     FpgaImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyFpgaImageAttribute",
@@ -25019,7 +25081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InstanceType and InstanceFamily in the same request.
 - `"autoPlacement"`: Specify whether to enable or disable auto-placement.
 """
-function modify_hosts(hostId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyHosts",
         Dict{String,Any}("hostId" => hostId);
@@ -25028,7 +25090,7 @@ function modify_hosts(hostId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function modify_hosts(
-    hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyHosts",
@@ -25073,7 +25135,7 @@ have permission to use the relevant Describe command for the resource type.
 
 """
 function modify_id_format(
-    Resource, UseLongIds; aws_config::AbstractAWSConfig=global_aws_config()
+    Resource, UseLongIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyIdFormat",
@@ -25086,7 +25148,7 @@ function modify_id_format(
     Resource,
     UseLongIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIdFormat",
@@ -25139,7 +25201,7 @@ for the resource type.
 
 """
 function modify_identity_id_format(
-    principalArn, resource, useLongIds; aws_config::AbstractAWSConfig=global_aws_config()
+    principalArn, resource, useLongIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyIdentityIdFormat",
@@ -25157,7 +25219,7 @@ function modify_identity_id_format(
     resource,
     useLongIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIdentityIdFormat",
@@ -25221,7 +25283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyImageAttribute",
         Dict{String,Any}("ImageId" => ImageId);
@@ -25230,7 +25292,9 @@ function modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function modify_image_attribute(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyImageAttribute",
@@ -25313,7 +25377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
 function modify_instance_attribute(
-    instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceAttribute",
@@ -25325,7 +25389,7 @@ end
 function modify_instance_attribute(
     instanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceAttribute",
@@ -25359,7 +25423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_instance_capacity_reservation_attributes(
     CapacityReservationSpecification,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceCapacityReservationAttributes",
@@ -25375,7 +25439,7 @@ function modify_instance_capacity_reservation_attributes(
     CapacityReservationSpecification,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceCapacityReservationAttributes",
@@ -25414,7 +25478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_instance_credit_specification(
-    InstanceCreditSpecification; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceCreditSpecification; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceCreditSpecification",
@@ -25426,7 +25490,7 @@ end
 function modify_instance_credit_specification(
     InstanceCreditSpecification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceCreditSpecification",
@@ -25465,7 +25529,7 @@ function modify_instance_event_start_time(
     InstanceEventId,
     InstanceId,
     NotBefore;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceEventStartTime",
@@ -25483,7 +25547,7 @@ function modify_instance_event_start_time(
     InstanceId,
     NotBefore,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceEventStartTime",
@@ -25534,7 +25598,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRange"`: The time ranges of the event window.
 """
 function modify_instance_event_window(
-    InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceEventWindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceEventWindow",
@@ -25546,7 +25610,7 @@ end
 function modify_instance_event_window(
     InstanceEventWindowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceEventWindow",
@@ -25583,7 +25647,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_instance_maintenance_options(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceMaintenanceOptions",
@@ -25595,7 +25659,7 @@ end
 function modify_instance_maintenance_options(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceMaintenanceOptions",
@@ -25636,7 +25700,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata in the Amazon EC2 User Guide.
 """
 function modify_instance_metadata_defaults(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceMetadataDefaults";
@@ -25645,7 +25709,7 @@ function modify_instance_metadata_defaults(;
     )
 end
 function modify_instance_metadata_defaults(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceMetadataDefaults",
@@ -25703,7 +25767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata. For more information, see Work with instance tags using the instance metadata.
 """
 function modify_instance_metadata_options(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstanceMetadataOptions",
@@ -25715,7 +25779,7 @@ end
 function modify_instance_metadata_options(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstanceMetadataOptions",
@@ -25766,7 +25830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results in an InvalidRequest error code.
 """
 function modify_instance_placement(
-    instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyInstancePlacement",
@@ -25778,7 +25842,7 @@ end
 function modify_instance_placement(
     instanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyInstancePlacement",
@@ -25815,7 +25879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the features available in each tier and the costs associated with the tiers, see Amazon VPC
   pricing &gt; IPAM tab.
 """
-function modify_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyIpam",
         Dict{String,Any}("IpamId" => IpamId);
@@ -25824,7 +25888,7 @@ function modify_ipam(IpamId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function modify_ipam(
-    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyIpam",
@@ -25875,7 +25939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"RemoveAllocationResourceTag"`: Remove tag allocation rules from a pool.
 """
-function modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyIpamPool",
         Dict{String,Any}("IpamPoolId" => IpamPoolId);
@@ -25886,7 +25950,7 @@ end
 function modify_ipam_pool(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIpamPool",
@@ -25930,7 +25994,7 @@ function modify_ipam_resource_cidr(
     ResourceCidr,
     ResourceId,
     ResourceRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIpamResourceCidr",
@@ -25952,7 +26016,7 @@ function modify_ipam_resource_cidr(
     ResourceId,
     ResourceRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIpamResourceCidr",
@@ -25997,7 +26061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveOperatingRegion"`: Remove operating Regions.
 """
 function modify_ipam_resource_discovery(
-    IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamResourceDiscoveryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyIpamResourceDiscovery",
@@ -26009,7 +26073,7 @@ end
 function modify_ipam_resource_discovery(
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIpamResourceDiscovery",
@@ -26041,7 +26105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyIpamScope",
         Dict{String,Any}("IpamScopeId" => IpamScopeId);
@@ -26052,7 +26116,7 @@ end
 function modify_ipam_scope(
     IpamScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyIpamScope",
@@ -26087,13 +26151,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SetDefaultVersion"`: The version number of the launch template to set as the default
   version.
 """
-function modify_launch_template(; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_launch_template(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function modify_launch_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyLaunchTemplate",
@@ -26126,7 +26190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkInterfaceId"`: The ID of the network interface.
 """
 function modify_local_gateway_route(
-    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyLocalGatewayRoute",
@@ -26138,7 +26202,7 @@ end
 function modify_local_gateway_route(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyLocalGatewayRoute",
@@ -26182,7 +26246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveEntry"`: One or more entries to remove from the prefix list.
 """
 function modify_managed_prefix_list(
-    PrefixListId; aws_config::AbstractAWSConfig=global_aws_config()
+    PrefixListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyManagedPrefixList",
@@ -26194,7 +26258,7 @@ end
 function modify_managed_prefix_list(
     PrefixListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyManagedPrefixList",
@@ -26254,7 +26318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   services such as network address translation, routing, or firewalls.
 """
 function modify_network_interface_attribute(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyNetworkInterfaceAttribute",
@@ -26266,7 +26330,7 @@ end
 function modify_network_interface_attribute(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyNetworkInterfaceAttribute",
@@ -26304,7 +26368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can specify whether DNS names use the instance IPv4 address or the instance ID.
 """
 function modify_private_dns_name_options(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyPrivateDnsNameOptions",
@@ -26316,7 +26380,7 @@ end
 function modify_private_dns_name_options(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyPrivateDnsNameOptions",
@@ -26350,7 +26414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_reserved_instances(
     ReservedInstancesConfigurationSetItemType,
     ReservedInstancesId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyReservedInstances",
@@ -26367,7 +26431,7 @@ function modify_reserved_instances(
     ReservedInstancesConfigurationSetItemType,
     ReservedInstancesId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyReservedInstances",
@@ -26404,7 +26468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_security_group_rules(
-    GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifySecurityGroupRules",
@@ -26417,7 +26481,7 @@ function modify_security_group_rules(
     GroupId,
     SecurityGroupRule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifySecurityGroupRules",
@@ -26464,7 +26528,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_snapshot_attribute(
-    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifySnapshotAttribute",
@@ -26476,7 +26540,7 @@ end
 function modify_snapshot_attribute(
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifySnapshotAttribute",
@@ -26507,7 +26571,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"StorageTier"`: The name of the storage tier. You must specify archive.
 """
-function modify_snapshot_tier(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_snapshot_tier(
+    SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ec2(
         "ModifySnapshotTier",
         Dict{String,Any}("SnapshotId" => SnapshotId);
@@ -26518,7 +26584,7 @@ end
 function modify_snapshot_tier(
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifySnapshotTier",
@@ -26572,7 +26638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetCapacity"`: The size of the fleet.
 """
 function modify_spot_fleet_request(
-    spotFleetRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    spotFleetRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifySpotFleetRequest",
@@ -26584,7 +26650,7 @@ end
 function modify_spot_fleet_request(
     spotFleetRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifySpotFleetRequest",
@@ -26650,7 +26716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ID (resource-name).
 """
 function modify_subnet_attribute(
-    subnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    subnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifySubnetAttribute",
@@ -26662,7 +26728,7 @@ end
 function modify_subnet_attribute(
     subnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifySubnetAttribute",
@@ -26699,7 +26765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to mirror.
 """
 function modify_traffic_mirror_filter_network_services(
-    TrafficMirrorFilterId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorFilterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyTrafficMirrorFilterNetworkServices",
@@ -26711,7 +26777,7 @@ end
 function modify_traffic_mirror_filter_network_services(
     TrafficMirrorFilterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTrafficMirrorFilterNetworkServices",
@@ -26759,7 +26825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficDirection"`: The type of traffic to assign to the rule.
 """
 function modify_traffic_mirror_filter_rule(
-    TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorFilterRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyTrafficMirrorFilterRule",
@@ -26771,7 +26837,7 @@ end
 function modify_traffic_mirror_filter_rule(
     TrafficMirrorFilterRuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTrafficMirrorFilterRule",
@@ -26821,7 +26887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VirtualNetworkId"`: The virtual network ID of the Traffic Mirror session.
 """
 function modify_traffic_mirror_session(
-    TrafficMirrorSessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficMirrorSessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyTrafficMirrorSession",
@@ -26833,7 +26899,7 @@ end
 function modify_traffic_mirror_session(
     TrafficMirrorSessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTrafficMirrorSession",
@@ -26869,7 +26935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Options"`: The options to modify.
 """
 function modify_transit_gateway(
-    TransitGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyTransitGateway",
@@ -26881,7 +26947,7 @@ end
 function modify_transit_gateway(
     TransitGatewayId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTransitGateway",
@@ -26916,7 +26982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTransitGatewayPrefixListReference",
@@ -26932,7 +26998,7 @@ function modify_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTransitGatewayPrefixListReference",
@@ -26971,7 +27037,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveSubnetIds"`: The IDs of one or more subnets to remove.
 """
 function modify_transit_gateway_vpc_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyTransitGatewayVpcAttachment",
@@ -26983,7 +27049,7 @@ end
 function modify_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyTransitGatewayVpcAttachment",
@@ -27024,7 +27090,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessGroupId"`: The ID of the Verified Access group.
 """
 function modify_verified_access_endpoint(
-    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessEndpoint",
@@ -27039,7 +27105,7 @@ end
 function modify_verified_access_endpoint(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessEndpoint",
@@ -27079,7 +27145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SseSpecification"`: The options for server side encryption.
 """
 function modify_verified_access_endpoint_policy(
-    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessEndpointPolicy",
@@ -27094,7 +27160,7 @@ end
 function modify_verified_access_endpoint_policy(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessEndpointPolicy",
@@ -27133,7 +27199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
 function modify_verified_access_group(
-    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessGroup",
@@ -27148,7 +27214,7 @@ end
 function modify_verified_access_group(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessGroup",
@@ -27188,7 +27254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SseSpecification"`: The options for server side encryption.
 """
 function modify_verified_access_group_policy(
-    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessGroupPolicy",
@@ -27203,7 +27269,7 @@ end
 function modify_verified_access_group_policy(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessGroupPolicy",
@@ -27241,7 +27307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_verified_access_instance(
-    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessInstance",
@@ -27256,7 +27322,7 @@ end
 function modify_verified_access_instance(
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessInstance",
@@ -27295,7 +27361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_verified_access_instance_logging_configuration(
-    AccessLogs, VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessLogs, VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessInstanceLoggingConfiguration",
@@ -27312,7 +27378,7 @@ function modify_verified_access_instance_logging_configuration(
     AccessLogs,
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessInstanceLoggingConfiguration",
@@ -27357,7 +27423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SseSpecification"`: The options for server side encryption.
 """
 function modify_verified_access_trust_provider(
-    VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=global_aws_config()
+    VerifiedAccessTrustProviderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVerifiedAccessTrustProvider",
@@ -27372,7 +27438,7 @@ end
 function modify_verified_access_trust_provider(
     VerifiedAccessTrustProviderId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVerifiedAccessTrustProvider",
@@ -27441,7 +27507,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EBS volume types in the Amazon EBS User Guide. Default: The existing type is
   retained.
 """
-function modify_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyVolume",
         Dict{String,Any}("VolumeId" => VolumeId);
@@ -27452,7 +27518,7 @@ end
 function modify_volume(
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVolume",
@@ -27486,7 +27552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_volume_attribute(
-    VolumeId; aws_config::AbstractAWSConfig=global_aws_config()
+    VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVolumeAttribute",
@@ -27498,7 +27564,7 @@ end
 function modify_volume_attribute(
     VolumeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVolumeAttribute",
@@ -27535,7 +27601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableNetworkAddressUsageMetrics"`: Indicates whether Network Address Usage metrics are
   enabled for your VPC.
 """
-function modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ModifyVpcAttribute",
         Dict{String,Any}("vpcId" => vpcId);
@@ -27544,7 +27610,7 @@ function modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function modify_vpc_attribute(
-    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcAttribute",
@@ -27594,7 +27660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetConfiguration"`: The subnet configurations for the endpoint.
 """
 function modify_vpc_endpoint(
-    VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcEndpoint",
@@ -27606,7 +27672,7 @@ end
 function modify_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcEndpoint",
@@ -27638,7 +27704,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpc_endpoint_connection_notification(
-    ConnectionNotificationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionNotificationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcEndpointConnectionNotification",
@@ -27650,7 +27716,7 @@ end
 function modify_vpc_endpoint_connection_notification(
     ConnectionNotificationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcEndpointConnectionNotification",
@@ -27703,7 +27769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration.
 """
 function modify_vpc_endpoint_service_configuration(
-    ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcEndpointServiceConfiguration",
@@ -27715,7 +27781,7 @@ end
 function modify_vpc_endpoint_service_configuration(
     ServiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcEndpointServiceConfiguration",
@@ -27746,7 +27812,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpc_endpoint_service_payer_responsibility(
-    PayerResponsibility, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    PayerResponsibility, ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcEndpointServicePayerResponsibility",
@@ -27761,7 +27827,7 @@ function modify_vpc_endpoint_service_payer_responsibility(
     PayerResponsibility,
     ServiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcEndpointServicePayerResponsibility",
@@ -27804,7 +27870,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Permissions are revoked for principals in this list.
 """
 function modify_vpc_endpoint_service_permissions(
-    ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcEndpointServicePermissions",
@@ -27816,7 +27882,7 @@ end
 function modify_vpc_endpoint_service_permissions(
     ServiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcEndpointServicePermissions",
@@ -27858,7 +27924,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requester VPC.
 """
 function modify_vpc_peering_connection_options(
-    VpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcPeeringConnectionOptions",
@@ -27870,7 +27936,7 @@ end
 function modify_vpc_peering_connection_options(
     VpcPeeringConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcPeeringConnectionOptions",
@@ -27908,7 +27974,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function modify_vpc_tenancy(
-    InstanceTenancy, VpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceTenancy, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpcTenancy",
@@ -27921,7 +27987,7 @@ function modify_vpc_tenancy(
     InstanceTenancy,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpcTenancy",
@@ -27977,7 +28043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the VPN connection.
 """
 function modify_vpn_connection(
-    VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpnConnection",
@@ -27989,7 +28055,7 @@ end
 function modify_vpn_connection(
     VpnConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpnConnection",
@@ -28030,7 +28096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connection. Default: ::/0
 """
 function modify_vpn_connection_options(
-    VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpnConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ModifyVpnConnectionOptions",
@@ -28042,7 +28108,7 @@ end
 function modify_vpn_connection_options(
     VpnConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpnConnectionOptions",
@@ -28075,7 +28141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_vpn_tunnel_certificate(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpnTunnelCertificate",
@@ -28091,7 +28157,7 @@ function modify_vpn_tunnel_certificate(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpnTunnelCertificate",
@@ -28137,7 +28203,7 @@ function modify_vpn_tunnel_options(
     TunnelOptions,
     VpnConnectionId,
     VpnTunnelOutsideIpAddress;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpnTunnelOptions",
@@ -28155,7 +28221,7 @@ function modify_vpn_tunnel_options(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ModifyVpnTunnelOptions",
@@ -28192,7 +28258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function monitor_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function monitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "MonitorInstances",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -28203,7 +28269,7 @@ end
 function monitor_instances(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "MonitorInstances",
@@ -28235,7 +28301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function move_address_to_vpc(publicIp; aws_config::AbstractAWSConfig=global_aws_config())
+function move_address_to_vpc(publicIp; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "MoveAddressToVpc",
         Dict{String,Any}("publicIp" => publicIp);
@@ -28246,7 +28312,7 @@ end
 function move_address_to_vpc(
     publicIp,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "MoveAddressToVpc",
@@ -28279,7 +28345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function move_byoip_cidr_to_ipam(
-    Cidr, IpamPoolId, IpamPoolOwner; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, IpamPoolId, IpamPoolOwner; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "MoveByoipCidrToIpam",
@@ -28295,7 +28361,7 @@ function move_byoip_cidr_to_ipam(
     IpamPoolId,
     IpamPoolOwner,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "MoveByoipCidrToIpam",
@@ -28360,7 +28426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PubliclyAdvertisable"`: (IPv6 only) Indicate whether the address range will be publicly
   advertised to the internet. Default: true
 """
-function provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+function provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ProvisionByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
@@ -28369,7 +28435,7 @@ function provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function provision_byoip_cidr(
-    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ProvisionByoipCidr",
@@ -28400,7 +28466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function provision_ipam_byoasn(
-    Asn, AsnAuthorizationContext, IpamId; aws_config::AbstractAWSConfig=global_aws_config()
+    Asn, AsnAuthorizationContext, IpamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ProvisionIpamByoasn",
@@ -28418,7 +28484,7 @@ function provision_ipam_byoasn(
     AsnAuthorizationContext,
     IpamId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ProvisionIpamByoasn",
@@ -28468,7 +28534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pools. Either \"NetmaskLength\" or \"Cidr\" is required.
 """
 function provision_ipam_pool_cidr(
-    IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ProvisionIpamPoolCidr",
@@ -28480,7 +28546,7 @@ end
 function provision_ipam_pool_cidr(
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ProvisionIpamPoolCidr",
@@ -28518,7 +28584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function provision_public_ipv4_pool_cidr(
-    IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ProvisionPublicIpv4PoolCidr",
@@ -28534,7 +28600,7 @@ function provision_public_ipv4_pool_cidr(
     NetmaskLength,
     PoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ProvisionPublicIpv4PoolCidr",
@@ -28576,7 +28642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function purchase_capacity_block(
     CapacityBlockOfferingId,
     InstancePlatform;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "PurchaseCapacityBlock",
@@ -28592,7 +28658,7 @@ function purchase_capacity_block(
     CapacityBlockOfferingId,
     InstancePlatform,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "PurchaseCapacityBlock",
@@ -28640,7 +28706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to apply to the Dedicated Host Reservation during purchase.
 """
 function purchase_host_reservation(
-    OfferingId, item; aws_config::AbstractAWSConfig=global_aws_config()
+    OfferingId, item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "PurchaseHostReservation",
@@ -28653,7 +28719,7 @@ function purchase_host_reservation(
     OfferingId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "PurchaseHostReservation",
@@ -28697,7 +28763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function purchase_reserved_instances_offering(
     InstanceCount,
     ReservedInstancesOfferingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "PurchaseReservedInstancesOffering",
@@ -28713,7 +28779,7 @@ function purchase_reserved_instances_offering(
     InstanceCount,
     ReservedInstancesOfferingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "PurchaseReservedInstancesOffering",
@@ -28756,7 +28822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function purchase_scheduled_instances(
-    PurchaseRequest; aws_config::AbstractAWSConfig=global_aws_config()
+    PurchaseRequest; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "PurchaseScheduledInstances",
@@ -28770,7 +28836,7 @@ end
 function purchase_scheduled_instances(
     PurchaseRequest,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "PurchaseScheduledInstances",
@@ -28808,7 +28874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function reboot_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function reboot_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "RebootInstances",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -28819,7 +28885,7 @@ end
 function reboot_instances(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RebootInstances",
@@ -28927,7 +28993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"virtualizationType"`: The type of virtualization (hvm | paravirtual). Default:
   paravirtual
 """
-function register_image(name; aws_config::AbstractAWSConfig=global_aws_config())
+function register_image(name; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "RegisterImage",
         Dict{String,Any}("name" => name);
@@ -28936,7 +29002,7 @@ function register_image(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function register_image(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RegisterImage",
@@ -28963,7 +29029,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function register_instance_event_notification_attributes(
-    InstanceTagAttribute; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceTagAttribute; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RegisterInstanceEventNotificationAttributes",
@@ -28975,7 +29041,7 @@ end
 function register_instance_event_notification_attributes(
     InstanceTagAttribute,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RegisterInstanceEventNotificationAttributes",
@@ -29016,7 +29082,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transit gateway multicast group.
 """
 function register_transit_gateway_multicast_group_members(
-    TransitGatewayMulticastDomainId, item; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayMulticastDomainId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RegisterTransitGatewayMulticastGroupMembers",
@@ -29032,7 +29100,7 @@ function register_transit_gateway_multicast_group_members(
     TransitGatewayMulticastDomainId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RegisterTransitGatewayMulticastGroupMembers",
@@ -29077,7 +29145,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transit gateway multicast group.
 """
 function register_transit_gateway_multicast_group_sources(
-    TransitGatewayMulticastDomainId, item; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayMulticastDomainId,
+    item;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RegisterTransitGatewayMulticastGroupSources",
@@ -29093,7 +29163,7 @@ function register_transit_gateway_multicast_group_sources(
     TransitGatewayMulticastDomainId,
     item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RegisterTransitGatewayMulticastGroupSources",
@@ -29130,7 +29200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransitGatewayMulticastDomainId"`: The ID of the transit gateway multicast domain.
 """
 function reject_transit_gateway_multicast_domain_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RejectTransitGatewayMulticastDomainAssociations";
@@ -29139,7 +29209,7 @@ function reject_transit_gateway_multicast_domain_associations(;
     )
 end
 function reject_transit_gateway_multicast_domain_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RejectTransitGatewayMulticastDomainAssociations",
@@ -29165,7 +29235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_transit_gateway_peering_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RejectTransitGatewayPeeringAttachment",
@@ -29177,7 +29247,7 @@ end
 function reject_transit_gateway_peering_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RejectTransitGatewayPeeringAttachment",
@@ -29214,7 +29284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_transit_gateway_vpc_attachment(
-    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RejectTransitGatewayVpcAttachment",
@@ -29226,7 +29296,7 @@ end
 function reject_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RejectTransitGatewayVpcAttachment",
@@ -29261,7 +29331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_vpc_endpoint_connections(
-    ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId, VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RejectVpcEndpointConnections",
@@ -29274,7 +29344,7 @@ function reject_vpc_endpoint_connections(
     ServiceId,
     VpcEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RejectVpcEndpointConnections",
@@ -29312,7 +29382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reject_vpc_peering_connection(
-    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcPeeringConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RejectVpcPeeringConnection",
@@ -29324,7 +29394,7 @@ end
 function reject_vpc_peering_connection(
     vpcPeeringConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RejectVpcPeeringConnection",
@@ -29367,11 +29437,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function release_address(; aws_config::AbstractAWSConfig=global_aws_config())
+function release_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("ReleaseAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function release_address(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ReleaseAddress", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -29395,7 +29465,7 @@ DescribeHosts response.
 - `host_id`: The IDs of the Dedicated Hosts to release.
 
 """
-function release_hosts(hostId; aws_config::AbstractAWSConfig=global_aws_config())
+function release_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ReleaseHosts",
         Dict{String,Any}("hostId" => hostId);
@@ -29404,7 +29474,7 @@ function release_hosts(hostId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function release_hosts(
-    hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ReleaseHosts",
@@ -29440,7 +29510,7 @@ function release_ipam_pool_allocation(
     Cidr,
     IpamPoolAllocationId,
     IpamPoolId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReleaseIpamPoolAllocation",
@@ -29458,7 +29528,7 @@ function release_ipam_pool_allocation(
     IpamPoolAllocationId,
     IpamPoolId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReleaseIpamPoolAllocation",
@@ -29493,7 +29563,7 @@ DescribeIamInstanceProfileAssociations to get the association ID.
 
 """
 function replace_iam_instance_profile_association(
-    AssociationId, IamInstanceProfile; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, IamInstanceProfile; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ReplaceIamInstanceProfileAssociation",
@@ -29508,7 +29578,7 @@ function replace_iam_instance_profile_association(
     AssociationId,
     IamInstanceProfile,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceIamInstanceProfileAssociation",
@@ -29547,7 +29617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function replace_network_acl_association(
-    associationId, networkAclId; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, networkAclId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ReplaceNetworkAclAssociation",
@@ -29560,7 +29630,7 @@ function replace_network_acl_association(
     associationId,
     networkAclId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceNetworkAclAssociation",
@@ -29618,7 +29688,7 @@ function replace_network_acl_entry(
     protocol,
     ruleAction,
     ruleNumber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceNetworkAclEntry",
@@ -29640,7 +29710,7 @@ function replace_network_acl_entry(
     ruleAction,
     ruleNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceNetworkAclEntry",
@@ -29699,7 +29769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkInterfaceId"`: The ID of a network interface.
 - `"vpcPeeringConnectionId"`: The ID of a VPC peering connection.
 """
-function replace_route(routeTableId; aws_config::AbstractAWSConfig=global_aws_config())
+function replace_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ReplaceRoute",
         Dict{String,Any}("routeTableId" => routeTableId);
@@ -29710,7 +29780,7 @@ end
 function replace_route(
     routeTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceRoute",
@@ -29744,7 +29814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function replace_route_table_association(
-    associationId, routeTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, routeTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ReplaceRouteTableAssociation",
@@ -29757,7 +29827,7 @@ function replace_route_table_association(
     associationId,
     routeTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceRouteTableAssociation",
@@ -29797,7 +29867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function replace_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceTransitGatewayRoute",
@@ -29813,7 +29883,7 @@ function replace_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceTransitGatewayRoute",
@@ -29852,7 +29922,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function replace_vpn_tunnel(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceVpnTunnel",
@@ -29868,7 +29938,7 @@ function replace_vpn_tunnel(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReplaceVpnTunnel",
@@ -29921,7 +29991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The time at which the reported instance health state began.
 """
 function report_instance_status(
-    instanceId, reasonCode, status; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceId, reasonCode, status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ReportInstanceStatus",
@@ -29937,7 +30007,7 @@ function report_instance_status(
     reasonCode,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ReportInstanceStatus",
@@ -29989,7 +30059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function request_spot_fleet(
-    spotFleetRequestConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    spotFleetRequestConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RequestSpotFleet",
@@ -30001,7 +30071,7 @@ end
 function request_spot_fleet(
     spotFleetRequestConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RequestSpotFleet",
@@ -30078,13 +30148,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ValidUntil date and time is reached. By default, the request is valid for 7 days from
   the date the request was created.
 """
-function request_spot_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function request_spot_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "RequestSpotInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function request_spot_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RequestSpotInstances",
@@ -30112,7 +30182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_address_attribute(
-    AllocationId, Attribute; aws_config::AbstractAWSConfig=global_aws_config()
+    AllocationId, Attribute; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetAddressAttribute",
@@ -30125,7 +30195,7 @@ function reset_address_attribute(
     AllocationId,
     Attribute,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ResetAddressAttribute",
@@ -30157,13 +30227,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function reset_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=global_aws_config())
+function reset_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "ResetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function reset_ebs_default_kms_key_id(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetEbsDefaultKmsKeyId",
@@ -30191,7 +30261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_fpga_image_attribute(
-    FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    FpgaImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetFpgaImageAttribute",
@@ -30203,7 +30273,7 @@ end
 function reset_fpga_image_attribute(
     FpgaImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ResetFpgaImageAttribute",
@@ -30233,7 +30303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_image_attribute(
-    Attribute, ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetImageAttribute",
@@ -30246,7 +30316,7 @@ function reset_image_attribute(
     Attribute,
     ImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ResetImageAttribute",
@@ -30285,7 +30355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_instance_attribute(
-    attribute, instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    attribute, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetInstanceAttribute",
@@ -30298,7 +30368,7 @@ function reset_instance_attribute(
     attribute,
     instanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ResetInstanceAttribute",
@@ -30331,7 +30401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceDestCheck"`: The source/destination checking attribute. Resets the value to true.
 """
 function reset_network_interface_attribute(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetNetworkInterfaceAttribute",
@@ -30343,7 +30413,7 @@ end
 function reset_network_interface_attribute(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ResetNetworkInterfaceAttribute",
@@ -30376,7 +30446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function reset_snapshot_attribute(
-    Attribute, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "ResetSnapshotAttribute",
@@ -30389,7 +30459,7 @@ function reset_snapshot_attribute(
     Attribute,
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "ResetSnapshotAttribute",
@@ -30424,7 +30494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function restore_address_to_classic(
-    publicIp; aws_config::AbstractAWSConfig=global_aws_config()
+    publicIp; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RestoreAddressToClassic",
@@ -30436,7 +30506,7 @@ end
 function restore_address_to_classic(
     publicIp,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RestoreAddressToClassic",
@@ -30465,7 +30535,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function restore_image_from_recycle_bin(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RestoreImageFromRecycleBin",
@@ -30475,7 +30545,9 @@ function restore_image_from_recycle_bin(
     )
 end
 function restore_image_from_recycle_bin(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RestoreImageFromRecycleBin",
@@ -30507,7 +30579,7 @@ function restore_managed_prefix_list_version(
     CurrentVersion,
     PrefixListId,
     PreviousVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RestoreManagedPrefixListVersion",
@@ -30525,7 +30597,7 @@ function restore_managed_prefix_list_version(
     PrefixListId,
     PreviousVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RestoreManagedPrefixListVersion",
@@ -30562,7 +30634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function restore_snapshot_from_recycle_bin(
-    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RestoreSnapshotFromRecycleBin",
@@ -30574,7 +30646,7 @@ end
 function restore_snapshot_from_recycle_bin(
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RestoreSnapshotFromRecycleBin",
@@ -30612,7 +30684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the number of days and omit the PermanentRestore parameter or set it to false.
 """
 function restore_snapshot_tier(
-    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RestoreSnapshotTier",
@@ -30624,7 +30696,7 @@ end
 function restore_snapshot_tier(
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RestoreSnapshotTier",
@@ -30659,7 +30731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function revoke_client_vpn_ingress(
     ClientVpnEndpointId,
     TargetNetworkCidr;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RevokeClientVpnIngress",
@@ -30675,7 +30747,7 @@ function revoke_client_vpn_ingress(
     ClientVpnEndpointId,
     TargetNetworkCidr,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RevokeClientVpnIngress",
@@ -30734,7 +30806,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toPort"`: Not supported. Use a set of IP permissions to specify the port.
 """
 function revoke_security_group_egress(
-    groupId; aws_config::AbstractAWSConfig=global_aws_config()
+    groupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RevokeSecurityGroupEgress",
@@ -30744,7 +30816,9 @@ function revoke_security_group_egress(
     )
 end
 function revoke_security_group_egress(
-    groupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    groupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RevokeSecurityGroupEgress",
@@ -30800,13 +30874,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function revoke_security_group_ingress(; aws_config::AbstractAWSConfig=global_aws_config())
+function revoke_security_group_ingress(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "RevokeSecurityGroupIngress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function revoke_security_group_ingress(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RevokeSecurityGroupIngress",
@@ -30987,7 +31061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option and the network interfaces option in the same request.
 """
 function run_instances(
-    MaxCount, MinCount; aws_config::AbstractAWSConfig=global_aws_config()
+    MaxCount, MinCount; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "RunInstances",
@@ -31002,7 +31076,7 @@ function run_instances(
     MaxCount,
     MinCount,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RunInstances",
@@ -31049,7 +31123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function run_scheduled_instances(
     LaunchSpecification,
     ScheduledInstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RunScheduledInstances",
@@ -31066,7 +31140,7 @@ function run_scheduled_instances(
     LaunchSpecification,
     ScheduledInstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "RunScheduledInstances",
@@ -31113,7 +31187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function search_local_gateway_routes(
-    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    LocalGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "SearchLocalGatewayRoutes",
@@ -31125,7 +31199,7 @@ end
 function search_local_gateway_routes(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "SearchLocalGatewayRoutes",
@@ -31169,7 +31243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function search_transit_gateway_multicast_groups(
-    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransitGatewayMulticastDomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "SearchTransitGatewayMulticastGroups",
@@ -31183,7 +31257,7 @@ end
 function search_transit_gateway_multicast_groups(
     TransitGatewayMulticastDomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "SearchTransitGatewayMulticastGroups",
@@ -31232,7 +31306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is 1000.
 """
 function search_transit_gateway_routes(
-    Filter, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()
+    Filter, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "SearchTransitGatewayRoutes",
@@ -31247,7 +31321,7 @@ function search_transit_gateway_routes(
     Filter,
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "SearchTransitGatewayRoutes",
@@ -31292,7 +31366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function send_diagnostic_interrupt(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "SendDiagnosticInterrupt",
@@ -31304,7 +31378,7 @@ end
 function send_diagnostic_interrupt(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "SendDiagnosticInterrupt",
@@ -31345,7 +31419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function start_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function start_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "StartInstances",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -31356,7 +31430,7 @@ end
 function start_instances(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "StartInstances",
@@ -31389,7 +31463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_network_insights_access_scope_analysis(
     ClientToken,
     NetworkInsightsAccessScopeId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "StartNetworkInsightsAccessScopeAnalysis",
@@ -31405,7 +31479,7 @@ function start_network_insights_access_scope_analysis(
     ClientToken,
     NetworkInsightsAccessScopeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "StartNetworkInsightsAccessScopeAnalysis",
@@ -31448,7 +31522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecification"`: The tags to apply.
 """
 function start_network_insights_analysis(
-    ClientToken, NetworkInsightsPathId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken, NetworkInsightsPathId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "StartNetworkInsightsAnalysis",
@@ -31463,7 +31537,7 @@ function start_network_insights_analysis(
     ClientToken,
     NetworkInsightsPathId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "StartNetworkInsightsAnalysis",
@@ -31501,7 +31575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 function start_vpc_endpoint_service_private_dns_verification(
-    ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "StartVpcEndpointServicePrivateDnsVerification",
@@ -31513,7 +31587,7 @@ end
 function start_vpc_endpoint_service_private_dns_verification(
     ServiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "StartVpcEndpointServicePrivateDnsVerification",
@@ -31572,7 +31646,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file system check and repair procedures. This option is not recommended for Windows
   instances. Default: false
 """
-function stop_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "StopInstances",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -31583,7 +31657,7 @@ end
 function stop_instances(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "StopInstances",
@@ -31617,7 +31691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the user has established up to five connections.
 """
 function terminate_client_vpn_connections(
-    ClientVpnEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientVpnEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "TerminateClientVpnConnections",
@@ -31629,7 +31703,7 @@ end
 function terminate_client_vpn_connections(
     ClientVpnEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "TerminateClientVpnConnections",
@@ -31687,7 +31761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function terminate_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function terminate_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "TerminateInstances",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -31698,7 +31772,7 @@ end
 function terminate_instances(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "TerminateInstances",
@@ -31726,7 +31800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ipv6Addresses"`: The IPv6 addresses to unassign from the network interface.
 """
 function unassign_ipv6_addresses(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UnassignIpv6Addresses",
@@ -31738,7 +31812,7 @@ end
 function unassign_ipv6_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "UnassignIpv6Addresses",
@@ -31769,7 +31843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   interface. You can specify this option multiple times to unassign more than one IP address.
 """
 function unassign_private_ip_addresses(
-    networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UnassignPrivateIpAddresses",
@@ -31781,7 +31855,7 @@ end
 function unassign_private_ip_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "UnassignPrivateIpAddresses",
@@ -31823,7 +31897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   350 seconds.
 """
 function unassign_private_nat_gateway_address(
-    NatGatewayId, PrivateIpAddress; aws_config::AbstractAWSConfig=global_aws_config()
+    NatGatewayId, PrivateIpAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UnassignPrivateNatGatewayAddress",
@@ -31838,7 +31912,7 @@ function unassign_private_nat_gateway_address(
     NatGatewayId,
     PrivateIpAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "UnassignPrivateNatGatewayAddress",
@@ -31873,7 +31947,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function unlock_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+function unlock_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "UnlockSnapshot",
         Dict{String,Any}("SnapshotId" => SnapshotId);
@@ -31884,7 +31958,7 @@ end
 function unlock_snapshot(
     SnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "UnlockSnapshot",
@@ -31912,7 +31986,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "UnmonitorInstances",
         Dict{String,Any}("InstanceId" => InstanceId);
@@ -31923,7 +31997,7 @@ end
 function unmonitor_instances(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2(
         "UnmonitorInstances",
@@ -31960,7 +32034,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify either the description or the IP permissions.
 """
 function update_security_group_rule_descriptions_egress(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UpdateSecurityGroupRuleDescriptionsEgress";
@@ -31969,7 +32043,7 @@ function update_security_group_rule_descriptions_egress(;
     )
 end
 function update_security_group_rule_descriptions_egress(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UpdateSecurityGroupRuleDescriptionsEgress",
@@ -32005,7 +32079,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify either a description or IP permissions.
 """
 function update_security_group_rule_descriptions_ingress(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UpdateSecurityGroupRuleDescriptionsIngress";
@@ -32014,7 +32088,7 @@ function update_security_group_rule_descriptions_ingress(;
     )
 end
 function update_security_group_rule_descriptions_ingress(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "UpdateSecurityGroupRuleDescriptionsIngress",
@@ -32042,7 +32116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
-function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2(
         "WithdrawByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
@@ -32051,7 +32125,7 @@ function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function withdraw_byoip_cidr(
-    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2(
         "WithdrawByoipCidr",

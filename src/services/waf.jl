@@ -31,7 +31,7 @@ how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Deve
 
 """
 function create_byte_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateByteMatchSet",
@@ -44,7 +44,7 @@ function create_byte_match_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateByteMatchSet",
@@ -86,7 +86,7 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
 """
 function create_geo_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateGeoMatchSet",
@@ -99,7 +99,7 @@ function create_geo_match_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateGeoMatchSet",
@@ -140,7 +140,7 @@ how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Deve
   create the IPSet.
 
 """
-function create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "CreateIPSet",
         Dict{String,Any}("ChangeToken" => ChangeToken, "Name" => Name);
@@ -152,7 +152,7 @@ function create_ipset(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateIPSet",
@@ -236,7 +236,7 @@ function create_rate_based_rule(
     Name,
     RateKey,
     RateLimit;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateRateBasedRule",
@@ -258,7 +258,7 @@ function create_rate_based_rule(
     RateKey,
     RateLimit,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateRateBasedRule",
@@ -309,7 +309,7 @@ Guide.
 
 """
 function create_regex_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateRegexMatchSet",
@@ -322,7 +322,7 @@ function create_regex_match_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateRegexMatchSet",
@@ -363,7 +363,7 @@ requests, see the AWS WAF Developer Guide.
 
 """
 function create_regex_pattern_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateRegexPatternSet",
@@ -376,7 +376,7 @@ function create_regex_pattern_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateRegexPatternSet",
@@ -433,7 +433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 function create_rule(
-    ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateRule",
@@ -449,7 +449,7 @@ function create_rule(
     MetricName,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateRule",
@@ -496,7 +496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 function create_rule_group(
-    ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateRuleGroup",
@@ -512,7 +512,7 @@ function create_rule_group(
     MetricName,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateRuleGroup",
@@ -558,7 +558,7 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
 
 """
 function create_size_constraint_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateSizeConstraintSet",
@@ -571,7 +571,7 @@ function create_size_constraint_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateSizeConstraintSet",
@@ -613,7 +613,7 @@ requests, see the AWS WAF Developer Guide.
 
 """
 function create_sql_injection_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateSqlInjectionMatchSet",
@@ -626,7 +626,7 @@ function create_sql_injection_match_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateSqlInjectionMatchSet",
@@ -687,7 +687,7 @@ function create_web_acl(
     DefaultAction,
     MetricName,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateWebACL",
@@ -707,7 +707,7 @@ function create_web_acl(
     MetricName,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateWebACL",
@@ -760,7 +760,7 @@ function create_web_aclmigration_stack(
     IgnoreUnsupportedType,
     S3BucketName,
     WebACLId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateWebACLMigrationStack",
@@ -778,7 +778,7 @@ function create_web_aclmigration_stack(
     S3BucketName,
     WebACLId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateWebACLMigrationStack",
@@ -823,7 +823,7 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
 """
 function create_xss_match_set(
-    ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "CreateXssMatchSet",
@@ -836,7 +836,7 @@ function create_xss_match_set(
     ChangeToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "CreateXssMatchSet",
@@ -874,7 +874,7 @@ DeleteByteMatchSet request.   Submit a DeleteByteMatchSet request.
 
 """
 function delete_byte_match_set(
-    ByteMatchSetId, ChangeToken; aws_config::AbstractAWSConfig=global_aws_config()
+    ByteMatchSetId, ChangeToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteByteMatchSet",
@@ -887,7 +887,7 @@ function delete_byte_match_set(
     ByteMatchSetId,
     ChangeToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteByteMatchSet",
@@ -927,7 +927,7 @@ change token that you provide in the ChangeToken parameter of a DeleteGeoMatchSe
 
 """
 function delete_geo_match_set(
-    ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteGeoMatchSet",
@@ -940,7 +940,7 @@ function delete_geo_match_set(
     ChangeToken,
     GeoMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteGeoMatchSet",
@@ -980,7 +980,7 @@ request.
 
 """
 function delete_ipset(
-    ChangeToken, IPSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, IPSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteIPSet",
@@ -993,7 +993,7 @@ function delete_ipset(
     ChangeToken,
     IPSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteIPSet",
@@ -1025,7 +1025,7 @@ web ACL.
 
 """
 function delete_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteLoggingConfiguration",
@@ -1037,7 +1037,7 @@ end
 function delete_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteLoggingConfiguration",
@@ -1065,7 +1065,7 @@ The user making the request must be the owner of the RuleGroup.
 
 """
 function delete_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeletePermissionPolicy",
@@ -1077,7 +1077,7 @@ end
 function delete_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeletePermissionPolicy",
@@ -1111,7 +1111,7 @@ of a DeleteRateBasedRule request.   Submit a DeleteRateBasedRule request.
 
 """
 function delete_rate_based_rule(
-    ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, RuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteRateBasedRule",
@@ -1124,7 +1124,7 @@ function delete_rate_based_rule(
     ChangeToken,
     RuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteRateBasedRule",
@@ -1162,7 +1162,7 @@ of a DeleteRegexMatchSet request.   Submit a DeleteRegexMatchSet request.
 
 """
 function delete_regex_match_set(
-    ChangeToken, RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, RegexMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteRegexMatchSet",
@@ -1177,7 +1177,7 @@ function delete_regex_match_set(
     ChangeToken,
     RegexMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteRegexMatchSet",
@@ -1213,7 +1213,7 @@ empty.
 
 """
 function delete_regex_pattern_set(
-    ChangeToken, RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, RegexPatternSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteRegexPatternSet",
@@ -1228,7 +1228,7 @@ function delete_regex_pattern_set(
     ChangeToken,
     RegexPatternSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteRegexPatternSet",
@@ -1267,7 +1267,9 @@ get the change token that you provide in the ChangeToken parameter of a DeleteRu
   CreateRule and by ListRules.
 
 """
-function delete_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_rule(
+    ChangeToken, RuleId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return waf(
         "DeleteRule",
         Dict{String,Any}("ChangeToken" => ChangeToken, "RuleId" => RuleId);
@@ -1279,7 +1281,7 @@ function delete_rule(
     ChangeToken,
     RuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteRule",
@@ -1317,7 +1319,7 @@ DeleteRuleGroup request.
 
 """
 function delete_rule_group(
-    ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteRuleGroup",
@@ -1330,7 +1332,7 @@ function delete_rule_group(
     ChangeToken,
     RuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteRuleGroup",
@@ -1372,7 +1374,7 @@ DeleteSizeConstraintSet request.
 
 """
 function delete_size_constraint_set(
-    ChangeToken, SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, SizeConstraintSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteSizeConstraintSet",
@@ -1387,7 +1389,7 @@ function delete_size_constraint_set(
     ChangeToken,
     SizeConstraintSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteSizeConstraintSet",
@@ -1430,7 +1432,7 @@ Submit a DeleteSqlInjectionMatchSet request.
 
 """
 function delete_sql_injection_match_set(
-    ChangeToken, SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteSqlInjectionMatchSet",
@@ -1445,7 +1447,7 @@ function delete_sql_injection_match_set(
     ChangeToken,
     SqlInjectionMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteSqlInjectionMatchSet",
@@ -1484,7 +1486,7 @@ DeleteWebACL request.   Submit a DeleteWebACL request.
 
 """
 function delete_web_acl(
-    ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteWebACL",
@@ -1497,7 +1499,7 @@ function delete_web_acl(
     ChangeToken,
     WebACLId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteWebACL",
@@ -1535,7 +1537,7 @@ DeleteXssMatchSet request.   Submit a DeleteXssMatchSet request.
 
 """
 function delete_xss_match_set(
-    ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "DeleteXssMatchSet",
@@ -1548,7 +1550,7 @@ function delete_xss_match_set(
     ChangeToken,
     XssMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "DeleteXssMatchSet",
@@ -1581,7 +1583,7 @@ regional and global use.   Returns the ByteMatchSet specified by ByteMatchSetId.
 
 """
 function get_byte_match_set(
-    ByteMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ByteMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetByteMatchSet",
@@ -1593,7 +1595,7 @@ end
 function get_byte_match_set(
     ByteMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetByteMatchSet",
@@ -1624,11 +1626,11 @@ indicates that AWS WAF is propagating the change to all AWS WAF servers. Use
 GetChangeTokenStatus to determine the status of your change token.
 
 """
-function get_change_token(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_change_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("GetChangeToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_change_token(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetChangeToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1655,7 +1657,7 @@ complete.
 
 """
 function get_change_token_status(
-    ChangeToken; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetChangeTokenStatus",
@@ -1667,7 +1669,7 @@ end
 function get_change_token_status(
     ChangeToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetChangeTokenStatus",
@@ -1693,7 +1695,9 @@ regional and global use.   Returns the GeoMatchSet that is specified by GeoMatch
   GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
-function get_geo_match_set(GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_geo_match_set(
+    GeoMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return waf(
         "GetGeoMatchSet",
         Dict{String,Any}("GeoMatchSetId" => GeoMatchSetId);
@@ -1704,7 +1708,7 @@ end
 function get_geo_match_set(
     GeoMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetGeoMatchSet",
@@ -1730,7 +1734,7 @@ regional and global use.   Returns the IPSet that is specified by IPSetId.
   CreateIPSet and by ListIPSets.
 
 """
-function get_ipset(IPSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ipset(IPSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "GetIPSet",
         Dict{String,Any}("IPSetId" => IPSetId);
@@ -1739,7 +1743,9 @@ function get_ipset(IPSetId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_ipset(
-    IPSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IPSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetIPSet",
@@ -1764,7 +1770,7 @@ regional and global use.   Returns the LoggingConfiguration for the specified we
 
 """
 function get_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetLoggingConfiguration",
@@ -1776,7 +1782,7 @@ end
 function get_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetLoggingConfiguration",
@@ -1803,7 +1809,7 @@ regional and global use.   Returns the IAM policy attached to the RuleGroup.
 
 """
 function get_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetPermissionPolicy",
@@ -1815,7 +1821,7 @@ end
 function get_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetPermissionPolicy",
@@ -1842,7 +1848,7 @@ you included in the GetRateBasedRule request.
   CreateRateBasedRule and by ListRateBasedRules.
 
 """
-function get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "GetRateBasedRule",
         Dict{String,Any}("RuleId" => RuleId);
@@ -1851,7 +1857,7 @@ function get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function get_rate_based_rule(
-    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetRateBasedRule",
@@ -1882,7 +1888,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextMarker"`: A null value and not currently used. Do not include this in your request.
 """
 function get_rate_based_rule_managed_keys(
-    RuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetRateBasedRuleManagedKeys",
@@ -1892,7 +1898,7 @@ function get_rate_based_rule_managed_keys(
     )
 end
 function get_rate_based_rule_managed_keys(
-    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetRateBasedRuleManagedKeys",
@@ -1917,7 +1923,7 @@ regional and global use.   Returns the RegexMatchSet specified by RegexMatchSetI
 
 """
 function get_regex_match_set(
-    RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    RegexMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetRegexMatchSet",
@@ -1929,7 +1935,7 @@ end
 function get_regex_match_set(
     RegexMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetRegexMatchSet",
@@ -1958,7 +1964,7 @@ regional and global use.   Returns the RegexPatternSet specified by RegexPattern
 
 """
 function get_regex_pattern_set(
-    RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    RegexPatternSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetRegexPatternSet",
@@ -1970,7 +1976,7 @@ end
 function get_regex_pattern_set(
     RegexPatternSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetRegexPatternSet",
@@ -1999,7 +2005,7 @@ included in the GetRule request.
   and by ListRules.
 
 """
-function get_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_rule(RuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "GetRule",
         Dict{String,Any}("RuleId" => RuleId);
@@ -2008,7 +2014,7 @@ function get_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_rule(
-    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetRule",
@@ -2034,7 +2040,7 @@ ListActivatedRulesInRuleGroup.
   returned by CreateRuleGroup and by ListRuleGroups.
 
 """
-function get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "GetRuleGroup",
         Dict{String,Any}("RuleGroupId" => RuleGroupId);
@@ -2045,7 +2051,7 @@ end
 function get_rule_group(
     RuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetRuleGroup",
@@ -2096,7 +2102,7 @@ function get_sampled_requests(
     RuleId,
     TimeWindow,
     WebAclId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetSampledRequests",
@@ -2116,7 +2122,7 @@ function get_sampled_requests(
     TimeWindow,
     WebAclId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetSampledRequests",
@@ -2153,7 +2159,7 @@ regional and global use.   Returns the SizeConstraintSet specified by SizeConstr
 
 """
 function get_size_constraint_set(
-    SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    SizeConstraintSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetSizeConstraintSet",
@@ -2165,7 +2171,7 @@ end
 function get_size_constraint_set(
     SizeConstraintSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetSizeConstraintSet",
@@ -2198,7 +2204,7 @@ SqlInjectionMatchSetId.
 
 """
 function get_sql_injection_match_set(
-    SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "GetSqlInjectionMatchSet",
@@ -2210,7 +2216,7 @@ end
 function get_sql_injection_match_set(
     SqlInjectionMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetSqlInjectionMatchSet",
@@ -2240,7 +2246,7 @@ regional and global use.   Returns the WebACL that is specified by WebACLId.
   CreateWebACL and by ListWebACLs.
 
 """
-function get_web_acl(WebACLId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_web_acl(WebACLId; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "GetWebACL",
         Dict{String,Any}("WebACLId" => WebACLId);
@@ -2251,7 +2257,7 @@ end
 function get_web_acl(
     WebACLId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetWebACL",
@@ -2277,7 +2283,9 @@ regional and global use.   Returns the XssMatchSet that is specified by XssMatch
   XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-function get_xss_match_set(XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_xss_match_set(
+    XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return waf(
         "GetXssMatchSet",
         Dict{String,Any}("XssMatchSetId" => XssMatchSetId);
@@ -2288,7 +2296,7 @@ end
 function get_xss_match_set(
     XssMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "GetXssMatchSet",
@@ -2324,7 +2332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ActivatedRule objects.
 """
 function list_activated_rules_in_rule_group(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListActivatedRulesInRuleGroup";
@@ -2333,7 +2341,7 @@ function list_activated_rules_in_rule_group(;
     )
 end
 function list_activated_rules_in_rule_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListActivatedRulesInRuleGroup",
@@ -2364,11 +2372,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the value of NextMarker from the previous response to get information about another
   batch of ByteMatchSets.
 """
-function list_byte_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_byte_match_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListByteMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_byte_match_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListByteMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2396,11 +2404,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of GeoMatchSet objects.
 """
-function list_geo_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_geo_match_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListGeoMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_geo_match_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListGeoMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2426,11 +2434,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of NextMarker from the previous response to get information about another batch
   of IPSets.
 """
-function list_ipsets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_ipsets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListIPSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_ipsets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf("ListIPSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2456,13 +2464,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListLoggingConfigurations requests, specify the value of NextMarker from the previous
   response to get information about another batch of ListLoggingConfigurations.
 """
-function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "ListLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_logging_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListLoggingConfigurations",
@@ -2492,11 +2500,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of NextMarker from the previous response to get information about another batch
   of Rules.
 """
-function list_rate_based_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rate_based_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListRateBasedRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_rate_based_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListRateBasedRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2524,11 +2532,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of RegexMatchSet objects.
 """
-function list_regex_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_regex_match_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListRegexMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_regex_match_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListRegexMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2556,13 +2564,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListRegexPatternSets requests, specify the value of NextMarker from the previous response
   to get information about another batch of RegexPatternSet objects.
 """
-function list_regex_pattern_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_regex_pattern_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "ListRegexPatternSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_regex_pattern_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListRegexPatternSets",
@@ -2592,11 +2600,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of NextMarker from the previous response to get information about another batch
   of RuleGroups.
 """
-function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_rule_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2622,11 +2630,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   another group of Rules. For the second and subsequent ListRules requests, specify the value
   of NextMarker from the previous response to get information about another batch of Rules.
 """
-function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf("ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2652,13 +2660,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListSizeConstraintSets requests, specify the value of NextMarker from the previous response
   to get information about another batch of SizeConstraintSets.
 """
-function list_size_constraint_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_size_constraint_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "ListSizeConstraintSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_size_constraint_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListSizeConstraintSets",
@@ -2689,13 +2697,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous
   response to get information about another batch of SqlInjectionMatchSets.
 """
-function list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "ListSqlInjectionMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_sql_injection_match_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListSqlInjectionMatchSets",
@@ -2726,13 +2734,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextMarker from the previous response to get information about another batch of subscribed
   rule groups.
 """
-function list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "ListSubscribedRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_subscribed_rule_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListSubscribedRuleGroups",
@@ -2766,7 +2774,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextMarker"`:
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListTagsForResource",
@@ -2778,7 +2786,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "ListTagsForResource",
@@ -2811,11 +2819,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListWebACLs requests, specify the value of NextMarker from the previous response to get
   information about another batch of WebACL objects.
 """
-function list_web_acls(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_web_acls(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListWebACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_web_acls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListWebACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2843,11 +2851,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of XssMatchSets.
 """
-function list_xss_match_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_xss_match_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return waf("ListXssMatchSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_xss_match_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "ListXssMatchSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2880,7 +2888,7 @@ information, see Logging Web ACL Traffic Information in the AWS WAF Developer Gu
 
 """
 function put_logging_configuration(
-    LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "PutLoggingConfiguration",
@@ -2892,7 +2900,7 @@ end
 function put_logging_configuration(
     LoggingConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "PutLoggingConfiguration",
@@ -2935,7 +2943,7 @@ Examples section below.
 
 """
 function put_permission_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "PutPermissionPolicy",
@@ -2948,7 +2956,7 @@ function put_permission_policy(
     Policy,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "PutPermissionPolicy",
@@ -2984,7 +2992,7 @@ AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, an
 - `tags`:
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return waf(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -2996,7 +3004,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "TagResource",
@@ -3027,7 +3035,7 @@ regional and global use.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UntagResource",
@@ -3040,7 +3048,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UntagResource",
@@ -3095,7 +3103,7 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
 """
 function update_byte_match_set(
-    ByteMatchSetId, ChangeToken, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    ByteMatchSetId, ChangeToken, Updates; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateByteMatchSet",
@@ -3113,7 +3121,7 @@ function update_byte_match_set(
     ChangeToken,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateByteMatchSet",
@@ -3167,7 +3175,7 @@ WAF Developer Guide.
 
 """
 function update_geo_match_set(
-    ChangeToken, GeoMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, GeoMatchSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateGeoMatchSet",
@@ -3185,7 +3193,7 @@ function update_geo_match_set(
     GeoMatchSetId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateGeoMatchSet",
@@ -3248,7 +3256,7 @@ HTTP requests, see the AWS WAF Developer Guide.
 
 """
 function update_ipset(
-    ChangeToken, IPSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, IPSetId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateIPSet",
@@ -3264,7 +3272,7 @@ function update_ipset(
     IPSetId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateIPSet",
@@ -3325,7 +3333,7 @@ function update_rate_based_rule(
     RateLimit,
     RuleId,
     Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRateBasedRule",
@@ -3345,7 +3353,7 @@ function update_rate_based_rule(
     RuleId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRateBasedRule",
@@ -3401,7 +3409,10 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
 
 """
 function update_regex_match_set(
-    ChangeToken, RegexMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken,
+    RegexMatchSetId,
+    Updates;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRegexMatchSet",
@@ -3419,7 +3430,7 @@ function update_regex_match_set(
     RegexMatchSetId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRegexMatchSet",
@@ -3471,7 +3482,7 @@ function update_regex_pattern_set(
     ChangeToken,
     RegexPatternSetId,
     Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRegexPatternSet",
@@ -3489,7 +3500,7 @@ function update_regex_pattern_set(
     RegexPatternSetId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRegexPatternSet",
@@ -3545,7 +3556,7 @@ AWS WAF Developer Guide.
 
 """
 function update_rule(
-    ChangeToken, RuleId, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, RuleId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateRule",
@@ -3561,7 +3572,7 @@ function update_rule(
     RuleId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRule",
@@ -3609,7 +3620,7 @@ WAF Developer Guide.
 
 """
 function update_rule_group(
-    ChangeToken, RuleGroupId, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, RuleGroupId, Updates; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateRuleGroup",
@@ -3625,7 +3636,7 @@ function update_rule_group(
     RuleGroupId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateRuleGroup",
@@ -3691,7 +3702,7 @@ function update_size_constraint_set(
     ChangeToken,
     SizeConstraintSetId,
     Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateSizeConstraintSet",
@@ -3709,7 +3720,7 @@ function update_size_constraint_set(
     SizeConstraintSetId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateSizeConstraintSet",
@@ -3772,7 +3783,7 @@ function update_sql_injection_match_set(
     ChangeToken,
     SqlInjectionMatchSetId,
     Updates;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateSqlInjectionMatchSet",
@@ -3790,7 +3801,7 @@ function update_sql_injection_match_set(
     SqlInjectionMatchSetId,
     Updates,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateSqlInjectionMatchSet",
@@ -3870,7 +3881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Contains Type
 """
 function update_web_acl(
-    ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, WebACLId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateWebACL",
@@ -3883,7 +3894,7 @@ function update_web_acl(
     ChangeToken,
     WebACLId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateWebACL",
@@ -3936,7 +3947,7 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
 
 """
 function update_xss_match_set(
-    ChangeToken, Updates, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeToken, Updates, XssMatchSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return waf(
         "UpdateXssMatchSet",
@@ -3954,7 +3965,7 @@ function update_xss_match_set(
     Updates,
     XssMatchSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return waf(
         "UpdateXssMatchSet",

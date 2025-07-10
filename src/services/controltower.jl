@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to be applied to the landing zone.
 """
 function create_landing_zone(
-    manifest, version; aws_config::AbstractAWSConfig=global_aws_config()
+    manifest, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -35,7 +35,7 @@ function create_landing_zone(
     manifest,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -65,7 +65,7 @@ Services Control Tower.
 
 """
 function delete_landing_zone(
-    landingZoneIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -78,7 +78,7 @@ end
 function delete_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -110,7 +110,7 @@ Amazon Web Services Control Tower User Guide .
 
 """
 function disable_baseline(
-    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -123,7 +123,7 @@ end
 function disable_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -158,7 +158,7 @@ Web Services Control Tower User Guide .
 
 """
 function disable_control(
-    controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -174,7 +174,7 @@ function disable_control(
     controlIdentifier,
     targetIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -218,7 +218,7 @@ function enable_baseline(
     baselineIdentifier,
     baselineVersion,
     targetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -237,7 +237,7 @@ function enable_baseline(
     baselineVersion,
     targetIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to be applied to the EnabledControl resource.
 """
 function enable_control(
-    controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -297,7 +297,7 @@ function enable_control(
     controlIdentifier,
     targetIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -328,7 +328,9 @@ usage examples, see  the Amazon Web Services Control Tower User Guide .
 - `baseline_identifier`: The ARN of the Baseline resource to be retrieved.
 
 """
-function get_baseline(baselineIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+function get_baseline(
+    baselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return controltower(
         "POST",
         "/get-baseline",
@@ -340,7 +342,7 @@ end
 function get_baseline(
     baselineIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -370,7 +372,7 @@ Amazon Web Services Control Tower User Guide .
 
 """
 function get_baseline_operation(
-    operationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -383,7 +385,7 @@ end
 function get_baseline_operation(
     operationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -414,7 +416,7 @@ examples, see  the Amazon Web Services Control Tower User Guide .
 
 """
 function get_control_operation(
-    operationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -427,7 +429,7 @@ end
 function get_control_operation(
     operationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -456,7 +458,7 @@ Retrieve details of an EnabledBaseline resource by specifying its identifier.
 
 """
 function get_enabled_baseline(
-    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -469,7 +471,7 @@ end
 function get_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -498,7 +500,7 @@ Services Control Tower User Guide .
 
 """
 function get_enabled_control(
-    enabledControlIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    enabledControlIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -511,7 +513,7 @@ end
 function get_enabled_control(
     enabledControlIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -539,7 +541,7 @@ Returns details about the landing zone. Displays a message in case of error.
 
 """
 function get_landing_zone(
-    landingZoneIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -552,7 +554,7 @@ end
 function get_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -581,7 +583,7 @@ available for 90 days.
 
 """
 function get_landing_zone_operation(
-    operationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -594,7 +596,7 @@ end
 function get_landing_zone_operation(
     operationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -623,13 +625,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-function list_baselines(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_baselines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -653,7 +655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-function list_control_operations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
         "/list-control-operations";
@@ -662,7 +664,7 @@ function list_control_operations(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_control_operations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -688,7 +690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-function list_enabled_baselines(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
         "/list-enabled-baselines";
@@ -697,7 +699,7 @@ function list_enabled_baselines(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_enabled_baselines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -726,7 +728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetIdentifier"`: The ARN of the organizational unit. For information on how to find
   the targetIdentifier, see the overview page.
 """
-function list_enabled_controls(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
         "/list-enabled-controls";
@@ -735,7 +737,7 @@ function list_enabled_controls(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_enabled_controls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -760,13 +762,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 """
-function list_landing_zones(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_landing_zones(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -789,7 +791,7 @@ Web Services Control Tower User Guide .
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "GET",
@@ -801,7 +803,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "GET",
@@ -826,7 +828,7 @@ Amazon Web Services Control Tower User Guide .
 
 """
 function reset_enabled_baseline(
-    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -839,7 +841,7 @@ end
 function reset_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -868,7 +870,7 @@ landing zone to the parameters specified in its original configuration.
 
 """
 function reset_landing_zone(
-    landingZoneIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -881,7 +883,7 @@ end
 function reset_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -910,7 +912,7 @@ User Guide .
 - `tags`: Tags to be applied to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
         "/tags/$(resourceArn)",
@@ -923,7 +925,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -947,7 +949,7 @@ Tower User Guide .
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "DELETE",
@@ -961,7 +963,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "DELETE",
@@ -991,7 +993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -1008,7 +1010,7 @@ function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -1048,7 +1050,7 @@ Services Control Tower User Guide
 
 """
 function update_enabled_control(
-    enabledControlIdentifier, parameters; aws_config::AbstractAWSConfig=global_aws_config()
+    enabledControlIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
         "POST",
@@ -1065,7 +1067,7 @@ function update_enabled_control(
     enabledControlIdentifier,
     parameters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -1104,7 +1106,7 @@ function update_landing_zone(
     landingZoneIdentifier,
     manifest,
     version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",
@@ -1123,7 +1125,7 @@ function update_landing_zone(
     manifest,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
         "POST",

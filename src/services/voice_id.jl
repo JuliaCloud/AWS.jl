@@ -17,7 +17,7 @@ Associates the fraudsters with the watchlist specified in the same domain.
 
 """
 function associate_fraudster(
-    DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "AssociateFraudster",
@@ -35,7 +35,7 @@ function associate_fraudster(
     FraudsterId,
     WatchlistId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "AssociateFraudster",
@@ -80,7 +80,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_domain(
     Name,
     ServerSideEncryptionConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "CreateDomain",
@@ -97,7 +97,7 @@ function create_domain(
     Name,
     ServerSideEncryptionConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "CreateDomain",
@@ -135,7 +135,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"Description"`: A brief description of this watchlist.
 """
-function create_watchlist(DomainId, Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_watchlist(
+    DomainId, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return voice_id(
         "CreateWatchlist",
         Dict{String,Any}(
@@ -149,7 +151,7 @@ function create_watchlist(
     DomainId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "CreateWatchlist",
@@ -177,7 +179,7 @@ Deletes the specified domain from Voice ID.
 - `domain_id`: The identifier of the domain you want to delete.
 
 """
-function delete_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "DeleteDomain",
         Dict{String,Any}("DomainId" => DomainId);
@@ -188,7 +190,7 @@ end
 function delete_domain(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DeleteDomain",
@@ -213,7 +215,7 @@ any watchlists it is a part of.
 
 """
 function delete_fraudster(
-    DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DeleteFraudster",
@@ -226,7 +228,7 @@ function delete_fraudster(
     DomainId,
     FraudsterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DeleteFraudster",
@@ -254,7 +256,7 @@ Deletes the specified speaker from Voice ID.
 
 """
 function delete_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DeleteSpeaker",
@@ -267,7 +269,7 @@ function delete_speaker(
     DomainId,
     SpeakerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DeleteSpeaker",
@@ -298,7 +300,7 @@ deleted.
 
 """
 function delete_watchlist(
-    DomainId, WatchlistId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DeleteWatchlist",
@@ -311,7 +313,7 @@ function delete_watchlist(
     DomainId,
     WatchlistId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DeleteWatchlist",
@@ -337,7 +339,7 @@ Describes the specified domain.
 - `domain_id`: The identifier of the domain that you are describing.
 
 """
-function describe_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "DescribeDomain",
         Dict{String,Any}("DomainId" => DomainId);
@@ -348,7 +350,7 @@ end
 function describe_domain(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DescribeDomain",
@@ -372,7 +374,7 @@ Describes the specified fraudster.
 
 """
 function describe_fraudster(
-    DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DescribeFraudster",
@@ -385,7 +387,7 @@ function describe_fraudster(
     DomainId,
     FraudsterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DescribeFraudster",
@@ -413,7 +415,7 @@ Describes the specified fraudster registration job.
 
 """
 function describe_fraudster_registration_job(
-    DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DescribeFraudsterRegistrationJob",
@@ -426,7 +428,7 @@ function describe_fraudster_registration_job(
     DomainId,
     JobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DescribeFraudsterRegistrationJob",
@@ -452,7 +454,7 @@ Describes the specified speaker.
 
 """
 function describe_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DescribeSpeaker",
@@ -465,7 +467,7 @@ function describe_speaker(
     DomainId,
     SpeakerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DescribeSpeaker",
@@ -493,7 +495,7 @@ Describes the specified speaker enrollment job.
 
 """
 function describe_speaker_enrollment_job(
-    DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DescribeSpeakerEnrollmentJob",
@@ -506,7 +508,7 @@ function describe_speaker_enrollment_job(
     DomainId,
     JobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DescribeSpeakerEnrollmentJob",
@@ -532,7 +534,7 @@ Describes the specified watchlist.
 
 """
 function describe_watchlist(
-    DomainId, WatchlistId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DescribeWatchlist",
@@ -545,7 +547,7 @@ function describe_watchlist(
     DomainId,
     WatchlistId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DescribeWatchlist",
@@ -577,7 +579,7 @@ from its only watchlist, a ValidationException is thrown.
 
 """
 function disassociate_fraudster(
-    DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "DisassociateFraudster",
@@ -595,7 +597,7 @@ function disassociate_fraudster(
     FraudsterId,
     WatchlistId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "DisassociateFraudster",
@@ -629,7 +631,7 @@ Connect Voice ID call.
 
 """
 function evaluate_session(
-    DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "EvaluateSession",
@@ -642,7 +644,7 @@ function evaluate_session(
     DomainId,
     SessionNameOrId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "EvaluateSession",
@@ -676,11 +678,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -709,7 +711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours.
 """
 function list_fraudster_registration_jobs(
-    DomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "ListFraudsterRegistrationJobs",
@@ -721,7 +723,7 @@ end
 function list_fraudster_registration_jobs(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "ListFraudsterRegistrationJobs",
@@ -754,7 +756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WatchlistId"`: The identifier of the watchlist. If provided, all fraudsters in the
   watchlist are listed. If not provided, all fraudsters in the domain are listed.
 """
-function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "ListFraudsters",
         Dict{String,Any}("DomainId" => DomainId);
@@ -765,7 +767,7 @@ end
 function list_fraudsters(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "ListFraudsters",
@@ -800,7 +802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours.
 """
 function list_speaker_enrollment_jobs(
-    DomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "ListSpeakerEnrollmentJobs",
@@ -812,7 +814,7 @@ end
 function list_speaker_enrollment_jobs(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "ListSpeakerEnrollmentJobs",
@@ -843,7 +845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_speakers(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_speakers(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "ListSpeakers",
         Dict{String,Any}("DomainId" => DomainId);
@@ -854,7 +856,7 @@ end
 function list_speakers(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "ListSpeakers",
@@ -878,7 +880,7 @@ Lists all tags associated with a specified Voice ID resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "ListTagsForResource",
@@ -890,7 +892,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "ListTagsForResource",
@@ -921,7 +923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_watchlists(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_watchlists(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "ListWatchlists",
         Dict{String,Any}("DomainId" => DomainId);
@@ -932,7 +934,7 @@ end
 function list_watchlists(
     DomainId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "ListWatchlists",
@@ -960,7 +962,7 @@ speakers, and opted out speakers have no voice embeddings stored in Voice ID.
 
 """
 function opt_out_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "OptOutSpeaker",
@@ -973,7 +975,7 @@ function opt_out_speaker(
     DomainId,
     SpeakerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "OptOutSpeaker",
@@ -1022,7 +1024,7 @@ function start_fraudster_registration_job(
     DomainId,
     InputDataConfig,
     OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "StartFraudsterRegistrationJob",
@@ -1043,7 +1045,7 @@ function start_fraudster_registration_job(
     InputDataConfig,
     OutputDataConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "StartFraudsterRegistrationJob",
@@ -1098,7 +1100,7 @@ function start_speaker_enrollment_job(
     DomainId,
     InputDataConfig,
     OutputDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "StartSpeakerEnrollmentJob",
@@ -1119,7 +1121,7 @@ function start_speaker_enrollment_job(
     InputDataConfig,
     OutputDataConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "StartSpeakerEnrollmentJob",
@@ -1152,7 +1154,7 @@ Tags a Voice ID resource with the provided list of tags.
 - `tags`: The list of tags to assign to the specified resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -1164,7 +1166,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "TagResource",
@@ -1193,7 +1195,7 @@ Removes specified tags from a specified Amazon Connect Voice ID resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "UntagResource",
@@ -1206,7 +1208,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "UntagResource",
@@ -1248,7 +1250,7 @@ function update_domain(
     DomainId,
     Name,
     ServerSideEncryptionConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "UpdateDomain",
@@ -1266,7 +1268,7 @@ function update_domain(
     Name,
     ServerSideEncryptionConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "UpdateDomain",
@@ -1304,7 +1306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the watchlist.
 """
 function update_watchlist(
-    DomainId, WatchlistId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return voice_id(
         "UpdateWatchlist",
@@ -1317,7 +1319,7 @@ function update_watchlist(
     DomainId,
     WatchlistId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return voice_id(
         "UpdateWatchlist",

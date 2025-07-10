@@ -45,7 +45,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter.
 """
 function batch_execute_statement(
-    resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds_data(
         "POST",
@@ -62,7 +62,7 @@ function batch_execute_statement(
     secretArn,
     sql,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -102,7 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The name of the database schema.
 """
 function begin_transaction(
-    resourceArn, secretArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, secretArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds_data(
         "POST",
@@ -116,7 +116,7 @@ function begin_transaction(
     resourceArn,
     secretArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -146,7 +146,10 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 
 """
 function commit_transaction(
-    resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn,
+    secretArn,
+    transactionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -165,7 +168,7 @@ function commit_transaction(
     secretArn,
     transactionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -212,7 +215,7 @@ function execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
     sqlStatements;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -231,7 +234,7 @@ function execute_sql(
     dbClusterOrInstanceArn,
     sqlStatements,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -294,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter.
 """
 function execute_statement(
-    resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds_data(
         "POST",
@@ -311,7 +314,7 @@ function execute_statement(
     secretArn,
     sql,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -343,7 +346,10 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 
 """
 function rollback_transaction(
-    resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn,
+    secretArn,
+    transactionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",
@@ -362,7 +368,7 @@ function rollback_transaction(
     secretArn,
     transactionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rds_data(
         "POST",

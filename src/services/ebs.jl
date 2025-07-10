@@ -32,7 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only supported algorithm is SHA256.
 """
 function complete_snapshot(
-    snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=global_aws_config()
+    snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "POST",
@@ -49,7 +49,7 @@ function complete_snapshot(
     snapshotId,
     x_amz_ChangedBlocksCount,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "POST",
@@ -93,7 +93,7 @@ the Amazon Elastic Compute Cloud User Guide.
 
 """
 function get_snapshot_block(
-    blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "GET",
@@ -108,7 +108,7 @@ function get_snapshot_block(
     blockToken,
     snapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "GET",
@@ -153,7 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots. If you specify NextToken, then StartingBlockIndex is ignored.
 """
 function list_changed_blocks(
-    secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    secondSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "GET",
@@ -165,7 +165,7 @@ end
 function list_changed_blocks(
     secondSnapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "GET",
@@ -201,7 +201,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will start from this block index or the next valid block index in the snapshot. If
   you specify NextToken, then StartingBlockIndex is ignored.
 """
-function list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_snapshot_blocks(
+    snapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ebs(
         "GET",
         "/snapshots/$(snapshotId)/blocks";
@@ -212,7 +214,7 @@ end
 function list_snapshot_blocks(
     snapshotId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "GET",
@@ -269,7 +271,7 @@ function put_snapshot_block(
     x_amz_Checksum,
     x_amz_Checksum_Algorithm,
     x_amz_Data_Length;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "PUT",
@@ -294,7 +296,7 @@ function put_snapshot_block(
     x_amz_Checksum_Algorithm,
     x_amz_Data_Length,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "PUT",
@@ -375,7 +377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after writing the last block of data.   If no value is specified, the timeout defaults to
   60 minutes.
 """
-function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_config())
+function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=current_aws_config())
     return ebs(
         "POST",
         "/snapshots",
@@ -387,7 +389,7 @@ end
 function start_snapshot(
     VolumeSize,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "POST",

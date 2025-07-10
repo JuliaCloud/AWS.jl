@@ -29,7 +29,7 @@ function add_profile_key(
     KeyName,
     ProfileId,
     Values;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -47,7 +47,7 @@ function add_profile_key(
     ProfileId,
     Values,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -96,7 +96,7 @@ function create_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
     Statistic;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -112,7 +112,7 @@ function create_calculated_attribute_definition(
     DomainName,
     Statistic,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -178,7 +178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_domain(
-    DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -192,7 +192,7 @@ function create_domain(
     DefaultExpirationDays,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -229,7 +229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_event_stream(
-    DomainName, EventStreamName, Uri; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, EventStreamName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -244,7 +244,7 @@ function create_event_stream(
     EventStreamName,
     Uri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -281,7 +281,7 @@ function create_integration_workflow(
     ObjectTypeName,
     RoleArn,
     WorkflowType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -303,7 +303,7 @@ function create_integration_workflow(
     RoleArn,
     WorkflowType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -365,7 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
-function create_profile(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_profile(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
         "/domains/$(DomainName)/profiles";
@@ -376,7 +376,7 @@ end
 function create_profile(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -402,7 +402,7 @@ CreateCalculatedAttributeDefinition API if you want it back.
 
 """
 function delete_calculated_attribute_definition(
-    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "DELETE",
@@ -415,7 +415,7 @@ function delete_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "DELETE",
@@ -437,7 +437,7 @@ and their related objects.
 - `domain_name`: The unique name of the domain.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "DELETE",
         "/domains/$(DomainName)";
@@ -448,7 +448,7 @@ end
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "DELETE",
@@ -471,7 +471,7 @@ Disables and deletes the specified event stream.
 
 """
 function delete_event_stream(
-    DomainName, EventStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "DELETE",
@@ -484,7 +484,7 @@ function delete_event_stream(
     DomainName,
     EventStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "DELETE",
@@ -507,7 +507,7 @@ Removes an integration from a specific domain.
 
 """
 function delete_integration(
-    DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -521,7 +521,7 @@ function delete_integration(
     DomainName,
     Uri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -544,7 +544,7 @@ Deletes the standard customer profile and all data pertaining to the profile.
 
 """
 function delete_profile(
-    DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -558,7 +558,7 @@ function delete_profile(
     DomainName,
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -589,7 +589,7 @@ function delete_profile_key(
     KeyName,
     ProfileId,
     Values;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -607,7 +607,7 @@ function delete_profile_key(
     ProfileId,
     Values,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -645,7 +645,7 @@ function delete_profile_object(
     ObjectTypeName,
     ProfileId,
     ProfileObjectUniqueKey;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -665,7 +665,7 @@ function delete_profile_object(
     ProfileId,
     ProfileObjectUniqueKey,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -701,7 +701,7 @@ were populated from this ProfileObjectType.
 
 """
 function delete_profile_object_type(
-    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "DELETE",
@@ -714,7 +714,7 @@ function delete_profile_object_type(
     DomainName,
     ObjectTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "DELETE",
@@ -738,7 +738,7 @@ process.
 
 """
 function delete_workflow(
-    DomainName, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "DELETE",
@@ -751,7 +751,7 @@ function delete_workflow(
     DomainName,
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "DELETE",
@@ -774,7 +774,7 @@ The process of detecting profile object type mapping by using given objects.
 
 """
 function detect_profile_object_type(
-    DomainName, Objects; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Objects; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -788,7 +788,7 @@ function detect_profile_object_type(
     DomainName,
     Objects,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -829,7 +829,7 @@ function get_auto_merging_preview(
     ConflictResolution,
     Consolidation,
     DomainName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -846,7 +846,7 @@ function get_auto_merging_preview(
     Consolidation,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -878,7 +878,7 @@ Provides more information on a calculated attribute definition for Customer Prof
 
 """
 function get_calculated_attribute_definition(
-    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -891,7 +891,7 @@ function get_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -918,7 +918,7 @@ function get_calculated_attribute_for_profile(
     CalculatedAttributeName,
     DomainName,
     ProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -932,7 +932,7 @@ function get_calculated_attribute_for_profile(
     DomainName,
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -953,7 +953,7 @@ Returns information about a specific domain.
 - `domain_name`: The unique name of the domain.
 
 """
-function get_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)";
@@ -964,7 +964,7 @@ end
 function get_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -987,7 +987,7 @@ Returns information about the specified event stream in a specific domain.
 
 """
 function get_event_stream(
-    DomainName, EventStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1000,7 +1000,7 @@ function get_event_stream(
     DomainName,
     EventStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1025,7 +1025,7 @@ see Use Identity Resolution to consolidate similar profiles.
 
 """
 function get_identity_resolution_job(
-    DomainName, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1038,7 +1038,7 @@ function get_identity_resolution_job(
     DomainName,
     JobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1060,7 +1060,9 @@ Returns an integration for a domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 
 """
-function get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config())
+function get_integration(
+    DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return customer_profiles(
         "POST",
         "/domains/$(DomainName)/integrations",
@@ -1073,7 +1075,7 @@ function get_integration(
     DomainName,
     Uri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1114,7 +1116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_matches(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)/matches";
@@ -1125,7 +1127,7 @@ end
 function get_matches(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1148,7 +1150,7 @@ Returns the object types for a specific domain.
 
 """
 function get_profile_object_type(
-    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1161,7 +1163,7 @@ function get_profile_object_type(
     DomainName,
     ObjectTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1186,7 +1188,7 @@ matches one of the TemplateIds, it uses the mappings from the template.
 
 """
 function get_profile_object_type_template(
-    TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1198,7 +1200,7 @@ end
 function get_profile_object_type_template(
     TemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1233,7 +1235,7 @@ function get_similar_profiles(
     MatchType,
     SearchKey,
     SearchValue;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1251,7 +1253,7 @@ function get_similar_profiles(
     SearchKey,
     SearchValue,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1284,7 +1286,7 @@ Get details of specified workflow.
 
 """
 function get_workflow(
-    DomainName, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1297,7 +1299,7 @@ function get_workflow(
     DomainName,
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1325,7 +1327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function get_workflow_steps(
-    DomainName, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1338,7 +1340,7 @@ function get_workflow_steps(
     DomainName,
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1365,7 +1367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListAccountIntegrations API call.
 """
-function list_account_integrations(Uri; aws_config::AbstractAWSConfig=global_aws_config())
+function list_account_integrations(Uri; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
         "/integrations",
@@ -1375,7 +1377,7 @@ function list_account_integrations(Uri; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function list_account_integrations(
-    Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -1402,7 +1404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListCalculatedAttributeDefinitions.
 """
 function list_calculated_attribute_definitions(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1414,7 +1416,7 @@ end
 function list_calculated_attribute_definitions(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1442,7 +1444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListCalculatedAttributesForProfile.
 """
 function list_calculated_attributes_for_profile(
-    DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1455,7 +1457,7 @@ function list_calculated_attributes_for_profile(
     DomainName,
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1477,13 +1479,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListDomain API call.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1504,7 +1506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: Identifies the next page of results to return.
 """
-function list_event_streams(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_event_streams(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)/event-streams";
@@ -1515,7 +1517,7 @@ end
 function list_event_streams(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1543,7 +1545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_identity_resolution_jobs(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1555,7 +1557,7 @@ end
 function list_identity_resolution_jobs(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1582,7 +1584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListIntegrations API call.
 """
-function list_integrations(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_integrations(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)/integrations";
@@ -1593,7 +1595,7 @@ end
 function list_integrations(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1616,14 +1618,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
 function list_profile_object_type_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET", "/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_profile_object_type_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET", "/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1645,7 +1647,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: Identifies the next page of results to return.
 """
 function list_profile_object_types(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1657,7 +1659,7 @@ end
 function list_profile_object_types(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1687,7 +1689,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous call to ListProfileObjects.
 """
 function list_profile_objects(
-    DomainName, ObjectTypeName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName,
+    ObjectTypeName,
+    ProfileId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1702,7 +1707,7 @@ function list_profile_objects(
     ObjectTypeName,
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1736,7 +1741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous ListRuleBasedMatches API call.
 """
 function list_rule_based_matches(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1748,7 +1753,7 @@ end
 function list_rule_based_matches(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1771,7 +1776,7 @@ Customer Profiles, domains, profile object types, and integrations can be tagged
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "GET",
@@ -1783,7 +1788,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "GET",
@@ -1813,7 +1818,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_workflows(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_workflows(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
         "/domains/$(DomainName)/workflows";
@@ -1824,7 +1829,7 @@ end
 function list_workflows(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1868,7 +1873,7 @@ function merge_profiles(
     DomainName,
     MainProfileId,
     ProfileIdsToBeMerged;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1885,7 +1890,7 @@ function merge_profiles(
     MainProfileId,
     ProfileIdsToBeMerged,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -1929,7 +1934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 - `"Uri"`: The URI of the S3 bucket or any other type of data source.
 """
-function put_integration(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function put_integration(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "PUT",
         "/domains/$(DomainName)/integrations";
@@ -1940,7 +1945,7 @@ end
 function put_integration(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",
@@ -1971,7 +1976,7 @@ ObjectType, which can be created using PutProfileObjectType.
 
 """
 function put_profile_object(
-    DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "PUT",
@@ -1986,7 +1991,7 @@ function put_profile_object(
     Object,
     ObjectTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",
@@ -2043,7 +2048,7 @@ function put_profile_object_type(
     Description,
     DomainName,
     ObjectTypeName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",
@@ -2058,7 +2063,7 @@ function put_profile_object_type(
     DomainName,
     ObjectTypeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",
@@ -2110,7 +2115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous SearchProfiles API call.
 """
 function search_profiles(
-    DomainName, KeyName, Values; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, KeyName, Values; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "POST",
@@ -2125,7 +2130,7 @@ function search_profiles(
     KeyName,
     Values,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -2160,7 +2165,7 @@ value for that tag. You can associate as many as 50 tags with a resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
         "/tags/$(resourceArn)",
@@ -2173,7 +2178,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "POST",
@@ -2197,7 +2202,7 @@ Connect Customer Profiles, domains, profile object types, and integrations can b
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "DELETE",
@@ -2211,7 +2216,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "DELETE",
@@ -2242,7 +2247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The display name of the calculated attribute.
 """
 function update_calculated_attribute_definition(
-    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "PUT",
@@ -2255,7 +2260,7 @@ function update_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",
@@ -2308,7 +2313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
-function update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "PUT",
         "/domains/$(DomainName)";
@@ -2319,7 +2324,7 @@ end
 function update_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",
@@ -2374,7 +2379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShippingAddress"`: The customer’s shipping address.
 """
 function update_profile(
-    DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return customer_profiles(
         "PUT",
@@ -2388,7 +2393,7 @@ function update_profile(
     DomainName,
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return customer_profiles(
         "PUT",

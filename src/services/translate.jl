@@ -30,7 +30,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Tagging your resources.
 """
 function create_parallel_data(
-    ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken,
+    Name,
+    ParallelDataConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "CreateParallelData",
@@ -48,7 +51,7 @@ function create_parallel_data(
     Name,
     ParallelDataConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "CreateParallelData",
@@ -78,7 +81,7 @@ Deletes a parallel data resource in Amazon Translate.
 - `name`: The name of the parallel data resource that is being deleted.
 
 """
-function delete_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "DeleteParallelData",
         Dict{String,Any}("Name" => Name);
@@ -87,7 +90,7 @@ function delete_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function delete_parallel_data(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "DeleteParallelData",
@@ -107,7 +110,7 @@ A synchronous action that deletes a custom terminology.
 - `name`: The name of the custom terminology being deleted.
 
 """
-function delete_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "DeleteTerminology",
         Dict{String,Any}("Name" => Name);
@@ -116,7 +119,7 @@ function delete_terminology(Name; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function delete_terminology(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "DeleteTerminology",
@@ -139,7 +142,7 @@ ID, status, source and target languages, input/output S3 buckets, and so on.
 
 """
 function describe_text_translation_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "DescribeTextTranslationJob",
@@ -149,7 +152,7 @@ function describe_text_translation_job(
     )
 end
 function describe_text_translation_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "DescribeTextTranslationJob",
@@ -169,7 +172,7 @@ Provides information about a parallel data resource.
 - `name`: The name of the parallel data resource that is being retrieved.
 
 """
-function get_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "GetParallelData",
         Dict{String,Any}("Name" => Name);
@@ -178,7 +181,7 @@ function get_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_parallel_data(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "GetParallelData",
@@ -205,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you retrieve a multi-directional terminology resource, you must specify the same format as
   the input file that was imported to create it. Otherwise, Amazon Translate throws an error.
 """
-function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "GetTerminology",
         Dict{String,Any}("Name" => Name);
@@ -214,7 +217,7 @@ function get_terminology(Name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function get_terminology(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "GetTerminology",
@@ -252,7 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Tagging your resources.
 """
 function import_terminology(
-    MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=global_aws_config()
+    MergeStrategy, Name, TerminologyData; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "ImportTerminology",
@@ -270,7 +273,7 @@ function import_terminology(
     Name,
     TerminologyData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "ImportTerminology",
@@ -304,13 +307,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include the NextToken value to fetch the next group of supported
   languages.
 """
-function list_languages(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_languages(; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "ListLanguages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_languages(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "ListLanguages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -329,13 +332,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that specifies the next page of results to return in a paginated
   response.
 """
-function list_parallel_data(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_parallel_data(; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "ListParallelData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_parallel_data(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "ListParallelData", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -355,7 +358,7 @@ Lists all tags associated with a given Amazon Translate resource. For more infor
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "ListTagsForResource",
@@ -367,7 +370,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "ListTagsForResource",
@@ -391,13 +394,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the result of the request to ListTerminologies was truncated, include
   the NextToken to fetch the next group of custom terminologies.
 """
-function list_terminologies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_terminologies(; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "ListTerminologies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_terminologies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "ListTerminologies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -418,13 +421,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 100.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_text_translation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_text_translation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "ListTextTranslationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_text_translation_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "ListTextTranslationJobs",
@@ -495,7 +498,7 @@ function start_text_translation_job(
     OutputDataConfig,
     SourceLanguageCode,
     TargetLanguageCodes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "StartTextTranslationJob",
@@ -519,7 +522,7 @@ function start_text_translation_job(
     SourceLanguageCode,
     TargetLanguageCodes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "StartTextTranslationJob",
@@ -558,7 +561,9 @@ job's JobId.
 - `job_id`: The job ID of the job to be stopped.
 
 """
-function stop_text_translation_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_text_translation_job(
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return translate(
         "StopTextTranslationJob",
         Dict{String,Any}("JobId" => JobId);
@@ -567,7 +572,7 @@ function stop_text_translation_job(JobId; aws_config::AbstractAWSConfig=global_a
     )
 end
 function stop_text_translation_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "StopTextTranslationJob",
@@ -591,7 +596,7 @@ metadata to a resource. For more information, see  Tagging your resources.
   maximum of 50 tags (both existing and pending) associated with a specific resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return translate(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -603,7 +608,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "TagResource",
@@ -660,7 +665,7 @@ function translate_document(
     Document,
     SourceLanguageCode,
     TargetLanguageCode;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "TranslateDocument",
@@ -678,7 +683,7 @@ function translate_document(
     SourceLanguageCode,
     TargetLanguageCode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "TranslateDocument",
@@ -735,7 +740,7 @@ function translate_text(
     SourceLanguageCode,
     TargetLanguageCode,
     Text;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "TranslateText",
@@ -753,7 +758,7 @@ function translate_text(
     TargetLanguageCode,
     Text,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "TranslateText",
@@ -788,7 +793,7 @@ see  Tagging your resources.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return translate(
         "UntagResource",
@@ -801,7 +806,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "UntagResource",
@@ -836,7 +841,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A custom description for the parallel data resource in Amazon Translate.
 """
 function update_parallel_data(
-    ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken,
+    Name,
+    ParallelDataConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "UpdateParallelData",
@@ -854,7 +862,7 @@ function update_parallel_data(
     Name,
     ParallelDataConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return translate(
         "UpdateParallelData",

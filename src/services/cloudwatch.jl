@@ -28,7 +28,7 @@ evaluation path.
 - `alarm_names`: The alarms to be deleted. Do not enclose the alarm names in quote marks.
 
 """
-function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DeleteAlarms",
         Dict{String,Any}("AlarmNames" => AlarmNames);
@@ -39,7 +39,7 @@ end
 function delete_alarms(
     AlarmNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "DeleteAlarms",
@@ -78,13 +78,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property.
 - `"Stat"`: The statistic associated with the anomaly detection model to delete.
 """
-function delete_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_anomaly_detector(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DeleteAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_anomaly_detector(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DeleteAnomalyDetector",
@@ -106,7 +106,7 @@ there is an error during this call, no dashboards are deleted.
 
 """
 function delete_dashboards(
-    DashboardNames; aws_config::AbstractAWSConfig=global_aws_config()
+    DashboardNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DeleteDashboards",
@@ -118,7 +118,7 @@ end
 function delete_dashboards(
     DashboardNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "DeleteDashboards",
@@ -143,7 +143,7 @@ was created might not be available.
   your rules, use DescribeInsightRules.
 
 """
-function delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DeleteInsightRules",
         Dict{String,Any}("RuleNames" => RuleNames);
@@ -154,7 +154,7 @@ end
 function delete_insight_rules(
     RuleNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "DeleteInsightRules",
@@ -176,7 +176,7 @@ Permanently deletes the metric stream that you specify.
 - `name`: The name of the metric stream to delete.
 
 """
-function delete_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_metric_stream(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DeleteMetricStream",
         Dict{String,Any}("Name" => Name);
@@ -185,7 +185,7 @@ function delete_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function delete_metric_stream(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DeleteMetricStream",
@@ -223,13 +223,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TimestampAscending to have the oldest history returned first.
 - `"StartDate"`: The starting date to retrieve alarm history.
 """
-function describe_alarm_history(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_alarm_history(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DescribeAlarmHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_alarm_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DescribeAlarmHistory",
@@ -292,13 +292,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StateValue"`: Specify this parameter to receive information only about alarms that are
   currently in the state that you specify.
 """
-function describe_alarms(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_alarms(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DescribeAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_alarms(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DescribeAlarms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -330,7 +330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Unit"`: The unit for the metric.
 """
 function describe_alarms_for_metric(
-    MetricName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    MetricName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DescribeAlarmsForMetric",
@@ -343,7 +343,7 @@ function describe_alarms_for_metric(
     MetricName,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "DescribeAlarmsForMetric",
@@ -388,13 +388,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
-function describe_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DescribeAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_anomaly_detectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DescribeAnomalyDetectors",
@@ -418,13 +418,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of rules.
 """
-function describe_insight_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_insight_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "DescribeInsightRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_insight_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DescribeInsightRules",
@@ -446,7 +446,7 @@ alarm actions do not execute when the alarm state changes.
 
 """
 function disable_alarm_actions(
-    AlarmNames; aws_config::AbstractAWSConfig=global_aws_config()
+    AlarmNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "DisableAlarmActions",
@@ -458,7 +458,7 @@ end
 function disable_alarm_actions(
     AlarmNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "DisableAlarmActions",
@@ -482,7 +482,9 @@ analyze log groups and do not incur costs.
   your rules, use DescribeInsightRules.
 
 """
-function disable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_insight_rules(
+    RuleNames; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cloudwatch(
         "DisableInsightRules",
         Dict{String,Any}("RuleNames" => RuleNames);
@@ -493,7 +495,7 @@ end
 function disable_insight_rules(
     RuleNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "DisableInsightRules",
@@ -515,7 +517,9 @@ Enables the actions for the specified alarms.
 - `alarm_names`: The names of the alarms.
 
 """
-function enable_alarm_actions(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_alarm_actions(
+    AlarmNames; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cloudwatch(
         "EnableAlarmActions",
         Dict{String,Any}("AlarmNames" => AlarmNames);
@@ -526,7 +530,7 @@ end
 function enable_alarm_actions(
     AlarmNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "EnableAlarmActions",
@@ -550,7 +554,7 @@ begin analyzing log data.
   your rules, use DescribeInsightRules.
 
 """
-function enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "EnableInsightRules",
         Dict{String,Any}("RuleNames" => RuleNames);
@@ -561,7 +565,7 @@ end
 function enable_insight_rules(
     RuleNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "EnableInsightRules",
@@ -585,7 +589,7 @@ new dashboard when you call PutDashboard to create the copy.
 - `dashboard_name`: The name of the dashboard to be described.
 
 """
-function get_dashboard(DashboardName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_dashboard(DashboardName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "GetDashboard",
         Dict{String,Any}("DashboardName" => DashboardName);
@@ -596,7 +600,7 @@ end
 function get_dashboard(
     DashboardName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetDashboard",
@@ -660,7 +664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sum and Maximum.
 """
 function get_insight_rule_report(
-    EndTime, Period, RuleName, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime, Period, RuleName, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "GetInsightRuleReport",
@@ -680,7 +684,7 @@ function get_insight_rule_report(
     RuleName,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetInsightRuleReport",
@@ -787,7 +791,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is reached. If you omit this parameter, the default of TimestampDescending is used.
 """
 function get_metric_data(
-    EndTime, MetricDataQueries, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime,
+    MetricDataQueries,
+    StartTime;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetMetricData",
@@ -805,7 +812,7 @@ function get_metric_data(
     MetricDataQueries,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetMetricData",
@@ -921,7 +928,7 @@ function get_metric_statistics(
     Namespace,
     Period,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetMetricStatistics",
@@ -943,7 +950,7 @@ function get_metric_statistics(
     Period,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetMetricStatistics",
@@ -975,7 +982,7 @@ Returns information about the metric stream that you specify.
 - `name`: The name of the metric stream to retrieve information about.
 
 """
-function get_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_metric_stream(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "GetMetricStream",
         Dict{String,Any}("Name" => Name);
@@ -984,7 +991,7 @@ function get_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_metric_stream(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "GetMetricStream",
@@ -1032,7 +1039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content-type set to image/png, and the body of the response is a PNG image.
 """
 function get_metric_widget_image(
-    MetricWidget; aws_config::AbstractAWSConfig=global_aws_config()
+    MetricWidget; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "GetMetricWidgetImage",
@@ -1044,7 +1051,7 @@ end
 function get_metric_widget_image(
     MetricWidget,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "GetMetricWidgetImage",
@@ -1074,13 +1081,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
 """
-function list_dashboards(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_dashboards(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "ListDashboards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_dashboards(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "ListDashboards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1106,7 +1113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by the previous operation.
 """
 function list_managed_insight_rules(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "ListManagedInsightRules",
@@ -1118,7 +1125,7 @@ end
 function list_managed_insight_rules(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "ListManagedInsightRules",
@@ -1142,13 +1149,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous call, to get the
   next set of metric streams.
 """
-function list_metric_streams(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_metric_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "ListMetricStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_metric_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "ListMetricStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1192,11 +1199,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value you specify. There is a low probability that the returned results include metrics
   with last published data as much as 40 minutes more than the specified time interval.
 """
-function list_metrics(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch("ListMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_metrics(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "ListMetrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1220,7 +1227,7 @@ Insights rules support tagging.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "ListTagsForResource",
@@ -1232,7 +1239,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "ListTagsForResource",
@@ -1280,13 +1287,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SingleMetricAnomalyDetector.
 - `"Stat"`: The statistic to use for the metric and the anomaly detection model.
 """
-function put_anomaly_detector(; aws_config::AbstractAWSConfig=global_aws_config())
+function put_anomaly_detector(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "PutAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function put_anomaly_detector(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "PutAnomalyDetector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1410,7 +1417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are ignored. To change the tags of an existing alarm, use TagResource or UntagResource.
 """
 function put_composite_alarm(
-    AlarmName, AlarmRule; aws_config::AbstractAWSConfig=global_aws_config()
+    AlarmName, AlarmRule; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "PutCompositeAlarm",
@@ -1423,7 +1430,7 @@ function put_composite_alarm(
     AlarmName,
     AlarmRule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutCompositeAlarm",
@@ -1467,7 +1474,7 @@ DashboardBody script or the CloudFormation template used to create the dashboard
 
 """
 function put_dashboard(
-    DashboardBody, DashboardName; aws_config::AbstractAWSConfig=global_aws_config()
+    DashboardBody, DashboardName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "PutDashboard",
@@ -1482,7 +1489,7 @@ function put_dashboard(
     DashboardBody,
     DashboardName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutDashboard",
@@ -1528,7 +1535,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignored. To change the tags of an existing rule, use TagResource.
 """
 function put_insight_rule(
-    RuleDefinition, RuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleDefinition, RuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "PutInsightRule",
@@ -1541,7 +1548,7 @@ function put_insight_rule(
     RuleDefinition,
     RuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutInsightRule",
@@ -1576,7 +1583,7 @@ available rules.
 
 """
 function put_managed_insight_rules(
-    ManagedRules; aws_config::AbstractAWSConfig=global_aws_config()
+    ManagedRules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "PutManagedInsightRules",
@@ -1588,7 +1595,7 @@ end
 function put_managed_insight_rules(
     ManagedRules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutManagedInsightRules",
@@ -1804,7 +1811,7 @@ function put_metric_alarm(
     AlarmName,
     ComparisonOperator,
     EvaluationPeriods;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutMetricAlarm",
@@ -1822,7 +1829,7 @@ function put_metric_alarm(
     ComparisonOperator,
     EvaluationPeriods,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutMetricAlarm",
@@ -1884,7 +1891,7 @@ by SampleCount.
 
 """
 function put_metric_data(
-    MetricData, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    MetricData, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "PutMetricData",
@@ -1897,7 +1904,7 @@ function put_metric_data(
     MetricData,
     Namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutMetricData",
@@ -1984,7 +1991,7 @@ function put_metric_stream(
     Name,
     OutputFormat,
     RoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutMetricStream",
@@ -2004,7 +2011,7 @@ function put_metric_stream(
     OutputFormat,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutMetricStream",
@@ -2055,7 +2062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to take the correct action.
 """
 function set_alarm_state(
-    AlarmName, StateReason, StateValue; aws_config::AbstractAWSConfig=global_aws_config()
+    AlarmName, StateReason, StateValue; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "SetAlarmState",
@@ -2073,7 +2080,7 @@ function set_alarm_state(
     StateReason,
     StateValue,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "SetAlarmState",
@@ -2105,7 +2112,7 @@ Starts the streaming of metrics for one or more of your metric streams.
   you list here, then none of the streams that you list in the operation will start streaming.
 
 """
-function start_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_config())
+function start_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "StartMetricStreams",
         Dict{String,Any}("Names" => Names);
@@ -2114,7 +2121,7 @@ function start_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function start_metric_streams(
-    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "StartMetricStreams",
@@ -2136,7 +2143,7 @@ Stops the streaming of metrics for one or more of your metric streams.
   you list here, then none of the streams that you list in the operation will stop streaming.
 
 """
-function stop_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "StopMetricStreams",
         Dict{String,Any}("Names" => Names);
@@ -2145,7 +2152,7 @@ function stop_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function stop_metric_streams(
-    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "StopMetricStreams",
@@ -2180,7 +2187,7 @@ value for that tag. You can associate as many as 50 tags with a CloudWatch resou
 - `tags`: The list of key-value pairs to associate with the alarm.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -2192,7 +2199,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "TagResource",
@@ -2225,7 +2232,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch(
         "UntagResource",
@@ -2238,7 +2245,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "UntagResource",

@@ -16,7 +16,7 @@ Lists all tags that have been added to a deployment parameter resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_deployment(
         "GET",
@@ -28,7 +28,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_deployment(
         "GET",
@@ -68,7 +68,7 @@ function put_deployment_parameter(
     catalog,
     deploymentParameter,
     productId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_deployment(
         "POST",
@@ -88,7 +88,7 @@ function put_deployment_parameter(
     deploymentParameter,
     productId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_deployment(
         "POST",
@@ -124,7 +124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map of key-value pairs, where each pair represents a tag present on the
   resource.
 """
-function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_deployment(
         "POST",
         "/tags/$(resourceArn)";
@@ -135,7 +135,7 @@ end
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_deployment(
         "POST",
@@ -159,7 +159,7 @@ Removes a tag or list of tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_deployment(
         "DELETE",
@@ -173,7 +173,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_deployment(
         "DELETE",

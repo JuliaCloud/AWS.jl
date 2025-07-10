@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pair to use when tagging the resource.
 """
 function create_connection(
-    ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "CreateConnection",
@@ -36,7 +36,7 @@ end
 function create_connection(
     ConnectionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "CreateConnection",
@@ -74,7 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the VPC.
 """
 function create_host(
-    Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "CreateHost",
@@ -92,7 +92,7 @@ function create_host(
     ProviderEndpoint,
     ProviderType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "CreateHost",
@@ -136,7 +136,7 @@ function create_repository_link(
     ConnectionArn,
     OwnerId,
     RepositoryName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "CreateRepositoryLink",
@@ -154,7 +154,7 @@ function create_repository_link(
     OwnerId,
     RepositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "CreateRepositoryLink",
@@ -209,7 +209,7 @@ function create_sync_configuration(
     ResourceName,
     RoleArn,
     SyncType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "CreateSyncConfiguration",
@@ -233,7 +233,7 @@ function create_sync_configuration(
     RoleArn,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "CreateSyncConfiguration",
@@ -267,7 +267,9 @@ The connection to be deleted.
   ARN is never reused if the connection is deleted.
 
 """
-function delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_connection(
+    ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return codestar_connections(
         "DeleteConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
@@ -278,7 +280,7 @@ end
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "DeleteConnection",
@@ -302,7 +304,7 @@ VPC_CONFIG_DELETING state.
 - `host_arn`: The Amazon Resource Name (ARN) of the host to be deleted.
 
 """
-function delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "DeleteHost",
         Dict{String,Any}("HostArn" => HostArn);
@@ -311,7 +313,9 @@ function delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_host(
-    HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HostArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "DeleteHost",
@@ -332,7 +336,7 @@ Deletes the association between your connection and a specified external Git rep
 
 """
 function delete_repository_link(
-    RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()
+    RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "DeleteRepositoryLink",
@@ -344,7 +348,7 @@ end
 function delete_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "DeleteRepositoryLink",
@@ -371,7 +375,7 @@ Deletes the sync configuration for a specified repository and connection.
 
 """
 function delete_sync_configuration(
-    ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "DeleteSyncConfiguration",
@@ -384,7 +388,7 @@ function delete_sync_configuration(
     ResourceName,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "DeleteSyncConfiguration",
@@ -410,7 +414,7 @@ Returns the connection ARN and details such as status, owner, and provider type.
 - `connection_arn`: The Amazon Resource Name (ARN) of a connection.
 
 """
-function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "GetConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
@@ -421,7 +425,7 @@ end
 function get_connection(
     ConnectionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetConnection",
@@ -444,7 +448,7 @@ applicable, the VPC configuration.
 - `host_arn`: The Amazon Resource Name (ARN) of the requested host.
 
 """
-function get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "GetHost",
         Dict{String,Any}("HostArn" => HostArn);
@@ -453,7 +457,9 @@ function get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_host(
-    HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HostArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetHost",
@@ -475,7 +481,7 @@ sync changes from files in a specified Git repository.
 
 """
 function get_repository_link(
-    RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()
+    RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "GetRepositoryLink",
@@ -487,7 +493,7 @@ end
 function get_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetRepositoryLink",
@@ -515,7 +521,7 @@ push and pull changes from your remote repository.
 
 """
 function get_repository_sync_status(
-    Branch, RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    Branch, RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "GetRepositorySyncStatus",
@@ -533,7 +539,7 @@ function get_repository_sync_status(
     RepositoryLinkId,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetRepositorySyncStatus",
@@ -567,7 +573,7 @@ resource.
 
 """
 function get_resource_sync_status(
-    ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "GetResourceSyncStatus",
@@ -580,7 +586,7 @@ function get_resource_sync_status(
     ResourceName,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetResourceSyncStatus",
@@ -609,7 +615,7 @@ Returns a list of the most recent sync blockers.
 
 """
 function get_sync_blocker_summary(
-    ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "GetSyncBlockerSummary",
@@ -622,7 +628,7 @@ function get_sync_blocker_summary(
     ResourceName,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetSyncBlockerSummary",
@@ -654,7 +660,7 @@ repository for a specified branch in a Git repository.
 
 """
 function get_sync_configuration(
-    ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "GetSyncConfiguration",
@@ -667,7 +673,7 @@ function get_sync_configuration(
     ResourceName,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "GetSyncConfiguration",
@@ -700,13 +706,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProviderTypeFilter"`: Filters the list of connections to those associated with a
   specified provider, such as Bitbucket.
 """
-function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -726,13 +732,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token that was returned from the previous ListHosts call, which can be
   used to return the next set of hosts in the list.
 """
-function list_hosts(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_hosts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "ListHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -752,13 +758,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_repository_links(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_repository_links(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "ListRepositoryLinks",
@@ -782,7 +788,7 @@ Lists the repository sync definitions for repository links in your account.
 
 """
 function list_repository_sync_definitions(
-    RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "ListRepositorySyncDefinitions",
@@ -795,7 +801,7 @@ function list_repository_sync_definitions(
     RepositoryLinkId,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "ListRepositorySyncDefinitions",
@@ -832,7 +838,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 """
 function list_sync_configurations(
-    RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "ListSyncConfigurations",
@@ -845,7 +851,7 @@ function list_sync_configurations(
     RepositoryLinkId,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "ListSyncConfigurations",
@@ -875,7 +881,7 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "ListTagsForResource",
@@ -887,7 +893,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "ListTagsForResource",
@@ -912,7 +918,7 @@ manage a resource.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -924,7 +930,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "TagResource",
@@ -952,7 +958,7 @@ Removes tags from an Amazon Web Services resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "UntagResource",
@@ -965,7 +971,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "UntagResource",
@@ -997,7 +1003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured and the infrastructure to be represented by the host must already be connected
   to the VPC.
 """
-function update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "UpdateHost",
         Dict{String,Any}("HostArn" => HostArn);
@@ -1006,7 +1012,9 @@ function update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_host(
-    HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HostArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "UpdateHost",
@@ -1036,7 +1044,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository link to be updated.
 """
 function update_repository_link(
-    RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()
+    RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "UpdateRepositoryLink",
@@ -1048,7 +1056,7 @@ end
 function update_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "UpdateRepositoryLink",
@@ -1081,7 +1089,7 @@ function update_sync_blocker(
     ResolvedReason,
     ResourceName,
     SyncType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "UpdateSyncBlocker",
@@ -1101,7 +1109,7 @@ function update_sync_blocker(
     ResourceName,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "UpdateSyncBlocker",
@@ -1145,7 +1153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
 """
 function update_sync_configuration(
-    ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_connections(
         "UpdateSyncConfiguration",
@@ -1158,7 +1166,7 @@ function update_sync_configuration(
     ResourceName,
     SyncType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_connections(
         "UpdateSyncConfiguration",

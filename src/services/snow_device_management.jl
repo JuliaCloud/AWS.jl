@@ -17,7 +17,7 @@ it's processed from the queue before the CancelTask operation changes the task's
   ID by using the ListTasks operation.
 
 """
-function cancel_task(taskId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_task(taskId; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "POST",
         "/task/$(taskId)/cancel";
@@ -26,7 +26,7 @@ function cancel_task(taskId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function cancel_task(
-    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "POST",
@@ -55,7 +55,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Optional metadata that you assign to a resource. You can use tags to categorize
   a resource in different ways, such as by purpose, owner, or environment.
 """
-function create_task(command, targets; aws_config::AbstractAWSConfig=global_aws_config())
+function create_task(command, targets; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "POST",
         "/task",
@@ -70,7 +70,7 @@ function create_task(
     command,
     targets,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "POST",
@@ -102,7 +102,9 @@ addresses, and lock status.
 - `managed_device_id`: The ID of the device that you are checking the information of.
 
 """
-function describe_device(managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_device(
+    managedDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return snow_device_management(
         "POST",
         "/managed-device/$(managedDeviceId)/describe";
@@ -113,7 +115,7 @@ end
 function describe_device(
     managedDeviceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "POST",
@@ -138,7 +140,7 @@ Services Cloud and include a subset of the available fields.
 
 """
 function describe_device_ec2_instances(
-    instanceIds, managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceIds, managedDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "POST",
@@ -152,7 +154,7 @@ function describe_device_ec2_instances(
     instanceIds,
     managedDeviceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "POST",
@@ -177,7 +179,7 @@ Checks the status of a remote task running on one or more target devices.
 
 """
 function describe_execution(
-    managedDeviceId, taskId; aws_config::AbstractAWSConfig=global_aws_config()
+    managedDeviceId, taskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "POST",
@@ -190,7 +192,7 @@ function describe_execution(
     managedDeviceId,
     taskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "POST",
@@ -211,13 +213,13 @@ Checks the metadata for a given task on a device.
 - `task_id`: The ID of the task to be described.
 
 """
-function describe_task(taskId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_task(taskId; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "POST", "/task/$(taskId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_task(
-    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "POST",
@@ -245,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: A structure used to filter the results by type of resource.
 """
 function list_device_resources(
-    managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    managedDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "GET",
@@ -257,7 +259,7 @@ end
 function list_device_resources(
     managedDeviceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "GET",
@@ -282,13 +284,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of devices to list per page.
 - `"nextToken"`: A pagination token to continue to the next page of results.
 """
-function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "GET", "/managed-devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_devices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "GET",
@@ -314,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token to continue to the next page of tasks.
 - `"state"`: A structure used to filter the tasks by their current state.
 """
-function list_executions(taskId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_executions(taskId; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "GET",
         "/executions",
@@ -324,7 +326,7 @@ function list_executions(taskId; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_executions(
-    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "GET",
@@ -346,7 +348,7 @@ Returns a list of tags for a managed device or task.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "GET",
@@ -358,7 +360,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "GET",
@@ -381,13 +383,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token to continue to the next page of tasks.
 - `"state"`: A structure used to filter the list of tasks.
 """
-function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "GET", "/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "GET", "/tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -406,7 +408,7 @@ Adds or replaces tags on a device or task.
   resource in different ways, such as by purpose, owner, or environment.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return snow_device_management(
         "POST",
         "/tags/$(resourceArn)",
@@ -419,7 +421,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "POST",
@@ -443,7 +445,7 @@ Removes a tag from a device or task.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snow_device_management(
         "DELETE",
@@ -457,7 +459,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return snow_device_management(
         "DELETE",

@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function batch_execute_statement(
-    Database, Sqls; aws_config::AbstractAWSConfig=global_aws_config()
+    Database, Sqls; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_data(
         "BatchExecuteStatement",
@@ -72,7 +72,7 @@ function batch_execute_statement(
     Database,
     Sqls,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "BatchExecuteStatement",
@@ -104,7 +104,7 @@ Data API in the Amazon Redshift Management Guide.
   BatchExecuteStatment, ExecuteStatment, and ListStatements.
 
 """
-function cancel_statement(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_statement(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "CancelStatement",
         Dict{String,Any}("Id" => Id);
@@ -113,7 +113,7 @@ function cancel_statement(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function cancel_statement(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_data(
         "CancelStatement",
@@ -141,7 +141,7 @@ the Amazon Redshift Management Guide.
   BatchExecuteStatment, ExecuteStatement, and ListStatements.
 
 """
-function describe_statement(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_statement(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "DescribeStatement",
         Dict{String,Any}("Id" => Id);
@@ -150,7 +150,7 @@ function describe_statement(Id; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function describe_statement(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_data(
         "DescribeStatement",
@@ -218,7 +218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function describe_table(Database; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_table(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "DescribeTable",
         Dict{String,Any}("Database" => Database);
@@ -229,7 +229,7 @@ end
 function describe_table(
     Database,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "DescribeTable",
@@ -292,7 +292,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function execute_statement(Database, Sql; aws_config::AbstractAWSConfig=global_aws_config())
+function execute_statement(
+    Database, Sql; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return redshift_data(
         "ExecuteStatement",
         Dict{String,Any}(
@@ -306,7 +308,7 @@ function execute_statement(
     Database,
     Sql,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "ExecuteStatement",
@@ -349,7 +351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 """
-function get_statement_result(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_statement_result(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "GetStatementResult",
         Dict{String,Any}("Id" => Id);
@@ -358,7 +360,7 @@ function get_statement_result(Id; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_statement_result(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_data(
         "GetStatementResult",
@@ -418,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function list_databases(Database; aws_config::AbstractAWSConfig=global_aws_config())
+function list_databases(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListDatabases",
         Dict{String,Any}("Database" => Database);
@@ -429,7 +431,7 @@ end
 function list_databases(
     Database,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "ListDatabases",
@@ -496,7 +498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function list_schemas(Database; aws_config::AbstractAWSConfig=global_aws_config())
+function list_schemas(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListSchemas",
         Dict{String,Any}("Database" => Database);
@@ -507,7 +509,7 @@ end
 function list_schemas(
     Database,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "ListSchemas",
@@ -554,13 +556,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   been chosen to be run.    STARTED - The query run has started.    SUBMITTED - The query was
   submitted, but not yet processed.
 """
-function list_statements(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_statements(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_statements(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_data(
         "ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -630,7 +632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function list_tables(Database; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tables(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListTables",
         Dict{String,Any}("Database" => Database);
@@ -641,7 +643,7 @@ end
 function list_tables(
     Database,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "ListTables",

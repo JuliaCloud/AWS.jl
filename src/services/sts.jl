@@ -204,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any subsequent sessions.
 """
 function assume_role(
-    RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts(
         "AssumeRole",
@@ -217,7 +217,7 @@ function assume_role(
     RoleArn,
     RoleSessionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sts(
         "AssumeRole",
@@ -372,7 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Session Policies in the IAM User Guide.
 """
 function assume_role_with_saml(
-    PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=global_aws_config()
+    PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts(
         "AssumeRoleWithSAML",
@@ -390,7 +390,7 @@ function assume_role_with_saml(
     RoleArn,
     SAMLAssertion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sts(
         "AssumeRoleWithSAML",
@@ -568,7 +568,7 @@ function assume_role_with_web_identity(
     RoleArn,
     RoleSessionName,
     WebIdentityToken;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sts(
         "AssumeRoleWithWebIdentity",
@@ -586,7 +586,7 @@ function assume_role_with_web_identity(
     RoleSessionName,
     WebIdentityToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sts(
         "AssumeRoleWithWebIdentity",
@@ -633,7 +633,7 @@ condition keys in the context of the user's request.
 
 """
 function decode_authorization_message(
-    EncodedMessage; aws_config::AbstractAWSConfig=global_aws_config()
+    EncodedMessage; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts(
         "DecodeAuthorizationMessage",
@@ -645,7 +645,7 @@ end
 function decode_authorization_message(
     EncodedMessage,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sts(
         "DecodeAuthorizationMessage",
@@ -683,7 +683,9 @@ that the key doesn't exist.
   digit.
 
 """
-function get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_access_key_info(
+    AccessKeyId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return sts(
         "GetAccessKeyInfo",
         Dict{String,Any}("AccessKeyId" => AccessKeyId);
@@ -694,7 +696,7 @@ end
 function get_access_key_info(
     AccessKeyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sts(
         "GetAccessKeyInfo",
@@ -719,11 +721,11 @@ response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the 
 Guide.
 
 """
-function get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_caller_identity(; aws_config::AbstractAWSConfig=current_aws_config())
     return sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_caller_identity(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts(
         "GetCallerIdentity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -872,7 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the department=engineering session tag. Department and department are not saved as separate
   tags, and the session tag passed in the request takes precedence over the role tag.
 """
-function get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_federation_token(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return sts(
         "GetFederationToken",
         Dict{String,Any}("Name" => Name);
@@ -881,7 +883,7 @@ function get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function get_federation_token(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts(
         "GetFederationToken",
@@ -953,11 +955,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when requesting resources that require MFA authentication. The format for this parameter,
   as described by its regex pattern, is a sequence of six numeric digits.
 """
-function get_session_token(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_session_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_session_token(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts(
         "GetSessionToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

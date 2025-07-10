@@ -33,7 +33,7 @@ function associate_external_connection(
     domain,
     external_connection,
     repository;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -52,7 +52,7 @@ function associate_external_connection(
     external_connection,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -120,7 +120,7 @@ function copy_package_versions(
     format,
     package,
     source_repository;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -143,7 +143,7 @@ function copy_package_versions(
     package,
     source_repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -197,7 +197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service Developer Guide.
 - `"tags"`: One or more tag key-value pairs for the domain.
 """
-function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
+function create_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
         "/v1/domain",
@@ -207,7 +207,7 @@ function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function create_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -239,7 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: One or more tag key-value pairs for the package group.
 """
 function create_package_group(
-    domain, packageGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -253,7 +253,7 @@ function create_package_group(
     domain,
     packageGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -292,7 +292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 function create_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -306,7 +306,7 @@ function create_repository(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -338,7 +338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "DELETE",
         "/v1/domain",
@@ -348,7 +348,7 @@ function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -377,7 +377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes to the domain's resource policy.
 """
 function delete_domain_permissions_policy(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -388,7 +388,7 @@ function delete_domain_permissions_policy(
     )
 end
 function delete_domain_permissions_policy(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -425,7 +425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of those formats do not have a namespace.
 """
 function delete_package(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -446,7 +446,7 @@ function delete_package(
     package,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "DELETE",
@@ -488,7 +488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function delete_package_group(
-    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -502,7 +502,7 @@ function delete_package_group(
     domain,
     package_group,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "DELETE",
@@ -555,7 +555,7 @@ function delete_package_versions(
     package,
     repository,
     versions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -578,7 +578,7 @@ function delete_package_versions(
     repository,
     versions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -617,7 +617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function delete_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -631,7 +631,7 @@ function delete_repository(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "DELETE",
@@ -674,7 +674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overwriting your changes to the repository's resource policy.
 """
 function delete_repository_permissions_policy(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "DELETE",
@@ -688,7 +688,7 @@ function delete_repository_permissions_policy(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "DELETE",
@@ -719,7 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "GET",
         "/v1/domain",
@@ -729,7 +729,7 @@ function describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function describe_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -765,7 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of those formats do not have a namespace.
 """
 function describe_package(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -786,7 +786,7 @@ function describe_package(
     package,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -825,7 +825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function describe_package_group(
-    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -839,7 +839,7 @@ function describe_package_group(
     domain,
     package_group,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -889,7 +889,7 @@ function describe_package_version(
     package,
     repository,
     version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -912,7 +912,7 @@ function describe_package_version(
     repository,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -952,7 +952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function describe_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -966,7 +966,7 @@ function describe_repository(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1006,7 +1006,7 @@ function disassociate_external_connection(
     domain,
     external_connection,
     repository;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "DELETE",
@@ -1025,7 +1025,7 @@ function disassociate_external_connection(
     external_connection,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "DELETE",
@@ -1084,7 +1084,7 @@ function dispose_package_versions(
     package,
     repository,
     versions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -1107,7 +1107,7 @@ function dispose_package_versions(
     repository,
     versions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -1162,7 +1162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have a namespace.
 """
 function get_associated_package_group(
-    domain, format, package; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, format, package; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -1177,7 +1177,7 @@ function get_associated_package_group(
     format,
     package,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1227,7 +1227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   0 will set the expiration of the authorization token to the same expiration of the user's
   role's temporary credentials.
 """
-function get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aws_config())
+function get_authorization_token(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
         "/v1/authorization-token",
@@ -1237,7 +1237,7 @@ function get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function get_authorization_token(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -1265,7 +1265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function get_domain_permissions_policy(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -1276,7 +1276,7 @@ function get_domain_permissions_policy(
     )
 end
 function get_domain_permissions_policy(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -1327,7 +1327,7 @@ function get_package_version_asset(
     package,
     repository,
     version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1352,7 +1352,7 @@ function get_package_version_asset(
     repository,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1412,7 +1412,7 @@ function get_package_version_readme(
     package,
     repository,
     version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1435,7 +1435,7 @@ function get_package_version_readme(
     repository,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1478,7 +1478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain that contains the repository. It does not include dashes or spaces.
 """
 function get_repository_endpoint(
-    domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, format, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -1495,7 +1495,7 @@ function get_repository_endpoint(
     format,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1532,7 +1532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function get_repository_permissions_policy(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -1546,7 +1546,7 @@ function get_repository_permissions_policy(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1590,7 +1590,7 @@ function list_allowed_repositories_for_group(
     domain,
     originRestrictionType,
     package_group;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1609,7 +1609,7 @@ function list_allowed_repositories_for_group(
     originRestrictionType,
     package_group,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1655,7 +1655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   packages that would be associated with a package group, even if it does not exist.
 """
 function list_associated_packages(
-    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "GET",
@@ -1669,7 +1669,7 @@ function list_associated_packages(
     domain,
     package_group,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "GET",
@@ -1700,13 +1700,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -1736,7 +1736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prefix"`:  A prefix for which to search package groups. When included,
   ListPackageGroups will return only package groups with patterns that match the prefix.
 """
-function list_package_groups(domain; aws_config::AbstractAWSConfig=global_aws_config())
+function list_package_groups(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
         "/v1/package-groups",
@@ -1746,7 +1746,7 @@ function list_package_groups(domain; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_package_groups(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -1794,7 +1794,7 @@ function list_package_version_assets(
     package,
     repository,
     version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -1817,7 +1817,7 @@ function list_package_version_assets(
     repository,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -1878,7 +1878,7 @@ function list_package_version_dependencies(
     package,
     repository,
     version;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -1901,7 +1901,7 @@ function list_package_version_dependencies(
     repository,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -1959,7 +1959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`:  A string that filters the requested package versions by status.
 """
 function list_package_versions(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -1980,7 +1980,7 @@ function list_package_versions(
     package,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2041,7 +2041,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see PackageOriginRestrictions.
 """
 function list_packages(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2055,7 +2055,7 @@ function list_packages(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2088,13 +2088,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"repository-prefix"`:  A prefix used to filter returned repositories. Only repositories
   with names that start with repositoryPrefix are returned.
 """
-function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_repositories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2128,7 +2128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with repositoryPrefix are returned.
 """
 function list_repositories_in_domain(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2139,7 +2139,7 @@ function list_repositories_in_domain(
     )
 end
 function list_repositories_in_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2172,7 +2172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_sub_package_groups(
-    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2186,7 +2186,7 @@ function list_sub_package_groups(
     domain,
     package_group,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2215,7 +2215,7 @@ in CodeArtifact.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2228,7 +2228,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2288,7 +2288,7 @@ function publish_package_version(
     repository,
     version,
     x_amz_content_sha256;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2317,7 +2317,7 @@ function publish_package_version(
     version,
     x_amz_content_sha256,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2367,7 +2367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain's resource policy.
 """
 function put_domain_permissions_policy(
-    domain, policyDocument; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, policyDocument; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "PUT",
@@ -2381,7 +2381,7 @@ function put_domain_permissions_policy(
     domain,
     policyDocument,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "PUT",
@@ -2443,7 +2443,7 @@ function put_package_origin_configuration(
     package,
     repository,
     restrictions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2466,7 +2466,7 @@ function put_package_origin_configuration(
     repository,
     restrictions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2515,7 +2515,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   others from overwriting your changes to the repository's resource policy.
 """
 function put_repository_permissions_policy(
-    domain, policyDocument, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, policyDocument, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "PUT",
@@ -2534,7 +2534,7 @@ function put_repository_permissions_policy(
     policyDocument,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "PUT",
@@ -2567,7 +2567,7 @@ Adds or updates tags for a resource in CodeArtifact.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
         "/v1/tag",
@@ -2580,7 +2580,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2610,7 +2610,7 @@ Removes tags from a resource in CodeArtifact.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "POST",
@@ -2624,7 +2624,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2662,7 +2662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function update_package_group(
-    domain, packageGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "PUT",
@@ -2676,7 +2676,7 @@ function update_package_group(
     domain,
     packageGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "PUT",
@@ -2722,7 +2722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can enter repositories.
 """
 function update_package_group_origin_configuration(
-    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "PUT",
@@ -2736,7 +2736,7 @@ function update_package_group_origin_configuration(
     domain,
     package_group,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "PUT",
@@ -2797,7 +2797,7 @@ function update_package_versions_status(
     repository,
     targetStatus,
     versions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2822,7 +2822,7 @@ function update_package_versions_status(
     targetStatus,
     versions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "POST",
@@ -2867,7 +2867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 function update_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeartifact(
         "PUT",
@@ -2881,7 +2881,7 @@ function update_repository(
     domain,
     repository,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeartifact(
         "PUT",

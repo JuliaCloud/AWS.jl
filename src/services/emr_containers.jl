@@ -18,7 +18,7 @@ SparkSQL query, that you submit to Amazon EMR on EKS.
 
 """
 function cancel_job_run(
-    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
@@ -31,7 +31,7 @@ function cancel_job_run(
     jobRunId,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags that are associated with the job template.
 """
 function create_job_template(
-    clientToken, jobTemplateData, name; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, jobTemplateData, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "POST",
@@ -81,7 +81,7 @@ function create_job_template(
     jobTemplateData,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -133,7 +133,7 @@ function create_managed_endpoint(
     releaseLabel,
     type,
     virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -157,7 +157,7 @@ function create_managed_endpoint(
     type,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -203,7 +203,7 @@ function create_security_configuration(
     clientToken,
     name,
     securityConfigurationData;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -222,7 +222,7 @@ function create_security_configuration(
     name,
     securityConfigurationData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -264,7 +264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags assigned to the virtual cluster.
 """
 function create_virtual_cluster(
-    clientToken, containerProvider, name; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, containerProvider, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "POST",
@@ -283,7 +283,7 @@ function create_virtual_cluster(
     containerProvider,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -317,7 +317,7 @@ request.
 - `template_id`: The ID of the job template that will be deleted.
 
 """
-function delete_job_template(templateId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_job_template(templateId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
         "DELETE",
         "/jobtemplates/$(templateId)";
@@ -328,7 +328,7 @@ end
 function delete_job_template(
     templateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",
@@ -352,7 +352,7 @@ to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual
 
 """
 function delete_managed_endpoint(
-    endpointId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
@@ -365,7 +365,7 @@ function delete_managed_endpoint(
     endpointId,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",
@@ -391,7 +391,7 @@ namespaces to meet your requirements.
 
 """
 function delete_virtual_cluster(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
@@ -403,7 +403,7 @@ end
 function delete_virtual_cluster(
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",
@@ -427,7 +427,7 @@ jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 
 """
 function describe_job_run(
-    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -440,7 +440,7 @@ function describe_job_run(
     jobRunId,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -465,7 +465,7 @@ certain values in StartJobRun API request.
 
 """
 function describe_job_template(
-    templateId; aws_config::AbstractAWSConfig=global_aws_config()
+    templateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -477,7 +477,7 @@ end
 function describe_job_template(
     templateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -502,7 +502,7 @@ communicate with your virtual cluster.
 
 """
 function describe_managed_endpoint(
-    endpointId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -515,7 +515,7 @@ function describe_managed_endpoint(
     endpointId,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -541,7 +541,7 @@ cluster.
 
 """
 function describe_security_configuration(
-    securityConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+    securityConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -553,7 +553,7 @@ end
 function describe_security_configuration(
     securityConfigurationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -579,7 +579,7 @@ virtual clusters the same way you model Kubernetes namespaces to meet your requi
 
 """
 function describe_virtual_cluster(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -591,7 +591,7 @@ end
 function describe_virtual_cluster(
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -629,7 +629,7 @@ function get_managed_endpoint_session_credentials(
     endpointId,
     executionRoleArn,
     virtualClusterId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -649,7 +649,7 @@ function get_managed_endpoint_session_credentials(
     executionRoleArn,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -689,7 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of job runs to return.
 - `"states"`: The states of the job run.
 """
-function list_job_runs(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_job_runs(virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
         "GET",
         "/virtualclusters/$(virtualClusterId)/jobruns";
@@ -700,7 +700,7 @@ end
 function list_job_runs(
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -727,13 +727,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:  The maximum number of job templates that can be listed.
 - `"nextToken"`:  The token for the next set of job templates to return.
 """
-function list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
         "GET", "/jobtemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_job_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -765,7 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"types"`: The types of the managed endpoints.
 """
 function list_managed_endpoints(
-    virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -777,7 +777,7 @@ end
 function list_managed_endpoints(
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -804,7 +804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of security configurations the operation can list.
 - `"nextToken"`: The token for the next set of security configurations to return.
 """
-function list_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_security_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
         "GET",
         "/securityconfigurations";
@@ -813,7 +813,7 @@ function list_security_configurations(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function list_security_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -835,7 +835,7 @@ Lists the tags assigned to the resources.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -847,7 +847,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
@@ -882,13 +882,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of virtual clusters to return.
 - `"states"`: The states of the requested virtual clusters.
 """
-function list_virtual_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_virtual_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
         "GET", "/virtualclusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_virtual_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
@@ -923,7 +923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags assigned to job runs.
 """
 function start_job_run(
-    clientToken, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "POST",
@@ -937,7 +937,7 @@ function start_job_run(
     clientToken,
     virtualClusterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -968,7 +968,7 @@ resource type. You can then search and filter the resources based on the tags th
 - `tags`: The tags assigned to resources.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
         "POST",
         "/tags/$(resourceArn)",
@@ -981,7 +981,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
@@ -1004,7 +1004,7 @@ Removes tags from resources.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
@@ -1018,7 +1018,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",

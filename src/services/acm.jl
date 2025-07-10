@@ -30,7 +30,7 @@ have been applied to the certificate, use the ListTagsForCertificate action.
 
 """
 function add_tags_to_certificate(
-    CertificateArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "AddTagsToCertificate",
@@ -43,7 +43,7 @@ function add_tags_to_certificate(
     CertificateArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "AddTagsToCertificate",
@@ -79,7 +79,7 @@ first be removed.
 
 """
 function delete_certificate(
-    CertificateArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "DeleteCertificate",
@@ -91,7 +91,7 @@ end
 function delete_certificate(
     CertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "DeleteCertificate",
@@ -119,7 +119,7 @@ you can retrieve information about it.
 
 """
 function describe_certificate(
-    CertificateArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "DescribeCertificate",
@@ -131,7 +131,7 @@ end
 function describe_certificate(
     CertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "DescribeCertificate",
@@ -165,7 +165,7 @@ CLI, see Export a Private Certificate.
 
 """
 function export_certificate(
-    CertificateArn, Passphrase; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn, Passphrase; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "ExportCertificate",
@@ -178,7 +178,7 @@ function export_certificate(
     CertificateArn,
     Passphrase,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "ExportCertificate",
@@ -203,13 +203,13 @@ end
 Returns the account configuration options associated with an Amazon Web Services account.
 
 """
-function get_account_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_account_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "GetAccountConfiguration",
@@ -234,7 +234,7 @@ certificates and inspect individual fields.
   information about ARNs, see Amazon Resource Names (ARNs).
 
 """
-function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "GetCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
@@ -245,7 +245,7 @@ end
 function get_certificate(
     CertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "GetCertificate",
@@ -302,7 +302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You cannot apply tags when reimporting a certificate.
 """
 function import_certificate(
-    Certificate, PrivateKey; aws_config::AbstractAWSConfig=global_aws_config()
+    Certificate, PrivateKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "ImportCertificate",
@@ -315,7 +315,7 @@ function import_certificate(
     Certificate,
     PrivateKey,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "ImportCertificate",
@@ -357,11 +357,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Specifies the order of sorted results. If you specify SortOrder, you must
   also specify SortBy.
 """
-function list_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_certificates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "ListCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -384,7 +384,7 @@ AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate 
 
 """
 function list_tags_for_certificate(
-    CertificateArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "ListTagsForCertificate",
@@ -396,7 +396,7 @@ end
 function list_tags_for_certificate(
     CertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "ListTagsForCertificate",
@@ -430,7 +430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExpiryEvents"`: Specifies expiration events associated with an account.
 """
 function put_account_configuration(
-    IdempotencyToken; aws_config::AbstractAWSConfig=global_aws_config()
+    IdempotencyToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "PutAccountConfiguration",
@@ -442,7 +442,7 @@ end
 function put_account_configuration(
     IdempotencyToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "PutAccountConfiguration",
@@ -476,7 +476,7 @@ ACM certificate, use the ListTagsForCertificate action.
 
 """
 function remove_tags_from_certificate(
-    CertificateArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "RemoveTagsFromCertificate",
@@ -489,7 +489,7 @@ function remove_tags_from_certificate(
     CertificateArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "RemoveTagsFromCertificate",
@@ -522,7 +522,7 @@ For more information, see Testing Managed Renewal in the ACM User Guide.
 
 """
 function renew_certificate(
-    CertificateArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "RenewCertificate",
@@ -534,7 +534,7 @@ end
 function renew_certificate(
     CertificateArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "RenewCertificate",
@@ -620,7 +620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate to validate that you own or control domain. You can validate with DNS or
   validate with email. We recommend that you use DNS validation.
 """
-function request_certificate(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function request_certificate(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "RequestCertificate",
         Dict{String,Any}("DomainName" => DomainName);
@@ -631,7 +631,7 @@ end
 function request_certificate(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "RequestCertificate",
@@ -679,7 +679,7 @@ function resend_validation_email(
     CertificateArn,
     Domain,
     ValidationDomain;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "ResendValidationEmail",
@@ -697,7 +697,7 @@ function resend_validation_email(
     Domain,
     ValidationDomain,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "ResendValidationEmail",
@@ -735,7 +735,7 @@ information, see  Opting Out of Certificate Transparency Logging.
 
 """
 function update_certificate_options(
-    CertificateArn, Options; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateArn, Options; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
         "UpdateCertificateOptions",
@@ -748,7 +748,7 @@ function update_certificate_options(
     CertificateArn,
     Options,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm(
         "UpdateCertificateOptions",

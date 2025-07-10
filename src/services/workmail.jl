@@ -23,7 +23,7 @@ Adds a member (user or group) to the resource's set of delegates.
 
 """
 function associate_delegate_to_resource(
-    EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "AssociateDelegateToResource",
@@ -41,7 +41,7 @@ function associate_delegate_to_resource(
     OrganizationId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "AssociateDelegateToResource",
@@ -81,7 +81,7 @@ Adds a member (user or group) to the group's set.
 
 """
 function associate_member_to_group(
-    GroupId, MemberId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, MemberId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "AssociateMemberToGroup",
@@ -97,7 +97,7 @@ function associate_member_to_group(
     MemberId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "AssociateMemberToGroup",
@@ -131,7 +131,7 @@ authentication token you can use to make impersonated calls.
 
 """
 function assume_impersonation_role(
-    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "AssumeImpersonationRole",
@@ -146,7 +146,7 @@ function assume_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "AssumeImpersonationRole",
@@ -179,7 +179,7 @@ be possible to cancel it.
 
 """
 function cancel_mailbox_export_job(
-    ClientToken, JobId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken, JobId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CancelMailboxExportJob",
@@ -197,7 +197,7 @@ function cancel_mailbox_export_job(
     JobId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CancelMailboxExportJob",
@@ -230,7 +230,7 @@ Adds an alias to the set of a given member (user or group) of WorkMail.
 
 """
 function create_alias(
-    Alias, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Alias, EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateAlias",
@@ -246,7 +246,7 @@ function create_alias(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateAlias",
@@ -287,7 +287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exactly one provider definition, either EwsProvider or LambdaProvider.
 """
 function create_availability_configuration(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateAvailabilityConfiguration",
@@ -304,7 +304,7 @@ function create_availability_configuration(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateAvailabilityConfiguration",
@@ -340,7 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the address book.
 """
 function create_group(
-    Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateGroup",
@@ -353,7 +353,7 @@ function create_group(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateGroup",
@@ -391,7 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the new impersonation role.
 """
 function create_impersonation_role(
-    Name, OrganizationId, Rules, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, OrganizationId, Rules, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateImpersonationRole",
@@ -412,7 +412,7 @@ function create_impersonation_role(
     Rules,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateImpersonationRole",
@@ -463,7 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device user agents will match.
 """
 function create_mobile_device_access_rule(
-    Effect, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Effect, Name, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateMobileDeviceAccessRule",
@@ -482,7 +482,7 @@ function create_mobile_device_access_rule(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateMobileDeviceAccessRule",
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
 """
-function create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_config())
+function create_organization(Alias; aws_config::AbstractAWSConfig=current_aws_config())
     return workmail(
         "CreateOrganization",
         Dict{String,Any}("Alias" => Alias, "ClientToken" => string(uuid4()));
@@ -542,7 +542,7 @@ function create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function create_organization(
-    Alias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Alias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateOrganization",
@@ -577,7 +577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hidden from the address book.
 """
 function create_resource(
-    Name, OrganizationId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, OrganizationId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateResource",
@@ -593,7 +593,7 @@ function create_resource(
     OrganizationId,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateResource",
@@ -634,7 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   single request. When a user role is not selected, the default role of USER is selected.
 """
 function create_user(
-    DisplayName, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DisplayName, Name, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "CreateUser",
@@ -650,7 +650,7 @@ function create_user(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "CreateUser",
@@ -684,7 +684,7 @@ back an HTTP 200 response with an empty HTTP body.
 
 """
 function delete_access_control_rule(
-    Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteAccessControlRule",
@@ -697,7 +697,7 @@ function delete_access_control_rule(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteAccessControlRule",
@@ -728,7 +728,7 @@ Remove one or more specified aliases from a set of aliases for a given user.
 
 """
 function delete_alias(
-    Alias, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Alias, EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteAlias",
@@ -744,7 +744,7 @@ function delete_alias(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteAlias",
@@ -777,7 +777,7 @@ Deletes the AvailabilityConfiguration for the given WorkMail organization and do
 
 """
 function delete_availability_configuration(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteAvailabilityConfiguration",
@@ -790,7 +790,7 @@ function delete_availability_configuration(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteAvailabilityConfiguration",
@@ -820,7 +820,7 @@ Deletes the email monitoring configuration for a specified organization.
 
 """
 function delete_email_monitoring_configuration(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteEmailMonitoringConfiguration",
@@ -832,7 +832,7 @@ end
 function delete_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteEmailMonitoringConfiguration",
@@ -859,7 +859,7 @@ Deletes a group from WorkMail.
 
 """
 function delete_group(
-    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteGroup",
@@ -872,7 +872,7 @@ function delete_group(
     GroupId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteGroup",
@@ -900,7 +900,7 @@ Deletes an impersonation role for the given WorkMail organization.
 
 """
 function delete_impersonation_role(
-    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteImpersonationRole",
@@ -915,7 +915,7 @@ function delete_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteImpersonationRole",
@@ -956,7 +956,7 @@ Deletes permissions granted to a member (user or group).
 
 """
 function delete_mailbox_permissions(
-    EntityId, GranteeId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, GranteeId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteMailboxPermissions",
@@ -974,7 +974,7 @@ function delete_mailbox_permissions(
     GranteeId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteMailboxPermissions",
@@ -1014,7 +1014,7 @@ those cases, the service sends back an HTTP 200 response with an empty HTTP body
 
 """
 function delete_mobile_device_access_override(
-    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteMobileDeviceAccessOverride",
@@ -1030,7 +1030,7 @@ function delete_mobile_device_access_override(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteMobileDeviceAccessOverride",
@@ -1066,7 +1066,7 @@ service sends back an HTTP 200 response with an empty HTTP body.
 function delete_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     OrganizationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteMobileDeviceAccessRule",
@@ -1082,7 +1082,7 @@ function delete_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteMobileDeviceAccessRule",
@@ -1121,7 +1121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users.
 """
 function delete_organization(
-    DeleteDirectory, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeleteDirectory, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteOrganization",
@@ -1138,7 +1138,7 @@ function delete_organization(
     DeleteDirectory,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteOrganization",
@@ -1173,7 +1173,7 @@ Deletes the specified resource.
 
 """
 function delete_resource(
-    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteResource",
@@ -1186,7 +1186,7 @@ function delete_resource(
     OrganizationId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteResource",
@@ -1216,7 +1216,7 @@ Deletes the specified retention policy from the specified organization.
 
 """
 function delete_retention_policy(
-    Id, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteRetentionPolicy",
@@ -1229,7 +1229,7 @@ function delete_retention_policy(
     Id,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteRetentionPolicy",
@@ -1263,7 +1263,7 @@ days before they are permanently removed.
 
 """
 function delete_user(
-    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeleteUser",
@@ -1276,7 +1276,7 @@ function delete_user(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeleteUser",
@@ -1311,7 +1311,7 @@ are permanently removed. The functionality in the console is Disable.
 
 """
 function deregister_from_work_mail(
-    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeregisterFromWorkMail",
@@ -1324,7 +1324,7 @@ function deregister_from_work_mail(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeregisterFromWorkMail",
@@ -1357,7 +1357,7 @@ the domain.
 
 """
 function deregister_mail_domain(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DeregisterMailDomain",
@@ -1370,7 +1370,7 @@ function deregister_mail_domain(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DeregisterMailDomain",
@@ -1400,7 +1400,7 @@ Describes the current email monitoring configuration for a specified organizatio
 
 """
 function describe_email_monitoring_configuration(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeEmailMonitoringConfiguration",
@@ -1412,7 +1412,7 @@ end
 function describe_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeEmailMonitoringConfiguration",
@@ -1436,7 +1436,7 @@ Returns basic details about an entity in WorkMail.
 
 """
 function describe_entity(
-    Email, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Email, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeEntity",
@@ -1449,7 +1449,7 @@ function describe_entity(
     Email,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeEntity",
@@ -1480,7 +1480,7 @@ Returns the data available for the group.
 
 """
 function describe_group(
-    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeGroup",
@@ -1493,7 +1493,7 @@ function describe_group(
     GroupId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeGroup",
@@ -1520,7 +1520,7 @@ Lists the settings in a DMARC policy for a specified organization.
 
 """
 function describe_inbound_dmarc_settings(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeInboundDmarcSettings",
@@ -1532,7 +1532,7 @@ end
 function describe_inbound_dmarc_settings(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeInboundDmarcSettings",
@@ -1556,7 +1556,7 @@ Describes the current status of a mailbox export job.
 
 """
 function describe_mailbox_export_job(
-    JobId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeMailboxExportJob",
@@ -1569,7 +1569,7 @@ function describe_mailbox_export_job(
     JobId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeMailboxExportJob",
@@ -1596,7 +1596,7 @@ Provides more information regarding a given organization based on its identifier
 
 """
 function describe_organization(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeOrganization",
@@ -1608,7 +1608,7 @@ end
 function describe_organization(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeOrganization",
@@ -1636,7 +1636,7 @@ Returns the data available for the resource.
 
 """
 function describe_resource(
-    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeResource",
@@ -1649,7 +1649,7 @@ function describe_resource(
     OrganizationId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeResource",
@@ -1682,7 +1682,7 @@ Provides information regarding the user.
 
 """
 function describe_user(
-    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DescribeUser",
@@ -1695,7 +1695,7 @@ function describe_user(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DescribeUser",
@@ -1731,7 +1731,7 @@ Removes a member from the resource's set of delegates.
 
 """
 function disassociate_delegate_from_resource(
-    EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DisassociateDelegateFromResource",
@@ -1749,7 +1749,7 @@ function disassociate_delegate_from_resource(
     OrganizationId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DisassociateDelegateFromResource",
@@ -1789,7 +1789,7 @@ Removes a member from a group.
 
 """
 function disassociate_member_from_group(
-    GroupId, MemberId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, MemberId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "DisassociateMemberFromGroup",
@@ -1805,7 +1805,7 @@ function disassociate_member_from_group(
     MemberId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "DisassociateMemberFromGroup",
@@ -1846,7 +1846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: The user ID.
 """
 function get_access_control_effect(
-    Action, IpAddress, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Action, IpAddress, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetAccessControlEffect",
@@ -1862,7 +1862,7 @@ function get_access_control_effect(
     IpAddress,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetAccessControlEffect",
@@ -1893,7 +1893,7 @@ Gets the default retention policy details for the specified organization.
 
 """
 function get_default_retention_policy(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetDefaultRetentionPolicy",
@@ -1905,7 +1905,7 @@ end
 function get_default_retention_policy(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetDefaultRetentionPolicy",
@@ -1930,7 +1930,7 @@ Gets the impersonation role details for the given WorkMail organization.
 
 """
 function get_impersonation_role(
-    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetImpersonationRole",
@@ -1945,7 +1945,7 @@ function get_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetImpersonationRole",
@@ -1983,7 +1983,7 @@ function get_impersonation_role_effect(
     ImpersonationRoleId,
     OrganizationId,
     TargetUser;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetImpersonationRoleEffect",
@@ -2001,7 +2001,7 @@ function get_impersonation_role_effect(
     OrganizationId,
     TargetUser,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetImpersonationRoleEffect",
@@ -2034,7 +2034,7 @@ with recommended security.
 
 """
 function get_mail_domain(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetMailDomain",
@@ -2047,7 +2047,7 @@ function get_mail_domain(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetMailDomain",
@@ -2082,7 +2082,7 @@ Requests a user's mailbox details for a specified organization and user.
 
 """
 function get_mailbox_details(
-    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetMailboxDetails",
@@ -2095,7 +2095,7 @@ function get_mailbox_details(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetMailboxDetails",
@@ -2130,7 +2130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceUserAgent"`: Device user agent the simulated user will report.
 """
 function get_mobile_device_access_effect(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetMobileDeviceAccessEffect",
@@ -2142,7 +2142,7 @@ end
 function get_mobile_device_access_effect(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetMobileDeviceAccessEffect",
@@ -2172,7 +2172,7 @@ device.
 
 """
 function get_mobile_device_access_override(
-    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "GetMobileDeviceAccessOverride",
@@ -2188,7 +2188,7 @@ function get_mobile_device_access_override(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "GetMobileDeviceAccessOverride",
@@ -2219,7 +2219,7 @@ Lists the access control rules for the specified organization.
 
 """
 function list_access_control_rules(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListAccessControlRules",
@@ -2231,7 +2231,7 @@ end
 function list_access_control_rules(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListAccessControlRules",
@@ -2260,7 +2260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not contain any tokens.
 """
 function list_aliases(
-    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListAliases",
@@ -2273,7 +2273,7 @@ function list_aliases(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListAliases",
@@ -2308,7 +2308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not require a token.
 """
 function list_availability_configurations(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListAvailabilityConfigurations",
@@ -2320,7 +2320,7 @@ end
 function list_availability_configurations(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListAvailabilityConfigurations",
@@ -2353,7 +2353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   does not contain any tokens.
 """
 function list_group_members(
-    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListGroupMembers",
@@ -2366,7 +2366,7 @@ function list_group_members(
     GroupId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListGroupMembers",
@@ -2399,7 +2399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_groups(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_groups(OrganizationId; aws_config::AbstractAWSConfig=current_aws_config())
     return workmail(
         "ListGroups",
         Dict{String,Any}("OrganizationId" => OrganizationId);
@@ -2410,7 +2410,7 @@ end
 function list_groups(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListGroups",
@@ -2443,7 +2443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not contain any tokens.
 """
 function list_groups_for_entity(
-    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListGroupsForEntity",
@@ -2456,7 +2456,7 @@ function list_groups_for_entity(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListGroupsForEntity",
@@ -2491,7 +2491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   doesn't require a token.
 """
 function list_impersonation_roles(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListImpersonationRoles",
@@ -2503,7 +2503,7 @@ end
 function list_impersonation_roles(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListImpersonationRoles",
@@ -2531,7 +2531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not require a token.
 """
 function list_mail_domains(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListMailDomains",
@@ -2543,7 +2543,7 @@ end
 function list_mail_domains(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListMailDomains",
@@ -2571,7 +2571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
 function list_mailbox_export_jobs(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListMailboxExportJobs",
@@ -2583,7 +2583,7 @@ end
 function list_mailbox_export_jobs(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListMailboxExportJobs",
@@ -2617,7 +2617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not contain any tokens.
 """
 function list_mailbox_permissions(
-    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListMailboxPermissions",
@@ -2630,7 +2630,7 @@ function list_mailbox_permissions(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListMailboxPermissions",
@@ -2671,7 +2671,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Email address: user@domain.tld    User name: user
 """
 function list_mobile_device_access_overrides(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListMobileDeviceAccessOverrides",
@@ -2683,7 +2683,7 @@ end
 function list_mobile_device_access_overrides(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListMobileDeviceAccessOverrides",
@@ -2706,7 +2706,7 @@ Lists the mobile device access rules for the specified WorkMail organization.
 
 """
 function list_mobile_device_access_rules(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListMobileDeviceAccessRules",
@@ -2718,7 +2718,7 @@ end
 function list_mobile_device_access_rules(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListMobileDeviceAccessRules",
@@ -2742,13 +2742,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_organizations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_organizations(; aws_config::AbstractAWSConfig=current_aws_config())
     return workmail(
         "ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_organizations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListOrganizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2777,7 +2777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function list_resource_delegates(
-    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListResourceDelegates",
@@ -2790,7 +2790,7 @@ function list_resource_delegates(
     OrganizationId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListResourceDelegates",
@@ -2825,7 +2825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_resources(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resources(OrganizationId; aws_config::AbstractAWSConfig=current_aws_config())
     return workmail(
         "ListResources",
         Dict{String,Any}("OrganizationId" => OrganizationId);
@@ -2836,7 +2836,7 @@ end
 function list_resources(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListResources",
@@ -2859,7 +2859,7 @@ Lists the tags applied to an WorkMail organization resource.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ListTagsForResource",
@@ -2871,7 +2871,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListTagsForResource",
@@ -2900,7 +2900,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_users(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_users(OrganizationId; aws_config::AbstractAWSConfig=current_aws_config())
     return workmail(
         "ListUsers",
         Dict{String,Any}("OrganizationId" => OrganizationId);
@@ -2911,7 +2911,7 @@ end
 function list_users(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ListUsers",
@@ -2956,7 +2956,7 @@ function put_access_control_rule(
     Effect,
     Name,
     OrganizationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutAccessControlRule",
@@ -2976,7 +2976,7 @@ function put_access_control_rule(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutAccessControlRule",
@@ -3013,7 +3013,7 @@ Creates or updates the email monitoring configuration for a specified organizati
 
 """
 function put_email_monitoring_configuration(
-    LogGroupArn, OrganizationId, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    LogGroupArn, OrganizationId, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "PutEmailMonitoringConfiguration",
@@ -3031,7 +3031,7 @@ function put_email_monitoring_configuration(
     OrganizationId,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutEmailMonitoringConfiguration",
@@ -3063,7 +3063,7 @@ Enables or disables a DMARC policy for a given organization.
 
 """
 function put_inbound_dmarc_settings(
-    Enforced, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Enforced, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "PutInboundDmarcSettings",
@@ -3076,7 +3076,7 @@ function put_inbound_dmarc_settings(
     Enforced,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutInboundDmarcSettings",
@@ -3126,7 +3126,7 @@ function put_mailbox_permissions(
     GranteeId,
     OrganizationId,
     PermissionValues;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutMailboxPermissions",
@@ -3146,7 +3146,7 @@ function put_mailbox_permissions(
     OrganizationId,
     PermissionValues,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutMailboxPermissions",
@@ -3193,7 +3193,7 @@ function put_mobile_device_access_override(
     Effect,
     OrganizationId,
     UserId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutMobileDeviceAccessOverride",
@@ -3213,7 +3213,7 @@ function put_mobile_device_access_override(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutMobileDeviceAccessOverride",
@@ -3254,7 +3254,7 @@ function put_retention_policy(
     FolderConfigurations,
     Name,
     OrganizationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutRetentionPolicy",
@@ -3272,7 +3272,7 @@ function put_retention_policy(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "PutRetentionPolicy",
@@ -3310,7 +3310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token used when retrying requests.
 """
 function register_mail_domain(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "RegisterMailDomain",
@@ -3327,7 +3327,7 @@ function register_mail_domain(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "RegisterMailDomain",
@@ -3371,7 +3371,7 @@ information, see DeregisterFromWorkMail.
 
 """
 function register_to_work_mail(
-    Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "RegisterToWorkMail",
@@ -3387,7 +3387,7 @@ function register_to_work_mail(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "RegisterToWorkMail",
@@ -3421,7 +3421,7 @@ Allows the administrator to reset the password for a user.
 
 """
 function reset_password(
-    OrganizationId, Password, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, Password, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "ResetPassword",
@@ -3437,7 +3437,7 @@ function reset_password(
     Password,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "ResetPassword",
@@ -3493,7 +3493,7 @@ function start_mailbox_export_job(
     RoleArn,
     S3BucketName,
     S3Prefix;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "StartMailboxExportJob",
@@ -3519,7 +3519,7 @@ function start_mailbox_export_job(
     S3BucketName,
     S3Prefix,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "StartMailboxExportJob",
@@ -3554,7 +3554,7 @@ Applies the specified tags to the specified WorkMailorganization resource.
 - `tags`: The tag key-value pairs.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return workmail(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -3566,7 +3566,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "TagResource",
@@ -3606,7 +3606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LambdaProvider"`:
 """
 function test_availability_configuration(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "TestAvailabilityConfiguration",
@@ -3618,7 +3618,7 @@ end
 function test_availability_configuration(
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "TestAvailabilityConfiguration",
@@ -3642,7 +3642,7 @@ Untags the specified tags from the specified WorkMail organization resource.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UntagResource",
@@ -3655,7 +3655,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UntagResource",
@@ -3693,7 +3693,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stored provider will be overridden by the one provided.
 """
 function update_availability_configuration(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdateAvailabilityConfiguration",
@@ -3706,7 +3706,7 @@ function update_availability_configuration(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateAvailabilityConfiguration",
@@ -3738,7 +3738,7 @@ have one default domain.
 
 """
 function update_default_mail_domain(
-    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdateDefaultMailDomain",
@@ -3751,7 +3751,7 @@ function update_default_mail_domain(
     DomainName,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateDefaultMailDomain",
@@ -3788,7 +3788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list.
 """
 function update_group(
-    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdateGroup",
@@ -3801,7 +3801,7 @@ function update_group(
     GroupId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateGroup",
@@ -3841,7 +3841,7 @@ function update_impersonation_role(
     OrganizationId,
     Rules,
     Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateImpersonationRole",
@@ -3863,7 +3863,7 @@ function update_impersonation_role(
     Rules,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateImpersonationRole",
@@ -3903,7 +3903,7 @@ Updates a user's current mailbox quota for a specified organization and user.
 
 """
 function update_mailbox_quota(
-    MailboxQuota, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    MailboxQuota, OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdateMailboxQuota",
@@ -3921,7 +3921,7 @@ function update_mailbox_quota(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateMailboxQuota",
@@ -3974,7 +3974,7 @@ function update_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     Name,
     OrganizationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateMobileDeviceAccessRule",
@@ -3994,7 +3994,7 @@ function update_mobile_device_access_rule(
     Name,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateMobileDeviceAccessRule",
@@ -4034,7 +4034,7 @@ and the email provided in the input is promoted as the primary.
 
 """
 function update_primary_email_address(
-    Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+    Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdatePrimaryEmailAddress",
@@ -4050,7 +4050,7 @@ function update_primary_email_address(
     EntityId,
     OrganizationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdatePrimaryEmailAddress",
@@ -4096,7 +4096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: Updates the resource type.
 """
 function update_resource(
-    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdateResource",
@@ -4109,7 +4109,7 @@ function update_resource(
     OrganizationId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateResource",
@@ -4162,7 +4162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ZipCode"`: Updates the user's zipcode.
 """
 function update_user(
-    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "UpdateUser",
@@ -4175,7 +4175,7 @@ function update_user(
     OrganizationId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmail(
         "UpdateUser",

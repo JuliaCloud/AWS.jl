@@ -17,7 +17,7 @@ ListMembers for multiple accounts or GetMembers for a single account.
 - `account_id`: The Amazon Web Services account ID of the member account to be associated.
 
 """
-function associate_member(accountId; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_member(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/members/associate",
@@ -29,7 +29,7 @@ end
 function associate_member(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -54,13 +54,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: The 12-digit Amazon Web Services account IDs of the accounts to retrieve
   Amazon Inspector status for.
 """
-function batch_get_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_get_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/status/batch/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function batch_get_account_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -84,7 +84,7 @@ in.
 
 """
 function batch_get_code_snippet(
-    findingArns; aws_config::AbstractAWSConfig=global_aws_config()
+    findingArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -97,7 +97,7 @@ end
 function batch_get_code_snippet(
     findingArns,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -121,7 +121,7 @@ Gets vulnerability details for findings.
 
 """
 function batch_get_finding_details(
-    findingArns; aws_config::AbstractAWSConfig=global_aws_config()
+    findingArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -134,7 +134,7 @@ end
 function batch_get_finding_details(
     findingArns,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -158,7 +158,7 @@ Gets free trial status for multiple Amazon Web Services accounts.
 
 """
 function batch_get_free_trial_info(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -171,7 +171,7 @@ end
 function batch_get_free_trial_info(
     accountIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -198,7 +198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Inspector deep inspection activation status for.  &lt;/p&gt;
 """
 function batch_get_member_ec2_deep_inspection_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -208,7 +208,7 @@ function batch_get_member_ec2_deep_inspection_status(;
     )
 end
 function batch_get_member_ec2_deep_inspection_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -233,7 +233,7 @@ Inspector to use this API.
 
 """
 function batch_update_member_ec2_deep_inspection_status(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -246,7 +246,7 @@ end
 function batch_update_member_ec2_deep_inspection_status(
     accountIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -269,7 +269,9 @@ Cancels the given findings report.
 - `report_id`: The ID of the report to be canceled.
 
 """
-function cancel_findings_report(reportId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_findings_report(
+    reportId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return inspector2(
         "POST",
         "/reporting/cancel",
@@ -281,7 +283,7 @@ end
 function cancel_findings_report(
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -304,7 +306,7 @@ Cancels a software bill of materials (SBOM) report.
 - `report_id`: The report ID of the SBOM export to cancel.
 
 """
-function cancel_sbom_export(reportId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/sbomexport/cancel",
@@ -316,7 +318,7 @@ end
 function cancel_sbom_export(
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -351,7 +353,7 @@ function create_cis_scan_configuration(
     schedule,
     securityLevel,
     targets;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -372,7 +374,7 @@ function create_cis_scan_configuration(
     securityLevel,
     targets,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -415,7 +417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags for the filter.
 """
 function create_filter(
-    action, filterCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()
+    action, filterCriteria, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -432,7 +434,7 @@ function create_filter(
     filterCriteria,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -468,7 +470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filterCriteria"`: The filter criteria to apply to the results of the finding report.
 """
 function create_findings_report(
-    reportFormat, s3Destination; aws_config::AbstractAWSConfig=global_aws_config()
+    reportFormat, s3Destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -482,7 +484,7 @@ function create_findings_report(
     reportFormat,
     s3Destination,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -517,7 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   materials (SBOM) report.
 """
 function create_sbom_export(
-    reportFormat, s3Destination; aws_config::AbstractAWSConfig=global_aws_config()
+    reportFormat, s3Destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -531,7 +533,7 @@ function create_sbom_export(
     reportFormat,
     s3Destination,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -561,7 +563,7 @@ Deletes a CIS scan configuration.
 
 """
 function delete_cis_scan_configuration(
-    scanConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    scanConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -574,7 +576,7 @@ end
 function delete_cis_scan_configuration(
     scanConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -601,7 +603,7 @@ Deletes a filter resource.
 - `arn`: The Amazon Resource Number (ARN) of the filter to be deleted.
 
 """
-function delete_filter(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_filter(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/filters/delete",
@@ -611,7 +613,7 @@ function delete_filter(arn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_filter(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -630,7 +632,7 @@ Describe Amazon Inspector configuration settings for an Amazon Web Services orga
 
 """
 function describe_organization_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -640,7 +642,7 @@ function describe_organization_configuration(;
     )
 end
 function describe_organization_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -663,13 +665,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: An array of account IDs you want to disable Amazon Inspector scans for.
 - `"resourceTypes"`: The resource scan types you want to disable.
 """
-function disable(; aws_config::AbstractAWSConfig=global_aws_config())
+function disable(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function disable(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST", "/disable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -688,7 +690,7 @@ Disables the Amazon Inspector delegated administrator for your organization.
 
 """
 function disable_delegated_admin_account(
-    delegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    delegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -701,7 +703,7 @@ end
 function disable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -728,7 +730,7 @@ Disassociates a member account from an Amazon Inspector delegated administrator.
 - `account_id`: The Amazon Web Services account ID of the member account to disassociate.
 
 """
-function disassociate_member(accountId; aws_config::AbstractAWSConfig=global_aws_config())
+function disassociate_member(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/members/disassociate",
@@ -740,7 +742,7 @@ end
 function disassociate_member(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -767,7 +769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: A list of account IDs you want to enable Amazon Inspector scans for.
 - `"clientToken"`: The idempotency token for the request.
 """
-function enable(resourceTypes; aws_config::AbstractAWSConfig=global_aws_config())
+function enable(resourceTypes; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/enable",
@@ -781,7 +783,7 @@ end
 function enable(
     resourceTypes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -815,7 +817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token for the request.
 """
 function enable_delegated_admin_account(
-    delegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    delegatedAdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -831,7 +833,7 @@ end
 function enable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -866,7 +868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the report format defaults to PDF.
 - `"targetAccounts"`: The target accounts.
 """
-function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/cis/scan/report/get",
@@ -876,7 +878,9 @@ function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function get_cis_scan_report(
-    scanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    scanArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -909,7 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The sort order.
 """
 function get_cis_scan_result_details(
-    accountId, scanArn, targetResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, scanArn, targetResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -928,7 +932,7 @@ function get_cis_scan_result_details(
     scanArn,
     targetResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -956,13 +960,13 @@ end
 Retrieves setting configurations for Inspector scans.
 
 """
-function get_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -981,7 +985,7 @@ Retrieves information about the Amazon Inspector delegated administrator for you
 organization.
 
 """
-function get_delegated_admin_account(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_delegated_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/delegatedadminaccounts/get";
@@ -990,7 +994,7 @@ function get_delegated_admin_account(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function get_delegated_admin_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1010,7 +1014,7 @@ associated with your account.
 
 """
 function get_ec2_deep_inspection_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1020,7 +1024,7 @@ function get_ec2_deep_inspection_configuration(;
     )
 end
 function get_ec2_deep_inspection_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1043,7 +1047,7 @@ Gets an encryption key.
 
 """
 function get_encryption_key(
-    resourceType, scanType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceType, scanType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "GET",
@@ -1057,7 +1061,7 @@ function get_encryption_key(
     resourceType,
     scanType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "GET",
@@ -1084,7 +1088,7 @@ Gets the status of a findings report.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"reportId"`: The ID of the report to retrieve the status of.
 """
-function get_findings_report_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_findings_report_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/reporting/status/get";
@@ -1093,7 +1097,7 @@ function get_findings_report_status(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function get_findings_report_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1115,7 +1119,7 @@ Gets member information for your organization.
   information on.
 
 """
-function get_member(accountId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_member(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/members/get",
@@ -1127,7 +1131,7 @@ end
 function get_member(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -1150,7 +1154,7 @@ Gets details of a software bill of materials (SBOM) report.
 - `report_id`: The report ID of the SBOM export to get details for.
 
 """
-function get_sbom_export(reportId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/sbomexport/get",
@@ -1162,7 +1166,7 @@ end
 function get_sbom_export(
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -1193,7 +1197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue listing results after the first page.
 - `"service"`: The service scan type to check permissions for.
 """
-function list_account_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_account_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/accountpermissions/list";
@@ -1202,7 +1206,7 @@ function list_account_permissions(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_account_permissions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1229,7 +1233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The CIS scan configuration sort by order.
 - `"sortOrder"`: The CIS scan configuration sort order order.
 """
-function list_cis_scan_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_cis_scan_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/cis/scan-configuration/list";
@@ -1238,7 +1242,7 @@ function list_cis_scan_configurations(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function list_cis_scan_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1269,7 +1273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The sort order.
 """
 function list_cis_scan_results_aggregated_by_checks(
-    scanArn; aws_config::AbstractAWSConfig=global_aws_config()
+    scanArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1280,7 +1284,9 @@ function list_cis_scan_results_aggregated_by_checks(
     )
 end
 function list_cis_scan_results_aggregated_by_checks(
-    scanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    scanArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -1311,7 +1317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The sort order.
 """
 function list_cis_scan_results_aggregated_by_target_resource(
-    scanArn; aws_config::AbstractAWSConfig=global_aws_config()
+    scanArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1322,7 +1328,9 @@ function list_cis_scan_results_aggregated_by_target_resource(
     )
 end
 function list_cis_scan_results_aggregated_by_target_resource(
-    scanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    scanArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -1349,13 +1357,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The CIS scans sort by order.
 - `"sortOrder"`: The CIS scans sort order.
 """
-function list_cis_scans(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_cis_scans(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/cis/scan/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_cis_scans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1385,13 +1393,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. For subsequent calls, use the nextToken value returned from the previous request to
   continue listing results after the first page.
 """
-function list_coverage(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_coverage(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/coverage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_coverage(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1418,7 +1426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent calls, use the NextToken value returned from the previous request to continue
   listing results after the first page.
 """
-function list_coverage_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_coverage_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/coverage/statistics/list";
@@ -1427,7 +1435,7 @@ function list_coverage_statistics(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_coverage_statistics(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1455,7 +1463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. For subsequent calls, use the nextToken value returned from the previous request to
   continue listing results after the first page.
 """
-function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/delegatedadminaccounts/list";
@@ -1464,7 +1472,7 @@ function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_delegated_admin_accounts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1494,13 +1502,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. For subsequent calls, use the nextToken value returned from the previous request to
   continue listing results after the first page.
 """
-function list_filters(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/filters/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_filters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1536,7 +1544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue listing results after the first page.
 """
 function list_finding_aggregations(
-    aggregationType; aws_config::AbstractAWSConfig=global_aws_config()
+    aggregationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1549,7 +1557,7 @@ end
 function list_finding_aggregations(
     aggregationType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -1583,13 +1591,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue listing results after the first page.
 - `"sortCriteria"`: Details on the sort criteria to apply to your finding results.
 """
-function list_findings(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/findings/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_findings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1620,13 +1628,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"onlyAssociated"`: Specifies whether to list only currently associated members if True
   or to list all members within the organization if False.
 """
-function list_members(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/members/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_members(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1648,7 +1656,7 @@ Lists all tags attached to a given resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "GET",
@@ -1660,7 +1668,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "GET",
@@ -1689,13 +1697,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. For subsequent calls, use the nextToken value returned from the previous request to
   continue listing results after the first page.
 """
-function list_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST", "/usage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_usage_totals(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1719,7 +1727,7 @@ Amazon Web Services owned key.
 
 """
 function reset_encryption_key(
-    resourceType, scanType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceType, scanType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "PUT",
@@ -1733,7 +1741,7 @@ function reset_encryption_key(
     resourceType,
     scanType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "PUT",
@@ -1767,7 +1775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 """
 function search_vulnerabilities(
-    filterCriteria; aws_config::AbstractAWSConfig=global_aws_config()
+    filterCriteria; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -1780,7 +1788,7 @@ end
 function search_vulnerabilities(
     filterCriteria,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -1807,7 +1815,7 @@ API to start a CIS scan session for the scan ID supplied by the service.
 
 """
 function send_cis_session_health(
-    scanJobId, sessionToken; aws_config::AbstractAWSConfig=global_aws_config()
+    scanJobId, sessionToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "PUT",
@@ -1821,7 +1829,7 @@ function send_cis_session_health(
     scanJobId,
     sessionToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "PUT",
@@ -1853,7 +1861,7 @@ API to start a CIS scan session for the scan ID supplied by the service.
 
 """
 function send_cis_session_telemetry(
-    messages, scanJobId, sessionToken; aws_config::AbstractAWSConfig=global_aws_config()
+    messages, scanJobId, sessionToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "PUT",
@@ -1870,7 +1878,7 @@ function send_cis_session_telemetry(
     scanJobId,
     sessionToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "PUT",
@@ -1905,7 +1913,7 @@ a CIS scan session for the scan ID supplied by the service.
 
 """
 function start_cis_session(
-    message, scanJobId; aws_config::AbstractAWSConfig=global_aws_config()
+    message, scanJobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "PUT",
@@ -1919,7 +1927,7 @@ function start_cis_session(
     message,
     scanJobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "PUT",
@@ -1951,7 +1959,7 @@ a CIS scan session for the scan ID supplied by the service.
 
 """
 function stop_cis_session(
-    message, scanJobId, sessionToken; aws_config::AbstractAWSConfig=global_aws_config()
+    message, scanJobId, sessionToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "PUT",
@@ -1968,7 +1976,7 @@ function stop_cis_session(
     scanJobId,
     sessionToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "PUT",
@@ -2000,7 +2008,7 @@ Adds tags to a resource.
 - `tags`: The tags to be added to a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/tags/$(resourceArn)",
@@ -2013,7 +2021,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -2036,7 +2044,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "DELETE",
@@ -2050,7 +2058,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "DELETE",
@@ -2079,7 +2087,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targets"`: The targets for the CIS scan configuration.
 """
 function update_cis_scan_configuration(
-    scanConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    scanConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -2092,7 +2100,7 @@ end
 function update_cis_scan_configuration(
     scanConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -2124,7 +2132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ecrConfiguration"`: Specifies how the ECR automated re-scan will be updated for your
   environment.
 """
-function update_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/configuration/update";
@@ -2133,7 +2141,7 @@ function update_configuration(; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function update_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -2161,7 +2169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your account.
 """
 function update_ec2_deep_inspection_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -2171,7 +2179,7 @@ function update_ec2_deep_inspection_configuration(;
     )
 end
 function update_ec2_deep_inspection_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -2196,7 +2204,7 @@ owned key is being used for encryption.
 
 """
 function update_encryption_key(
-    kmsKeyId, resourceType, scanType; aws_config::AbstractAWSConfig=global_aws_config()
+    kmsKeyId, resourceType, scanType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "PUT",
@@ -2213,7 +2221,7 @@ function update_encryption_key(
     resourceType,
     scanType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "PUT",
@@ -2252,7 +2260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the filter.
 - `"reason"`: The reason the filter was updated.
 """
-function update_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
         "POST",
         "/filters/update",
@@ -2264,7 +2272,7 @@ end
 function update_filter(
     filterArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -2290,7 +2298,7 @@ be an Amazon Inspector delegated administrator to use this API.
 
 """
 function update_org_ec2_deep_inspection_configuration(
-    orgPackagePaths; aws_config::AbstractAWSConfig=global_aws_config()
+    orgPackagePaths; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -2303,7 +2311,7 @@ end
 function update_org_ec2_deep_inspection_configuration(
     orgPackagePaths,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",
@@ -2330,7 +2338,7 @@ Updates the configurations for your Amazon Inspector organization.
 
 """
 function update_organization_configuration(
-    autoEnable; aws_config::AbstractAWSConfig=global_aws_config()
+    autoEnable; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
         "POST",
@@ -2343,7 +2351,7 @@ end
 function update_organization_configuration(
     autoEnable,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
         "POST",

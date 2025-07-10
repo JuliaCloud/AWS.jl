@@ -30,7 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationCloudWatchLoggingOption",
@@ -46,7 +46,7 @@ function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationCloudWatchLoggingOption",
@@ -89,7 +89,7 @@ function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
     Input;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationInput",
@@ -107,7 +107,7 @@ function add_application_input(
     CurrentApplicationVersionId,
     Input,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationInput",
@@ -154,7 +154,7 @@ function add_application_input_processing_configuration(
     CurrentApplicationVersionId,
     InputId,
     InputProcessingConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationInputProcessingConfiguration",
@@ -174,7 +174,7 @@ function add_application_input_processing_configuration(
     InputId,
     InputProcessingConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationInputProcessingConfiguration",
@@ -228,7 +228,7 @@ function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
     Output;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationOutput",
@@ -246,7 +246,7 @@ function add_application_output(
     CurrentApplicationVersionId,
     Output,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationOutput",
@@ -293,7 +293,7 @@ function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
     ReferenceDataSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationReferenceDataSource",
@@ -311,7 +311,7 @@ function add_application_reference_data_source(
     CurrentApplicationVersionId,
     ReferenceDataSource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationReferenceDataSource",
@@ -360,7 +360,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 function add_application_vpc_configuration(
-    ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "AddApplicationVpcConfiguration",
@@ -375,7 +375,7 @@ function add_application_vpc_configuration(
     ApplicationName,
     VpcConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "AddApplicationVpcConfiguration",
@@ -426,7 +426,7 @@ function create_application(
     ApplicationName,
     RuntimeEnvironment,
     ServiceExecutionRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "CreateApplication",
@@ -444,7 +444,7 @@ function create_application(
     RuntimeEnvironment,
     ServiceExecutionRole,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "CreateApplication",
@@ -490,7 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   URL will be valid.
 """
 function create_application_presigned_url(
-    ApplicationName, UrlType; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, UrlType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "CreateApplicationPresignedUrl",
@@ -503,7 +503,7 @@ function create_application_presigned_url(
     ApplicationName,
     UrlType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "CreateApplicationPresignedUrl",
@@ -533,7 +533,7 @@ Creates a snapshot of the application's state data.
 
 """
 function create_application_snapshot(
-    ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "CreateApplicationSnapshot",
@@ -548,7 +548,7 @@ function create_application_snapshot(
     ApplicationName,
     SnapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "CreateApplicationSnapshot",
@@ -579,7 +579,7 @@ execution and deletes the application.
 
 """
 function delete_application(
-    ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "DeleteApplication",
@@ -594,7 +594,7 @@ function delete_application(
     ApplicationName,
     CreateTimestamp,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplication",
@@ -641,7 +641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationCloudWatchLoggingOption",
@@ -657,7 +657,7 @@ function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationCloudWatchLoggingOption",
@@ -696,7 +696,7 @@ function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
     InputId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationInputProcessingConfiguration",
@@ -714,7 +714,7 @@ function delete_application_input_processing_configuration(
     CurrentApplicationVersionId,
     InputId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationInputProcessingConfiguration",
@@ -758,7 +758,7 @@ function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
     OutputId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationOutput",
@@ -776,7 +776,7 @@ function delete_application_output(
     CurrentApplicationVersionId,
     OutputId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationOutput",
@@ -819,7 +819,7 @@ function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
     ReferenceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationReferenceDataSource",
@@ -837,7 +837,7 @@ function delete_application_reference_data_source(
     CurrentApplicationVersionId,
     ReferenceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationReferenceDataSource",
@@ -874,7 +874,7 @@ function delete_application_snapshot(
     ApplicationName,
     SnapshotCreationTimestamp,
     SnapshotName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationSnapshot",
@@ -892,7 +892,7 @@ function delete_application_snapshot(
     SnapshotCreationTimestamp,
     SnapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationSnapshot",
@@ -935,7 +935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 function delete_application_vpc_configuration(
-    ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "DeleteApplicationVpcConfiguration",
@@ -950,7 +950,7 @@ function delete_application_vpc_configuration(
     ApplicationName,
     VpcConfigurationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DeleteApplicationVpcConfiguration",
@@ -986,7 +986,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Apache Flink application, including the application's job plan.
 """
 function describe_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "DescribeApplication",
@@ -998,7 +998,7 @@ end
 function describe_application(
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DescribeApplication",
@@ -1025,7 +1025,7 @@ Returns information about a snapshot of application state data.
 
 """
 function describe_application_snapshot(
-    ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "DescribeApplicationSnapshot",
@@ -1040,7 +1040,7 @@ function describe_application_snapshot(
     ApplicationName,
     SnapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DescribeApplicationSnapshot",
@@ -1074,7 +1074,9 @@ operation is supported only for Managed Service for Apache Flink.
 
 """
 function describe_application_version(
-    ApplicationName, ApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName,
+    ApplicationVersionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DescribeApplicationVersion",
@@ -1090,7 +1092,7 @@ function describe_application_version(
     ApplicationName,
     ApplicationVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DescribeApplicationVersion",
@@ -1136,7 +1138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 object.
 """
 function discover_input_schema(
-    ServiceExecutionRole; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceExecutionRole; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "DiscoverInputSchema",
@@ -1148,7 +1150,7 @@ end
 function discover_input_schema(
     ServiceExecutionRole,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "DiscoverInputSchema",
@@ -1181,7 +1183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call's NextToken response to indicate where the output should continue from.
 """
 function list_application_snapshots(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "ListApplicationSnapshots",
@@ -1193,7 +1195,7 @@ end
 function list_application_snapshots(
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "ListApplicationSnapshots",
@@ -1228,7 +1230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination, see Using the Amazon Command Line Interface's Pagination Options.
 """
 function list_application_versions(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "ListApplicationVersions",
@@ -1240,7 +1242,7 @@ end
 function list_application_versions(
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "ListApplicationVersions",
@@ -1270,13 +1272,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve the next set of results. For more information about pagination, see Using the
   Amazon Command Line Interface's Pagination Options.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics_v2(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1295,7 +1297,7 @@ Using Tagging.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "ListTagsForResource",
@@ -1307,7 +1309,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "ListTagsForResource",
@@ -1339,7 +1341,7 @@ Managed Service for Apache Flink for SQL applications.
 function rollback_application(
     ApplicationName,
     CurrentApplicationVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "RollbackApplication",
@@ -1355,7 +1357,7 @@ function rollback_application(
     ApplicationName,
     CurrentApplicationVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "RollbackApplication",
@@ -1390,7 +1392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service for Apache Flink application.
 """
 function start_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "StartApplication",
@@ -1402,7 +1404,7 @@ end
 function start_application(
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "StartApplication",
@@ -1440,7 +1442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RUNNING status.
 """
 function stop_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "StopApplication",
@@ -1452,7 +1454,7 @@ end
 function stop_application(
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "StopApplication",
@@ -1479,7 +1481,7 @@ user-defined application tags is 50. For more information, see Using Tagging.
 - `tags`: The key-value tags to assign to the application.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics_v2(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -1491,7 +1493,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "TagResource",
@@ -1521,7 +1523,7 @@ information, see Using Tagging.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "UntagResource",
@@ -1534,7 +1536,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "UntagResource",
@@ -1585,7 +1587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
 """
 function update_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
         "UpdateApplication",
@@ -1597,7 +1599,7 @@ end
 function update_application(
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "UpdateApplication",
@@ -1639,7 +1641,7 @@ operation is supported only for Managed Service for Apache Flink.
 function update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "UpdateApplicationMaintenanceConfiguration",
@@ -1656,7 +1658,7 @@ function update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_analytics_v2(
         "UpdateApplicationMaintenanceConfiguration",

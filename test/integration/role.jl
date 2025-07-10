@@ -7,7 +7,7 @@ end
 @testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
     # use the lowest-level call with as many defaults as possible.
-    base_config = global_aws_config()
+    base_config = current_aws_config()
     creds = assume_role_creds(base_config, testset_role("AssumeRoleTestset"))
     config = AWSConfig(; creds)
     @test get_assumed_role(config) == testset_role("AssumeRoleTestset")

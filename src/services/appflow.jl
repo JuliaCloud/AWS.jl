@@ -31,7 +31,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify in your request. If you omit this parameter, your request ends all active runs
   that belong to the flow.
 """
-function cancel_flow_executions(flowName; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_flow_executions(
+    flowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return appflow(
         "POST",
         "/cancel-flow-executions",
@@ -43,7 +45,7 @@ end
 function cancel_flow_executions(
     flowName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -100,7 +102,7 @@ function create_connector_profile(
     connectorProfileConfig,
     connectorProfileName,
     connectorType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -122,7 +124,7 @@ function create_connector_profile(
     connectorProfileName,
     connectorType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -193,7 +195,7 @@ function create_flow(
     sourceFlowConfig,
     tasks,
     triggerConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -217,7 +219,7 @@ function create_flow(
     tasks,
     triggerConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -257,7 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is currently in use in one or more flows.
 """
 function delete_connector_profile(
-    connectorProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -270,7 +272,7 @@ end
 function delete_connector_profile(
     connectorProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -304,7 +306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDelete"`:  Indicates whether Amazon AppFlow should delete the flow, even if it is
   currently in use.
 """
-function delete_flow(flowName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/delete-flow",
@@ -316,7 +318,7 @@ end
 function delete_flow(
     flowName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -348,7 +350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CUSTOMCONNECTOR connector type/.
 """
 function describe_connector(
-    connectorType; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -361,7 +363,7 @@ end
 function describe_connector(
     connectorType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -393,7 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   so on.
 """
 function describe_connector_entity(
-    connectorEntityName; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorEntityName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -406,7 +408,7 @@ end
 function describe_connector_entity(
     connectorEntityName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -444,7 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set. The default for maxResults is 20 (for all paginated API operations).
 - `"nextToken"`:  The pagination token for the next page of data.
 """
-function describe_connector_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_connector_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/describe-connector-profiles";
@@ -453,7 +455,7 @@ function describe_connector_profiles(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function describe_connector_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -481,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is 20.
 - `"nextToken"`:  The pagination token for the next page of data.
 """
-function describe_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/describe-connectors";
@@ -490,7 +492,7 @@ function describe_connectors(; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function describe_connectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -512,7 +514,7 @@ end
   or hyphens (-) only.
 
 """
-function describe_flow(flowName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/describe-flow",
@@ -524,7 +526,7 @@ end
 function describe_flow(
     flowName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -554,7 +556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 function describe_flow_execution_records(
-    flowName; aws_config::AbstractAWSConfig=global_aws_config()
+    flowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -567,7 +569,7 @@ end
 function describe_flow_execution_records(
     flowName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -605,7 +607,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response was too big for the page size. You specify this token to get the next page of
   results in paginated response.
 """
-function list_connector_entities(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_connector_entities(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/list-connector-entities";
@@ -614,7 +616,7 @@ function list_connector_entities(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_connector_entities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -639,13 +641,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set. The default for maxResults is 20 (for all paginated API operations).
 - `"nextToken"`: The pagination token for the next page of data.
 """
-function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST", "/list-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_connectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -668,13 +670,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result set.
 - `"nextToken"`:  The pagination token for next page of data.
 """
-function list_flows(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST", "/list-flows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_flows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -696,7 +698,7 @@ end
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "GET",
@@ -708,7 +710,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "GET",
@@ -745,7 +747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported value is LAMBDA.
 - `"description"`: A description about the connector that's being registered.
 """
-function register_connector(; aws_config::AbstractAWSConfig=global_aws_config())
+function register_connector(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/register-connector",
@@ -755,7 +757,7 @@ function register_connector(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function register_connector(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -813,7 +815,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the
   child entities for that parent.
 """
-function reset_connector_metadata_cache(; aws_config::AbstractAWSConfig=global_aws_config())
+function reset_connector_metadata_cache(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return appflow(
         "POST",
         "/reset-connector-metadata-cache";
@@ -822,7 +826,7 @@ function reset_connector_metadata_cache(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function reset_connector_metadata_cache(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -858,7 +862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   triggerConfig parameter. If you use a different value for clientToken, Amazon AppFlow
   considers it a new call to StartFlow. The token is active for 8 hours.
 """
-function start_flow(flowName; aws_config::AbstractAWSConfig=global_aws_config())
+function start_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/start-flow",
@@ -870,7 +874,7 @@ end
 function start_flow(
     flowName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -900,7 +904,7 @@ operation deactivates the flow.
   or hyphens (-) only.
 
 """
-function stop_flow(flowName; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/stop-flow",
@@ -912,7 +916,7 @@ end
 function stop_flow(
     flowName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -936,7 +940,7 @@ end
 - `tags`:  The tags used to organize, track, or control access for your flow.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
         "/tags/$(resourceArn)",
@@ -949,7 +953,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -977,7 +981,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if it is currently in use in one or more connector profiles. The default value is false.
 """
 function unregister_connector(
-    connectorLabel; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -990,7 +994,7 @@ end
 function unregister_connector(
     connectorLabel,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -1015,7 +1019,7 @@ end
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "DELETE",
@@ -1029,7 +1033,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "DELETE",
@@ -1069,7 +1073,7 @@ function update_connector_profile(
     connectionMode,
     connectorProfileConfig,
     connectorProfileName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -1089,7 +1093,7 @@ function update_connector_profile(
     connectorProfileConfig,
     connectorProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -1138,7 +1142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description about the update that you're applying to the connector.
 """
 function update_connector_registration(
-    connectorLabel; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appflow(
         "POST",
@@ -1153,7 +1157,7 @@ end
 function update_connector_registration(
     connectorLabel,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -1210,7 +1214,7 @@ function update_flow(
     sourceFlowConfig,
     tasks,
     triggerConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",
@@ -1234,7 +1238,7 @@ function update_flow(
     tasks,
     triggerConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appflow(
         "POST",

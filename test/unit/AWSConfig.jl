@@ -33,3 +33,89 @@
         end
     end
 end
+
+@testset "with_aws_config / current_aws_config" begin
+    no_fallback_patch = @patch AWS._fallback_aws_config() = Some(nothing)
+    config1 = AWSConfig(; creds=nothing, region="us-example-1")
+    config2 = AWSConfig(; creds=nothing, region="us-example-2")
+
+    apply(no_fallback_patch) do
+        @test current_aws_config() === nothing
+
+        with_aws_config(config1) do
+            @test current_aws_config() === config1
+
+            with_aws_config(config2) do
+                @test current_aws_config() === config2
+            end
+
+            @test current_aws_config() === config1
+        end
+
+        @test current_aws_config() === nothing
+    end
+end
+
+@testset "global_aws_config" begin
+    # Imperfect as we can't make a reference unassigned once assigned
+    function revert_fallback(body)
+        old_config = if isassigned(AWS._FALLBACK_AWS_CONFIG)
+            AWS._FALLBACK_AWS_CONFIG[]
+        else
+            nothing
+        end
+
+        try
+            body()
+        finally
+            if !isnothing(old_config)
+                AWS._FALLBACK_AWS_CONFIG[] = old_config
+            end
+        end
+    end
+
+    @testset "kwargs" begin
+        # Fake AWS credentials as shown in the AWS documentation:
+        # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+        access_key_id = "AKIAIOSFODNN7EXAMPLE"
+        secret_access_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        creds = AWS.AWSCredentials(access_key_id, secret_access_key)
+        region = "us-example-1"
+
+        revert_fallback() do
+            @test_deprecated global_aws_config(; creds, region)
+
+            result = @test_deprecated global_aws_config()
+            @test result.region == region
+            @test result.credentials == creds
+        end
+    end
+
+    @testset "config" begin
+        config = AWSConfig(; creds=nothing, region="us-example-2")
+
+        revert_fallback() do
+            @test_deprecated global_aws_config(config)
+            @test (@test_deprecated global_aws_config()) === config
+        end
+    end
+
+    @testset "scoped interaction" begin
+        config1 = AWSConfig(; creds=nothing, region="us-example-1")
+        config2 = AWSConfig(; creds=nothing, region="us-example-2")
+
+        revert_fallback() do
+            @test_deprecated global_aws_config(config1)
+            @test (@test_deprecated global_aws_config()) === config1
+            @test current_aws_config() === config1
+
+            with_aws_config(config2) do
+                @test (@test_deprecated global_aws_config()) === config1
+                @test current_aws_config() === config2
+            end
+
+            @test (@test_deprecated global_aws_config()) === config1
+            @test current_aws_config() === config1
+        end
+    end
+end

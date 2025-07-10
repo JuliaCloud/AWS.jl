@@ -15,7 +15,7 @@ Activates an anomaly detector.
 
 """
 function activate_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -28,7 +28,7 @@ end
 function activate_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -54,7 +54,7 @@ Runs a backtest for anomaly detection for the specified resource.
 
 """
 function back_test_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -67,7 +67,7 @@ end
 function back_test_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -103,7 +103,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to the alert.
 """
 function create_alert(
-    Action, AlertName, AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Action,
+    AlertName,
+    AnomalyDetectorArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -122,7 +125,7 @@ function create_alert(
     AlertName,
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -163,7 +166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_anomaly_detector(
     AnomalyDetectorConfig,
     AnomalyDetectorName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -180,7 +183,7 @@ function create_anomaly_detector(
     AnomalyDetectorConfig,
     AnomalyDetectorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -232,7 +235,7 @@ function create_metric_set(
     MetricList,
     MetricSetName,
     MetricSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -253,7 +256,7 @@ function create_metric_set(
     MetricSetName,
     MetricSource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -286,7 +289,7 @@ Deactivates an anomaly detector.
 
 """
 function deactivate_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -299,7 +302,7 @@ end
 function deactivate_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -324,7 +327,7 @@ Deletes an alert.
 - `alert_arn`: The ARN of the alert to delete.
 
 """
-function delete_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_alert(AlertArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST",
         "/DeleteAlert",
@@ -336,7 +339,7 @@ end
 function delete_alert(
     AlertArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -361,7 +364,7 @@ resources including any configured datasets and alerts.
 
 """
 function delete_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -374,7 +377,7 @@ end
 function delete_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -401,7 +404,7 @@ retries to allow time for the write operation to complete.
 - `alert_arn`: The ARN of the alert to describe.
 
 """
-function describe_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_alert(AlertArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST",
         "/DescribeAlert",
@@ -413,7 +416,7 @@ end
 function describe_alert(
     AlertArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -443,7 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timestamp"`: The timestamp of the anomaly detection job.
 """
 function describe_anomaly_detection_executions(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -456,7 +459,7 @@ end
 function describe_anomaly_detection_executions(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -484,7 +487,7 @@ retries to allow time for the write operation to complete.
 
 """
 function describe_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -497,7 +500,7 @@ end
 function describe_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -525,7 +528,7 @@ retries to allow time for the write operation to complete.
 
 """
 function describe_metric_set(
-    MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    MetricSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -538,7 +541,7 @@ end
 function describe_metric_set(
     MetricSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -565,7 +568,7 @@ Detects an Amazon S3 dataset's file format, interval, and offset.
 function detect_metric_set_config(
     AnomalyDetectorArn,
     AutoDetectionMetricSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -582,7 +585,7 @@ function detect_metric_set_config(
     AnomalyDetectorArn,
     AutoDetectionMetricSource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -614,7 +617,7 @@ Returns details about a group of anomalous metrics.
 
 """
 function get_anomaly_group(
-    AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -630,7 +633,7 @@ function get_anomaly_group(
     AnomalyDetectorArn,
     AnomalyGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -665,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MetricSetArn"`: The Amazon Resource Name (ARN) of a specific data quality metric set.
 """
 function get_data_quality_metrics(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -678,7 +681,7 @@ end
 function get_data_quality_metrics(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -712,7 +715,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_feedback(
     AnomalyDetectorArn,
     AnomalyGroupTimeSeriesFeedback;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -729,7 +732,7 @@ function get_feedback(
     AnomalyDetectorArn,
     AnomalyGroupTimeSeriesFeedback,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -759,13 +762,13 @@ Returns a selection of sample records from an Amazon S3 datasource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"S3SourceConfig"`: A datasource bucket in Amazon S3.
 """
-function get_sample_data(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_sample_data(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST", "/GetSampleData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_sample_data(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -792,13 +795,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_alerts(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_alerts(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST", "/ListAlerts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_alerts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -824,7 +827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST",
         "/ListAnomalyDetectors";
@@ -833,7 +836,7 @@ function list_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_anomaly_detectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -863,7 +866,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   downstream effects (EFFECT_OF_INPUT_ANOMALY_GROUP) of the anomaly group.
 """
 function list_anomaly_group_related_metrics(
-    AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -879,7 +882,7 @@ function list_anomaly_group_related_metrics(
     AnomalyDetectorArn,
     AnomalyGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -918,7 +921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_anomaly_group_summaries(
     AnomalyDetectorArn,
     SensitivityThreshold;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -935,7 +938,7 @@ function list_anomaly_group_summaries(
     AnomalyDetectorArn,
     SensitivityThreshold,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -976,7 +979,7 @@ function list_anomaly_group_time_series(
     AnomalyDetectorArn,
     AnomalyGroupId,
     MetricName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -995,7 +998,7 @@ function list_anomaly_group_time_series(
     AnomalyGroupId,
     MetricName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -1033,13 +1036,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
   expire after 24 hours.
 """
-function list_metric_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_metric_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST", "/ListMetricSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_metric_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -1061,7 +1064,7 @@ Gets a list of tags for a detector, dataset, or alert.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "GET",
@@ -1073,7 +1076,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "GET",
@@ -1098,7 +1101,7 @@ Add feedback for an anomalous metric.
 function put_feedback(
     AnomalyDetectorArn,
     AnomalyGroupTimeSeriesFeedback;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -1115,7 +1118,7 @@ function put_feedback(
     AnomalyDetectorArn,
     AnomalyGroupTimeSeriesFeedback,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -1147,7 +1150,7 @@ Adds tags to a detector, dataset, or alert.
   spaces, and the following symbols: _.:/=+@-
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST",
         "/tags/$(resourceArn)",
@@ -1160,7 +1163,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -1183,7 +1186,7 @@ Removes tags from a detector, dataset, or alert.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "DELETE",
@@ -1197,7 +1200,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "DELETE",
@@ -1226,7 +1229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AlertSensitivityThreshold"`: An integer from 0 to 100 specifying the alert sensitivity
   threshold.
 """
-function update_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_alert(AlertArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST",
         "/UpdateAlert",
@@ -1238,7 +1241,7 @@ end
 function update_alert(
     AlertArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -1269,7 +1272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of an AWS KMS encryption key.
 """
 function update_anomaly_detector(
-    AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutmetrics(
         "POST",
@@ -1282,7 +1285,7 @@ end
 function update_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
@@ -1321,7 +1324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   importing data. Offset is only supported for S3, Redshift, Athena and datasources.
 - `"TimestampColumn"`: The timestamp column.
 """
-function update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutmetrics(
         "POST",
         "/UpdateMetricSet",
@@ -1333,7 +1336,7 @@ end
 function update_metric_set(
     MetricSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutmetrics(
         "POST",
