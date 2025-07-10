@@ -23,18 +23,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_addon_instance(
+create_addon_instance(
     AddonSubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = mailmanager(
+    "CreateAddonInstance",
+    Dict{String,Any}(
+        "AddonSubscriptionId" => AddonSubscriptionId, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "CreateAddonInstance",
-        Dict{String,Any}(
-            "AddonSubscriptionId" => AddonSubscriptionId, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_addon_instance(
     AddonSubscriptionId,
     params::AbstractDict{String};
@@ -76,16 +74,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_addon_subscription(
-    AddonName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+create_addon_subscription(AddonName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "CreateAddonSubscription",
         Dict{String,Any}("AddonName" => AddonName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_addon_subscription(
     AddonName,
     params::AbstractDict{String};
@@ -125,14 +120,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+create_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "CreateArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -177,26 +171,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_ingress_point(
+create_ingress_point(
     IngressPointName,
     RuleSetId,
     TrafficPolicyId,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mailmanager(
+    "CreateIngressPoint",
+    Dict{String,Any}(
+        "IngressPointName" => IngressPointName,
+        "RuleSetId" => RuleSetId,
+        "TrafficPolicyId" => TrafficPolicyId,
+        "Type" => Type,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "CreateIngressPoint",
-        Dict{String,Any}(
-            "IngressPointName" => IngressPointName,
-            "RuleSetId" => RuleSetId,
-            "TrafficPolicyId" => TrafficPolicyId,
-            "Type" => Type,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_ingress_point(
     IngressPointName,
     RuleSetId,
@@ -246,26 +238,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_relay(
+create_relay(
     Authentication,
     RelayName,
     ServerName,
     ServerPort;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mailmanager(
+    "CreateRelay",
+    Dict{String,Any}(
+        "Authentication" => Authentication,
+        "RelayName" => RelayName,
+        "ServerName" => ServerName,
+        "ServerPort" => ServerPort,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "CreateRelay",
-        Dict{String,Any}(
-            "Authentication" => Authentication,
-            "RelayName" => RelayName,
-            "ServerName" => ServerName,
-            "ServerPort" => ServerPort,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_relay(
     Authentication,
     RelayName,
@@ -311,10 +301,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_rule_set(
-    RuleSetName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+create_rule_set(RuleSetName, Rules; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "CreateRuleSet",
         Dict{String,Any}(
             "RuleSetName" => RuleSetName, "Rules" => Rules, "ClientToken" => string(uuid4())
@@ -322,7 +310,6 @@ function create_rule_set(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_rule_set(
     RuleSetName,
     Rules,
@@ -369,24 +356,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_traffic_policy(
+create_traffic_policy(
     DefaultAction,
     PolicyStatements,
     TrafficPolicyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mailmanager(
+    "CreateTrafficPolicy",
+    Dict{String,Any}(
+        "DefaultAction" => DefaultAction,
+        "PolicyStatements" => PolicyStatements,
+        "TrafficPolicyName" => TrafficPolicyName,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "CreateTrafficPolicy",
-        Dict{String,Any}(
-            "DefaultAction" => DefaultAction,
-            "PolicyStatements" => PolicyStatements,
-            "TrafficPolicyName" => TrafficPolicyName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_traffic_policy(
     DefaultAction,
     PolicyStatements,
@@ -423,16 +408,13 @@ Deletes an Add On instance.
 - `addon_instance_id`: The Add On instance ID to delete.
 
 """
-function delete_addon_instance(
-    AddonInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+delete_addon_instance(AddonInstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "DeleteAddonInstance",
         Dict{String,Any}("AddonInstanceId" => AddonInstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_addon_instance(
     AddonInstanceId,
     params::AbstractDict{String};
@@ -460,16 +442,14 @@ Deletes an Add On subscription.
 - `addon_subscription_id`: The Add On subscription ID to delete.
 
 """
-function delete_addon_subscription(
+delete_addon_subscription(
     AddonSubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = mailmanager(
+    "DeleteAddonSubscription",
+    Dict{String,Any}("AddonSubscriptionId" => AddonSubscriptionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "DeleteAddonSubscription",
-        Dict{String,Any}("AddonSubscriptionId" => AddonSubscriptionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_addon_subscription(
     AddonSubscriptionId,
     params::AbstractDict{String};
@@ -503,14 +483,12 @@ period.
 - `archive_id`: The identifier of the archive to delete.
 
 """
-function delete_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "DeleteArchive",
-        Dict{String,Any}("ArchiveId" => ArchiveId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "DeleteArchive",
+    Dict{String,Any}("ArchiveId" => ArchiveId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_archive(
     ArchiveId,
     params::AbstractDict{String};
@@ -537,16 +515,13 @@ Delete an ingress endpoint resource.
   delete.
 
 """
-function delete_ingress_point(
-    IngressPointId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+delete_ingress_point(IngressPointId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "DeleteIngressPoint",
         Dict{String,Any}("IngressPointId" => IngressPointId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_ingress_point(
     IngressPointId,
     params::AbstractDict{String};
@@ -572,14 +547,12 @@ Deletes an existing relay resource.
 - `relay_id`: The unique relay identifier.
 
 """
-function delete_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "DeleteRelay",
-        Dict{String,Any}("RelayId" => RelayId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "DeleteRelay",
+    Dict{String,Any}("RelayId" => RelayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_relay(
     RelayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -601,14 +574,12 @@ Delete a rule set.
 - `rule_set_id`: The identifier of an existing rule set resource to delete.
 
 """
-function delete_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "DeleteRuleSet",
-        Dict{String,Any}("RuleSetId" => RuleSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "DeleteRuleSet",
+    Dict{String,Any}("RuleSetId" => RuleSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_rule_set(
     RuleSetId,
     params::AbstractDict{String};
@@ -634,16 +605,13 @@ Delete a traffic policy resource.
 - `traffic_policy_id`: The identifier of the traffic policy that you want to delete.
 
 """
-function delete_traffic_policy(
-    TrafficPolicyId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+delete_traffic_policy(TrafficPolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "DeleteTrafficPolicy",
         Dict{String,Any}("TrafficPolicyId" => TrafficPolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_traffic_policy(
     TrafficPolicyId,
     params::AbstractDict{String};
@@ -671,16 +639,13 @@ Gets detailed information about an Add On instance.
 - `addon_instance_id`: The Add On instance ID to retrieve information for.
 
 """
-function get_addon_instance(
-    AddonInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+get_addon_instance(AddonInstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetAddonInstance",
         Dict{String,Any}("AddonInstanceId" => AddonInstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_addon_instance(
     AddonInstanceId,
     params::AbstractDict{String};
@@ -708,16 +673,14 @@ Gets detailed information about an Add On subscription.
 - `addon_subscription_id`: The Add On subscription ID to retrieve information for.
 
 """
-function get_addon_subscription(
+get_addon_subscription(
     AddonSubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = mailmanager(
+    "GetAddonSubscription",
+    Dict{String,Any}("AddonSubscriptionId" => AddonSubscriptionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "GetAddonSubscription",
-        Dict{String,Any}("AddonSubscriptionId" => AddonSubscriptionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_addon_subscription(
     AddonSubscriptionId,
     params::AbstractDict{String};
@@ -747,14 +710,12 @@ Retrieves the full details and current state of a specified email archive.
 - `archive_id`: The identifier of the archive to retrieve.
 
 """
-function get_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "GetArchive",
-        Dict{String,Any}("ArchiveId" => ArchiveId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "GetArchive",
+    Dict{String,Any}("ArchiveId" => ArchiveId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_archive(
     ArchiveId,
     params::AbstractDict{String};
@@ -780,14 +741,13 @@ Retrieves the details and current status of a specific email archive export job.
 - `export_id`: The identifier of the export job to get details for.
 
 """
-function get_archive_export(ExportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+get_archive_export(ExportId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetArchiveExport",
         Dict{String,Any}("ExportId" => ExportId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_archive_export(
     ExportId,
     params::AbstractDict{String};
@@ -814,16 +774,13 @@ message stored in the archive.
 - `archived_message_id`: The unique identifier of the archived email message.
 
 """
-function get_archive_message(
-    ArchivedMessageId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+get_archive_message(ArchivedMessageId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetArchiveMessage",
         Dict{String,Any}("ArchivedMessageId" => ArchivedMessageId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_archive_message(
     ArchivedMessageId,
     params::AbstractDict{String};
@@ -852,16 +809,14 @@ are not included.
 - `archived_message_id`: The unique identifier of the archived email message.
 
 """
-function get_archive_message_content(
+get_archive_message_content(
     ArchivedMessageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = mailmanager(
+    "GetArchiveMessageContent",
+    Dict{String,Any}("ArchivedMessageId" => ArchivedMessageId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "GetArchiveMessageContent",
-        Dict{String,Any}("ArchivedMessageId" => ArchivedMessageId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_archive_message_content(
     ArchivedMessageId,
     params::AbstractDict{String};
@@ -889,14 +844,13 @@ Retrieves the details and current status of a specific email archive search job.
 - `search_id`: The identifier of the search job to get details for.
 
 """
-function get_archive_search(SearchId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+get_archive_search(SearchId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetArchiveSearch",
         Dict{String,Any}("SearchId" => SearchId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_archive_search(
     SearchId,
     params::AbstractDict{String};
@@ -922,16 +876,13 @@ Returns the results of a completed email archive search job.
 - `search_id`: The identifier of the completed search job.
 
 """
-function get_archive_search_results(
-    SearchId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+get_archive_search_results(SearchId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetArchiveSearchResults",
         Dict{String,Any}("SearchId" => SearchId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_archive_search_results(
     SearchId,
     params::AbstractDict{String};
@@ -957,16 +908,13 @@ Fetch ingress endpoint resource attributes.
 - `ingress_point_id`: The identifier of an ingress endpoint.
 
 """
-function get_ingress_point(
-    IngressPointId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+get_ingress_point(IngressPointId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetIngressPoint",
         Dict{String,Any}("IngressPointId" => IngressPointId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_ingress_point(
     IngressPointId,
     params::AbstractDict{String};
@@ -992,14 +940,12 @@ Fetch the relay resource and it's attributes.
 - `relay_id`: A unique relay identifier.
 
 """
-function get_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "GetRelay",
-        Dict{String,Any}("RelayId" => RelayId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "GetRelay",
+    Dict{String,Any}("RelayId" => RelayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_relay(
     RelayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1021,14 +967,12 @@ Fetch attributes of a rule set.
 - `rule_set_id`: The identifier of an existing rule set to be retrieved.
 
 """
-function get_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "GetRuleSet",
-        Dict{String,Any}("RuleSetId" => RuleSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "GetRuleSet",
+    Dict{String,Any}("RuleSetId" => RuleSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_rule_set(
     RuleSetId,
     params::AbstractDict{String};
@@ -1054,16 +998,13 @@ Fetch attributes of a traffic policy resource.
 - `traffic_policy_id`: The identifier of the traffic policy resource.
 
 """
-function get_traffic_policy(
-    TrafficPolicyId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+get_traffic_policy(TrafficPolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "GetTrafficPolicy",
         Dict{String,Any}("TrafficPolicyId" => TrafficPolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_traffic_policy(
     TrafficPolicyId,
     params::AbstractDict{String};
@@ -1094,11 +1035,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
   call. You can use NextToken to obtain further ingress endpoints.
 """
-function list_addon_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "ListAddonInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_addon_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "ListAddonInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_addon_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1120,11 +1059,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
   call. You can use NextToken to obtain further ingress endpoints.
 """
-function list_addon_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "ListAddonSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_addon_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "ListAddonSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_addon_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1153,14 +1090,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of archive export jobs that are returned per call. You
   can use NextToken to obtain further pages of archives.
 """
-function list_archive_exports(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+list_archive_exports(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "ListArchiveExports",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_archive_exports(
     ArchiveId,
     params::AbstractDict{String};
@@ -1193,14 +1129,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of archive search jobs that are returned per call. You
   can use NextToken to obtain further pages of archives.
 """
-function list_archive_searches(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+list_archive_searches(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "ListArchiveSearches",
         Dict{String,Any}("ArchiveId" => ArchiveId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_archive_searches(
     ArchiveId,
     params::AbstractDict{String};
@@ -1230,11 +1165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of archives that are returned per call. You can use
   NextToken to obtain further pages of archives.
 """
-function list_archives(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_archives(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager("ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1256,11 +1188,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
   call. You can use NextToken to obtain further ingress endpoints.
 """
-function list_ingress_points(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "ListIngressPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_ingress_points(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager("ListIngressPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_ingress_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1281,9 +1210,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The number of relays to be returned in one request.
 """
-function list_relays(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager("ListRelays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_relays(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager("ListRelays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_relays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1305,11 +1233,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of rule set resources that are returned per call. You
   can use NextToken to obtain further rule sets.
 """
-function list_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "ListRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager("ListRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_rule_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1328,16 +1253,13 @@ end
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to retrieve tags from.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1366,11 +1288,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of traffic policy resources that are returned per call.
   You can use NextToken to obtain further traffic policies.
 """
-function list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "ListTrafficPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "ListTrafficPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_traffic_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1399,25 +1319,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Criteria to filter which emails are included in the export.
 - `"MaxResults"`: The maximum number of email items to include in the export.
 """
-function start_archive_export(
+start_archive_export(
     ArchiveId,
     ExportDestinationConfiguration,
     FromTimestamp,
     ToTimestamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mailmanager(
+    "StartArchiveExport",
+    Dict{String,Any}(
+        "ArchiveId" => ArchiveId,
+        "ExportDestinationConfiguration" => ExportDestinationConfiguration,
+        "FromTimestamp" => FromTimestamp,
+        "ToTimestamp" => ToTimestamp,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "StartArchiveExport",
-        Dict{String,Any}(
-            "ArchiveId" => ArchiveId,
-            "ExportDestinationConfiguration" => ExportDestinationConfiguration,
-            "FromTimestamp" => FromTimestamp,
-            "ToTimestamp" => ToTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_archive_export(
     ArchiveId,
     ExportDestinationConfiguration,
@@ -1461,25 +1379,23 @@ Initiates a search across emails in the specified archive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Criteria to filter which emails are included in the search results.
 """
-function start_archive_search(
+start_archive_search(
     ArchiveId,
     FromTimestamp,
     MaxResults,
     ToTimestamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mailmanager(
+    "StartArchiveSearch",
+    Dict{String,Any}(
+        "ArchiveId" => ArchiveId,
+        "FromTimestamp" => FromTimestamp,
+        "MaxResults" => MaxResults,
+        "ToTimestamp" => ToTimestamp,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mailmanager(
-        "StartArchiveSearch",
-        Dict{String,Any}(
-            "ArchiveId" => ArchiveId,
-            "FromTimestamp" => FromTimestamp,
-            "MaxResults" => MaxResults,
-            "ToTimestamp" => ToTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_archive_search(
     ArchiveId,
     FromTimestamp,
@@ -1517,14 +1433,13 @@ Stops an in-progress export of emails from an archive.
 - `export_id`: The identifier of the export job to stop.
 
 """
-function stop_archive_export(ExportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+stop_archive_export(ExportId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "StopArchiveExport",
         Dict{String,Any}("ExportId" => ExportId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_archive_export(
     ExportId,
     params::AbstractDict{String};
@@ -1550,14 +1465,13 @@ Stops an in-progress archive search job.
 - `search_id`: The identifier of the search job to stop.
 
 """
-function stop_archive_search(SearchId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+stop_archive_search(SearchId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "StopArchiveSearch",
         Dict{String,Any}("SearchId" => SearchId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_archive_search(
     SearchId,
     params::AbstractDict{String};
@@ -1585,14 +1499,13 @@ end
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1625,16 +1538,13 @@ end
   the specified resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1669,14 +1579,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ArchiveName"`: A new, unique name for the archive.
 - `"Retention"`: A new retention period for emails in the archive.
 """
-function update_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "UpdateArchive",
-        Dict{String,Any}("ArchiveId" => ArchiveId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_archive(ArchiveId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "UpdateArchive",
+    Dict{String,Any}("ArchiveId" => ArchiveId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_archive(
     ArchiveId,
     params::AbstractDict{String};
@@ -1712,16 +1620,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficPolicyId"`: The identifier of an existing traffic policy that you attach to an
   ingress endpoint resource.
 """
-function update_ingress_point(
-    IngressPointId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+update_ingress_point(IngressPointId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "UpdateIngressPoint",
         Dict{String,Any}("IngressPointId" => IngressPointId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_ingress_point(
     IngressPointId,
     params::AbstractDict{String};
@@ -1754,14 +1659,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServerName"`: The destination relay server address.
 - `"ServerPort"`: The destination relay server port.
 """
-function update_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "UpdateRelay",
-        Dict{String,Any}("RelayId" => RelayId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_relay(RelayId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "UpdateRelay",
+    Dict{String,Any}("RelayId" => RelayId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_relay(
     RelayId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1788,14 +1691,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Rules"`: A new set of rules to replace the current rules of the rule set—these rules
   will override all the rules of the rule set.
 """
-function update_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mailmanager(
-        "UpdateRuleSet",
-        Dict{String,Any}("RuleSetId" => RuleSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_rule_set(RuleSetId; aws_config::AbstractAWSConfig=global_aws_config()) = mailmanager(
+    "UpdateRuleSet",
+    Dict{String,Any}("RuleSetId" => RuleSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_rule_set(
     RuleSetId,
     params::AbstractDict{String};
@@ -1830,16 +1731,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyStatements"`: The list of conditions to be updated for filtering email traffic.
 - `"TrafficPolicyName"`: A user-friendly name for the traffic policy resource.
 """
-function update_traffic_policy(
-    TrafficPolicyId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mailmanager(
+update_traffic_policy(TrafficPolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mailmanager(
         "UpdateTrafficPolicy",
         Dict{String,Any}("TrafficPolicyId" => TrafficPolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_traffic_policy(
     TrafficPolicyId,
     params::AbstractDict{String};

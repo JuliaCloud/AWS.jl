@@ -16,16 +16,14 @@ Removes session information for a specified bot, alias, and user ID.
 - `user_id`: The identifier of the user associated with the session data.
 
 """
-function delete_session(
+delete_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
+) = lex_runtime_service(
+    "DELETE",
+    "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_service(
-        "DELETE",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_session(
     botAlias,
     botName,
@@ -60,16 +58,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recentIntentSummaryView structure.  When you specify a filter, only intents with their
   checkpointLabel field set to that string are returned.
 """
-function get_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_runtime_service(
+get_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    lex_runtime_service(
         "GET",
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_session(
     botAlias,
     botName,
@@ -177,25 +172,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and values. The total size of the sessionAttributes and requestAttributes headers is
   limited to 12 KB. For more information, see Setting Session Attributes.
 """
-function post_content(
+post_content(
     Content_Type,
     botAlias,
     botName,
     inputStream,
     userId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = lex_runtime_service(
+    "POST",
+    "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content",
+    Dict{String,Any}(
+        "inputStream" => inputStream,
+        "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_service(
-        "POST",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content",
-        Dict{String,Any}(
-            "inputStream" => inputStream,
-            "headers" => Dict{String,Any}("Content-Type" => Content_Type),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function post_content(
     Content_Type,
     botAlias,
@@ -285,17 +278,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionAttributes"`: Application-specific information passed between Amazon Lex and a
   client application. For more information, see Setting Session Attributes.
 """
-function post_text(
+post_text(
     botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=global_aws_config()
+) = lex_runtime_service(
+    "POST",
+    "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text",
+    Dict{String,Any}("inputText" => inputText);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_service(
-        "POST",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text",
-        Dict{String,Any}("inputText" => inputText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function post_text(
     botAlias,
     botName,
@@ -360,16 +351,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information. It contains application information passed between Amazon Lex and a client
   application.
 """
-function put_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_runtime_service(
+put_session(botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    lex_runtime_service(
         "POST",
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_session(
     botAlias,
     botName,

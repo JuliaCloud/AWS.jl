@@ -23,16 +23,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository is configured.
 - `"Tags"`: The key-value pair to use when tagging the resource.
 """
-function create_connection(
-    ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeconnections(
+create_connection(ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "CreateConnection",
         Dict{String,Any}("ConnectionName" => ConnectionName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_connection(
     ConnectionName,
     params::AbstractDict{String};
@@ -73,20 +70,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured and the infrastructure to be represented by the host must already be connected
   to the VPC.
 """
-function create_host(
+create_host(
     Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "CreateHost",
+    Dict{String,Any}(
+        "Name" => Name,
+        "ProviderEndpoint" => ProviderEndpoint,
+        "ProviderType" => ProviderType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "CreateHost",
-        Dict{String,Any}(
-            "Name" => Name,
-            "ProviderEndpoint" => ProviderEndpoint,
-            "ProviderType" => ProviderType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_host(
     Name,
     ProviderEndpoint,
@@ -132,23 +127,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be associated with the repository link.
 - `"Tags"`: The tags for the repository to be associated with the repository link.
 """
-function create_repository_link(
+create_repository_link(
     ConnectionArn,
     OwnerId,
     RepositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeconnections(
+    "CreateRepositoryLink",
+    Dict{String,Any}(
+        "ConnectionArn" => ConnectionArn,
+        "OwnerId" => OwnerId,
+        "RepositoryName" => RepositoryName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "CreateRepositoryLink",
-        Dict{String,Any}(
-            "ConnectionArn" => ConnectionArn,
-            "OwnerId" => OwnerId,
-            "RepositoryName" => RepositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_repository_link(
     ConnectionArn,
     OwnerId,
@@ -202,7 +195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to source providers.
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
 """
-function create_sync_configuration(
+create_sync_configuration(
     Branch,
     ConfigFile,
     RepositoryLinkId,
@@ -210,21 +203,19 @@ function create_sync_configuration(
     RoleArn,
     SyncType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeconnections(
+    "CreateSyncConfiguration",
+    Dict{String,Any}(
+        "Branch" => Branch,
+        "ConfigFile" => ConfigFile,
+        "RepositoryLinkId" => RepositoryLinkId,
+        "ResourceName" => ResourceName,
+        "RoleArn" => RoleArn,
+        "SyncType" => SyncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "CreateSyncConfiguration",
-        Dict{String,Any}(
-            "Branch" => Branch,
-            "ConfigFile" => ConfigFile,
-            "RepositoryLinkId" => RepositoryLinkId,
-            "ResourceName" => ResourceName,
-            "RoleArn" => RoleArn,
-            "SyncType" => SyncType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_sync_configuration(
     Branch,
     ConfigFile,
@@ -267,14 +258,13 @@ The connection to be deleted.
   ARN is never reused if the connection is deleted.
 
 """
-function delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
+delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "DeleteConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -302,14 +292,12 @@ VPC_CONFIG_DELETING state.
 - `host_arn`: The Amazon Resource Name (ARN) of the host to be deleted.
 
 """
-function delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
-        "DeleteHost",
-        Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeconnections(
+    "DeleteHost",
+    Dict{String,Any}("HostArn" => HostArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_host(
     HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -331,16 +319,14 @@ Deletes the association between your connection and a specified external Git rep
 - `repository_link_id`: The ID of the repository link to be deleted.
 
 """
-function delete_repository_link(
+delete_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "DeleteRepositoryLink",
+    Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "DeleteRepositoryLink",
-        Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -370,16 +356,14 @@ Deletes the sync configuration for a specified repository and connection.
 - `sync_type`: The type of sync configuration to be deleted.
 
 """
-function delete_sync_configuration(
+delete_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "DeleteSyncConfiguration",
+    Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "DeleteSyncConfiguration",
-        Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_sync_configuration(
     ResourceName,
     SyncType,
@@ -410,14 +394,13 @@ Returns the connection ARN and details such as status, owner, and provider type.
 - `connection_arn`: The Amazon Resource Name (ARN) of a connection.
 
 """
-function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
+get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "GetConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -444,14 +427,12 @@ applicable, the VPC configuration.
 - `host_arn`: The Amazon Resource Name (ARN) of the requested host.
 
 """
-function get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
-        "GetHost",
-        Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeconnections(
+    "GetHost",
+    Dict{String,Any}("HostArn" => HostArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_host(
     HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -474,16 +455,13 @@ sync changes from files in a specified Git repository.
 - `repository_link_id`: The ID of the repository link to get.
 
 """
-function get_repository_link(
-    RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeconnections(
+get_repository_link(RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "GetRepositoryLink",
         Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -514,20 +492,18 @@ push and pull changes from your remote repository.
 - `sync_type`: The sync type of the requested sync status.
 
 """
-function get_repository_sync_status(
+get_repository_sync_status(
     Branch, RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "GetRepositorySyncStatus",
+    Dict{String,Any}(
+        "Branch" => Branch,
+        "RepositoryLinkId" => RepositoryLinkId,
+        "SyncType" => SyncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "GetRepositorySyncStatus",
-        Dict{String,Any}(
-            "Branch" => Branch,
-            "RepositoryLinkId" => RepositoryLinkId,
-            "SyncType" => SyncType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_repository_sync_status(
     Branch,
     RepositoryLinkId,
@@ -566,16 +542,14 @@ resource.
 - `sync_type`: The sync type for the sync status with the Git repository.
 
 """
-function get_resource_sync_status(
+get_resource_sync_status(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "GetResourceSyncStatus",
+    Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "GetResourceSyncStatus",
-        Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resource_sync_status(
     ResourceName,
     SyncType,
@@ -608,16 +582,14 @@ Returns a list of the most recent sync blockers.
 - `sync_type`: The sync type for the sync blocker summary.
 
 """
-function get_sync_blocker_summary(
+get_sync_blocker_summary(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "GetSyncBlockerSummary",
+    Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "GetSyncBlockerSummary",
-        Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sync_blocker_summary(
     ResourceName,
     SyncType,
@@ -653,16 +625,14 @@ repository for a specified branch in a Git repository.
   information.
 
 """
-function get_sync_configuration(
+get_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "GetSyncConfiguration",
+    Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "GetSyncConfiguration",
-        Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sync_configuration(
     ResourceName,
     SyncType,
@@ -700,11 +670,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProviderTypeFilter"`: Filters the list of connections to those associated with a
   specified provider, such as Bitbucket.
 """
-function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = codeconnections(
+    "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -726,11 +694,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token that was returned from the previous ListHosts call, which can be
   used to return the next set of hosts in the list.
 """
-function list_hosts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
-        "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_hosts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections("ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -752,11 +717,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_repository_links(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
+list_repository_links(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_repository_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -781,16 +745,14 @@ Lists the repository sync definitions for repository links in your account.
   you want to retrieve information.
 
 """
-function list_repository_sync_definitions(
+list_repository_sync_definitions(
     RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "ListRepositorySyncDefinitions",
+    Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "ListRepositorySyncDefinitions",
-        Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_repository_sync_definitions(
     RepositoryLinkId,
     SyncType,
@@ -831,16 +793,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that allows the operation to batch the results of the
   operation.
 """
-function list_sync_configurations(
+list_sync_configurations(
     RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "ListSyncConfigurations",
+    Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "ListSyncConfigurations",
-        Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_sync_configurations(
     RepositoryLinkId,
     SyncType,
@@ -874,16 +834,13 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
   information about tags, if any.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeconnections(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -912,14 +869,13 @@ manage a resource.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -951,16 +907,13 @@ Removes tags from an Amazon Web Services resource.
 - `tag_keys`: The list of keys for the tags to be removed from the resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeconnections(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeconnections(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -997,14 +950,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured and the infrastructure to be represented by the host must already be connected
   to the VPC.
 """
-function update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeconnections(
-        "UpdateHost",
-        Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeconnections(
+    "UpdateHost",
+    Dict{String,Any}("HostArn" => HostArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_host(
     HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1035,16 +986,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of the encryption key for the
   repository link to be updated.
 """
-function update_repository_link(
+update_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "UpdateRepositoryLink",
+    Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "UpdateRepositoryLink",
-        Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -1076,25 +1025,23 @@ syncing to continue.
 - `sync_type`: The sync type of the sync blocker to be updated.
 
 """
-function update_sync_blocker(
+update_sync_blocker(
     Id,
     ResolvedReason,
     ResourceName,
     SyncType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codeconnections(
+    "UpdateSyncBlocker",
+    Dict{String,Any}(
+        "Id" => Id,
+        "ResolvedReason" => ResolvedReason,
+        "ResourceName" => ResourceName,
+        "SyncType" => SyncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "UpdateSyncBlocker",
-        Dict{String,Any}(
-            "Id" => Id,
-            "ResolvedReason" => ResolvedReason,
-            "ResourceName" => ResourceName,
-            "SyncType" => SyncType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sync_blocker(
     Id,
     ResolvedReason,
@@ -1144,16 +1091,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The ARN of the IAM role for the sync configuration to be updated.
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
 """
-function update_sync_configuration(
+update_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeconnections(
+    "UpdateSyncConfiguration",
+    Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeconnections(
-        "UpdateSyncConfiguration",
-        Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sync_configuration(
     ResourceName,
     SyncType,

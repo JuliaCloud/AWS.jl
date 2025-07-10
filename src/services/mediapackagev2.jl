@@ -36,19 +36,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
-function create_channel(
+create_channel(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "POST",
+    "/channelGroup/$(ChannelGroupName)/channel",
+    Dict{String,Any}(
+        "ChannelName" => ChannelName, "x-amzn-client-token" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "POST",
-        "/channelGroup/$(ChannelGroupName)/channel",
-        Dict{String,Any}(
-            "ChannelName" => ChannelName, "x-amzn-client-token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_channel(
     ChannelGroupName,
     ChannelName,
@@ -96,10 +94,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
-function create_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackagev2(
+create_channel_group(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "POST",
         "/channelGroup",
         Dict{String,Any}(
@@ -108,7 +104,6 @@ function create_channel_group(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -174,25 +169,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
-function create_origin_endpoint(
+create_origin_endpoint(
     ChannelGroupName,
     ChannelName,
     ContainerType,
     OriginEndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "POST",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint",
+    Dict{String,Any}(
+        "ContainerType" => ContainerType,
+        "OriginEndpointName" => OriginEndpointName,
+        "x-amzn-client-token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "POST",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint",
-        Dict{String,Any}(
-            "ContainerType" => ContainerType,
-            "OriginEndpointName" => OriginEndpointName,
-            "x-amzn-client-token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -234,16 +227,14 @@ must delete the channel's origin endpoints before you can delete the channel.
   for the channel, and must be unique for your account in the AWS Region and channel group.
 
 """
-function delete_channel(
+delete_channel(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "DELETE",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "DELETE",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel(
     ChannelGroupName,
     ChannelName,
@@ -272,16 +263,13 @@ to the egress domain and will have to create a new channel group to replace it.
   identifier for the channel group, and must be unique for your account in the AWS Region.
 
 """
-function delete_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackagev2(
+delete_channel_group(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "DELETE",
         "/channelGroup/$(ChannelGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -309,16 +297,14 @@ Delete a channel policy.
   for the channel, and must be unique for your account in the AWS Region and channel group.
 
 """
-function delete_channel_policy(
+delete_channel_policy(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "DELETE",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "DELETE",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -352,19 +338,17 @@ you can delete the channel.
   AWS Region and channel.
 
 """
-function delete_origin_endpoint(
+delete_origin_endpoint(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "DELETE",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "DELETE",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -397,19 +381,17 @@ Delete an origin endpoint policy.
   AWS Region and channel.
 
 """
-function delete_origin_endpoint_policy(
+delete_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "DELETE",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "DELETE",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -440,16 +422,14 @@ the origin endpoints that are associated with it.
   for the channel, and must be unique for your account in the AWS Region and channel group.
 
 """
-function get_channel(
+get_channel(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "GET",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "GET",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_channel(
     ChannelGroupName,
     ChannelName,
@@ -477,16 +457,13 @@ including the channels and origin endpoints that are associated with it.
   identifier for the channel group, and must be unique for your account in the AWS Region.
 
 """
-function get_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackagev2(
+get_channel_group(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "GET",
         "/channelGroup/$(ChannelGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -516,16 +493,14 @@ perform on those resources.
   for the channel, and must be unique for your account in the AWS Region and channel group.
 
 """
-function get_channel_policy(
+get_channel_policy(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "GET",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "GET",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -558,19 +533,17 @@ obtain its playback URL and to view the packaging settings that it's currently u
   AWS Region and channel.
 
 """
-function get_origin_endpoint(
+get_origin_endpoint(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "GET",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "GET",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -604,19 +577,17 @@ MediaPackage.
   AWS Region and channel.
 
 """
-function get_origin_endpoint_policy(
+get_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "GET",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "GET",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -646,11 +617,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_channel_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackagev2(
-        "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_channel_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackagev2(
+    "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_channel_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -680,14 +649,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackagev2(
+list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_channels(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -721,16 +689,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_origin_endpoints(
+list_origin_endpoints(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "GET",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "GET",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_origin_endpoints(
     ChannelGroupName,
     ChannelName,
@@ -756,16 +722,13 @@ Lists the tags assigned to a resource.
 - `resource_arn`: The ARN of the CloudWatch resource that you want to view tags for.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackagev2(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -796,17 +759,15 @@ attach only one policy with each request.
 - `policy`: The policy to attach to the specified channel.
 
 """
-function put_channel_policy(
+put_channel_policy(
     ChannelGroupName, ChannelName, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "PUT",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
+    Dict{String,Any}("Policy" => Policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "PUT",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -841,21 +802,19 @@ with each request.
 - `policy`: The policy to attach to the specified origin endpoint.
 
 """
-function put_origin_endpoint_policy(
+put_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
     OriginEndpointName,
     Policy;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "POST",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
+    Dict{String,Any}("Policy" => Policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "POST",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -891,15 +850,14 @@ resource, the new tag value that you specify replaces the previous value for tha
   the resource.
 
 """
-function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackagev2(
+tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     tags,
@@ -926,17 +884,14 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
-function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackagev2(
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -976,16 +931,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.
 """
-function update_channel(
+update_channel(
     ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = mediapackagev2(
+    "PUT",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "PUT",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_channel(
     ChannelGroupName,
     ChannelName,
@@ -1022,16 +975,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.
 """
-function update_channel_group(
-    ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediapackagev2(
+update_channel_group(ChannelGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mediapackagev2(
         "PUT",
         "/channelGroup/$(ChannelGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -1084,21 +1034,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.
 """
-function update_origin_endpoint(
+update_origin_endpoint(
     ChannelGroupName,
     ChannelName,
     ContainerType,
     OriginEndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mediapackagev2(
+    "PUT",
+    "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)",
+    Dict{String,Any}("ContainerType" => ContainerType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mediapackagev2(
-        "PUT",
-        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)",
-        Dict{String,Any}("ContainerType" => ContainerType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_origin_endpoint(
     ChannelGroupName,
     ChannelName,

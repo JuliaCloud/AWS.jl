@@ -16,16 +16,14 @@ get the status of a detection job.
   StartEntitiesDetectionV2Job operation returns this identifier in its response.
 
 """
-function describe_entities_detection_v2_job(
+describe_entities_detection_v2_job(
     JobId; aws_config::AbstractAWSConfig=global_aws_config()
+) = comprehendmedical(
+    "DescribeEntitiesDetectionV2Job",
+    Dict{String,Any}("JobId" => JobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return comprehendmedical(
-        "DescribeEntitiesDetectionV2Job",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_entities_detection_v2_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -49,16 +47,13 @@ status of an inference job.
   StartICD10CMInferenceJob operation returns this identifier in its response.
 
 """
-function describe_icd10_cminference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+describe_icd10_cminference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "DescribeICD10CMInferenceJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_icd10_cminference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -82,14 +77,13 @@ this operation to get the status of a detection job.
   StartPHIDetectionJob operation returns this identifier in its response.
 
 """
-function describe_phidetection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+describe_phidetection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "DescribePHIDetectionJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_phidetection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -113,16 +107,13 @@ status of an inference job.
   StartRxNormInferenceJob operation returns this identifier in its response.
 
 """
-function describe_rx_norm_inference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+describe_rx_norm_inference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "DescribeRxNormInferenceJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_rx_norm_inference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -146,16 +137,13 @@ status of an inference job.
   StartSNOMEDCTInferenceJob operation returns this identifier in its response.
 
 """
-function describe_snomedctinference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+describe_snomedctinference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "DescribeSNOMEDCTInferenceJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_snomedctinference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -180,14 +168,13 @@ information.
 - `text`:  A UTF-8 text string containing the clinical content being examined for entities.
 
 """
-function detect_entities(Text; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+detect_entities(Text; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "DetectEntities",
         Dict{String,Any}("Text" => Text);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function detect_entities(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -216,14 +203,13 @@ Direction entities as attributes instead of types.
 - `text`: A UTF-8 string containing the clinical content being examined for entities.
 
 """
-function detect_entities_v2(Text; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+detect_entities_v2(Text; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "DetectEntitiesV2",
         Dict{String,Any}("Text" => Text);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function detect_entities_v2(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -248,14 +234,12 @@ only detects entities in English language texts.
   entities.
 
 """
-function detect_phi(Text; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
-        "DetectPHI",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+detect_phi(Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehendmedical(
+    "DetectPHI",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function detect_phi(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -280,14 +264,12 @@ English language texts.
 - `text`: The input text used for analysis.
 
 """
-function infer_icd10_cm(Text; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
-        "InferICD10CM",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+infer_icd10_cm(Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehendmedical(
+    "InferICD10CM",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function infer_icd10_cm(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -312,14 +294,12 @@ texts.
 - `text`: The input text used for analysis.
 
 """
-function infer_rx_norm(Text; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
-        "InferRxNorm",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+infer_rx_norm(Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehendmedical(
+    "InferRxNorm",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function infer_rx_norm(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -342,14 +322,12 @@ the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
 - `text`: The input text to be analyzed using InferSNOMEDCT.
 
 """
-function infer_snomedct(Text; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
-        "InferSNOMEDCT",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+infer_snomedct(Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehendmedical(
+    "InferSNOMEDCT",
+    Dict{String,Any}("Text" => Text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function infer_snomedct(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -375,15 +353,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in each page. The default is 100.
 - `"NextToken"`: Identifies the next page of results to return.
 """
-function list_entities_detection_v2_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+list_entities_detection_v2_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "ListEntitiesDetectionV2Jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_entities_detection_v2_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -409,11 +384,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in each page. The default is 100.
 - `"NextToken"`: Identifies the next page of results to return.
 """
-function list_icd10_cminference_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+list_icd10_cminference_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "ListICD10CMInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_icd10_cminference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -439,11 +413,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in each page. The default is 100.
 - `"NextToken"`: Identifies the next page of results to return.
 """
-function list_phidetection_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+list_phidetection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "ListPHIDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_phidetection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -469,11 +442,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Identifies the next page of results to return.
 - `"NextToken"`: Identifies the next page of results to return.
 """
-function list_rx_norm_inference_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+list_rx_norm_inference_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "ListRxNormInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_rx_norm_inference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -498,11 +470,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"NextToken"`:  Identifies the next page of InferSNOMEDCT results to return.
 """
-function list_snomedctinference_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+list_snomedctinference_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "ListSNOMEDCTInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_snomedctinference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -540,26 +511,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_entities_detection_v2_job(
+start_entities_detection_v2_job(
     DataAccessRoleArn,
     InputDataConfig,
     LanguageCode,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = comprehendmedical(
+    "StartEntitiesDetectionV2Job",
+    Dict{String,Any}(
+        "DataAccessRoleArn" => DataAccessRoleArn,
+        "InputDataConfig" => InputDataConfig,
+        "LanguageCode" => LanguageCode,
+        "OutputDataConfig" => OutputDataConfig,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return comprehendmedical(
-        "StartEntitiesDetectionV2Job",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "InputDataConfig" => InputDataConfig,
-            "LanguageCode" => LanguageCode,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_entities_detection_v2_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -612,26 +581,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_icd10_cminference_job(
+start_icd10_cminference_job(
     DataAccessRoleArn,
     InputDataConfig,
     LanguageCode,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = comprehendmedical(
+    "StartICD10CMInferenceJob",
+    Dict{String,Any}(
+        "DataAccessRoleArn" => DataAccessRoleArn,
+        "InputDataConfig" => InputDataConfig,
+        "LanguageCode" => LanguageCode,
+        "OutputDataConfig" => OutputDataConfig,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return comprehendmedical(
-        "StartICD10CMInferenceJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "InputDataConfig" => InputDataConfig,
-            "LanguageCode" => LanguageCode,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_icd10_cminference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -684,26 +651,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_phidetection_job(
+start_phidetection_job(
     DataAccessRoleArn,
     InputDataConfig,
     LanguageCode,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = comprehendmedical(
+    "StartPHIDetectionJob",
+    Dict{String,Any}(
+        "DataAccessRoleArn" => DataAccessRoleArn,
+        "InputDataConfig" => InputDataConfig,
+        "LanguageCode" => LanguageCode,
+        "OutputDataConfig" => OutputDataConfig,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return comprehendmedical(
-        "StartPHIDetectionJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "InputDataConfig" => InputDataConfig,
-            "LanguageCode" => LanguageCode,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_phidetection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -756,26 +721,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: An AWS Key Management Service key to encrypt your output files. If you do not
   specify a key, the files are written in plain text.
 """
-function start_rx_norm_inference_job(
+start_rx_norm_inference_job(
     DataAccessRoleArn,
     InputDataConfig,
     LanguageCode,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = comprehendmedical(
+    "StartRxNormInferenceJob",
+    Dict{String,Any}(
+        "DataAccessRoleArn" => DataAccessRoleArn,
+        "InputDataConfig" => InputDataConfig,
+        "LanguageCode" => LanguageCode,
+        "OutputDataConfig" => OutputDataConfig,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return comprehendmedical(
-        "StartRxNormInferenceJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "InputDataConfig" => InputDataConfig,
-            "LanguageCode" => LanguageCode,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_rx_norm_inference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -827,26 +790,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`:  An AWS Key Management Service key used to encrypt your output files. If you
   do not specify a key, the files are written in plain text.
 """
-function start_snomedctinference_job(
+start_snomedctinference_job(
     DataAccessRoleArn,
     InputDataConfig,
     LanguageCode,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = comprehendmedical(
+    "StartSNOMEDCTInferenceJob",
+    Dict{String,Any}(
+        "DataAccessRoleArn" => DataAccessRoleArn,
+        "InputDataConfig" => InputDataConfig,
+        "LanguageCode" => LanguageCode,
+        "OutputDataConfig" => OutputDataConfig,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return comprehendmedical(
-        "StartSNOMEDCTInferenceJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "InputDataConfig" => InputDataConfig,
-            "LanguageCode" => LanguageCode,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_snomedctinference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -885,16 +846,13 @@ Stops a medical entities detection job in progress.
 - `job_id`: The identifier of the medical entities job to stop.
 
 """
-function stop_entities_detection_v2_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+stop_entities_detection_v2_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "StopEntitiesDetectionV2Job",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_entities_detection_v2_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -916,16 +874,13 @@ Stops an InferICD10CM inference job in progress.
 - `job_id`: The identifier of the job.
 
 """
-function stop_icd10_cminference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+stop_icd10_cminference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "StopICD10CMInferenceJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_icd10_cminference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -947,14 +902,13 @@ Stops a protected health information (PHI) detection job in progress.
 - `job_id`: The identifier of the PHI detection job to stop.
 
 """
-function stop_phidetection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return comprehendmedical(
+stop_phidetection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "StopPHIDetectionJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_phidetection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -976,16 +930,13 @@ Stops an InferRxNorm inference job in progress.
 - `job_id`: The identifier of the job.
 
 """
-function stop_rx_norm_inference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+stop_rx_norm_inference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "StopRxNormInferenceJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_rx_norm_inference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1007,16 +958,13 @@ end
 - `job_id`:  The job id of the asynchronous InferSNOMEDCT job to be stopped.
 
 """
-function stop_snomedctinference_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return comprehendmedical(
+stop_snomedctinference_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    comprehendmedical(
         "StopSNOMEDCTInferenceJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_snomedctinference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

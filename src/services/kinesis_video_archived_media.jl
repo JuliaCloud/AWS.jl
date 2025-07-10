@@ -40,15 +40,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the media clip.  You must
   specify either the StreamName or the StreamARN.
 """
-function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getClip",
         Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_clip(
     ClipFragmentSelector,
     params::AbstractDict{String};
@@ -216,14 +215,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the MPEG-DASH manifest URL.
   You must specify either the StreamName or the StreamARN.
 """
-function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getDASHStreamingSessionURL";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_dashstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -422,14 +420,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the HLS master playlist URL.
   You must specify either the StreamName or the StreamARN.
 """
-function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getHLSStreamingSessionURL";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_hlsstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -493,26 +490,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be thrown. If neither parameter is provided, the original image size from the stream will
   be returned.
 """
-function get_images(
+get_images(
     EndTimestamp,
     Format,
     ImageSelectorType,
     StartTimestamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_video_archived_media(
+    "POST",
+    "/getImages",
+    Dict{String,Any}(
+        "EndTimestamp" => EndTimestamp,
+        "Format" => Format,
+        "ImageSelectorType" => ImageSelectorType,
+        "StartTimestamp" => StartTimestamp,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_video_archived_media(
-        "POST",
-        "/getImages",
-        Dict{String,Any}(
-            "EndTimestamp" => EndTimestamp,
-            "Format" => Format,
-            "ImageSelectorType" => ImageSelectorType,
-            "StartTimestamp" => StartTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_images(
     EndTimestamp,
     Format,
@@ -571,17 +566,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve fragment media. Specify
   either this parameter or the StreamARN parameter.
 """
-function get_media_for_fragment_list(
-    Fragments; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_video_archived_media(
+get_media_for_fragment_list(Fragments; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getMediaForFragmentList",
         Dict{String,Any}("Fragments" => Fragments);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_media_for_fragment_list(
     Fragments,
     params::AbstractDict{String};
@@ -634,11 +626,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve a fragment list. Specify
   either this parameter or the StreamARN parameter.
 """
-function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+list_fragments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_fragments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
