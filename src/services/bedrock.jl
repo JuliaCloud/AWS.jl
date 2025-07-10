@@ -5,12 +5,49 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_delete_evaluation_job(job_identifiers)
+    batch_delete_evaluation_job(job_identifiers, params::Dict{String,<:Any})
+
+Creates a batch deletion job. A model evaluation job can only be deleted if it has
+following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation
+jobs be deleted in a single request.
+
+# Arguments
+- `job_identifiers`: An array of model evaluation job ARNs to be deleted.
+
+"""
+batch_delete_evaluation_job(
+    jobIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "POST",
+    "/evaluation-jobs/batch-delete",
+    Dict{String,Any}("jobIdentifiers" => jobIdentifiers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_delete_evaluation_job(
+    jobIdentifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/evaluation-jobs/batch-delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("jobIdentifiers" => jobIdentifiers), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_evaluation_job(evaluation_config, inference_config, job_name, output_data_config, role_arn)
     create_evaluation_job(evaluation_config, inference_config, job_name, output_data_config, role_arn, params::Dict{String,<:Any})
 
 API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and
 model evaluation jobs that use human workers. To learn more about the requirements for
-creating a model evaluation job see, Model evaluations.
+creating a model evaluation job see, Model evaluation.
 
 # Arguments
 - `evaluation_config`: Specifies whether the model evaluation job is automatic or uses
@@ -40,29 +77,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobDescription"`: A description of the model evaluation job.
 - `"jobTags"`: Tags to attach to the model evaluation job.
 """
-function create_evaluation_job(
+create_evaluation_job(
     evaluationConfig,
     inferenceConfig,
     jobName,
     outputDataConfig,
     roleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "POST",
+    "/evaluation-jobs",
+    Dict{String,Any}(
+        "evaluationConfig" => evaluationConfig,
+        "inferenceConfig" => inferenceConfig,
+        "jobName" => jobName,
+        "outputDataConfig" => outputDataConfig,
+        "roleArn" => roleArn,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "POST",
-        "/evaluation-jobs",
-        Dict{String,Any}(
-            "evaluationConfig" => evaluationConfig,
-            "inferenceConfig" => inferenceConfig,
-            "jobName" => jobName,
-            "outputDataConfig" => outputDataConfig,
-            "roleArn" => roleArn,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_evaluation_job(
     evaluationConfig,
     inferenceConfig,
@@ -98,22 +133,20 @@ end
     create_guardrail(blocked_input_messaging, blocked_outputs_messaging, name)
     create_guardrail(blocked_input_messaging, blocked_outputs_messaging, name, params::Dict{String,<:Any})
 
-Creates a guardrail to block topics and to filter out harmful content.   Specify a name and
-optional description.   Specify messages for when the guardrail successfully blocks a
-prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.
-  Specify topics for the guardrail to deny in the topicPolicyConfig object. Each
-GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name
-and description so that the guardrail can properly identify the topic.   Specify DENY in
-the type field.   (Optional) Provide up to five prompts that you would categorize as
-belonging to the topic in the examples list.     Specify filter strengths for the harmful
-categories defined in Amazon Bedrock in the contentPolicyConfig object. Each
-GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful
-category. For more information, see Content filters. For more information about the fields
-in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type
-field.   Specify the strength of the filter for prompts in the inputStrength field and for
-model responses in the strength field of the GuardrailContentFilterConfig.     (Optional)
-For security, include the ARN of a KMS key in the kmsKeyId field.   (Optional) Attach any
-tags to the guardrail in the tags object. For more information, see Tag resources.
+Creates a guardrail to block topics and to implement safeguards for your generative AI
+applications. You can configure the following policies in a guardrail to avoid undesirable
+and harmful content, filter out denied topics and words, and remove sensitive information
+for privacy protection.    Content filters - Adjust filter strengths to block input prompts
+or model responses containing harmful content.    Denied topics - Define a set of topics
+that are undesirable in the context of your application. These topics will be blocked if
+detected in user queries or model responses.    Word filters - Configure filters to block
+undesirable words, phrases, and profanity. Such words can include offensive terms,
+competitor names etc.    Sensitive information filters - Block or mask sensitive
+information such as personally identifiable information (PII) or custom regex in user
+inputs and model responses.   In addition to the above policies, you can also configure the
+messages to be returned to the user if a user input or model response is in violation of
+the policies defined in the guardrail. For more information, see Guardrails for Amazon
+Bedrock in the Amazon Bedrock User Guide.
 
 # Arguments
 - `blocked_input_messaging`: The message to return when the guardrail blocks a prompt.
@@ -128,6 +161,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Bedrock ignores the request, but does not return an error. For more information, see
   Ensuring idempotency in the Amazon S3 User Guide.
 - `"contentPolicyConfig"`: The content filter policies to configure for the guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used
+  to create a guardrail.
 - `"description"`: A description of the guardrail.
 - `"kmsKeyId"`: The ARN of the KMS key that you use to encrypt the guardrail.
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
@@ -136,25 +171,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"topicPolicyConfig"`: The topic policies to configure for the guardrail.
 - `"wordPolicyConfig"`: The word policy you configure for the guardrail.
 """
-function create_guardrail(
+create_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "POST",
+    "/guardrails",
+    Dict{String,Any}(
+        "blockedInputMessaging" => blockedInputMessaging,
+        "blockedOutputsMessaging" => blockedOutputsMessaging,
+        "name" => name,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "POST",
-        "/guardrails",
-        Dict{String,Any}(
-            "blockedInputMessaging" => blockedInputMessaging,
-            "blockedOutputsMessaging" => blockedOutputsMessaging,
-            "name" => name,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -191,7 +224,8 @@ you are satisfied with a configuration, or to compare the configuration with ano
 version.
 
 # Arguments
-- `guardrail_identifier`: The unique identifier of the guardrail.
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -201,17 +235,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Ensuring idempotency in the Amazon S3 User Guide.
 - `"description"`: A description of the guardrail version.
 """
-function create_guardrail_version(
+create_guardrail_version(
     guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "POST",
+    "/guardrails/$(guardrailIdentifier)",
+    Dict{String,Any}("clientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "POST",
-        "/guardrails/$(guardrailIdentifier)",
-        Dict{String,Any}("clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_guardrail_version(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -223,6 +255,65 @@ function create_guardrail_version(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_copy_job(source_model_arn, target_model_name)
+    create_model_copy_job(source_model_arn, target_model_name, params::Dict{String,<:Any})
+
+Copies a model to another region so that it can be used there. For more information, see
+Copy models to be used in other regions in the Amazon Bedrock User Guide.
+
+# Arguments
+- `source_model_arn`: The Amazon Resource Name (ARN) of the model to be copied.
+- `target_model_name`: A name for the copied model.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
+  request completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see
+  Ensuring idempotency.
+- `"modelKmsKeyId"`: The ARN of the KMS key that you use to encrypt the model copy.
+- `"targetModelTags"`: Tags to associate with the target model. For more information, see
+  Tag resources in the Amazon Bedrock User Guide.
+"""
+create_model_copy_job(
+    sourceModelArn, targetModelName; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "POST",
+    "/model-copy-jobs",
+    Dict{String,Any}(
+        "sourceModelArn" => sourceModelArn,
+        "targetModelName" => targetModelName,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_model_copy_job(
+    sourceModelArn,
+    targetModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-copy-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sourceModelArn" => sourceModelArn,
+                    "targetModelName" => targetModelName,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -272,7 +363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: VPC configuration (optional). Configuration parameters for the private
   Virtual Private Cloud (VPC) that contains the resources you are using for this job.
 """
-function create_model_customization_job(
+create_model_customization_job(
     baseModelIdentifier,
     customModelName,
     hyperParameters,
@@ -281,24 +372,22 @@ function create_model_customization_job(
     roleArn,
     trainingDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "POST",
+    "/model-customization-jobs",
+    Dict{String,Any}(
+        "baseModelIdentifier" => baseModelIdentifier,
+        "customModelName" => customModelName,
+        "hyperParameters" => hyperParameters,
+        "jobName" => jobName,
+        "outputDataConfig" => outputDataConfig,
+        "roleArn" => roleArn,
+        "trainingDataConfig" => trainingDataConfig,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "POST",
-        "/model-customization-jobs",
-        Dict{String,Any}(
-            "baseModelIdentifier" => baseModelIdentifier,
-            "customModelName" => customModelName,
-            "hyperParameters" => hyperParameters,
-            "jobName" => jobName,
-            "outputDataConfig" => outputDataConfig,
-            "roleArn" => roleArn,
-            "trainingDataConfig" => trainingDataConfig,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_customization_job(
     baseModelIdentifier,
     customModelName,
@@ -324,6 +413,159 @@ function create_model_customization_job(
                     "outputDataConfig" => outputDataConfig,
                     "roleArn" => roleArn,
                     "trainingDataConfig" => trainingDataConfig,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_import_job(imported_model_name, job_name, model_data_source, role_arn)
+    create_model_import_job(imported_model_name, job_name, model_data_source, role_arn, params::Dict{String,<:Any})
+
+Creates a model import job to import model that you have customized in other environments,
+such as Amazon SageMaker. For more information, see Import a customized model
+
+# Arguments
+- `imported_model_name`: The name of the imported model.
+- `job_name`: The name of the import job.
+- `model_data_source`: The data source for the imported model.
+- `role_arn`: The Amazon Resource Name (ARN) of the model import job.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
+  request completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see
+  Ensuring idempotency.
+- `"importedModelKmsKeyId"`: The imported model is encrypted at rest using this key.
+- `"importedModelTags"`: Tags to attach to the imported model.
+- `"jobTags"`: Tags to attach to this import job.
+- `"vpcConfig"`: VPC configuration parameters for the private Virtual Private Cloud (VPC)
+  that contains the resources you are using for the import job.
+"""
+create_model_import_job(
+    importedModelName,
+    jobName,
+    modelDataSource,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "POST",
+    "/model-import-jobs",
+    Dict{String,Any}(
+        "importedModelName" => importedModelName,
+        "jobName" => jobName,
+        "modelDataSource" => modelDataSource,
+        "roleArn" => roleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_model_import_job(
+    importedModelName,
+    jobName,
+    modelDataSource,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-import-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "importedModelName" => importedModelName,
+                    "jobName" => jobName,
+                    "modelDataSource" => modelDataSource,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_invocation_job(input_data_config, job_name, model_id, output_data_config, role_arn)
+    create_model_invocation_job(input_data_config, job_name, model_id, output_data_config, role_arn, params::Dict{String,<:Any})
+
+Creates a batch inference job to invoke a model on multiple prompts. Format your data
+according to Format your inference data and upload it to an Amazon S3 bucket. For more
+information, see Process multiple prompts with batch inference. The response returns a
+jobArn that you can use to stop or get details about the job.
+
+# Arguments
+- `input_data_config`: Details about the location of the input to the batch inference job.
+- `job_name`: A name to give the batch inference job.
+- `model_id`: The unique identifier of the foundation model to use for the batch inference
+  job.
+- `output_data_config`: Details about the location of the output of the batch inference job.
+- `role_arn`: The Amazon Resource Name (ARN) of the service role with permissions to carry
+  out and manage batch inference. You can use the console to create a default service role or
+  follow the steps at Create a service role for batch inference.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
+  request completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see
+  Ensuring idempotency.
+- `"tags"`: Any tags to associate with the batch inference job. For more information, see
+  Tagging Amazon Bedrock resources.
+- `"timeoutDurationInHours"`: The number of hours after which to force the batch inference
+  job to time out.
+"""
+create_model_invocation_job(
+    inputDataConfig,
+    jobName,
+    modelId,
+    outputDataConfig,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "POST",
+    "/model-invocation-job",
+    Dict{String,Any}(
+        "inputDataConfig" => inputDataConfig,
+        "jobName" => jobName,
+        "modelId" => modelId,
+        "outputDataConfig" => outputDataConfig,
+        "roleArn" => roleArn,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_model_invocation_job(
+    inputDataConfig,
+    jobName,
+    modelId,
+    outputDataConfig,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-invocation-job",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputDataConfig" => inputDataConfig,
+                    "jobName" => jobName,
+                    "modelId" => modelId,
+                    "outputDataConfig" => outputDataConfig,
+                    "roleArn" => roleArn,
                     "clientRequestToken" => string(uuid4()),
                 ),
                 params,
@@ -370,25 +612,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Provisioned Throughput in the Amazon Bedrock User Guide
 - `"tags"`: Tags to associate with this Provisioned Throughput.
 """
-function create_provisioned_model_throughput(
+create_provisioned_model_throughput(
     modelId,
     modelUnits,
     provisionedModelName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "POST",
+    "/provisioned-model-throughput",
+    Dict{String,Any}(
+        "modelId" => modelId,
+        "modelUnits" => modelUnits,
+        "provisionedModelName" => provisionedModelName,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "POST",
-        "/provisioned-model-throughput",
-        Dict{String,Any}(
-            "modelId" => modelId,
-            "modelUnits" => modelUnits,
-            "provisionedModelName" => provisionedModelName,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_provisioned_model_throughput(
     modelId,
     modelUnits,
@@ -427,16 +667,13 @@ the Amazon Bedrock User Guide.
 - `model_identifier`: Name of the model to delete.
 
 """
-function delete_custom_model(
-    modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+delete_custom_model(modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "DELETE",
         "/custom-models/$(modelIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -461,22 +698,20 @@ guardrailIdentifier field. If you delete a guardrail, all of its versions will b
 guardrailIdentifier field and the version in the guardrailVersion field.
 
 # Arguments
-- `guardrail_identifier`: The unique identifier of the guardrail.
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"guardrailVersion"`: The version of the guardrail.
 """
-function delete_guardrail(
-    guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+delete_guardrail(guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "DELETE",
         "/guardrails/$(guardrailIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -492,22 +727,52 @@ function delete_guardrail(
 end
 
 """
+    delete_imported_model(model_identifier)
+    delete_imported_model(model_identifier, params::Dict{String,<:Any})
+
+Deletes a custom model that you imported earlier. For more information, see Import a
+customized model in the Amazon Bedrock User Guide.
+
+# Arguments
+- `model_identifier`: Name of the imported model to delete.
+
+"""
+delete_imported_model(modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
+        "DELETE",
+        "/imported-models/$(modelIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_imported_model(
+    modelIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/imported-models/$(modelIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_model_invocation_logging_configuration()
     delete_model_invocation_logging_configuration(params::Dict{String,<:Any})
 
 Delete the invocation logging.
 
 """
-function delete_model_invocation_logging_configuration(;
+delete_model_invocation_logging_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "DELETE",
+    "/logging/modelinvocations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "DELETE",
-        "/logging/modelinvocations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model_invocation_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -533,16 +798,14 @@ Bedrock User Guide.
   Throughput.
 
 """
-function delete_provisioned_model_throughput(
+delete_provisioned_model_throughput(
     provisionedModelId; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "DELETE",
+    "/provisioned-model-throughput/$(provisionedModelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "DELETE",
-        "/provisioned-model-throughput/$(provisionedModelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
@@ -568,16 +831,13 @@ more information, see Custom models in the Amazon Bedrock User Guide.
 - `model_identifier`: Name or Amazon Resource Name (ARN) of the custom model.
 
 """
-function get_custom_model(
-    modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+get_custom_model(modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "GET",
         "/custom-models/$(modelIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -597,22 +857,19 @@ end
     get_evaluation_job(job_identifier, params::Dict{String,<:Any})
 
 Retrieves the properties associated with a model evaluation job, including the status of
-the job. For more information, see Model evaluations.
+the job. For more information, see Model evaluation.
 
 # Arguments
 - `job_identifier`: The Amazon Resource Name (ARN) of the model evaluation job.
 
 """
-function get_evaluation_job(
-    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+get_evaluation_job(jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "GET",
         "/evaluation-jobs/$(jobIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -637,16 +894,13 @@ Get details about a Amazon Bedrock foundation model.
 - `model_identifier`: The model identifier.
 
 """
-function get_foundation_model(
-    modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+get_foundation_model(modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "GET",
         "/foundation-models/$(modelIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_foundation_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -670,22 +924,20 @@ details for the DRAFT version.
 
 # Arguments
 - `guardrail_identifier`: The unique identifier of the guardrail for which to get details.
+  This can be an ID or the ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"guardrailVersion"`: The version of the guardrail for which to get details. If you don't
   specify a version, the response returns details for the DRAFT version.
 """
-function get_guardrail(
-    guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+get_guardrail(guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "GET",
         "/guardrails/$(guardrailIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -694,6 +946,99 @@ function get_guardrail(
     return bedrock(
         "GET",
         "/guardrails/$(guardrailIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_imported_model(model_identifier)
+    get_imported_model(model_identifier, params::Dict{String,<:Any})
+
+Gets properties associated with a customized model you imported.
+
+# Arguments
+- `model_identifier`: Name or Amazon Resource Name (ARN) of the imported model.
+
+"""
+get_imported_model(modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
+        "GET",
+        "/imported-models/$(modelIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_imported_model(
+    modelIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/imported-models/$(modelIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_inference_profile(inference_profile_identifier)
+    get_inference_profile(inference_profile_identifier, params::Dict{String,<:Any})
+
+Gets information about an inference profile. For more information, see the Amazon Bedrock
+User Guide.
+
+# Arguments
+- `inference_profile_identifier`: The unique identifier of the inference profile.
+
+"""
+get_inference_profile(
+    inferenceProfileIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "GET",
+    "/inference-profiles/$(inferenceProfileIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_inference_profile(
+    inferenceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/inference-profiles/$(inferenceProfileIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_model_copy_job(job_arn)
+    get_model_copy_job(job_arn, params::Dict{String,<:Any})
+
+Retrieves information about a model copy job. For more information, see Copy models to be
+used in other regions in the Amazon Bedrock User Guide.
+
+# Arguments
+- `job_arn`: The Amazon Resource Name (ARN) of the model copy job.
+
+"""
+get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET",
+    "/model-copy-jobs/$(jobArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_model_copy_job(
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-copy-jobs/$(jobArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -711,16 +1056,14 @@ the job. For more information, see Custom models in the Amazon Bedrock User Guid
 - `job_identifier`: Identifier for the customization job.
 
 """
-function get_model_customization_job(
+get_model_customization_job(
     jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "GET",
+    "/model-customization-jobs/$(jobIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "GET",
-        "/model-customization-jobs/$(jobIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -736,22 +1079,84 @@ function get_model_customization_job(
 end
 
 """
+    get_model_import_job(job_identifier)
+    get_model_import_job(job_identifier, params::Dict{String,<:Any})
+
+Retrieves the properties associated with import model job, including the status of the job.
+For more information, see Import a customized model in the Amazon Bedrock User Guide.
+
+# Arguments
+- `job_identifier`: The identifier of the import job.
+
+"""
+get_model_import_job(jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
+        "GET",
+        "/model-import-jobs/$(jobIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_model_import_job(
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/model-import-jobs/$(jobIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_model_invocation_job(job_identifier)
+    get_model_invocation_job(job_identifier, params::Dict{String,<:Any})
+
+Gets details about a batch inference job. For more information, see View details about a
+batch inference job
+
+# Arguments
+- `job_identifier`: The Amazon Resource Name (ARN) of the batch inference job.
+
+"""
+get_model_invocation_job(jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
+        "GET",
+        "/model-invocation-job/$(jobIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_model_invocation_job(
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/model-invocation-job/$(jobIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_model_invocation_logging_configuration()
     get_model_invocation_logging_configuration(params::Dict{String,<:Any})
 
 Get the current configuration values for model invocation logging.
 
 """
-function get_model_invocation_logging_configuration(;
+get_model_invocation_logging_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "GET",
+    "/logging/modelinvocations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "GET",
-        "/logging/modelinvocations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_model_invocation_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -776,16 +1181,14 @@ Throughput in the Amazon Bedrock User Guide.
   Throughput.
 
 """
-function get_provisioned_model_throughput(
+get_provisioned_model_throughput(
     provisionedModelId; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "GET",
+    "/provisioned-model-throughput/$(provisionedModelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "GET",
-        "/provisioned-model-throughput/$(provisionedModelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
@@ -816,18 +1219,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"creationTimeBefore"`: Return custom models created before the specified time.
 - `"foundationModelArnEquals"`: Return custom models only if the foundation model Amazon
   Resource Name (ARN) matches this parameter.
-- `"maxResults"`: Maximum number of results to return in the response.
+- `"isOwned"`: Return custom models depending on if the current account owns them (true) or
+  if they were shared with the current account (false).
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
 - `"nameContains"`: Return custom models only if the job name contains these characters.
-- `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
-  the next set of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of models.
 - `"sortOrder"`: The sort order of the results.
 """
-function list_custom_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock(
-        "GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_custom_models(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock("GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_custom_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -860,11 +1265,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: How you want the order of jobs sorted.
 - `"statusEquals"`: Only return jobs where the status condition is met.
 """
-function list_evaluation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock(
-        "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_evaluation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_evaluation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -894,11 +1297,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"byOutputModality"`: Return models that support the output modality that you specify.
 - `"byProvider"`: Return models belonging to the model provider that you specify.
 """
-function list_foundation_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock(
-        "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_foundation_models(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_foundation_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -924,22 +1325,131 @@ another ListGuardrails request to see the next batch of results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"guardrailIdentifier"`: The unique identifier of the guardrail.
+- `"guardrailIdentifier"`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: If there are more results than were returned in the response, the response
   returns a nextToken that you can send in another ListGuardrails request to see the next
   batch of results.
 """
-function list_guardrails(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock(
-        "GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_guardrails(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock("GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_guardrails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return bedrock(
         "GET", "/guardrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_imported_models()
+    list_imported_models(params::Dict{String,<:Any})
+
+Returns a list of models you've imported. You can filter the results to return based on one
+or more criteria. For more information, see Import a customized model in the Amazon Bedrock
+User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"creationTimeAfter"`: Return imported models that were created after the specified time.
+- `"creationTimeBefore"`: Return imported models that created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
+- `"nameContains"`: Return imported models only if the model name contains these characters.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
+- `"sortBy"`: The field to sort by in the returned list of imported models.
+- `"sortOrder"`: Specifies whetehr to sort the results in ascending or descending order.
+"""
+list_imported_models(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET", "/imported-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_imported_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/imported-models",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_inference_profiles()
+    list_inference_profiles(params::Dict{String,<:Any})
+
+Returns a list of inference profiles that you can use.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
+"""
+list_inference_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET", "/inference-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_inference_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/inference-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_model_copy_jobs()
+    list_model_copy_jobs(params::Dict{String,<:Any})
+
+Returns a list of model copy jobs that you have submitted. You can filter the jobs to
+return based on one or more criteria. For more information, see Copy models to be used in
+other regions in the Amazon Bedrock User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"creationTimeAfter"`: Filters for model copy jobs created after the specified time.
+- `"creationTimeBefore"`: Filters for model copy jobs created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
+- `"outputModelNameContains"`: Filters for model copy jobs in which the name of the copied
+  model contains the string that you specify.
+- `"sortBy"`: The field to sort by in the returned list of model copy jobs.
+- `"sortOrder"`: Specifies whether to sort the results in ascending or descending order.
+- `"sourceAccountEquals"`: Filters for model copy jobs in which the account that the source
+  model belongs to is equal to the value that you specify.
+- `"sourceModelArnEquals"`: Filters for model copy jobs in which the Amazon Resource Name
+  (ARN) of the source model to is equal to the value that you specify.
+- `"statusEquals"`: Filters for model copy jobs whose status matches the value that you
+  specify.
+"""
+list_model_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET", "/model-copy-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_model_copy_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-copy-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -955,29 +1465,114 @@ Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"creationTimeAfter"`: Return customization jobs created after the specified time.
 - `"creationTimeBefore"`: Return customization jobs created before the specified time.
-- `"maxResults"`: Maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
 - `"nameContains"`: Return customization jobs only if the job name contains these
   characters.
-- `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
-  the next set of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of jobs.
 - `"sortOrder"`: The sort order of the results.
 - `"statusEquals"`: Return customization jobs with the specified status.
 """
-function list_model_customization_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock(
+list_model_customization_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "GET",
         "/model-customization-jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_model_customization_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return bedrock(
         "GET",
         "/model-customization-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_model_import_jobs()
+    list_model_import_jobs(params::Dict{String,<:Any})
+
+Returns a list of import jobs you've submitted. You can filter the results to return based
+on one or more criteria. For more information, see Import a customized model in the Amazon
+Bedrock User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"creationTimeAfter"`: Return import jobs that were created after the specified time.
+- `"creationTimeBefore"`: Return import jobs that were created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
+- `"nameContains"`: Return imported jobs only if the job name contains these characters.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
+- `"sortBy"`: The field to sort by in the returned list of imported jobs.
+- `"sortOrder"`: Specifies whether to sort the results in ascending or descending order.
+- `"statusEquals"`: Return imported jobs with the specified status.
+"""
+list_model_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET", "/model-import-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_model_import_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-import-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_model_invocation_jobs()
+    list_model_invocation_jobs(params::Dict{String,<:Any})
+
+Lists all batch inference jobs in the account. For more information, see View details about
+a batch inference job.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return. If there are more results than
+  the number that you specify, a nextToken value is returned. Use the nextToken in a request
+  to return the next batch of results.
+- `"nameContains"`: Specify a string to filter for batch inference jobs whose names contain
+  the string.
+- `"nextToken"`: If there were more results than the value you specified in the maxResults
+  field in a previous ListModelInvocationJobs request, the response would have returned a
+  nextToken value. To see the next batch of results, send the nextToken value in another
+  request.
+- `"sortBy"`: An attribute by which to sort the results.
+- `"sortOrder"`: Specifies whether to sort the results by ascending or descending order.
+- `"statusEquals"`: Specify a status to filter for batch inference jobs whose statuses
+  match the string you specify.
+- `"submitTimeAfter"`: Specify a time to filter for batch inference jobs that were
+  submitted after the time you specify.
+- `"submitTimeBefore"`: Specify a time to filter for batch inference jobs that were
+  submitted before the time you specify.
+"""
+list_model_invocation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = bedrock(
+    "GET",
+    "/model-invocation-jobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_model_invocation_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-invocation-jobs",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1012,16 +1607,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusEquals"`: A filter that returns Provisioned Throughputs if their statuses matches
   the value that you specify.
 """
-function list_provisioned_model_throughputs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+list_provisioned_model_throughputs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "GET",
         "/provisioned-model-throughputs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_provisioned_model_throughputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1045,17 +1637,14 @@ resources in the Amazon Bedrock User Guide.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "POST",
         "/listTagsForResource",
         Dict{String,Any}("resourceARN" => resourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -1082,17 +1671,15 @@ Set the configuration values for model invocation logging.
 - `logging_config`: The logging configuration values to set.
 
 """
-function put_model_invocation_logging_configuration(
+put_model_invocation_logging_configuration(
     loggingConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "PUT",
+    "/logging/modelinvocations",
+    Dict{String,Any}("loggingConfig" => loggingConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "PUT",
-        "/logging/modelinvocations",
-        Dict{String,Any}("loggingConfig" => loggingConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_model_invocation_logging_configuration(
     loggingConfig,
     params::AbstractDict{String};
@@ -1119,16 +1706,13 @@ Stops an in progress model evaluation job.
 - `job_identifier`: The ARN of the model evaluation job you want to stop.
 
 """
-function stop_evaluation_job(
-    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+stop_evaluation_job(jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "POST",
         "/evaluation-job/$(jobIdentifier)/stop";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1154,16 +1738,14 @@ Amazon Bedrock User Guide.
 - `job_identifier`: Job identifier of the job to stop.
 
 """
-function stop_model_customization_job(
+stop_model_customization_job(
     jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "POST",
+    "/model-customization-jobs/$(jobIdentifier)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "POST",
-        "/model-customization-jobs/$(jobIdentifier)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1172,6 +1754,39 @@ function stop_model_customization_job(
     return bedrock(
         "POST",
         "/model-customization-jobs/$(jobIdentifier)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_model_invocation_job(job_identifier)
+    stop_model_invocation_job(job_identifier, params::Dict{String,<:Any})
+
+Stops a batch inference job. You're only charged for tokens that were already processed.
+For more information, see Stop a batch inference job.
+
+# Arguments
+- `job_identifier`: The Amazon Resource Name (ARN) of the batch inference job to stop.
+
+"""
+stop_model_invocation_job(
+    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "POST",
+    "/model-invocation-job/$(jobIdentifier)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_model_invocation_job(
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-invocation-job/$(jobIdentifier)/stop",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1190,15 +1805,14 @@ Bedrock User Guide.
 - `tags`: Tags to associate with the resource.
 
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock(
+tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "POST",
         "/tagResource",
         Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceARN,
     tags,
@@ -1232,17 +1846,14 @@ Amazon Bedrock User Guide.
 - `tag_keys`: Tag keys of the tags to remove from the resource.
 
 """
-function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock(
+untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock(
         "POST",
         "/untagResource",
         Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -1282,19 +1893,21 @@ filters. For more information about the fields in a content filter, see
 GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the
 strength of the filter for prompts in the inputStrength field and for model responses in
 the strength field of the GuardrailContentFilterConfig.     (Optional) For security,
-include the ARN of a KMS key in the kmsKeyId field.   (Optional) Attach any tags to the
-guardrail in the tags object. For more information, see Tag resources.
+include the ARN of a KMS key in the kmsKeyId field.
 
 # Arguments
 - `blocked_input_messaging`: The message to return when the guardrail blocks a prompt.
 - `blocked_outputs_messaging`: The message to return when the guardrail blocks a model
   response.
-- `guardrail_identifier`: The unique identifier of the guardrail
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 - `name`: A name for the guardrail.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"contentPolicyConfig"`: The content policy to configure for the guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used
+  to update a guardrail.
 - `"description"`: A description of the guardrail.
 - `"kmsKeyId"`: The ARN of the KMS key with which to encrypt the guardrail.
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
@@ -1302,25 +1915,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"topicPolicyConfig"`: The topic policy to configure for the guardrail.
 - `"wordPolicyConfig"`: The word policy to configure for the guardrail.
 """
-function update_guardrail(
+update_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
     guardrailIdentifier,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock(
+    "PUT",
+    "/guardrails/$(guardrailIdentifier)",
+    Dict{String,Any}(
+        "blockedInputMessaging" => blockedInputMessaging,
+        "blockedOutputsMessaging" => blockedOutputsMessaging,
+        "name" => name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "PUT",
-        "/guardrails/$(guardrailIdentifier)",
-        Dict{String,Any}(
-            "blockedInputMessaging" => blockedInputMessaging,
-            "blockedOutputsMessaging" => blockedOutputsMessaging,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -1369,16 +1980,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as the custom model.
 - `"desiredProvisionedModelName"`: The new name for this Provisioned Throughput.
 """
-function update_provisioned_model_throughput(
+update_provisioned_model_throughput(
     provisionedModelId; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock(
+    "PATCH",
+    "/provisioned-model-throughput/$(provisionedModelId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock(
-        "PATCH",
-        "/provisioned-model-throughput/$(provisionedModelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};

@@ -5,30 +5,82 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    apply_guardrail(content, guardrail_identifier, guardrail_version, source)
+    apply_guardrail(content, guardrail_identifier, guardrail_version, source, params::Dict{String,<:Any})
+
+The action to apply a guardrail.
+
+# Arguments
+- `content`: The content details used in the request to apply the guardrail.
+- `guardrail_identifier`: The guardrail identifier used in the request to apply the
+  guardrail.
+- `guardrail_version`: The guardrail version used in the request to apply the guardrail.
+- `source`: The source of data used in the request to apply the guardrail.
+
+"""
+apply_guardrail(
+    content,
+    guardrailIdentifier,
+    guardrailVersion,
+    source;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = bedrock_runtime(
+    "POST",
+    "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply",
+    Dict{String,Any}("content" => content, "source" => source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function apply_guardrail(
+    content,
+    guardrailIdentifier,
+    guardrailVersion,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock_runtime(
+        "POST",
+        "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("content" => content, "source" => source), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     converse(messages, model_id)
     converse(messages, model_id, params::Dict{String,<:Any})
 
 Sends messages to the specified Amazon Bedrock model. Converse provides a consistent
 interface that works with all models that support messages. This allows you to write code
-once and use it with different models. Should a model have unique inference parameters, you
-can also pass those unique parameters to the model. For information about the Converse API,
-see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a
-guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a
-model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code,
-see Converse API examples in the Amazon Bedrock User Guide.  This operation requires
-permission for the bedrock:InvokeModel action.
+once and use it with different models. If a model has unique inference parameters, you can
+also pass those unique parameters to the model. Amazon Bedrock doesn't store any text,
+images, or documents that you provide as content. The data is only used to generate the
+response. For information about the Converse API, see Use the Converse API in the Amazon
+Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the
+Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in
+the Amazon Bedrock User Guide  For example code, see Converse API examples in the Amazon
+Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.
 
 # Arguments
 - `messages`: The messages that you want to send to the model.
 - `model_id`: The identifier for the model that you want to call. The modelId to provide
-  depends on the type of model that you use:   If you use a base model, specify the model ID
-  or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs
-  (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model,
-  specify the ARN of the Provisioned Throughput. For more information, see Run inference
-  using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom
-  model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting
-  provisioned model. For more information, see Use a custom model in Amazon Bedrock in the
-  Amazon Bedrock User Guide.
+  depends on the type of model or throughput that you use:   If you use a base model, specify
+  the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base
+  model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an
+  inference profile, specify the inference profile ID or its ARN. For a list of inference
+  profile IDs, see Supported Regions and models for cross-region inference in the Amazon
+  Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned
+  Throughput. For more information, see Run inference using a Provisioned Throughput in the
+  Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned
+  Throughput for it. Then specify the ARN of the resulting provisioned model. For more
+  information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+  The Converse API doesn't support imported models.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -53,15 +105,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generating a response.   This field is only supported by Anthropic Claude 3, Cohere Command
   R, Cohere Command R+, and Mistral Large models.
 """
-function converse(messages, modelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock_runtime(
+converse(messages, modelId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock_runtime(
         "POST",
         "/model/$(modelId)/converse",
         Dict{String,Any}("messages" => messages);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function converse(
     messages,
     modelId,
@@ -88,24 +139,29 @@ ConverseStream provides a consistent API that works with all Amazon Bedrock mode
 support messages. This allows you to write code once and use it with different models.
 Should a model have unique inference parameters, you can also pass those unique parameters
 to the model.  To find out if a model supports streaming, call GetFoundationModel and check
-the responseStreamingSupported field in the response. For information about the Converse
-API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use
-a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a
-model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code,
-see Conversation streaming example in the Amazon Bedrock User Guide.  This operation
-requires permission for the bedrock:InvokeModelWithResponseStream action.
+the responseStreamingSupported field in the response.  The CLI doesn't support streaming
+operations in Amazon Bedrock, including ConverseStream.  Amazon Bedrock doesn't store any
+text, images, or documents that you provide as content. The data is only used to generate
+the response. For information about the Converse API, see Use the Converse API in the
+Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in
+the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling)
+in the Amazon Bedrock User Guide  For example code, see Conversation streaming example in
+the Amazon Bedrock User Guide.  This operation requires permission for the
+bedrock:InvokeModelWithResponseStream action.
 
 # Arguments
 - `messages`: The messages that you want to send to the model.
-- `model_id`: The ID for the model. The modelId to provide depends on the type of model
-  that you use:   If you use a base model, specify the model ID or its ARN. For a list of
-  model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the
-  Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the
-  Provisioned Throughput. For more information, see Run inference using a Provisioned
-  Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase
-  Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For
-  more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User
-  Guide.
+- `model_id`: The ID for the model. The modelId to provide depends on the type of model or
+  throughput that you use:   If you use a base model, specify the model ID or its ARN. For a
+  list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput)
+  in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference
+  profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and
+  models for cross-region inference in the Amazon Bedrock User Guide.   If you use a
+  provisioned model, specify the ARN of the Provisioned Throughput. For more information, see
+  Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use
+  a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the
+  resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock
+  in the Amazon Bedrock User Guide.   The Converse API doesn't support imported models.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -129,17 +185,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toolConfig"`: Configuration information for the tools that the model can use when
   generating a response.  This field is only supported by Anthropic Claude 3 models.
 """
-function converse_stream(
-    messages, modelId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bedrock_runtime(
+converse_stream(messages, modelId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock_runtime(
         "POST",
         "/model/$(modelId)/converse-stream",
         Dict{String,Any}("messages" => messages);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function converse_stream(
     messages,
     modelId,
@@ -179,7 +232,9 @@ Guide.  This operation requires permission for the bedrock:InvokeModel action.
   inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a
   custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the
   resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock
-  in the Amazon Bedrock User Guide.
+  in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the
+  imported model. You can get the model ARN from a successful call to CreateModelImportJob or
+  from the Imported models page in the Amazon Bedrock console.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -198,15 +253,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-function invoke_model(body, modelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return bedrock_runtime(
+invoke_model(body, modelId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bedrock_runtime(
         "POST",
         "/model/$(modelId)/invoke",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function invoke_model(
     body,
     modelId,
@@ -229,9 +283,10 @@ end
 Invoke the specified Amazon Bedrock model to run inference using the prompt and inference
 parameters provided in the request body. The response is returned in a stream. To see if a
 model supports streaming, call GetFoundationModel and check the responseStreamingSupported
-field in the response.  The CLI doesn't support InvokeModelWithResponseStream.  For example
-code, see Invoke model with streaming code example in the Amazon Bedrock User Guide.  This
-operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.
+field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock,
+including InvokeModelWithResponseStream.  For example code, see Invoke model with streaming
+code example in the Amazon Bedrock User Guide.  This operation requires permissions to
+perform the bedrock:InvokeModelWithResponseStream action.
 
 # Arguments
 - `body`: The prompt and inference parameters in the format specified in the contentType in
@@ -246,7 +301,9 @@ operation requires permissions to perform the bedrock:InvokeModelWithResponseStr
   inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a
   custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the
   resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock
-  in the Amazon Bedrock User Guide.
+  in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the
+  imported model. You can get the model ARN from a successful call to CreateModelImportJob or
+  from the Imported models page in the Amazon Bedrock console.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -265,17 +322,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-function invoke_model_with_response_stream(
+invoke_model_with_response_stream(
     body, modelId; aws_config::AbstractAWSConfig=global_aws_config()
+) = bedrock_runtime(
+    "POST",
+    "/model/$(modelId)/invoke-with-response-stream",
+    Dict{String,Any}("body" => body);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bedrock_runtime(
-        "POST",
-        "/model/$(modelId)/invoke-with-response-stream",
-        Dict{String,Any}("body" => body);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function invoke_model_with_response_stream(
     body,
     modelId,

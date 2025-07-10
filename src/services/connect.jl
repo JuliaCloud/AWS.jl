@@ -19,20 +19,18 @@ form is activated, it is available to start new evaluations based on the form.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function activate_evaluation_form(
+activate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/activate",
+    Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/activate",
-        Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function activate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
@@ -75,17 +73,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default this value is the Amazon Web Services account that has the Amazon Connect
   instance.
 """
-function associate_analytics_data_set(
+associate_analytics_data_set(
     DataSetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/analytics-data/instance/$(InstanceId)/association",
+    Dict{String,Any}("DataSetId" => DataSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/analytics-data/instance/$(InstanceId)/association",
-        Dict{String,Any}("DataSetId" => DataSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_analytics_data_set(
     DataSetId,
     InstanceId,
@@ -116,17 +112,15 @@ approved origin to an Amazon Connect instance.
 - `origin`: The domain to add to your allow list.
 
 """
-function associate_approved_origin(
+associate_approved_origin(
     InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/approved-origin",
+    Dict{String,Any}("Origin" => Origin);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/approved-origin",
-        Dict{String,Any}("Origin" => Origin);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_approved_origin(
     InstanceId,
     Origin,
@@ -158,14 +152,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LexBot"`:
 - `"LexV2Bot"`: The Amazon Lex V2 bot to associate with the instance.
 """
-function associate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/bot";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/bot";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function associate_bot(
     InstanceId,
     params::AbstractDict{String};
@@ -198,16 +190,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VocabularyId"`: The identifier of the custom vocabulary. If this is empty, the default
   is set to none.
 """
-function associate_default_vocabulary(
+associate_default_vocabulary(
     InstanceId, LanguageCode; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/default-vocabulary/$(InstanceId)/$(LanguageCode)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/default-vocabulary/$(InstanceId)/$(LanguageCode)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_default_vocabulary(
     InstanceId,
     LanguageCode,
@@ -237,23 +227,21 @@ Associates a connect resource to a flow.
 - `resource_type`: A valid resource type.
 
 """
-function associate_flow(
+associate_flow(
     FlowId,
     InstanceId,
     ResourceId,
     ResourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/flow-associations/$(InstanceId)",
+    Dict{String,Any}(
+        "FlowId" => FlowId, "ResourceId" => ResourceId, "ResourceType" => ResourceType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/flow-associations/$(InstanceId)",
-        Dict{String,Any}(
-            "FlowId" => FlowId, "ResourceId" => ResourceId, "ResourceType" => ResourceType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_flow(
     FlowId,
     InstanceId,
@@ -307,20 +295,18 @@ association.
 - `storage_config`: A valid storage type.
 
 """
-function associate_instance_storage_config(
+associate_instance_storage_config(
     InstanceId,
     ResourceType,
     StorageConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/storage-config",
+    Dict{String,Any}("ResourceType" => ResourceType, "StorageConfig" => StorageConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/storage-config",
-        Dict{String,Any}("ResourceType" => ResourceType, "StorageConfig" => StorageConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_instance_storage_config(
     InstanceId,
     ResourceType,
@@ -359,17 +345,15 @@ specified Amazon Connect instance to access the specified Lambda function.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function associate_lambda_function(
+associate_lambda_function(
     FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/lambda-function",
+    Dict{String,Any}("FunctionArn" => FunctionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/lambda-function",
-        Dict{String,Any}("FunctionArn" => FunctionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_lambda_function(
     FunctionArn,
     InstanceId,
@@ -401,17 +385,14 @@ supports the association of Amazon Lex V1 bots.
 - `lex_bot`: The Amazon Lex bot to associate with the instance.
 
 """
-function associate_lex_bot(
-    InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+associate_lex_bot(InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/instance/$(InstanceId)/lex-bot",
         Dict{String,Any}("LexBot" => LexBot);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function associate_lex_bot(
     InstanceId,
     LexBot,
@@ -447,20 +428,18 @@ If a UUID is provided in this scenario, you will receive a ResourceNotFoundExcep
 - `phone_number_id`: A unique identifier for the phone number.
 
 """
-function associate_phone_number_contact_flow(
+associate_phone_number_contact_flow(
     ContactFlowId,
     InstanceId,
     PhoneNumberId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/phone-number/$(PhoneNumberId)/contact-flow",
+    Dict{String,Any}("ContactFlowId" => ContactFlowId, "InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/phone-number/$(PhoneNumberId)/contact-flow",
-        Dict{String,Any}("ContactFlowId" => ContactFlowId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_phone_number_contact_flow(
     ContactFlowId,
     InstanceId,
@@ -499,17 +478,15 @@ set of quick connects with a queue.
 - `quick_connect_ids`: The quick connects to associate with this queue.
 
 """
-function associate_queue_quick_connects(
+associate_queue_quick_connects(
     InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/queues/$(InstanceId)/$(QueueId)/associate-quick-connects",
+    Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/associate-quick-connects",
-        Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_queue_quick_connects(
     InstanceId,
     QueueId,
@@ -543,20 +520,18 @@ Associates a set of queues with a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function associate_routing_profile_queues(
+associate_routing_profile_queues(
     InstanceId,
     QueueConfigs,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues",
+    Dict{String,Any}("QueueConfigs" => QueueConfigs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues",
-        Dict{String,Any}("QueueConfigs" => QueueConfigs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_routing_profile_queues(
     InstanceId,
     QueueConfigs,
@@ -585,20 +560,17 @@ security key to the instance.
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
   ID in the Amazon Resource Name (ARN) of the instance.
-- `key`: A valid security key in PEM format.
+- `key`: A valid security key in PEM format as a String.
 
 """
-function associate_security_key(
-    InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+associate_security_key(InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/instance/$(InstanceId)/security-key",
         Dict{String,Any}("Key" => Key);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function associate_security_key(
     InstanceId,
     Key,
@@ -630,20 +602,18 @@ Associates an agent with a traffic distribution group.
 - `user_id`: The identifier of the user account. This can be the ID or the ARN of the user.
 
 """
-function associate_traffic_distribution_group_user(
+associate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
     UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
+    Dict{String,Any}("InstanceId" => InstanceId, "UserId" => UserId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
-        Dict{String,Any}("InstanceId" => InstanceId, "UserId" => UserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
@@ -679,17 +649,15 @@ end
 - `user_proficiencies`: The proficiencies to associate with the user.
 
 """
-function associate_user_proficiencies(
+associate_user_proficiencies(
     InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/associate-proficiencies",
+    Dict{String,Any}("UserProficiencies" => UserProficiencies);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/associate-proficiencies",
-        Dict{String,Any}("UserProficiencies" => UserProficiencies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_user_proficiencies(
     InstanceId,
     UserId,
@@ -730,17 +698,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default this value is the Amazon Web Services account that has the Amazon Connect
   instance.
 """
-function batch_associate_analytics_data_set(
+batch_associate_analytics_data_set(
     DataSetIds, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/analytics-data/instance/$(InstanceId)/associations",
+    Dict{String,Any}("DataSetIds" => DataSetIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/analytics-data/instance/$(InstanceId)/associations",
-        Dict{String,Any}("DataSetIds" => DataSetIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_associate_analytics_data_set(
     DataSetIds,
     InstanceId,
@@ -778,17 +744,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, by default this value is the Amazon Web Services account that has the Amazon
   Connect instance.
 """
-function batch_disassociate_analytics_data_set(
+batch_disassociate_analytics_data_set(
     DataSetIds, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/analytics-data/instance/$(InstanceId)/associations",
+    Dict{String,Any}("DataSetIds" => DataSetIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/analytics-data/instance/$(InstanceId)/associations",
-        Dict{String,Any}("DataSetIds" => DataSetIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_disassociate_analytics_data_set(
     DataSetIds,
     InstanceId,
@@ -821,22 +785,20 @@ AssociatedResourceArn.
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
 """
-function batch_get_attached_file_metadata(
+batch_get_attached_file_metadata(
     FileIds,
     InstanceId,
     associatedResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/attached-files/$(InstanceId)",
+    Dict{String,Any}(
+        "FileIds" => FileIds, "associatedResourceArn" => associatedResourceArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/attached-files/$(InstanceId)",
-        Dict{String,Any}(
-            "FileIds" => FileIds, "associatedResourceArn" => associatedResourceArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_attached_file_metadata(
     FileIds,
     InstanceId,
@@ -876,17 +838,15 @@ Retrieve the flow associations for the given resources.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ResourceType"`: The type of resource association.
 """
-function batch_get_flow_association(
+batch_get_flow_association(
     InstanceId, ResourceIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/flow-associations-batch/$(InstanceId)",
+    Dict{String,Any}("ResourceIds" => ResourceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/flow-associations-batch/$(InstanceId)",
-        Dict{String,Any}("ResourceIds" => ResourceIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_flow_association(
     InstanceId,
     ResourceIds,
@@ -927,20 +887,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function batch_put_contact(
+batch_put_contact(
     ContactDataRequestList, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/contact/batch/$(InstanceId)",
+    Dict{String,Any}(
+        "ContactDataRequestList" => ContactDataRequestList,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact/batch/$(InstanceId)",
-        Dict{String,Any}(
-            "ContactDataRequestList" => ContactDataRequestList,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_put_contact(
     ContactDataRequestList,
     InstanceId,
@@ -1008,15 +966,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
-function claim_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+claim_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/phone-number/claim",
         Dict{String,Any}("PhoneNumber" => PhoneNumber, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function claim_phone_number(
     PhoneNumber,
     params::AbstractDict{String};
@@ -1048,25 +1005,23 @@ provided in the StartAttachedFileUpload API.
 
 # Arguments
 - `file_id`: The unique identifier of the attached file resource.
-- `instance_id`: The unique identifier of the Connect instance.
+- `instance_id`: The unique identifier of the Amazon Connect instance.
 - `associated_resource_arn`: The resource to which the attached file is (being) uploaded
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
 """
-function complete_attached_file_upload(
+complete_attached_file_upload(
     FileId,
     InstanceId,
     associatedResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/attached-files/$(InstanceId)/$(FileId)",
+    Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/attached-files/$(InstanceId)/$(FileId)",
-        Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function complete_attached_file_upload(
     FileId,
     InstanceId,
@@ -1109,17 +1064,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_agent_status(
+create_agent_status(
     InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/agent-status/$(InstanceId)",
+    Dict{String,Any}("Name" => Name, "State" => State);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/agent-status/$(InstanceId)",
-        Dict{String,Any}("Name" => Name, "State" => State);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_agent_status(
     InstanceId,
     Name,
@@ -1163,17 +1116,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_contact_flow(
+create_contact_flow(
     Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/contact-flows/$(InstanceId)",
+    Dict{String,Any}("Content" => Content, "Name" => Name, "Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact-flows/$(InstanceId)",
-        Dict{String,Any}("Content" => Content, "Name" => Name, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_contact_flow(
     Content,
     InstanceId,
@@ -1219,19 +1170,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_contact_flow_module(
+create_contact_flow_module(
     Content, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/contact-flow-modules/$(InstanceId)",
+    Dict{String,Any}(
+        "Content" => Content, "Name" => Name, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact-flow-modules/$(InstanceId)",
-        Dict{String,Any}(
-            "Content" => Content, "Name" => Name, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_contact_flow_module(
     Content,
     InstanceId,
@@ -1280,19 +1229,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the evaluation form.
 - `"ScoringStrategy"`: A scoring strategy of the evaluation form.
 """
-function create_evaluation_form(
+create_evaluation_form(
     InstanceId, Items, Title; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/evaluation-forms/$(InstanceId)",
+    Dict{String,Any}("Items" => Items, "Title" => Title, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/evaluation-forms/$(InstanceId)",
-        Dict{String,Any}(
-            "Items" => Items, "Title" => Title, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_evaluation_form(
     InstanceId,
     Items,
@@ -1338,17 +1283,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_hours_of_operation(
+create_hours_of_operation(
     Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/hours-of-operations/$(InstanceId)",
+    Dict{String,Any}("Config" => Config, "Name" => Name, "TimeZone" => TimeZone);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/hours-of-operations/$(InstanceId)",
-        Dict{String,Any}("Config" => Config, "Name" => Name, "TimeZone" => TimeZone);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_hours_of_operation(
     Config,
     InstanceId,
@@ -1381,11 +1324,12 @@ end
 This API is in preview release for Amazon Connect and is subject to change. Initiates an
 Amazon Connect instance with all the supported channels enabled. It does not attach any
 storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does
-not allow for any configurations on features, such as Contact Lens for Amazon Connect.
-Amazon Connect enforces a limit on the total number of instances that you can create or
-delete in 30 days. If you exceed this limit, you will get an error message indicating there
-has been an excessive number of attempts at creating or deleting instances. You must wait
-30 days before you can restart creating and deleting instances in your account.
+not allow for any configurations on features, such as Contact Lens for Amazon Connect.  For
+more information, see Create an Amazon Connect instance in the Amazon Connect Administrator
+Guide. Amazon Connect enforces a limit on the total number of instances that you can create
+or delete in 30 days. If you exceed this limit, you will get an error message indicating
+there has been an excessive number of attempts at creating or deleting instances. You must
+wait 30 days before you can restart creating and deleting instances in your account.
 
 # Arguments
 - `identity_management_type`: The type of identity management for your Amazon Connect users.
@@ -1400,24 +1344,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_instance(
+create_instance(
     IdentityManagementType,
     InboundCallsEnabled,
     OutboundCallsEnabled;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/instance",
+    Dict{String,Any}(
+        "IdentityManagementType" => IdentityManagementType,
+        "InboundCallsEnabled" => InboundCallsEnabled,
+        "OutboundCallsEnabled" => OutboundCallsEnabled,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance",
-        Dict{String,Any}(
-            "IdentityManagementType" => IdentityManagementType,
-            "InboundCallsEnabled" => InboundCallsEnabled,
-            "OutboundCallsEnabled" => OutboundCallsEnabled,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_instance(
     IdentityManagementType,
     InboundCallsEnabled,
@@ -1469,22 +1411,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_integration_association(
+create_integration_association(
     InstanceId,
     IntegrationArn,
     IntegrationType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/integration-associations",
+    Dict{String,Any}(
+        "IntegrationArn" => IntegrationArn, "IntegrationType" => IntegrationType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/integration-associations",
-        Dict{String,Any}(
-            "IntegrationArn" => IntegrationArn, "IntegrationType" => IntegrationType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_integration_association(
     InstanceId,
     IntegrationArn,
@@ -1530,25 +1470,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function create_participant(
+create_participant(
     ContactId,
     InstanceId,
     ParticipantDetails;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/create-participant",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InstanceId" => InstanceId,
+        "ParticipantDetails" => ParticipantDetails,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/create-participant",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-            "ParticipantDetails" => ParticipantDetails,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_participant(
     ContactId,
     InstanceId,
@@ -1623,23 +1561,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function create_persistent_contact_association(
+create_persistent_contact_association(
     InitialContactId,
     InstanceId,
     RehydrationType,
     SourceContactId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/persistent-contact-association/$(InstanceId)/$(InitialContactId)",
+    Dict{String,Any}(
+        "RehydrationType" => RehydrationType, "SourceContactId" => SourceContactId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/persistent-contact-association/$(InstanceId)/$(InitialContactId)",
-        Dict{String,Any}(
-            "RehydrationType" => RehydrationType, "SourceContactId" => SourceContactId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_persistent_contact_association(
     InitialContactId,
     InstanceId,
@@ -1670,7 +1606,10 @@ end
     create_predefined_attribute(instance_id, name, values)
     create_predefined_attribute(instance_id, name, values, params::Dict{String,<:Any})
 
-Creates a new predefined attribute for the specified Amazon Connect instance.
+Creates a new predefined attribute for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -1679,17 +1618,15 @@ Creates a new predefined attribute for the specified Amazon Connect instance.
 - `values`:  The values of the predefined attribute.
 
 """
-function create_predefined_attribute(
+create_predefined_attribute(
     InstanceId, Name, Values; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/predefined-attributes/$(InstanceId)",
+    Dict{String,Any}("Name" => Name, "Values" => Values);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/predefined-attributes/$(InstanceId)",
-        Dict{String,Any}("Name" => Name, "Values" => Values);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_predefined_attribute(
     InstanceId,
     Name,
@@ -1728,17 +1665,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_prompt(
-    InstanceId, Name, S3Uri; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+create_prompt(InstanceId, Name, S3Uri; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/prompts/$(InstanceId)",
         Dict{String,Any}("Name" => Name, "S3Uri" => S3Uri);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_prompt(
     InstanceId,
     Name,
@@ -1792,17 +1726,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_queue(
+create_queue(
     HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/queues/$(InstanceId)",
+    Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/queues/$(InstanceId)",
-        Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_queue(
     HoursOfOperationId,
     InstanceId,
@@ -1845,17 +1777,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_quick_connect(
+create_quick_connect(
     InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/quick-connects/$(InstanceId)",
+    Dict{String,Any}("Name" => Name, "QuickConnectConfig" => QuickConnectConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/quick-connects/$(InstanceId)",
-        Dict{String,Any}("Name" => Name, "QuickConnectConfig" => QuickConnectConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_quick_connect(
     InstanceId,
     Name,
@@ -1908,27 +1838,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_routing_profile(
+create_routing_profile(
     DefaultOutboundQueueId,
     Description,
     InstanceId,
     MediaConcurrencies,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/routing-profiles/$(InstanceId)",
+    Dict{String,Any}(
+        "DefaultOutboundQueueId" => DefaultOutboundQueueId,
+        "Description" => Description,
+        "MediaConcurrencies" => MediaConcurrencies,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/routing-profiles/$(InstanceId)",
-        Dict{String,Any}(
-            "DefaultOutboundQueueId" => DefaultOutboundQueueId,
-            "Description" => Description,
-            "MediaConcurrencies" => MediaConcurrencies,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_routing_profile(
     DefaultOutboundQueueId,
     Description,
@@ -1980,7 +1908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function create_rule(
+create_rule(
     Actions,
     Function,
     InstanceId,
@@ -1988,22 +1916,20 @@ function create_rule(
     PublishStatus,
     TriggerEventSource;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/rules/$(InstanceId)",
+    Dict{String,Any}(
+        "Actions" => Actions,
+        "Function" => Function,
+        "Name" => Name,
+        "PublishStatus" => PublishStatus,
+        "TriggerEventSource" => TriggerEventSource,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/rules/$(InstanceId)",
-        Dict{String,Any}(
-            "Actions" => Actions,
-            "Function" => Function,
-            "Name" => Name,
-            "PublishStatus" => PublishStatus,
-            "TriggerEventSource" => TriggerEventSource,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_rule(
     Actions,
     Function,
@@ -2040,7 +1966,9 @@ end
     create_security_profile(instance_id, security_profile_name)
     create_security_profile(instance_id, security_profile_name, params::Dict{String,<:Any})
 
-Creates a security profile.
+Creates a security profile. For information about security profiles, see Security Profiles
+in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface
+name of the security profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -2066,17 +1994,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_security_profile(
+create_security_profile(
     InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/security-profiles/$(InstanceId)",
+    Dict{String,Any}("SecurityProfileName" => SecurityProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/security-profiles/$(InstanceId)",
-        Dict{String,Any}("SecurityProfileName" => SecurityProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_security_profile(
     InstanceId,
     SecurityProfileName,
@@ -2125,19 +2051,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
-function create_task_template(
+create_task_template(
     Fields, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/task/template",
+    Dict{String,Any}("Fields" => Fields, "Name" => Name, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/task/template",
-        Dict{String,Any}(
-            "Fields" => Fields, "Name" => Name, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_task_template(
     Fields,
     InstanceId,
@@ -2188,19 +2110,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_traffic_distribution_group(
+create_traffic_distribution_group(
     InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/traffic-distribution-group",
+    Dict{String,Any}(
+        "InstanceId" => InstanceId, "Name" => Name, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/traffic-distribution-group",
-        Dict{String,Any}(
-            "InstanceId" => InstanceId, "Name" => Name, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_traffic_distribution_group(
     InstanceId,
     Name,
@@ -2244,20 +2164,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_use_case(
+create_use_case(
     InstanceId,
     IntegrationAssociationId,
     UseCaseType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
+    Dict{String,Any}("UseCaseType" => UseCaseType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
-        Dict{String,Any}("UseCaseType" => UseCaseType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_use_case(
     InstanceId,
     IntegrationAssociationId,
@@ -2315,27 +2233,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_user(
+create_user(
     InstanceId,
     PhoneConfig,
     RoutingProfileId,
     SecurityProfileIds,
     Username;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/users/$(InstanceId)",
+    Dict{String,Any}(
+        "PhoneConfig" => PhoneConfig,
+        "RoutingProfileId" => RoutingProfileId,
+        "SecurityProfileIds" => SecurityProfileIds,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/users/$(InstanceId)",
-        Dict{String,Any}(
-            "PhoneConfig" => PhoneConfig,
-            "RoutingProfileId" => RoutingProfileId,
-            "SecurityProfileIds" => SecurityProfileIds,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user(
     InstanceId,
     PhoneConfig,
@@ -2383,17 +2299,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_user_hierarchy_group(
+create_user_hierarchy_group(
     InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/user-hierarchy-groups/$(InstanceId)",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/user-hierarchy-groups/$(InstanceId)",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_hierarchy_group(
     InstanceId,
     Name,
@@ -2438,17 +2352,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags can be used to organize, track, or control access for this resource. For example, {
   \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_view(
+create_view(
     Content, InstanceId, Name, Status; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/views/$(InstanceId)",
+    Dict{String,Any}("Content" => Content, "Name" => Name, "Status" => Status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/views/$(InstanceId)",
-        Dict{String,Any}("Content" => Content, "Name" => Name, "Status" => Status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_view(
     Content,
     InstanceId,
@@ -2491,16 +2403,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionDescription"`: The description for the version being published.
 - `"ViewContentSha256"`: Indicates the checksum value of the latest published view content.
 """
-function create_view_version(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+create_view_version(InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/views/$(InstanceId)/$(ViewId)/versions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_view_version(
     InstanceId,
     ViewId,
@@ -2546,26 +2455,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_vocabulary(
+create_vocabulary(
     Content,
     InstanceId,
     LanguageCode,
     VocabularyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/vocabulary/$(InstanceId)",
+    Dict{String,Any}(
+        "Content" => Content,
+        "LanguageCode" => LanguageCode,
+        "VocabularyName" => VocabularyName,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/vocabulary/$(InstanceId)",
-        Dict{String,Any}(
-            "Content" => Content,
-            "LanguageCode" => LanguageCode,
-            "VocabularyName" => VocabularyName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_vocabulary(
     Content,
     InstanceId,
@@ -2610,20 +2517,18 @@ form.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function deactivate_evaluation_form(
+deactivate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/deactivate",
+    Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/deactivate",
-        Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deactivate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
@@ -2660,20 +2565,18 @@ permanently deleted if S3 bucket versioning is not enabled.
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
 """
-function delete_attached_file(
+delete_attached_file(
     FileId,
     InstanceId,
     associatedResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "DELETE",
+    "/attached-files/$(InstanceId)/$(FileId)",
+    Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/attached-files/$(InstanceId)/$(FileId)",
-        Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_attached_file(
     FileId,
     InstanceId,
@@ -2708,16 +2611,14 @@ Deletes a contact evaluation in the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_contact_evaluation(
+delete_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_contact_evaluation(
     EvaluationId,
     InstanceId,
@@ -2745,16 +2646,14 @@ Deletes a flow for the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_contact_flow(
+delete_contact_flow(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/contact-flows/$(InstanceId)/$(ContactFlowId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_contact_flow(
     ContactFlowId,
     InstanceId,
@@ -2782,16 +2681,14 @@ Deletes the specified flow module.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_contact_flow_module(
+delete_contact_flow_module(
     ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_contact_flow_module(
     ContactFlowModuleId,
     InstanceId,
@@ -2824,16 +2721,14 @@ version is provided, then the full form (all versions) is deleted.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: The unique identifier for the evaluation form.
 """
-function delete_evaluation_form(
+delete_evaluation_form(
     EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_evaluation_form(
     EvaluationFormId,
     InstanceId,
@@ -2862,16 +2757,14 @@ hours of operation.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_hours_of_operation(
+delete_hours_of_operation(
     HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
@@ -2892,25 +2785,24 @@ end
     delete_instance(instance_id, params::Dict{String,<:Any})
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes the
-Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances
-that you can create or delete in 30 days. If you exceed this limit, you will get an error
-message indicating there has been an excessive number of attempts at creating or deleting
-instances. You must wait 30 days before you can restart creating and deleting instances in
-your account.
+Amazon Connect instance. For more information, see Delete your Amazon Connect instance in
+the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number
+of instances that you can create or delete in 30 days. If you exceed this limit, you will
+get an error message indicating there has been an excessive number of attempts at creating
+or deleting instances. You must wait 30 days before you can restart creating and deleting
+instances in your account.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2938,16 +2830,14 @@ association must not have any use cases associated with it.
 - `integration_association_id`: The identifier for the integration association.
 
 """
-function delete_integration_association(
+delete_integration_association(
     InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_integration_association(
     InstanceId,
     IntegrationAssociationId,
@@ -2975,16 +2865,14 @@ Deletes a predefined attribute from the specified Amazon Connect instance.
 - `name`:  The name of the predefined attribute.
 
 """
-function delete_predefined_attribute(
+delete_predefined_attribute(
     InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/predefined-attributes/$(InstanceId)/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/predefined-attributes/$(InstanceId)/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_predefined_attribute(
     InstanceId,
     Name,
@@ -3012,16 +2900,13 @@ Deletes a prompt.
 - `prompt_id`: A unique identifier for the prompt.
 
 """
-function delete_prompt(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+delete_prompt(InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/prompts/$(InstanceId)/$(PromptId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_prompt(
     InstanceId,
     PromptId,
@@ -3041,7 +2926,8 @@ end
     delete_queue(instance_id, queue_id)
     delete_queue(instance_id, queue_id, params::Dict{String,<:Any})
 
-Deletes a queue.
+Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin
+website.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -3049,16 +2935,13 @@ Deletes a queue.
 - `queue_id`: The identifier for the queue.
 
 """
-function delete_queue(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+delete_queue(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/queues/$(InstanceId)/$(QueueId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_queue(
     InstanceId,
     QueueId,
@@ -3091,16 +2974,14 @@ Resiliency.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
-function delete_quick_connect(
+delete_quick_connect(
     InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/quick-connects/$(InstanceId)/$(QuickConnectId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_quick_connect(
     InstanceId,
     QuickConnectId,
@@ -3128,16 +3009,14 @@ Deletes a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function delete_routing_profile(
+delete_routing_profile(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_routing_profile(
     InstanceId,
     RoutingProfileId,
@@ -3165,14 +3044,13 @@ Deletes a rule for the specified Amazon Connect instance.
 - `rule_id`: A unique identifier for the rule.
 
 """
-function delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/rules/$(InstanceId)/$(RuleId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_rule(
     InstanceId,
     RuleId,
@@ -3200,16 +3078,14 @@ Deletes a security profile.
 - `security_profile_id`: The identifier for the security profle.
 
 """
-function delete_security_profile(
+delete_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_security_profile(
     InstanceId,
     SecurityProfileId,
@@ -3237,16 +3113,14 @@ Deletes the task template.
 - `task_template_id`: A unique identifier for the task template.
 
 """
-function delete_task_template(
+delete_task_template(
     InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_task_template(
     InstanceId,
     TaskTemplateId,
@@ -3278,16 +3152,14 @@ Administrator Guide.
   Region.
 
 """
-function delete_traffic_distribution_group(
+delete_traffic_distribution_group(
     TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/traffic-distribution-group/$(TrafficDistributionGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/traffic-distribution-group/$(TrafficDistributionGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_traffic_distribution_group(
     TrafficDistributionGroupId,
     params::AbstractDict{String};
@@ -3315,19 +3187,17 @@ Deletes a use case from an integration association.
 - `use_case_id`: The identifier for the use case.
 
 """
-function delete_use_case(
+delete_use_case(
     InstanceId,
     IntegrationAssociationId,
     UseCaseId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_use_case(
     InstanceId,
     IntegrationAssociationId,
@@ -3363,14 +3233,13 @@ Amazon Connect Global Resiliency.
 - `user_id`: The identifier of the user.
 
 """
-function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/users/$(InstanceId)/$(UserId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_user(
     InstanceId,
     UserId,
@@ -3399,16 +3268,14 @@ any active child groups.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_user_hierarchy_group(
+delete_user_hierarchy_group(
     HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_hierarchy_group(
     HierarchyGroupId,
     InstanceId,
@@ -3437,14 +3304,13 @@ aliases).
 - `view_id`: The identifier of the view. Both ViewArn and ViewId can be used.
 
 """
-function delete_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+delete_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/views/$(InstanceId)/$(ViewId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_view(
     InstanceId,
     ViewId,
@@ -3473,16 +3339,14 @@ Deletes the particular version specified in ViewVersion identifier.
 - `view_version`: The version number of the view.
 
 """
-function delete_view_version(
+delete_view_version(
     InstanceId, ViewId, ViewVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/views/$(InstanceId)/$(ViewId)/versions/$(ViewVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/views/$(InstanceId)/$(ViewId)/versions/$(ViewVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_view_version(
     InstanceId,
     ViewId,
@@ -3511,16 +3375,14 @@ Deletes the vocabulary that has the given identifier.
 - `vocabulary_id`: The identifier of the custom vocabulary.
 
 """
-function delete_vocabulary(
+delete_vocabulary(
     InstanceId, VocabularyId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/vocabulary-remove/$(InstanceId)/$(VocabularyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/vocabulary-remove/$(InstanceId)/$(VocabularyId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_vocabulary(
     InstanceId,
     VocabularyId,
@@ -3549,16 +3411,14 @@ agent status.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_agent_status(
+describe_agent_status(
     AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/agent-status/$(InstanceId)/$(AgentStatusId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/agent-status/$(InstanceId)/$(AgentStatusId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_agent_status(
     AgentStatusId,
     InstanceId,
@@ -3568,6 +3428,43 @@ function describe_agent_status(
     return connect(
         "GET",
         "/agent-status/$(InstanceId)/$(AgentStatusId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_authentication_profile(authentication_profile_id, instance_id)
+    describe_authentication_profile(authentication_profile_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. To request
+access to this API, contact Amazon Web Services Support. Describes the target
+authentication profile.
+
+# Arguments
+- `authentication_profile_id`: A unique identifier for the authentication profile.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+"""
+describe_authentication_profile(
+    AuthenticationProfileId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_authentication_profile(
+    AuthenticationProfileId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3589,16 +3486,13 @@ API.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/contacts/$(InstanceId)/$(ContactId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_contact(
     ContactId,
     InstanceId,
@@ -3626,16 +3520,14 @@ Describes a contact evaluation in the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_contact_evaluation(
+describe_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_contact_evaluation(
     EvaluationId,
     InstanceId,
@@ -3668,16 +3560,14 @@ SAVED | PUBLISHED
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
-function describe_contact_flow(
+describe_contact_flow(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/contact-flows/$(InstanceId)/$(ContactFlowId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_contact_flow(
     ContactFlowId,
     InstanceId,
@@ -3708,16 +3598,14 @@ published.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_contact_flow_module(
+describe_contact_flow_module(
     ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_contact_flow_module(
     ContactFlowModuleId,
     InstanceId,
@@ -3749,16 +3637,14 @@ property is not provided, the latest version of the evaluation form is described
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: A version of the evaluation form.
 """
-function describe_evaluation_form(
+describe_evaluation_form(
     EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_evaluation_form(
     EvaluationFormId,
     InstanceId,
@@ -3787,16 +3673,14 @@ hours of operation.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_hours_of_operation(
+describe_hours_of_operation(
     HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
@@ -3828,14 +3712,12 @@ invoked.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/instance/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -3863,16 +3745,14 @@ specified instance attribute.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_instance_attribute(
+describe_instance_attribute(
     AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/instance/$(InstanceId)/attribute/$(AttributeType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/attribute/$(AttributeType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_instance_attribute(
     AttributeType,
     InstanceId,
@@ -3904,20 +3784,18 @@ instance ID.
 - `resource_type`: A valid resource type.
 
 """
-function describe_instance_storage_config(
+describe_instance_storage_config(
     AssociationId,
     InstanceId,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "GET",
+    "/instance/$(InstanceId)/storage-config/$(AssociationId)",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/storage-config/$(AssociationId)",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_instance_storage_config(
     AssociationId,
     InstanceId,
@@ -3953,16 +3831,13 @@ in this scenario, you will receive a ResourceNotFoundException.
 - `phone_number_id`: A unique identifier for the phone number.
 
 """
-function describe_phone_number(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_phone_number(PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/phone-number/$(PhoneNumberId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -3981,7 +3856,10 @@ end
     describe_predefined_attribute(instance_id, name)
     describe_predefined_attribute(instance_id, name, params::Dict{String,<:Any})
 
-Describes a predefined attribute for the specified Amazon Connect instance.
+Describes a predefined attribute for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -3989,16 +3867,14 @@ Describes a predefined attribute for the specified Amazon Connect instance.
 - `name`: The name of the predefined attribute.
 
 """
-function describe_predefined_attribute(
+describe_predefined_attribute(
     InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/predefined-attributes/$(InstanceId)/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/predefined-attributes/$(InstanceId)/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_predefined_attribute(
     InstanceId,
     Name,
@@ -4026,16 +3902,13 @@ Describes the prompt.
 - `prompt_id`: A unique identifier for the prompt.
 
 """
-function describe_prompt(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_prompt(InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/prompts/$(InstanceId)/$(PromptId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_prompt(
     InstanceId,
     PromptId,
@@ -4064,16 +3937,13 @@ specified queue.
 - `queue_id`: The identifier for the queue.
 
 """
-function describe_queue(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_queue(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_queue(
     InstanceId,
     QueueId,
@@ -4101,16 +3971,14 @@ Describes the quick connect.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
-function describe_quick_connect(
+describe_quick_connect(
     InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/quick-connects/$(InstanceId)/$(QuickConnectId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_quick_connect(
     InstanceId,
     QuickConnectId,
@@ -4138,16 +4006,14 @@ Describes the specified routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function describe_routing_profile(
+describe_routing_profile(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_routing_profile(
     InstanceId,
     RoutingProfileId,
@@ -4175,16 +4041,13 @@ Describes a rule for the specified Amazon Connect instance.
 - `rule_id`: A unique identifier for the rule.
 
 """
-function describe_rule(
-    InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/rules/$(InstanceId)/$(RuleId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_rule(
     InstanceId,
     RuleId,
@@ -4204,7 +4067,10 @@ end
     describe_security_profile(instance_id, security_profile_id)
     describe_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
-Gets basic information about the security profle.
+Gets basic information about the security profile. For information about security profiles,
+see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API
+name and user interface name of the security profile permissions, see List of security
+profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -4212,16 +4078,14 @@ Gets basic information about the security profle.
 - `security_profile_id`: The identifier for the security profle.
 
 """
-function describe_security_profile(
+describe_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_security_profile(
     InstanceId,
     SecurityProfileId,
@@ -4250,16 +4114,14 @@ Gets details and status of a traffic distribution group.
   Region.
 
 """
-function describe_traffic_distribution_group(
+describe_traffic_distribution_group(
     TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/traffic-distribution-group/$(TrafficDistributionGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/traffic-distribution-group/$(TrafficDistributionGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_traffic_distribution_group(
     TrafficDistributionGroupId,
     params::AbstractDict{String};
@@ -4288,16 +4150,13 @@ list the users and note the IDs provided in the output.
 - `user_id`: The identifier of the user account.
 
 """
-function describe_user(
-    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/users/$(InstanceId)/$(UserId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user(
     InstanceId,
     UserId,
@@ -4325,16 +4184,14 @@ Describes the specified hierarchy group.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_user_hierarchy_group(
+describe_user_hierarchy_group(
     HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_user_hierarchy_group(
     HierarchyGroupId,
     InstanceId,
@@ -4361,16 +4218,14 @@ Describes the hierarchy structure of the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_user_hierarchy_structure(
+describe_user_hierarchy_structure(
     InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/user-hierarchy-structure/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/user-hierarchy-structure/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_user_hierarchy_structure(
     InstanceId,
     params::AbstractDict{String};
@@ -4404,16 +4259,13 @@ Version 1 is assumed for Amazon Web Services managed views.
   views.
 
 """
-function describe_view(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+describe_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/views/$(InstanceId)/$(ViewId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_view(
     InstanceId,
     ViewId,
@@ -4441,16 +4293,14 @@ Describes the specified vocabulary.
 - `vocabulary_id`: The identifier of the custom vocabulary.
 
 """
-function describe_vocabulary(
+describe_vocabulary(
     InstanceId, VocabularyId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/vocabulary/$(InstanceId)/$(VocabularyId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/vocabulary/$(InstanceId)/$(VocabularyId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_vocabulary(
     InstanceId,
     VocabularyId,
@@ -4485,17 +4335,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default this value is the Amazon Web Services account that has the Amazon Connect
   instance.
 """
-function disassociate_analytics_data_set(
+disassociate_analytics_data_set(
     DataSetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/analytics-data/instance/$(InstanceId)/association",
+    Dict{String,Any}("DataSetId" => DataSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/analytics-data/instance/$(InstanceId)/association",
-        Dict{String,Any}("DataSetId" => DataSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_analytics_data_set(
     DataSetId,
     InstanceId,
@@ -4526,17 +4374,15 @@ to integrated applications from Amazon Connect.
 - `origin`: The domain URL of the integrated application.
 
 """
-function disassociate_approved_origin(
+disassociate_approved_origin(
     InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/approved-origin",
+    Dict{String,Any}("origin" => origin);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/approved-origin",
-        Dict{String,Any}("origin" => origin);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_approved_origin(
     InstanceId,
     origin,
@@ -4569,14 +4415,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LexBot"`:
 - `"LexV2Bot"`: The Amazon Lex V2 bot to disassociate from the instance.
 """
-function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/bot";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "POST",
+    "/instance/$(InstanceId)/bot";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function disassociate_bot(
     InstanceId,
     params::AbstractDict{String};
@@ -4604,16 +4448,14 @@ Disassociates a connect resource from a flow.
 - `resource_type`: A valid resource type.
 
 """
-function disassociate_flow(
+disassociate_flow(
     InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_flow(
     InstanceId,
     ResourceId,
@@ -4645,20 +4487,18 @@ storage type configurations for the specified resource type and association ID.
 - `resource_type`: A valid resource type.
 
 """
-function disassociate_instance_storage_config(
+disassociate_instance_storage_config(
     AssociationId,
     InstanceId,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/storage-config/$(AssociationId)",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/storage-config/$(AssociationId)",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_instance_storage_config(
     AssociationId,
     InstanceId,
@@ -4690,17 +4530,15 @@ Lambda function from the dropdown options available in the relevant flow blocks.
 - `function_arn`: The Amazon Resource Name (ARN) of the Lambda function being disassociated.
 
 """
-function disassociate_lambda_function(
+disassociate_lambda_function(
     InstanceId, functionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/lambda-function",
+    Dict{String,Any}("functionArn" => functionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/lambda-function",
-        Dict{String,Any}("functionArn" => functionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_lambda_function(
     InstanceId,
     functionArn,
@@ -4732,17 +4570,15 @@ authorization from the specified instance to access the specified Amazon Lex bot
 - `lex_region`: The Amazon Web Services Region in which the Amazon Lex bot has been created.
 
 """
-function disassociate_lex_bot(
+disassociate_lex_bot(
     InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/lex-bot",
+    Dict{String,Any}("botName" => botName, "lexRegion" => lexRegion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/lex-bot",
-        Dict{String,Any}("botName" => botName, "lexRegion" => lexRegion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_lex_bot(
     InstanceId,
     botName,
@@ -4784,17 +4620,15 @@ If a UUID is provided in this scenario, you will receive a ResourceNotFoundExcep
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function disassociate_phone_number_contact_flow(
+disassociate_phone_number_contact_flow(
     PhoneNumberId, instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/phone-number/$(PhoneNumberId)/contact-flow",
+    Dict{String,Any}("instanceId" => instanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/phone-number/$(PhoneNumberId)/contact-flow",
-        Dict{String,Any}("instanceId" => instanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_phone_number_contact_flow(
     PhoneNumberId,
     instanceId,
@@ -4826,17 +4660,15 @@ set of quick connects from a queue.
 - `quick_connect_ids`: The quick connects to disassociate from the queue.
 
 """
-function disassociate_queue_quick_connects(
+disassociate_queue_quick_connects(
     InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/queues/$(InstanceId)/$(QueueId)/disassociate-quick-connects",
+    Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/disassociate-quick-connects",
-        Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_queue_quick_connects(
     InstanceId,
     QueueId,
@@ -4870,20 +4702,18 @@ Disassociates a set of queues from a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function disassociate_routing_profile_queues(
+disassociate_routing_profile_queues(
     InstanceId,
     QueueReferences,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues",
+    Dict{String,Any}("QueueReferences" => QueueReferences);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues",
-        Dict{String,Any}("QueueReferences" => QueueReferences);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_routing_profile_queues(
     InstanceId,
     QueueReferences,
@@ -4918,16 +4748,14 @@ specified security key.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function disassociate_security_key(
+disassociate_security_key(
     AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/instance/$(InstanceId)/security-key/$(AssociationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/security-key/$(AssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_security_key(
     AssociationId,
     InstanceId,
@@ -4959,20 +4787,18 @@ Disassociates an agent from a traffic distribution group.
 - `user_id`: The identifier for the user. This can be the ID or the ARN of the user.
 
 """
-function disassociate_traffic_distribution_group_user(
+disassociate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
     UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "DELETE",
+    "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
+    Dict{String,Any}("InstanceId" => InstanceId, "UserId" => UserId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
-        Dict{String,Any}("InstanceId" => InstanceId, "UserId" => UserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
@@ -5008,17 +4834,15 @@ Disassociates a set of proficiencies from a user.
 - `user_proficiencies`: The proficiencies to disassociate from the user.
 
 """
-function disassociate_user_proficiencies(
+disassociate_user_proficiencies(
     InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/disassociate-proficiencies",
+    Dict{String,Any}("UserProficiencies" => UserProficiencies);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/disassociate-proficiencies",
-        Dict{String,Any}("UserProficiencies" => UserProficiencies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_user_proficiencies(
     InstanceId,
     UserId,
@@ -5054,17 +4878,15 @@ are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
 - `user_id`: The identifier of the user account.
 
 """
-function dismiss_user_contact(
+dismiss_user_contact(
     ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/contact",
+    Dict{String,Any}("ContactId" => ContactId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/contact",
-        Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function dismiss_user_contact(
     ContactId,
     InstanceId,
@@ -5102,20 +4924,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"urlExpiryInSeconds"`: Optional override for the expiry of the pre-signed S3 URL in
   seconds. The default value is 300.
 """
-function get_attached_file(
+get_attached_file(
     FileId,
     InstanceId,
     associatedResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "GET",
+    "/attached-files/$(InstanceId)/$(FileId)",
+    Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/attached-files/$(InstanceId)/$(FileId)",
-        Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_attached_file(
     FileId,
     InstanceId,
@@ -5149,16 +4969,14 @@ Retrieves the contact attributes for the specified contact.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
-function get_contact_attributes(
+get_contact_attributes(
     InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/contact/attributes/$(InstanceId)/$(InitialContactId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/contact/attributes/$(InstanceId)/$(InitialContactId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_contact_attributes(
     InitialContactId,
     InstanceId,
@@ -5237,17 +5055,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metric collection is sorted based on the input metrics. Note the following:   Sorting on
   SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
 """
-function get_current_metric_data(
+get_current_metric_data(
     CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/metrics/current/$(InstanceId)",
+    Dict{String,Any}("CurrentMetrics" => CurrentMetrics, "Filters" => Filters);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/metrics/current/$(InstanceId)",
-        Dict{String,Any}("CurrentMetrics" => CurrentMetrics, "Filters" => Filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_current_metric_data(
     CurrentMetrics,
     Filters,
@@ -5292,17 +5108,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_current_user_data(
+get_current_user_data(
     Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/metrics/userdata/$(InstanceId)",
+    Dict{String,Any}("Filters" => Filters);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/metrics/userdata/$(InstanceId)",
-        Dict{String,Any}("Filters" => Filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_current_user_data(
     Filters,
     InstanceId,
@@ -5335,14 +5149,13 @@ Principal: .... User: .... cannot be used for federation with Amazon Connect
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function get_federation_token(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+get_federation_token(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/user/federate/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_federation_token(
     InstanceId,
     params::AbstractDict{String};
@@ -5370,16 +5183,14 @@ Retrieves the flow associated for a given resource.
 - `resource_type`: A valid resource type.
 
 """
-function get_flow_association(
+get_flow_association(
     InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_flow_association(
     InstanceId,
     ResourceId,
@@ -5461,27 +5272,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_metric_data(
+get_metric_data(
     EndTime,
     Filters,
     HistoricalMetrics,
     InstanceId,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/metrics/historical/$(InstanceId)",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "Filters" => Filters,
+        "HistoricalMetrics" => HistoricalMetrics,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/metrics/historical/$(InstanceId)",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "Filters" => Filters,
-            "HistoricalMetrics" => HistoricalMetrics,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_metric_data(
     EndTime,
     Filters,
@@ -5528,32 +5337,35 @@ definitions in the Amazon Connect Administrator Guide.
   interval for the retrieval of historical metrics data. The time must be later than the
   start time timestamp. It cannot be later than the current timestamp.
 - `filters`: The filters to apply to returned metrics. You can filter on the following
-  resources:   Agents   Channels   Feature   Queues   Routing profiles   Routing step
-  expression   User hierarchy groups   At least one filter must be passed from queues,
-  routing profiles, agents, or user hierarchy groups. To filter by phone number, see Create a
-  historical metrics report in the Amazon Connect Administrator Guide. Note the following
-  limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid
-  filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO |
-  AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE |
+  resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing
+  step expression   User hierarchy groups   At least one filter must be passed from queues,
+  routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns
+  analytics, you can also use campaigns to satisfy at least one filter requirement. To filter
+  by phone number, see Create a historical metrics report in the Amazon Connect Administrator
+  Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported
+  in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE |
+  AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR |
+  AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | CAMPAIGN |
   CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype |
-  FEATURE | FLOW_TYPE | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID |
-  FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | INITIATION_METHOD | RESOURCE_PUBLISHED_TIMESTAMP |
-  ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |     Filter values:
-  A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are
-  valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100
-  filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents,
-  and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.
-  contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It
-  is available only to contacts analyzed by Contact Lens conversational analytics.
-  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue
-  examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.
-  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This
-  filter is case and order sensitive. JSON string fields must be sorted in ascending order
-  and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only
-  valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that
-  had Amazon Q in Connect enabled as part of the flow.   FALSE includes all contacts that did
-  not have Amazon Q in Connect enabled as part of the flow   This filter is available only
-  for contact record-driven metrics.
+  DISCONNECT_REASON | FEATURE | FLOW_TYPE | FLOWS_NEXT_RESOURCE_ID |
+  FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | INITIATION_METHOD |
+  RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE |
+  Q_CONNECT_ENABLED |     Filter values: A maximum of 100 filter values are supported in a
+  single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key.
+  They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2
+  request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100
+  filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a
+  valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by
+  Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and
+  connect:WebRTC are valid filterValue examples (not exhaustive) for the
+  contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid
+  filter key with a filter value up to 3000 length. This filter is case and order sensitive.
+  JSON string fields must be sorted in ascending order and JSON array order should be kept as
+  is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the
+  Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Amazon Q in Connect
+  enabled as part of the flow.   FALSE includes all contacts that did not have Amazon Q in
+  Connect enabled as part of the flow   This filter is available only for contact
+  record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
 - `metrics`: The metrics to retrieve. Specify the name, groupings, and filters for each
   metric. The following historical metrics are available. For a description of each metric,
   see Historical metrics definitions in the Amazon Connect Administrator Guide.
@@ -5603,10 +5415,13 @@ definitions in the Amazon Connect Administrator Guide.
   Feature is a valid filter but not a valid grouping.   AVG_CONVERSATION_DURATION  Unit:
   Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name:
-  Average conversation duration   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters:
-  Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID,
-  Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource
-  ID, Initiation method, Resource published timestamp UI name: Average flow time
+  Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for
+  contacts analyzed by outbound campaigns analytics. Unit: Count Valid groupings and filters:
+  Campaign, Agent, Queue, Routing Profile UI name: Average dials per minute   AVG_FLOW_TIME
+  Unit: Seconds Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
+  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
+  Initiation method, Resource published timestamp UI name: Average flow time
   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact
   Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel,
   Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in
@@ -5655,26 +5470,25 @@ definitions in the Amazon Connect Administrator Guide.
   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens
   conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel,
   Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in
-  Connect UI name: Average customer talk time   CASES_CREATED  Unit: Count Required filter
-  key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name:
-  Cases created   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API|
-  Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings
-  and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
-  contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name:
-  Contact abandoned   CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters:
-  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
-  Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in
-  seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts
-  abandoned in X seconds   CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters:
-  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
-  Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in
-  seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts answered
-  in X seconds   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD
-  Valid groupings and filters: Queue, Channel, Routing Profile, Feature,
-  contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature
-  is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric
-  filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue,
-  Channel, Routing Profile, Agent, Agent Hierarchy, Feature,
+  Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This
+  metric is available only for contacts analyzed by outbound campaigns analytics. Unit:
+  Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer
+  connection   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for
+  contacts analyzed by outbound campaigns analytics. Unit: Count Valid groupings and filters:
+  Campaign, Agent  Threshold: For ThresholdValue, enter any whole number from 1 to 604800
+  (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name:
+  Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric
+  is available only for contacts analyzed by outbound campaigns analytics. Unit: Percent
+  Valid groupings and filters: Campaign, Agent  Threshold: For ThresholdValue, enter any
+  whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT
+  (for Greater than). UI name: Campaign contacts abandoned after X rate   CASES_CREATED
+  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters:
+  CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid
+  metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing
+  Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts
+  created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit:
+  Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and
+  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature,
   contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: API
   contacts handled   Feature is a valid filter but not a valid grouping.
   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key:
@@ -5698,53 +5512,72 @@ definitions in the Amazon Connect Administrator Guide.
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued
   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent,
   Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued
-  (enqueue timestamp)   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters:
-  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
-  Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in
-  seconds. For Comparison, you must enter LT (for \"Less than\"). UI name: Contacts resolved
-  in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy, Feature,
+  (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and
+  filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter
+  any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter
+  LT (for \"Less than\"). UI name: Contacts removed from queue in X seconds
+  CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing
+  Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For
+  ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For
+  Comparison, you must enter LT (for \"Less than\"). UI name: Contacts resolved in X
+  CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing
+  Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid
+  grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out
-  Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT
-  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts
-  transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings
-  and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out
   queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings
-  and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   FLOWS_OUTCOME  Unit:
-  Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow
-  type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows
-  outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name:
-  Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel,
-  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows
-  resource ID, Initiation method, Resource published timestamp UI name: Flows started
-  MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel,
-  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
-  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
-  Initiation method, Resource published timestamp UI name: Maximum flow time
-  MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing
-  Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI
-  name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters:
+  and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   DELIVERY_ATTEMPTS
+  This metric is available only for contacts analyzed by outbound campaigns analytics. Unit:
+  Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, DISCONNECT_REASON  Valid
+  groupings and filters: Campaign, Agent, Queue, Routing Profile, Answering Machine Detection
+  Status, Disconnect Reason UI name: Delivery attempts   DELIVERY_ATTEMPT_DISPOSITION_RATE
+  This metric is available only for contacts analyzed by outbound campaigns analytics, and
+  with the answering machine detection enabled. Unit: Percent Valid metric filter key:
+  ANSWERING_MACHINE_DETECTION_STATUS, DISCONNECT_REASON  Valid groupings and filters:
+  Campaign, Agent, Answering Machine Detection Status, Disconnect Reason  Answering Machine
+  Detection Status and Disconnect Reason are valid filters but not valid groupings.  UI name:
+  Delivery attempt disposition rate   FLOWS_OUTCOME  Unit: Count Valid groupings and filters:
   Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID,
   Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource
-  ID, Initiation method, Resource published timestamp UI name: Minimum flow time
+  ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED
+  Unit: Count Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows
+  resource ID, Initiation method, Resource published timestamp UI name: Flows started
+  HUMAN_ANSWERED_CALLS  This metric is available only for contacts analyzed by outbound
+  campaigns analytics, and with the answering machine detection enabled. Unit: Count Valid
+  groupings and filters: Campaign, Agent UI name: Human answered   MAX_FLOW_TIME  Unit:
+  Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype,
+  Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID,
+  Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI
+  name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time
+  MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
+  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
+  Initiation method, Resource published timestamp UI name: Minimum flow time
   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN
   Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on
   first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters:
-  Queue, RoutingStepExpression UI name: Not available   PERCENT_CONTACTS_STEP_JOINED  Unit:
-  Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available
-  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid
-  groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows
-  module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome
-  type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows
-  outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.
-  PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens
-  conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in
-  Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only
-  for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid
-  groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but
+  not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid
+  groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in
+  Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit:
+  Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
+  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
+  Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The
+  FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is
+  available only for contacts analyzed by Contact Lens conversational analytics. Unit:
+  Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time
+  percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact
+  Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue,
+  Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent
   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact
   Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue,
@@ -5762,27 +5595,40 @@ definitions in the Amazon Connect Administrator Guide.
   Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole
   number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for
   \"Less than\").  UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid
-  groupings and filters: Queue, RoutingStepExpression UI name: Not available
-  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time
-  SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This
-  metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND |
-  CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  Hierarchy UI name: Agent API connecting time   The Negate key in Metric Level Filters is
-  not applicable for this metric.   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and
-  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name:
-  Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters:
-  Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time
-  SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid
-  groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in
+  Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME
+  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit:
+  Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following
+  filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and
+  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API
+  connecting time   The Negate key in Metric Level Filters is not applicable for this metric.
+    CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| Incoming | Outbound
+  | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings and filters: Queue,
+  Channel, Routing Profile, Agent, Agent Hierarchy,
+  contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name:
+  Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
+  Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts
+  abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and
+  filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in
+  Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive),
+  in seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts
+  answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow
+  time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile,
+  Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid
+  metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue,
+  Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected
-  SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit:
-  Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid
+  SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile,
+  Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid
   groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
-  Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings
-  and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time
+  Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and
+  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name:
+  Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters:
+  Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time
   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel,
   Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold
   time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel,
@@ -5808,8 +5654,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are returned apply to the metrics for each queue. They are not aggregated for all queues.
   If no grouping is specified, a summary of all metrics is returned. Valid grouping keys:
   AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE
-  | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | CASE_TEMPLATE_ARN | CASE_STATUS
-  | CHANNEL | contact/segmentAttributes/connect:Subtype | FLOWS_RESOURCE_ID |
+  | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE |
+  ANSWERING_MACHINE_DETECTION_STATUS | CAMPAIGN | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL |
+  contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | FLOWS_RESOURCE_ID |
   FLOWS_MODULE_RESOURCE_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | INITIATION_METHOD |
   Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE |
   ROUTING_STEP_EXPRESSION
@@ -5831,28 +5678,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_metric_data_v2(
+get_metric_data_v2(
     EndTime,
     Filters,
     Metrics,
     ResourceArn,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/metrics/data",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "Filters" => Filters,
+        "Metrics" => Metrics,
+        "ResourceArn" => ResourceArn,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/metrics/data",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "Filters" => Filters,
-            "Metrics" => Metrics,
-            "ResourceArn" => ResourceArn,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_metric_data_v2(
     EndTime,
     Filters,
@@ -5895,16 +5740,13 @@ Gets the prompt file.
 - `prompt_id`: A unique identifier for the prompt.
 
 """
-function get_prompt_file(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+get_prompt_file(InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/prompts/$(InstanceId)/$(PromptId)/file";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_prompt_file(
     InstanceId,
     PromptId,
@@ -5936,16 +5778,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"snapshotVersion"`: The system generated version of a task template that is associated
   with a task, when the task is created.
 """
-function get_task_template(
+get_task_template(
     InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_task_template(
     InstanceId,
     TaskTemplateId,
@@ -5973,14 +5813,12 @@ Retrieves the current traffic distribution for a given traffic distribution grou
   ARN must be provided if the call is from the replicated Region.
 
 """
-function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/traffic-distribution/$(Id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/traffic-distribution/$(Id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_traffic_distribution(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5999,7 +5837,20 @@ end
 
 Imports a claimed phone number from an external service, such as Amazon Pinpoint, into an
 Amazon Connect instance. You can call this API only in the same Amazon Web Services Region
-where the Amazon Connect instance was created.
+where the Amazon Connect instance was created.  Call the DescribePhoneNumber API to verify
+the status of a previous ImportPhoneNumber operation.   If you plan to claim or import
+numbers and then release numbers frequently, contact us for a service quota exception.
+Otherwise, it is possible you will be blocked from claiming and releasing any more numbers
+until up to 180 days past the oldest number released has expired.   By default you can
+claim or import and then release up to 200% of your maximum number of active phone numbers.
+If you claim or import and then release phone numbers using the UI or API during a rolling
+180 day cycle that exceeds 200% of your phone number service level quota, you will be
+blocked from claiming or importing any more numbers until 180 days past the oldest number
+released has expired.  For example, if you already have 99 claimed or imported numbers and
+a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim
+99, and then release 99, you will have exceeded the 200% limit. At that point you are
+blocked from claiming any more numbers until you open an Amazon Web Services Support
+ticket.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -6017,21 +5868,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function import_phone_number(
+import_phone_number(
     InstanceId, SourcePhoneNumberArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/phone-number/import",
+    Dict{String,Any}(
+        "InstanceId" => InstanceId,
+        "SourcePhoneNumberArn" => SourcePhoneNumberArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/phone-number/import",
-        Dict{String,Any}(
-            "InstanceId" => InstanceId,
-            "SourcePhoneNumberArn" => SourcePhoneNumberArn,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function import_phone_number(
     InstanceId,
     SourcePhoneNumberArn,
@@ -6075,14 +5924,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/agent-status/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_agent_statuses(
     InstanceId,
     params::AbstractDict{String};
@@ -6115,16 +5963,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_analytics_data_associations(
+list_analytics_data_associations(
     InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/analytics-data/instance/$(InstanceId)/association";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/analytics-data/instance/$(InstanceId)/association";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_analytics_data_associations(
     InstanceId,
     params::AbstractDict{String};
@@ -6156,16 +6002,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_approved_origins(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_approved_origins(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/instance/$(InstanceId)/approved-origins";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_approved_origins(
     InstanceId,
     params::AbstractDict{String};
@@ -6174,6 +6017,46 @@ function list_approved_origins(
     return connect(
         "GET",
         "/instance/$(InstanceId)/approved-origins",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_authentication_profiles(instance_id)
+    list_authentication_profiles(instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. To request
+access to this API, contact Amazon Web Services Support. Provides summary information about
+the authentication profiles in a specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+list_authentication_profiles(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/authentication-profiles-summary/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_authentication_profiles(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/authentication-profiles-summary/$(InstanceId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6200,17 +6083,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_bots(
-    InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_bots(InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/instance/$(InstanceId)/bots",
         Dict{String,Any}("lexVersion" => lexVersion);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_bots(
     InstanceId,
     lexVersion,
@@ -6245,17 +6125,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.  This is not
   expected to be set because the value returned in the previous response is always null.
 """
-function list_contact_evaluations(
+list_contact_evaluations(
     InstanceId, contactId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/contact-evaluations/$(InstanceId)",
+    Dict{String,Any}("contactId" => contactId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/contact-evaluations/$(InstanceId)",
-        Dict{String,Any}("contactId" => contactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_contact_evaluations(
     InstanceId,
     contactId,
@@ -6290,16 +6168,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"state"`: The state of the flow module.
 """
-function list_contact_flow_modules(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_contact_flow_modules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/contact-flow-modules-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_contact_flow_modules(
     InstanceId,
     params::AbstractDict{String};
@@ -6334,14 +6209,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/contact-flows-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/contact-flows-summary/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_contact_flows(
     InstanceId,
     params::AbstractDict{String};
@@ -6377,17 +6250,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.  This is not
   expected to be set, because the value returned in the previous response is always null.
 """
-function list_contact_references(
+list_contact_references(
     ContactId, InstanceId, referenceTypes; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/contact/references/$(InstanceId)/$(ContactId)",
+    Dict{String,Any}("referenceTypes" => referenceTypes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/contact/references/$(InstanceId)/$(ContactId)",
-        Dict{String,Any}("referenceTypes" => referenceTypes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_contact_references(
     ContactId,
     InstanceId,
@@ -6424,16 +6295,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_default_vocabularies(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_default_vocabularies(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/default-vocabulary-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_default_vocabularies(
     InstanceId,
     params::AbstractDict{String};
@@ -6465,16 +6333,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_evaluation_form_versions(
+list_evaluation_form_versions(
     EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_evaluation_form_versions(
     EvaluationFormId,
     InstanceId,
@@ -6506,16 +6372,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_evaluation_forms(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_evaluation_forms(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/evaluation-forms/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_evaluation_forms(
     InstanceId,
     params::AbstractDict{String};
@@ -6547,16 +6410,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_flow_associations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_flow_associations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/flow-associations-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_flow_associations(
     InstanceId,
     params::AbstractDict{String};
@@ -6590,16 +6450,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_hours_of_operations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_hours_of_operations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/hours-of-operations-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_hours_of_operations(
     InstanceId,
     params::AbstractDict{String};
@@ -6631,16 +6488,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_instance_attributes(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_instance_attributes(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/instance/$(InstanceId)/attributes";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_instance_attributes(
     InstanceId,
     params::AbstractDict{String};
@@ -6673,17 +6527,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_instance_storage_configs(
+list_instance_storage_configs(
     InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/instance/$(InstanceId)/storage-configs",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/storage-configs",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_instance_storage_configs(
     InstanceId,
     resourceType,
@@ -6716,11 +6568,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET", "/instance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect("GET", "/instance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6748,16 +6597,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_integration_associations(
+list_integration_associations(
     InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/instance/$(InstanceId)/integration-associations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/integration-associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_integration_associations(
     InstanceId,
     params::AbstractDict{String};
@@ -6790,16 +6637,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_lambda_functions(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_lambda_functions(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/instance/$(InstanceId)/lambda-functions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_lambda_functions(
     InstanceId,
     params::AbstractDict{String};
@@ -6833,14 +6677,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/lex-bots";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/instance/$(InstanceId)/lex-bots";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_lex_bots(
     InstanceId,
     params::AbstractDict{String};
@@ -6885,14 +6727,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return phone number types. While ListPhoneNumbers returns number types UIFN, SHARED,
   THIRD_PARTY_TF, and THIRD_PARTY_DID, it incorrectly lists them as TOLL_FREE or DID.
 """
-function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/phone-numbers-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/phone-numbers-summary/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_phone_numbers(
     InstanceId,
     params::AbstractDict{String};
@@ -6940,11 +6780,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Connect instances belonging to your account in the same Amazon Web Services Region as the
   request.
 """
-function list_phone_numbers_v2(; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST", "/phone-number/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_phone_numbers_v2(; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "POST", "/phone-number/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_phone_numbers_v2(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6961,7 +6799,10 @@ end
     list_predefined_attributes(instance_id)
     list_predefined_attributes(instance_id, params::Dict{String,<:Any})
 
-Lists predefined attributes for the specified Amazon Connect instance.
+Lists predefined attributes for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -6973,16 +6814,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_predefined_attributes(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_predefined_attributes(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/predefined-attributes/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_predefined_attributes(
     InstanceId,
     params::AbstractDict{String};
@@ -7013,14 +6851,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/prompts-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/prompts-summary/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_prompts(
     InstanceId,
     params::AbstractDict{String};
@@ -7054,16 +6890,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_queue_quick_connects(
+list_queue_quick_connects(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/queues/$(InstanceId)/$(QueueId)/quick-connects";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/queues/$(InstanceId)/$(QueueId)/quick-connects";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_queue_quick_connects(
     InstanceId,
     QueueId,
@@ -7101,14 +6935,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"queueTypes"`: The type of queue.
 """
-function list_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/queues-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/queues-summary/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_queues(
     InstanceId,
     params::AbstractDict{String};
@@ -7143,14 +6975,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/quick-connects/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_quick_connects(
     InstanceId,
     params::AbstractDict{String};
@@ -7186,21 +7017,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_realtime_contact_analysis_segments_v2(
+list_realtime_contact_analysis_segments_v2(
     ContactId,
     InstanceId,
     OutputType,
     SegmentTypes;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/list-real-time-analysis-segments-v2/$(InstanceId)/$(ContactId)",
+    Dict{String,Any}("OutputType" => OutputType, "SegmentTypes" => SegmentTypes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/list-real-time-analysis-segments-v2/$(InstanceId)/$(ContactId)",
-        Dict{String,Any}("OutputType" => OutputType, "SegmentTypes" => SegmentTypes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_realtime_contact_analysis_segments_v2(
     ContactId,
     InstanceId,
@@ -7244,16 +7073,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_routing_profile_queues(
+list_routing_profile_queues(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_routing_profile_queues(
     InstanceId,
     RoutingProfileId,
@@ -7288,16 +7115,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_routing_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_routing_profiles(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/routing-profiles-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_routing_profiles(
     InstanceId,
     params::AbstractDict{String};
@@ -7330,14 +7154,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"publishStatus"`: The publish status of the rule.
 """
-function list_rules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/rules/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_rules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/rules/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_rules(
     InstanceId,
     params::AbstractDict{String};
@@ -7369,14 +7191,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/security-keys";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_security_keys(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/instance/$(InstanceId)/security-keys";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_security_keys(
     InstanceId,
     params::AbstractDict{String};
@@ -7408,16 +7228,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_security_profile_applications(
+list_security_profile_applications(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/security-profiles-applications/$(InstanceId)/$(SecurityProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/security-profiles-applications/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_security_profile_applications(
     InstanceId,
     SecurityProfileId,
@@ -7437,7 +7255,10 @@ end
     list_security_profile_permissions(instance_id, security_profile_id)
     list_security_profile_permissions(instance_id, security_profile_id, params::Dict{String,<:Any})
 
-Lists the permissions granted to a security profile.
+Lists the permissions granted to a security profile. For information about security
+profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of
+the API name and user interface name of the security profile permissions, see List of
+security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -7450,16 +7271,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_security_profile_permissions(
+list_security_profile_permissions(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_security_profile_permissions(
     InstanceId,
     SecurityProfileId,
@@ -7481,7 +7300,8 @@ end
 
 Provides summary information about the security profiles for the specified Amazon Connect
 instance. For more information about security profiles, see Security Profiles in the Amazon
-Connect Administrator Guide.
+Connect Administrator Guide. For a mapping of the API name and user interface name of the
+security profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -7494,16 +7314,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_security_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_security_profiles(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/security-profiles-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_security_profiles(
     InstanceId,
     params::AbstractDict{String};
@@ -7531,16 +7348,13 @@ Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide
   for an instance, for example, see Find your Amazon Connect instance ID/ARN.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -7578,14 +7392,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
-function list_task_templates(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+list_task_templates(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/instance/$(InstanceId)/task/template";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_task_templates(
     InstanceId,
     params::AbstractDict{String};
@@ -7618,16 +7431,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_traffic_distribution_group_users(
+list_traffic_distribution_group_users(
     TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/traffic-distribution-group/$(TrafficDistributionGroupId)/user";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/traffic-distribution-group/$(TrafficDistributionGroupId)/user";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_traffic_distribution_group_users(
     TrafficDistributionGroupId,
     params::AbstractDict{String};
@@ -7656,16 +7467,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_traffic_distribution_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_traffic_distribution_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/traffic-distribution-groups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_traffic_distribution_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7695,16 +7503,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_use_cases(
+list_use_cases(
     InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_use_cases(
     InstanceId,
     IntegrationAssociationId,
@@ -7739,16 +7545,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_user_hierarchy_groups(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_user_hierarchy_groups(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/user-hierarchy-groups-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_user_hierarchy_groups(
     InstanceId,
     params::AbstractDict{String};
@@ -7780,16 +7583,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_user_proficiencies(
+list_user_proficiencies(
     InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "GET",
+    "/users/$(InstanceId)/$(UserId)/proficiencies";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "GET",
-        "/users/$(InstanceId)/$(UserId)/proficiencies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_user_proficiencies(
     InstanceId,
     UserId,
@@ -7822,14 +7623,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/users-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/users-summary/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_users(
     InstanceId,
     params::AbstractDict{String};
@@ -7863,16 +7662,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_view_versions(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+list_view_versions(InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "GET",
         "/views/$(InstanceId)/$(ViewId)/versions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_view_versions(
     InstanceId,
     ViewId,
@@ -7907,14 +7703,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"type"`: The type of the view.
 """
-function list_views(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/views/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_views(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "GET",
+    "/views/$(InstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_views(
     InstanceId,
     params::AbstractDict{String};
@@ -7951,22 +7745,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function monitor_contact(
+monitor_contact(
     ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact/monitor",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InstanceId" => InstanceId,
+        "UserId" => UserId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/monitor",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-            "UserId" => UserId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function monitor_contact(
     ContactId,
     InstanceId,
@@ -8009,17 +7801,14 @@ Allows pausing an ongoing task contact.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ContactFlowId"`: The identifier of the flow.
 """
-function pause_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+pause_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/contact/pause",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function pause_contact(
     ContactId,
     InstanceId,
@@ -8056,17 +7845,15 @@ status and Set your next status in the Amazon Connect Administrator Guide.
 - `user_id`: The identifier of the user.
 
 """
-function put_user_status(
+put_user_status(
     AgentStatusId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/users/$(InstanceId)/$(UserId)/status",
+    Dict{String,Any}("AgentStatusId" => AgentStatusId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/users/$(InstanceId)/$(UserId)/status",
-        Dict{String,Any}("AgentStatusId" => AgentStatusId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_user_status(
     AgentStatusId,
     InstanceId,
@@ -8116,17 +7903,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function release_phone_number(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+release_phone_number(PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/phone-number/$(PhoneNumberId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function release_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -8166,24 +7950,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function replicate_instance(
+replicate_instance(
     InstanceId,
     ReplicaAlias,
     ReplicaRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/instance/$(InstanceId)/replicate",
+    Dict{String,Any}(
+        "ReplicaAlias" => ReplicaAlias,
+        "ReplicaRegion" => ReplicaRegion,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/replicate",
-        Dict{String,Any}(
-            "ReplicaAlias" => ReplicaAlias,
-            "ReplicaRegion" => ReplicaRegion,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function replicate_instance(
     InstanceId,
     ReplicaAlias,
@@ -8225,17 +8007,14 @@ Allows resuming a task contact in a paused state.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ContactFlowId"`: The identifier of the flow.
 """
-function resume_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+resume_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/contact/resume",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function resume_contact(
     ContactId,
     InstanceId,
@@ -8274,24 +8053,22 @@ is enabled, then it would resume. Voice and screen recordings are supported.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function resume_contact_recording(
+resume_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/resume-recording",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InitialContactId" => InitialContactId,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/resume-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resume_contact_recording(
     ContactId,
     InitialContactId,
@@ -8312,6 +8089,48 @@ function resume_contact_recording(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_agent_statuses(instance_id)
+    search_agent_statuses(instance_id, params::Dict{String,<:Any})
+
+Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return agent statuses.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+search_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
+        "POST",
+        "/search-agent-statuses",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function search_agent_statuses(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-agent-statuses",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8345,22 +8164,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
-function search_available_phone_numbers(
+search_available_phone_numbers(
     PhoneNumberCountryCode,
     PhoneNumberType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/phone-number/search-available",
+    Dict{String,Any}(
+        "PhoneNumberCountryCode" => PhoneNumberCountryCode,
+        "PhoneNumberType" => PhoneNumberType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/phone-number/search-available",
-        Dict{String,Any}(
-            "PhoneNumberCountryCode" => PhoneNumberCountryCode,
-            "PhoneNumberType" => PhoneNumberType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function search_available_phone_numbers(
     PhoneNumberCountryCode,
     PhoneNumberType,
@@ -8406,17 +8223,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result in invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_contact_flow_modules(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+search_contact_flow_modules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-contact-flow-modules",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_contact_flow_modules(
     InstanceId,
     params::AbstractDict{String};
@@ -8454,15 +8268,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result in invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+search_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-contact-flows",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_contact_flows(
     InstanceId,
     params::AbstractDict{String};
@@ -8498,17 +8311,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return contacts.
 - `"Sort"`: Specifies a field to sort by and a sort order.
 """
-function search_contacts(
-    InstanceId, TimeRange; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+search_contacts(InstanceId, TimeRange; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-contacts",
         Dict{String,Any}("InstanceId" => InstanceId, "TimeRange" => TimeRange);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_contacts(
     InstanceId,
     TimeRange,
@@ -8548,17 +8358,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return hours of operations.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_hours_of_operations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+search_hours_of_operations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-hours-of-operations",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_hours_of_operations(
     InstanceId,
     params::AbstractDict{String};
@@ -8579,7 +8386,10 @@ end
     search_predefined_attributes(instance_id)
     search_predefined_attributes(instance_id, params::Dict{String,<:Any})
 
-Predefined attributes that meet certain criteria.
+Searches predefined attributes that meet certain criteria. Predefined attributes are
+attributes in an Amazon Connect instance that can be used to route contacts to an agent or
+pools of agents within a queue. For more information, see Create predefined attributes for
+routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -8592,17 +8402,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"SearchCriteria"`: The search criteria to be used to return predefined attributes.
 """
-function search_predefined_attributes(
+search_predefined_attributes(
     InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/search-predefined-attributes",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/search-predefined-attributes",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function search_predefined_attributes(
     InstanceId,
     params::AbstractDict{String};
@@ -8637,15 +8445,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return prompts.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST",
-        "/search-prompts",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "POST",
+    "/search-prompts",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search_prompts(
     InstanceId,
     params::AbstractDict{String};
@@ -8683,15 +8489,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST",
-        "/search-queues",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "POST",
+    "/search-queues",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search_queues(
     InstanceId,
     params::AbstractDict{String};
@@ -8726,17 +8530,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return quick connects.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_quick_connects(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+search_quick_connects(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-quick-connects",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_quick_connects(
     InstanceId,
     params::AbstractDict{String};
@@ -8770,18 +8571,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"ResourceTypes"`: The list of resource types to be used to search tags from. If not
   provided or if any empty list is provided, this API will search from all supported resource
-  types.
+  types.  Supported resource types    AGENT   ROUTING_PROFILE   STANDARD_QUEUE
+  SECURITY_PROFILE   OPERATING_HOURS   PROMPT   CONTACT_FLOW   FLOW_MODULE
 - `"SearchCriteria"`: The search criteria to be used to return tags.
 """
-function search_resource_tags(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+search_resource_tags(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-resource-tags",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_resource_tags(
     InstanceId,
     params::AbstractDict{String};
@@ -8819,17 +8620,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_routing_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+search_routing_profiles(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-routing-profiles",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_routing_profiles(
     InstanceId,
     params::AbstractDict{String};
@@ -8850,7 +8648,10 @@ end
     search_security_profiles(instance_id)
     search_security_profiles(instance_id, params::Dict{String,<:Any})
 
-Searches security profiles in an Amazon Connect instance, with optional filtering.
+Searches security profiles in an Amazon Connect instance, with optional filtering. For
+information about security profiles, see Security Profiles in the Amazon Connect
+Administrator Guide. For a mapping of the API name and user interface name of the security
+profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -8867,17 +8668,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.   The currently supported value for FieldName: name
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_security_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+search_security_profiles(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/search-security-profiles",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_security_profiles(
     InstanceId,
     params::AbstractDict{String};
@@ -8886,6 +8684,51 @@ function search_security_profiles(
     return connect(
         "POST",
         "/search-security-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_user_hierarchy_groups(instance_id)
+    search_user_hierarchy_groups(instance_id, params::Dict{String,<:Any})
+
+Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The
+UserHierarchyGroup with \"LevelId\": \"0\" is the foundation for building levels on top of
+an instance. It is not user-definable, nor is it visible in the UI.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return UserHierarchyGroups.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+search_user_hierarchy_groups(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/search-user-hierarchy-groups",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function search_user_hierarchy_groups(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-user-hierarchy-groups",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
@@ -8914,15 +8757,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`:
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST",
-        "/search-users",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect(
+    "POST",
+    "/search-users",
+    Dict{String,Any}("InstanceId" => InstanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search_users(
     InstanceId,
     params::AbstractDict{String};
@@ -8960,14 +8801,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"State"`: The current state of the custom vocabulary.
 """
-function search_vocabularies(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+search_vocabularies(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/vocabulary-summary/$(InstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_vocabularies(
     InstanceId,
     params::AbstractDict{String};
@@ -9010,19 +8850,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subtype"`: Classification of a channel. This is used in part to uniquely identify chat.
    Valid value: [\"connect:sms\"]
 """
-function send_chat_integration_event(
+send_chat_integration_event(
     DestinationId, Event, SourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/chat-integration-event",
+    Dict{String,Any}(
+        "DestinationId" => DestinationId, "Event" => Event, "SourceId" => SourceId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/chat-integration-event",
-        Dict{String,Any}(
-            "DestinationId" => DestinationId, "Event" => Event, "SourceId" => SourceId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_chat_integration_event(
     DestinationId,
     Event,
@@ -9054,13 +8892,13 @@ end
     start_attached_file_upload(file_name, file_size_in_bytes, file_use_case_type, instance_id, associated_resource_arn, params::Dict{String,<:Any})
 
 Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only
-use this API to upload attachments to a Connect Case.
+use this API to upload attachments to an Amazon Connect Case.
 
 # Arguments
 - `file_name`: A case-sensitive name of the attached file being uploaded.
 - `file_size_in_bytes`: The size of the attached file in bytes.
 - `file_use_case_type`: The use case for the file.
-- `instance_id`: The unique identifier of the Connect instance.
+- `instance_id`: The unique identifier of the Amazon Connect instance.
 - `associated_resource_arn`: The resource to which the attached file is (being) uploaded
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
@@ -9075,28 +8913,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UrlExpiryInSeconds"`: Optional override for the expiry of the pre-signed S3 URL in
   seconds. The default value is 300.
 """
-function start_attached_file_upload(
+start_attached_file_upload(
     FileName,
     FileSizeInBytes,
     FileUseCaseType,
     InstanceId,
     associatedResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/attached-files/$(InstanceId)",
+    Dict{String,Any}(
+        "FileName" => FileName,
+        "FileSizeInBytes" => FileSizeInBytes,
+        "FileUseCaseType" => FileUseCaseType,
+        "associatedResourceArn" => associatedResourceArn,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/attached-files/$(InstanceId)",
-        Dict{String,Any}(
-            "FileName" => FileName,
-            "FileSizeInBytes" => FileSizeInBytes,
-            "FileUseCaseType" => FileUseCaseType,
-            "associatedResourceArn" => associatedResourceArn,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_attached_file_upload(
     FileName,
     FileSizeInBytes,
@@ -9141,8 +8977,9 @@ throttling returns a TooManyRequests exception.   The quota for concurrent activ
 exceeded. Active chat throttling returns a LimitExceededException.   If you use the
 ChatDurationInMinutes parameter and receive a 400 error, your account may not support the
 ability to configure custom chat durations. For more information, contact Amazon Web
-Services Support.  For more information about chat, see Chat in the Amazon Connect
-Administrator Guide.
+Services Support.  For more information about chat, see the following topics in the Amazon
+Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon
+Connect     Amazon Connect Chat security best practices
 
 # Arguments
 - `contact_flow_id`: The identifier of the flow for initiating the chat. To see the
@@ -9195,25 +9032,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow
   block.
 """
-function start_chat_contact(
+start_chat_contact(
     ContactFlowId,
     InstanceId,
     ParticipantDetails;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/contact/chat",
+    Dict{String,Any}(
+        "ContactFlowId" => ContactFlowId,
+        "InstanceId" => InstanceId,
+        "ParticipantDetails" => ParticipantDetails,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact/chat",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "InstanceId" => InstanceId,
-            "ParticipantDetails" => ParticipantDetails,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_chat_contact(
     ContactFlowId,
     InstanceId,
@@ -9263,24 +9098,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
-function start_contact_evaluation(
+start_contact_evaluation(
     ContactId,
     EvaluationFormId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/contact-evaluations/$(InstanceId)",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "EvaluationFormId" => EvaluationFormId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact-evaluations/$(InstanceId)",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "EvaluationFormId" => EvaluationFormId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_contact_evaluation(
     ContactId,
     EvaluationFormId,
@@ -9330,26 +9163,24 @@ in the Set recording behavior block. Only voice recordings are supported at this
 - `voice_recording_configuration`: The person being recorded.
 
 """
-function start_contact_recording(
+start_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId,
     VoiceRecordingConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/start-recording",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InitialContactId" => InitialContactId,
+        "InstanceId" => InstanceId,
+        "VoiceRecordingConfiguration" => VoiceRecordingConfiguration,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/start-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-            "VoiceRecordingConfiguration" => VoiceRecordingConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_contact_recording(
     ContactId,
     InitialContactId,
@@ -9384,7 +9215,9 @@ end
 
  Initiates real-time message streaming for a new chat contact.  For more information about
 message streaming, see Enable real-time chat message streaming in the Amazon Connect
-Administrator Guide.
+Administrator Guide. For more information about chat, see the following topics in the
+Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in
+Amazon Connect     Amazon Connect Chat security best practices
 
 # Arguments
 - `chat_streaming_configuration`: The streaming configuration, such as the Amazon SNS
@@ -9398,26 +9231,24 @@ Administrator Guide.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function start_contact_streaming(
+start_contact_streaming(
     ChatStreamingConfiguration,
     ClientToken,
     ContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/start-streaming",
+    Dict{String,Any}(
+        "ChatStreamingConfiguration" => ChatStreamingConfiguration,
+        "ClientToken" => ClientToken,
+        "ContactId" => ContactId,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/start-streaming",
-        Dict{String,Any}(
-            "ChatStreamingConfiguration" => ChatStreamingConfiguration,
-            "ClientToken" => ClientToken,
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_contact_streaming(
     ChatStreamingConfiguration,
     ClientToken,
@@ -9511,25 +9342,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if
   EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
 """
-function start_outbound_voice_contact(
+start_outbound_voice_contact(
     ContactFlowId,
     DestinationPhoneNumber,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/contact/outbound-voice",
+    Dict{String,Any}(
+        "ContactFlowId" => ContactFlowId,
+        "DestinationPhoneNumber" => DestinationPhoneNumber,
+        "InstanceId" => InstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact/outbound-voice",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "DestinationPhoneNumber" => DestinationPhoneNumber,
-            "InstanceId" => InstanceId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_outbound_voice_contact(
     ContactFlowId,
     DestinationPhoneNumber,
@@ -9626,10 +9455,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TaskTemplateId"`: A unique identifier for the task template. For more information about
   task templates, see Create task templates in the Amazon Connect Administrator Guide.
 """
-function start_task_contact(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+start_task_contact(InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/contact/task",
         Dict{String,Any}(
@@ -9638,7 +9465,6 @@ function start_task_contact(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_task_contact(
     InstanceId,
     Name,
@@ -9674,8 +9500,8 @@ Amazon Connect instance (specified as InstanceId).
 
 # Arguments
 - `contact_flow_id`: The identifier of the flow for the call. To see the ContactFlowId in
-  the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows.
-  Choose the flow. On the flow page, under the name of the flow, choose Show additional flow
+  the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the
+  flow. On the flow page, under the name of the flow, choose Show additional flow
   information. The ContactFlowId is the last part of the ARN, shown here in bold:
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact
   -flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
@@ -9704,25 +9530,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This
   identifier is related to the contact starting.
 """
-function start_web_rtccontact(
+start_web_rtccontact(
     ContactFlowId,
     InstanceId,
     ParticipantDetails;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/contact/webrtc",
+    Dict{String,Any}(
+        "ContactFlowId" => ContactFlowId,
+        "InstanceId" => InstanceId,
+        "ParticipantDetails" => ParticipantDetails,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact/webrtc",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "InstanceId" => InstanceId,
-            "ParticipantDetails" => ParticipantDetails,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_web_rtccontact(
     ContactFlowId,
     InstanceId,
@@ -9769,17 +9593,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisconnectReason"`: The reason a contact can be disconnected. Only Amazon Connect
   outbound campaigns can provide this field.
 """
-function stop_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+stop_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/contact/stop",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_contact(
     ContactId,
     InstanceId,
@@ -9820,24 +9641,22 @@ voice recordings are supported at this time.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function stop_contact_recording(
+stop_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/stop-recording",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InitialContactId" => InitialContactId,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/stop-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_contact_recording(
     ContactId,
     InitialContactId,
@@ -9879,21 +9698,19 @@ contact, call the StartContactStreaming API.
 - `streaming_id`: The identifier of the streaming configuration enabled.
 
 """
-function stop_contact_streaming(
+stop_contact_streaming(
     ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact/stop-streaming",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InstanceId" => InstanceId,
+        "StreamingId" => StreamingId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/stop-streaming",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-            "StreamingId" => StreamingId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_contact_streaming(
     ContactId,
     InstanceId,
@@ -9941,16 +9758,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Answers"`: A map of question identifiers to answer value.
 - `"Notes"`: A map of question identifiers to note value.
 """
-function submit_contact_evaluation(
+submit_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact-evaluations/$(InstanceId)/$(EvaluationId)/submit";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-evaluations/$(InstanceId)/$(EvaluationId)/submit";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function submit_contact_evaluation(
     EvaluationId,
     InstanceId,
@@ -9986,24 +9801,22 @@ recordings are supported.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function suspend_contact_recording(
+suspend_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/suspend-recording",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InitialContactId" => InitialContactId,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/suspend-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function suspend_contact_recording(
     ContactId,
     InitialContactId,
@@ -10045,19 +9858,15 @@ used, see Set up granular billing for a detailed view of your Amazon Connect usa
   {\"key1\":\"value1\", \"key2\":\"value2\"} }.  Authorization is not supported by this tag.
 
 """
-function tag_contact(
+tag_contact(
     ContactId, InstanceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact/tags",
+    Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/tags",
-        Dict{String,Any}(
-            "ContactId" => ContactId, "InstanceId" => InstanceId, "Tags" => Tags
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_contact(
     ContactId,
     InstanceId,
@@ -10098,15 +9907,14 @@ Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -10150,22 +9958,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueueId"`: The identifier for the queue.
 - `"UserId"`: The identifier for the user. This can be the ID or the ARN of the user.
 """
-function transfer_contact(
+transfer_contact(
     ContactFlowId, ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact/transfer",
+    Dict{String,Any}(
+        "ContactFlowId" => ContactFlowId,
+        "ContactId" => ContactId,
+        "InstanceId" => InstanceId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/transfer",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function transfer_contact(
     ContactFlowId,
     ContactId,
@@ -10208,17 +10014,15 @@ is used, see Set up granular billing for a detailed view of your Amazon Connect 
   this list will be removed.
 
 """
-function untag_contact(
+untag_contact(
     ContactId, InstanceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "DELETE",
+    "/contact/tags/$(InstanceId)/$(ContactId)",
+    Dict{String,Any}("TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "DELETE",
-        "/contact/tags/$(InstanceId)/$(ContactId)",
-        Dict{String,Any}("TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function untag_contact(
     ContactId,
     InstanceId,
@@ -10246,17 +10050,14 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -10292,16 +10093,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResetOrderNumber"`: A number indicating the reset order of the agent status.
 - `"State"`: The state of the agent status.
 """
-function update_agent_status(
+update_agent_status(
     AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/agent-status/$(InstanceId)/$(AgentStatusId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/agent-status/$(InstanceId)/$(AgentStatusId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_agent_status(
     AgentStatusId,
     InstanceId,
@@ -10311,6 +10110,59 @@ function update_agent_status(
     return connect(
         "POST",
         "/agent-status/$(InstanceId)/$(AgentStatusId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_authentication_profile(authentication_profile_id, instance_id)
+    update_authentication_profile(authentication_profile_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. To request
+access to this API, contact Amazon Web Services Support. Updates the selected
+authentication profile.
+
+# Arguments
+- `authentication_profile_id`: A unique identifier for the authentication profile.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowedIps"`: A list of IP address range strings that are allowed to access the
+  instance. For more information on how to configure IP addresses, seeConfigure session
+  timeouts in the Amazon Connect Administrator Guide.
+- `"BlockedIps"`: A list of IP address range strings that are blocked from accessing the
+  instance. For more information on how to configure IP addresses, For more information on
+  how to configure IP addresses, see Configure IP-based access control in the Amazon Connect
+  Administrator Guide.
+- `"Description"`: The description for the authentication profile.
+- `"Name"`: The name for the authentication profile.
+- `"PeriodicSessionDuration"`: The short lived session duration configuration for users
+  logged in to Amazon Connect, in minutes. This value determines the maximum possible time
+  before an agent is authenticated. For more information, For more information on how to
+  configure IP addresses, see Configure session timeouts in the Amazon Connect Administrator
+  Guide.
+"""
+update_authentication_profile(
+    AuthenticationProfileId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_authentication_profile(
+    AuthenticationProfileId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -10339,16 +10191,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"References"`: Well-formed data on contact, shown to agents on Contact Control Panel
   (CCP).
 """
-function update_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+update_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/contacts/$(InstanceId)/$(ContactId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_contact(
     ContactId,
     InstanceId,
@@ -10397,24 +10246,22 @@ Administrator Guide.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function update_contact_attributes(
+update_contact_attributes(
     Attributes,
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact/attributes",
+    Dict{String,Any}(
+        "Attributes" => Attributes,
+        "InitialContactId" => InitialContactId,
+        "InstanceId" => InstanceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/attributes",
-        Dict{String,Any}(
-            "Attributes" => Attributes,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_attributes(
     Attributes,
     InitialContactId,
@@ -10460,16 +10307,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Answers"`: A map of question identifiers to answer value.
 - `"Notes"`: A map of question identifiers to note value.
 """
-function update_contact_evaluation(
+update_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_evaluation(
     EvaluationId,
     InstanceId,
@@ -10502,17 +10347,15 @@ needs to be supplied to view saved content that has not been published.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
-function update_contact_flow_content(
+update_contact_flow_content(
     ContactFlowId, Content, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact-flows/$(InstanceId)/$(ContactFlowId)/content",
+    Dict{String,Any}("Content" => Content);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)/content",
-        Dict{String,Any}("Content" => Content);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_flow_content(
     ContactFlowId,
     Content,
@@ -10546,16 +10389,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the flow.
 - `"Name"`: The name of the flow.
 """
-function update_contact_flow_metadata(
+update_contact_flow_metadata(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact-flows/$(InstanceId)/$(ContactFlowId)/metadata";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)/metadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_flow_metadata(
     ContactFlowId,
     InstanceId,
@@ -10588,20 +10429,18 @@ supplied to view saved content that has not been published.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function update_contact_flow_module_content(
+update_contact_flow_module_content(
     ContactFlowModuleId,
     Content,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/content",
+    Dict{String,Any}("Content" => Content);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/content",
-        Dict{String,Any}("Content" => Content);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_flow_module_content(
     ContactFlowModuleId,
     Content,
@@ -10635,16 +10474,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the flow module.
 - `"State"`: The state of flow module.
 """
-function update_contact_flow_module_metadata(
+update_contact_flow_module_metadata(
     ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/metadata";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/metadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_flow_module_metadata(
     ContactFlowModuleId,
     InstanceId,
@@ -10676,16 +10513,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the flow.
 - `"Name"`: The name of the flow.
 """
-function update_contact_flow_name(
+update_contact_flow_name(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact-flows/$(InstanceId)/$(ContactFlowId)/name";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_flow_name(
     ContactFlowId,
     InstanceId,
@@ -10730,17 +10565,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact's routing age. Contacts are routed to agents on a first-come, first-serve basis.
   This means that changing their amount of time in queue compared to others also changes
   their position in queue.
+- `"RoutingCriteria"`: Updates the routing criteria on the contact. These properties can be
+  used to change how a&#x2028; contact is routed within the queue.
 """
-function update_contact_routing_data(
+update_contact_routing_data(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contacts/$(InstanceId)/$(ContactId)/routing-data";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contacts/$(InstanceId)/$(ContactId)/routing-data";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_routing_data(
     ContactId,
     InstanceId,
@@ -10771,21 +10606,19 @@ Updates the scheduled time of a task contact that is already scheduled.
   in future.
 
 """
-function update_contact_schedule(
+update_contact_schedule(
     ContactId, InstanceId, ScheduledTime; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/contact/schedule",
+    Dict{String,Any}(
+        "ContactId" => ContactId,
+        "InstanceId" => InstanceId,
+        "ScheduledTime" => ScheduledTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/contact/schedule",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-            "ScheduledTime" => ScheduledTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact_schedule(
     ContactId,
     InstanceId,
@@ -10839,27 +10672,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the evaluation form.
 - `"ScoringStrategy"`: A scoring strategy of the evaluation form.
 """
-function update_evaluation_form(
+update_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
     InstanceId,
     Items,
     Title;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
+    Dict{String,Any}(
+        "EvaluationFormVersion" => EvaluationFormVersion,
+        "Items" => Items,
+        "Title" => Title,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
-        Dict{String,Any}(
-            "EvaluationFormVersion" => EvaluationFormVersion,
-            "Items" => Items,
-            "Title" => Title,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
@@ -10908,16 +10739,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the hours of operation.
 - `"TimeZone"`: The time zone of the hours of operation.
 """
-function update_hours_of_operation(
+update_hours_of_operation(
     HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
@@ -10949,17 +10778,15 @@ value for the specified attribute type.
 - `value`: The value for the attribute. Maximum character limit is 100.
 
 """
-function update_instance_attribute(
+update_instance_attribute(
     AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/instance/$(InstanceId)/attribute/$(AttributeType)",
+    Dict{String,Any}("Value" => Value);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/attribute/$(AttributeType)",
-        Dict{String,Any}("Value" => Value);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_instance_attribute(
     AttributeType,
     InstanceId,
@@ -10992,21 +10819,19 @@ existing configuration for a resource type. This API is idempotent.
 - `resource_type`: A valid resource type.
 
 """
-function update_instance_storage_config(
+update_instance_storage_config(
     AssociationId,
     InstanceId,
     StorageConfig,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/instance/$(InstanceId)/storage-config/$(AssociationId)",
+    Dict{String,Any}("StorageConfig" => StorageConfig, "resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/storage-config/$(AssociationId)",
-        Dict{String,Any}("StorageConfig" => StorageConfig, "resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_instance_storage_config(
     AssociationId,
     InstanceId,
@@ -11049,20 +10874,18 @@ chat timeouts for human participants.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function update_participant_role_config(
+update_participant_role_config(
     ChannelConfiguration,
     ContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/contact/participant-role-config/$(InstanceId)/$(ContactId)",
+    Dict{String,Any}("ChannelConfiguration" => ChannelConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/contact/participant-role-config/$(InstanceId)/$(ContactId)",
-        Dict{String,Any}("ChannelConfiguration" => ChannelConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_participant_role_config(
     ChannelConfiguration,
     ContactId,
@@ -11113,17 +10936,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
-function update_phone_number(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+update_phone_number(PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/phone-number/$(PhoneNumberId)",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -11157,17 +10977,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"PhoneNumberDescription"`: The description of the phone number.
 """
-function update_phone_number_metadata(
+update_phone_number_metadata(
     PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "PUT",
+    "/phone-number/$(PhoneNumberId)/metadata",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/phone-number/$(PhoneNumberId)/metadata",
-        Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_phone_number_metadata(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -11188,7 +11006,10 @@ end
     update_predefined_attribute(instance_id, name)
     update_predefined_attribute(instance_id, name, params::Dict{String,<:Any})
 
-Updates a predefined attribute for the specified Amazon Connect instance.
+Updates a predefined attribute for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -11199,16 +11020,14 @@ Updates a predefined attribute for the specified Amazon Connect instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Values"`: The values of the predefined attribute.
 """
-function update_predefined_attribute(
+update_predefined_attribute(
     InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/predefined-attributes/$(InstanceId)/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/predefined-attributes/$(InstanceId)/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_predefined_attribute(
     InstanceId,
     Name,
@@ -11242,16 +11061,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Uri"`: The URI for the S3 bucket where the prompt is stored. You can provide S3
   pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs.
 """
-function update_prompt(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+update_prompt(InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/prompts/$(InstanceId)/$(PromptId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_prompt(
     InstanceId,
     PromptId,
@@ -11281,20 +11097,18 @@ hours of operation for the specified queue.
 - `queue_id`: The identifier for the queue.
 
 """
-function update_queue_hours_of_operation(
+update_queue_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
     QueueId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/queues/$(InstanceId)/$(QueueId)/hours-of-operation",
+    Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/hours-of-operation",
-        Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_queue_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
@@ -11332,16 +11146,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxContacts"`: The maximum number of contacts that can be in the queue before it is
   considered full.
 """
-function update_queue_max_contacts(
+update_queue_max_contacts(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/queues/$(InstanceId)/$(QueueId)/max-contacts";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/max-contacts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_queue_max_contacts(
     InstanceId,
     QueueId,
@@ -11374,16 +11186,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the queue.
 - `"Name"`: The name of the queue.
 """
-function update_queue_name(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
+update_queue_name(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/name";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_queue_name(
     InstanceId,
     QueueId,
@@ -11425,20 +11234,18 @@ group, see Allow or Deny queue API actions for phone numbers in a replica Region
 - `queue_id`: The identifier for the queue.
 
 """
-function update_queue_outbound_caller_config(
+update_queue_outbound_caller_config(
     InstanceId,
     OutboundCallerConfig,
     QueueId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/queues/$(InstanceId)/$(QueueId)/outbound-caller-config",
+    Dict{String,Any}("OutboundCallerConfig" => OutboundCallerConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/outbound-caller-config",
-        Dict{String,Any}("OutboundCallerConfig" => OutboundCallerConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_queue_outbound_caller_config(
     InstanceId,
     OutboundCallerConfig,
@@ -11475,17 +11282,15 @@ status of the queue.
 - `status`: The status of the queue.
 
 """
-function update_queue_status(
+update_queue_status(
     InstanceId, QueueId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/queues/$(InstanceId)/$(QueueId)/status",
+    Dict{String,Any}("Status" => Status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/status",
-        Dict{String,Any}("Status" => Status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_queue_status(
     InstanceId,
     QueueId,
@@ -11516,20 +11321,18 @@ Updates the configuration settings for the specified quick connect.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
-function update_quick_connect_config(
+update_quick_connect_config(
     InstanceId,
     QuickConnectConfig,
     QuickConnectId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/quick-connects/$(InstanceId)/$(QuickConnectId)/config",
+    Dict{String,Any}("QuickConnectConfig" => QuickConnectConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)/config",
-        Dict{String,Any}("QuickConnectConfig" => QuickConnectConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_quick_connect_config(
     InstanceId,
     QuickConnectConfig,
@@ -11567,16 +11370,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the quick connect.
 - `"Name"`: The name of the quick connect.
 """
-function update_quick_connect_name(
+update_quick_connect_name(
     InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/quick-connects/$(InstanceId)/$(QuickConnectId)/name";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_quick_connect_name(
     InstanceId,
     QuickConnectId,
@@ -11608,20 +11409,18 @@ time since their last inbound contact or longest idle time.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function update_routing_profile_agent_availability_timer(
+update_routing_profile_agent_availability_timer(
     AgentAvailabilityTimer,
     InstanceId,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/agent-availability-timer",
+    Dict{String,Any}("AgentAvailabilityTimer" => AgentAvailabilityTimer);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/agent-availability-timer",
-        Dict{String,Any}("AgentAvailabilityTimer" => AgentAvailabilityTimer);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_profile_agent_availability_timer(
     AgentAvailabilityTimer,
     InstanceId,
@@ -11659,20 +11458,18 @@ routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function update_routing_profile_concurrency(
+update_routing_profile_concurrency(
     InstanceId,
     MediaConcurrencies,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency",
+    Dict{String,Any}("MediaConcurrencies" => MediaConcurrencies);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency",
-        Dict{String,Any}("MediaConcurrencies" => MediaConcurrencies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_profile_concurrency(
     InstanceId,
     MediaConcurrencies,
@@ -11706,20 +11503,18 @@ Updates the default outbound queue of a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function update_routing_profile_default_outbound_queue(
+update_routing_profile_default_outbound_queue(
     DefaultOutboundQueueId,
     InstanceId,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue",
+    Dict{String,Any}("DefaultOutboundQueueId" => DefaultOutboundQueueId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue",
-        Dict{String,Any}("DefaultOutboundQueueId" => DefaultOutboundQueueId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_profile_default_outbound_queue(
     DefaultOutboundQueueId,
     InstanceId,
@@ -11760,16 +11555,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters.
 - `"Name"`: The name of the routing profile. Must not be more than 127 characters.
 """
-function update_routing_profile_name(
+update_routing_profile_name(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_profile_name(
     InstanceId,
     RoutingProfileId,
@@ -11799,20 +11592,18 @@ Updates the properties associated with a set of queues for a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
-function update_routing_profile_queues(
+update_routing_profile_queues(
     InstanceId,
     QueueConfigs,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
+    Dict{String,Any}("QueueConfigs" => QueueConfigs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
-        Dict{String,Any}("QueueConfigs" => QueueConfigs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_routing_profile_queues(
     InstanceId,
     QueueConfigs,
@@ -11850,7 +11641,7 @@ to code conditions for the rule.
 - `rule_id`: A unique identifier for the rule.
 
 """
-function update_rule(
+update_rule(
     Actions,
     Function,
     InstanceId,
@@ -11858,20 +11649,18 @@ function update_rule(
     PublishStatus,
     RuleId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "PUT",
+    "/rules/$(InstanceId)/$(RuleId)",
+    Dict{String,Any}(
+        "Actions" => Actions,
+        "Function" => Function,
+        "Name" => Name,
+        "PublishStatus" => PublishStatus,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "PUT",
-        "/rules/$(InstanceId)/$(RuleId)",
-        Dict{String,Any}(
-            "Actions" => Actions,
-            "Function" => Function,
-            "Name" => Name,
-            "PublishStatus" => PublishStatus,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_rule(
     Actions,
     Function,
@@ -11906,7 +11695,9 @@ end
     update_security_profile(instance_id, security_profile_id)
     update_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
-Updates a security profile.
+Updates a security profile. For information about security profiles, see Security Profiles
+in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface
+name of the security profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -11928,16 +11719,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagRestrictedResources"`: The list of resources that a security profile applies tag
   restrictions to in Amazon Connect.
 """
-function update_security_profile(
+update_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_security_profile(
     InstanceId,
     SecurityProfileId,
@@ -11980,16 +11769,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
-function update_task_template(
+update_task_template(
     InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_task_template(
     InstanceId,
     TaskTemplateId,
@@ -12029,14 +11816,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be used to sign in agents in to both the instance and its replica(s).
 - `"TelephonyConfig"`: The distribution of traffic between the instance and its replica(s).
 """
-function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
+update_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connect(
         "PUT",
         "/traffic-distribution/$(Id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_traffic_distribution(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -12064,16 +11850,14 @@ Assigns the specified hierarchy group to the specified user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HierarchyGroupId"`: The identifier of the hierarchy group.
 """
-function update_user_hierarchy(
+update_user_hierarchy(
     InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/hierarchy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/hierarchy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_hierarchy(
     InstanceId,
     UserId,
@@ -12102,17 +11886,15 @@ Updates the name of the user hierarchy group.
 - `name`: The name of the hierarchy group. Must not be more than 100 characters.
 
 """
-function update_user_hierarchy_group_name(
+update_user_hierarchy_group_name(
     HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_hierarchy_group_name(
     HierarchyGroupId,
     InstanceId,
@@ -12141,17 +11923,15 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function update_user_hierarchy_structure(
+update_user_hierarchy_structure(
     HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/user-hierarchy-structure/$(InstanceId)",
+    Dict{String,Any}("HierarchyStructure" => HierarchyStructure);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/user-hierarchy-structure/$(InstanceId)",
-        Dict{String,Any}("HierarchyStructure" => HierarchyStructure);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_hierarchy_structure(
     HierarchyStructure,
     InstanceId,
@@ -12189,17 +11969,15 @@ Practices for Security Profiles in the Amazon Connect Administrator Guide.
 - `user_id`: The identifier of the user account.
 
 """
-function update_user_identity_info(
+update_user_identity_info(
     IdentityInfo, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/identity-info",
+    Dict{String,Any}("IdentityInfo" => IdentityInfo);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/identity-info",
-        Dict{String,Any}("IdentityInfo" => IdentityInfo);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_identity_info(
     IdentityInfo,
     InstanceId,
@@ -12231,17 +12009,15 @@ Updates the phone configuration settings for the specified user.
 - `user_id`: The identifier of the user account.
 
 """
-function update_user_phone_config(
+update_user_phone_config(
     InstanceId, PhoneConfig, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/phone-config",
+    Dict{String,Any}("PhoneConfig" => PhoneConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/phone-config",
-        Dict{String,Any}("PhoneConfig" => PhoneConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_phone_config(
     InstanceId,
     PhoneConfig,
@@ -12274,17 +12050,15 @@ Updates the properties associated with the proficiencies of a user.
   first be associated to the user. You can do this using AssociateUserProficiencies API.
 
 """
-function update_user_proficiencies(
+update_user_proficiencies(
     InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/proficiencies",
+    Dict{String,Any}("UserProficiencies" => UserProficiencies);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/proficiencies",
-        Dict{String,Any}("UserProficiencies" => UserProficiencies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_proficiencies(
     InstanceId,
     UserId,
@@ -12318,17 +12092,15 @@ Assigns the specified routing profile to the specified user.
 - `user_id`: The identifier of the user account.
 
 """
-function update_user_routing_profile(
+update_user_routing_profile(
     InstanceId, RoutingProfileId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/routing-profile",
+    Dict{String,Any}("RoutingProfileId" => RoutingProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/routing-profile",
-        Dict{String,Any}("RoutingProfileId" => RoutingProfileId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_routing_profile(
     InstanceId,
     RoutingProfileId,
@@ -12362,20 +12134,18 @@ Assigns the specified security profiles to the specified user.
 - `user_id`: The identifier of the user account.
 
 """
-function update_user_security_profiles(
+update_user_security_profiles(
     InstanceId,
     SecurityProfileIds,
     UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = connect(
+    "POST",
+    "/users/$(InstanceId)/$(UserId)/security-profiles",
+    Dict{String,Any}("SecurityProfileIds" => SecurityProfileIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/security-profiles",
-        Dict{String,Any}("SecurityProfileIds" => SecurityProfileIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_security_profiles(
     InstanceId,
     SecurityProfileIds,
@@ -12416,17 +12186,15 @@ be updated, but the LATEST alias' content will only be updated if Status is PUBL
 - `view_id`: The identifier of the view. Both ViewArn and ViewId can be used.
 
 """
-function update_view_content(
+update_view_content(
     Content, InstanceId, Status, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/views/$(InstanceId)/$(ViewId)",
+    Dict{String,Any}("Content" => Content, "Status" => Status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/views/$(InstanceId)/$(ViewId)",
-        Dict{String,Any}("Content" => Content, "Status" => Status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_view_content(
     Content,
     InstanceId,
@@ -12464,16 +12232,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the view.
 - `"Name"`: The name of the view.
 """
-function update_view_metadata(
+update_view_metadata(
     InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connect(
+    "POST",
+    "/views/$(InstanceId)/$(ViewId)/metadata";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connect(
-        "POST",
-        "/views/$(InstanceId)/$(ViewId)/metadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_view_metadata(
     InstanceId,
     ViewId,

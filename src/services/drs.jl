@@ -16,19 +16,15 @@ to use this network. Can be used for reverting to previously deployed CloudForma
 - `source_network_id`: The Source Network ID to associate with CloudFormation template.
 
 """
-function associate_source_network_stack(
+associate_source_network_stack(
     cfnStackName, sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/AssociateSourceNetworkStack",
+    Dict{String,Any}("cfnStackName" => cfnStackName, "sourceNetworkID" => sourceNetworkID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/AssociateSourceNetworkStack",
-        Dict{String,Any}(
-            "cfnStackName" => cfnStackName, "sourceNetworkID" => sourceNetworkID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_source_network_stack(
     cfnStackName,
     sourceNetworkID,
@@ -67,17 +63,15 @@ staging account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A list of tags associated with the extended source server.
 """
-function create_extended_source_server(
+create_extended_source_server(
     sourceServerArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/CreateExtendedSourceServer",
+    Dict{String,Any}("sourceServerArn" => sourceServerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/CreateExtendedSourceServer",
-        Dict{String,Any}("sourceServerArn" => sourceServerArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_extended_source_server(
     sourceServerArn,
     params::AbstractDict{String};
@@ -116,16 +110,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
-function create_launch_configuration_template(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+create_launch_configuration_template(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "POST",
         "/CreateLaunchConfigurationTemplate";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_launch_configuration_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -173,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A set of tags to be associated with the Replication Configuration Template
   resource.
 """
-function create_replication_configuration_template(
+create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
     createPublicIP,
@@ -187,28 +178,26 @@ function create_replication_configuration_template(
     stagingAreaTags,
     useDedicatedReplicationServer;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = drs(
+    "POST",
+    "/CreateReplicationConfigurationTemplate",
+    Dict{String,Any}(
+        "associateDefaultSecurityGroup" => associateDefaultSecurityGroup,
+        "bandwidthThrottling" => bandwidthThrottling,
+        "createPublicIP" => createPublicIP,
+        "dataPlaneRouting" => dataPlaneRouting,
+        "defaultLargeStagingDiskType" => defaultLargeStagingDiskType,
+        "ebsEncryption" => ebsEncryption,
+        "pitPolicy" => pitPolicy,
+        "replicationServerInstanceType" => replicationServerInstanceType,
+        "replicationServersSecurityGroupsIDs" => replicationServersSecurityGroupsIDs,
+        "stagingAreaSubnetId" => stagingAreaSubnetId,
+        "stagingAreaTags" => stagingAreaTags,
+        "useDedicatedReplicationServer" => useDedicatedReplicationServer,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/CreateReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "associateDefaultSecurityGroup" => associateDefaultSecurityGroup,
-            "bandwidthThrottling" => bandwidthThrottling,
-            "createPublicIP" => createPublicIP,
-            "dataPlaneRouting" => dataPlaneRouting,
-            "defaultLargeStagingDiskType" => defaultLargeStagingDiskType,
-            "ebsEncryption" => ebsEncryption,
-            "pitPolicy" => pitPolicy,
-            "replicationServerInstanceType" => replicationServerInstanceType,
-            "replicationServersSecurityGroupsIDs" => replicationServersSecurityGroupsIDs,
-            "stagingAreaSubnetId" => stagingAreaSubnetId,
-            "stagingAreaTags" => stagingAreaTags,
-            "useDedicatedReplicationServer" => useDedicatedReplicationServer,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -269,21 +258,19 @@ Create a new Source Network resource for a provided VPC ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A set of tags to be associated with the Source Network resource.
 """
-function create_source_network(
+create_source_network(
     originAccountID, originRegion, vpcID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/CreateSourceNetwork",
+    Dict{String,Any}(
+        "originAccountID" => originAccountID,
+        "originRegion" => originRegion,
+        "vpcID" => vpcID,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/CreateSourceNetwork",
-        Dict{String,Any}(
-            "originAccountID" => originAccountID,
-            "originRegion" => originRegion,
-            "vpcID" => vpcID,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_source_network(
     originAccountID,
     originRegion,
@@ -320,15 +307,13 @@ Deletes a single Job by ID.
 - `job_id`: The ID of the Job to be deleted.
 
 """
-function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/DeleteJob",
-        Dict{String,Any}("jobID" => jobID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/DeleteJob",
+    Dict{String,Any}("jobID" => jobID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_job(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -352,17 +337,15 @@ Deletes a resource launch action.
 - `resource_id`:
 
 """
-function delete_launch_action(
+delete_launch_action(
     actionId, resourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DeleteLaunchAction",
+    Dict{String,Any}("actionId" => actionId, "resourceId" => resourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DeleteLaunchAction",
-        Dict{String,Any}("actionId" => actionId, "resourceId" => resourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_launch_action(
     actionId,
     resourceId,
@@ -395,17 +378,15 @@ Deletes a single Launch Configuration Template by ID.
   deleted.
 
 """
-function delete_launch_configuration_template(
+delete_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DeleteLaunchConfigurationTemplate",
+    Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DeleteLaunchConfigurationTemplate",
-        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -440,17 +421,15 @@ delete it.
 - `recovery_instance_id`: The ID of the Recovery Instance to be deleted.
 
 """
-function delete_recovery_instance(
+delete_recovery_instance(
     recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DeleteRecoveryInstance",
+    Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DeleteRecoveryInstance",
-        Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_recovery_instance(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -480,19 +459,17 @@ Deletes a single Replication Configuration Template by ID
   to be deleted.
 
 """
-function delete_replication_configuration_template(
+delete_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DeleteReplicationConfigurationTemplate",
+    Dict{String,Any}(
+        "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DeleteReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -526,17 +503,14 @@ Delete Source Network resource.
 - `source_network_id`: ID of the Source Network to delete.
 
 """
-function delete_source_network(
-    sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+delete_source_network(sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "POST",
         "/DeleteSourceNetwork",
         Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_source_network(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -565,17 +539,14 @@ Deletes a single Source Server by ID. The Source Server must be disconnected fir
 - `source_server_id`: The ID of the Source Server to be deleted.
 
 """
-function delete_source_server(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+delete_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "POST",
         "/DeleteSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -606,15 +577,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of Job log items to retrieve.
 - `"nextToken"`: The token of the next Job log items to retrieve.
 """
-function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/DescribeJobLogItems",
-        Dict{String,Any}("jobID" => jobID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/DescribeJobLogItems",
+    Dict{String,Any}("jobID" => jobID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_job_log_items(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -643,11 +612,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of Jobs to retrieve.
 - `"nextToken"`: The token of the next Job to retrieve.
 """
-function describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs("POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -673,16 +639,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
 - `"nextToken"`: The token of the next Launch Configuration Template to retrieve.
 """
-function describe_launch_configuration_templates(;
+describe_launch_configuration_templates(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DescribeLaunchConfigurationTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DescribeLaunchConfigurationTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_launch_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -707,14 +671,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of Recovery Instances to retrieve.
 - `"nextToken"`: The token of the next Recovery Instance to retrieve.
 """
-function describe_recovery_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/DescribeRecoveryInstances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_recovery_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/DescribeRecoveryInstances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_recovery_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -743,17 +705,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Recovery Snapshot to retrieve.
 - `"order"`: The sorted ordering by which to return Recovery Snapshots.
 """
-function describe_recovery_snapshots(
+describe_recovery_snapshots(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DescribeRecoverySnapshots",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DescribeRecoverySnapshots",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_recovery_snapshots(
     sourceServerID,
     params::AbstractDict{String};
@@ -783,16 +743,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"replicationConfigurationTemplateIDs"`: The IDs of the Replication Configuration
   Templates to retrieve. An empty list means all Replication Configuration Templates.
 """
-function describe_replication_configuration_templates(;
+describe_replication_configuration_templates(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DescribeReplicationConfigurationTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DescribeReplicationConfigurationTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_replication_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -817,14 +775,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of Source Networks to retrieve.
 - `"nextToken"`: The token of the next Source Networks to retrieve.
 """
-function describe_source_networks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/DescribeSourceNetworks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_source_networks(; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/DescribeSourceNetworks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_source_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -849,14 +805,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of Source Servers to retrieve.
 - `"nextToken"`: The token of the next Source Server to retrieve.
 """
-function describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/DescribeSourceServers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/DescribeSourceServers";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_source_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -888,17 +842,15 @@ nullified.
 - `recovery_instance_id`: The ID of the Recovery Instance to disconnect.
 
 """
-function disconnect_recovery_instance(
+disconnect_recovery_instance(
     recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DisconnectRecoveryInstance",
+    Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DisconnectRecoveryInstance",
-        Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disconnect_recovery_instance(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -936,17 +888,15 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be null
 - `source_server_id`: The ID of the Source Server to disconnect.
 
 """
-function disconnect_source_server(
+disconnect_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/DisconnectSourceServer",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/DisconnectSourceServer",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disconnect_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -974,17 +924,15 @@ Export the Source Network CloudFormation template to an S3 bucket.
   bucket.
 
 """
-function export_source_network_cfn_template(
+export_source_network_cfn_template(
     sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/ExportSourceNetworkCfnTemplate",
+    Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/ExportSourceNetworkCfnTemplate",
-        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_source_network_cfn_template(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1014,17 +962,15 @@ Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
   configuration should be returned.
 
 """
-function get_failback_replication_configuration(
+get_failback_replication_configuration(
     recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/GetFailbackReplicationConfiguration",
+    Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/GetFailbackReplicationConfiguration",
-        Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_failback_replication_configuration(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1054,17 +1000,15 @@ Gets a LaunchConfiguration, filtered by Source Server IDs.
   Configuration for.
 
 """
-function get_launch_configuration(
+get_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/GetLaunchConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/GetLaunchConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1091,17 +1035,15 @@ Gets a ReplicationConfiguration, filtered by Source Server ID.
 - `source_server_id`: The ID of the Source Serve for this Replication Configuration.r
 
 """
-function get_replication_configuration(
+get_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/GetReplicationConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/GetReplicationConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1125,11 +1067,9 @@ end
 Initialize Elastic Disaster Recovery.
 
 """
-function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+initialize_service(; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function initialize_service(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1159,17 +1099,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of extensible source servers to retrieve.
 - `"nextToken"`: The token of the next extensible source server to retrieve.
 """
-function list_extensible_source_servers(
+list_extensible_source_servers(
     stagingAccountID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/ListExtensibleSourceServers",
+    Dict{String,Any}("stagingAccountID" => stagingAccountID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/ListExtensibleSourceServers",
-        Dict{String,Any}("stagingAccountID" => stagingAccountID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_extensible_source_servers(
     stagingAccountID,
     params::AbstractDict{String};
@@ -1203,15 +1141,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum amount of items to return when listing resource launch actions.
 - `"nextToken"`: Next token to use when listing resource launch actions.
 """
-function list_launch_actions(resourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/ListLaunchActions",
-        Dict{String,Any}("resourceId" => resourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_launch_actions(resourceId; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/ListLaunchActions",
+    Dict{String,Any}("resourceId" => resourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_launch_actions(
     resourceId,
     params::AbstractDict{String};
@@ -1239,14 +1175,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of staging Accounts to retrieve.
 - `"nextToken"`: The token of the next staging Account to retrieve.
 """
-function list_staging_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "GET",
-        "/ListStagingAccounts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_staging_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "GET",
+    "/ListStagingAccounts";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_staging_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1269,16 +1203,13 @@ List all tags for your Elastic Disaster Recovery resources.
 - `resource_arn`: The ARN of the resource whose tags should be returned.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1315,7 +1246,7 @@ Puts a resource launch action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"parameters"`:
 """
-function put_launch_action(
+put_launch_action(
     actionCode,
     actionId,
     actionVersion,
@@ -1327,26 +1258,24 @@ function put_launch_action(
     order,
     resourceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = drs(
+    "POST",
+    "/PutLaunchAction",
+    Dict{String,Any}(
+        "actionCode" => actionCode,
+        "actionId" => actionId,
+        "actionVersion" => actionVersion,
+        "active" => active,
+        "category" => category,
+        "description" => description,
+        "name" => name,
+        "optional" => optional,
+        "order" => order,
+        "resourceId" => resourceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/PutLaunchAction",
-        Dict{String,Any}(
-            "actionCode" => actionCode,
-            "actionId" => actionId,
-            "actionVersion" => actionVersion,
-            "active" => active,
-            "category" => category,
-            "description" => description,
-            "name" => name,
-            "optional" => optional,
-            "order" => order,
-            "resourceId" => resourceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_launch_action(
     actionCode,
     actionId,
@@ -1400,17 +1329,14 @@ Source Server is stalled or is in a DISCONNECTED or STOPPED state.
 - `source_server_id`: The ID of the Source Server whose data replication should be retried.
 
 """
-function retry_data_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+retry_data_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "POST",
         "/RetryDataReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function retry_data_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1441,17 +1367,14 @@ region to re-protect them.
   replication for.
 
 """
-function reverse_replication(
-    recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+reverse_replication(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "POST",
         "/ReverseReplication",
         Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function reverse_replication(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1486,17 +1409,15 @@ machine, thus completing the failback process.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: The tags to be associated with the failback launch Job.
 """
-function start_failback_launch(
+start_failback_launch(
     recoveryInstanceIDs; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/StartFailbackLaunch",
+    Dict{String,Any}("recoveryInstanceIDs" => recoveryInstanceIDs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/StartFailbackLaunch",
-        Dict{String,Any}("recoveryInstanceIDs" => recoveryInstanceIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_failback_launch(
     recoveryInstanceIDs,
     params::AbstractDict{String};
@@ -1532,15 +1453,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"isDrill"`: Whether this Source Server Recovery operation is a drill or not.
 - `"tags"`: The tags to be associated with the Recovery Job.
 """
-function start_recovery(sourceServers; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/StartRecovery",
-        Dict{String,Any}("sourceServers" => sourceServers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_recovery(sourceServers; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/StartRecovery",
+    Dict{String,Any}("sourceServers" => sourceServers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_recovery(
     sourceServers,
     params::AbstractDict{String};
@@ -1568,17 +1487,13 @@ protected again and restart billing for it.
 - `source_server_id`: The ID of the Source Server to start replication for.
 
 """
-function start_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+start_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/StartReplication",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/StartReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1611,17 +1526,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new stack.
 - `"tags"`: The tags to be associated with the Source Network recovery Job.
 """
-function start_source_network_recovery(
+start_source_network_recovery(
     sourceNetworks; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/StartSourceNetworkRecovery",
+    Dict{String,Any}("sourceNetworks" => sourceNetworks);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/StartSourceNetworkRecovery",
-        Dict{String,Any}("sourceNetworks" => sourceNetworks);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_source_network_recovery(
     sourceNetworks,
     params::AbstractDict{String};
@@ -1649,17 +1562,15 @@ protected.
 - `source_network_id`: ID of the Source Network to replicate.
 
 """
-function start_source_network_replication(
+start_source_network_replication(
     sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/StartSourceNetworkReplication",
+    Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/StartSourceNetworkReplication",
-        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_source_network_replication(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1689,17 +1600,13 @@ State of the Recovery Instance back to FAILBACK_NOT_STARTED.
 - `recovery_instance_id`: The ID of the Recovery Instance we want to stop failback for.
 
 """
-function stop_failback(
-    recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
+stop_failback(recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/StopFailback",
+    Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/StopFailback",
-        Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_failback(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1729,15 +1636,13 @@ unprotected, delete its existing snapshots and stop billing for it.
 - `source_server_id`: The ID of the Source Server to stop replication for.
 
 """
-function stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/StopReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/StopReplication",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1765,17 +1670,15 @@ unprotected.
 - `source_network_id`: ID of the Source Network to stop replication.
 
 """
-function stop_source_network_replication(
+stop_source_network_replication(
     sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/StopSourceNetworkReplication",
+    Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/StopSourceNetworkReplication",
-        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_source_network_replication(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1808,15 +1711,13 @@ optional value.
 - `tags`: Array of tags to be added or updated.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return drs(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = drs(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -1844,17 +1745,15 @@ service.
 - `recovery_instance_ids`: The IDs of the Recovery Instances that should be terminated.
 
 """
-function terminate_recovery_instances(
+terminate_recovery_instances(
     recoveryInstanceIDs; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/TerminateRecoveryInstances",
+    Dict{String,Any}("recoveryInstanceIDs" => recoveryInstanceIDs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/TerminateRecoveryInstances",
-        Dict{String,Any}("recoveryInstanceIDs" => recoveryInstanceIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function terminate_recovery_instances(
     recoveryInstanceIDs,
     params::AbstractDict{String};
@@ -1887,17 +1786,14 @@ resources.
 - `tag_keys`: Array of tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return drs(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    drs(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1930,17 +1826,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usePrivateIP"`: Whether to use Private IP for the failback replication of the Recovery
   Instance.
 """
-function update_failback_replication_configuration(
+update_failback_replication_configuration(
     recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/UpdateFailbackReplicationConfiguration",
+    Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/UpdateFailbackReplicationConfiguration",
-        Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_failback_replication_configuration(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1986,17 +1880,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically choose the instance type that best matches the OS, CPU, and RAM of your
   Source Server.
 """
-function update_launch_configuration(
+update_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/UpdateLaunchConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/UpdateLaunchConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2035,17 +1927,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
-function update_launch_configuration_template(
+update_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/UpdateLaunchConfigurationTemplate",
+    Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/UpdateLaunchConfigurationTemplate",
-        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2105,17 +1995,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"useDedicatedReplicationServer"`: Whether to use a dedicated Replication Server in the
   replication staging area.
 """
-function update_replication_configuration(
+update_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/UpdateReplicationConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/UpdateReplicationConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2168,19 +2056,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"useDedicatedReplicationServer"`: Whether to use a dedicated Replication Server in the
   replication staging area.
 """
-function update_replication_configuration_template(
+update_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = drs(
+    "POST",
+    "/UpdateReplicationConfigurationTemplate",
+    Dict{String,Any}(
+        "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return drs(
-        "POST",
-        "/UpdateReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};

@@ -26,14 +26,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value that you define. Tags keys can be up to 128 characters in length, and tag values can
   be up to 256 characters in length.
 """
-function create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
+create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "CreateHttpNamespace",
         Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_http_namespace(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -80,10 +79,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value that you define. Tags keys can be up to 128 characters in length, and tag values can
   be up to 256 characters in length.
 """
-function create_private_dns_namespace(
-    Name, Vpc; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+create_private_dns_namespace(Name, Vpc; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "CreatePrivateDnsNamespace",
         Dict{String,Any}(
             "Name" => Name, "Vpc" => Vpc, "CreatorRequestId" => string(uuid4())
@@ -91,7 +88,6 @@ function create_private_dns_namespace(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_private_dns_namespace(
     Name,
     Vpc,
@@ -142,16 +138,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value that you define. Tags keys can be up to 128 characters in length, and tag values can
   be up to 256 characters in length.
 """
-function create_public_dns_namespace(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+create_public_dns_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "CreatePublicDnsNamespace",
         Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_public_dns_namespace(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -223,14 +216,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DiscoverInstances API operation. No DNS records is registered for the service
   instances. The only valid value is HTTP.
 """
-function create_service(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "CreateService",
-        Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_service(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "CreateService",
+    Dict{String,Any}("Name" => Name, "CreatorRequestId" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_service(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -259,14 +250,12 @@ services, the request fails.
 - `id`: The ID of the namespace that you want to delete.
 
 """
-function delete_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "DeleteNamespace",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "DeleteNamespace",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_namespace(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -289,14 +278,12 @@ instances, the request fails.
 - `id`: The ID of the service that you want to delete.
 
 """
-function delete_service(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "DeleteService",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_service(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "DeleteService",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_service(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -320,16 +307,14 @@ for the specified instance.
 - `service_id`: The ID of the service that the instance is associated with.
 
 """
-function deregister_instance(
+deregister_instance(
     InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "DeregisterInstance",
+    Dict{String,Any}("InstanceId" => InstanceId, "ServiceId" => ServiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "DeregisterInstance",
-        Dict{String,Any}("InstanceId" => InstanceId, "ServiceId" => ServiceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_instance(
     InstanceId,
     ServiceId,
@@ -388,16 +373,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance (for example, {version=v1, az=1a}). Only instances that match all the specified
   key-value pairs are returned.
 """
-function discover_instances(
+discover_instances(
     NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "DiscoverInstances",
+    Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "DiscoverInstances",
-        Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function discover_instances(
     NamespaceName,
     ServiceName,
@@ -433,16 +416,14 @@ Discovers the increasing revision associated with an instance.
   instance.
 
 """
-function discover_instances_revision(
+discover_instances_revision(
     NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "DiscoverInstancesRevision",
+    Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "DiscoverInstancesRevision",
-        Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function discover_instances_revision(
     NamespaceName,
     ServiceName,
@@ -476,16 +457,13 @@ Gets information about a specified instance.
 - `service_id`: The ID of the service that the instance is associated with.
 
 """
-function get_instance(
-    InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+get_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "GetInstance",
         Dict{String,Any}("InstanceId" => InstanceId, "ServiceId" => ServiceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_instance(
     InstanceId,
     ServiceId,
@@ -532,16 +510,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GetInstancesHealthStatus request to get the next group of results. Specify the value of
   NextToken from the previous response in the next request.
 """
-function get_instances_health_status(
-    ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+get_instances_health_status(ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "GetInstancesHealthStatus",
         Dict{String,Any}("ServiceId" => ServiceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_instances_health_status(
     ServiceId,
     params::AbstractDict{String};
@@ -567,14 +542,12 @@ Gets information about a namespace.
 - `id`: The ID of the namespace that you want to get information about.
 
 """
-function get_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "GetNamespace",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "GetNamespace",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_namespace(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -598,14 +571,13 @@ see ListOperations.
 - `operation_id`: The ID of the operation that you want to get more information about.
 
 """
-function get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
+get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "GetOperation",
         Dict{String,Any}("OperationId" => OperationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_operation(
     OperationId,
     params::AbstractDict{String};
@@ -631,14 +603,12 @@ Gets the settings for a specified service.
 - `id`: The ID of the service that you want to get settings for.
 
 """
-function get_service(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "GetService",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_service(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "GetService",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_service(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -670,14 +640,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to get the next group of results. Specify the value of NextToken from the previous
   response in the next request.
 """
-function list_instances(ServiceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
+list_instances(ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "ListInstances",
         Dict{String,Any}("ServiceId" => ServiceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_instances(
     ServiceId,
     params::AbstractDict{String};
@@ -716,11 +685,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   criteria but that subsequent groups of MaxResults namespaces do contain namespaces that
   match the criteria.
 """
-function list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -752,11 +719,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   criteria but that subsequent groups of MaxResults operations do contain operations that
   match the criteria.
 """
-function list_operations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery(
+    "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -788,11 +753,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but that subsequent groups of MaxResults services do contain services that match the
   criteria.
 """
-function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
-        "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_services(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -812,16 +774,13 @@ Lists tags for the specified resource.
   tags for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -927,21 +886,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request if you're registering additional instances for the same namespace and service.
   CreatorRequestId can be any unique string (for example, a date/time stamp).
 """
-function register_instance(
+register_instance(
     Attributes, InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "RegisterInstance",
+    Dict{String,Any}(
+        "Attributes" => Attributes,
+        "InstanceId" => InstanceId,
+        "ServiceId" => ServiceId,
+        "CreatorRequestId" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "RegisterInstance",
-        Dict{String,Any}(
-            "Attributes" => Attributes,
-            "InstanceId" => InstanceId,
-            "ServiceId" => ServiceId,
-            "CreatorRequestId" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_instance(
     Attributes,
     InstanceId,
@@ -982,14 +939,13 @@ Adds one or more tags to the specified resource.
   null.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1022,16 +978,13 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The tag keys to remove from the specified resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1068,10 +1021,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UpdateHttpNamespace requests to be retried without the risk of running the operation twice.
   UpdaterRequestId can be any unique string (for example, a date/timestamp).
 """
-function update_http_namespace(
-    Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return servicediscovery(
+update_http_namespace(Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "UpdateHttpNamespace",
         Dict{String,Any}(
             "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
@@ -1079,7 +1030,6 @@ function update_http_namespace(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_http_namespace(
     Id,
     Namespace,
@@ -1121,18 +1071,16 @@ define using HealthCheckConfig. For more information, see HealthCheckCustomConfi
 - `status`: The new status of the instance, HEALTHY or UNHEALTHY.
 
 """
-function update_instance_custom_health_status(
+update_instance_custom_health_status(
     InstanceId, ServiceId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "UpdateInstanceCustomHealthStatus",
+    Dict{String,Any}(
+        "InstanceId" => InstanceId, "ServiceId" => ServiceId, "Status" => Status
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "UpdateInstanceCustomHealthStatus",
-        Dict{String,Any}(
-            "InstanceId" => InstanceId, "ServiceId" => ServiceId, "Status" => Status
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_instance_custom_health_status(
     InstanceId,
     ServiceId,
@@ -1172,18 +1120,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UpdatePrivateDnsNamespace requests to be retried without the risk of running the operation
   twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
 """
-function update_private_dns_namespace(
+update_private_dns_namespace(
     Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "UpdatePrivateDnsNamespace",
+    Dict{String,Any}(
+        "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "UpdatePrivateDnsNamespace",
-        Dict{String,Any}(
-            "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_private_dns_namespace(
     Id,
     Namespace,
@@ -1224,18 +1170,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UpdatePublicDnsNamespace requests to be retried without the risk of running the operation
   twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
 """
-function update_public_dns_namespace(
+update_public_dns_namespace(
     Id, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+) = servicediscovery(
+    "UpdatePublicDnsNamespace",
+    Dict{String,Any}(
+        "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return servicediscovery(
-        "UpdatePublicDnsNamespace",
-        Dict{String,Any}(
-            "Id" => Id, "Namespace" => Namespace, "UpdaterRequestId" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_public_dns_namespace(
     Id,
     Namespace,
@@ -1280,14 +1224,13 @@ by using the specified service.
 - `service`: A complex type that contains the new settings for the service.
 
 """
-function update_service(Id, Service; aws_config::AbstractAWSConfig=global_aws_config())
-    return servicediscovery(
+update_service(Id, Service; aws_config::AbstractAWSConfig=global_aws_config()) =
+    servicediscovery(
         "UpdateService",
         Dict{String,Any}("Id" => Id, "Service" => Service);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_service(
     Id,
     Service,

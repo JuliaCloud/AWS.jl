@@ -14,16 +14,13 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 - `message_id`: The identifier of the email message to retrieve.
 
 """
-function get_raw_message_content(
-    messageId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmailmessageflow(
+get_raw_message_content(messageId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmailmessageflow(
         "GET",
         "/messages/$(messageId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_raw_message_content(
     messageId,
     params::AbstractDict{String};
@@ -55,17 +52,15 @@ returns an updated message.
 - `message_id`: The identifier of the email message being updated.
 
 """
-function put_raw_message_content(
+put_raw_message_content(
     content, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmailmessageflow(
+    "POST",
+    "/messages/$(messageId)",
+    Dict{String,Any}("content" => content);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmailmessageflow(
-        "POST",
-        "/messages/$(messageId)",
-        Dict{String,Any}("content" => content);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_raw_message_content(
     content,
     messageId,

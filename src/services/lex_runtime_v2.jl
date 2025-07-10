@@ -24,20 +24,18 @@ enables for the alias, you receive a BadRequestException.
 - `session_id`: The identifier of the session to delete.
 
 """
-function delete_session(
+delete_session(
     botAliasId,
     botId,
     localeId,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = lex_runtime_v2(
+    "DELETE",
+    "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_v2(
-        "DELETE",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_session(
     botAliasId,
     botId,
@@ -72,20 +70,18 @@ you receive a BadRequestException.
 - `session_id`: The identifier of the session to return.
 
 """
-function get_session(
+get_session(
     botAliasId,
     botId,
     localeId,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = lex_runtime_v2(
+    "GET",
+    "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_v2(
-        "GET",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_session(
     botAliasId,
     botId,
@@ -130,22 +126,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client application. The namespace x-amz-lex: is reserved for special attributes. Don't
   create any request attributes with the prefix x-amz-lex:.
 """
-function put_session(
+put_session(
     botAliasId,
     botId,
     localeId,
     sessionId,
     sessionState;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = lex_runtime_v2(
+    "POST",
+    "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
+    Dict{String,Any}("sessionState" => sessionState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_v2(
-        "POST",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
-        Dict{String,Any}("sessionState" => sessionState);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_session(
     botAliasId,
     botId,
@@ -198,22 +192,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create any request attributes with the prefix x-amz-lex:.
 - `"sessionState"`: The current state of the dialog between the user and the bot.
 """
-function recognize_text(
+recognize_text(
     botAliasId,
     botId,
     localeId,
     sessionId,
     text;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = lex_runtime_v2(
+    "POST",
+    "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
+    Dict{String,Any}("text" => text);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_v2(
-        "POST",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
-        Dict{String,Any}("text" => text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function recognize_text(
     botAliasId,
     botId,
@@ -292,22 +284,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the user. The sessionState field must be compressed using gzip and then base64 encoded
   before sending to Amazon Lex V2.
 """
-function recognize_utterance(
+recognize_utterance(
     Content_Type,
     botAliasId,
     botId,
     localeId,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = lex_runtime_v2(
+    "POST",
+    "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance",
+    Dict{String,Any}("headers" => Dict{String,Any}("Content-Type" => Content_Type));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lex_runtime_v2(
-        "POST",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance",
-        Dict{String,Any}("headers" => Dict{String,Any}("Content-Type" => Content_Type));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function recognize_utterance(
     Content_Type,
     botAliasId,

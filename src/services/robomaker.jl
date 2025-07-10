@@ -14,15 +14,13 @@ Deletes one or more worlds in a batch operation.
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
 
 """
-function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/batchDeleteWorlds",
-        Dict{String,Any}("worlds" => worlds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/batchDeleteWorlds",
+    Dict{String,Any}("worlds" => worlds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_delete_worlds(
     worlds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -45,17 +43,14 @@ Describes one or more simulation jobs.
 - `jobs`: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
 
 """
-function batch_describe_simulation_job(
-    jobs; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+batch_describe_simulation_job(jobs; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/batchDescribeSimulationJob",
         Dict{String,Any}("jobs" => jobs);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_describe_simulation_job(
     jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -79,15 +74,13 @@ Cancels the specified deployment job.  This API will no longer be supported as o
 - `job`: The deployment job ARN to cancel.
 
 """
-function cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelDeploymentJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/cancelDeploymentJob",
+    Dict{String,Any}("job" => job);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function cancel_deployment_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -110,15 +103,13 @@ Cancels the specified simulation job.
 - `job`: The simulation job ARN to cancel.
 
 """
-function cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelSimulationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/cancelSimulationJob",
+    Dict{String,Any}("job" => job);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function cancel_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -142,17 +133,14 @@ cancelling all of the active simulation jobs created as part of the batch.
 - `batch`: The id of the batch to cancel.
 
 """
-function cancel_simulation_job_batch(
-    batch; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+cancel_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/cancelSimulationJobBatch",
         Dict{String,Any}("batch" => batch);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_simulation_job_batch(
     batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -175,15 +163,13 @@ Cancels the specified export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to cancel.
 
 """
-function cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelWorldExportJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/cancelWorldExportJob",
+    Dict{String,Any}("job" => job);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function cancel_world_export_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -206,15 +192,14 @@ Cancels the specified world generator job.
 - `job`: The Amazon Resource Name (arn) of the world generator job to cancel.
 
 """
-function cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/cancelWorldGenerationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_world_generation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -249,24 +234,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job.
 """
-function create_deployment_job(
+create_deployment_job(
     clientRequestToken,
     deploymentApplicationConfigs,
     fleet;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = robomaker(
+    "POST",
+    "/createDeploymentJob",
+    Dict{String,Any}(
+        "clientRequestToken" => clientRequestToken,
+        "deploymentApplicationConfigs" => deploymentApplicationConfigs,
+        "fleet" => fleet,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createDeploymentJob",
-        Dict{String,Any}(
-            "clientRequestToken" => clientRequestToken,
-            "deploymentApplicationConfigs" => deploymentApplicationConfigs,
-            "fleet" => fleet,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_deployment_job(
     clientRequestToken,
     deploymentApplicationConfigs,
@@ -307,15 +290,13 @@ no longer supported and will throw an error if used.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A map that contains tag keys and tag values that are attached to the fleet.
 """
-function create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/createFleet",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/createFleet",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_fleet(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -343,21 +324,19 @@ Creates a robot.  This API is no longer supported and will throw an error if use
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot.
 """
-function create_robot(
+create_robot(
     architecture, greengrassGroupId, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createRobot",
+    Dict{String,Any}(
+        "architecture" => architecture,
+        "greengrassGroupId" => greengrassGroupId,
+        "name" => name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createRobot",
-        Dict{String,Any}(
-            "architecture" => architecture,
-            "greengrassGroupId" => greengrassGroupId,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_robot(
     architecture,
     greengrassGroupId,
@@ -403,17 +382,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot
   application.
 """
-function create_robot_application(
+create_robot_application(
     name, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createRobotApplication",
+    Dict{String,Any}("name" => name, "robotSoftwareSuite" => robotSoftwareSuite);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createRobotApplication",
-        Dict{String,Any}("name" => name, "robotSoftwareSuite" => robotSoftwareSuite);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_robot_application(
     name,
     robotSoftwareSuite,
@@ -455,17 +432,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3Etags"`: The Amazon S3 identifier for the zip file bundle that you use for your robot
   application.
 """
-function create_robot_application_version(
+create_robot_application_version(
     application; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createRobotApplicationVersion",
+    Dict{String,Any}("application" => application);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createRobotApplicationVersion",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_robot_application_version(
     application,
     params::AbstractDict{String};
@@ -504,24 +479,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the simulation
   application.
 """
-function create_simulation_application(
+create_simulation_application(
     name,
     robotSoftwareSuite,
     simulationSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = robomaker(
+    "POST",
+    "/createSimulationApplication",
+    Dict{String,Any}(
+        "name" => name,
+        "robotSoftwareSuite" => robotSoftwareSuite,
+        "simulationSoftwareSuite" => simulationSoftwareSuite,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createSimulationApplication",
-        Dict{String,Any}(
-            "name" => name,
-            "robotSoftwareSuite" => robotSoftwareSuite,
-            "simulationSoftwareSuite" => simulationSoftwareSuite,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_simulation_application(
     name,
     robotSoftwareSuite,
@@ -566,17 +539,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3Etags"`: The Amazon S3 eTag identifier for the zip file bundle that you use to create
   the simulation application.
 """
-function create_simulation_application_version(
+create_simulation_application_version(
     application; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createSimulationApplicationVersion",
+    Dict{String,Any}("application" => application);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createSimulationApplicationVersion",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_simulation_application_version(
     application,
     params::AbstractDict{String};
@@ -630,21 +601,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter identifying the list of security group IDs and subnet IDs. These must belong to
   the same VPC. You must provide at least one security group and one subnet ID.
 """
-function create_simulation_job(
+create_simulation_job(
     iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createSimulationJob",
+    Dict{String,Any}(
+        "iamRole" => iamRole,
+        "maxJobDurationInSeconds" => maxJobDurationInSeconds,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createSimulationJob",
-        Dict{String,Any}(
-            "iamRole" => iamRole,
-            "maxJobDurationInSeconds" => maxJobDurationInSeconds,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_simulation_job(
     iamRole,
     maxJobDurationInSeconds,
@@ -689,22 +658,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
   export job.
 """
-function create_world_export_job(
+create_world_export_job(
     iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createWorldExportJob",
+    Dict{String,Any}(
+        "iamRole" => iamRole,
+        "outputLocation" => outputLocation,
+        "worlds" => worlds,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createWorldExportJob",
-        Dict{String,Any}(
-            "iamRole" => iamRole,
-            "outputLocation" => outputLocation,
-            "worlds" => worlds,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_world_export_job(
     iamRole,
     outputLocation,
@@ -752,21 +719,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"worldTags"`: A map that contains tag keys and tag values that are attached to the
   generated worlds.
 """
-function create_world_generation_job(
+create_world_generation_job(
     template, worldCount; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/createWorldGenerationJob",
+    Dict{String,Any}(
+        "template" => template,
+        "worldCount" => worldCount,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/createWorldGenerationJob",
-        Dict{String,Any}(
-            "template" => template,
-            "worldCount" => worldCount,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_world_generation_job(
     template,
     worldCount,
@@ -808,14 +773,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateBody"`: The world template body.
 - `"templateLocation"`: The location of the world template.
 """
-function create_world_template(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/createWorldTemplate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_world_template(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/createWorldTemplate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_world_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -839,15 +802,13 @@ resources that were created for Deployment Service.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
-function delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/deleteFleet",
-        Dict{String,Any}("fleet" => fleet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/deleteFleet",
+    Dict{String,Any}("fleet" => fleet);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_fleet(
     fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -871,15 +832,13 @@ resources that were created for Deployment Service.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-function delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/deleteRobot",
-        Dict{String,Any}("robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/deleteRobot",
+    Dict{String,Any}("robot" => robot);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_robot(
     robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -905,17 +864,14 @@ Deletes a robot application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the robot application to delete.
 """
-function delete_robot_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+delete_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/deleteRobotApplication",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_robot_application(
     application,
     params::AbstractDict{String};
@@ -945,17 +901,15 @@ Deletes a simulation application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the simulation application to delete.
 """
-function delete_simulation_application(
+delete_simulation_application(
     application; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/deleteSimulationApplication",
+    Dict{String,Any}("application" => application);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/deleteSimulationApplication",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_simulation_application(
     application,
     params::AbstractDict{String};
@@ -982,15 +936,14 @@ Deletes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to delete.
 
 """
-function delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/deleteWorldTemplate",
         Dict{String,Any}("template" => template);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_world_template(
     template,
     params::AbstractDict{String};
@@ -1019,15 +972,14 @@ remove resources that were created for Deployment Service.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/deregisterRobot",
         Dict{String,Any}("fleet" => fleet, "robot" => robot);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function deregister_robot(
     fleet,
     robot,
@@ -1056,15 +1008,13 @@ to remove resources that were created for Deployment Service.
 - `job`: The Amazon Resource Name (ARN) of the deployment job.
 
 """
-function describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeDeploymentJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/describeDeploymentJob",
+    Dict{String,Any}("job" => job);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_deployment_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1088,15 +1038,13 @@ remove resources that were created for Deployment Service.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
-function describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeFleet",
-        Dict{String,Any}("fleet" => fleet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/describeFleet",
+    Dict{String,Any}("fleet" => fleet);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_fleet(
     fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1120,15 +1068,13 @@ remove resources that were created for Deployment Service.
 - `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 
 """
-function describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeRobot",
-        Dict{String,Any}("robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/describeRobot",
+    Dict{String,Any}("robot" => robot);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_robot(
     robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1154,17 +1100,14 @@ Describes a robot application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the robot application to describe.
 """
-function describe_robot_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+describe_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/describeRobotApplication",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_robot_application(
     application,
     params::AbstractDict{String};
@@ -1194,17 +1137,15 @@ Describes a simulation application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the simulation application to describe.
 """
-function describe_simulation_application(
+describe_simulation_application(
     application; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/describeSimulationApplication",
+    Dict{String,Any}("application" => application);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/describeSimulationApplication",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_simulation_application(
     application,
     params::AbstractDict{String};
@@ -1231,15 +1172,13 @@ Describes a simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 
 """
-function describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeSimulationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/describeSimulationJob",
+    Dict{String,Any}("job" => job);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1262,17 +1201,14 @@ Describes a simulation job batch.
 - `batch`: The id of the batch to describe.
 
 """
-function describe_simulation_job_batch(
-    batch; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+describe_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/describeSimulationJobBatch",
         Dict{String,Any}("batch" => batch);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_simulation_job_batch(
     batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1295,15 +1231,13 @@ Describes a world.
 - `world`: The Amazon Resource Name (arn) of the world you want to describe.
 
 """
-function describe_world(world; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeWorld",
-        Dict{String,Any}("world" => world);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_world(world; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/describeWorld",
+    Dict{String,Any}("world" => world);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_world(
     world, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1326,15 +1260,14 @@ Describes a world export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to describe.
 
 """
-function describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/describeWorldExportJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_world_export_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1357,17 +1290,14 @@ Describes a world generation job.
 - `job`: The Amazon Resource Name (arn) of the world generation job to describe.
 
 """
-function describe_world_generation_job(
-    job; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+describe_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/describeWorldGenerationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_world_generation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1390,17 +1320,14 @@ Describes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to describe.
 
 """
-function describe_world_template(
-    template; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+describe_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/describeWorldTemplate",
         Dict{String,Any}("template" => template);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_world_template(
     template,
     params::AbstractDict{String};
@@ -1428,14 +1355,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"generationJob"`: The Amazon Resource Name (arn) of the world generator job.
 - `"template"`: The Amazon Resource Name (arn) of the world template.
 """
-function get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/getWorldTemplateBody";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/getWorldTemplateBody";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_world_template_body(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1474,14 +1399,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listDeploymentJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/listDeploymentJobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_deployment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1520,11 +1443,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is only used to retrieve the next items in a list and not for other programmatic
   purposes.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker("POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1562,14 +1482,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 - `"versionQualifier"`: The version qualifier of the robot application.
 """
-function list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listRobotApplications";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/listRobotApplications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_robot_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1607,11 +1525,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
 """
-function list_robots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_robots(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker("POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_robots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1649,14 +1564,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response object's NextToken parameter is set to null.
 - `"versionQualifier"`: The version qualifier of the simulation application.
 """
-function list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/listSimulationApplications";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_simulation_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1689,14 +1603,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
 """
-function list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/listSimulationJobBatches";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_simulation_job_batches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1735,14 +1648,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listSimulationJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/listSimulationJobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_simulation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1765,16 +1676,13 @@ Lists all tags on a AWS RoboMaker resource.
 - `resource_arn`: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1811,14 +1719,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listWorldExportJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/listWorldExportJobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_world_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1852,14 +1758,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
 """
-function list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listWorldGenerationJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/listWorldGenerationJobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_world_generation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1892,14 +1796,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listWorldTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/listWorldTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_world_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1932,11 +1834,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
 """
-function list_worlds(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_worlds(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker("POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_worlds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1961,15 +1860,13 @@ used.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-function register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/registerRobot",
-        Dict{String,Any}("fleet" => fleet, "robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/registerRobot",
+    Dict{String,Any}("fleet" => fleet, "robot" => robot);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function register_robot(
     fleet,
     robot,
@@ -1997,15 +1894,13 @@ Restarts a running simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job.
 
 """
-function restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/restartSimulationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker(
+    "POST",
+    "/restartSimulationJob",
+    Dict{String,Any}("job" => job);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function restart_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2037,20 +1932,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job batch.
 """
-function start_simulation_job_batch(
+start_simulation_job_batch(
     createSimulationJobRequests; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/startSimulationJobBatch",
+    Dict{String,Any}(
+        "createSimulationJobRequests" => createSimulationJobRequests,
+        "clientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/startSimulationJobBatch",
-        Dict{String,Any}(
-            "createSimulationJobRequests" => createSimulationJobRequests,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_simulation_job_batch(
     createSimulationJobRequests,
     params::AbstractDict{String};
@@ -2088,17 +1981,15 @@ to remove resources that were created for Deployment Service.
 - `fleet`: The target fleet for the synchronization.
 
 """
-function sync_deployment_job(
+sync_deployment_job(
     clientRequestToken, fleet; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/syncDeploymentJob",
+    Dict{String,Any}("clientRequestToken" => clientRequestToken, "fleet" => fleet);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/syncDeploymentJob",
-        Dict{String,Any}("clientRequestToken" => clientRequestToken, "fleet" => fleet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function sync_deployment_job(
     clientRequestToken,
     fleet,
@@ -2137,15 +2028,14 @@ Restrictions in the AWS Billing and Cost Management User Guide.
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -2175,17 +2065,14 @@ specify the tag key. To change the tag value of an existing tag key, use  TagRes
   resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2218,19 +2105,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environment"`: The object that contains the Docker image URI for your robot application.
 - `"sources"`: The sources of the robot application.
 """
-function update_robot_application(
+update_robot_application(
     application, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config()
+) = robomaker(
+    "POST",
+    "/updateRobotApplication",
+    Dict{String,Any}(
+        "application" => application, "robotSoftwareSuite" => robotSoftwareSuite
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/updateRobotApplication",
-        Dict{String,Any}(
-            "application" => application, "robotSoftwareSuite" => robotSoftwareSuite
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_robot_application(
     application,
     robotSoftwareSuite,
@@ -2274,24 +2159,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"renderingEngine"`: The rendering engine for the simulation application.
 - `"sources"`: The sources of the simulation application.
 """
-function update_simulation_application(
+update_simulation_application(
     application,
     robotSoftwareSuite,
     simulationSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = robomaker(
+    "POST",
+    "/updateSimulationApplication",
+    Dict{String,Any}(
+        "application" => application,
+        "robotSoftwareSuite" => robotSoftwareSuite,
+        "simulationSoftwareSuite" => simulationSoftwareSuite,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return robomaker(
-        "POST",
-        "/updateSimulationApplication",
-        Dict{String,Any}(
-            "application" => application,
-            "robotSoftwareSuite" => robotSoftwareSuite,
-            "simulationSoftwareSuite" => simulationSoftwareSuite,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_simulation_application(
     application,
     robotSoftwareSuite,
@@ -2333,15 +2216,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateBody"`: The world template body.
 - `"templateLocation"`: The location of the world template.
 """
-function update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
+update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) =
+    robomaker(
         "POST",
         "/updateWorldTemplate",
         Dict{String,Any}("template" => template);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_world_template(
     template,
     params::AbstractDict{String};

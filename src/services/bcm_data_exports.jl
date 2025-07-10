@@ -31,14 +31,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTags"`: An optional list of tags to associate with the specified export. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
-function create_export(Export; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
-        "CreateExport",
-        Dict{String,Any}("Export" => Export);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_export(Export; aws_config::AbstractAWSConfig=global_aws_config()) = bcm_data_exports(
+    "CreateExport",
+    Dict{String,Any}("Export" => Export);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_export(
     Export, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -60,14 +58,13 @@ Deletes an existing data export.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 """
-function delete_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
+delete_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports(
         "DeleteExport",
         Dict{String,Any}("ExportArn" => ExportArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_export(
     ExportArn,
     params::AbstractDict{String};
@@ -95,16 +92,13 @@ Exports data based on the source data update.
   specific execution.
 
 """
-function get_execution(
-    ExecutionId, ExportArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bcm_data_exports(
+get_execution(ExecutionId, ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports(
         "GetExecution",
         Dict{String,Any}("ExecutionId" => ExecutionId, "ExportArn" => ExportArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_execution(
     ExecutionId,
     ExportArn,
@@ -135,14 +129,12 @@ Views the definition of an existing data export.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 """
-function get_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
-        "GetExport",
-        Dict{String,Any}("ExportArn" => ExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) = bcm_data_exports(
+    "GetExport",
+    Dict{String,Any}("ExportArn" => ExportArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_export(
     ExportArn,
     params::AbstractDict{String};
@@ -175,14 +167,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tables are not required to have any TableProperties. Each table property has a default
   value that it assumes if not specified.
 """
-function get_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
-        "GetTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = bcm_data_exports(
+    "GetTable",
+    Dict{String,Any}("TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_table(
     TableName,
     params::AbstractDict{String};
@@ -212,14 +202,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
-function list_executions(ExportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
+list_executions(ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports(
         "ListExecutions",
         Dict{String,Any}("ExportArn" => ExportArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_executions(
     ExportArn,
     params::AbstractDict{String};
@@ -246,11 +235,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
-function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
-        "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_exports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports("ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -270,11 +256,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
-function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
-        "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_tables(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -297,16 +280,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bcm_data_exports(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -334,16 +314,13 @@ Adds tags for an existing data export definition.
   a value, and each key must be unique for the resource.
 
 """
-function tag_resource(
-    ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return bcm_data_exports(
+tag_resource(ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "ResourceTags" => ResourceTags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     ResourceTags,
@@ -377,18 +354,14 @@ Deletes tags associated with an existing data export definition.
 - `resource_tag_keys`: The tag keys that are associated with the resource ARN.
 
 """
-function untag_resource(
+untag_resource(
     ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+) = bcm_data_exports(
+    "UntagResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return bcm_data_exports(
-        "UntagResource",
-        Dict{String,Any}(
-            "ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function untag_resource(
     ResourceArn,
     ResourceTagKeys,
@@ -423,14 +396,13 @@ must be provided in the UpdateExport request.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 """
-function update_export(Export, ExportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return bcm_data_exports(
+update_export(Export, ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    bcm_data_exports(
         "UpdateExport",
         Dict{String,Any}("Export" => Export, "ExportArn" => ExportArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_export(
     Export,
     ExportArn,
