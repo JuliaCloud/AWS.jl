@@ -65,6 +65,11 @@ Base.@kwdef struct FeatureSet
     use_response_type::Bool = false
 end
 
+# Copy constructor for FeatureSet that allows overriding specific fields
+function FeatureSet(fs::FeatureSet; use_response_type::Bool=fs.use_response_type)
+    return FeatureSet(; use_response_type=use_response_type)
+end
+
 """
     global_aws_config()
 
@@ -141,7 +146,7 @@ cannot).
 
 ## Returns
 
-- `Module`: The module containging the high-level service API wrapper functions.
+- `Module`: The module containing the high-level service API wrapper functions.
 
 ## Examples
 
