@@ -4022,14 +4022,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 """
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
+    response = s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true))
+    return response.headers
 end
 function head_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return s3(
-        "HEAD", "/$(Bucket)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
+    response = s3(
+        "HEAD", "/$(Bucket)", params; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true)
     )
+    return response.headers
 end
 
 """
@@ -4176,9 +4180,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   functionality is not supported for directory buckets.
 """
 function head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
+    response = s3(
+        "HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true)
     )
+    return response.headers
 end
 function head_object(
     Bucket,
@@ -4186,13 +4192,15 @@ function head_object(
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return s3(
+    # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
+    response = s3(
         "HEAD",
         "/$(Bucket)/$(Key)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true),
     )
+    return response.headers
 end
 
 """

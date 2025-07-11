@@ -40,16 +40,20 @@ Gets the headers for an object at the specified path.
 
 """
 function describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediastore_data(
-        "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
+    response = mediastore_data(
+        "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true)
     )
+    return response.headers
 end
 function describe_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mediastore_data(
-        "HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
+    response = mediastore_data(
+        "HEAD", "/$(Path)", params; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true)
     )
+    return response.headers
 end
 
 """
