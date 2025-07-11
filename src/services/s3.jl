@@ -4023,7 +4023,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
-    response = s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true))
+    response = s3(
+        "HEAD",
+        "/$(Bucket)";
+        aws_config=aws_config,
+        feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true),
+    )
     return response.headers
 end
 function head_bucket(
@@ -4031,7 +4036,11 @@ function head_bucket(
 )
     # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
     response = s3(
-        "HEAD", "/$(Bucket)", params; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true)
+        "HEAD",
+        "/$(Bucket)",
+        params;
+        aws_config=aws_config,
+        feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true),
     )
     return response.headers
 end
@@ -4182,7 +4191,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
     # Use copy constructor to preserve all fields from SERVICE_FEATURE_SET but override use_response_type
     response = s3(
-        "HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true)
+        "HEAD",
+        "/$(Bucket)/$(Key)";
+        aws_config=aws_config,
+        feature_set=AWS.FeatureSet(SERVICE_FEATURE_SET; use_response_type=true),
     )
     return response.headers
 end
