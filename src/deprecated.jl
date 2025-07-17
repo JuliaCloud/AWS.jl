@@ -228,22 +228,25 @@ const aws_config = Ref{AbstractAWSConfig}()
 
 export global_aws_config
 
-# Access to `_FALLBACK_AWS_CONFIG` isn't threadsafe which is okay as these old functions
-# were never thread safe.
+# Note: These old functions were never thread safe.
 function global_aws_config(; kwargs...)
     return if isempty(kwargs)
         Base.depwarn(
             "`global_aws_config()` is deprecated, use `current_aws_config()` instead.",
             :global_aws_config,
         )
-        _FALLBACK_AWS_CONFIG[]  # Not calling `current_aws_config` as we don't want to return scoped configs
+        # Not calling `current_aws_config` as we don't want to return scoped configs for
+        # full backwards compatibility.
+        default_aws_config()
     else
         Base.depwarn(
-            "`global_aws_config(; kwargs...)` is deprecated, use `with_aws_config(AWSConfig(; kwargs...)) do ... end` instead to temporarily modify the AWS configuration.",
+            "`global_aws_config(; kwargs...)` is deprecated, use `with_aws_config(AWSConfig(; kwargs...)) do ... end` " *
+            "instead to temporarily modify the AWS configuration or `default_aws_config(AWSConfig(; kwargs...))` " *
+            "to set the AWS configuration outside the scope of any `with_aws_config` blocks.",
             :global_aws_config,
         )
         config = AWSConfig(; kwargs...)
-        _FALLBACK_AWS_CONFIG[] = config
+        default_aws_config(config)
         aws_config[] = config
         config
     end
@@ -251,10 +254,12 @@ end
 
 function global_aws_config(config::AbstractAWSConfig)
     Base.depwarn(
-        "`global_aws_config(config::AbstractAWSConfig)` is deprecated, use `with_aws_config(config) do ... end` instead to temporarily modify the AWS configuration.",
+        "`global_aws_config(config::AbstractAWSConfig)` is deprecated, use `with_aws_config(config) do ... end` " *
+        "instead to temporarily modify the AWS configuration or `default_aws_config(config)` " *
+        "to set the AWS configuration outside the scope of any `with_aws_config` blocks.",
         :global_aws_config,
     )
-    _FALLBACK_AWS_CONFIG[] = config
+    default_aws_config(config)
     aws_config[] = config
     return config
 end

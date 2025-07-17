@@ -93,37 +93,61 @@ function _update_creds!(aws_config::AWSConfig)
     return creds
 end
 
+const _DEFAULT_AWS_CONFIG = Ref{AbstractAWSConfig}()
+const _DEFAULT_AWS_CONFIG_LOCK = ReentrantLock()
 const _SCOPED_AWS_CONFIG = ScopedValue{AbstractAWSConfig}()
-const _FALLBACK_AWS_CONFIG = Ref{AbstractAWSConfig}()
-const _FALLBACK_AWS_CONFIG_LOCK = ReentrantLock()
 
-# Load non-scoped/fallback configuration the first time it is required (if at all). We'll
-# make use of a lock to avoid race conditions but only lock when necessary to avoid
-# unnecessary overhead with subsequent calls.
-function _fallback_aws_config()
-    if !isassigned(_FALLBACK_AWS_CONFIG)
-        @lock _FALLBACK_AWS_CONFIG_LOCK begin
-            if !isassigned(_FALLBACK_AWS_CONFIG)
-                _FALLBACK_AWS_CONFIG[] = AWSConfig()
+"""
+    default_aws_config(config::AbstractAWSConfig) -> Nothing
+
+Sets the default AWS configuration to use when calling
+[`current_aws_config()`](@ref current_aws_config) outside of the scope of any
+[`with_aws_config`](@ref) calls.
+"""
+function default_aws_config(config::AbstractAWSConfig)
+    @lock _DEFAULT_AWS_CONFIG_LOCK begin
+        _DEFAULT_AWS_CONFIG[] = config
+    end
+    return nothing
+end
+
+"""
+    default_aws_config() -> AbstractAWSConfig
+
+Gets the default AWS configuration to use when calling
+[`current_aws_config()`](@ref current_aws_config) outside of the scope of any
+[`with_aws_config`](@ref) calls. If no configuration has been set with
+`default_aws_config(::AbstractAWSConfig)` then the AWS configuration will be loaded using
+`AWSConfig()`.
+
+User's will typically want to use [`current_aws_config()](@ref current_aws_config) instead.
+"""
+function default_aws_config()
+    # Load an initial default AWS configuration only if a user hasn't already loaded one.
+    # We'll  make use of a lock to avoid race conditions but only lock when necessary to
+    # avoid unnecessary overhead.
+    if !isassigned(_DEFAULT_AWS_CONFIG)
+        @lock _DEFAULT_AWS_CONFIG_LOCK begin
+            if !isassigned(_DEFAULT_AWS_CONFIG)
+                _DEFAULT_AWS_CONFIG[] = @mock AWSConfig()
             end
         end
     end
 
-    return _FALLBACK_AWS_CONFIG[]
+    return _DEFAULT_AWS_CONFIG[]
 end
 
 """
     current_aws_config() -> AbstractAWSConfig
 
 Retrieve the current AWS configuration set within the current scope. If no configuration has
-been set using [`with_aws_config`](@ref) then the AWS configuration will be loaded using
-`AWSConfig()`.
+been set using [`with_aws_config`](@ref) then the default AWS configuration will be used.
 """
 function current_aws_config()
     #! format: off
     return @something(
         ScopedValues.get(_SCOPED_AWS_CONFIG),
-        @mock(_fallback_aws_config()),
+        @mock(default_aws_config()),
     )
     #! format: on
 end

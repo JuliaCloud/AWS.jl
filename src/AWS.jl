@@ -20,7 +20,7 @@ export @service
 export _merge
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export IMDS
-export current_aws_config, with_aws_config
+export current_aws_config, default_aws_config, with_aws_config
 export assume_role, generate_service_url, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService, set_features
