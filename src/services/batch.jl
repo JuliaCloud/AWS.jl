@@ -25,7 +25,7 @@ TerminateJob operation.
   recorded in the Batch activity logs.
 
 """
-function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/canceljob",
@@ -38,7 +38,7 @@ function cancel_job(
     jobId,
     reason,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -164,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UNMANAGED.
 """
 function create_compute_environment(
-    computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()
+    computeEnvironmentName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -180,7 +180,7 @@ function create_compute_environment(
     computeEnvironmentName,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -252,7 +252,7 @@ function create_job_queue(
     computeEnvironmentOrder,
     jobQueueName,
     priority;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -271,7 +271,7 @@ function create_job_queue(
     jobQueueName,
     priority,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -311,7 +311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reference. These tags can be updated or removed using the TagResource and UntagResource API
   operations.
 """
-function create_scheduling_policy(name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_scheduling_policy(name; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/createschedulingpolicy",
@@ -321,7 +321,7 @@ function create_scheduling_policy(name; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function create_scheduling_policy(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -349,7 +349,7 @@ invalid state.
 
 """
 function delete_compute_environment(
-    computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
+    computeEnvironment; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -362,7 +362,7 @@ end
 function delete_compute_environment(
     computeEnvironment,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -391,7 +391,7 @@ DeleteJobQueue request.
 - `job_queue`: The short name or full Amazon Resource Name (ARN) of the queue to delete.
 
 """
-function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/deletejobqueue",
@@ -403,7 +403,7 @@ end
 function delete_job_queue(
     jobQueue,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -427,7 +427,7 @@ in any job queues.
 - `arn`: The Amazon Resource Name (ARN) of the scheduling policy to delete.
 
 """
-function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/deleteschedulingpolicy",
@@ -437,7 +437,7 @@ function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function delete_scheduling_policy(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -460,7 +460,7 @@ Deregisters an Batch job definition. Job definitions are permanently deleted aft
 
 """
 function deregister_job_definition(
-    jobDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    jobDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -473,7 +473,7 @@ end
 function deregister_job_definition(
     jobDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -512,7 +512,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Treat this token as an opaque identifier that's only used to retrieve the next items in a
   list and not for other programmatic purposes.
 """
-function describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_compute_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/describecomputeenvironments";
@@ -521,7 +521,7 @@ function describe_compute_environments(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function describe_compute_environments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -562,7 +562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and not for other programmatic purposes.
 - `"status"`: The status used to filter job definitions.
 """
-function describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_job_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/describejobdefinitions";
@@ -571,7 +571,7 @@ function describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function describe_job_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -605,7 +605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_job_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/describejobqueues";
@@ -614,7 +614,7 @@ function describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function describe_job_queues(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -635,7 +635,7 @@ Describes a list of Batch jobs.
 - `jobs`: A list of up to 100 job IDs.
 
 """
-function describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_jobs(jobs; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/describejobs",
@@ -645,7 +645,7 @@ function describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function describe_jobs(
-    jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -667,7 +667,7 @@ Describes one or more of your scheduling policies.
 
 """
 function describe_scheduling_policies(
-    arns; aws_config::AbstractAWSConfig=global_aws_config()
+    arns; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -678,7 +678,7 @@ function describe_scheduling_policies(
     )
 end
 function describe_scheduling_policies(
-    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -699,7 +699,9 @@ Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
 - `job_queue`: The job queue’s name or full queue Amazon Resource Name (ARN).
 
 """
-function get_job_queue_snapshot(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
+function get_job_queue_snapshot(
+    jobQueue; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return batch(
         "POST",
         "/v1/getjobqueuesnapshot",
@@ -711,7 +713,7 @@ end
 function get_job_queue_snapshot(
     jobQueue,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -786,13 +788,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST", "/v1/listjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -825,7 +827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token as an opaque identifier that's only used to retrieve the next items in a list
   and not for other programmatic purposes.
 """
-function list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_scheduling_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/listschedulingpolicies";
@@ -834,7 +836,7 @@ function list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_scheduling_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -861,7 +863,7 @@ jobs of array and multi-node parallel (MNP) jobs aren't supported.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "GET",
@@ -873,7 +875,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "GET",
@@ -948,7 +950,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 """
 function register_job_definition(
-    jobDefinitionName, type; aws_config::AbstractAWSConfig=global_aws_config()
+    jobDefinitionName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -962,7 +964,7 @@ function register_job_definition(
     jobDefinitionName,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -1064,7 +1066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function submit_job(
-    jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=global_aws_config()
+    jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -1081,7 +1083,7 @@ function submit_job(
     jobName,
     jobQueue,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -1123,7 +1125,7 @@ jobs aren't supported.
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/tags/$(resourceArn)",
@@ -1136,7 +1138,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -1162,7 +1164,7 @@ STARTING state are cancelled.
   recorded in the Batch activity logs.
 
 """
-function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
+function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/terminatejob",
@@ -1175,7 +1177,7 @@ function terminate_job(
     jobId,
     reason,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -1205,7 +1207,7 @@ Deletes specified tags from an Batch resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "DELETE",
@@ -1219,7 +1221,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "DELETE",
@@ -1283,7 +1285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environments in the Batch User Guide.
 """
 function update_compute_environment(
-    computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
+    computeEnvironment; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
@@ -1296,7 +1298,7 @@ end
 function update_compute_environment(
     computeEnvironment,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -1347,7 +1349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to
   the queue, but jobs already in the queue can finish.
 """
-function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
+function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/updatejobqueue",
@@ -1359,7 +1361,7 @@ end
 function update_job_queue(
     jobQueue,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return batch(
         "POST",
@@ -1385,7 +1387,7 @@ Updates a scheduling policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"fairsharePolicy"`: The fair share policy.
 """
-function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
         "/v1/updateschedulingpolicy",
@@ -1395,7 +1397,7 @@ function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function update_scheduling_policy(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",

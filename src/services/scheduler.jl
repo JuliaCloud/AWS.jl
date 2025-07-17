@@ -56,7 +56,7 @@ function create_schedule(
     Name,
     ScheduleExpression,
     Target;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "POST",
@@ -77,7 +77,7 @@ function create_schedule(
     ScheduleExpression,
     Target,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "POST",
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated token for the request to ensure idempotency.
 - `"Tags"`: The list of tags to associate with the schedule group.
 """
-function create_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "POST",
         "/schedule-groups/$(Name)",
@@ -125,7 +125,7 @@ function create_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function create_schedule_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "POST",
@@ -155,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, the default schedule group is used.
 """
-function delete_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "DELETE",
         "/schedules/$(Name)",
@@ -165,7 +165,7 @@ function delete_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_schedule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "DELETE",
@@ -198,7 +198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly
   generated token for the request to ensure idempotency.
 """
-function delete_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "DELETE",
         "/schedule-groups/$(Name)",
@@ -208,7 +208,7 @@ function delete_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function delete_schedule_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "DELETE",
@@ -235,13 +235,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, EventBridge Scheduler assumes that the schedule is associated with the default group.
 """
-function get_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_schedule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "GET",
@@ -262,7 +262,7 @@ Retrieves the specified schedule group.
 - `name`: The name of the schedule group to retrieve.
 
 """
-function get_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET",
         "/schedule-groups/$(Name)";
@@ -271,7 +271,7 @@ function get_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_schedule_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "GET",
@@ -297,13 +297,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schedule groups.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_schedule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_schedule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_schedule_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "GET",
@@ -332,13 +332,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: If specified, only lists the schedules whose current state matches the given
   filter.
 """
-function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_schedules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -357,7 +357,7 @@ Lists the tags associated with the Scheduler resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "GET",
@@ -369,7 +369,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "GET",
@@ -393,7 +393,7 @@ You can only assign tags to schedule groups.
 - `tags`: The list of tags to associate with the schedule group.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "POST",
         "/tags/$(ResourceArn)",
@@ -406,7 +406,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "POST",
@@ -430,7 +430,7 @@ Removes one or more tags from the specified EventBridge Scheduler schedule group
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return scheduler(
         "DELETE",
@@ -444,7 +444,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "DELETE",
@@ -515,7 +515,7 @@ function update_schedule(
     Name,
     ScheduleExpression,
     Target;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "PUT",
@@ -536,7 +536,7 @@ function update_schedule(
     ScheduleExpression,
     Target,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return scheduler(
         "PUT",

@@ -23,7 +23,7 @@ function create_component(
     appId,
     componentToCreate,
     environmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -40,7 +40,7 @@ function create_component(
     componentToCreate,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -76,7 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function create_form(
-    appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "POST",
@@ -91,7 +91,7 @@ function create_form(
     environmentName,
     formToCreate,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -126,7 +126,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function create_theme(
-    appId, environmentName, themeToCreate; aws_config::AbstractAWSConfig=global_aws_config()
+    appId,
+    environmentName,
+    themeToCreate;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -143,7 +146,7 @@ function create_theme(
     environmentName,
     themeToCreate,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -175,7 +178,7 @@ Deletes a component from an Amplify app.
 
 """
 function delete_component(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "DELETE",
@@ -189,7 +192,7 @@ function delete_component(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "DELETE",
@@ -213,7 +216,7 @@ Deletes a form from an Amplify app.
 
 """
 function delete_form(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "DELETE",
@@ -227,7 +230,7 @@ function delete_form(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "DELETE",
@@ -251,7 +254,7 @@ Deletes a theme from an Amplify app.
 
 """
 function delete_theme(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "DELETE",
@@ -265,7 +268,7 @@ function delete_theme(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "DELETE",
@@ -288,7 +291,7 @@ end
 
 """
 function exchange_code_for_token(
-    provider, request; aws_config::AbstractAWSConfig=global_aws_config()
+    provider, request; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "POST",
@@ -302,7 +305,7 @@ function exchange_code_for_token(
     provider,
     request,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -328,7 +331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function export_components(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -341,7 +344,7 @@ function export_components(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -367,7 +370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function export_forms(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -380,7 +383,7 @@ function export_forms(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -406,7 +409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function export_themes(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -419,7 +422,7 @@ function export_themes(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -444,7 +447,7 @@ Returns an existing code generation job.
 
 """
 function get_codegen_job(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -458,7 +461,7 @@ function get_codegen_job(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -482,7 +485,7 @@ Returns an existing component for an Amplify app.
 
 """
 function get_component(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -496,7 +499,7 @@ function get_component(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -520,7 +523,7 @@ Returns an existing form for an Amplify app.
 
 """
 function get_form(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -534,7 +537,7 @@ function get_form(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -557,7 +560,7 @@ Returns existing metadata for an Amplify app.
 
 """
 function get_metadata(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -570,7 +573,7 @@ function get_metadata(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -594,7 +597,7 @@ Returns an existing theme for an Amplify app.
 
 """
 function get_theme(
-    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -608,7 +611,7 @@ function get_theme(
     environmentName,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -636,7 +639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_codegen_jobs(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -649,7 +652,7 @@ function list_codegen_jobs(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -676,7 +679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_components(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -689,7 +692,7 @@ function list_components(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -716,7 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_forms(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -729,7 +732,7 @@ function list_forms(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -751,7 +754,7 @@ Returns a list of tags for a specified Amazon Resource Name (ARN).
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -763,7 +766,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -790,7 +793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_themes(
-    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "GET",
@@ -803,7 +806,7 @@ function list_themes(
     appId,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "GET",
@@ -832,7 +835,7 @@ function put_metadata_flag(
     body,
     environmentName,
     featureName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PUT",
@@ -848,7 +851,7 @@ function put_metadata_flag(
     environmentName,
     featureName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PUT",
@@ -872,7 +875,7 @@ token that might have expired.
 
 """
 function refresh_token(
-    provider, refreshTokenBody; aws_config::AbstractAWSConfig=global_aws_config()
+    provider, refreshTokenBody; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "POST",
@@ -886,7 +889,7 @@ function refresh_token(
     provider,
     refreshTokenBody,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -921,7 +924,7 @@ function start_codegen_job(
     appId,
     codegenJobToCreate,
     environmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -938,7 +941,7 @@ function start_codegen_job(
     codegenJobToCreate,
     environmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -969,7 +972,7 @@ Tags the resource with a tag key and value.
 - `tags`: A list of tag key value pairs for a specified Amazon Resource Name (ARN).
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifyuibuilder(
         "POST",
         "/tags/$(resourceArn)",
@@ -982,7 +985,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "POST",
@@ -1005,7 +1008,7 @@ Untags a resource with a specified Amazon Resource Name (ARN).
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
         "DELETE",
@@ -1019,7 +1022,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "DELETE",
@@ -1051,7 +1054,7 @@ function update_component(
     environmentName,
     id,
     updatedComponent;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PATCH",
@@ -1069,7 +1072,7 @@ function update_component(
     id,
     updatedComponent,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PATCH",
@@ -1109,7 +1112,7 @@ function update_form(
     environmentName,
     id,
     updatedForm;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PATCH",
@@ -1125,7 +1128,7 @@ function update_form(
     id,
     updatedForm,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PATCH",
@@ -1165,7 +1168,7 @@ function update_theme(
     environmentName,
     id,
     updatedTheme;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PATCH",
@@ -1181,7 +1184,7 @@ function update_theme(
     id,
     updatedTheme,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
         "PATCH",

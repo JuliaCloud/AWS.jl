@@ -15,7 +15,7 @@ Amazon CloudSearch Developer Guide.
 - `domain_name`:
 
 """
-function build_suggesters(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function build_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "BuildSuggesters",
         Dict{String,Any}("DomainName" => DomainName);
@@ -26,7 +26,7 @@ end
 function build_suggesters(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "BuildSuggesters",
@@ -51,7 +51,7 @@ Amazon CloudSearch Developer Guide.
   and be at least 3 and no more than 28 characters long.
 
 """
-function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "CreateDomain",
         Dict{String,Any}("DomainName" => DomainName);
@@ -62,7 +62,7 @@ end
 function create_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "CreateDomain",
@@ -88,7 +88,7 @@ Schemes in the Amazon CloudSearch Developer Guide.
 
 """
 function define_analysis_scheme(
-    AnalysisScheme, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisScheme, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DefineAnalysisScheme",
@@ -101,7 +101,7 @@ function define_analysis_scheme(
     AnalysisScheme,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DefineAnalysisScheme",
@@ -133,7 +133,7 @@ more information, see Configuring Expressions in the Amazon CloudSearch Develope
 
 """
 function define_expression(
-    DomainName, Expression; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DefineExpression",
@@ -146,7 +146,7 @@ function define_expression(
     DomainName,
     Expression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DefineExpression",
@@ -180,7 +180,7 @@ Guide.
 
 """
 function define_index_field(
-    DomainName, IndexField; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, IndexField; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DefineIndexField",
@@ -193,7 +193,7 @@ function define_index_field(
     DomainName,
     IndexField,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DefineIndexField",
@@ -225,7 +225,7 @@ CloudSearch Developer Guide.
 
 """
 function define_suggester(
-    DomainName, Suggester; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Suggester; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DefineSuggester",
@@ -238,7 +238,7 @@ function define_suggester(
     DomainName,
     Suggester,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DefineSuggester",
@@ -267,7 +267,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function delete_analysis_scheme(
-    AnalysisSchemeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisSchemeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DeleteAnalysisScheme",
@@ -282,7 +282,7 @@ function delete_analysis_scheme(
     AnalysisSchemeName,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DeleteAnalysisScheme",
@@ -312,7 +312,7 @@ CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to permanently delete.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "DeleteDomain",
         Dict{String,Any}("DomainName" => DomainName);
@@ -323,7 +323,7 @@ end
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DeleteDomain",
@@ -348,7 +348,7 @@ Expressions in the Amazon CloudSearch Developer Guide.
 
 """
 function delete_expression(
-    DomainName, ExpressionName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ExpressionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DeleteExpression",
@@ -361,7 +361,7 @@ function delete_expression(
     DomainName,
     ExpressionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DeleteExpression",
@@ -393,7 +393,7 @@ Fields in the Amazon CloudSearch Developer Guide.
 
 """
 function delete_index_field(
-    DomainName, IndexFieldName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, IndexFieldName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DeleteIndexField",
@@ -406,7 +406,7 @@ function delete_index_field(
     DomainName,
     IndexFieldName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DeleteIndexField",
@@ -437,7 +437,7 @@ CloudSearch Developer Guide.
 
 """
 function delete_suggester(
-    DomainName, SuggesterName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, SuggesterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DeleteSuggester",
@@ -450,7 +450,7 @@ function delete_suggester(
     DomainName,
     SuggesterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DeleteSuggester",
@@ -489,7 +489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 """
 function describe_analysis_schemes(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeAnalysisSchemes",
@@ -501,7 +501,7 @@ end
 function describe_analysis_schemes(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeAnalysisSchemes",
@@ -531,7 +531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 """
 function describe_availability_options(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeAvailabilityOptions",
@@ -543,7 +543,7 @@ end
 function describe_availability_options(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeAvailabilityOptions",
@@ -572,7 +572,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Processing state) or the current, active configuration. Defaults to false.
 """
 function describe_domain_endpoint_options(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeDomainEndpointOptions",
@@ -584,7 +584,7 @@ end
 function describe_domain_endpoint_options(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeDomainEndpointOptions",
@@ -610,13 +610,13 @@ Information about a Search Domain in the Amazon CloudSearch Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DomainNames"`: The names of the domains you want to include in the response.
 """
-function describe_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "DescribeDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -643,7 +643,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExpressionNames"`: Limits the DescribeExpressions response to the specified
   expressions. If not specified, all expressions are shown.
 """
-function describe_expressions(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_expressions(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cloudsearch(
         "DescribeExpressions",
         Dict{String,Any}("DomainName" => DomainName);
@@ -654,7 +656,7 @@ end
 function describe_expressions(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeExpressions",
@@ -687,7 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information is returned for all configured index fields.
 """
 function describe_index_fields(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeIndexFields",
@@ -699,7 +701,7 @@ end
 function describe_index_fields(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeIndexFields",
@@ -724,7 +726,7 @@ Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
 
 """
 function describe_scaling_parameters(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeScalingParameters",
@@ -736,7 +738,7 @@ end
 function describe_scaling_parameters(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeScalingParameters",
@@ -767,7 +769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 """
 function describe_service_access_policies(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "DescribeServiceAccessPolicies",
@@ -779,7 +781,7 @@ end
 function describe_service_access_policies(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeServiceAccessPolicies",
@@ -811,7 +813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 - `"SuggesterNames"`: The suggesters you want to describe.
 """
-function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "DescribeSuggesters",
         Dict{String,Any}("DomainName" => DomainName);
@@ -822,7 +824,7 @@ end
 function describe_suggesters(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "DescribeSuggesters",
@@ -846,7 +848,7 @@ RequiresIndexDocuments.
 - `domain_name`:
 
 """
-function index_documents(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function index_documents(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "IndexDocuments",
         Dict{String,Any}("DomainName" => DomainName);
@@ -857,7 +859,7 @@ end
 function index_documents(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "IndexDocuments",
@@ -876,13 +878,13 @@ end
 Lists all search domains owned by an account.
 
 """
-function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "ListDomainNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_domain_names(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "ListDomainNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -907,7 +909,7 @@ Availability Options in the Amazon CloudSearch Developer Guide.
 
 """
 function update_availability_options(
-    DomainName, MultiAZ; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, MultiAZ; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "UpdateAvailabilityOptions",
@@ -920,7 +922,7 @@ function update_availability_options(
     DomainName,
     MultiAZ,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "UpdateAvailabilityOptions",
@@ -952,7 +954,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function update_domain_endpoint_options(
-    DomainEndpointOptions, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainEndpointOptions, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "UpdateDomainEndpointOptions",
@@ -967,7 +969,7 @@ function update_domain_endpoint_options(
     DomainEndpointOptions,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "UpdateDomainEndpointOptions",
@@ -1003,7 +1005,7 @@ Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
 
 """
 function update_scaling_parameters(
-    DomainName, ScalingParameters; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ScalingParameters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "UpdateScalingParameters",
@@ -1018,7 +1020,7 @@ function update_scaling_parameters(
     DomainName,
     ScalingParameters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "UpdateScalingParameters",
@@ -1050,7 +1052,7 @@ endpoints. For more information, see  Configuring Access for an Amazon CloudSear
 
 """
 function update_service_access_policies(
-    AccessPolicies, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessPolicies, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
         "UpdateServiceAccessPolicies",
@@ -1063,7 +1065,7 @@ function update_service_access_policies(
     AccessPolicies,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch(
         "UpdateServiceAccessPolicies",

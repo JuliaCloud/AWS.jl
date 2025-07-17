@@ -1,8 +1,9 @@
+# Must be executed in the same region where the CloudFormation template `aws_jl_test.yaml`
+# was deployed into.
 @testset "Load Credentials" begin
-    config = global_aws_config()
+    config = current_aws_config()
     user = aws_user_arn(config)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
-    config.region = "us-east-1"
 
     @test_ecode("InvalidAction", AWSServices.iam("GetFoo"))
 

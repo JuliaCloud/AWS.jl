@@ -30,7 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for your instance.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_assistant(name, type; aws_config::AbstractAWSConfig=global_aws_config())
+function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "POST",
         "/assistants",
@@ -43,7 +43,7 @@ function create_assistant(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -87,7 +87,7 @@ function create_assistant_association(
     assistantId,
     association,
     associationType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -106,7 +106,7 @@ function create_assistant_association(
     association,
     associationType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -159,7 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"title"`: The title of the content. If not set, the title is equal to the name.
 """
 function create_content(
-    knowledgeBaseId, name, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, name, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -176,7 +176,7 @@ function create_content(
     name,
     uploadId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_knowledge_base(
-    knowledgeBaseType, name; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -249,7 +249,7 @@ function create_knowledge_base(
     knowledgeBaseType,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -303,7 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_quick_response(
-    content, knowledgeBaseId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    content, knowledgeBaseId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -320,7 +320,7 @@ function create_quick_response(
     knowledgeBaseId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -362,7 +362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_session(
-    assistantId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -376,7 +376,7 @@ function create_session(
     assistantId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -404,7 +404,7 @@ Deletes an assistant.
   or the ARN. URLs cannot contain the ARN.
 
 """
-function delete_assistant(assistantId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "DELETE",
         "/assistants/$(assistantId)";
@@ -415,7 +415,7 @@ end
 function delete_assistant(
     assistantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -440,7 +440,7 @@ Deletes an assistant association.
 
 """
 function delete_assistant_association(
-    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -453,7 +453,7 @@ function delete_assistant_association(
     assistantAssociationId,
     assistantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -478,7 +478,7 @@ Deletes the content.
 
 """
 function delete_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -491,7 +491,7 @@ function delete_content(
     contentId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -514,7 +514,7 @@ Deletes the quick response import job.
 
 """
 function delete_import_job(
-    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -527,7 +527,7 @@ function delete_import_job(
     importJobId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -555,7 +555,7 @@ Reference.
 
 """
 function delete_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -567,7 +567,7 @@ end
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -591,7 +591,7 @@ Deletes a quick response.
 
 """
 function delete_quick_response(
-    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -604,7 +604,7 @@ function delete_quick_response(
     knowledgeBaseId,
     quickResponseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -626,7 +626,7 @@ Retrieves information about an assistant.
   or the ARN. URLs cannot contain the ARN.
 
 """
-function get_assistant(assistantId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "GET",
         "/assistants/$(assistantId)";
@@ -637,7 +637,7 @@ end
 function get_assistant(
     assistantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -662,7 +662,7 @@ Retrieves information about an assistant association.
 
 """
 function get_assistant_association(
-    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -675,7 +675,7 @@ function get_assistant_association(
     assistantAssociationId,
     assistantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -701,7 +701,7 @@ Retrieves content, including a pre-signed URL to download the content.
 
 """
 function get_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -714,7 +714,7 @@ function get_content(
     contentId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -739,7 +739,7 @@ Retrieves summary information about the content.
 
 """
 function get_content_summary(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -752,7 +752,7 @@ function get_content_summary(
     contentId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -775,7 +775,7 @@ Retrieves the started import job.
 
 """
 function get_import_job(
-    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -788,7 +788,7 @@ function get_import_job(
     importJobId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -811,7 +811,7 @@ Retrieves information about the knowledge base.
 
 """
 function get_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -823,7 +823,7 @@ end
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -847,7 +847,7 @@ Retrieves the quick response.
 
 """
 function get_quick_response(
-    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -860,7 +860,7 @@ function get_quick_response(
     knowledgeBaseId,
     quickResponseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -899,7 +899,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires, the call returns successfully with an empty list.
 """
 function get_recommendations(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -912,7 +912,7 @@ function get_recommendations(
     assistantId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -937,7 +937,7 @@ Retrieves information for a specified session.
 
 """
 function get_session(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -950,7 +950,7 @@ function get_session(
     assistantId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -978,7 +978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_assistant_associations(
-    assistantId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -990,7 +990,7 @@ end
 function list_assistant_associations(
     assistantId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -1013,13 +1013,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_assistants(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_assistants(; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_assistants(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET", "/assistants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1043,7 +1043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents";
@@ -1054,7 +1054,7 @@ end
 function list_contents(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -1082,7 +1082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_import_jobs(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -1094,7 +1094,7 @@ end
 function list_import_jobs(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -1117,13 +1117,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_knowledge_bases(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_knowledge_bases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -1151,7 +1151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_quick_responses(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -1163,7 +1163,7 @@ end
 function list_quick_responses(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -1185,7 +1185,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "GET",
@@ -1197,7 +1197,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "GET",
@@ -1228,7 +1228,7 @@ function notify_recommendations_received(
     assistantId,
     recommendationIds,
     sessionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1243,7 +1243,7 @@ function notify_recommendations_received(
     recommendationIds,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1277,7 +1277,7 @@ function put_feedback(
     contentFeedback,
     targetId,
     targetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "PUT",
@@ -1297,7 +1297,7 @@ function put_feedback(
     targetId,
     targetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "PUT",
@@ -1343,7 +1343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ARN. URLs cannot contain the ARN.
 """
 function query_assistant(
-    assistantId, queryText; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, queryText; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1357,7 +1357,7 @@ function query_assistant(
     assistantId,
     queryText,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1382,7 +1382,7 @@ Removes a URI template from a knowledge base.
 
 """
 function remove_knowledge_base_template_uri(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -1394,7 +1394,7 @@ end
 function remove_knowledge_base_template_uri(
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -1425,7 +1425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function search_content(
-    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1439,7 +1439,7 @@ function search_content(
     knowledgeBaseId,
     searchExpression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1476,7 +1476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function search_quick_responses(
-    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1490,7 +1490,7 @@ function search_quick_responses(
     knowledgeBaseId,
     searchExpression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1523,7 +1523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function search_sessions(
-    assistantId, searchExpression; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1537,7 +1537,7 @@ function search_sessions(
     assistantId,
     searchExpression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1572,7 +1572,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in minutes.
 """
 function start_content_upload(
-    contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1586,7 +1586,7 @@ function start_content_upload(
     contentType,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1629,7 +1629,7 @@ function start_import_job(
     importJobType,
     knowledgeBaseId,
     uploadId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1648,7 +1648,7 @@ function start_import_job(
     knowledgeBaseId,
     uploadId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1680,7 +1680,7 @@ Adds the specified tags to the specified resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "POST",
         "/tags/$(resourceArn)",
@@ -1693,7 +1693,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1716,7 +1716,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "DELETE",
@@ -1730,7 +1730,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "DELETE",
@@ -1772,7 +1772,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StartContentUpload.
 """
 function update_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1785,7 +1785,7 @@ function update_content(
     contentId,
     knowledgeBaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1814,7 +1814,7 @@ https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*{Id}*/vie
 
 """
 function update_knowledge_base_template_uri(
-    knowledgeBaseId, templateUri; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, templateUri; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1828,7 +1828,7 @@ function update_knowledge_base_template_uri(
     knowledgeBaseId,
     templateUri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1875,7 +1875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   across the knowledge base.
 """
 function update_quick_response(
-    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1888,7 +1888,7 @@ function update_quick_response(
     knowledgeBaseId,
     quickResponseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
@@ -1919,7 +1919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagFilter"`: An object that can be used to specify Tag conditions.
 """
 function update_session(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return qconnect(
         "POST",
@@ -1932,7 +1932,7 @@ function update_session(
     assistantId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",

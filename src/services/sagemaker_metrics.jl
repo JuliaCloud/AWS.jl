@@ -17,7 +17,7 @@ SageMaker Studio and retrieved with the GetMetrics API.
 
 """
 function batch_put_metrics(
-    MetricData, TrialComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+    MetricData, TrialComponentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker_metrics(
         "PUT",
@@ -33,7 +33,7 @@ function batch_put_metrics(
     MetricData,
     TrialComponentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_metrics(
         "PUT",

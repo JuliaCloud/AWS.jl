@@ -28,7 +28,7 @@ email address (also known as the root user email address) for the specified acco
 
 """
 function accept_primary_email_update(
-    AccountId, Otp, PrimaryEmail; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, Otp, PrimaryEmail; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -45,7 +45,7 @@ function accept_primary_email_update(
     Otp,
     PrimaryEmail,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -94,7 +94,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function delete_alternate_contact(
-    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config()
+    AlternateContactType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -107,7 +107,7 @@ end
 function delete_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -153,7 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
-function disable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
         "/disableRegion",
@@ -165,7 +165,7 @@ end
 function disable_region(
     RegionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -207,7 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
-function enable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
         "/enableRegion",
@@ -219,7 +219,7 @@ end
 function enable_region(
     RegionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -262,7 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function get_alternate_contact(
-    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config()
+    AlternateContactType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -275,7 +275,7 @@ end
 function get_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
-function get_contact_information(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_contact_information(; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
         "/getContactInformation";
@@ -324,7 +324,7 @@ function get_contact_information(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function get_contact_information(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -353,7 +353,7 @@ Retrieves the primary email address for the specified account.
   can't specify its own AccountId.
 
 """
-function get_primary_email(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_primary_email(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
         "/getPrimaryEmail",
@@ -365,7 +365,7 @@ end
 function get_primary_email(
     AccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -405,7 +405,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   belonging to the account whose contacts you wish to retrieve or modify.
 """
 function get_region_opt_status(
-    RegionName; aws_config::AbstractAWSConfig=global_aws_config()
+    RegionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -418,7 +418,7 @@ end
 function get_region_opt_status(
     RegionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -466,13 +466,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, passing in a value of ENABLING will only return a list of Regions with a Region
   status of ENABLING.
 """
-function list_regions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_regions(; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_regions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -522,7 +522,7 @@ function put_alternate_contact(
     Name,
     PhoneNumber,
     Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -545,7 +545,7 @@ function put_alternate_contact(
     PhoneNumber,
     Title,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -596,7 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   belonging to the account whose contacts you wish to retrieve or modify.
 """
 function put_contact_information(
-    ContactInformation; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactInformation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -609,7 +609,7 @@ end
 function put_contact_information(
     ContactInformation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",
@@ -645,7 +645,7 @@ Starts the process to update the primary email address for the specified account
 
 """
 function start_primary_email_update(
-    AccountId, PrimaryEmail; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, PrimaryEmail; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
         "POST",
@@ -659,7 +659,7 @@ function start_primary_email_update(
     AccountId,
     PrimaryEmail,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return account(
         "POST",

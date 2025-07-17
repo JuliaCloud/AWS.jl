@@ -216,7 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options
   supported for statistics.
 """
-function search(q; aws_config::AbstractAWSConfig=global_aws_config())
+function search(q; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch_domain(
         "GET",
         "/2013-01-01/search?format=sdk&pretty=true",
@@ -226,7 +226,7 @@ function search(q; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function search(
-    q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch_domain(
         "GET",
@@ -261,7 +261,7 @@ also displayed on the domain dashboard in the Amazon CloudSearch console.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
-function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config())
+function suggest(q, suggester; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch_domain(
         "GET",
         "/2013-01-01/suggest?format=sdk&pretty=true",
@@ -274,7 +274,7 @@ function suggest(
     q,
     suggester,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch_domain(
         "GET",
@@ -315,7 +315,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function upload_documents(
-    Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()
+    Content_Type, documents; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch_domain(
         "POST",
@@ -332,7 +332,7 @@ function upload_documents(
     Content_Type,
     documents,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudsearch_domain(
         "POST",

@@ -16,7 +16,7 @@ Cancels a job run.
 
 """
 function cancel_job_run(
-    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "DELETE",
@@ -29,7 +29,7 @@ function cancel_job_run(
     applicationId,
     jobRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "DELETE",
@@ -83,7 +83,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.
 """
 function create_application(
-    clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "POST",
@@ -100,7 +100,7 @@ function create_application(
     releaseLabel,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "POST",
@@ -133,7 +133,7 @@ be deleted.
 
 """
 function delete_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "DELETE",
@@ -145,7 +145,7 @@ end
 function delete_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "DELETE",
@@ -166,7 +166,7 @@ Displays detailed information about a specified application.
 - `application_id`: The ID of the application that will be described.
 
 """
-function get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "GET",
         "/applications/$(applicationId)";
@@ -177,7 +177,7 @@ end
 function get_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "GET",
@@ -209,7 +209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, this value defaults to the attempt of the latest job.
 """
 function get_dashboard_for_job_run(
-    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "GET",
@@ -222,7 +222,7 @@ function get_dashboard_for_job_run(
     applicationId,
     jobRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "GET",
@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, this value defaults to the attempt of the latest job.
 """
 function get_job_run(
-    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "GET",
@@ -262,7 +262,7 @@ function get_job_run(
     applicationId,
     jobRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "GET",
@@ -286,13 +286,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: An optional filter for application states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "GET",
@@ -319,7 +319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of job run attempt results.
 """
 function list_job_run_attempts(
-    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "GET",
@@ -332,7 +332,7 @@ function list_job_run_attempts(
     applicationId,
     jobRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "GET",
@@ -362,7 +362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: An optional filter for job run states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
 """
-function list_job_runs(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns";
@@ -373,7 +373,7 @@ end
 function list_job_runs(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "GET",
@@ -397,7 +397,7 @@ Lists the tags assigned to the resources.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "GET",
@@ -409,7 +409,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "GET",
@@ -430,7 +430,9 @@ Starts a specified application and initializes initial capacity if configured.
 - `application_id`: The ID of the application to start.
 
 """
-function start_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
+function start_application(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return emr_serverless(
         "POST",
         "/applications/$(applicationId)/start";
@@ -441,7 +443,7 @@ end
 function start_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "POST",
@@ -479,7 +481,7 @@ function start_job_run(
     applicationId,
     clientToken,
     executionRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "POST",
@@ -496,7 +498,7 @@ function start_job_run(
     clientToken,
     executionRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "POST",
@@ -526,7 +528,7 @@ and running jobs must be completed or cancelled before stopping an application.
 - `application_id`: The ID of the application to stop.
 
 """
-function stop_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "POST",
         "/applications/$(applicationId)/stop";
@@ -537,7 +539,7 @@ end
 function stop_application(
     applicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "POST",
@@ -565,7 +567,7 @@ identify a specific resource based on the tags you've assigned to it.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "POST",
         "/tags/$(resourceArn)",
@@ -578,7 +580,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "POST",
@@ -603,7 +605,7 @@ Removes tags from resources.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "DELETE",
@@ -617,7 +619,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "DELETE",
@@ -671,7 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.
 """
 function update_application(
-    applicationId, clientToken; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId, clientToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
         "PATCH",
@@ -685,7 +687,7 @@ function update_application(
     applicationId,
     clientToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
         "PATCH",

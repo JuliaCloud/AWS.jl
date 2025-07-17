@@ -38,7 +38,7 @@ function associate_node(
     EngineAttributes,
     NodeName,
     ServerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "AssociateNode",
@@ -56,7 +56,7 @@ function associate_node(
     NodeName,
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "AssociateNode",
@@ -103,7 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      Leading and trailing white spaces are trimmed from both the key and value.   A maximum
   of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
 """
-function create_backup(ServerName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_backup(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "CreateBackup",
         Dict{String,Any}("ServerName" => ServerName);
@@ -114,7 +114,7 @@ end
 function create_backup(
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "CreateBackup",
@@ -266,7 +266,7 @@ function create_server(
     InstanceType,
     ServerName,
     ServiceRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "CreateServer",
@@ -288,7 +288,7 @@ function create_server(
     ServerName,
     ServiceRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "CreateServer",
@@ -324,7 +324,7 @@ ValidationException is thrown when parameters of the request are not valid.
   list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
 
 """
-function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DeleteBackup",
         Dict{String,Any}("BackupId" => BackupId);
@@ -335,7 +335,7 @@ end
 function delete_backup(
     BackupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "DeleteBackup",
@@ -363,7 +363,7 @@ ValidationException is raised when parameters of the request are not valid.
 - `server_name`: The ID of the server to delete.
 
 """
-function delete_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_server(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DeleteServer",
         Dict{String,Any}("ServerName" => ServerName);
@@ -374,7 +374,7 @@ end
 function delete_server(
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "DeleteServer",
@@ -393,13 +393,13 @@ end
  Describes your OpsWorks-CM account attributes.   This operation is synchronous.
 
 """
-function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_account_attributes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "DescribeAccountAttributes",
@@ -425,13 +425,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: This is not currently implemented for DescribeBackups requests.
 - `"ServerName"`: Returns backups for the server with the specified ServerName.
 """
-function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_backups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -464,7 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a nextToken value that was not returned in your previous results causes an
   InvalidNextTokenException to occur.
 """
-function describe_events(ServerName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_events(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeEvents",
         Dict{String,Any}("ServerName" => ServerName);
@@ -475,7 +475,7 @@ end
 function describe_events(
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "DescribeEvents",
@@ -505,7 +505,7 @@ is raised when parameters of the request are not valid.
 function describe_node_association_status(
     NodeAssociationStatusToken,
     ServerName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "DescribeNodeAssociationStatus",
@@ -521,7 +521,7 @@ function describe_node_association_status(
     NodeAssociationStatusToken,
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "DescribeNodeAssociationStatus",
@@ -556,13 +556,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: This is not currently implemented for DescribeServers requests.
 - `"ServerName"`: Describes the server with the specified ServerName.
 """
-function describe_servers(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_servers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "DescribeServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -593,7 +593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default only one organization named default can exist.
 """
 function disassociate_node(
-    NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()
+    NodeName, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "DisassociateNode",
@@ -606,7 +606,7 @@ function disassociate_node(
     NodeName,
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "DisassociateNode",
@@ -654,7 +654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter is ignored.
 """
 function export_server_engine_attribute(
-    ExportAttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ExportAttributeName, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "ExportServerEngineAttribute",
@@ -669,7 +669,7 @@ function export_server_engine_attribute(
     ExportAttributeName,
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "ExportServerEngineAttribute",
@@ -716,7 +716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InvalidNextTokenException to occur.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "ListTagsForResource",
@@ -728,7 +728,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "ListTagsForResource",
@@ -770,7 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   helpful if the administrator no longer has the SSH key.
 """
 function restore_server(
-    BackupId, ServerName; aws_config::AbstractAWSConfig=global_aws_config()
+    BackupId, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "RestoreServer",
@@ -783,7 +783,7 @@ function restore_server(
     BackupId,
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "RestoreServer",
@@ -822,7 +822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks
   for Chef Automate Server to Chef Automate 2.
 """
-function start_maintenance(ServerName; aws_config::AbstractAWSConfig=global_aws_config())
+function start_maintenance(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "StartMaintenance",
         Dict{String,Any}("ServerName" => ServerName);
@@ -833,7 +833,7 @@ end
 function start_maintenance(
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "StartMaintenance",
@@ -866,7 +866,7 @@ server, or to server backups.
   of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -878,7 +878,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "TagResource",
@@ -909,7 +909,7 @@ Removes specified tags from an AWS OpsWorks-CM server or backup.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "UntagResource",
@@ -922,7 +922,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "UntagResource",
@@ -955,7 +955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`:
 - `"PreferredMaintenanceWindow"`:
 """
-function update_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_server(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "UpdateServer",
         Dict{String,Any}("ServerName" => ServerName);
@@ -966,7 +966,7 @@ end
 function update_server(
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "UpdateServer",
@@ -999,7 +999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AttributeValue"`: The value to set for the attribute.
 """
 function update_server_engine_attributes(
-    AttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()
+    AttributeName, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
         "UpdateServerEngineAttributes",
@@ -1012,7 +1012,7 @@ function update_server_engine_attributes(
     AttributeName,
     ServerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opsworkscm(
         "UpdateServerEngineAttributes",

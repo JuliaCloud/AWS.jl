@@ -29,7 +29,7 @@ information, see Pricing.
 
 """
 function get_latest_configuration(
-    configuration_token; aws_config::AbstractAWSConfig=global_aws_config()
+    configuration_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appconfigdata(
         "GET",
@@ -42,7 +42,7 @@ end
 function get_latest_configuration(
     configuration_token,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appconfigdata(
         "GET",
@@ -84,7 +84,7 @@ function start_configuration_session(
     ApplicationIdentifier,
     ConfigurationProfileIdentifier,
     EnvironmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appconfigdata(
         "POST",
@@ -103,7 +103,7 @@ function start_configuration_session(
     ConfigurationProfileIdentifier,
     EnvironmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appconfigdata(
         "POST",

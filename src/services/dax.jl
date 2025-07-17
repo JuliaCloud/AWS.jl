@@ -62,7 +62,7 @@ function create_cluster(
     IamRoleArn,
     NodeType,
     ReplicationFactor;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "CreateCluster",
@@ -82,7 +82,7 @@ function create_cluster(
     NodeType,
     ReplicationFactor,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "CreateCluster",
@@ -119,7 +119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the parameter group.
 """
 function create_parameter_group(
-    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "CreateParameterGroup",
@@ -131,7 +131,7 @@ end
 function create_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "CreateParameterGroup",
@@ -161,7 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the subnet group
 """
 function create_subnet_group(
-    SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()
+    SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "CreateSubnetGroup",
@@ -174,7 +174,7 @@ function create_subnet_group(
     SubnetGroupName,
     SubnetIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "CreateSubnetGroup",
@@ -209,7 +209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeIdsToRemove"`: The unique identifiers of the nodes to be removed from the cluster.
 """
 function decrease_replication_factor(
-    ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config()
+    ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DecreaseReplicationFactor",
@@ -224,7 +224,7 @@ function decrease_replication_factor(
     ClusterName,
     NewReplicationFactor,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "DecreaseReplicationFactor",
@@ -256,7 +256,7 @@ action.
 - `cluster_name`: The name of the cluster to be deleted.
 
 """
-function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DeleteCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
@@ -267,7 +267,7 @@ end
 function delete_cluster(
     ClusterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "DeleteCluster",
@@ -291,7 +291,7 @@ associated with any DAX clusters.
 
 """
 function delete_parameter_group(
-    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DeleteParameterGroup",
@@ -303,7 +303,7 @@ end
 function delete_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "DeleteParameterGroup",
@@ -329,7 +329,7 @@ clusters.
 
 """
 function delete_subnet_group(
-    SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DeleteSubnetGroup",
@@ -341,7 +341,7 @@ end
 function delete_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "DeleteSubnetGroup",
@@ -379,11 +379,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
-function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -405,13 +405,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
-function describe_default_parameters(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_default_parameters(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DescribeDefaultParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_default_parameters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DescribeDefaultParameters",
@@ -448,11 +448,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format.
 """
-function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -476,13 +476,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 - `"ParameterGroupNames"`: The names of the parameter groups.
 """
-function describe_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_parameter_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DescribeParameterGroups",
@@ -513,7 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter.
 """
 function describe_parameters(
-    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DescribeParameters",
@@ -525,7 +525,7 @@ end
 function describe_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "DescribeParameters",
@@ -556,13 +556,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 - `"SubnetGroupNames"`: The name of the subnet group.
 """
-function describe_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_subnet_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "DescribeSubnetGroups",
@@ -589,7 +589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter if you want to distribute the nodes across multiple AZs.
 """
 function increase_replication_factor(
-    ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=global_aws_config()
+    ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "IncreaseReplicationFactor",
@@ -604,7 +604,7 @@ function increase_replication_factor(
     ClusterName,
     NewReplicationFactor,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "IncreaseReplicationFactor",
@@ -639,7 +639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token.
 """
-function list_tags(ResourceName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags(ResourceName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "ListTags",
         Dict{String,Any}("ResourceName" => ResourceName);
@@ -650,7 +650,7 @@ end
 function list_tags(
     ResourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "ListTags",
@@ -675,7 +675,9 @@ engine process and does not remove the contents of the cache.
 - `node_id`: The system-assigned ID of the node to be rebooted.
 
 """
-function reboot_node(ClusterName, NodeId; aws_config::AbstractAWSConfig=global_aws_config())
+function reboot_node(
+    ClusterName, NodeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return dax(
         "RebootNode",
         Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId);
@@ -687,7 +689,7 @@ function reboot_node(
     ClusterName,
     NodeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "RebootNode",
@@ -715,7 +717,9 @@ second, per account.
 - `tags`: The tags to be assigned to the DAX resource.
 
 """
-function tag_resource(ResourceName, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(
+    ResourceName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return dax(
         "TagResource",
         Dict{String,Any}("ResourceName" => ResourceName, "Tags" => Tags);
@@ -727,7 +731,7 @@ function tag_resource(
     ResourceName,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "TagResource",
@@ -757,7 +761,7 @@ times per second, per account.
 
 """
 function untag_resource(
-    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "UntagResource",
@@ -770,7 +774,7 @@ function untag_resource(
     ResourceName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "UntagResource",
@@ -811,7 +815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC
   security group to each node.
 """
-function update_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "UpdateCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
@@ -822,7 +826,7 @@ end
 function update_cluster(
     ClusterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "UpdateCluster",
@@ -852,7 +856,7 @@ single request by submitting a list parameter name and value pairs.
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "UpdateParameterGroup",
@@ -868,7 +872,7 @@ function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "UpdateParameterGroup",
@@ -902,7 +906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: A list of subnet IDs in the subnet group.
 """
 function update_subnet_group(
-    SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
         "UpdateSubnetGroup",
@@ -914,7 +918,7 @@ end
 function update_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dax(
         "UpdateSubnetGroup",

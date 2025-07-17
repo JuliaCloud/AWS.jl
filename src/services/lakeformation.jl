@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function add_lftags_to_resource(
-    LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+    LFTags, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -35,7 +35,7 @@ function add_lftags_to_resource(
     LFTags,
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -82,7 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the temporary credentials.
 """
 function assume_decorated_role_with_saml(
-    PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=global_aws_config()
+    PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -101,7 +101,7 @@ function assume_decorated_role_with_saml(
     RoleArn,
     SAMLAssertion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -138,7 +138,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 """
-function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_grant_permissions(
+    Entries; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return lakeformation(
         "POST",
         "/BatchGrantPermissions",
@@ -148,7 +150,9 @@ function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_a
     )
 end
 function batch_grant_permissions(
-    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -176,7 +180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function batch_revoke_permissions(
-    Entries; aws_config::AbstractAWSConfig=global_aws_config()
+    Entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -187,7 +191,9 @@ function batch_revoke_permissions(
     )
 end
 function batch_revoke_permissions(
-    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -210,7 +216,7 @@ previously committed.
 
 """
 function cancel_transaction(
-    TransactionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -223,7 +229,7 @@ end
 function cancel_transaction(
     TransactionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -249,7 +255,7 @@ transaction.
 
 """
 function commit_transaction(
-    TransactionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -262,7 +268,7 @@ end
 function commit_transaction(
     TransactionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -287,7 +293,7 @@ Creates a data cell filter to allow one to grant access to certain columns on ce
 
 """
 function create_data_cells_filter(
-    TableData; aws_config::AbstractAWSConfig=global_aws_config()
+    TableData; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -300,7 +306,7 @@ end
 function create_data_cells_filter(
     TableData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -338,7 +344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is null or the list is empty, no resource share is created.
 """
 function create_lake_formation_identity_center_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -348,7 +354,7 @@ function create_lake_formation_identity_center_configuration(;
     )
 end
 function create_lake_formation_identity_center_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -371,7 +377,7 @@ Enforce Lake Formation permissions for the given databases, tables, and principa
 
 """
 function create_lake_formation_opt_in(
-    Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+    Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -385,7 +391,7 @@ function create_lake_formation_opt_in(
     Principal,
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -418,7 +424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 """
-function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aws_config())
+function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/CreateLFTag",
@@ -431,7 +437,7 @@ function create_lftag(
     TagKey,
     TagValues,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -461,7 +467,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableCatalogId"`: The ID of the catalog to which the table belongs.
 - `"TableName"`: A table in the database.
 """
-function delete_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/DeleteDataCellsFilter";
@@ -470,7 +476,7 @@ function delete_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function delete_data_cells_filter(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -495,7 +501,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment.
 """
 function delete_lake_formation_identity_center_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -505,7 +511,7 @@ function delete_lake_formation_identity_center_configuration(;
     )
 end
 function delete_lake_formation_identity_center_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -529,7 +535,7 @@ principals.
 
 """
 function delete_lake_formation_opt_in(
-    Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+    Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -543,7 +549,7 @@ function delete_lake_formation_opt_in(
     Principal,
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -579,7 +585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 """
-function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/DeleteLFTag",
@@ -589,7 +595,7 @@ function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_lftag(
-    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -628,7 +634,7 @@ function delete_objects_on_cancel(
     Objects,
     TableName,
     TransactionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -649,7 +655,7 @@ function delete_objects_on_cancel(
     TableName,
     TransactionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -683,7 +689,9 @@ Formation removes the path from the inline policy attached to your service-linke
   deregister.
 
 """
-function deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function deregister_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return lakeformation(
         "POST",
         "/DeregisterResource",
@@ -695,7 +703,7 @@ end
 function deregister_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -721,7 +729,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function describe_lake_formation_identity_center_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -731,7 +739,7 @@ function describe_lake_formation_identity_center_configuration(;
     )
 end
 function describe_lake_formation_identity_center_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -752,7 +760,7 @@ Retrieves the current data access role for the given resource registered in Lake
 - `resource_arn`: The resource ARN.
 
 """
-function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/DescribeResource",
@@ -764,7 +772,7 @@ end
 function describe_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -788,7 +796,7 @@ Returns the details of a single transaction.
 
 """
 function describe_transaction(
-    TransactionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -801,7 +809,7 @@ end
 function describe_transaction(
     TransactionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -826,13 +834,13 @@ automatically aborted unless explicitly extended.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TransactionId"`: The transaction to extend.
 """
-function extend_transaction(; aws_config::AbstractAWSConfig=global_aws_config())
+function extend_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ExtendTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function extend_transaction(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -861,7 +869,7 @@ function get_data_cells_filter(
     Name,
     TableCatalogId,
     TableName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -882,7 +890,7 @@ function get_data_cells_filter(
     TableCatalogId,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -911,7 +919,7 @@ end
 Returns the identity of the invoking principal.
 
 """
-function get_data_lake_principal(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_lake_principal(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetDataLakePrincipal";
@@ -920,7 +928,7 @@ function get_data_lake_principal(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function get_data_lake_principal(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -943,7 +951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 """
-function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_lake_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetDataLakeSettings";
@@ -952,7 +960,7 @@ function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_data_lake_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -984,7 +992,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 function get_effective_permissions_for_path(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -997,7 +1005,7 @@ end
 function get_effective_permissions_for_path(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1025,7 +1033,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 """
-function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
+function get_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetLFTag",
@@ -1035,7 +1043,7 @@ function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_lftag(
-    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1059,7 +1067,7 @@ StartQueryPlanning.
 - `query_id`: The ID of the plan query operation.
 
 """
-function get_query_state(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_query_state(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetQueryState",
@@ -1069,7 +1077,9 @@ function get_query_state(QueryId; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_query_state(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1090,7 +1100,7 @@ Retrieves statistics on the planning and execution of a query.
 - `query_id`: The ID of the plan query operation.
 
 """
-function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetQueryStatistics",
@@ -1100,7 +1110,9 @@ function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function get_query_statistics(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1127,7 +1139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 - `"ShowAssignedLFTags"`: Indicates whether to show the assigned LF-tags.
 """
-function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetResourceLFTags",
@@ -1139,7 +1151,7 @@ end
 function get_resource_lftags(
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1183,7 +1195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   committed transaction. Cannot be specified along with QueryAsOfTime.
 """
 function get_table_objects(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1197,7 +1209,7 @@ function get_table_objects(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1239,7 +1251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 """
 function get_temporary_glue_partition_credentials(
-    Partition, TableArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Partition, TableArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1253,7 +1265,7 @@ function get_temporary_glue_partition_credentials(
     Partition,
     TableArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1299,7 +1311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 """
 function get_temporary_glue_table_credentials(
-    TableArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TableArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1312,7 +1324,7 @@ end
 function get_temporary_glue_table_credentials(
     TableArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1342,7 +1354,7 @@ and in parallel.
 
 """
 function get_work_unit_results(
-    QueryId, WorkUnitId, WorkUnitToken; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId, WorkUnitId, WorkUnitToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1361,7 +1373,7 @@ function get_work_unit_results(
     WorkUnitId,
     WorkUnitToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1399,7 +1411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size results in more calls to the Amazon Web Services service, retrieving fewer items
   in each call. This can help prevent the Amazon Web Services service calls from timing out.
 """
-function get_work_units(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_work_units(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/GetWorkUnits",
@@ -1409,7 +1421,9 @@ function get_work_units(QueryId; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_work_units(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1451,7 +1465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions granted in the Privileges.
 """
 function grant_permissions(
-    Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+    Permissions, Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1468,7 +1482,7 @@ function grant_permissions(
     Principal,
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1501,7 +1515,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"Table"`: A table in the Glue Data Catalog.
 """
-function list_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/ListDataCellsFilter";
@@ -1510,7 +1524,7 @@ function list_data_cells_filter(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_data_cells_filter(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1535,7 +1549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Principal"`:
 - `"Resource"`: A structure for the resource.
 """
-function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/ListLakeFormationOptIns";
@@ -1544,7 +1558,7 @@ function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function list_lake_formation_opt_ins(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1573,13 +1587,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   FOREIGN, returns all share LF-tags that the requester can view. If no resource share type
   is passed, lists LF-tags in the given catalog ID that the requester has permission to view.
 """
-function list_lftags(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_lftags(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_lftags(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1614,13 +1628,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation on the table, and the operation returns the table and the table w columns.
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
-function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_permissions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1645,13 +1659,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve these
   resources.
 """
-function list_resources(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1681,7 +1695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is compaction.
 """
 function list_table_storage_optimizers(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1695,7 +1709,7 @@ function list_table_storage_optimizers(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1731,13 +1745,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusFilter"`:  A filter indicating the status of transactions to return. Options are
   ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL.
 """
-function list_transactions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_transactions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_transactions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1769,7 +1783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function put_data_lake_settings(
-    DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config()
+    DataLakeSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1782,7 +1796,7 @@ end
 function put_data_lake_settings(
     DataLakeSettings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1828,7 +1842,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Using Service-Linked Roles for Lake Formation.
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
-function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function register_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/RegisterResource",
@@ -1840,7 +1854,7 @@ end
 function register_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1872,7 +1886,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function remove_lftags_from_resource(
-    LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+    LFTags, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1886,7 +1900,7 @@ function remove_lftags_from_resource(
     LFTags,
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1923,7 +1937,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grant option allowing the principal to pass permissions to other principals.
 """
 function revoke_permissions(
-    Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+    Permissions, Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1940,7 +1954,7 @@ function revoke_permissions(
     Principal,
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -1982,7 +1996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 function search_databases_by_lftags(
-    Expression; aws_config::AbstractAWSConfig=global_aws_config()
+    Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -1995,7 +2009,7 @@ end
 function search_databases_by_lftags(
     Expression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2029,7 +2043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 function search_tables_by_lftags(
-    Expression; aws_config::AbstractAWSConfig=global_aws_config()
+    Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2042,7 +2056,7 @@ end
 function search_tables_by_lftags(
     Expression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2069,7 +2083,7 @@ WORKUNITS_AVAILABLE or FINISHED.
 
 """
 function start_query_planning(
-    QueryPlanningContext, QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryPlanningContext, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2085,7 +2099,7 @@ function start_query_planning(
     QueryPlanningContext,
     QueryString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2118,13 +2132,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write. Writes made using a read-only transaction ID will be rejected. Read-only
   transactions do not need to be committed.
 """
-function start_transaction(; aws_config::AbstractAWSConfig=global_aws_config())
+function start_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/StartTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function start_transaction(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2147,7 +2161,7 @@ Updates a data cell filter.
 
 """
 function update_data_cells_filter(
-    TableData; aws_config::AbstractAWSConfig=global_aws_config()
+    TableData; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2160,7 +2174,7 @@ end
 function update_data_cells_filter(
     TableData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2197,7 +2211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipients list will be cleared, and the resource share will be deleted.
 """
 function update_lake_formation_identity_center_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2207,7 +2221,7 @@ function update_lake_formation_identity_center_configuration(;
     )
 end
 function update_lake_formation_identity_center_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2239,7 +2253,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagValuesToAdd"`: A list of LF-tag values to add from the LF-tag.
 - `"TagValuesToDelete"`: A list of LF-tag values to delete from the LF-tag.
 """
-function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
+function update_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
         "/UpdateLFTag",
@@ -2249,7 +2263,7 @@ function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_lftag(
-    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2279,7 +2293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function update_resource(
-    ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lakeformation(
         "POST",
@@ -2293,7 +2307,7 @@ function update_resource(
     ResourceArn,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2332,7 +2346,7 @@ function update_table_objects(
     DatabaseName,
     TableName,
     WriteOperations;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2351,7 +2365,7 @@ function update_table_objects(
     TableName,
     WriteOperations,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2391,7 +2405,7 @@ function update_table_storage_optimizer(
     DatabaseName,
     StorageOptimizerConfig,
     TableName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",
@@ -2410,7 +2424,7 @@ function update_table_storage_optimizer(
     StorageOptimizerConfig,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lakeformation(
         "POST",

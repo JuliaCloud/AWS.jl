@@ -21,7 +21,7 @@ function get_role_credentials(
     account_id,
     role_name,
     x_amz_sso_bearer_token;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso(
         "GET",
@@ -41,7 +41,7 @@ function get_role_credentials(
     role_name,
     x_amz_sso_bearer_token,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso(
         "GET",
@@ -82,7 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent pages.
 """
 function list_account_roles(
-    account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()
+    account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso(
         "GET",
@@ -100,7 +100,7 @@ function list_account_roles(
     account_id,
     x_amz_sso_bearer_token,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso(
         "GET",
@@ -141,7 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the previous response output.
 """
 function list_accounts(
-    x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso(
         "GET",
@@ -157,7 +157,7 @@ end
 function list_accounts(
     x_amz_sso_bearer_token,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso(
         "GET",
@@ -198,7 +198,7 @@ User authentications in the IAM Identity Center User Guide.
   information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 """
-function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config())
+function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config())
     return sso(
         "POST",
         "/logout",
@@ -213,7 +213,7 @@ end
 function logout(
     x_amz_sso_bearer_token,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso(
         "POST",

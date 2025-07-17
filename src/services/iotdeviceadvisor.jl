@@ -20,7 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be attached to the suite definition.
 """
 function create_suite_definition(
-    suiteDefinitionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "POST",
@@ -33,7 +33,7 @@ end
 function create_suite_definition(
     suiteDefinitionConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
@@ -64,7 +64,7 @@ DeleteSuiteDefinition action.
 
 """
 function delete_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "DELETE",
@@ -76,7 +76,7 @@ end
 function delete_suite_definition(
     suiteDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "DELETE",
@@ -100,13 +100,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deviceRoleArn"`: The device role ARN of the device. This is an optional parameter.
 - `"thingArn"`: The thing ARN of the device. This is an optional parameter.
 """
-function get_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_endpoint(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET", "/endpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -128,7 +128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite to get.
 """
 function get_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET",
@@ -140,7 +140,7 @@ end
 function get_suite_definition(
     suiteDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "GET",
@@ -164,7 +164,7 @@ GetSuiteRun action.
 
 """
 function get_suite_run(
-    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET",
@@ -177,7 +177,7 @@ function get_suite_run(
     suiteDefinitionId,
     suiteRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "GET",
@@ -201,7 +201,7 @@ Requires permission to access the GetSuiteRunReport action.
 
 """
 function get_suite_run_report(
-    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET",
@@ -214,7 +214,7 @@ function get_suite_run_report(
     suiteDefinitionId,
     suiteRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "GET",
@@ -237,13 +237,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at once.
 - `"nextToken"`: A token used to get the next set of results.
 """
-function list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_suite_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_suite_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET",
@@ -271,13 +271,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suiteDefinitionVersion"`: Must be passed along with suiteDefinitionId. Lists the test
   suite runs of the specified test suite based on suite definition version.
 """
-function list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_suite_runs(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_suite_runs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET", "/suiteRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -297,7 +297,7 @@ the ListTagsForResource action.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "GET",
@@ -309,7 +309,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "GET",
@@ -339,7 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_suite_run(
     suiteDefinitionId,
     suiteRunConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
@@ -353,7 +353,7 @@ function start_suite_run(
     suiteDefinitionId,
     suiteRunConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
@@ -383,7 +383,7 @@ access the StopSuiteRun action.
 
 """
 function stop_suite_run(
-    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "POST",
@@ -396,7 +396,7 @@ function stop_suite_run(
     suiteDefinitionId,
     suiteRunId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
@@ -420,7 +420,7 @@ to access the TagResource action.
 - `tags`: The tags to be attached to the IoT Device Advisor resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "POST",
         "/tags/$(resourceArn)",
@@ -433,7 +433,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "POST",
@@ -458,7 +458,7 @@ UntagResource action.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotdeviceadvisor(
         "DELETE",
@@ -472,7 +472,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "DELETE",
@@ -499,7 +499,7 @@ UpdateSuiteDefinition action.
 function update_suite_definition(
     suiteDefinitionConfiguration,
     suiteDefinitionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "PATCH",
@@ -513,7 +513,7 @@ function update_suite_definition(
     suiteDefinitionConfiguration,
     suiteDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotdeviceadvisor(
         "PATCH",

@@ -23,7 +23,7 @@ function attach_customer_managed_policy_reference_to_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
     PermissionSetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "AttachCustomerManagedPolicyReferenceToPermissionSet",
@@ -41,7 +41,7 @@ function attach_customer_managed_policy_reference_to_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "AttachCustomerManagedPolicyReferenceToPermissionSet",
@@ -84,7 +84,7 @@ function attach_managed_policy_to_permission_set(
     InstanceArn,
     ManagedPolicyArn,
     PermissionSetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "AttachManagedPolicyToPermissionSet",
@@ -102,7 +102,7 @@ function attach_managed_policy_to_permission_set(
     ManagedPolicyArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "AttachManagedPolicyToPermissionSet",
@@ -160,7 +160,7 @@ function create_account_assignment(
     PrincipalType,
     TargetId,
     TargetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateAccountAssignment",
@@ -184,7 +184,7 @@ function create_account_assignment(
     TargetId,
     TargetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateAccountAssignment",
@@ -241,7 +241,7 @@ function create_application(
     ApplicationProviderArn,
     InstanceArn,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateApplication",
@@ -260,7 +260,7 @@ function create_application(
     InstanceArn,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateApplication",
@@ -300,7 +300,7 @@ function create_application_assignment(
     ApplicationArn,
     PrincipalId,
     PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateApplicationAssignment",
@@ -318,7 +318,7 @@ function create_application_assignment(
     PrincipalId,
     PrincipalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateApplicationAssignment",
@@ -362,7 +362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the instance of IAM Identity Center.
 - `"Tags"`: Specifies tags to be attached to the instance of IAM Identity Center.
 """
-function create_instance(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "CreateInstance",
         Dict{String,Any}("ClientToken" => string(uuid4()));
@@ -371,7 +371,7 @@ function create_instance(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_instance(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "CreateInstance",
@@ -409,7 +409,7 @@ InstanceAccessControlAttributeConfiguration was created.
 function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateInstanceAccessControlAttributeConfiguration",
@@ -426,7 +426,7 @@ function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateInstanceAccessControlAttributeConfiguration",
@@ -469,7 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to attach to the new PermissionSet.
 """
 function create_permission_set(
-    InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "CreatePermissionSet",
@@ -482,7 +482,7 @@ function create_permission_set(
     InstanceArn,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreatePermissionSet",
@@ -535,7 +535,7 @@ function create_trusted_token_issuer(
     Name,
     TrustedTokenIssuerConfiguration,
     TrustedTokenIssuerType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateTrustedTokenIssuer",
@@ -556,7 +556,7 @@ function create_trusted_token_issuer(
     TrustedTokenIssuerConfiguration,
     TrustedTokenIssuerType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "CreateTrustedTokenIssuer",
@@ -608,7 +608,7 @@ function delete_account_assignment(
     PrincipalType,
     TargetId,
     TargetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteAccountAssignment",
@@ -632,7 +632,7 @@ function delete_account_assignment(
     TargetId,
     TargetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteAccountAssignment",
@@ -668,7 +668,7 @@ Deletes the association with the application. The connected service resource sti
 
 """
 function delete_application(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeleteApplication",
@@ -680,7 +680,7 @@ end
 function delete_application(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplication",
@@ -704,7 +704,7 @@ Deletes an IAM Identity Center access scope from an application.
 
 """
 function delete_application_access_scope(
-    ApplicationArn, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeleteApplicationAccessScope",
@@ -717,7 +717,7 @@ function delete_application_access_scope(
     ApplicationArn,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplicationAccessScope",
@@ -753,7 +753,7 @@ function delete_application_assignment(
     ApplicationArn,
     PrincipalId,
     PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplicationAssignment",
@@ -771,7 +771,7 @@ function delete_application_assignment(
     PrincipalId,
     PrincipalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplicationAssignment",
@@ -807,7 +807,7 @@ Deletes an authentication method from an application.
 function delete_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplicationAuthenticationMethod",
@@ -823,7 +823,7 @@ function delete_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplicationAuthenticationMethod",
@@ -854,7 +854,7 @@ Deletes a grant from an application.
 
 """
 function delete_application_grant(
-    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeleteApplicationGrant",
@@ -867,7 +867,7 @@ function delete_application_grant(
     ApplicationArn,
     GrantType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteApplicationGrant",
@@ -899,7 +899,7 @@ Deletes the inline policy from a specified permission set.
 
 """
 function delete_inline_policy_from_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeleteInlinePolicyFromPermissionSet",
@@ -914,7 +914,7 @@ function delete_inline_policy_from_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteInlinePolicyFromPermissionSet",
@@ -945,7 +945,7 @@ organization instance, but those roles can delete their own instance.
   will run.
 
 """
-function delete_instance(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "DeleteInstance",
         Dict{String,Any}("InstanceArn" => InstanceArn);
@@ -956,7 +956,7 @@ end
 function delete_instance(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteInstance",
@@ -984,7 +984,7 @@ Attribute-Based Access Control in the IAM Identity Center User Guide.
 
 """
 function delete_instance_access_control_attribute_configuration(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeleteInstanceAccessControlAttributeConfiguration",
@@ -996,7 +996,7 @@ end
 function delete_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteInstanceAccessControlAttributeConfiguration",
@@ -1022,7 +1022,7 @@ Deletes the specified permission set.
 
 """
 function delete_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeletePermissionSet",
@@ -1037,7 +1037,7 @@ function delete_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeletePermissionSet",
@@ -1068,7 +1068,7 @@ Deletes the permissions boundary from a specified PermissionSet.
 
 """
 function delete_permissions_boundary_from_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeletePermissionsBoundaryFromPermissionSet",
@@ -1083,7 +1083,7 @@ function delete_permissions_boundary_from_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeletePermissionsBoundaryFromPermissionSet",
@@ -1115,7 +1115,7 @@ applications that are configured to use the trusted token issuer.
 
 """
 function delete_trusted_token_issuer(
-    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DeleteTrustedTokenIssuer",
@@ -1127,7 +1127,7 @@ end
 function delete_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DeleteTrustedTokenIssuer",
@@ -1160,7 +1160,7 @@ Describes the status of the assignment creation request.
 function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeAccountAssignmentCreationStatus",
@@ -1176,7 +1176,7 @@ function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeAccountAssignmentCreationStatus",
@@ -1213,7 +1213,7 @@ Describes the status of the assignment deletion request.
 function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeAccountAssignmentDeletionStatus",
@@ -1229,7 +1229,7 @@ function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeAccountAssignmentDeletionStatus",
@@ -1262,7 +1262,7 @@ Retrieves the details of an application associated with an instance of IAM Ident
 
 """
 function describe_application(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DescribeApplication",
@@ -1274,7 +1274,7 @@ end
 function describe_application(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeApplication",
@@ -1310,7 +1310,7 @@ function describe_application_assignment(
     ApplicationArn,
     PrincipalId,
     PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeApplicationAssignment",
@@ -1328,7 +1328,7 @@ function describe_application_assignment(
     PrincipalId,
     PrincipalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeApplicationAssignment",
@@ -1361,7 +1361,7 @@ managed application or customer managed application to IAM Identity Center.
 
 """
 function describe_application_provider(
-    ApplicationProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DescribeApplicationProvider",
@@ -1373,7 +1373,7 @@ end
 function describe_application_provider(
     ApplicationProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeApplicationProvider",
@@ -1406,7 +1406,7 @@ active.
   will run.
 
 """
-function describe_instance(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "DescribeInstance",
         Dict{String,Any}("InstanceArn" => InstanceArn);
@@ -1417,7 +1417,7 @@ end
 function describe_instance(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeInstance",
@@ -1445,7 +1445,7 @@ Identity Center User Guide.
 
 """
 function describe_instance_access_control_attribute_configuration(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DescribeInstanceAccessControlAttributeConfiguration",
@@ -1457,7 +1457,7 @@ end
 function describe_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeInstanceAccessControlAttributeConfiguration",
@@ -1483,7 +1483,7 @@ Gets the details of the permission set.
 
 """
 function describe_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DescribePermissionSet",
@@ -1498,7 +1498,7 @@ function describe_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribePermissionSet",
@@ -1533,7 +1533,7 @@ Describes the status for the given permission set provisioning request.
 function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribePermissionSetProvisioningStatus",
@@ -1549,7 +1549,7 @@ function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribePermissionSetProvisioningStatus",
@@ -1583,7 +1583,7 @@ configuration.
 
 """
 function describe_trusted_token_issuer(
-    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "DescribeTrustedTokenIssuer",
@@ -1595,7 +1595,7 @@ end
 function describe_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DescribeTrustedTokenIssuer",
@@ -1630,7 +1630,7 @@ function detach_customer_managed_policy_reference_from_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
     PermissionSetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DetachCustomerManagedPolicyReferenceFromPermissionSet",
@@ -1648,7 +1648,7 @@ function detach_customer_managed_policy_reference_from_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DetachCustomerManagedPolicyReferenceFromPermissionSet",
@@ -1689,7 +1689,7 @@ function detach_managed_policy_from_permission_set(
     InstanceArn,
     ManagedPolicyArn,
     PermissionSetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DetachManagedPolicyFromPermissionSet",
@@ -1707,7 +1707,7 @@ function detach_managed_policy_from_permission_set(
     ManagedPolicyArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "DetachManagedPolicyFromPermissionSet",
@@ -1740,7 +1740,7 @@ Retrieves the authorized targets for an IAM Identity Center access scope for an 
 
 """
 function get_application_access_scope(
-    ApplicationArn, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "GetApplicationAccessScope",
@@ -1753,7 +1753,7 @@ function get_application_access_scope(
     ApplicationArn,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetApplicationAccessScope",
@@ -1782,7 +1782,7 @@ Retrieves the configuration of PutApplicationAssignmentConfiguration.
 
 """
 function get_application_assignment_configuration(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "GetApplicationAssignmentConfiguration",
@@ -1794,7 +1794,7 @@ end
 function get_application_assignment_configuration(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetApplicationAssignmentConfiguration",
@@ -1821,7 +1821,7 @@ Retrieves details about an authentication method used by an application.
 function get_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetApplicationAuthenticationMethod",
@@ -1837,7 +1837,7 @@ function get_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetApplicationAuthenticationMethod",
@@ -1868,7 +1868,7 @@ Retrieves details about an application grant.
 
 """
 function get_application_grant(
-    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "GetApplicationGrant",
@@ -1881,7 +1881,7 @@ function get_application_grant(
     ApplicationArn,
     GrantType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetApplicationGrant",
@@ -1913,7 +1913,7 @@ Obtains the inline policy assigned to the permission set.
 
 """
 function get_inline_policy_for_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "GetInlinePolicyForPermissionSet",
@@ -1928,7 +1928,7 @@ function get_inline_policy_for_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetInlinePolicyForPermissionSet",
@@ -1959,7 +1959,7 @@ Obtains the permissions boundary for a specified PermissionSet.
 
 """
 function get_permissions_boundary_for_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "GetPermissionsBoundaryForPermissionSet",
@@ -1974,7 +1974,7 @@ function get_permissions_boundary_for_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "GetPermissionsBoundaryForPermissionSet",
@@ -2012,7 +2012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_creation_status(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListAccountAssignmentCreationStatus",
@@ -2024,7 +2024,7 @@ end
 function list_account_assignment_creation_status(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountAssignmentCreationStatus",
@@ -2056,7 +2056,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_deletion_status(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListAccountAssignmentDeletionStatus",
@@ -2068,7 +2068,7 @@ end
 function list_account_assignment_deletion_status(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountAssignmentDeletionStatus",
@@ -2105,7 +2105,7 @@ function list_account_assignments(
     AccountId,
     InstanceArn,
     PermissionSetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountAssignments",
@@ -2123,7 +2123,7 @@ function list_account_assignments(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountAssignments",
@@ -2177,7 +2177,7 @@ function list_account_assignments_for_principal(
     InstanceArn,
     PrincipalId,
     PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountAssignmentsForPrincipal",
@@ -2195,7 +2195,7 @@ function list_account_assignments_for_principal(
     PrincipalId,
     PrincipalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountAssignmentsForPrincipal",
@@ -2238,7 +2238,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 function list_accounts_for_provisioned_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListAccountsForProvisionedPermissionSet",
@@ -2253,7 +2253,7 @@ function list_accounts_for_provisioned_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListAccountsForProvisionedPermissionSet",
@@ -2295,7 +2295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_access_scopes(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListApplicationAccessScopes",
@@ -2307,7 +2307,7 @@ end
 function list_application_access_scopes(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplicationAccessScopes",
@@ -2343,7 +2343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_assignments(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListApplicationAssignments",
@@ -2355,7 +2355,7 @@ end
 function list_application_assignments(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplicationAssignments",
@@ -2401,7 +2401,7 @@ function list_application_assignments_for_principal(
     InstanceArn,
     PrincipalId,
     PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplicationAssignmentsForPrincipal",
@@ -2419,7 +2419,7 @@ function list_application_assignments_for_principal(
     PrincipalId,
     PrincipalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplicationAssignmentsForPrincipal",
@@ -2457,7 +2457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_authentication_methods(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListApplicationAuthenticationMethods",
@@ -2469,7 +2469,7 @@ end
 function list_application_authentication_methods(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplicationAuthenticationMethods",
@@ -2498,7 +2498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_grants(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListApplicationGrants",
@@ -2510,7 +2510,7 @@ end
 function list_application_grants(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplicationGrants",
@@ -2542,13 +2542,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 """
-function list_application_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_application_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_application_providers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListApplicationProviders",
@@ -2587,7 +2587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 """
-function list_applications(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_applications(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "ListApplications",
         Dict{String,Any}("InstanceArn" => InstanceArn);
@@ -2598,7 +2598,7 @@ end
 function list_applications(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListApplications",
@@ -2628,7 +2628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_customer_managed_policy_references_in_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListCustomerManagedPolicyReferencesInPermissionSet",
@@ -2643,7 +2643,7 @@ function list_customer_managed_policy_references_in_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListCustomerManagedPolicyReferencesInPermissionSet",
@@ -2674,13 +2674,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2706,7 +2706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_managed_policies_in_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListManagedPoliciesInPermissionSet",
@@ -2721,7 +2721,7 @@ function list_managed_policies_in_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListManagedPoliciesInPermissionSet",
@@ -2759,7 +2759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_permission_set_provisioning_status(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListPermissionSetProvisioningStatus",
@@ -2771,7 +2771,7 @@ end
 function list_permission_set_provisioning_status(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListPermissionSetProvisioningStatus",
@@ -2801,7 +2801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_permission_sets(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListPermissionSets",
@@ -2813,7 +2813,7 @@ end
 function list_permission_sets(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListPermissionSets",
@@ -2847,7 +2847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
 function list_permission_sets_provisioned_to_account(
-    AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListPermissionSetsProvisionedToAccount",
@@ -2860,7 +2860,7 @@ function list_permission_sets_provisioned_to_account(
     AccountId,
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListPermissionSetsProvisionedToAccount",
@@ -2894,7 +2894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListTagsForResource",
@@ -2906,7 +2906,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListTagsForResource",
@@ -2943,7 +2943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_trusted_token_issuers(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "ListTrustedTokenIssuers",
@@ -2955,7 +2955,7 @@ end
 function list_trusted_token_issuers(
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ListTrustedTokenIssuers",
@@ -2989,7 +2989,7 @@ function provision_permission_set(
     InstanceArn,
     PermissionSetArn,
     TargetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ProvisionPermissionSet",
@@ -3007,7 +3007,7 @@ function provision_permission_set(
     PermissionSetArn,
     TargetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "ProvisionPermissionSet",
@@ -3046,7 +3046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets for this access scope.
 """
 function put_application_access_scope(
-    ApplicationArn, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "PutApplicationAccessScope",
@@ -3059,7 +3059,7 @@ function put_application_access_scope(
     ApplicationArn,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutApplicationAccessScope",
@@ -3095,7 +3095,7 @@ AssignmentsRequired is set to true.
 
 """
 function put_application_assignment_configuration(
-    ApplicationArn, AssignmentRequired; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, AssignmentRequired; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "PutApplicationAssignmentConfiguration",
@@ -3110,7 +3110,7 @@ function put_application_assignment_configuration(
     ApplicationArn,
     AssignmentRequired,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutApplicationAssignmentConfiguration",
@@ -3149,7 +3149,7 @@ function put_application_authentication_method(
     ApplicationArn,
     AuthenticationMethod,
     AuthenticationMethodType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutApplicationAuthenticationMethod",
@@ -3167,7 +3167,7 @@ function put_application_authentication_method(
     AuthenticationMethod,
     AuthenticationMethodType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutApplicationAuthenticationMethod",
@@ -3200,7 +3200,7 @@ Adds a grant to an application.
 
 """
 function put_application_grant(
-    ApplicationArn, Grant, GrantType; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn, Grant, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "PutApplicationGrant",
@@ -3216,7 +3216,7 @@ function put_application_grant(
     Grant,
     GrantType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutApplicationGrant",
@@ -3256,7 +3256,7 @@ function put_inline_policy_to_permission_set(
     InlinePolicy,
     InstanceArn,
     PermissionSetArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutInlinePolicyToPermissionSet",
@@ -3274,7 +3274,7 @@ function put_inline_policy_to_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutInlinePolicyToPermissionSet",
@@ -3313,7 +3313,7 @@ function put_permissions_boundary_to_permission_set(
     InstanceArn,
     PermissionSetArn,
     PermissionsBoundary;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutPermissionsBoundaryToPermissionSet",
@@ -3331,7 +3331,7 @@ function put_permissions_boundary_to_permission_set(
     PermissionSetArn,
     PermissionsBoundary,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "PutPermissionsBoundaryToPermissionSet",
@@ -3367,7 +3367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
   Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -3379,7 +3379,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "TagResource",
@@ -3412,7 +3412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "UntagResource",
@@ -3425,7 +3425,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UntagResource",
@@ -3461,7 +3461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies whether the application is enabled or disabled.
 """
 function update_application(
-    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "UpdateApplication",
@@ -3473,7 +3473,7 @@ end
 function update_application(
     ApplicationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdateApplication",
@@ -3500,7 +3500,7 @@ Services account.
 
 """
 function update_instance(
-    InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "UpdateInstance",
@@ -3513,7 +3513,7 @@ function update_instance(
     InstanceArn,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdateInstance",
@@ -3551,7 +3551,7 @@ about ABAC, see Attribute-Based Access Control in the IAM Identity Center User G
 function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdateInstanceAccessControlAttributeConfiguration",
@@ -3568,7 +3568,7 @@ function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdateInstanceAccessControlAttributeConfiguration",
@@ -3609,7 +3609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the ISO-8601 standard.
 """
 function update_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "UpdatePermissionSet",
@@ -3624,7 +3624,7 @@ function update_permission_set(
     InstanceArn,
     PermissionSetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdatePermissionSet",
@@ -3664,7 +3664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type of the trusted token issuer that you are updating.
 """
 function update_trusted_token_issuer(
-    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_admin(
         "UpdateTrustedTokenIssuer",
@@ -3676,7 +3676,7 @@ end
 function update_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdateTrustedTokenIssuer",

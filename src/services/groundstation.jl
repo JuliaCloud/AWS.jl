@@ -14,7 +14,7 @@ Cancels a contact with a specified contact ID.
 - `contact_id`: UUID of a contact.
 
 """
-function cancel_contact(contactId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_contact(contactId; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "DELETE",
         "/contact/$(contactId)";
@@ -25,7 +25,7 @@ end
 function cancel_contact(
     contactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "DELETE",
@@ -51,7 +51,7 @@ be specified.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: Tags assigned to a Config.
 """
-function create_config(configData, name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_config(configData, name; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "POST",
         "/config",
@@ -64,7 +64,7 @@ function create_config(
     configData,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -104,7 +104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags of a dataflow endpoint group.
 """
 function create_dataflow_endpoint_group(
-    endpointDetails; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointDetails; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
@@ -117,7 +117,7 @@ end
 function create_dataflow_endpoint_group(
     endpointDetails,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -157,7 +157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags assigned to an ephemeris.
 """
 function create_ephemeris(
-    name, satelliteId; aws_config::AbstractAWSConfig=global_aws_config()
+    name, satelliteId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
@@ -171,7 +171,7 @@ function create_ephemeris(
     name,
     satelliteId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -219,7 +219,7 @@ function create_mission_profile(
     minimumViableContactDurationSeconds,
     name,
     trackingConfigArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -240,7 +240,7 @@ function create_mission_profile(
     name,
     trackingConfigArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -275,7 +275,7 @@ Deletes a Config.
 
 """
 function delete_config(
-    configId, configType; aws_config::AbstractAWSConfig=global_aws_config()
+    configId, configType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "DELETE",
@@ -288,7 +288,7 @@ function delete_config(
     configId,
     configType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "DELETE",
@@ -310,7 +310,7 @@ Deletes a dataflow endpoint group.
 
 """
 function delete_dataflow_endpoint_group(
-    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "DELETE",
@@ -322,7 +322,7 @@ end
 function delete_dataflow_endpoint_group(
     dataflowEndpointGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "DELETE",
@@ -343,7 +343,7 @@ Deletes an ephemeris
 - `ephemeris_id`: The AWS Ground Station ephemeris ID.
 
 """
-function delete_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "DELETE",
         "/ephemeris/$(ephemerisId)";
@@ -354,7 +354,7 @@ end
 function delete_ephemeris(
     ephemerisId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "DELETE",
@@ -376,7 +376,7 @@ Deletes a mission profile.
 
 """
 function delete_mission_profile(
-    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "DELETE",
@@ -388,7 +388,7 @@ end
 function delete_mission_profile(
     missionProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "DELETE",
@@ -409,7 +409,7 @@ Describes an existing contact.
 - `contact_id`: UUID of a contact.
 
 """
-function describe_contact(contactId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_contact(contactId; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET",
         "/contact/$(contactId)";
@@ -420,7 +420,7 @@ end
 function describe_contact(
     contactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -441,7 +441,7 @@ Describes an existing ephemeris.
 - `ephemeris_id`: The AWS Ground Station ephemeris ID.
 
 """
-function describe_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ephemeris(ephemerisId; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET",
         "/ephemeris/$(ephemerisId)";
@@ -452,7 +452,7 @@ end
 function describe_ephemeris(
     ephemerisId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -474,7 +474,9 @@ configuration information for a registered agent.
 - `agent_id`: UUID of agent to get configuration information for.
 
 """
-function get_agent_configuration(agentId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_agent_configuration(
+    agentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return groundstation(
         "GET",
         "/agent/$(agentId)/configuration";
@@ -483,7 +485,9 @@ function get_agent_configuration(agentId; aws_config::AbstractAWSConfig=global_a
     )
 end
 function get_agent_configuration(
-    agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -505,7 +509,9 @@ Returns Config information. Only one Config response can be returned.
 - `config_type`: Type of a Config.
 
 """
-function get_config(configId, configType; aws_config::AbstractAWSConfig=global_aws_config())
+function get_config(
+    configId, configType; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return groundstation(
         "GET",
         "/config/$(configType)/$(configId)";
@@ -517,7 +523,7 @@ function get_config(
     configId,
     configType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -539,7 +545,7 @@ Returns the dataflow endpoint group.
 
 """
 function get_dataflow_endpoint_group(
-    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET",
@@ -551,7 +557,7 @@ end
 function get_dataflow_endpoint_group(
     dataflowEndpointGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -573,7 +579,7 @@ Returns the number of reserved minutes used by account.
 - `year`: The year being requested, in the format of YYYY.
 
 """
-function get_minute_usage(month, year; aws_config::AbstractAWSConfig=global_aws_config())
+function get_minute_usage(month, year; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "POST",
         "/minute-usage",
@@ -586,7 +592,7 @@ function get_minute_usage(
     month,
     year,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -610,7 +616,7 @@ Returns a mission profile.
 
 """
 function get_mission_profile(
-    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET",
@@ -622,7 +628,7 @@ end
 function get_mission_profile(
     missionProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -643,7 +649,7 @@ Returns a satellite.
 - `satellite_id`: UUID of a satellite.
 
 """
-function get_satellite(satelliteId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_satellite(satelliteId; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET",
         "/satellite/$(satelliteId)";
@@ -654,7 +660,7 @@ end
 function get_satellite(
     satelliteId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -677,13 +683,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token returned in the request of a previous ListConfigs call. Used to
   get the next page of results.
 """
-function list_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET", "/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET", "/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -712,7 +718,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"satelliteArn"`: ARN of a satellite.
 """
 function list_contacts(
-    endTime, startTime, statusList; aws_config::AbstractAWSConfig=global_aws_config()
+    endTime, startTime, statusList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
@@ -729,7 +735,7 @@ function list_contacts(
     startTime,
     statusList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -762,7 +768,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token returned in the request of a previous
   ListDataflowEndpointGroups call. Used to get the next page of results.
 """
-function list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET",
         "/dataflowEndpointGroup";
@@ -771,7 +777,7 @@ function list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_dataflow_endpoint_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET",
@@ -802,7 +808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusList"`: The list of ephemeris status to return.
 """
 function list_ephemerides(
-    endTime, satelliteId, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+    endTime, satelliteId, startTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
@@ -819,7 +825,7 @@ function list_ephemerides(
     satelliteId,
     startTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -853,13 +859,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ground stations.
 - `"satelliteId"`: Satellite ID to retrieve on-boarded ground stations.
 """
-function list_ground_stations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_ground_stations(; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET", "/groundstation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_ground_stations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET",
@@ -882,13 +888,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token returned in the request of a previous ListMissionProfiles call.
   Used to get the next page of results.
 """
-function list_mission_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_mission_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET", "/missionprofile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_mission_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET",
@@ -911,13 +917,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token that can be supplied in the next call to get the next page of
   satellites.
 """
-function list_satellites(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_satellites(; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "GET", "/satellite"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_satellites(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET", "/satellite", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -935,7 +941,7 @@ Returns a list of tags for a specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "GET",
@@ -947,7 +953,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "GET",
@@ -971,7 +977,7 @@ agent with AWS Ground Station.
 
 """
 function register_agent(
-    agentDetails, discoveryData; aws_config::AbstractAWSConfig=global_aws_config()
+    agentDetails, discoveryData; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
@@ -985,7 +991,7 @@ function register_agent(
     agentDetails,
     discoveryData,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -1027,7 +1033,7 @@ function reserve_contact(
     missionProfileArn,
     satelliteArn,
     startTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -1050,7 +1056,7 @@ function reserve_contact(
     satelliteArn,
     startTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -1084,7 +1090,7 @@ Assigns a tag to a resource.
 - `tags`: Tags assigned to a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "POST",
         "/tags/$(resourceArn)",
@@ -1097,7 +1103,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "POST",
@@ -1120,7 +1126,7 @@ Deassigns a resource tag.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "DELETE",
@@ -1134,7 +1140,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "DELETE",
@@ -1164,7 +1170,7 @@ function update_agent_status(
     aggregateStatus,
     componentStatuses,
     taskId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "PUT",
@@ -1184,7 +1190,7 @@ function update_agent_status(
     componentStatuses,
     taskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "PUT",
@@ -1224,7 +1230,7 @@ function update_config(
     configId,
     configType,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "PUT",
@@ -1240,7 +1246,7 @@ function update_config(
     configType,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "PUT",
@@ -1275,7 +1281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   priority is 1, and higher numbers take precedence. Priority must be 1 or greater
 """
 function update_ephemeris(
-    enabled, ephemerisId; aws_config::AbstractAWSConfig=global_aws_config()
+    enabled, ephemerisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "PUT",
@@ -1289,7 +1295,7 @@ function update_ephemeris(
     enabled,
     ephemerisId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "PUT",
@@ -1327,7 +1333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"trackingConfigArn"`: ARN of a tracking Config.
 """
 function update_mission_profile(
-    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    missionProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "PUT",
@@ -1339,7 +1345,7 @@ end
 function update_mission_profile(
     missionProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return groundstation(
         "PUT",

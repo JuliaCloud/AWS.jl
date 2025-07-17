@@ -126,13 +126,16 @@ S3.DeleteObjects(bucket_name, body)  # Delete multiple objects
 There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
 
 ## Modifying Functionality
+
 There are sometimes situations, in which default behavior of AWS.jl might be overridden, for example when this package is used to access S3-compatible object storage of a different cloud service provider, which might have different ways of joining the endpoint url, encoding the region in the signature etc.
+
 In many cases this can be achieved by creating a user-defined subtype of `AbstractAWSConfig` where some of the default methods are overwritten.
-For example, if you want to use the S3 high-level interface to access public data from GCS without authorisation, you could define:
+For example, if you want to use the S3 high-level interface to access public data from GCS without authorization, you could define:
 
 ````julia
-struct AnonymousGCS <:AbstractAWSConfig end
+struct AnonymousGCS <: AbstractAWSConfig end
 struct NoCredentials end
+
 AWS.region(aws::AnonymousGCS) = "" # No region
 AWS.credentials(aws::AnonymousGCS) = NoCredentials() # No credentials
 AWS.check_credentials(c::NoCredentials) = c # Skip credentials check
@@ -141,7 +144,10 @@ function AWS.generate_service_url(aws::AnonymousGCS, service::String, resource::
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to GCS"))
     return string("https://storage.googleapis.com.", resource)
 end
-AWS.global_aws_config(AnonymousGCS())
+
+with_aws_config(AnonymousGCS()) do
+    ...
+end
 ````
 
 which skips some of the signature and credentials checking and modifies the generation of the endpoint url.
@@ -175,7 +181,10 @@ function AWS.generate_service_url(aws::MinioConfig, service::String, resource::S
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
     return string(aws.endpoint, resource)
 end
-AWS.global_aws_config(MinioConfig("http://127.0.0.1:9000", "aregion", SimpleCredentials("minio", "minio123", "")))
+
+with_aws_config(MinioConfig("http://127.0.0.1:9000", "aregion", SimpleCredentials("minio", "minio123", ""))) do
+    ...
+end
 ````
 
 Now we are ready to use AWS.jl to do S3-compatible requests to a minio server.

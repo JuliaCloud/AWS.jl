@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
 function create_signaling_channel(
-    ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -36,7 +36,7 @@ end
 function create_signaling_channel(
     ChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
 """
-function create_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_stream(StreamName; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/createStream",
@@ -97,7 +97,7 @@ end
 function create_stream(
     StreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -129,7 +129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to delete the edge configuration.
   Specify either the StreamName or the StreamARN.
 """
-function delete_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/deleteEdgeConfiguration";
@@ -138,7 +138,7 @@ function delete_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function delete_edge_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -167,7 +167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListSignalingChannels API operations.
 """
 function delete_signaling_channel(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -180,7 +180,7 @@ end
 function delete_signaling_channel(
     ChannelARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream version, use the DescribeStream API. If not specified, only the CreationTime is
   checked before deleting the stream.
 """
-function delete_stream(StreamARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_stream(StreamARN; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/deleteStream",
@@ -227,7 +227,7 @@ end
 function delete_stream(
     StreamARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -257,7 +257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream whose edge configuration you want to update.
   Specify either the StreamName or the StreamARN.
 """
-function describe_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/describeEdgeConfiguration";
@@ -266,7 +266,7 @@ function describe_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function describe_edge_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -292,7 +292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You must specify either the StreamName or the StreamARN.
 """
 function describe_image_generation_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -302,7 +302,7 @@ function describe_image_generation_configuration(;
     )
 end
 function describe_image_generation_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -328,7 +328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 function describe_mapped_resource_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -338,7 +338,7 @@ function describe_mapped_resource_configuration(;
     )
 end
 function describe_mapped_resource_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -362,7 +362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelName"`: The name of the channel.
 """
 function describe_media_storage_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -372,7 +372,7 @@ function describe_media_storage_configuration(;
     )
 end
 function describe_media_storage_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -398,7 +398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You must specify either the StreamName or the StreamARN.
 """
 function describe_notification_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -408,7 +408,7 @@ function describe_notification_configuration(;
     )
 end
 function describe_notification_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -431,7 +431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelARN"`: The ARN of the signaling channel that you want to describe.
 - `"ChannelName"`: The name of the signaling channel that you want to describe.
 """
-function describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_signaling_channel(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/describeSignalingChannel";
@@ -440,7 +440,7 @@ function describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function describe_signaling_channel(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -463,13 +463,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
 - `"StreamName"`: The name of the stream.
 """
-function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_stream(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -501,7 +501,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to get the endpoint for. You must
   specify either this parameter or a StreamARN in the request.
 """
-function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/getDataEndpoint",
@@ -511,7 +511,9 @@ function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function get_data_endpoint(
-    APIName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    APIName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -546,7 +548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration for the SINGLE_MASTER channel type.
 """
 function get_signaling_channel_endpoint(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -559,7 +561,7 @@ end
 function get_signaling_channel_endpoint(
     ChannelARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -592,7 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.
 """
 function list_edge_agent_configurations(
-    HubDeviceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    HubDeviceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -605,7 +607,7 @@ end
 function list_edge_agent_configurations(
     HubDeviceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -636,7 +638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation is truncated, the call returns the NextToken in the response. To get another
   batch of channels, provide this token in your next request.
 """
-function list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_signaling_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/listSignalingChannels";
@@ -645,7 +647,7 @@ function list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_signaling_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -673,13 +675,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
-function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -707,7 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next batch of tags.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -720,7 +722,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -749,13 +751,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for.
 - `"StreamName"`: The name of the stream that you want to list tags for.
 """
-function list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tags_for_stream(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -796,7 +798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify either the StreamName or the StreamARN.
 """
 function start_edge_configuration_update(
-    EdgeConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    EdgeConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -809,7 +811,7 @@ end
 function start_edge_configuration_update(
     EdgeConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -839,7 +841,7 @@ Management and Cost Management User Guide.
   key-value pair.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/TagResource",
@@ -852,7 +854,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -891,7 +893,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag or tags to.
 - `"StreamName"`: The name of the stream that you want to add the tag or tags to.
 """
-function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_stream(Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/tagStream",
@@ -901,7 +903,7 @@ function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function tag_stream(
-    Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -927,7 +929,7 @@ ignored.
 
 """
 function untag_resource(
-    ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -941,7 +943,7 @@ function untag_resource(
     ResourceARN,
     TagKeyList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -975,7 +977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from.
 - `"StreamName"`: The name of the stream that you want to remove tags from.
 """
-function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/untagStream",
@@ -987,7 +989,7 @@ end
 function untag_stream(
     TagKeyList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -1036,7 +1038,7 @@ function update_data_retention(
     CurrentVersion,
     DataRetentionChangeInHours,
     Operation;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -1055,7 +1057,7 @@ function update_data_retention(
     DataRetentionChangeInHours,
     Operation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -1094,7 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You must specify either the StreamName or the StreamARN.
 """
 function update_image_generation_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -1104,7 +1106,7 @@ function update_image_generation_configuration(;
     )
 end
 function update_image_generation_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -1135,7 +1137,9 @@ establish a connection between a peer and the storage session.
 
 """
 function update_media_storage_configuration(
-    ChannelARN, MediaStorageConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN,
+    MediaStorageConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -1152,7 +1156,7 @@ function update_media_storage_configuration(
     ChannelARN,
     MediaStorageConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -1189,7 +1193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You must specify either the StreamName or the StreamARN.
 """
 function update_notification_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -1199,7 +1203,7 @@ function update_notification_configuration(;
     )
 end
 function update_notification_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -1230,7 +1234,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SINGLE_MASTER type of the signaling channel that you want to update.
 """
 function update_signaling_channel(
-    ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video(
         "POST",
@@ -1244,7 +1248,7 @@ function update_signaling_channel(
     ChannelARN,
     CurrentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",
@@ -1290,7 +1294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream whose metadata you want to update. The stream name
   is an identifier for the stream, and must be unique for each account and region.
 """
-function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config())
+function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
         "/updateStream",
@@ -1302,7 +1306,7 @@ end
 function update_stream(
     CurrentVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video(
         "POST",

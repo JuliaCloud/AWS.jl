@@ -29,7 +29,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"acceleratorTypes"`:  The list of accelerator types to describe.
 """
 function describe_accelerator_offerings(
-    locationType; aws_config::AbstractAWSConfig=global_aws_config()
+    locationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elastic_inference(
         "POST",
@@ -42,7 +42,7 @@ end
 function describe_accelerator_offerings(
     locationType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elastic_inference(
         "POST",
@@ -69,7 +69,7 @@ who have used Amazon EI at least once during the past 30-day period are consider
 customers and will be able to continue using the service.
 
 """
-function describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_accelerator_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_inference(
         "GET",
         "/describe-accelerator-types";
@@ -78,7 +78,7 @@ function describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function describe_accelerator_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elastic_inference(
         "GET",
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  A token to specify where to start paginating. This is the NextToken from
   a previously truncated response.
 """
-function describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_accelerators(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_inference(
         "POST",
         "/describe-accelerators";
@@ -124,7 +124,7 @@ function describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function describe_accelerators(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elastic_inference(
         "POST",
@@ -152,7 +152,7 @@ customers and will be able to continue using the service.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elastic_inference(
         "GET",
@@ -164,7 +164,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elastic_inference(
         "GET",
@@ -192,7 +192,7 @@ customers and will be able to continue using the service.
 - `tags`:  The tags to add to the Elastic Inference Accelerator.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_inference(
         "POST",
         "/tags/$(resourceArn)",
@@ -205,7 +205,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elastic_inference(
         "POST",
@@ -234,7 +234,7 @@ considered current customers and will be able to continue using the service.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elastic_inference(
         "DELETE",
@@ -248,7 +248,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elastic_inference(
         "DELETE",

@@ -18,7 +18,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"egressAccessLogs"`:
 - `"ingressAccessLogs"`:
 """
-function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config())
+function configure_logs(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT",
         "/channels/$(id)/configure_logs";
@@ -27,7 +27,7 @@ function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function configure_logs(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "PUT",
@@ -54,7 +54,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A short text description of the Channel.
 - `"tags"`:
 """
-function create_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
+function create_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "POST",
         "/channels",
@@ -64,7 +64,7 @@ function create_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_channel(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "POST",
@@ -99,7 +99,7 @@ function create_harvest_job(
     originEndpointId,
     s3Destination,
     startTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "POST",
@@ -122,7 +122,7 @@ function create_harvest_job(
     s3Destination,
     startTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "POST",
@@ -186,7 +186,7 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 function create_origin_endpoint(
-    channelId, id; aws_config::AbstractAWSConfig=global_aws_config()
+    channelId, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "POST",
@@ -200,7 +200,7 @@ function create_origin_endpoint(
     channelId,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "POST",
@@ -225,13 +225,13 @@ Deletes an existing Channel.
 - `id`: The ID of the Channel to delete.
 
 """
-function delete_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "DELETE", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_channel(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "DELETE",
@@ -252,7 +252,7 @@ Deletes an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint to delete.
 
 """
-function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "DELETE",
         "/origin_endpoints/$(id)";
@@ -261,7 +261,7 @@ function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function delete_origin_endpoint(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "DELETE",
@@ -282,13 +282,13 @@ Gets details about a Channel.
 - `id`: The ID of a Channel.
 
 """
-function describe_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_channel(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET",
@@ -309,13 +309,13 @@ Gets details about an existing HarvestJob.
 - `id`: The ID of the HarvestJob.
 
 """
-function describe_harvest_job(id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_harvest_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/harvest_jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_harvest_job(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET",
@@ -336,7 +336,7 @@ Gets details about an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint.
 
 """
-function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET",
         "/origin_endpoints/$(id)";
@@ -345,7 +345,7 @@ function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function describe_origin_endpoint(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET",
@@ -367,13 +367,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
-function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -395,13 +395,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The upper bound on the number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
-function list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_harvest_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/harvest_jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_harvest_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET",
@@ -425,13 +425,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The upper bound on the number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
-function list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_origin_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/origin_endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_origin_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET",
@@ -453,7 +453,7 @@ end
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "GET",
@@ -465,7 +465,7 @@ end
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "GET",
@@ -487,7 +487,7 @@ deprecated. Please use RotateIngestEndpointCredentials instead
 - `id`: The ID of the channel to update.
 
 """
-function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws_config())
+function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT",
         "/channels/$(id)/credentials";
@@ -496,7 +496,7 @@ function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function rotate_channel_credentials(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "PUT",
@@ -519,7 +519,7 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 
 """
 function rotate_ingest_endpoint_credentials(
-    id, ingest_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, ingest_endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "PUT",
@@ -532,7 +532,7 @@ function rotate_ingest_endpoint_credentials(
     id,
     ingest_endpoint_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "PUT",
@@ -554,7 +554,9 @@ end
 - `tags`:
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(
+    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return mediapackage(
         "POST",
         "/tags/$(resource-arn)",
@@ -567,7 +569,7 @@ function tag_resource(
     resource_arn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "POST",
@@ -590,7 +592,7 @@ end
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "DELETE",
@@ -604,7 +606,7 @@ function untag_resource(
     resource_arn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage(
         "DELETE",
@@ -628,13 +630,13 @@ Updates an existing Channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A short text description of the Channel.
 """
-function update_channel(id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_channel(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "PUT",
@@ -679,7 +681,7 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
-function update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT",
         "/origin_endpoints/$(id)";
@@ -688,7 +690,7 @@ function update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function update_origin_endpoint(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage(
         "PUT",

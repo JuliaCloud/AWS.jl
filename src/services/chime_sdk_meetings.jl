@@ -18,7 +18,7 @@ Guide.
 
 """
 function batch_create_attendee(
-    Attendees, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attendees, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "POST",
@@ -32,7 +32,7 @@ function batch_create_attendee(
     Attendees,
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -80,7 +80,7 @@ function batch_update_attendee_capabilities_except(
     Capabilities,
     ExcludedAttendeeIds,
     MeetingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "PUT",
@@ -97,7 +97,7 @@ function batch_update_attendee_capabilities_except(
     ExcludedAttendeeIds,
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "PUT",
@@ -155,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   renegotiation between the client and the Amazon Chime back-end server.
 """
 function create_attendee(
-    ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "POST",
@@ -169,7 +169,7 @@ function create_attendee(
     ExternalUserId,
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -240,7 +240,7 @@ function create_meeting(
     ClientRequestToken,
     ExternalMeetingId,
     MediaRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -259,7 +259,7 @@ function create_meeting(
     ExternalMeetingId,
     MediaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -320,7 +320,7 @@ function create_meeting_with_attendees(
     ClientRequestToken,
     ExternalMeetingId,
     MediaRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -341,7 +341,7 @@ function create_meeting_with_attendees(
     ExternalMeetingId,
     MediaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -378,7 +378,7 @@ Amazon Chime Developer Guide.
 
 """
 function delete_attendee(
-    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "DELETE",
@@ -391,7 +391,7 @@ function delete_attendee(
     AttendeeId,
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "DELETE",
@@ -415,7 +415,7 @@ Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function delete_meeting(MeetingId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_meetings(
         "DELETE",
         "/meetings/$(MeetingId)";
@@ -426,7 +426,7 @@ end
 function delete_meeting(
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "DELETE",
@@ -451,7 +451,7 @@ Chime Developer Guide.
 
 """
 function get_attendee(
-    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "GET",
@@ -464,7 +464,7 @@ function get_attendee(
     AttendeeId,
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "GET",
@@ -487,7 +487,7 @@ Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function get_meeting(MeetingId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_meetings(
         "GET",
         "/meetings/$(MeetingId)";
@@ -498,7 +498,7 @@ end
 function get_meeting(
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "GET",
@@ -524,7 +524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_attendees(MeetingId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_attendees(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_meetings(
         "GET",
         "/meetings/$(MeetingId)/attendees";
@@ -535,7 +535,7 @@ end
 function list_attendees(
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "GET",
@@ -556,7 +556,7 @@ Returns a list of the tags available for the specified resource.
 - `arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_meetings(
         "GET",
         "/tags",
@@ -566,7 +566,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "GET",
@@ -604,7 +604,9 @@ configuring an AI services opt out policy using Amazon Web Services Organization
 
 """
 function start_meeting_transcription(
-    MeetingId, TranscriptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    MeetingId,
+    TranscriptionConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -618,7 +620,7 @@ function start_meeting_transcription(
     MeetingId,
     TranscriptionConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -659,7 +661,7 @@ out policy using Amazon Web Services Organizations.
 
 """
 function stop_meeting_transcription(
-    MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "POST",
@@ -671,7 +673,7 @@ end
 function stop_meeting_transcription(
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -693,7 +695,7 @@ The resource that supports tags.
 - `tags`: Lists the requested tags.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_meetings(
         "POST",
         "/tags?operation=tag-resource",
@@ -706,7 +708,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -746,7 +748,7 @@ permissions:  tag:UntagResource   ChimeSDKMeetings:DeleteTags
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "POST",
@@ -760,7 +762,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "POST",
@@ -807,7 +809,7 @@ renegotiation between the client and the Amazon Chime back-end server.
 
 """
 function update_attendee_capabilities(
-    AttendeeId, Capabilities, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttendeeId, Capabilities, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_meetings(
         "PUT",
@@ -822,7 +824,7 @@ function update_attendee_capabilities(
     Capabilities,
     MeetingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_meetings(
         "PUT",

@@ -20,7 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
 function associate_user_to_permission_group(
-    permissionGroupId, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    permissionGroupId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -34,7 +34,7 @@ function associate_user_to_permission_group(
     permissionGroupId,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -91,7 +91,7 @@ function create_changeset(
     datasetId,
     formatParams,
     sourceParams;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -112,7 +112,7 @@ function create_changeset(
     formatParams,
     sourceParams,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -155,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortColumns"`: Columns to be used for sorting the data.
 """
 function create_data_view(
-    datasetId, destinationTypeParams; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetId, destinationTypeParams; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -172,7 +172,7 @@ function create_data_view(
     datasetId,
     destinationTypeParams,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -216,7 +216,7 @@ function create_dataset(
     datasetTitle,
     kind,
     permissionGroupParams;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -236,7 +236,7 @@ function create_dataset(
     kind,
     permissionGroupParams,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -286,7 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A brief description for the permission group.
 """
 function create_permission_group(
-    applicationPermissions, name; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationPermissions, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -304,7 +304,7 @@ function create_permission_group(
     applicationPermissions,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -353,7 +353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"firstName"`: The first name of the user that you want to register.
 - `"lastName"`: The last name of the user that you want to register.
 """
-function create_user(emailAddress, type; aws_config::AbstractAWSConfig=global_aws_config())
+function create_user(emailAddress, type; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "POST",
         "/user",
@@ -368,7 +368,7 @@ function create_user(
     emailAddress,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -402,7 +402,7 @@ Deletes a FinSpace Dataset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function delete_dataset(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_dataset(datasetId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "DELETE",
         "/datasetsv2/$(datasetId)",
@@ -414,7 +414,7 @@ end
 function delete_dataset(
     datasetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "DELETE",
@@ -442,7 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
 function delete_permission_group(
-    permissionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    permissionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "DELETE",
@@ -455,7 +455,7 @@ end
 function delete_permission_group(
     permissionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "DELETE",
@@ -481,7 +481,7 @@ Denies access to the FinSpace web application and API for the specified user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function disable_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "POST",
         "/user/$(userId)/disable",
@@ -491,7 +491,7 @@ function disable_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function disable_user(
-    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -519,7 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
 function disassociate_user_from_permission_group(
-    permissionGroupId, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    permissionGroupId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "DELETE",
@@ -533,7 +533,7 @@ function disassociate_user_from_permission_group(
     permissionGroupId,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "DELETE",
@@ -559,7 +559,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function enable_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "POST",
         "/user/$(userId)/enable",
@@ -569,7 +569,7 @@ function enable_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function enable_user(
-    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -595,7 +595,7 @@ Get information about a Changeset.
 
 """
 function get_changeset(
-    changesetId, datasetId; aws_config::AbstractAWSConfig=global_aws_config()
+    changesetId, datasetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -608,7 +608,7 @@ function get_changeset(
     changesetId,
     datasetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -631,7 +631,7 @@ Gets information about a Dataview.
 
 """
 function get_data_view(
-    datasetId, dataviewId; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetId, dataviewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -644,7 +644,7 @@ function get_data_view(
     datasetId,
     dataviewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -665,7 +665,7 @@ Returns information about a Dataset.
 - `dataset_id`: The unique identifier for a Dataset.
 
 """
-function get_dataset(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_dataset(datasetId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "GET",
         "/datasetsv2/$(datasetId)";
@@ -676,7 +676,7 @@ end
 function get_dataset(
     datasetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -701,7 +701,7 @@ user group, where the dataset that you want to access has Read Dataset Data perm
 
 """
 function get_external_data_view_access_details(
-    datasetId, dataviewId; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetId, dataviewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -714,7 +714,7 @@ function get_external_data_view_access_details(
     datasetId,
     dataviewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
@@ -736,7 +736,7 @@ Retrieves the details of a specific permission group.
 
 """
 function get_permission_group(
-    permissionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    permissionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -748,7 +748,7 @@ end
 function get_permission_group(
     permissionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -774,7 +774,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"durationInMinutes"`: The time duration in which the credentials remain valid.
 """
 function get_programmatic_access_credentials(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -787,7 +787,7 @@ end
 function get_programmatic_access_credentials(
     environmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -810,13 +810,13 @@ Retrieves details for a specific user.
 - `user_id`: The unique identifier of the user to get data for.
 
 """
-function get_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "GET", "/user/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_user(
-    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -842,13 +842,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   staging location to copy your data content and then use the location with the Changeset
   creation operation.
 """
-function get_working_location(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_working_location(; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "POST", "/workingLocationV1"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_working_location(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -874,7 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_changesets(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_changesets(datasetId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "GET",
         "/datasets/$(datasetId)/changesetsv2";
@@ -885,7 +885,7 @@ end
 function list_changesets(
     datasetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -910,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_data_views(datasetId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_views(datasetId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "GET",
         "/datasets/$(datasetId)/dataviewsv2";
@@ -921,7 +921,7 @@ end
 function list_data_views(
     datasetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -943,13 +943,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "GET", "/datasetsv2"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_datasets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET", "/datasetsv2", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -970,7 +970,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
 function list_permission_groups(
-    maxResults; aws_config::AbstractAWSConfig=global_aws_config()
+    maxResults; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -983,7 +983,7 @@ end
 function list_permission_groups(
     maxResults,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -1011,7 +1011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
 function list_permission_groups_by_user(
-    maxResults, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    maxResults, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -1025,7 +1025,7 @@ function list_permission_groups_by_user(
     maxResults,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -1051,7 +1051,7 @@ Lists all available users in FinSpace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
-function list_users(maxResults; aws_config::AbstractAWSConfig=global_aws_config())
+function list_users(maxResults; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "GET",
         "/user",
@@ -1063,7 +1063,7 @@ end
 function list_users(
     maxResults,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -1091,7 +1091,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
 function list_users_by_permission_group(
-    maxResults, permissionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    maxResults, permissionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
@@ -1105,7 +1105,7 @@ function list_users_by_permission_group(
     maxResults,
     permissionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
@@ -1133,7 +1133,7 @@ previous password associated with the user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 """
-function reset_user_password(userId; aws_config::AbstractAWSConfig=global_aws_config())
+function reset_user_password(userId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "POST",
         "/user/$(userId)/password",
@@ -1143,7 +1143,7 @@ function reset_user_password(userId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function reset_user_password(
-    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
@@ -1196,7 +1196,7 @@ function update_changeset(
     datasetId,
     formatParams,
     sourceParams;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "PUT",
@@ -1216,7 +1216,7 @@ function update_changeset(
     formatParams,
     sourceParams,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "PUT",
@@ -1258,7 +1258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaDefinition"`: Definition for a schema on a tabular Dataset.
 """
 function update_dataset(
-    datasetId, datasetTitle, kind; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetId, datasetTitle, kind; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "PUT",
@@ -1275,7 +1275,7 @@ function update_dataset(
     datasetTitle,
     kind,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "PUT",
@@ -1325,7 +1325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the permission group.
 """
 function update_permission_group(
-    permissionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    permissionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "PUT",
@@ -1338,7 +1338,7 @@ end
 function update_permission_group(
     permissionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "PUT",
@@ -1377,7 +1377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specific permissions in FinSpace. The users are assigned permissions by adding them to a
   permission group.
 """
-function update_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
     return finspace_data(
         "PUT",
         "/user/$(userId)",
@@ -1387,7 +1387,7 @@ function update_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_user(
-    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "PUT",

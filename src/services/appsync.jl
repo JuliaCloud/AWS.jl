@@ -15,7 +15,9 @@ Maps an endpoint to your custom domain.
 - `domain_name`: The domain name.
 
 """
-function associate_api(apiId, domainName; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_api(
+    apiId, domainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return appsync(
         "POST",
         "/v1/domainnames/$(domainName)/apiassociation",
@@ -28,7 +30,7 @@ function associate_api(
     apiId,
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -64,7 +66,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_merged_graphql_api(
     mergedApiIdentifier,
     sourceApiIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -78,7 +80,7 @@ function associate_merged_graphql_api(
     mergedApiIdentifier,
     sourceApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -120,7 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_source_graphql_api(
     mergedApiIdentifier,
     sourceApiIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -134,7 +136,7 @@ function associate_source_graphql_api(
     mergedApiIdentifier,
     sourceApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -186,7 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cannot update this setting after creation.
 """
 function create_api_cache(
-    apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()
+    apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -204,7 +206,7 @@ function create_api_cache(
     ttl,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -239,7 +241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is represented as seconds since the epoch, rounded down to the nearest hour. The default
   value for this parameter is 7 days from creation time. For more information, see .
 """
-function create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_api_key(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
         "/v1/apis/$(apiId)/apikeys";
@@ -248,7 +250,7 @@ function create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function create_api_key(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -292,7 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Name (ARN) for the data source. The system assumes this role when accessing the data source.
 """
 function create_data_source(
-    apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -307,7 +309,7 @@ function create_data_source(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -337,7 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the DomainName.
 """
 function create_domain_name(
-    certificateArn, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+    certificateArn, domainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -351,7 +353,7 @@ function create_domain_name(
     certificateArn,
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -398,7 +400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`:
 """
 function create_function(
-    apiId, dataSourceName, name; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, dataSourceName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -413,7 +415,7 @@ function create_function(
     dataSourceName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -481,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"xrayEnabled"`: A flag indicating whether to use X-Ray tracing for the GraphqlApi.
 """
 function create_graphql_api(
-    authenticationType, name; aws_config::AbstractAWSConfig=global_aws_config()
+    authenticationType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -495,7 +497,7 @@ function create_graphql_api(
     authenticationType,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -555,7 +557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function create_resolver(
-    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -570,7 +572,7 @@ function create_resolver(
     fieldName,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -597,7 +599,7 @@ Creates a Type object.
 
 """
 function create_type(
-    apiId, definition, format; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, definition, format; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -612,7 +614,7 @@ function create_type(
     definition,
     format,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -639,7 +641,7 @@ Deletes an ApiCache object.
 - `api_id`: The API ID.
 
 """
-function delete_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_api_cache(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/ApiCaches";
@@ -648,7 +650,7 @@ function delete_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_api_cache(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -670,7 +672,7 @@ Deletes an API key.
 - `id`: The ID for the API key.
 
 """
-function delete_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_api_key(apiId, id; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/apikeys/$(id)";
@@ -682,7 +684,7 @@ function delete_api_key(
     apiId,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -704,7 +706,7 @@ Deletes a DataSource object.
 - `name`: The name of the data source.
 
 """
-function delete_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_data_source(apiId, name; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/datasources/$(name)";
@@ -716,7 +718,7 @@ function delete_data_source(
     apiId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -737,7 +739,7 @@ Deletes a custom DomainName object.
 - `domain_name`: The domain name.
 
 """
-function delete_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/domainnames/$(domainName)";
@@ -748,7 +750,7 @@ end
 function delete_domain_name(
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -771,7 +773,7 @@ Deletes a Function.
 
 """
 function delete_function(
-    apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, functionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -784,7 +786,7 @@ function delete_function(
     apiId,
     functionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -805,7 +807,7 @@ Deletes a GraphqlApi object.
 - `api_id`: The API ID.
 
 """
-function delete_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_graphql_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)";
@@ -814,7 +816,7 @@ function delete_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_graphql_api(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -838,7 +840,7 @@ Deletes a Resolver object.
 
 """
 function delete_resolver(
-    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -852,7 +854,7 @@ function delete_resolver(
     fieldName,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -874,7 +876,7 @@ Deletes a Type object.
 - `type_name`: The type name.
 
 """
-function delete_type(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_type(apiId, typeName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/types/$(typeName)";
@@ -886,7 +888,7 @@ function delete_type(
     apiId,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -907,7 +909,7 @@ Removes an ApiAssociation object from a custom domain.
 - `domain_name`: The domain name.
 
 """
-function disassociate_api(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+function disassociate_api(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/domainnames/$(domainName)/apiassociation";
@@ -918,7 +920,7 @@ end
 function disassociate_api(
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -945,7 +947,7 @@ identifier and the association ID.
 
 """
 function disassociate_merged_graphql_api(
-    associationId, sourceApiIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, sourceApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -958,7 +960,7 @@ function disassociate_merged_graphql_api(
     associationId,
     sourceApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -985,7 +987,7 @@ identifier and the association ID.
 
 """
 function disassociate_source_graphql_api(
-    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -998,7 +1000,7 @@ function disassociate_source_graphql_api(
     associationId,
     mergedApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -1034,7 +1036,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are request and response.
 """
 function evaluate_code(
-    code, context, runtime; aws_config::AbstractAWSConfig=global_aws_config()
+    code, context, runtime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -1049,7 +1051,7 @@ function evaluate_code(
     context,
     runtime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -1087,7 +1089,7 @@ Velocity Template Language (VTL).
 
 """
 function evaluate_mapping_template(
-    context, template; aws_config::AbstractAWSConfig=global_aws_config()
+    context, template; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -1101,7 +1103,7 @@ function evaluate_mapping_template(
     context,
     template,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -1128,7 +1130,7 @@ Flushes an ApiCache object.
 - `api_id`: The API ID.
 
 """
-function flush_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function flush_api_cache(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/FlushCache";
@@ -1137,7 +1139,7 @@ function flush_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function flush_api_cache(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -1158,7 +1160,7 @@ Retrieves an ApiAssociation object.
 - `domain_name`: The domain name.
 
 """
-function get_api_association(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_api_association(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/domainnames/$(domainName)/apiassociation";
@@ -1169,7 +1171,7 @@ end
 function get_api_association(
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1190,7 +1192,7 @@ Retrieves an ApiCache object.
 - `api_id`: The API ID.
 
 """
-function get_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_api_cache(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/ApiCaches";
@@ -1199,7 +1201,7 @@ function get_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_api_cache(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1221,7 +1223,7 @@ Retrieves a DataSource object.
 - `name`: The name of the data source.
 
 """
-function get_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_source(apiId, name; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/datasources/$(name)";
@@ -1233,7 +1235,7 @@ function get_data_source(
     apiId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1268,7 +1270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginating. This value is typically taken from nextToken value from the previous response.
 """
 function get_data_source_introspection(
-    introspectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    introspectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1280,7 +1282,7 @@ end
 function get_data_source_introspection(
     introspectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1301,7 +1303,7 @@ Retrieves a custom DomainName object.
 - `domain_name`: The domain name.
 
 """
-function get_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/domainnames/$(domainName)";
@@ -1312,7 +1314,7 @@ end
 function get_domain_name(
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1334,7 +1336,7 @@ Get a Function.
 - `function_id`: The Function ID.
 
 """
-function get_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_function(apiId, functionId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/functions/$(functionId)";
@@ -1346,7 +1348,7 @@ function get_function(
     apiId,
     functionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1367,13 +1369,13 @@ Retrieves a GraphqlApi object.
 - `api_id`: The API ID for the GraphQL API.
 
 """
-function get_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_graphql_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET", "/v1/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_graphql_api(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1396,7 +1398,7 @@ ID value.
 
 """
 function get_graphql_api_environment_variables(
-    apiId; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1406,7 +1408,7 @@ function get_graphql_api_environment_variables(
     )
 end
 function get_graphql_api_environment_variables(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1433,7 +1435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain directives.
 """
 function get_introspection_schema(
-    apiId, format; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, format; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1447,7 +1449,7 @@ function get_introspection_schema(
     apiId,
     format,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1471,7 +1473,7 @@ Retrieves a Resolver object.
 
 """
 function get_resolver(
-    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1485,7 +1487,7 @@ function get_resolver(
     fieldName,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1507,7 +1509,7 @@ Retrieves the current status of a schema creation operation.
 
 """
 function get_schema_creation_status(
-    apiId; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1517,7 +1519,7 @@ function get_schema_creation_status(
     )
 end
 function get_schema_creation_status(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1543,7 +1545,7 @@ Retrieves a SourceApiAssociation object.
 
 """
 function get_source_api_association(
-    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1556,7 +1558,7 @@ function get_source_api_association(
     associationId,
     mergedApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1580,7 +1582,7 @@ Retrieves a Type object.
 
 """
 function get_type(
-    apiId, format, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, format, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1595,7 +1597,7 @@ function get_type(
     format,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1624,7 +1626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-function list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_api_keys(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/apikeys";
@@ -1633,7 +1635,7 @@ function list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_api_keys(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1659,7 +1661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-function list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_sources(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/datasources";
@@ -1668,7 +1670,7 @@ function list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_data_sources(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1691,13 +1693,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET", "/v1/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_domain_names(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1723,7 +1725,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-function list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_functions(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/functions";
@@ -1732,7 +1734,7 @@ function list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function list_functions(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1758,13 +1760,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 - `"owner"`: The account owner of the GraphQL API.
 """
-function list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_graphql_apis(; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET", "/v1/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_graphql_apis(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET", "/v1/apis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1787,7 +1789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-function list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/types/$(typeName)/resolvers";
@@ -1799,7 +1801,7 @@ function list_resolvers(
     apiId,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1827,7 +1829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_resolvers_by_function(
-    apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, functionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1840,7 +1842,7 @@ function list_resolvers_by_function(
     apiId,
     functionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1867,7 +1869,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_source_api_associations(
-    apiId; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1877,7 +1879,7 @@ function list_source_api_associations(
     )
 end
 function list_source_api_associations(
-    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1899,7 +1901,7 @@ Lists the tags for a resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "GET",
@@ -1911,7 +1913,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1938,7 +1940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-function list_types(apiId, format; aws_config::AbstractAWSConfig=global_aws_config())
+function list_types(apiId, format; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/types",
@@ -1951,7 +1953,7 @@ function list_types(
     apiId,
     format,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -1986,7 +1988,7 @@ function list_types_by_association(
     associationId,
     format,
     mergedApiIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -2001,7 +2003,7 @@ function list_types_by_association(
     format,
     mergedApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "GET",
@@ -2050,7 +2052,7 @@ variables in the list each time you call this action.
 
 """
 function put_graphql_api_environment_variables(
-    apiId, environmentVariables; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, environmentVariables; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "PUT",
@@ -2064,7 +2066,7 @@ function put_graphql_api_environment_variables(
     apiId,
     environmentVariables,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "PUT",
@@ -2093,7 +2095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rdsDataApiConfig"`: The rdsDataApiConfig object data.
 """
 function start_data_source_introspection(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2103,7 +2105,7 @@ function start_data_source_introspection(;
     )
 end
 function start_data_source_introspection(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2127,7 +2129,7 @@ when it has completed.
 
 """
 function start_schema_creation(
-    apiId, definition; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, definition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2141,7 +2143,7 @@ function start_schema_creation(
     apiId,
     definition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2169,7 +2171,7 @@ Initiates a merge operation. Returns a status that shows the result of the merge
 
 """
 function start_schema_merge(
-    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2182,7 +2184,7 @@ function start_schema_merge(
     associationId,
     mergedApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2204,7 +2206,7 @@ Tags a resource with user-supplied tags.
 - `tags`: A TagMap object.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
         "/v1/tags/$(resourceArn)",
@@ -2217,7 +2219,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2240,7 +2242,7 @@ Untags a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "DELETE",
@@ -2254,7 +2256,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "DELETE",
@@ -2296,7 +2298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value to ENABLED or DISABLED.
 """
 function update_api_cache(
-    apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()
+    apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2314,7 +2316,7 @@ function update_api_cache(
     ttl,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2349,7 +2351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expires"`: From the update time, the time after which the API key expires. The date is
   represented as seconds since the epoch. For more information, see .
 """
-function update_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_api_key(apiId, id; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
         "/v1/apis/$(apiId)/apikeys/$(id)";
@@ -2361,7 +2363,7 @@ function update_api_key(
     apiId,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2404,7 +2406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceRoleArn"`: The new service role Amazon Resource Name (ARN) for the data source.
 """
 function update_data_source(
-    apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2419,7 +2421,7 @@ function update_data_source(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2443,7 +2445,7 @@ Updates a custom DomainName object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the DomainName.
 """
-function update_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
         "/v1/domainnames/$(domainName)";
@@ -2454,7 +2456,7 @@ end
 function update_domain_name(
     domainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2497,7 +2499,7 @@ function update_function(
     dataSourceName,
     functionId,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2513,7 +2515,7 @@ function update_function(
     functionId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2576,7 +2578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"xrayEnabled"`: A flag indicating whether to use X-Ray tracing for the GraphqlApi.
 """
 function update_graphql_api(
-    apiId, authenticationType, name; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, authenticationType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2591,7 +2593,7 @@ function update_graphql_api(
     authenticationType,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2649,7 +2651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function update_resolver(
-    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2663,7 +2665,7 @@ function update_resolver(
     fieldName,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2693,7 +2695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceApiAssociationConfig"`: The SourceApiAssociationConfig object data.
 """
 function update_source_api_association(
-    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2706,7 +2708,7 @@ function update_source_api_association(
     associationId,
     mergedApiIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",
@@ -2733,7 +2735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"definition"`: The new definition.
 """
 function update_type(
-    apiId, format, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+    apiId, format, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appsync(
         "POST",
@@ -2748,7 +2750,7 @@ function update_type(
     format,
     typeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appsync(
         "POST",

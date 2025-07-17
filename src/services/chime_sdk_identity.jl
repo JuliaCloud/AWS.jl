@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags assigned to the AppInstance.
 """
 function create_app_instance(
-    ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientRequestToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "POST",
@@ -37,7 +37,7 @@ function create_app_instance(
     ClientRequestToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -71,7 +71,7 @@ can be promoted to an AppInstanceAdmin role.
 
 """
 function create_app_instance_admin(
-    AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "POST",
@@ -85,7 +85,7 @@ function create_app_instance_admin(
     AppInstanceAdminArn,
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -125,7 +125,7 @@ function create_app_instance_bot(
     AppInstanceArn,
     ClientRequestToken,
     Configuration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -144,7 +144,7 @@ function create_app_instance_bot(
     ClientRequestToken,
     Configuration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -191,7 +191,7 @@ function create_app_instance_user(
     AppInstanceUserId,
     ClientRequestToken,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -212,7 +212,7 @@ function create_app_instance_user(
     ClientRequestToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -245,7 +245,7 @@ Deletes an AppInstance and all associated data asynchronously.
 
 """
 function delete_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
@@ -257,7 +257,7 @@ end
 function delete_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
@@ -281,7 +281,7 @@ delete the user.
 
 """
 function delete_app_instance_admin(
-    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
@@ -294,7 +294,7 @@ function delete_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
@@ -316,7 +316,7 @@ Deletes an AppInstanceBot.
 
 """
 function delete_app_instance_bot(
-    appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
@@ -328,7 +328,7 @@ end
 function delete_app_instance_bot(
     appInstanceBotArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
@@ -350,7 +350,7 @@ Deletes an AppInstanceUser.
 
 """
 function delete_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
@@ -362,7 +362,7 @@ end
 function delete_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
@@ -385,7 +385,7 @@ Deregisters an AppInstanceUserEndpoint.
 
 """
 function deregister_app_instance_user_endpoint(
-    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
@@ -398,7 +398,7 @@ function deregister_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
@@ -420,7 +420,7 @@ Returns the full details of an AppInstance.
 
 """
 function describe_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -432,7 +432,7 @@ end
 function describe_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -455,7 +455,7 @@ Returns the full details of an AppInstanceAdmin.
 
 """
 function describe_app_instance_admin(
-    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -468,7 +468,7 @@ function describe_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -490,7 +490,7 @@ The AppInstanceBot's information.
 
 """
 function describe_app_instance_bot(
-    appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -502,7 +502,7 @@ end
 function describe_app_instance_bot(
     appInstanceBotArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -524,7 +524,7 @@ Returns the full details of an AppInstanceUser.
 
 """
 function describe_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -536,7 +536,7 @@ end
 function describe_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -559,7 +559,7 @@ Returns the full details of an AppInstanceUserEndpoint.
 
 """
 function describe_app_instance_user_endpoint(
-    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -572,7 +572,7 @@ function describe_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -594,7 +594,7 @@ Gets the retention settings for an AppInstance.
 
 """
 function get_app_instance_retention_settings(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -606,7 +606,7 @@ end
 function get_app_instance_retention_settings(
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -633,7 +633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrators is reached.
 """
 function list_app_instance_admins(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -645,7 +645,7 @@ end
 function list_app_instance_admins(
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -672,7 +672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_app_instance_bots(
-    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -685,7 +685,7 @@ end
 function list_app_instance_bots(
     app_instance_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -716,7 +716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_app_instance_user_endpoints(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -728,7 +728,7 @@ end
 function list_app_instance_user_endpoints(
     appInstanceUserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -755,7 +755,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_app_instance_users(
-    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -768,7 +768,7 @@ end
 function list_app_instance_users(
     app_instance_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
@@ -795,13 +795,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API requests until you reach the maximum
   number of AppInstances.
 """
-function list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_app_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
         "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_app_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -822,7 +822,7 @@ Lists the tags applied to an Amazon Chime SDK identity resource.
 - `arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
         "GET",
         "/tags",
@@ -832,7 +832,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
@@ -857,7 +857,7 @@ Sets the amount of time in days that a given AppInstance retains data.
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
@@ -871,7 +871,7 @@ function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
@@ -908,7 +908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is automatically deleted.
 """
 function put_app_instance_user_expiration_settings(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
@@ -920,7 +920,7 @@ end
 function put_app_instance_user_expiration_settings(
     appInstanceUserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
@@ -963,7 +963,7 @@ function register_app_instance_user_endpoint(
     ResourceArn,
     Type,
     appInstanceUserArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -985,7 +985,7 @@ function register_app_instance_user_endpoint(
     Type,
     appInstanceUserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -1018,7 +1018,7 @@ Applies the specified tags to the specified Amazon Chime SDK identity resource.
 - `tags`: The tag key-value pairs.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
         "POST",
         "/tags?operation=tag-resource",
@@ -1031,7 +1031,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -1060,7 +1060,7 @@ Removes the specified tags from the specified Amazon Chime SDK identity resource
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "POST",
@@ -1074,7 +1074,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
@@ -1104,7 +1104,7 @@ Updates AppInstance metadata.
 
 """
 function update_app_instance(
-    Metadata, Name, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Metadata, Name, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
@@ -1119,7 +1119,7 @@ function update_app_instance(
     Name,
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
@@ -1150,7 +1150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Configuration"`: The configuration for the bot update.
 """
 function update_app_instance_bot(
-    Metadata, Name, appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Metadata, Name, appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
@@ -1165,7 +1165,7 @@ function update_app_instance_bot(
     Name,
     appInstanceBotArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
@@ -1193,7 +1193,7 @@ Updates the details of an AppInstanceUser. You can update names and metadata.
 
 """
 function update_app_instance_user(
-    Metadata, Name, appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Metadata, Name, appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
@@ -1208,7 +1208,7 @@ function update_app_instance_user(
     Name,
     appInstanceUserArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
@@ -1242,7 +1242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the AppInstanceUserEndpoint.
 """
 function update_app_instance_user_endpoint(
-    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
@@ -1255,7 +1255,7 @@ function update_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",

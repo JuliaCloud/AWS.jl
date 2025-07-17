@@ -38,7 +38,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   against your tags per resource limit.
 """
 function create_capacity_provider(
-    autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()
+    autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "CreateCapacityProvider",
@@ -53,7 +53,7 @@ function create_capacity_provider(
     autoScalingGroupProvider,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "CreateCapacityProvider",
@@ -135,11 +135,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys or values with this prefix. Tags with this prefix do not count against your tags per
   resource limit.
 """
-function create_cluster(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("CreateCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function create_cluster(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "CreateCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -391,7 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as a volume that is configured at launch time. Currently, the only supported volume type is
   an Amazon EBS volume.
 """
-function create_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_service(serviceName; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "CreateService",
         Dict{String,Any}("serviceName" => serviceName);
@@ -402,7 +402,7 @@ end
 function create_service(
     serviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "CreateService",
@@ -487,7 +487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   do not count against your tags per resource limit.
 """
 function create_task_set(
-    cluster, service, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, service, taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "CreateTaskSet",
@@ -503,7 +503,7 @@ function create_task_set(
     service,
     taskDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "CreateTaskSet",
@@ -545,7 +545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overrides these settings. If this field is omitted, the setting is changed only for the
   authenticated user.
 """
-function delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_account_setting(name; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteAccountSetting",
         Dict{String,Any}("name" => name);
@@ -554,7 +554,7 @@ function delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function delete_account_setting(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DeleteAccountSetting",
@@ -582,7 +582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the resource to delete attributes. If you do not specify a cluster, the default
   cluster is assumed.
 """
-function delete_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_attributes(attributes; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteAttributes",
         Dict{String,Any}("attributes" => attributes);
@@ -593,7 +593,7 @@ end
 function delete_attributes(
     attributes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeleteAttributes",
@@ -627,7 +627,7 @@ PutClusterCapacityProviders or delete the cluster.
 
 """
 function delete_capacity_provider(
-    capacityProvider; aws_config::AbstractAWSConfig=global_aws_config()
+    capacityProvider; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DeleteCapacityProvider",
@@ -639,7 +639,7 @@ end
 function delete_capacity_provider(
     capacityProvider,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeleteCapacityProvider",
@@ -668,7 +668,7 @@ ListContainerInstances and deregister them with DeregisterContainerInstance.
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster to delete.
 
 """
-function delete_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteCluster",
         Dict{String,Any}("cluster" => cluster);
@@ -677,7 +677,9 @@ function delete_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_cluster(
-    cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeleteCluster",
@@ -715,7 +717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: If true, allows you to delete a service even if it wasn't scaled down to zero
   tasks. It's only necessary to use this if the service uses the REPLICA scheduling strategy.
 """
-function delete_service(service; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_service(service; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteService",
         Dict{String,Any}("service" => service);
@@ -724,7 +726,9 @@ function delete_service(service; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_service(
-    service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeleteService",
@@ -761,7 +765,7 @@ incremented the next time you create a task definition with that name.
 
 """
 function delete_task_definitions(
-    taskDefinitions; aws_config::AbstractAWSConfig=global_aws_config()
+    taskDefinitions; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DeleteTaskDefinitions",
@@ -773,7 +777,7 @@ end
 function delete_task_definitions(
     taskDefinitions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeleteTaskDefinitions",
@@ -807,7 +811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: If true, you can delete a task set even if it hasn't been scaled down to zero.
 """
 function delete_task_set(
-    cluster, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, service, taskSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DeleteTaskSet",
@@ -821,7 +825,7 @@ function delete_task_set(
     service,
     taskSet,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeleteTaskSet",
@@ -875,7 +879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   according to the settings on the load balancer or target group.
 """
 function deregister_container_instance(
-    containerInstance; aws_config::AbstractAWSConfig=global_aws_config()
+    containerInstance; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DeregisterContainerInstance",
@@ -887,7 +891,7 @@ end
 function deregister_container_instance(
     containerInstance,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeregisterContainerInstance",
@@ -926,7 +930,7 @@ DeleteTaskDefinitions.
 
 """
 function deregister_task_definition(
-    taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DeregisterTaskDefinition",
@@ -938,7 +942,7 @@ end
 function deregister_task_definition(
     taskDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DeregisterTaskDefinition",
@@ -976,13 +980,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.  This token should be treated as an opaque identifier that is
   only used to retrieve the next items in a list and not for other programmatic purposes.
 """
-function describe_capacity_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_capacity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DescribeCapacityProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_capacity_providers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DescribeCapacityProviders",
@@ -1011,11 +1015,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by launch type. If TAGS is specified, the metadata tags associated with the cluster are
   included.
 """
-function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1046,7 +1050,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 """
 function describe_container_instances(
-    containerInstances; aws_config::AbstractAWSConfig=global_aws_config()
+    containerInstances; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DescribeContainerInstances",
@@ -1058,7 +1062,7 @@ end
 function describe_container_instances(
     containerInstances,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DescribeContainerInstances",
@@ -1092,7 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TAGS is specified, the tags are included in the response. If this field is omitted, tags
   aren't included in the response.
 """
-function describe_services(services; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_services(services; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DescribeServices",
         Dict{String,Any}("services" => services);
@@ -1103,7 +1107,7 @@ end
 function describe_services(
     services,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DescribeServices",
@@ -1136,7 +1140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 """
 function describe_task_definition(
-    taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DescribeTaskDefinition",
@@ -1148,7 +1152,7 @@ end
 function describe_task_definition(
     taskDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DescribeTaskDefinition",
@@ -1182,7 +1186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskSets"`: The ID or full Amazon Resource Name (ARN) of task sets to describe.
 """
 function describe_task_sets(
-    cluster, service; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, service; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DescribeTaskSets",
@@ -1195,7 +1199,7 @@ function describe_task_sets(
     cluster,
     service,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "DescribeTaskSets",
@@ -1231,7 +1235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the tags are included in the response. If this field is omitted, tags aren't
   included in the response.
 """
-function describe_tasks(tasks; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_tasks(tasks; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DescribeTasks",
         Dict{String,Any}("tasks" => tasks);
@@ -1240,7 +1244,7 @@ function describe_tasks(tasks; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function describe_tasks(
-    tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DescribeTasks",
@@ -1265,13 +1269,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about the ARN format, see Amazon Resource Name (ARN) in the Amazon ECS
   Developer Guide.
 """
-function discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
+function discover_poll_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DiscoverPollEndpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function discover_poll_endpoint(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "DiscoverPollEndpoint",
@@ -1305,7 +1309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   needs to be specified for tasks containing multiple containers.
 """
 function execute_command(
-    command, interactive, task; aws_config::AbstractAWSConfig=global_aws_config()
+    command, interactive, task; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ExecuteCommand",
@@ -1321,7 +1325,7 @@ function execute_command(
     interactive,
     task,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "ExecuteCommand",
@@ -1353,7 +1357,7 @@ Retrieves the protection status of tasks in an Amazon ECS service.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tasks"`: A list of up to 100 task IDs or full ARN entries.
 """
-function get_task_protection(cluster; aws_config::AbstractAWSConfig=global_aws_config())
+function get_task_protection(cluster; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "GetTaskProtection",
         Dict{String,Any}("cluster" => cluster);
@@ -1362,7 +1366,9 @@ function get_task_protection(cluster; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function get_task_protection(
-    cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "GetTaskProtection",
@@ -1404,13 +1410,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"value"`: The value of the account settings to filter results with. You must also
   specify an account setting name to use this parameter.
 """
-function list_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListAccountSettings",
@@ -1453,7 +1459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-function list_attributes(targetType; aws_config::AbstractAWSConfig=global_aws_config())
+function list_attributes(targetType; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListAttributes",
         Dict{String,Any}("targetType" => targetType);
@@ -1464,7 +1470,7 @@ end
 function list_attributes(
     targetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "ListAttributes",
@@ -1496,11 +1502,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1541,13 +1547,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DRAINING using UpdateContainerInstancesState. If you don't specify this parameter, the
   default is to include container instances set to all states other than INACTIVE.
 """
-function list_container_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_container_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListContainerInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_container_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListContainerInstances",
@@ -1584,11 +1590,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedulingStrategy"`: The scheduling strategy to use when filtering the ListServices
   results.
 """
-function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_services(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1629,7 +1635,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than maxResults.
 """
 function list_services_by_namespace(
-    namespace; aws_config::AbstractAWSConfig=global_aws_config()
+    namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListServicesByNamespace",
@@ -1641,7 +1647,7 @@ end
 function list_services_by_namespace(
     namespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "ListServicesByNamespace",
@@ -1666,7 +1672,7 @@ List the tags for an Amazon ECS resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListTagsForResource",
@@ -1678,7 +1684,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "ListTagsForResource",
@@ -1725,13 +1731,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you paginate the resulting output, be sure to keep the status value constant in each
   subsequent request.
 """
-function list_task_definition_families(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_task_definition_families(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListTaskDefinitionFamilies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_task_definition_families(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListTaskDefinitionFamilies",
@@ -1777,13 +1783,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   references them. If you paginate the resulting output, be sure to keep the status value
   constant in each subsequent request.
 """
-function list_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_task_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListTaskDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_task_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "ListTaskDefinitions",
@@ -1837,11 +1843,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   startedBy value limits the results to tasks that were started with that value. When you
   specify startedBy as the filter, it must be the only filter that you use.
 """
-function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs("ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1922,7 +1928,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users assume the account setting of the root user and can't have explicit account settings
   set for them.
 """
-function put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config())
+function put_account_setting(
+    name, value; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return ecs(
         "PutAccountSetting",
         Dict{String,Any}("name" => name, "value" => value);
@@ -1934,7 +1942,7 @@ function put_account_setting(
     name,
     value,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "PutAccountSetting",
@@ -2012,7 +2020,7 @@ setting has been specified. Account settings are set on a per-Region basis.
 
 """
 function put_account_setting_default(
-    name, value; aws_config::AbstractAWSConfig=global_aws_config()
+    name, value; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "PutAccountSettingDefault",
@@ -2025,7 +2033,7 @@ function put_account_setting_default(
     name,
     value,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "PutAccountSettingDefault",
@@ -2056,7 +2064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the resource to apply attributes. If you do not specify a cluster, the default
   cluster is assumed.
 """
-function put_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config())
+function put_attributes(attributes; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "PutAttributes",
         Dict{String,Any}("attributes" => attributes);
@@ -2067,7 +2075,7 @@ end
 function put_attributes(
     attributes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "PutAttributes",
@@ -2125,7 +2133,7 @@ function put_cluster_capacity_providers(
     capacityProviders,
     cluster,
     defaultCapacityProviderStrategy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "PutClusterCapacityProviders",
@@ -2143,7 +2151,7 @@ function put_cluster_capacity_providers(
     cluster,
     defaultCapacityProviderStrategy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "PutClusterCapacityProviders",
@@ -2204,13 +2212,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionInfo"`: The version information for the Amazon ECS container agent and Docker
   daemon that runs on the container instance.
 """
-function register_container_instance(; aws_config::AbstractAWSConfig=global_aws_config())
+function register_container_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "RegisterContainerInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function register_container_instance(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "RegisterContainerInstance",
@@ -2388,7 +2396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might use.
 """
 function register_task_definition(
-    containerDefinitions, family; aws_config::AbstractAWSConfig=global_aws_config()
+    containerDefinitions, family; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "RegisterTaskDefinition",
@@ -2403,7 +2411,7 @@ function register_task_definition(
     containerDefinitions,
     family,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "RegisterTaskDefinition",
@@ -2556,7 +2564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TaskManagedEBSVolumeConfiguration. The name of the volume must match the name from the task
   definition.
 """
-function run_task(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config())
+function run_task(taskDefinition; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "RunTask",
         Dict{String,Any}(
@@ -2569,7 +2577,7 @@ end
 function run_task(
     taskDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "RunTask",
@@ -2663,7 +2671,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definition.
 """
 function start_task(
-    containerInstances, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    containerInstances, taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "StartTask",
@@ -2678,7 +2686,7 @@ function start_task(
     containerInstances,
     taskDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "StartTask",
@@ -2724,7 +2732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using a custom scheduler, you can use this parameter to specify the reason for stopping the
   task here, and the message appears in subsequent DescribeTasks API operations on this task.
 """
-function stop_task(task; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_task(task; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "StopTask",
         Dict{String,Any}("task" => task);
@@ -2733,7 +2741,7 @@ function stop_task(task; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function stop_task(
-    task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "StopTask",
@@ -2759,7 +2767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the attachment belongs to.
 """
 function submit_attachment_state_changes(
-    attachments; aws_config::AbstractAWSConfig=global_aws_config()
+    attachments; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "SubmitAttachmentStateChanges",
@@ -2771,7 +2779,7 @@ end
 function submit_attachment_state_changes(
     attachments,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "SubmitAttachmentStateChanges",
@@ -2802,13 +2810,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"task"`: The task ID or full Amazon Resource Name (ARN) of the task that hosts the
   container.
 """
-function submit_container_state_change(; aws_config::AbstractAWSConfig=global_aws_config())
+function submit_container_state_change(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "SubmitContainerStateChange"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function submit_container_state_change(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "SubmitContainerStateChange",
@@ -2840,13 +2848,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the state change request.
 - `"task"`: The task ID or full ARN of the task in the state change request.
 """
-function submit_task_state_change(; aws_config::AbstractAWSConfig=global_aws_config())
+function submit_task_state_change(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "SubmitTaskStateChange"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function submit_task_state_change(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "SubmitTaskStateChange",
@@ -2882,7 +2890,7 @@ resource is deleted, the tags that are associated with that resource are deleted
   resource limit.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
@@ -2894,7 +2902,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "TagResource",
@@ -2924,7 +2932,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UntagResource",
@@ -2937,7 +2945,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UntagResource",
@@ -2966,7 +2974,7 @@ Modifies the parameters for a capacity provider.
 
 """
 function update_capacity_provider(
-    autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()
+    autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateCapacityProvider",
@@ -2981,7 +2989,7 @@ function update_capacity_provider(
     autoScalingGroupProvider,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateCapacityProvider",
@@ -3024,7 +3032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service Connect in the Amazon Elastic Container Service Developer Guide.
 - `"settings"`: The cluster settings for your cluster.
 """
-function update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config())
+function update_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "UpdateCluster",
         Dict{String,Any}("cluster" => cluster);
@@ -3033,7 +3041,9 @@ function update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function update_cluster(
-    cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateCluster",
@@ -3062,7 +3072,7 @@ Modifies the settings to use for a cluster.
 
 """
 function update_cluster_settings(
-    cluster, settings; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, settings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateClusterSettings",
@@ -3075,7 +3085,7 @@ function update_cluster_settings(
     cluster,
     settings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateClusterSettings",
@@ -3121,7 +3131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 function update_container_agent(
-    containerInstance; aws_config::AbstractAWSConfig=global_aws_config()
+    containerInstance; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateContainerAgent",
@@ -3133,7 +3143,7 @@ end
 function update_container_agent(
     containerInstance,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateContainerAgent",
@@ -3198,7 +3208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 function update_container_instances_state(
-    containerInstances, status; aws_config::AbstractAWSConfig=global_aws_config()
+    containerInstances, status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateContainerInstancesState",
@@ -3211,7 +3221,7 @@ function update_container_instances_state(
     containerInstances,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateContainerInstancesState",
@@ -3421,7 +3431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task definition. If set to null, no new deployment is triggered. Otherwise, if this
   configuration differs from the existing one, it triggers a new deployment.
 """
-function update_service(service; aws_config::AbstractAWSConfig=global_aws_config())
+function update_service(service; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "UpdateService",
         Dict{String,Any}("service" => service);
@@ -3430,7 +3440,9 @@ function update_service(service; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function update_service(
-    service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateService",
@@ -3459,7 +3471,7 @@ Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Gu
 
 """
 function update_service_primary_task_set(
-    cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateServicePrimaryTaskSet",
@@ -3475,7 +3487,7 @@ function update_service_primary_task_set(
     primaryTaskSet,
     service,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateServicePrimaryTaskSet",
@@ -3532,7 +3544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   protected for 120 minutes (2 hours).
 """
 function update_task_protection(
-    cluster, protectionEnabled, tasks; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, protectionEnabled, tasks; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateTaskProtection",
@@ -3548,7 +3560,7 @@ function update_task_protection(
     protectionEnabled,
     tasks,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateTaskProtection",
@@ -3587,7 +3599,7 @@ Service Developer Guide.
 
 """
 function update_task_set(
-    cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()
+    cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
         "UpdateTaskSet",
@@ -3607,7 +3619,7 @@ function update_task_set(
     service,
     taskSet,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecs(
         "UpdateTaskSet",

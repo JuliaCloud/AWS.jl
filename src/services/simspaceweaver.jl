@@ -30,7 +30,7 @@ the 2-digit seconds
 
 """
 function create_snapshot(
-    Destination, Simulation; aws_config::AbstractAWSConfig=global_aws_config()
+    Destination, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "POST",
@@ -44,7 +44,7 @@ function create_snapshot(
     Destination,
     Simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -74,7 +74,7 @@ Deletes the instance of the given custom app.
 
 """
 function delete_app(
-    app, domain, simulation; aws_config::AbstractAWSConfig=global_aws_config()
+    app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "DELETE",
@@ -89,7 +89,7 @@ function delete_app(
     domain,
     simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "DELETE",
@@ -120,7 +120,7 @@ other Amazon Web Services.
 - `simulation`: The name of the simulation.
 
 """
-function delete_simulation(simulation; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "DELETE",
         "/deletesimulation",
@@ -132,7 +132,7 @@ end
 function delete_simulation(
     simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "DELETE",
@@ -158,7 +158,7 @@ Returns the state of the given custom app.
 
 """
 function describe_app(
-    app, domain, simulation; aws_config::AbstractAWSConfig=global_aws_config()
+    app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "GET",
@@ -173,7 +173,7 @@ function describe_app(
     domain,
     simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "GET",
@@ -202,7 +202,7 @@ Returns the current state of the given simulation.
 - `simulation`: The name of the simulation.
 
 """
-function describe_simulation(simulation; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "GET",
         "/describesimulation",
@@ -214,7 +214,7 @@ end
 function describe_simulation(
     simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "GET",
@@ -247,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP
   400 ValidationException error.
 """
-function list_apps(simulation; aws_config::AbstractAWSConfig=global_aws_config())
+function list_apps(simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "GET",
         "/listapps",
@@ -259,7 +259,7 @@ end
 function list_apps(
     simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "GET",
@@ -289,13 +289,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP
   400 ValidationException error.
 """
-function list_simulations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_simulations(; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_simulations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "GET",
@@ -318,7 +318,7 @@ Lists all tags on a SimSpace Weaver resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "GET",
@@ -330,7 +330,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "GET",
@@ -361,7 +361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LaunchOverrides"`:
 """
 function start_app(
-    Domain, Name, Simulation; aws_config::AbstractAWSConfig=global_aws_config()
+    Domain, Name, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "POST",
@@ -381,7 +381,7 @@ function start_app(
     Name,
     Simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -413,7 +413,7 @@ Starts the simulation clock.
 - `simulation`: The name of the simulation.
 
 """
-function start_clock(Simulation; aws_config::AbstractAWSConfig=global_aws_config())
+function start_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
         "/startclock",
@@ -425,7 +425,7 @@ end
 function start_clock(
     Simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -477,7 +477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags for the simulation. For more information about tags, see Tagging
   Amazon Web Services resources in the Amazon Web Services General Reference.
 """
-function start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
+function start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
         "/startsimulation",
@@ -492,7 +492,7 @@ function start_simulation(
     Name,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -524,7 +524,7 @@ Stops the given custom app and shuts down all of its allocated compute resources
 
 """
 function stop_app(
-    App, Domain, Simulation; aws_config::AbstractAWSConfig=global_aws_config()
+    App, Domain, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "POST",
@@ -539,7 +539,7 @@ function stop_app(
     Domain,
     Simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -568,7 +568,7 @@ Stops the simulation clock.
 - `simulation`: The name of the simulation.
 
 """
-function stop_clock(Simulation; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
         "/stopclock",
@@ -580,7 +580,7 @@ end
 function stop_clock(
     Simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -604,7 +604,7 @@ to restart a simulation, then you must stop it, delete it, and start a new insta
 - `simulation`: The name of the simulation.
 
 """
-function stop_simulation(Simulation; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_simulation(Simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
         "/stopsimulation",
@@ -616,7 +616,7 @@ end
 function stop_simulation(
     Simulation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -643,7 +643,7 @@ Amazon Web Services resources in the Amazon Web Services General Reference.
 - `tags`: A list of tags to apply to the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
         "/tags/$(ResourceArn)",
@@ -656,7 +656,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "POST",
@@ -682,7 +682,7 @@ Amazon Web Services resources in the Amazon Web Services General Reference.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simspaceweaver(
         "DELETE",
@@ -696,7 +696,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simspaceweaver(
         "DELETE",

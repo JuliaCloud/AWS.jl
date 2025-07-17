@@ -32,7 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Username"`: An optional user ID to be associated with the credentials.
 """
 function get_ice_server_config(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_video_signaling(
         "POST",
@@ -45,7 +45,7 @@ end
 function get_ice_server_config(
     ChannelARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video_signaling(
         "POST",
@@ -79,7 +79,7 @@ function send_alexa_offer_to_master(
     ChannelARN,
     MessagePayload,
     SenderClientId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video_signaling(
         "POST",
@@ -98,7 +98,7 @@ function send_alexa_offer_to_master(
     MessagePayload,
     SenderClientId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kinesis_video_signaling(
         "POST",

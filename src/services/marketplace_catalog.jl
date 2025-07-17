@@ -16,7 +16,7 @@ DescribeEntity API and uses the same IAM permission action as DescribeEntity API
 
 """
 function batch_describe_entities(
-    EntityRequestList; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityRequestList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "POST",
@@ -29,7 +29,7 @@ end
 function batch_describe_entities(
     EntityRequestList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -59,7 +59,7 @@ change during the 60-day request history retention period for API calls.
 
 """
 function cancel_change_set(
-    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "PATCH",
@@ -73,7 +73,7 @@ function cancel_change_set(
     catalog,
     changeSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "PATCH",
@@ -102,7 +102,7 @@ Deletes a resource-based policy on an entity that is identified by its resource 
 
 """
 function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "DELETE",
@@ -115,7 +115,7 @@ end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "DELETE",
@@ -141,7 +141,7 @@ Provides information about a given change set.
 
 """
 function describe_change_set(
-    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "GET",
@@ -155,7 +155,7 @@ function describe_change_set(
     catalog,
     changeSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "GET",
@@ -184,7 +184,7 @@ Returns the metadata and content of the entity.
 
 """
 function describe_entity(
-    catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config()
+    catalog, entityId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "GET",
@@ -198,7 +198,7 @@ function describe_entity(
     catalog,
     entityId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "GET",
@@ -226,7 +226,9 @@ Gets a resource-based policy of an entity that is identified by its resource ARN
   with the resource policy.
 
 """
-function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return marketplace_catalog(
         "GET",
         "/GetResourcePolicy",
@@ -238,7 +240,7 @@ end
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "GET",
@@ -274,7 +276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
-function list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config())
+function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
         "/ListChangeSets",
@@ -284,7 +286,9 @@ function list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_change_sets(
-    Catalog, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Catalog,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -328,7 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_entities(
-    Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config()
+    Catalog, EntityType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "POST",
@@ -342,7 +346,7 @@ function list_entities(
     Catalog,
     EntityType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -371,7 +375,7 @@ Lists all tags that have been added to a resource (either an entity or change se
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "POST",
@@ -384,7 +388,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -411,7 +415,7 @@ and ContainerProduct.
 
 """
 function put_resource_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "POST",
@@ -425,7 +429,7 @@ function put_resource_policy(
     Policy,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -474,7 +478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for adding versions to single-AMI products. For more information, see Add a new version.
 """
 function start_change_set(
-    Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()
+    Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "POST",
@@ -492,7 +496,7 @@ function start_change_set(
     Catalog,
     ChangeSet,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -526,7 +530,7 @@ Tags a resource (either an entity or change set).
   allowed: 1-50.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
         "/TagResource",
@@ -539,7 +543,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",
@@ -570,7 +574,7 @@ Removes a tag or list of tags from a resource (either an entity or change set).
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_catalog(
         "POST",
@@ -584,7 +588,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_catalog(
         "POST",

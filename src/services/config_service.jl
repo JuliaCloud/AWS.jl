@@ -22,7 +22,7 @@ resources.    The API does not return tags and relationships.
 function batch_get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifiers;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "BatchGetAggregateResourceConfig",
@@ -38,7 +38,7 @@ function batch_get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifiers,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "BatchGetAggregateResourceConfig",
@@ -74,7 +74,7 @@ section of the API response.
 
 """
 function batch_get_resource_config(
-    resourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "BatchGetResourceConfig",
@@ -86,7 +86,7 @@ end
 function batch_get_resource_config(
     resourceKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "BatchGetResourceConfig",
@@ -114,7 +114,7 @@ specified region.
 function delete_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteAggregationAuthorization",
@@ -130,7 +130,7 @@ function delete_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteAggregationAuthorization",
@@ -164,7 +164,7 @@ DescribeConfigRules request.
 
 """
 function delete_config_rule(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteConfigRule",
@@ -176,7 +176,7 @@ end
 function delete_config_rule(
     ConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteConfigRule",
@@ -200,7 +200,7 @@ aggregator.
 
 """
 function delete_configuration_aggregator(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteConfigurationAggregator",
@@ -212,7 +212,7 @@ end
 function delete_configuration_aggregator(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteConfigurationAggregator",
@@ -248,7 +248,7 @@ Config console until you create a new configuration recorder.
 
 """
 function delete_configuration_recorder(
-    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteConfigurationRecorder",
@@ -260,7 +260,7 @@ end
 function delete_configuration_recorder(
     ConfigurationRecorderName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteConfigurationRecorder",
@@ -290,7 +290,7 @@ while it is in this state.
 
 """
 function delete_conformance_pack(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteConformancePack",
@@ -302,7 +302,7 @@ end
 function delete_conformance_pack(
     ConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteConformancePack",
@@ -330,7 +330,7 @@ configuration recorder by using the StopConfigurationRecorder action.
 
 """
 function delete_delivery_channel(
-    DeliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteDeliveryChannel",
@@ -342,7 +342,7 @@ end
 function delete_delivery_channel(
     DeliveryChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteDeliveryChannel",
@@ -373,7 +373,7 @@ against the rule.
 
 """
 function delete_evaluation_results(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteEvaluationResults",
@@ -385,7 +385,7 @@ end
 function delete_evaluation_results(
     ConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteEvaluationResults",
@@ -414,7 +414,7 @@ deletion is complete. You cannot update a rule while it is in this state.
 
 """
 function delete_organization_config_rule(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteOrganizationConfigRule",
@@ -426,7 +426,7 @@ end
 function delete_organization_config_rule(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteOrganizationConfigRule",
@@ -462,7 +462,7 @@ pack while it is in this state.
 
 """
 function delete_organization_conformance_pack(
-    OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteOrganizationConformancePack",
@@ -476,7 +476,7 @@ end
 function delete_organization_conformance_pack(
     OrganizationConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteOrganizationConformancePack",
@@ -510,7 +510,7 @@ region.
 function delete_pending_aggregation_request(
     RequesterAccountId,
     RequesterAwsRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeletePendingAggregationRequest",
@@ -526,7 +526,7 @@ function delete_pending_aggregation_request(
     RequesterAccountId,
     RequesterAwsRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeletePendingAggregationRequest",
@@ -560,7 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: The type of a resource.
 """
 function delete_remediation_configuration(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteRemediationConfiguration",
@@ -572,7 +572,7 @@ end
 function delete_remediation_configuration(
     ConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteRemediationConfiguration",
@@ -602,7 +602,7 @@ cleared.
 
 """
 function delete_remediation_exceptions(
-    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteRemediationExceptions",
@@ -617,7 +617,7 @@ function delete_remediation_exceptions(
     ConfigRuleName,
     ResourceKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteRemediationExceptions",
@@ -649,7 +649,7 @@ ConfigurationItems recorded for this resource in your Config History.
 
 """
 function delete_resource_config(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteResourceConfig",
@@ -662,7 +662,7 @@ function delete_resource_config(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteResourceConfig",
@@ -691,7 +691,7 @@ Deletes the retention configuration.
 
 """
 function delete_retention_configuration(
-    RetentionConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+    RetentionConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeleteRetentionConfiguration",
@@ -703,7 +703,7 @@ end
 function delete_retention_configuration(
     RetentionConfigurationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteRetentionConfiguration",
@@ -732,7 +732,7 @@ Services Region.
 - `query_name`: The name of the query that you want to delete.
 
 """
-function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DeleteStoredQuery",
         Dict{String,Any}("QueryName" => QueryName);
@@ -743,7 +743,7 @@ end
 function delete_stored_query(
     QueryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeleteStoredQuery",
@@ -771,7 +771,7 @@ successfully completed.   Notification of delivery failure, if the delivery fail
 
 """
 function deliver_config_snapshot(
-    deliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    deliveryChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DeliverConfigSnapshot",
@@ -783,7 +783,7 @@ end
 function deliver_config_snapshot(
     deliveryChannelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DeliverConfigSnapshot",
@@ -820,7 +820,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_aggregate_compliance_by_config_rules(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeAggregateComplianceByConfigRules",
@@ -832,7 +832,7 @@ end
 function describe_aggregate_compliance_by_config_rules(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeAggregateComplianceByConfigRules",
@@ -872,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_aggregate_compliance_by_conformance_packs(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeAggregateComplianceByConformancePacks",
@@ -884,7 +884,7 @@ end
 function describe_aggregate_compliance_by_conformance_packs(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeAggregateComplianceByConformancePacks",
@@ -916,7 +916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_aggregation_authorizations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeAggregationAuthorizations";
@@ -925,7 +925,7 @@ function describe_aggregation_authorizations(;
     )
 end
 function describe_aggregation_authorizations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeAggregationAuthorizations",
@@ -961,7 +961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_compliance_by_config_rule(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeComplianceByConfigRule";
@@ -970,7 +970,7 @@ function describe_compliance_by_config_rule(;
     )
 end
 function describe_compliance_by_config_rule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeComplianceByConfigRule",
@@ -1014,7 +1014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the resource type is an Amazon Web Services account by specifying AWS::::Account.
 """
 function describe_compliance_by_resource(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeComplianceByResource";
@@ -1023,7 +1023,7 @@ function describe_compliance_by_resource(;
     )
 end
 function describe_compliance_by_resource(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeComplianceByResource",
@@ -1054,7 +1054,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_config_rule_evaluation_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigRuleEvaluationStatus";
@@ -1063,7 +1063,7 @@ function describe_config_rule_evaluation_status(;
     )
 end
 function describe_config_rule_evaluation_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigRuleEvaluationStatus",
@@ -1089,13 +1089,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
-function describe_config_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_config_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DescribeConfigRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_config_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigRules",
@@ -1128,7 +1128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value OUTDATED indicates the data is not the most recent.
 """
 function describe_configuration_aggregator_sources_status(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationAggregatorSourcesStatus",
@@ -1140,7 +1140,7 @@ end
 function describe_configuration_aggregator_sources_status(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeConfigurationAggregatorSourcesStatus",
@@ -1175,7 +1175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_configuration_aggregators(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationAggregators";
@@ -1184,7 +1184,7 @@ function describe_configuration_aggregators(;
     )
 end
 function describe_configuration_aggregators(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationAggregators",
@@ -1212,7 +1212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the account.
 """
 function describe_configuration_recorder_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationRecorderStatus";
@@ -1221,7 +1221,7 @@ function describe_configuration_recorder_status(;
     )
 end
 function describe_configuration_recorder_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationRecorderStatus",
@@ -1245,7 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationRecorderNames"`: A list of configuration recorder names.
 """
 function describe_configuration_recorders(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationRecorders";
@@ -1254,7 +1254,7 @@ function describe_configuration_recorders(;
     )
 end
 function describe_configuration_recorders(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConfigurationRecorders",
@@ -1283,7 +1283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next page of results in a paginated response.
 """
 function describe_conformance_pack_compliance(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConformancePackCompliance",
@@ -1295,7 +1295,7 @@ end
 function describe_conformance_pack_compliance(
     ConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeConformancePackCompliance",
@@ -1326,7 +1326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next page of results in a paginated response.
 """
 function describe_conformance_pack_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConformancePackStatus";
@@ -1335,7 +1335,7 @@ function describe_conformance_pack_status(;
     )
 end
 function describe_conformance_pack_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConformancePackStatus",
@@ -1360,13 +1360,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
-function describe_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_conformance_packs(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DescribeConformancePacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_conformance_packs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeConformancePacks",
@@ -1390,7 +1390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryChannelNames"`: A list of delivery channel names.
 """
 function describe_delivery_channel_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeDeliveryChannelStatus";
@@ -1399,7 +1399,7 @@ function describe_delivery_channel_status(;
     )
 end
 function describe_delivery_channel_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeDeliveryChannelStatus",
@@ -1421,13 +1421,13 @@ account.  Currently, you can specify only one delivery channel per region in you
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeliveryChannelNames"`: A list of delivery channel names.
 """
-function describe_delivery_channels(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_delivery_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DescribeDeliveryChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_delivery_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeDeliveryChannels",
@@ -1459,7 +1459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization Config rules.
 """
 function describe_organization_config_rule_statuses(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConfigRuleStatuses";
@@ -1468,7 +1468,7 @@ function describe_organization_config_rule_statuses(;
     )
 end
 function describe_organization_config_rule_statuses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConfigRuleStatuses",
@@ -1507,7 +1507,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization Config rules.
 """
 function describe_organization_config_rules(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConfigRules";
@@ -1516,7 +1516,7 @@ function describe_organization_config_rules(;
     )
 end
 function describe_organization_config_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConfigRules",
@@ -1548,7 +1548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all your organization conformance packs.
 """
 function describe_organization_conformance_pack_statuses(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConformancePackStatuses";
@@ -1557,7 +1557,7 @@ function describe_organization_conformance_pack_statuses(;
     )
 end
 function describe_organization_conformance_pack_statuses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConformancePackStatuses",
@@ -1595,7 +1595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   conformance pack.
 """
 function describe_organization_conformance_packs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConformancePacks";
@@ -1604,7 +1604,7 @@ function describe_organization_conformance_packs(;
     )
 end
 function describe_organization_conformance_packs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeOrganizationConformancePacks",
@@ -1628,7 +1628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function describe_pending_aggregation_requests(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribePendingAggregationRequests";
@@ -1637,7 +1637,7 @@ function describe_pending_aggregation_requests(;
     )
 end
 function describe_pending_aggregation_requests(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribePendingAggregationRequests",
@@ -1659,7 +1659,7 @@ Returns the details of one or more remediation configurations.
 
 """
 function describe_remediation_configurations(
-    ConfigRuleNames; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeRemediationConfigurations",
@@ -1671,7 +1671,7 @@ end
 function describe_remediation_configurations(
     ConfigRuleNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeRemediationConfigurations",
@@ -1712,7 +1712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceptions for 3 resource keys.
 """
 function describe_remediation_exceptions(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeRemediationExceptions",
@@ -1724,7 +1724,7 @@ end
 function describe_remediation_exceptions(
     ConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeRemediationExceptions",
@@ -1758,7 +1758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element in the list consists of the resource type and resource ID.
 """
 function describe_remediation_execution_status(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeRemediationExecutionStatus",
@@ -1770,7 +1770,7 @@ end
 function describe_remediation_execution_status(
     ConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "DescribeRemediationExecutionStatus",
@@ -1801,7 +1801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration per region in your account.
 """
 function describe_retention_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeRetentionConfigurations";
@@ -1810,7 +1810,7 @@ function describe_retention_configurations(;
     )
 end
 function describe_retention_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "DescribeRetentionConfigurations",
@@ -1852,7 +1852,7 @@ function get_aggregate_compliance_details_by_config_rule(
     AwsRegion,
     ConfigRuleName,
     ConfigurationAggregatorName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateComplianceDetailsByConfigRule",
@@ -1872,7 +1872,7 @@ function get_aggregate_compliance_details_by_config_rule(
     ConfigRuleName,
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateComplianceDetailsByConfigRule",
@@ -1915,7 +1915,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_aggregate_config_rule_compliance_summary(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetAggregateConfigRuleComplianceSummary",
@@ -1927,7 +1927,7 @@ end
 function get_aggregate_config_rule_compliance_summary(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateConfigRuleComplianceSummary",
@@ -1969,7 +1969,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_aggregate_conformance_pack_compliance_summary(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetAggregateConformancePackComplianceSummary",
@@ -1981,7 +1981,7 @@ end
 function get_aggregate_conformance_pack_compliance_summary(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateConformancePackComplianceSummary",
@@ -2024,7 +2024,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_aggregate_discovered_resource_counts(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetAggregateDiscoveredResourceCounts",
@@ -2036,7 +2036,7 @@ end
 function get_aggregate_discovered_resource_counts(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateDiscoveredResourceCounts",
@@ -2069,7 +2069,7 @@ source account and region.
 function get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateResourceConfig",
@@ -2085,7 +2085,7 @@ function get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetAggregateResourceConfig",
@@ -2126,7 +2126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_compliance_details_by_config_rule(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceDetailsByConfigRule",
@@ -2138,7 +2138,7 @@ end
 function get_compliance_details_by_config_rule(
     ConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetComplianceDetailsByConfigRule",
@@ -2174,7 +2174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   compliance information.
 """
 function get_compliance_details_by_resource(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceDetailsByResource";
@@ -2183,7 +2183,7 @@ function get_compliance_details_by_resource(;
     )
 end
 function get_compliance_details_by_resource(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceDetailsByResource",
@@ -2202,7 +2202,7 @@ Returns the number of Config rules that are compliant and noncompliant, up to a 
 
 """
 function get_compliance_summary_by_config_rule(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceSummaryByConfigRule";
@@ -2211,7 +2211,7 @@ function get_compliance_summary_by_config_rule(;
     )
 end
 function get_compliance_summary_by_config_rule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceSummaryByConfigRule",
@@ -2238,7 +2238,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS::::Account.
 """
 function get_compliance_summary_by_resource_type(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceSummaryByResourceType";
@@ -2247,7 +2247,7 @@ function get_compliance_summary_by_resource_type(;
     )
 end
 function get_compliance_summary_by_resource_type(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetComplianceSummaryByResourceType",
@@ -2276,7 +2276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next page of results in a paginated response.
 """
 function get_conformance_pack_compliance_details(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetConformancePackComplianceDetails",
@@ -2288,7 +2288,7 @@ end
 function get_conformance_pack_compliance_details(
     ConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetConformancePackComplianceDetails",
@@ -2321,7 +2321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_conformance_pack_compliance_summary(
-    ConformancePackNames; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetConformancePackComplianceSummary",
@@ -2333,7 +2333,7 @@ end
 function get_conformance_pack_compliance_summary(
     ConformancePackNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetConformancePackComplianceSummary",
@@ -2359,13 +2359,13 @@ Returns the policy definition containing the logic for your Config Custom Policy
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigRuleName"`: The name of your Config Custom Policy rule.
 """
-function get_custom_rule_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_custom_rule_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "GetCustomRulePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_custom_rule_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetCustomRulePolicy",
@@ -2410,7 +2410,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recording a specific resource type (for example, S3 buckets), that resource type is not
   returned in the list of ResourceCount objects.
 """
-function get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_discovered_resource_counts(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return config_service(
         "GetDiscoveredResourceCounts";
         aws_config=aws_config,
@@ -2418,7 +2420,7 @@ function get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function get_discovered_resource_counts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetDiscoveredResourceCounts",
@@ -2448,7 +2450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_organization_config_rule_detailed_status(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetOrganizationConfigRuleDetailedStatus",
@@ -2460,7 +2462,7 @@ end
 function get_organization_config_rule_detailed_status(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetOrganizationConfigRuleDetailedStatus",
@@ -2498,7 +2500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_organization_conformance_pack_detailed_status(
-    OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetOrganizationConformancePackDetailedStatus",
@@ -2512,7 +2514,7 @@ end
 function get_organization_conformance_pack_detailed_status(
     OrganizationConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetOrganizationConformancePackDetailedStatus",
@@ -2542,7 +2544,7 @@ Policy rule.
 
 """
 function get_organization_custom_rule_policy(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetOrganizationCustomRulePolicy",
@@ -2554,7 +2556,7 @@ end
 function get_organization_custom_rule_policy(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetOrganizationCustomRulePolicy",
@@ -2610,7 +2612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function get_resource_config_history(
-    resourceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceId, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetResourceConfigHistory",
@@ -2623,7 +2625,7 @@ function get_resource_config_history(
     resourceId,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetResourceConfigHistory",
@@ -2659,7 +2661,7 @@ information, see the Examples section.
 
 """
 function get_resource_evaluation_summary(
-    ResourceEvaluationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceEvaluationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "GetResourceEvaluationSummary",
@@ -2671,7 +2673,7 @@ end
 function get_resource_evaluation_summary(
     ResourceEvaluationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetResourceEvaluationSummary",
@@ -2697,7 +2699,7 @@ Returns the details of a specific stored query.
 - `query_name`: The name of the query.
 
 """
-function get_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_stored_query(QueryName; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "GetStoredQuery",
         Dict{String,Any}("QueryName" => QueryName);
@@ -2708,7 +2710,7 @@ end
 function get_stored_query(
     QueryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "GetStoredQuery",
@@ -2748,7 +2750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_aggregate_discovered_resources(
     ConfigurationAggregatorName,
     ResourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "ListAggregateDiscoveredResources",
@@ -2764,7 +2766,7 @@ function list_aggregate_discovered_resources(
     ConfigurationAggregatorName,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "ListAggregateDiscoveredResources",
@@ -2815,7 +2817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ascending order and first when sorting by descending order.
 """
 function list_conformance_pack_compliance_scores(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "ListConformancePackComplianceScores";
@@ -2824,7 +2826,7 @@ function list_conformance_pack_compliance_scores(;
     )
 end
 function list_conformance_pack_compliance_scores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "ListConformancePackComplianceScores",
@@ -2870,7 +2872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified type that it has discovered.
 """
 function list_discovered_resources(
-    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "ListDiscoveredResources",
@@ -2882,7 +2884,7 @@ end
 function list_discovered_resources(
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "ListDiscoveredResources",
@@ -2908,13 +2910,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
-function list_resource_evaluations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resource_evaluations(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "ListResourceEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resource_evaluations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "ListResourceEvaluations",
@@ -2937,13 +2939,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
-function list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_stored_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "ListStoredQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_stored_queries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "ListStoredQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2969,7 +2971,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "ListTagsForResource",
@@ -2981,7 +2983,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "ListTagsForResource",
@@ -3016,7 +3018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutAggregationAuthorization",
@@ -3032,7 +3034,7 @@ function put_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutAggregationAuthorization",
@@ -3090,7 +3092,7 @@ are different.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: An array of tag object.
 """
-function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=global_aws_config())
+function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "PutConfigRule",
         Dict{String,Any}("ConfigRule" => ConfigRule);
@@ -3101,7 +3103,7 @@ end
 function put_config_rule(
     ConfigRule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutConfigRule",
@@ -3145,7 +3147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of tag object.
 """
 function put_configuration_aggregator(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutConfigurationAggregator",
@@ -3157,7 +3159,7 @@ end
 function put_configuration_aggregator(
     ConfigurationAggregatorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutConfigurationAggregator",
@@ -3192,7 +3194,7 @@ recordingGroup field specified, the default is to record all supported resource 
 
 """
 function put_configuration_recorder(
-    ConfigurationRecorder; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorder; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutConfigurationRecorder",
@@ -3204,7 +3206,7 @@ end
 function put_configuration_recorder(
     ConfigurationRecorder,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutConfigurationRecorder",
@@ -3257,7 +3259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a conformance pack.
 """
 function put_conformance_pack(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutConformancePack",
@@ -3269,7 +3271,7 @@ end
 function put_conformance_pack(
     ConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutConformancePack",
@@ -3305,7 +3307,7 @@ not changed.  You can have only one delivery channel per region in your account.
 
 """
 function put_delivery_channel(
-    DeliveryChannel; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryChannel; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutDeliveryChannel",
@@ -3317,7 +3319,7 @@ end
 function put_delivery_channel(
     DeliveryChannel,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutDeliveryChannel",
@@ -3353,7 +3355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the
   value cannot be null.
 """
-function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=global_aws_config())
+function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "PutEvaluations",
         Dict{String,Any}("ResultToken" => ResultToken);
@@ -3364,7 +3366,7 @@ end
 function put_evaluations(
     ResultToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutEvaluations",
@@ -3390,7 +3392,7 @@ check when the name of the Config rule is provided.
 
 """
 function put_external_evaluation(
-    ConfigRuleName, ExternalEvaluation; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName, ExternalEvaluation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutExternalEvaluation",
@@ -3405,7 +3407,7 @@ function put_external_evaluation(
     ConfigRuleName,
     ExternalEvaluation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutExternalEvaluation",
@@ -3486,7 +3488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you want Config to run evaluations for the rule if the trigger type is periodic.
 """
 function put_organization_config_rule(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutOrganizationConfigRule",
@@ -3498,7 +3500,7 @@ end
 function put_organization_config_rule(
     OrganizationConfigRuleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutOrganizationConfigRule",
@@ -3562,7 +3564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not be in an archived storage class if this parameter is passed.
 """
 function put_organization_conformance_pack(
-    OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutOrganizationConformancePack",
@@ -3576,7 +3578,7 @@ end
 function put_organization_conformance_pack(
     OrganizationConformancePackName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutOrganizationConformancePack",
@@ -3627,7 +3629,7 @@ compliance data snapshot.
 
 """
 function put_remediation_configurations(
-    RemediationConfigurations; aws_config::AbstractAWSConfig=global_aws_config()
+    RemediationConfigurations; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutRemediationConfigurations",
@@ -3639,7 +3641,7 @@ end
 function put_remediation_configurations(
     RemediationConfigurations,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutRemediationConfigurations",
@@ -3699,7 +3701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Message"`: The message contains an explanation of the exception.
 """
 function put_remediation_exceptions(
-    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutRemediationExceptions",
@@ -3714,7 +3716,7 @@ function put_remediation_exceptions(
     ConfigRuleName,
     ResourceKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutRemediationExceptions",
@@ -3771,7 +3773,7 @@ function put_resource_config(
     ResourceId,
     ResourceType,
     SchemaVersionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutResourceConfig",
@@ -3791,7 +3793,7 @@ function put_resource_config(
     ResourceType,
     SchemaVersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutResourceConfig",
@@ -3828,7 +3830,7 @@ Currently, Config supports only one retention configuration per region in your a
 
 """
 function put_retention_configuration(
-    RetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config()
+    RetentionPeriodInDays; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "PutRetentionConfiguration",
@@ -3840,7 +3842,7 @@ end
 function put_retention_configuration(
     RetentionPeriodInDays,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutRetentionConfiguration",
@@ -3878,7 +3880,7 @@ previous. In this case, tags will not be updated, even if they are different.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of Tags object.
 """
-function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=global_aws_config())
+function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "PutStoredQuery",
         Dict{String,Any}("StoredQuery" => StoredQuery);
@@ -3889,7 +3891,7 @@ end
 function put_stored_query(
     StoredQuery,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "PutStoredQuery",
@@ -3932,7 +3934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function select_aggregate_resource_config(
     ConfigurationAggregatorName,
     Expression;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "SelectAggregateResourceConfig",
@@ -3948,7 +3950,7 @@ function select_aggregate_resource_config(
     ConfigurationAggregatorName,
     Expression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "SelectAggregateResourceConfig",
@@ -3985,7 +3987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next page of results in a paginated response.
 """
 function select_resource_config(
-    Expression; aws_config::AbstractAWSConfig=global_aws_config()
+    Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "SelectResourceConfig",
@@ -3997,7 +3999,7 @@ end
 function select_resource_config(
     Expression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "SelectResourceConfig",
@@ -4035,13 +4037,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigRuleNames"`: The list of names of Config rules that you want to run evaluations
   for.
 """
-function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=global_aws_config())
+function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "StartConfigRulesEvaluation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function start_config_rules_evaluation(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "StartConfigRulesEvaluation",
@@ -4065,7 +4067,7 @@ channel to successfully start the configuration recorder.
 
 """
 function start_configuration_recorder(
-    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "StartConfigurationRecorder",
@@ -4077,7 +4079,7 @@ end
 function start_configuration_recorder(
     ConfigurationRecorderName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "StartConfigurationRecorder",
@@ -4111,7 +4113,7 @@ must complete before you can call the API again.
 
 """
 function start_remediation_execution(
-    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "StartRemediationExecution",
@@ -4126,7 +4128,7 @@ function start_remediation_execution(
     ConfigRuleName,
     ResourceKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "StartRemediationExecution",
@@ -4180,7 +4182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cannot specify a number greater than 3600. If you specify 0, Config uses the default.
 """
 function start_resource_evaluation(
-    EvaluationMode, ResourceDetails; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationMode, ResourceDetails; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "StartResourceEvaluation",
@@ -4195,7 +4197,7 @@ function start_resource_evaluation(
     EvaluationMode,
     ResourceDetails,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "StartResourceEvaluation",
@@ -4226,7 +4228,7 @@ record in your Amazon Web Services account.
 
 """
 function stop_configuration_recorder(
-    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "StopConfigurationRecorder",
@@ -4238,7 +4240,7 @@ end
 function stop_configuration_recorder(
     ConfigurationRecorderName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "StopConfigurationRecorder",
@@ -4270,7 +4272,7 @@ deleted, the tags associated with that resource are deleted as well.
 - `tags`: An array of tag object.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -4282,7 +4284,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "TagResource",
@@ -4312,7 +4314,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return config_service(
         "UntagResource",
@@ -4325,7 +4327,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return config_service(
         "UntagResource",

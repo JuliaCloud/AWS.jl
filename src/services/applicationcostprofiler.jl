@@ -16,7 +16,7 @@ report from being generated.
 
 """
 function delete_report_definition(
-    reportId; aws_config::AbstractAWSConfig=global_aws_config()
+    reportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return applicationcostprofiler(
         "DELETE",
@@ -28,7 +28,7 @@ end
 function delete_report_definition(
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "DELETE",
@@ -49,7 +49,7 @@ Retrieves the definition of a report already configured in AWS Application Cost 
 - `report_id`: ID of the report to retrieve.
 
 """
-function get_report_definition(reportId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config())
     return applicationcostprofiler(
         "GET",
         "/reportDefinition/$(reportId)";
@@ -60,7 +60,7 @@ end
 function get_report_definition(
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "GET",
@@ -85,7 +85,7 @@ asynchronously.
 
 """
 function import_application_usage(
-    sourceS3Location; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return applicationcostprofiler(
         "POST",
@@ -98,7 +98,7 @@ end
 function import_application_usage(
     sourceS3Location,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "POST",
@@ -125,13 +125,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token value from a previous call to access the next page of results.
 """
-function list_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return applicationcostprofiler(
         "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_report_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return applicationcostprofiler(
         "GET",
@@ -164,7 +164,7 @@ function put_report_definition(
     reportDescription,
     reportFrequency,
     reportId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "POST",
@@ -187,7 +187,7 @@ function put_report_definition(
     reportFrequency,
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "POST",
@@ -231,7 +231,7 @@ function update_report_definition(
     reportDescription,
     reportFrequency,
     reportId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "PUT",
@@ -253,7 +253,7 @@ function update_report_definition(
     reportFrequency,
     reportId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return applicationcostprofiler(
         "PUT",
