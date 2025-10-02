@@ -52,7 +52,9 @@ end
 
 # Use Mocking to re-route requests to 169.254.169.254 without having to actually start an
 # HTTP.jl server. Should result in faster running tests.
-function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=true)
+function _imds_patch(
+    router::HTTP.Router=HTTP.Router(); listening=true, enabled=true, ttl_expired=false
+)
     patch = @patch function HTTP.request(
         method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...
     )
@@ -62,7 +64,10 @@ function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=
         end
 
         request = HTTP.Request(method, uri.path, headers, body)
-        response = if listening && enabled
+        response = if ttl_expired
+            io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+            throw(HTTP.Exceptions.RequestError(request, io_error))
+        elseif listening && enabled
             router(request)
         elseif listening && !enabled
             HTTP.Response(403)
@@ -144,6 +149,30 @@ end
             @test session.token == token
             @test session.duration == 60
             @test 0 <= session.expiration - (t + session.duration) <= 5
+        end
+
+        # Theoretical corner case that has not been observed in the wild.
+        @testset "invalidate session token" begin
+            # IMDSv2 hop limit is too low such that the TTL has expired
+            apply(_imds_patch(; ttl_expired=true)) do
+                # Set some initial values so we can tell what gets modified
+                session = IMDS.Session("bar", -1, -1)
+                @test IMDS.refresh_token!(session) === session
+                @test isempty(session.token)
+                @test session.duration == 0
+                @test session.expiration == typemax(Int64)
+            end
+
+            # IMDSv1 is available
+            router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(404))])
+            apply(_imds_patch(router)) do
+                # Set some initial values so we can tell what gets modified
+                session = IMDS.Session("bar", -1, -1)
+                @test IMDS.refresh_token!(session) === session
+                @test isempty(session.token)
+                @test session.duration == 0
+                @test session.expiration == typemax(Int64)
+            end
         end
     end
 

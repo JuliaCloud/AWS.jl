@@ -71,6 +71,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
                 "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/" *
                 "instancedata-data-retrieval.html#imds-considerations"
 
+            session.token = ""
             session.duration = 0
             session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
             return session
@@ -86,6 +87,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         session.duration = duration
         session.expiration = t + duration
     elseif r.status == 404
+        session.token = ""
         session.duration = 0
         session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
     else
