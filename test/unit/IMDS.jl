@@ -56,15 +56,24 @@ end
 # Use Mocking to re-route requests to 169.254.169.254 without having to actually start an
 # HTTP.jl server. Should result in faster running tests.
 function _imds_patch(
-    router::HTTP.Router=HTTP.Router(); listening=true, enabled=true,
+    router::HTTP.Router=HTTP.Router();
+    listening=true,
+    enabled=true,
     num_requests::Threads.Atomic{Int}=Threads.Atomic{Int}(),
 )
     num_requests[] = 0
 
     patch = @patch function HTTP.request(
-        method, url, headers=[], body=HTTP.nobody; status_exception=true, retry::Bool=true,
-        retries::Int=4, retry_delays=ExponentialBackOff(; n=retries, factor=3),
-        retry_check=(args...) -> false, kwargs...
+        method,
+        url,
+        headers=[],
+        body=HTTP.nobody;
+        status_exception=true,
+        retry::Bool=true,
+        retries::Int=4,
+        retry_delays=ExponentialBackOff(; n=retries, factor=3),
+        retry_check=(args...) -> false,
+        kwargs...,
     )
         uri = HTTP.URI(url)
         if uri.host != "169.254.169.254"
@@ -88,26 +97,25 @@ function _imds_patch(
             # When `status_exception=false` retries do not occur as an exception needs to
             # be raised for them to work. This replicates how `HTTP.request` works.
             if status_exception && resp.status >= 300
-                ex = HTTP.Exceptions.StatusError(
-                    resp.status, req.method, req.target, resp
-                )
+                ex = HTTP.Exceptions.StatusError(resp.status, req.method, req.target, resp)
                 throw(ex)
             end
             return resp
         end
 
         retry_request = Base.retry(
-            handler,
+            handler;
             delays=retry_delays,
             check=(s, ex) -> begin
                 resp_body = get(req.context, :response_body, nothing)
                 resp = !isnothing(resp_body) ? req.response : nothing
                 retry = (
-                    (HTTP.RetryRequest.isrecoverable(ex) && HTTP.retryable(req)) ||
-                    (HTTP.retryablebody(req) && retry_check(s, ex, req, resp, resp_body))
+                    (HTTP.RetryRequest.isrecoverable(ex) && HTTP.retryable(req)) || (
+                        HTTP.retryablebody(req) && retry_check(s, ex, req, resp, resp_body)
+                    )
                 )
                 return retry
-            end
+            end,
         )
 
         return retry_request(req)
@@ -187,9 +195,7 @@ end
                 io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
                 throw(HTTP.Exceptions.RequestError(request, io_error))
             end
-            router = Router([
-                Route("PUT", "/latest/api/token", connection_timeout),
-            ])
+            router = Router([Route("PUT", "/latest/api/token", connection_timeout)])
             apply(_imds_patch(router)) do
                 # Set some initial values so we can tell what gets modified
                 session = IMDS.Session("bar", -1, -1)
@@ -203,7 +209,9 @@ end
             end
 
             # IMDSv1 is available
-            router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(404))])
+            router = Router([
+                response_route("PUT", "/latest/api/token", HTTP.Response(404))
+            ])
             apply(_imds_patch(router)) do
                 # Set some initial values so we can tell what gets modified
                 session = IMDS.Session("bar", -1, -1)

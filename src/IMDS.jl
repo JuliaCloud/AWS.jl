@@ -99,7 +99,9 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     return session
 end
 
-function request(session::Session, method::AbstractString, path::AbstractString; status_exception=true)
+function request(
+    session::Session, method::AbstractString, path::AbstractString; status_exception=true
+)
     # Only allow the token to be refreshed once per call to `IMDS.request`.
     allow_refresh = true
 
@@ -111,7 +113,9 @@ function request(session::Session, method::AbstractString, path::AbstractString;
         allow_refresh = false
     end
     headers = HTTP.Header[]
-    !isempty(session.token) && HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
+    if !isempty(session.token)
+        HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
+    end
 
     # Only using the IPv4 endpoint as the IPv6 endpoint has to be explicitly enabled and
     # does not disable IPv4 support.
@@ -146,9 +150,7 @@ function _http_request(args...; status_exception=true, kwargs...)
         #
         # Additionally, we set a low connect timeout to have faster responses when
         # attempting to connect to IMDS outside of EC2.
-        @mock HTTP.request(
-            args...; connect_timeout=1, kwargs..., status_exception=true,
-        )
+        @mock HTTP.request(args...; connect_timeout=1, kwargs..., status_exception=true)
     catch e
         # When running outside of an EC2 instance the link-local address will be unavailable
         # and connections will fail. On EC2 instances where IMDS is disabled a HTTP 403 is
