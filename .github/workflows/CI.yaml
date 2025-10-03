@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Debug OIDC Claims
-        # if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
         # TODO: Switch to `steve-todorov/oidc-debugger-action@v1` once it's working
         run: |
           TOKEN_JSON="$(curl -fsSL -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN:?}" "${ACTIONS_ID_TOKEN_REQUEST_URL:?}&audience=${audience:?}")"
