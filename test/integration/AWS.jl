@@ -462,6 +462,14 @@ end
     @testset "Glacier" begin
         @test AWSServices.glacier isa RestJSONService
 
+        function wait_for_vault_deletion(vault_name)
+            timedwait(60; pollint=5) do
+                result = Glacier.list_vaults("-")
+                available_vault_names = [v["VaultName"] for v in result["VaultList"]]
+                return !(vault_name in available_vault_names)
+            end
+        end
+
         @testset "high-level" begin
             timestamp = _now_formatted()
             vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp"]
@@ -500,11 +508,8 @@ end
                 end
             end
 
-            result = Glacier.list_vaults("-")
-            res_vault_names = [v["VaultName"] for v in result["VaultList"]]
-
-            for vault in vault_names
-                @test !(vault in res_vault_names)
+            for vault_name in vault_names
+                @test wait_for_vault_deletion(vault_name) === :ok
             end
         end
 
@@ -548,11 +553,8 @@ end
                 end
             end
 
-            result = AWSServices.glacier("GET", "/-/vaults")
-            res_vault_names = [v["VaultName"] for v in result["VaultList"]]
-
-            for vault in vault_names
-                @test !(vault in res_vault_names)
+            for vault_name in vault_names
+                @test wait_for_vault_deletion(vault_name) === :ok
             end
         end
     end
