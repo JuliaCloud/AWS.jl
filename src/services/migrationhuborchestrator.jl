@@ -34,7 +34,7 @@ function create_template(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_template(
@@ -58,7 +58,7 @@ function create_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -91,7 +91,7 @@ function create_workflow(
             "inputParameters" => inputParameters, "name" => name, "templateId" => templateId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workflow(
@@ -116,7 +116,7 @@ function create_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -160,7 +160,7 @@ function create_workflow_step(
             "workflowId" => workflowId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workflow_step(
@@ -187,7 +187,7 @@ function create_workflow_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -215,7 +215,7 @@ function create_workflow_step_group(
         "/workflowstepgroups",
         Dict{String,Any}("name" => name, "workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workflow_step_group(
@@ -233,7 +233,7 @@ function create_workflow_step_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -249,7 +249,10 @@ Deletes a migration workflow template.
 """
 function delete_template(id; aws_config::AbstractAWSConfig=global_aws_config())
     return migrationhuborchestrator(
-        "DELETE", "/template/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE",
+        "/template/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_template(
@@ -260,7 +263,7 @@ function delete_template(
         "/template/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -280,7 +283,7 @@ function delete_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
         "DELETE",
         "/migrationworkflow/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workflow(
@@ -291,7 +294,7 @@ function delete_workflow(
         "/migrationworkflow/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -315,7 +318,7 @@ function delete_workflow_step(
         "/workflowstep/$(id)",
         Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workflow_step(
@@ -336,7 +339,7 @@ function delete_workflow_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -359,7 +362,7 @@ function delete_workflow_step_group(
         "/workflowstepgroup/$(id)",
         Dict{String,Any}("workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workflow_step_group(
@@ -375,7 +378,7 @@ function delete_workflow_step_group(
             mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -394,7 +397,7 @@ function get_template(id; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/migrationworkflowtemplate/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_template(
@@ -405,7 +408,7 @@ function get_template(
         "/migrationworkflowtemplate/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -429,7 +432,7 @@ function get_template_step(
         "/templatestep/$(id)",
         Dict{String,Any}("stepGroupId" => stepGroupId, "templateId" => templateId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_template_step(
@@ -450,7 +453,7 @@ function get_template_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -472,7 +475,7 @@ function get_template_step_group(
         "GET",
         "/templates/$(templateId)/stepgroups/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_template_step_group(
@@ -486,7 +489,7 @@ function get_template_step_group(
         "/templates/$(templateId)/stepgroups/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +508,7 @@ function get_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/migrationworkflow/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow(
@@ -516,7 +519,7 @@ function get_workflow(
         "/migrationworkflow/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -540,7 +543,7 @@ function get_workflow_step(
         "/workflowstep/$(id)",
         Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow_step(
@@ -561,7 +564,7 @@ function get_workflow_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -584,7 +587,7 @@ function get_workflow_step_group(
         "/workflowstepgroup/$(id)",
         Dict{String,Any}("workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow_step_group(
@@ -600,7 +603,7 @@ function get_workflow_step_group(
             mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -617,14 +620,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_plugins(; aws_config::AbstractAWSConfig=global_aws_config())
     return migrationhuborchestrator(
-        "GET", "/plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_plugins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return migrationhuborchestrator(
-        "GET", "/plugins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/plugins", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -645,7 +648,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -658,7 +661,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -683,7 +686,7 @@ function list_template_step_groups(
         "GET",
         "/templatestepgroups/$(templateId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_step_groups(
@@ -696,7 +699,7 @@ function list_template_step_groups(
         "/templatestepgroups/$(templateId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -723,7 +726,7 @@ function list_template_steps(
         "/templatesteps",
         Dict{String,Any}("stepGroupId" => stepGroupId, "templateId" => templateId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_steps(
@@ -743,7 +746,7 @@ function list_template_steps(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -764,7 +767,7 @@ function list_templates(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/migrationworkflowtemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_templates(
@@ -775,7 +778,7 @@ function list_templates(
         "/migrationworkflowtemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -801,7 +804,7 @@ function list_workflow_step_groups(
         "/workflowstepgroups",
         Dict{String,Any}("workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflow_step_groups(
@@ -816,7 +819,7 @@ function list_workflow_step_groups(
             mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -842,7 +845,7 @@ function list_workflow_steps(
         "GET",
         "/workflow/$(workflowId)/workflowstepgroups/$(stepGroupId)/workflowsteps";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflow_steps(
@@ -856,7 +859,7 @@ function list_workflow_steps(
         "/workflow/$(workflowId)/workflowstepgroups/$(stepGroupId)/workflowsteps",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -878,7 +881,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
     return migrationhuborchestrator(
-        "GET", "/migrationworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/migrationworkflows";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflows(
@@ -889,7 +895,7 @@ function list_workflows(
         "/migrationworkflows",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -913,7 +919,7 @@ function retry_workflow_step(
         "/retryworkflowstep/$(id)",
         Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function retry_workflow_step(
@@ -934,7 +940,7 @@ function retry_workflow_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -953,7 +959,7 @@ function start_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/migrationworkflow/$(id)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_workflow(
@@ -964,7 +970,7 @@ function start_workflow(
         "/migrationworkflow/$(id)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -983,7 +989,7 @@ function stop_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/migrationworkflow/$(id)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_workflow(
@@ -994,7 +1000,7 @@ function stop_workflow(
         "/migrationworkflow/$(id)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1023,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1031,7 +1037,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1055,7 +1061,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1069,7 +1075,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1095,7 +1101,7 @@ function update_template(id; aws_config::AbstractAWSConfig=global_aws_config())
         "/template/$(id)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template(
@@ -1108,7 +1114,7 @@ function update_template(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1133,7 +1139,7 @@ function update_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/migrationworkflow/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workflow(
@@ -1144,7 +1150,7 @@ function update_workflow(
         "/migrationworkflow/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1181,7 +1187,7 @@ function update_workflow_step(
         "/workflowstep/$(id)",
         Dict{String,Any}("stepGroupId" => stepGroupId, "workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workflow_step(
@@ -1202,7 +1208,7 @@ function update_workflow_step(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1231,7 +1237,7 @@ function update_workflow_step_group(
         "/workflowstepgroup/$(id)",
         Dict{String,Any}("workflowId" => workflowId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workflow_step_group(
@@ -1247,6 +1253,6 @@ function update_workflow_step_group(
             mergewith(_merge, Dict{String,Any}("workflowId" => workflowId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

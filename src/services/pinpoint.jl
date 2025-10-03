@@ -22,7 +22,7 @@ function create_app(
         "/v1/apps",
         Dict{String,Any}("CreateApplicationRequest" => CreateApplicationRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app(
@@ -41,7 +41,7 @@ function create_app(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -66,7 +66,7 @@ function create_campaign(
         "/v1/apps/$(application-id)/campaigns",
         Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_campaign(
@@ -86,7 +86,7 @@ function create_campaign(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -111,7 +111,7 @@ function create_email_template(
         "/v1/templates/$(template-name)/email",
         Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_email_template(
@@ -131,7 +131,7 @@ function create_email_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -155,7 +155,7 @@ function create_export_job(
         "/v1/apps/$(application-id)/jobs/export",
         Dict{String,Any}("ExportJobRequest" => ExportJobRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_export_job(
@@ -173,7 +173,7 @@ function create_export_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -197,7 +197,7 @@ function create_import_job(
         "/v1/apps/$(application-id)/jobs/import",
         Dict{String,Any}("ImportJobRequest" => ImportJobRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_import_job(
@@ -215,7 +215,7 @@ function create_import_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -240,7 +240,7 @@ function create_in_app_template(
         "/v1/templates/$(template-name)/inapp",
         Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_in_app_template(
@@ -260,7 +260,7 @@ function create_in_app_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -284,7 +284,7 @@ function create_journey(
         "/v1/apps/$(application-id)/journeys",
         Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_journey(
@@ -304,7 +304,7 @@ function create_journey(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -333,7 +333,7 @@ function create_push_template(
             "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_push_template(
@@ -355,7 +355,7 @@ function create_push_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -379,7 +379,7 @@ function create_recommender_configuration(
             "CreateRecommenderConfiguration" => CreateRecommenderConfiguration
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_recommender_configuration(
@@ -400,7 +400,7 @@ function create_recommender_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -425,7 +425,7 @@ function create_segment(
         "/v1/apps/$(application-id)/segments",
         Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_segment(
@@ -445,7 +445,7 @@ function create_segment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +470,7 @@ function create_sms_template(
         "/v1/templates/$(template-name)/sms",
         Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_sms_template(
@@ -488,7 +488,7 @@ function create_sms_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -513,7 +513,7 @@ function create_voice_template(
         "/v1/templates/$(template-name)/voice",
         Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_voice_template(
@@ -533,7 +533,7 @@ function create_voice_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -556,7 +556,7 @@ function delete_adm_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/adm";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_adm_channel(
@@ -569,7 +569,7 @@ function delete_adm_channel(
         "/v1/apps/$(application-id)/channels/adm",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -592,7 +592,7 @@ function delete_apns_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_apns_channel(
@@ -605,7 +605,7 @@ function delete_apns_channel(
         "/v1/apps/$(application-id)/channels/apns",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -628,7 +628,7 @@ function delete_apns_sandbox_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns_sandbox";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_apns_sandbox_channel(
@@ -641,7 +641,7 @@ function delete_apns_sandbox_channel(
         "/v1/apps/$(application-id)/channels/apns_sandbox",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -664,7 +664,7 @@ function delete_apns_voip_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns_voip";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_apns_voip_channel(
@@ -677,7 +677,7 @@ function delete_apns_voip_channel(
         "/v1/apps/$(application-id)/channels/apns_voip",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -700,7 +700,7 @@ function delete_apns_voip_sandbox_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_apns_voip_sandbox_channel(
@@ -713,7 +713,7 @@ function delete_apns_voip_sandbox_channel(
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -733,7 +733,7 @@ function delete_app(application_id; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/v1/apps/$(application-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_app(
@@ -746,7 +746,7 @@ function delete_app(
         "/v1/apps/$(application-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -769,7 +769,7 @@ function delete_baidu_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/baidu";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_baidu_channel(
@@ -782,7 +782,7 @@ function delete_baidu_channel(
         "/v1/apps/$(application-id)/channels/baidu",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -805,7 +805,7 @@ function delete_campaign(
         "DELETE",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_campaign(
@@ -819,7 +819,7 @@ function delete_campaign(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -842,7 +842,7 @@ function delete_email_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/email";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_email_channel(
@@ -855,7 +855,7 @@ function delete_email_channel(
         "/v1/apps/$(application-id)/channels/email",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -891,7 +891,7 @@ function delete_email_template(
         "DELETE",
         "/v1/templates/$(template-name)/email";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_email_template(
@@ -904,7 +904,7 @@ function delete_email_template(
         "/v1/templates/$(template-name)/email",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -928,7 +928,7 @@ function delete_endpoint(
         "DELETE",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_endpoint(
@@ -942,7 +942,7 @@ function delete_endpoint(
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -964,7 +964,7 @@ function delete_event_stream(
         "DELETE",
         "/v1/apps/$(application-id)/eventstream";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_stream(
@@ -977,7 +977,7 @@ function delete_event_stream(
         "/v1/apps/$(application-id)/eventstream",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1000,7 +1000,7 @@ function delete_gcm_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/gcm";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_gcm_channel(
@@ -1013,7 +1013,7 @@ function delete_gcm_channel(
         "/v1/apps/$(application-id)/channels/gcm",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1049,7 +1049,7 @@ function delete_in_app_template(
         "DELETE",
         "/v1/templates/$(template-name)/inapp";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_in_app_template(
@@ -1062,7 +1062,7 @@ function delete_in_app_template(
         "/v1/templates/$(template-name)/inapp",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1085,7 +1085,7 @@ function delete_journey(
         "DELETE",
         "/v1/apps/$(application-id)/journeys/$(journey-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_journey(
@@ -1099,7 +1099,7 @@ function delete_journey(
         "/v1/apps/$(application-id)/journeys/$(journey-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1135,7 +1135,7 @@ function delete_push_template(
         "DELETE",
         "/v1/templates/$(template-name)/push";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_push_template(
@@ -1148,7 +1148,7 @@ function delete_push_template(
         "/v1/templates/$(template-name)/push",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1170,7 +1170,7 @@ function delete_recommender_configuration(
         "DELETE",
         "/v1/recommenders/$(recommender-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_recommender_configuration(
@@ -1183,7 +1183,7 @@ function delete_recommender_configuration(
         "/v1/recommenders/$(recommender-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1206,7 +1206,7 @@ function delete_segment(
         "DELETE",
         "/v1/apps/$(application-id)/segments/$(segment-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_segment(
@@ -1220,7 +1220,7 @@ function delete_segment(
         "/v1/apps/$(application-id)/segments/$(segment-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1243,7 +1243,7 @@ function delete_sms_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/sms";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sms_channel(
@@ -1256,7 +1256,7 @@ function delete_sms_channel(
         "/v1/apps/$(application-id)/channels/sms",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1292,7 +1292,7 @@ function delete_sms_template(
         "DELETE",
         "/v1/templates/$(template-name)/sms";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_sms_template(
@@ -1305,7 +1305,7 @@ function delete_sms_template(
         "/v1/templates/$(template-name)/sms",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1328,7 +1328,7 @@ function delete_user_endpoints(
         "DELETE",
         "/v1/apps/$(application-id)/users/$(user-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user_endpoints(
@@ -1342,7 +1342,7 @@ function delete_user_endpoints(
         "/v1/apps/$(application-id)/users/$(user-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1365,7 +1365,7 @@ function delete_voice_channel(
         "DELETE",
         "/v1/apps/$(application-id)/channels/voice";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_channel(
@@ -1378,7 +1378,7 @@ function delete_voice_channel(
         "/v1/apps/$(application-id)/channels/voice",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1414,7 +1414,7 @@ function delete_voice_template(
         "DELETE",
         "/v1/templates/$(template-name)/voice";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_voice_template(
@@ -1427,7 +1427,7 @@ function delete_voice_template(
         "/v1/templates/$(template-name)/voice",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1447,7 +1447,7 @@ function get_adm_channel(application_id; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apps/$(application-id)/channels/adm";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_adm_channel(
@@ -1460,7 +1460,7 @@ function get_adm_channel(
         "/v1/apps/$(application-id)/channels/adm",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1480,7 +1480,7 @@ function get_apns_channel(application_id; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/v1/apps/$(application-id)/channels/apns";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_apns_channel(
@@ -1493,7 +1493,7 @@ function get_apns_channel(
         "/v1/apps/$(application-id)/channels/apns",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1516,7 +1516,7 @@ function get_apns_sandbox_channel(
         "GET",
         "/v1/apps/$(application-id)/channels/apns_sandbox";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_apns_sandbox_channel(
@@ -1529,7 +1529,7 @@ function get_apns_sandbox_channel(
         "/v1/apps/$(application-id)/channels/apns_sandbox",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1552,7 +1552,7 @@ function get_apns_voip_channel(
         "GET",
         "/v1/apps/$(application-id)/channels/apns_voip";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_apns_voip_channel(
@@ -1565,7 +1565,7 @@ function get_apns_voip_channel(
         "/v1/apps/$(application-id)/channels/apns_voip",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1588,7 +1588,7 @@ function get_apns_voip_sandbox_channel(
         "GET",
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_apns_voip_sandbox_channel(
@@ -1601,7 +1601,7 @@ function get_apns_voip_sandbox_channel(
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1621,7 +1621,7 @@ function get_app(application_id; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/v1/apps/$(application-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_app(
@@ -1634,7 +1634,7 @@ function get_app(
         "/v1/apps/$(application-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1676,7 +1676,7 @@ function get_application_date_range_kpi(
         "GET",
         "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_date_range_kpi(
@@ -1690,7 +1690,7 @@ function get_application_date_range_kpi(
         "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1712,7 +1712,7 @@ function get_application_settings(
         "GET",
         "/v1/apps/$(application-id)/settings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_application_settings(
@@ -1725,7 +1725,7 @@ function get_application_settings(
         "/v1/apps/$(application-id)/settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1745,14 +1745,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_apps(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint(
-        "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return pinpoint(
-        "GET", "/v1/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1774,7 +1774,7 @@ function get_baidu_channel(
         "GET",
         "/v1/apps/$(application-id)/channels/baidu";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_baidu_channel(
@@ -1787,7 +1787,7 @@ function get_baidu_channel(
         "/v1/apps/$(application-id)/channels/baidu",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1810,7 +1810,7 @@ function get_campaign(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign(
@@ -1824,7 +1824,7 @@ function get_campaign(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1853,7 +1853,7 @@ function get_campaign_activities(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign_activities(
@@ -1867,7 +1867,7 @@ function get_campaign_activities(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1909,7 +1909,7 @@ function get_campaign_date_range_kpi(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign_date_range_kpi(
@@ -1924,7 +1924,7 @@ function get_campaign_date_range_kpi(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1949,7 +1949,7 @@ function get_campaign_version(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign_version(
@@ -1964,7 +1964,7 @@ function get_campaign_version(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1994,7 +1994,7 @@ function get_campaign_versions(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign_versions(
@@ -2008,7 +2008,7 @@ function get_campaign_versions(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2035,7 +2035,7 @@ function get_campaigns(application_id; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/v1/apps/$(application-id)/campaigns";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaigns(
@@ -2048,7 +2048,7 @@ function get_campaigns(
         "/v1/apps/$(application-id)/campaigns",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2068,7 +2068,7 @@ function get_channels(application_id; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/apps/$(application-id)/channels";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channels(
@@ -2081,7 +2081,7 @@ function get_channels(
         "/v1/apps/$(application-id)/channels",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2103,7 +2103,7 @@ function get_email_channel(
         "GET",
         "/v1/apps/$(application-id)/channels/email";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_email_channel(
@@ -2116,7 +2116,7 @@ function get_email_channel(
         "/v1/apps/$(application-id)/channels/email",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2153,7 +2153,7 @@ function get_email_template(
         "GET",
         "/v1/templates/$(template-name)/email";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_email_template(
@@ -2166,7 +2166,7 @@ function get_email_template(
         "/v1/templates/$(template-name)/email",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2191,7 +2191,7 @@ function get_endpoint(
         "GET",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_endpoint(
@@ -2205,7 +2205,7 @@ function get_endpoint(
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2225,7 +2225,7 @@ function get_event_stream(application_id; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/v1/apps/$(application-id)/eventstream";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_stream(
@@ -2238,7 +2238,7 @@ function get_event_stream(
         "/v1/apps/$(application-id)/eventstream",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2262,7 +2262,7 @@ function get_export_job(
         "GET",
         "/v1/apps/$(application-id)/jobs/export/$(job-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_export_job(
@@ -2276,7 +2276,7 @@ function get_export_job(
         "/v1/apps/$(application-id)/jobs/export/$(job-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2303,7 +2303,7 @@ function get_export_jobs(application_id; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apps/$(application-id)/jobs/export";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_export_jobs(
@@ -2316,7 +2316,7 @@ function get_export_jobs(
         "/v1/apps/$(application-id)/jobs/export",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2336,7 +2336,7 @@ function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apps/$(application-id)/channels/gcm";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_gcm_channel(
@@ -2349,7 +2349,7 @@ function get_gcm_channel(
         "/v1/apps/$(application-id)/channels/gcm",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2373,7 +2373,7 @@ function get_import_job(
         "GET",
         "/v1/apps/$(application-id)/jobs/import/$(job-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_import_job(
@@ -2387,7 +2387,7 @@ function get_import_job(
         "/v1/apps/$(application-id)/jobs/import/$(job-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2414,7 +2414,7 @@ function get_import_jobs(application_id; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apps/$(application-id)/jobs/import";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_import_jobs(
@@ -2427,7 +2427,7 @@ function get_import_jobs(
         "/v1/apps/$(application-id)/jobs/import",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2450,7 +2450,7 @@ function get_in_app_messages(
         "GET",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_in_app_messages(
@@ -2464,7 +2464,7 @@ function get_in_app_messages(
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2501,7 +2501,7 @@ function get_in_app_template(
         "GET",
         "/v1/templates/$(template-name)/inapp";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_in_app_template(
@@ -2514,7 +2514,7 @@ function get_in_app_template(
         "/v1/templates/$(template-name)/inapp",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2537,7 +2537,7 @@ function get_journey(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey(
@@ -2551,7 +2551,7 @@ function get_journey(
         "/v1/apps/$(application-id)/journeys/$(journey-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2594,7 +2594,7 @@ function get_journey_date_range_kpi(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey_date_range_kpi(
@@ -2609,7 +2609,7 @@ function get_journey_date_range_kpi(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2643,7 +2643,7 @@ function get_journey_execution_activity_metrics(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey_execution_activity_metrics(
@@ -2658,7 +2658,7 @@ function get_journey_execution_activity_metrics(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2688,7 +2688,7 @@ function get_journey_execution_metrics(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey_execution_metrics(
@@ -2702,7 +2702,7 @@ function get_journey_execution_metrics(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2738,7 +2738,7 @@ function get_journey_run_execution_activity_metrics(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey_run_execution_activity_metrics(
@@ -2754,7 +2754,7 @@ function get_journey_run_execution_activity_metrics(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2785,7 +2785,7 @@ function get_journey_run_execution_metrics(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey_run_execution_metrics(
@@ -2800,7 +2800,7 @@ function get_journey_run_execution_metrics(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2829,7 +2829,7 @@ function get_journey_runs(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/runs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_journey_runs(
@@ -2843,7 +2843,7 @@ function get_journey_runs(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/runs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2878,7 +2878,7 @@ function get_push_template(template_name; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/v1/templates/$(template-name)/push";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_push_template(
@@ -2891,7 +2891,7 @@ function get_push_template(
         "/v1/templates/$(template-name)/push",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2913,7 +2913,7 @@ function get_recommender_configuration(
         "GET",
         "/v1/recommenders/$(recommender-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_recommender_configuration(
@@ -2926,7 +2926,7 @@ function get_recommender_configuration(
         "/v1/recommenders/$(recommender-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2946,7 +2946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_recommender_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint(
-        "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_recommender_configurations(
@@ -2957,7 +2957,7 @@ function get_recommender_configurations(
         "/v1/recommenders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2981,7 +2981,7 @@ function get_segment(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segment(
@@ -2995,7 +2995,7 @@ function get_segment(
         "/v1/apps/$(application-id)/segments/$(segment-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3024,7 +3024,7 @@ function get_segment_export_jobs(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segment_export_jobs(
@@ -3038,7 +3038,7 @@ function get_segment_export_jobs(
         "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3067,7 +3067,7 @@ function get_segment_import_jobs(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segment_import_jobs(
@@ -3081,7 +3081,7 @@ function get_segment_import_jobs(
         "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3106,7 +3106,7 @@ function get_segment_version(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segment_version(
@@ -3121,7 +3121,7 @@ function get_segment_version(
         "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3151,7 +3151,7 @@ function get_segment_versions(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segment_versions(
@@ -3165,7 +3165,7 @@ function get_segment_versions(
         "/v1/apps/$(application-id)/segments/$(segment-id)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3192,7 +3192,7 @@ function get_segments(application_id; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/v1/apps/$(application-id)/segments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_segments(
@@ -3205,7 +3205,7 @@ function get_segments(
         "/v1/apps/$(application-id)/segments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3225,7 +3225,7 @@ function get_sms_channel(application_id; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/apps/$(application-id)/channels/sms";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sms_channel(
@@ -3238,7 +3238,7 @@ function get_sms_channel(
         "/v1/apps/$(application-id)/channels/sms",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3273,7 +3273,7 @@ function get_sms_template(template_name; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v1/templates/$(template-name)/sms";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_sms_template(
@@ -3286,7 +3286,7 @@ function get_sms_template(
         "/v1/templates/$(template-name)/sms",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3309,7 +3309,7 @@ function get_user_endpoints(
         "GET",
         "/v1/apps/$(application-id)/users/$(user-id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_user_endpoints(
@@ -3323,7 +3323,7 @@ function get_user_endpoints(
         "/v1/apps/$(application-id)/users/$(user-id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3345,7 +3345,7 @@ function get_voice_channel(
         "GET",
         "/v1/apps/$(application-id)/channels/voice";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_channel(
@@ -3358,7 +3358,7 @@ function get_voice_channel(
         "/v1/apps/$(application-id)/channels/voice",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3395,7 +3395,7 @@ function get_voice_template(
         "GET",
         "/v1/templates/$(template-name)/voice";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_voice_template(
@@ -3408,7 +3408,7 @@ function get_voice_template(
         "/v1/templates/$(template-name)/voice",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3435,7 +3435,7 @@ function list_journeys(application_id; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/v1/apps/$(application-id)/journeys";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_journeys(
@@ -3448,7 +3448,7 @@ function list_journeys(
         "/v1/apps/$(application-id)/journeys",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3470,7 +3470,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -3483,7 +3483,7 @@ function list_tags_for_resource(
         "/v1/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3514,7 +3514,7 @@ function list_template_versions(
         "GET",
         "/v1/templates/$(template-name)/$(template-type)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_versions(
@@ -3528,7 +3528,7 @@ function list_template_versions(
         "/v1/templates/$(template-name)/$(template-type)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3554,7 +3554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_templates(; aws_config::AbstractAWSConfig=global_aws_config())
     return pinpoint(
-        "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_templates(
@@ -3565,7 +3565,7 @@ function list_templates(
         "/v1/templates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3587,7 +3587,7 @@ function phone_number_validate(
         "/v1/phone/number/validate",
         Dict{String,Any}("NumberValidateRequest" => NumberValidateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function phone_number_validate(
@@ -3606,7 +3606,7 @@ function phone_number_validate(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3631,7 +3631,7 @@ function put_event_stream(
         "/v1/apps/$(application-id)/eventstream",
         Dict{String,Any}("WriteEventStream" => WriteEventStream);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_event_stream(
@@ -3649,7 +3649,7 @@ function put_event_stream(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3674,7 +3674,7 @@ function put_events(
         "/v1/apps/$(application-id)/events",
         Dict{String,Any}("EventsRequest" => EventsRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_events(
@@ -3690,7 +3690,7 @@ function put_events(
             mergewith(_merge, Dict{String,Any}("EventsRequest" => EventsRequest), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3726,7 +3726,7 @@ function remove_attributes(
         "/v1/apps/$(application-id)/attributes/$(attribute-type)",
         Dict{String,Any}("UpdateAttributesRequest" => UpdateAttributesRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_attributes(
@@ -3747,7 +3747,7 @@ function remove_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3771,7 +3771,7 @@ function send_messages(
         "/v1/apps/$(application-id)/messages",
         Dict{String,Any}("MessageRequest" => MessageRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_messages(
@@ -3787,7 +3787,7 @@ function send_messages(
             mergewith(_merge, Dict{String,Any}("MessageRequest" => MessageRequest), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3814,7 +3814,7 @@ function send_otpmessage(
             "SendOTPMessageRequestParameters" => SendOTPMessageRequestParameters
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_otpmessage(
@@ -3836,7 +3836,7 @@ function send_otpmessage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3862,7 +3862,7 @@ function send_users_messages(
         "/v1/apps/$(application-id)/users-messages",
         Dict{String,Any}("SendUsersMessageRequest" => SendUsersMessageRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_users_messages(
@@ -3882,7 +3882,7 @@ function send_users_messages(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3906,7 +3906,7 @@ function tag_resource(
         "/v1/tags/$(resource-arn)",
         Dict{String,Any}("TagsModel" => TagsModel);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3922,7 +3922,7 @@ function tag_resource(
             mergewith(_merge, Dict{String,Any}("TagsModel" => TagsModel), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3948,7 +3948,7 @@ function untag_resource(
         "/v1/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3962,7 +3962,7 @@ function untag_resource(
         "/v1/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3987,7 +3987,7 @@ function update_adm_channel(
         "/v1/apps/$(application-id)/channels/adm",
         Dict{String,Any}("ADMChannelRequest" => ADMChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_adm_channel(
@@ -4005,7 +4005,7 @@ function update_adm_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4030,7 +4030,7 @@ function update_apns_channel(
         "/v1/apps/$(application-id)/channels/apns",
         Dict{String,Any}("APNSChannelRequest" => APNSChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_apns_channel(
@@ -4048,7 +4048,7 @@ function update_apns_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4075,7 +4075,7 @@ function update_apns_sandbox_channel(
         "/v1/apps/$(application-id)/channels/apns_sandbox",
         Dict{String,Any}("APNSSandboxChannelRequest" => APNSSandboxChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_apns_sandbox_channel(
@@ -4095,7 +4095,7 @@ function update_apns_sandbox_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4122,7 +4122,7 @@ function update_apns_voip_channel(
         "/v1/apps/$(application-id)/channels/apns_voip",
         Dict{String,Any}("APNSVoipChannelRequest" => APNSVoipChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_apns_voip_channel(
@@ -4142,7 +4142,7 @@ function update_apns_voip_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4169,7 +4169,7 @@ function update_apns_voip_sandbox_channel(
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
         Dict{String,Any}("APNSVoipSandboxChannelRequest" => APNSVoipSandboxChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_apns_voip_sandbox_channel(
@@ -4191,7 +4191,7 @@ function update_apns_voip_sandbox_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4219,7 +4219,7 @@ function update_application_settings(
             "WriteApplicationSettingsRequest" => WriteApplicationSettingsRequest
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_application_settings(
@@ -4241,7 +4241,7 @@ function update_application_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4266,7 +4266,7 @@ function update_baidu_channel(
         "/v1/apps/$(application-id)/channels/baidu",
         Dict{String,Any}("BaiduChannelRequest" => BaiduChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_baidu_channel(
@@ -4286,7 +4286,7 @@ function update_baidu_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4314,7 +4314,7 @@ function update_campaign(
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
         Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_campaign(
@@ -4335,7 +4335,7 @@ function update_campaign(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4360,7 +4360,7 @@ function update_email_channel(
         "/v1/apps/$(application-id)/channels/email",
         Dict{String,Any}("EmailChannelRequest" => EmailChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_email_channel(
@@ -4380,7 +4380,7 @@ function update_email_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4424,7 +4424,7 @@ function update_email_template(
         "/v1/templates/$(template-name)/email",
         Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_email_template(
@@ -4444,7 +4444,7 @@ function update_email_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4476,7 +4476,7 @@ function update_endpoint(
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
         Dict{String,Any}("EndpointRequest" => EndpointRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_endpoint(
@@ -4495,7 +4495,7 @@ function update_endpoint(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4523,7 +4523,7 @@ function update_endpoints_batch(
         "/v1/apps/$(application-id)/endpoints",
         Dict{String,Any}("EndpointBatchRequest" => EndpointBatchRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_endpoints_batch(
@@ -4543,7 +4543,7 @@ function update_endpoints_batch(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4568,7 +4568,7 @@ function update_gcm_channel(
         "/v1/apps/$(application-id)/channels/gcm",
         Dict{String,Any}("GCMChannelRequest" => GCMChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_gcm_channel(
@@ -4586,7 +4586,7 @@ function update_gcm_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4630,7 +4630,7 @@ function update_in_app_template(
         "/v1/templates/$(template-name)/inapp",
         Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_in_app_template(
@@ -4650,7 +4650,7 @@ function update_in_app_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4678,7 +4678,7 @@ function update_journey(
         "/v1/apps/$(application-id)/journeys/$(journey-id)",
         Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_journey(
@@ -4699,7 +4699,7 @@ function update_journey(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4727,7 +4727,7 @@ function update_journey_state(
         "/v1/apps/$(application-id)/journeys/$(journey-id)/state",
         Dict{String,Any}("JourneyStateRequest" => JourneyStateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_journey_state(
@@ -4748,7 +4748,7 @@ function update_journey_state(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4797,7 +4797,7 @@ function update_push_template(
             "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_push_template(
@@ -4819,7 +4819,7 @@ function update_push_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4847,7 +4847,7 @@ function update_recommender_configuration(
             "UpdateRecommenderConfiguration" => UpdateRecommenderConfiguration
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_recommender_configuration(
@@ -4869,7 +4869,7 @@ function update_recommender_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4898,7 +4898,7 @@ function update_segment(
         "/v1/apps/$(application-id)/segments/$(segment-id)",
         Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_segment(
@@ -4919,7 +4919,7 @@ function update_segment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -4944,7 +4944,7 @@ function update_sms_channel(
         "/v1/apps/$(application-id)/channels/sms",
         Dict{String,Any}("SMSChannelRequest" => SMSChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sms_channel(
@@ -4962,7 +4962,7 @@ function update_sms_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5006,7 +5006,7 @@ function update_sms_template(
         "/v1/templates/$(template-name)/sms",
         Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_sms_template(
@@ -5024,7 +5024,7 @@ function update_sms_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5054,7 +5054,7 @@ function update_template_active_version(
         "/v1/templates/$(template-name)/$(template-type)/active-version",
         Dict{String,Any}("TemplateActiveVersionRequest" => TemplateActiveVersionRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template_active_version(
@@ -5077,7 +5077,7 @@ function update_template_active_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5102,7 +5102,7 @@ function update_voice_channel(
         "/v1/apps/$(application-id)/channels/voice",
         Dict{String,Any}("VoiceChannelRequest" => VoiceChannelRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_voice_channel(
@@ -5122,7 +5122,7 @@ function update_voice_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5166,7 +5166,7 @@ function update_voice_template(
         "/v1/templates/$(template-name)/voice",
         Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_voice_template(
@@ -5186,7 +5186,7 @@ function update_voice_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -5213,7 +5213,7 @@ function verify_otpmessage(
             "VerifyOTPMessageRequestParameters" => VerifyOTPMessageRequestParameters
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_otpmessage(
@@ -5235,6 +5235,6 @@ function verify_otpmessage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

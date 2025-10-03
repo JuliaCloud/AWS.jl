@@ -38,7 +38,7 @@ function create_capability(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_capability(
@@ -63,7 +63,7 @@ function create_capability(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -103,7 +103,7 @@ function create_partnership(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_partnership(
@@ -130,7 +130,7 @@ function create_partnership(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -169,7 +169,7 @@ function create_profile(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_profile(
@@ -196,7 +196,7 @@ function create_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -243,7 +243,7 @@ function create_transformer(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_transformer(
@@ -270,7 +270,7 @@ function create_transformer(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -290,7 +290,7 @@ function delete_capability(capabilityId; aws_config::AbstractAWSConfig=global_aw
         "DeleteCapability",
         Dict{String,Any}("capabilityId" => capabilityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_capability(
@@ -304,7 +304,7 @@ function delete_capability(
             mergewith(_merge, Dict{String,Any}("capabilityId" => capabilityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -326,7 +326,7 @@ function delete_partnership(
         "DeletePartnership",
         Dict{String,Any}("partnershipId" => partnershipId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_partnership(
@@ -340,7 +340,7 @@ function delete_partnership(
             mergewith(_merge, Dict{String,Any}("partnershipId" => partnershipId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -360,7 +360,7 @@ function delete_profile(profileId; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteProfile",
         Dict{String,Any}("profileId" => profileId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile(
@@ -374,7 +374,7 @@ function delete_profile(
             mergewith(_merge, Dict{String,Any}("profileId" => profileId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -396,7 +396,7 @@ function delete_transformer(
         "DeleteTransformer",
         Dict{String,Any}("transformerId" => transformerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_transformer(
@@ -410,7 +410,7 @@ function delete_transformer(
             mergewith(_merge, Dict{String,Any}("transformerId" => transformerId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -430,7 +430,7 @@ function get_capability(capabilityId; aws_config::AbstractAWSConfig=global_aws_c
         "GetCapability",
         Dict{String,Any}("capabilityId" => capabilityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_capability(
@@ -444,7 +444,7 @@ function get_capability(
             mergewith(_merge, Dict{String,Any}("capabilityId" => capabilityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -465,7 +465,7 @@ function get_partnership(partnershipId; aws_config::AbstractAWSConfig=global_aws
         "GetPartnership",
         Dict{String,Any}("partnershipId" => partnershipId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_partnership(
@@ -479,7 +479,7 @@ function get_partnership(
             mergewith(_merge, Dict{String,Any}("partnershipId" => partnershipId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -499,7 +499,7 @@ function get_profile(profileId; aws_config::AbstractAWSConfig=global_aws_config(
         "GetProfile",
         Dict{String,Any}("profileId" => profileId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_profile(
@@ -513,7 +513,7 @@ function get_profile(
             mergewith(_merge, Dict{String,Any}("profileId" => profileId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -534,7 +534,7 @@ function get_transformer(transformerId; aws_config::AbstractAWSConfig=global_aws
         "GetTransformer",
         Dict{String,Any}("transformerId" => transformerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_transformer(
@@ -548,7 +548,7 @@ function get_transformer(
             mergewith(_merge, Dict{String,Any}("transformerId" => transformerId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -573,7 +573,7 @@ function get_transformer_job(
             "transformerId" => transformerId, "transformerJobId" => transformerJobId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_transformer_job(
@@ -594,7 +594,7 @@ function get_transformer_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,13 +614,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent command to continue listing additional resources.
 """
 function list_capabilities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return b2bi("ListCapabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return b2bi(
+        "ListCapabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_capabilities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return b2bi(
-        "ListCapabilities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCapabilities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -642,13 +644,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connected to this partnership.
 """
 function list_partnerships(; aws_config::AbstractAWSConfig=global_aws_config())
-    return b2bi("ListPartnerships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return b2bi(
+        "ListPartnerships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_partnerships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return b2bi(
-        "ListPartnerships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPartnerships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -668,13 +672,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent command to continue listing additional resources.
 """
 function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return b2bi("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return b2bi("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return b2bi(
-        "ListProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -698,7 +702,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -712,7 +716,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -731,13 +735,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent command to continue listing additional resources.
 """
 function list_transformers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return b2bi("ListTransformers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return b2bi(
+        "ListTransformers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_transformers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return b2bi(
-        "ListTransformers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTransformers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -777,7 +783,7 @@ function start_transformer_job(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_transformer_job(
@@ -802,7 +808,7 @@ function start_transformer_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -827,7 +833,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -846,7 +852,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -881,7 +887,7 @@ function test_mapping(
             "mappingTemplate" => mappingTemplate,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function test_mapping(
@@ -905,7 +911,7 @@ function test_mapping(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -935,7 +941,7 @@ function test_parsing(
             "ediType" => ediType, "fileFormat" => fileFormat, "inputFile" => inputFile
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function test_parsing(
@@ -959,7 +965,7 @@ function test_parsing(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -985,7 +991,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1004,7 +1010,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1032,7 +1038,7 @@ function update_capability(capabilityId; aws_config::AbstractAWSConfig=global_aw
         "UpdateCapability",
         Dict{String,Any}("capabilityId" => capabilityId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_capability(
@@ -1046,7 +1052,7 @@ function update_capability(
             mergewith(_merge, Dict{String,Any}("capabilityId" => capabilityId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1073,7 +1079,7 @@ function update_partnership(
         "UpdatePartnership",
         Dict{String,Any}("partnershipId" => partnershipId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_partnership(
@@ -1087,7 +1093,7 @@ function update_partnership(
             mergewith(_merge, Dict{String,Any}("partnershipId" => partnershipId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1113,7 +1119,7 @@ function update_profile(profileId; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateProfile",
         Dict{String,Any}("profileId" => profileId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_profile(
@@ -1127,7 +1133,7 @@ function update_profile(
             mergewith(_merge, Dict{String,Any}("profileId" => profileId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1163,7 +1169,7 @@ function update_transformer(
         "UpdateTransformer",
         Dict{String,Any}("transformerId" => transformerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_transformer(
@@ -1177,6 +1183,6 @@ function update_transformer(
             mergewith(_merge, Dict{String,Any}("transformerId" => transformerId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

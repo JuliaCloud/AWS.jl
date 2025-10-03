@@ -40,7 +40,7 @@ function add_policy_statement(
         "/policies/$(arn)/$(statementId)",
         Dict{String,Any}("action" => action, "effect" => effect, "principal" => principal);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_policy_statement(
@@ -65,7 +65,7 @@ function add_policy_statement(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -91,7 +91,7 @@ function batch_delete_unique_id(
         "/matchingworkflows/$(workflowName)/uniqueids",
         Dict{String,Any}("headers" => Dict{String,Any}("uniqueIds" => uniqueIds));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_unique_id(
@@ -111,7 +111,7 @@ function batch_delete_unique_id(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -157,7 +157,7 @@ function create_id_mapping_workflow(
             "workflowName" => workflowName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_id_mapping_workflow(
@@ -184,7 +184,7 @@ function create_id_mapping_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -222,7 +222,7 @@ function create_id_namespace(
         "/idnamespaces",
         Dict{String,Any}("idNamespaceName" => idNamespaceName, "type" => type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_id_namespace(
@@ -242,7 +242,7 @@ function create_id_namespace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -292,7 +292,7 @@ function create_matching_workflow(
             "workflowName" => workflowName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_matching_workflow(
@@ -321,7 +321,7 @@ function create_matching_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -355,7 +355,7 @@ function create_schema_mapping(
             "mappedInputFields" => mappedInputFields, "schemaName" => schemaName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_schema_mapping(
@@ -377,7 +377,7 @@ function create_schema_mapping(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -399,7 +399,7 @@ function delete_id_mapping_workflow(
         "DELETE",
         "/idmappingworkflows/$(workflowName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_id_mapping_workflow(
@@ -412,7 +412,7 @@ function delete_id_mapping_workflow(
         "/idmappingworkflows/$(workflowName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -433,7 +433,7 @@ function delete_id_namespace(
         "DELETE",
         "/idnamespaces/$(idNamespaceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_id_namespace(
@@ -446,7 +446,7 @@ function delete_id_namespace(
         "/idnamespaces/$(idNamespaceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -468,7 +468,7 @@ function delete_matching_workflow(
         "DELETE",
         "/matchingworkflows/$(workflowName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_matching_workflow(
@@ -481,7 +481,7 @@ function delete_matching_workflow(
         "/matchingworkflows/$(workflowName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -504,7 +504,7 @@ function delete_policy_statement(
         "DELETE",
         "/policies/$(arn)/$(statementId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_policy_statement(
@@ -518,7 +518,7 @@ function delete_policy_statement(
         "/policies/$(arn)/$(statementId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -541,7 +541,7 @@ function delete_schema_mapping(
         "DELETE",
         "/schemas/$(schemaName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_schema_mapping(
@@ -554,7 +554,7 @@ function delete_schema_mapping(
         "/schemas/$(schemaName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -576,7 +576,7 @@ function get_id_mapping_job(
         "GET",
         "/idmappingworkflows/$(workflowName)/jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_id_mapping_job(
@@ -590,7 +590,7 @@ function get_id_mapping_job(
         "/idmappingworkflows/$(workflowName)/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -611,7 +611,7 @@ function get_id_mapping_workflow(
         "GET",
         "/idmappingworkflows/$(workflowName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_id_mapping_workflow(
@@ -624,7 +624,7 @@ function get_id_mapping_workflow(
         "/idmappingworkflows/$(workflowName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -645,7 +645,7 @@ function get_id_namespace(
         "GET",
         "/idnamespaces/$(idNamespaceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_id_namespace(
@@ -658,7 +658,7 @@ function get_id_namespace(
         "/idnamespaces/$(idNamespaceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -687,7 +687,7 @@ function get_match_id(
         "/matchingworkflows/$(workflowName)/matches",
         Dict{String,Any}("record" => record);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_match_id(
@@ -701,7 +701,7 @@ function get_match_id(
         "/matchingworkflows/$(workflowName)/matches",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("record" => record), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -723,7 +723,7 @@ function get_matching_job(
         "GET",
         "/matchingworkflows/$(workflowName)/jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_matching_job(
@@ -737,7 +737,7 @@ function get_matching_job(
         "/matchingworkflows/$(workflowName)/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -758,7 +758,7 @@ function get_matching_workflow(
         "GET",
         "/matchingworkflows/$(workflowName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_matching_workflow(
@@ -771,7 +771,7 @@ function get_matching_workflow(
         "/matchingworkflows/$(workflowName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -788,7 +788,7 @@ Returns the resource-based policy.
 """
 function get_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return entityresolution(
-        "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_policy(
@@ -799,7 +799,7 @@ function get_policy(
         "/policies/$(arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -822,7 +822,7 @@ function get_provider_service(
         "GET",
         "/providerservices/$(providerName)/$(providerServiceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_provider_service(
@@ -836,7 +836,7 @@ function get_provider_service(
         "/providerservices/$(providerName)/$(providerServiceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -855,7 +855,7 @@ function get_schema_mapping(schemaName; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/schemas/$(schemaName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_schema_mapping(
@@ -868,7 +868,7 @@ function get_schema_mapping(
         "/schemas/$(schemaName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -893,7 +893,7 @@ function list_id_mapping_jobs(
         "GET",
         "/idmappingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_id_mapping_jobs(
@@ -906,7 +906,7 @@ function list_id_mapping_jobs(
         "/idmappingworkflows/$(workflowName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -924,7 +924,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_id_mapping_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
     return entityresolution(
-        "GET", "/idmappingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/idmappingworkflows";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_id_mapping_workflows(
@@ -935,7 +938,7 @@ function list_id_mapping_workflows(
         "/idmappingworkflows",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -952,7 +955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_id_namespaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return entityresolution(
-        "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_id_namespaces(
@@ -963,7 +966,7 @@ function list_id_namespaces(
         "/idnamespaces",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -986,7 +989,7 @@ function list_matching_jobs(workflowName; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/matchingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_matching_jobs(
@@ -999,7 +1002,7 @@ function list_matching_jobs(
         "/matchingworkflows/$(workflowName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,7 +1020,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_matching_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
     return entityresolution(
-        "GET", "/matchingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/matchingworkflows";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_matching_workflows(
@@ -1028,7 +1034,7 @@ function list_matching_workflows(
         "/matchingworkflows",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_provider_services(; aws_config::AbstractAWSConfig=global_aws_config())
     return entityresolution(
-        "GET", "/providerservices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/providerservices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_provider_services(
@@ -1058,7 +1064,7 @@ function list_provider_services(
         "/providerservices",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1076,14 +1082,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_schema_mappings(; aws_config::AbstractAWSConfig=global_aws_config())
     return entityresolution(
-        "GET", "/schemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/schemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_schema_mappings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return entityresolution(
-        "GET", "/schemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/schemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1105,7 +1111,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1118,7 +1124,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1143,7 +1149,7 @@ function put_policy(arn, policy; aws_config::AbstractAWSConfig=global_aws_config
         "/policies/$(arn)",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_policy(
@@ -1157,7 +1163,7 @@ function put_policy(
         "/policies/$(arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1182,7 +1188,7 @@ function start_id_mapping_job(
         "POST",
         "/idmappingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_id_mapping_job(
@@ -1195,7 +1201,7 @@ function start_id_mapping_job(
         "/idmappingworkflows/$(workflowName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1215,7 +1221,7 @@ function start_matching_job(workflowName; aws_config::AbstractAWSConfig=global_a
         "POST",
         "/matchingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_matching_job(
@@ -1228,7 +1234,7 @@ function start_matching_job(
         "/matchingworkflows/$(workflowName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1257,7 +1263,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1271,7 +1277,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1295,7 +1301,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1309,7 +1315,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1352,7 +1358,7 @@ function update_id_mapping_workflow(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_id_mapping_workflow(
@@ -1378,7 +1384,7 @@ function update_id_mapping_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1409,7 +1415,7 @@ function update_id_namespace(
         "PUT",
         "/idnamespaces/$(idNamespaceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_id_namespace(
@@ -1422,7 +1428,7 @@ function update_id_namespace(
         "/idnamespaces/$(idNamespaceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1469,7 +1475,7 @@ function update_matching_workflow(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_matching_workflow(
@@ -1497,7 +1503,7 @@ function update_matching_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1527,7 +1533,7 @@ function update_schema_mapping(
         "/schemas/$(schemaName)",
         Dict{String,Any}("mappedInputFields" => mappedInputFields);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_schema_mapping(
@@ -1545,6 +1551,6 @@ function update_schema_mapping(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

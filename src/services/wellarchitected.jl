@@ -28,7 +28,7 @@ function associate_lenses(
         "/workloads/$(WorkloadId)/associateLenses",
         Dict{String,Any}("LensAliases" => LensAliases);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_lenses(
@@ -44,7 +44,7 @@ function associate_lenses(
             mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -67,7 +67,7 @@ function associate_profiles(
         "/workloads/$(WorkloadId)/associateProfiles",
         Dict{String,Any}("ProfileArns" => ProfileArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_profiles(
@@ -83,7 +83,7 @@ function associate_profiles(
             mergewith(_merge, Dict{String,Any}("ProfileArns" => ProfileArns), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -122,7 +122,7 @@ function create_lens_share(
             "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_lens_share(
@@ -145,7 +145,7 @@ function create_lens_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function create_lens_version(
             "ClientRequestToken" => ClientRequestToken, "LensVersion" => LensVersion
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_lens_version(
@@ -204,7 +204,7 @@ function create_lens_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -233,7 +233,7 @@ function create_milestone(
             "ClientRequestToken" => ClientRequestToken, "MilestoneName" => MilestoneName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_milestone(
@@ -257,7 +257,7 @@ function create_milestone(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -294,7 +294,7 @@ function create_profile(
             "ProfileQuestions" => ProfileQuestions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_profile(
@@ -321,7 +321,7 @@ function create_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -350,7 +350,7 @@ function create_profile_share(
             "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_profile_share(
@@ -373,7 +373,7 @@ function create_profile_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -416,7 +416,7 @@ function create_review_template(
             "TemplateName" => TemplateName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_review_template(
@@ -443,7 +443,7 @@ function create_review_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -479,7 +479,7 @@ function create_template_share(
             "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_template_share(
@@ -502,7 +502,7 @@ function create_template_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -566,7 +566,7 @@ function create_workload(
             "WorkloadName" => WorkloadName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workload(
@@ -595,7 +595,7 @@ function create_workload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -633,7 +633,7 @@ function create_workload_share(
             "SharedWith" => SharedWith,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workload_share(
@@ -659,7 +659,7 @@ function create_workload_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -695,7 +695,7 @@ function delete_lens(
             "ClientRequestToken" => ClientRequestToken, "LensStatus" => LensStatus
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_lens(
@@ -718,7 +718,7 @@ function delete_lens(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -752,7 +752,7 @@ function delete_lens_share(
         "/lenses/$(LensAlias)/shares/$(ShareId)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_lens_share(
@@ -771,7 +771,7 @@ function delete_lens_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -798,7 +798,7 @@ function delete_profile(
         "/profiles/$(ProfileArn)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile(
@@ -816,7 +816,7 @@ function delete_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -843,7 +843,7 @@ function delete_profile_share(
         "/profiles/$(ProfileArn)/shares/$(ShareId)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_profile_share(
@@ -862,7 +862,7 @@ function delete_profile_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -888,7 +888,7 @@ function delete_review_template(
         "/reviewTemplates/$(TemplateArn)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_review_template(
@@ -906,7 +906,7 @@ function delete_review_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -935,7 +935,7 @@ function delete_template_share(
         "/templates/shares/$(TemplateArn)/$(ShareId)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_template_share(
@@ -954,7 +954,7 @@ function delete_template_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -977,7 +977,7 @@ function delete_workload(
         "/workloads/$(WorkloadId)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workload(
@@ -995,7 +995,7 @@ function delete_workload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1022,7 +1022,7 @@ function delete_workload_share(
         "/workloads/$(WorkloadId)/shares/$(ShareId)",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workload_share(
@@ -1041,7 +1041,7 @@ function delete_workload_share(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1066,7 +1066,7 @@ function disassociate_lenses(
         "/workloads/$(WorkloadId)/disassociateLenses",
         Dict{String,Any}("LensAliases" => LensAliases);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_lenses(
@@ -1082,7 +1082,7 @@ function disassociate_lenses(
             mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1105,7 +1105,7 @@ function disassociate_profiles(
         "/workloads/$(WorkloadId)/disassociateProfiles",
         Dict{String,Any}("ProfileArns" => ProfileArns);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_profiles(
@@ -1121,7 +1121,7 @@ function disassociate_profiles(
             mergewith(_merge, Dict{String,Any}("ProfileArns" => ProfileArns), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1151,7 +1151,7 @@ function export_lens(LensAlias; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/lenses/$(LensAlias)/export";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function export_lens(
@@ -1164,7 +1164,7 @@ function export_lens(
         "/lenses/$(LensAlias)/export",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1190,7 +1190,7 @@ function get_answer(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_answer(
@@ -1205,7 +1205,7 @@ function get_answer(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1232,7 +1232,7 @@ function get_consolidated_report(Format; aws_config::AbstractAWSConfig=global_aw
         "/consolidatedReport",
         Dict{String,Any}("Format" => Format);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_consolidated_report(
@@ -1243,7 +1243,7 @@ function get_consolidated_report(
         "/consolidatedReport",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Format" => Format), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1256,7 +1256,7 @@ Global settings for all workloads.
 """
 function get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_global_settings(
@@ -1267,7 +1267,7 @@ function get_global_settings(
         "/global-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1289,7 +1289,7 @@ function get_lens(LensAlias; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/lenses/$(LensAlias)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lens(
@@ -1302,7 +1302,7 @@ function get_lens(
         "/lenses/$(LensAlias)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1327,7 +1327,7 @@ function get_lens_review(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lens_review(
@@ -1341,7 +1341,7 @@ function get_lens_review(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1366,7 +1366,7 @@ function get_lens_review_report(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lens_review_report(
@@ -1380,7 +1380,7 @@ function get_lens_review_report(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1405,7 +1405,7 @@ function get_lens_version_difference(
         "GET",
         "/lenses/$(LensAlias)/versionDifference";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lens_version_difference(
@@ -1418,7 +1418,7 @@ function get_lens_version_difference(
         "/lenses/$(LensAlias)/versionDifference",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1440,7 +1440,7 @@ function get_milestone(
         "GET",
         "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_milestone(
@@ -1454,7 +1454,7 @@ function get_milestone(
         "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1476,7 +1476,7 @@ function get_profile(ProfileArn; aws_config::AbstractAWSConfig=global_aws_config
         "GET",
         "/profiles/$(ProfileArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_profile(
@@ -1489,7 +1489,7 @@ function get_profile(
         "/profiles/$(ProfileArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1502,7 +1502,7 @@ Get profile template.
 """
 function get_profile_template(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_profile_template(
@@ -1513,7 +1513,7 @@ function get_profile_template(
         "/profileTemplate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1532,7 +1532,7 @@ function get_review_template(TemplateArn; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/reviewTemplates/$(TemplateArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_review_template(
@@ -1545,7 +1545,7 @@ function get_review_template(
         "/reviewTemplates/$(TemplateArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1568,7 +1568,7 @@ function get_review_template_answer(
         "GET",
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_review_template_answer(
@@ -1583,7 +1583,7 @@ function get_review_template_answer(
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1605,7 +1605,7 @@ function get_review_template_lens_review(
         "GET",
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_review_template_lens_review(
@@ -1619,7 +1619,7 @@ function get_review_template_lens_review(
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1638,7 +1638,7 @@ function get_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/workloads/$(WorkloadId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workload(
@@ -1651,7 +1651,7 @@ function get_workload(
         "/workloads/$(WorkloadId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1691,7 +1691,7 @@ function import_lens(
             "ClientRequestToken" => ClientRequestToken, "JSONString" => JSONString
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_lens(
@@ -1713,7 +1713,7 @@ function import_lens(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1742,7 +1742,7 @@ function list_answers(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_answers(
@@ -1756,7 +1756,7 @@ function list_answers(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1796,7 +1796,7 @@ function list_check_details(
             "QuestionId" => QuestionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_check_details(
@@ -1824,7 +1824,7 @@ function list_check_details(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1864,7 +1864,7 @@ function list_check_summaries(
             "QuestionId" => QuestionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_check_summaries(
@@ -1892,7 +1892,7 @@ function list_check_summaries(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1921,7 +1921,7 @@ function list_lens_review_improvements(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lens_review_improvements(
@@ -1935,7 +1935,7 @@ function list_lens_review_improvements(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1959,7 +1959,7 @@ function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/workloads/$(WorkloadId)/lensReviews";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lens_reviews(
@@ -1972,7 +1972,7 @@ function list_lens_reviews(
         "/workloads/$(WorkloadId)/lensReviews",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1998,7 +1998,7 @@ function list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/lenses/$(LensAlias)/shares";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lens_shares(
@@ -2011,7 +2011,7 @@ function list_lens_shares(
         "/lenses/$(LensAlias)/shares",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2031,14 +2031,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_lenses(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_lenses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return wellarchitected(
-        "GET", "/lenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/lenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -2061,7 +2061,7 @@ function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/workloads/$(WorkloadId)/milestonesSummaries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_milestones(
@@ -2074,7 +2074,7 @@ function list_milestones(
         "/workloads/$(WorkloadId)/milestonesSummaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2094,7 +2094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_notifications(
@@ -2105,7 +2105,7 @@ function list_notifications(
         "/notifications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2126,7 +2126,7 @@ function list_profile_notifications(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/profileNotifications/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_profile_notifications(
@@ -2137,7 +2137,7 @@ function list_profile_notifications(
         "/profileNotifications/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2163,7 +2163,7 @@ function list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/profiles/$(ProfileArn)/shares";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_profile_shares(
@@ -2176,7 +2176,7 @@ function list_profile_shares(
         "/profiles/$(ProfileArn)/shares",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2196,7 +2196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_profiles(
@@ -2207,7 +2207,7 @@ function list_profiles(
         "/profileSummaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2234,7 +2234,7 @@ function list_review_template_answers(
         "GET",
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_review_template_answers(
@@ -2248,7 +2248,7 @@ function list_review_template_answers(
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2265,7 +2265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_review_templates(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_review_templates(
@@ -2276,7 +2276,7 @@ function list_review_templates(
         "/reviewTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2303,7 +2303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_share_invitations(
@@ -2314,7 +2314,7 @@ function list_share_invitations(
         "/shareInvitations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2336,7 +2336,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(WorkloadArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2349,7 +2349,7 @@ function list_tags_for_resource(
         "/tags/$(WorkloadArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2377,7 +2377,7 @@ function list_template_shares(
         "GET",
         "/templates/shares/$(TemplateArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_template_shares(
@@ -2390,7 +2390,7 @@ function list_template_shares(
         "/templates/shares/$(TemplateArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2416,7 +2416,7 @@ function list_workload_shares(WorkloadId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/workloads/$(WorkloadId)/shares";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workload_shares(
@@ -2429,7 +2429,7 @@ function list_workload_shares(
         "/workloads/$(WorkloadId)/shares",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2450,7 +2450,7 @@ function list_workloads(; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/workloadsSummaries";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workloads(
@@ -2461,7 +2461,7 @@ function list_workloads(
         "/workloadsSummaries",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2483,7 +2483,7 @@ function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(WorkloadArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2497,7 +2497,7 @@ function tag_resource(
         "/tags/$(WorkloadArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2524,7 +2524,7 @@ function untag_resource(
         "/tags/$(WorkloadArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2538,7 +2538,7 @@ function untag_resource(
         "/tags/$(WorkloadArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2569,7 +2569,7 @@ function update_answer(
         "PATCH",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_answer(
@@ -2584,7 +2584,7 @@ function update_answer(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2603,7 +2603,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return wellarchitected(
-        "PATCH", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH",
+        "/global-settings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_global_settings(
@@ -2614,7 +2617,7 @@ function update_global_settings(
         "/global-settings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2644,7 +2647,7 @@ function update_integration(
             "IntegratingService" => IntegratingService,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_integration(
@@ -2668,7 +2671,7 @@ function update_integration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2695,7 +2698,7 @@ function update_lens_review(
         "PATCH",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_lens_review(
@@ -2709,7 +2712,7 @@ function update_lens_review(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2732,7 +2735,7 @@ function update_profile(ProfileArn; aws_config::AbstractAWSConfig=global_aws_con
         "PATCH",
         "/profiles/$(ProfileArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_profile(
@@ -2745,7 +2748,7 @@ function update_profile(
         "/profiles/$(ProfileArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2774,7 +2777,7 @@ function update_review_template(
         "PATCH",
         "/reviewTemplates/$(TemplateArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_review_template(
@@ -2787,7 +2790,7 @@ function update_review_template(
         "/reviewTemplates/$(TemplateArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2817,7 +2820,7 @@ function update_review_template_answer(
         "PATCH",
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_review_template_answer(
@@ -2832,7 +2835,7 @@ function update_review_template_answer(
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2858,7 +2861,7 @@ function update_review_template_lens_review(
         "PATCH",
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_review_template_lens_review(
@@ -2872,7 +2875,7 @@ function update_review_template_lens_review(
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2899,7 +2902,7 @@ function update_share_invitation(
         "/shareInvitations/$(ShareInvitationId)",
         Dict{String,Any}("ShareInvitationAction" => ShareInvitationAction);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_share_invitation(
@@ -2919,7 +2922,7 @@ function update_share_invitation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2961,7 +2964,7 @@ function update_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_co
         "PATCH",
         "/workloads/$(WorkloadId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workload(
@@ -2974,7 +2977,7 @@ function update_workload(
         "/workloads/$(WorkloadId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2998,7 +3001,7 @@ function update_workload_share(
         "/workloads/$(WorkloadId)/shares/$(ShareId)",
         Dict{String,Any}("PermissionType" => PermissionType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workload_share(
@@ -3015,7 +3018,7 @@ function update_workload_share(
             mergewith(_merge, Dict{String,Any}("PermissionType" => PermissionType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3042,7 +3045,7 @@ function upgrade_lens_review(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
         Dict{String,Any}("MilestoneName" => MilestoneName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function upgrade_lens_review(
@@ -3059,7 +3062,7 @@ function upgrade_lens_review(
             mergewith(_merge, Dict{String,Any}("MilestoneName" => MilestoneName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3086,7 +3089,7 @@ function upgrade_profile_version(
         "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade",
         Dict{String,Any}("ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function upgrade_profile_version(
@@ -3104,7 +3107,7 @@ function upgrade_profile_version(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3129,7 +3132,7 @@ function upgrade_review_template_lens_review(
         "PUT",
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function upgrade_review_template_lens_review(
@@ -3143,6 +3146,6 @@ function upgrade_review_template_lens_review(
         "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

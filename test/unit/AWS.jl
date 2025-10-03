@@ -117,6 +117,42 @@
         @test !(:Lambda in names(@__MODULE__; all=true))
         @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
     end
+
+    @testset "mutation" begin
+        # Ensure binding isn't already used
+        @test !isdefined(Main, :SimpleStorageService)
+
+        #! format: off
+        err = @capture_err begin
+            @eval Main begin
+                using AWS: @service
+                const OLD_S3 = @service S3 as SimpleStorageService use_response_type = true
+                const NEW_S3 = @service S3 as SimpleStorageService
+            end
+        end
+        #! format: on
+
+        # Ensure service module was mutated instead of overwritten
+        @test Main.OLD_S3 === Main.NEW_S3
+        @test Main.OLD_S3.SERVICE_FEATURE_SET[].use_response_type == false
+        @test Main.NEW_S3.SERVICE_FEATURE_SET[].use_response_type == false
+        @test isempty(err)
+
+        #! format: off
+        err = @capture_err begin
+            @eval baremodule __service_mutation
+                using AWS: @service
+                const OLD_S3 = @service S3 use_response_type = true
+                const NEW_S3 = @service S3
+            end
+        end
+        #! format: on
+
+        @test __service_mutation.OLD_S3 !== __service_mutation.NEW_S3
+        @test __service_mutation.OLD_S3.SERVICE_FEATURE_SET[].use_response_type == true
+        @test __service_mutation.NEW_S3.SERVICE_FEATURE_SET[].use_response_type == false
+        @test !isempty(err)
+    end
 end
 
 @testset "global config, kwargs" begin

@@ -20,7 +20,7 @@ function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_co
         "/batchDeleteWorlds",
         Dict{String,Any}("worlds" => worlds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_delete_worlds(
@@ -31,7 +31,7 @@ function batch_delete_worlds(
         "/batchDeleteWorlds",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("worlds" => worlds), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -53,7 +53,7 @@ function batch_describe_simulation_job(
         "/batchDescribeSimulationJob",
         Dict{String,Any}("jobs" => jobs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_describe_simulation_job(
@@ -64,7 +64,7 @@ function batch_describe_simulation_job(
         "/batchDescribeSimulationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobs" => jobs), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -85,7 +85,7 @@ function cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_con
         "/cancelDeploymentJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_deployment_job(
@@ -96,7 +96,7 @@ function cancel_deployment_job(
         "/cancelDeploymentJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -116,7 +116,7 @@ function cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_con
         "/cancelSimulationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_simulation_job(
@@ -127,7 +127,7 @@ function cancel_simulation_job(
         "/cancelSimulationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -150,7 +150,7 @@ function cancel_simulation_job_batch(
         "/cancelSimulationJobBatch",
         Dict{String,Any}("batch" => batch);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_simulation_job_batch(
@@ -161,7 +161,7 @@ function cancel_simulation_job_batch(
         "/cancelSimulationJobBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("batch" => batch), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -181,7 +181,7 @@ function cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_c
         "/cancelWorldExportJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_world_export_job(
@@ -192,7 +192,7 @@ function cancel_world_export_job(
         "/cancelWorldExportJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -212,7 +212,7 @@ function cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_a
         "/cancelWorldGenerationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_world_generation_job(
@@ -223,7 +223,7 @@ function cancel_world_generation_job(
         "/cancelWorldGenerationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -264,7 +264,7 @@ function create_deployment_job(
             "fleet" => fleet,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_deployment_job(
@@ -289,7 +289,7 @@ function create_deployment_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -313,7 +313,7 @@ function create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config())
         "/createFleet",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -324,7 +324,7 @@ function create_fleet(
         "/createFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -355,7 +355,7 @@ function create_robot(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_robot(
@@ -380,7 +380,7 @@ function create_robot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -411,7 +411,7 @@ function create_robot_application(
         "/createRobotApplication",
         Dict{String,Any}("name" => name, "robotSoftwareSuite" => robotSoftwareSuite);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_robot_application(
@@ -433,7 +433,7 @@ function create_robot_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -463,7 +463,7 @@ function create_robot_application_version(
         "/createRobotApplicationVersion",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_robot_application_version(
@@ -478,7 +478,7 @@ function create_robot_application_version(
             mergewith(_merge, Dict{String,Any}("application" => application), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -519,7 +519,7 @@ function create_simulation_application(
             "simulationSoftwareSuite" => simulationSoftwareSuite,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_simulation_application(
@@ -544,7 +544,7 @@ function create_simulation_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -574,7 +574,7 @@ function create_simulation_application_version(
         "/createSimulationApplicationVersion",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_simulation_application_version(
@@ -589,7 +589,7 @@ function create_simulation_application_version(
             mergewith(_merge, Dict{String,Any}("application" => application), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -642,7 +642,7 @@ function create_simulation_job(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_simulation_job(
@@ -666,7 +666,7 @@ function create_simulation_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -702,7 +702,7 @@ function create_world_export_job(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_world_export_job(
@@ -728,7 +728,7 @@ function create_world_export_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -764,7 +764,7 @@ function create_world_generation_job(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_world_generation_job(
@@ -788,7 +788,7 @@ function create_world_generation_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -813,7 +813,7 @@ function create_world_template(; aws_config::AbstractAWSConfig=global_aws_config
         "POST",
         "/createWorldTemplate";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_world_template(
@@ -824,7 +824,7 @@ function create_world_template(
         "/createWorldTemplate",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -845,7 +845,7 @@ function delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config())
         "/deleteFleet",
         Dict{String,Any}("fleet" => fleet);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -856,7 +856,7 @@ function delete_fleet(
         "/deleteFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fleet" => fleet), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -877,7 +877,7 @@ function delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config())
         "/deleteRobot",
         Dict{String,Any}("robot" => robot);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_robot(
@@ -888,7 +888,7 @@ function delete_robot(
         "/deleteRobot",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("robot" => robot), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -913,7 +913,7 @@ function delete_robot_application(
         "/deleteRobotApplication",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_robot_application(
@@ -928,7 +928,7 @@ function delete_robot_application(
             mergewith(_merge, Dict{String,Any}("application" => application), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -953,7 +953,7 @@ function delete_simulation_application(
         "/deleteSimulationApplication",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_simulation_application(
@@ -968,7 +968,7 @@ function delete_simulation_application(
             mergewith(_merge, Dict{String,Any}("application" => application), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -988,7 +988,7 @@ function delete_world_template(template; aws_config::AbstractAWSConfig=global_aw
         "/deleteWorldTemplate",
         Dict{String,Any}("template" => template);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_world_template(
@@ -1003,7 +1003,7 @@ function delete_world_template(
             mergewith(_merge, Dict{String,Any}("template" => template), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1025,7 +1025,7 @@ function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws
         "/deregisterRobot",
         Dict{String,Any}("fleet" => fleet, "robot" => robot);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_robot(
@@ -1041,7 +1041,7 @@ function deregister_robot(
             mergewith(_merge, Dict{String,Any}("fleet" => fleet, "robot" => robot), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1062,7 +1062,7 @@ function describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_c
         "/describeDeploymentJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_deployment_job(
@@ -1073,7 +1073,7 @@ function describe_deployment_job(
         "/describeDeploymentJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()
         "/describeFleet",
         Dict{String,Any}("fleet" => fleet);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet(
@@ -1105,7 +1105,7 @@ function describe_fleet(
         "/describeFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fleet" => fleet), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1126,7 +1126,7 @@ function describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()
         "/describeRobot",
         Dict{String,Any}("robot" => robot);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_robot(
@@ -1137,7 +1137,7 @@ function describe_robot(
         "/describeRobot",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("robot" => robot), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1162,7 +1162,7 @@ function describe_robot_application(
         "/describeRobotApplication",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_robot_application(
@@ -1177,7 +1177,7 @@ function describe_robot_application(
             mergewith(_merge, Dict{String,Any}("application" => application), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1202,7 +1202,7 @@ function describe_simulation_application(
         "/describeSimulationApplication",
         Dict{String,Any}("application" => application);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_simulation_application(
@@ -1217,7 +1217,7 @@ function describe_simulation_application(
             mergewith(_merge, Dict{String,Any}("application" => application), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1237,7 @@ function describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_c
         "/describeSimulationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_simulation_job(
@@ -1248,7 +1248,7 @@ function describe_simulation_job(
         "/describeSimulationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1270,7 +1270,7 @@ function describe_simulation_job_batch(
         "/describeSimulationJobBatch",
         Dict{String,Any}("batch" => batch);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_simulation_job_batch(
@@ -1281,7 +1281,7 @@ function describe_simulation_job_batch(
         "/describeSimulationJobBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("batch" => batch), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1301,7 +1301,7 @@ function describe_world(world; aws_config::AbstractAWSConfig=global_aws_config()
         "/describeWorld",
         Dict{String,Any}("world" => world);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_world(
@@ -1312,7 +1312,7 @@ function describe_world(
         "/describeWorld",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("world" => world), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1332,7 +1332,7 @@ function describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws
         "/describeWorldExportJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_world_export_job(
@@ -1343,7 +1343,7 @@ function describe_world_export_job(
         "/describeWorldExportJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1365,7 +1365,7 @@ function describe_world_generation_job(
         "/describeWorldGenerationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_world_generation_job(
@@ -1376,7 +1376,7 @@ function describe_world_generation_job(
         "/describeWorldGenerationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1398,7 +1398,7 @@ function describe_world_template(
         "/describeWorldTemplate",
         Dict{String,Any}("template" => template);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_world_template(
@@ -1413,7 +1413,7 @@ function describe_world_template(
             mergewith(_merge, Dict{String,Any}("template" => template), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1433,7 +1433,7 @@ function get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/getWorldTemplateBody";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_world_template_body(
@@ -1444,7 +1444,7 @@ function get_world_template_body(
         "/getWorldTemplateBody",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1479,7 +1479,7 @@ function list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/listDeploymentJobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_deployment_jobs(
@@ -1490,7 +1490,7 @@ function list_deployment_jobs(
         "/listDeploymentJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1522,7 +1522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
     return robomaker(
-        "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_fleets(
@@ -1533,7 +1533,7 @@ function list_fleets(
         "/listFleets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1567,7 +1567,7 @@ function list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/listRobotApplications";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_robot_applications(
@@ -1578,7 +1578,7 @@ function list_robot_applications(
         "/listRobotApplications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1609,7 +1609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_robots(; aws_config::AbstractAWSConfig=global_aws_config())
     return robomaker(
-        "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_robots(
@@ -1620,7 +1620,7 @@ function list_robots(
         "/listRobots",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1654,7 +1654,7 @@ function list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/listSimulationApplications";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_simulation_applications(
@@ -1665,7 +1665,7 @@ function list_simulation_applications(
         "/listSimulationApplications",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1694,7 +1694,7 @@ function list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/listSimulationJobBatches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_simulation_job_batches(
@@ -1705,7 +1705,7 @@ function list_simulation_job_batches(
         "/listSimulationJobBatches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1740,7 +1740,7 @@ function list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/listSimulationJobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_simulation_jobs(
@@ -1751,7 +1751,7 @@ function list_simulation_jobs(
         "/listSimulationJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1772,7 +1772,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1785,7 +1785,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1816,7 +1816,7 @@ function list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/listWorldExportJobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_world_export_jobs(
@@ -1827,7 +1827,7 @@ function list_world_export_jobs(
         "/listWorldExportJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1857,7 +1857,7 @@ function list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/listWorldGenerationJobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_world_generation_jobs(
@@ -1868,7 +1868,7 @@ function list_world_generation_jobs(
         "/listWorldGenerationJobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1897,7 +1897,7 @@ function list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/listWorldTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_world_templates(
@@ -1908,7 +1908,7 @@ function list_world_templates(
         "/listWorldTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1934,7 +1934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_worlds(; aws_config::AbstractAWSConfig=global_aws_config())
     return robomaker(
-        "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_worlds(
@@ -1945,7 +1945,7 @@ function list_worlds(
         "/listWorlds",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1967,7 +1967,7 @@ function register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_c
         "/registerRobot",
         Dict{String,Any}("fleet" => fleet, "robot" => robot);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_robot(
@@ -1983,7 +1983,7 @@ function register_robot(
             mergewith(_merge, Dict{String,Any}("fleet" => fleet, "robot" => robot), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2003,7 +2003,7 @@ function restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_co
         "/restartSimulationJob",
         Dict{String,Any}("job" => job);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restart_simulation_job(
@@ -2014,7 +2014,7 @@ function restart_simulation_job(
         "/restartSimulationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("job" => job), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2048,7 +2048,7 @@ function start_simulation_job_batch(
             "clientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_simulation_job_batch(
@@ -2070,7 +2070,7 @@ function start_simulation_job_batch(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2096,7 +2096,7 @@ function sync_deployment_job(
         "/syncDeploymentJob",
         Dict{String,Any}("clientRequestToken" => clientRequestToken, "fleet" => fleet);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function sync_deployment_job(
@@ -2118,7 +2118,7 @@ function sync_deployment_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2143,7 +2143,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2157,7 +2157,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2183,7 +2183,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2197,7 +2197,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2228,7 +2228,7 @@ function update_robot_application(
             "application" => application, "robotSoftwareSuite" => robotSoftwareSuite
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_robot_application(
@@ -2250,7 +2250,7 @@ function update_robot_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2289,7 +2289,7 @@ function update_simulation_application(
             "simulationSoftwareSuite" => simulationSoftwareSuite,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_simulation_application(
@@ -2314,7 +2314,7 @@ function update_simulation_application(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2339,7 +2339,7 @@ function update_world_template(template; aws_config::AbstractAWSConfig=global_aw
         "/updateWorldTemplate",
         Dict{String,Any}("template" => template);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_world_template(
@@ -2354,6 +2354,6 @@ function update_world_template(
             mergewith(_merge, Dict{String,Any}("template" => template), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

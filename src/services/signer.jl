@@ -44,7 +44,7 @@ function add_profile_permission(
             "action" => action, "principal" => principal, "statementId" => statementId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_profile_permission(
@@ -70,7 +70,7 @@ function add_profile_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -93,7 +93,7 @@ function cancel_signing_profile(
         "DELETE",
         "/signing-profiles/$(profileName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_signing_profile(
@@ -106,7 +106,7 @@ function cancel_signing_profile(
         "/signing-profiles/$(profileName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -126,7 +126,7 @@ function describe_signing_job(jobId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/signing-jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_signing_job(
@@ -137,7 +137,7 @@ function describe_signing_job(
         "/signing-jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -184,7 +184,7 @@ function get_revocation_status(
             "signatureTimestamp" => signatureTimestamp,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_revocation_status(
@@ -213,7 +213,7 @@ function get_revocation_status(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -232,7 +232,7 @@ function get_signing_platform(platformId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/signing-platforms/$(platformId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_signing_platform(
@@ -245,7 +245,7 @@ function get_signing_platform(
         "/signing-platforms/$(platformId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -267,7 +267,7 @@ function get_signing_profile(profileName; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/signing-profiles/$(profileName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_signing_profile(
@@ -280,7 +280,7 @@ function get_signing_profile(
         "/signing-profiles/$(profileName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -304,7 +304,7 @@ function list_profile_permissions(
         "GET",
         "/signing-profiles/$(profileName)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_profile_permissions(
@@ -317,7 +317,7 @@ function list_profile_permissions(
         "/signing-profiles/$(profileName)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_signing_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return signer(
-        "GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_signing_jobs(
@@ -366,7 +366,7 @@ function list_signing_jobs(
         "/signing-jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -392,7 +392,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_signing_platforms(; aws_config::AbstractAWSConfig=global_aws_config())
     return signer(
-        "GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/signing-platforms";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_signing_platforms(
@@ -403,7 +406,7 @@ function list_signing_platforms(
         "/signing-platforms",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -432,7 +435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_signing_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
     return signer(
-        "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_signing_profiles(
@@ -443,7 +446,7 @@ function list_signing_profiles(
         "/signing-profiles",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -464,7 +467,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -477,7 +480,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -513,7 +516,7 @@ function put_signing_profile(
         "/signing-profiles/$(profileName)",
         Dict{String,Any}("platformId" => platformId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_signing_profile(
@@ -529,7 +532,7 @@ function put_signing_profile(
             mergewith(_merge, Dict{String,Any}("platformId" => platformId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -554,7 +557,7 @@ function remove_profile_permission(
         "/signing-profiles/$(profileName)/permissions/$(statementId)",
         Dict{String,Any}("revisionId" => revisionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_profile_permission(
@@ -571,7 +574,7 @@ function remove_profile_permission(
             mergewith(_merge, Dict{String,Any}("revisionId" => revisionId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -596,7 +599,7 @@ function revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=global_aw
         "/signing-jobs/$(jobId)/revoke",
         Dict{String,Any}("reason" => reason);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function revoke_signature(
@@ -610,7 +613,7 @@ function revoke_signature(
         "/signing-jobs/$(jobId)/revoke",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("reason" => reason), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -646,7 +649,7 @@ function revoke_signing_profile(
             "reason" => reason,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function revoke_signing_profile(
@@ -672,7 +675,7 @@ function revoke_signing_profile(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -704,7 +707,7 @@ function sign_payload(
             "profileName" => profileName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function sign_payload(
@@ -729,7 +732,7 @@ function sign_payload(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -779,7 +782,7 @@ function start_signing_job(
             "source" => source,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_signing_job(
@@ -806,7 +809,7 @@ function start_signing_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -830,7 +833,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -844,7 +847,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -868,7 +871,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -882,6 +885,6 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

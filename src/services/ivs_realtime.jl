@@ -25,7 +25,7 @@ function create_encoder_configuration(; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/CreateEncoderConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_encoder_configuration(
@@ -36,7 +36,7 @@ function create_encoder_configuration(
         "/CreateEncoderConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -73,7 +73,7 @@ function create_participant_token(
         "/CreateParticipantToken",
         Dict{String,Any}("stageArn" => stageArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_participant_token(
@@ -88,7 +88,7 @@ function create_participant_token(
             mergewith(_merge, Dict{String,Any}("stageArn" => stageArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -112,7 +112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_stage(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs_realtime(
-        "POST", "/CreateStage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/CreateStage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function create_stage(
@@ -123,7 +123,7 @@ function create_stage(
         "/CreateStage",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function create_storage_configuration(s3; aws_config::AbstractAWSConfig=global_a
         "/CreateStorageConfiguration",
         Dict{String,Any}("s3" => s3);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_storage_configuration(
@@ -165,7 +165,7 @@ function create_storage_configuration(
         "/CreateStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("s3" => s3), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -188,7 +188,7 @@ function delete_encoder_configuration(
         "/DeleteEncoderConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_encoder_configuration(
@@ -199,7 +199,7 @@ function delete_encoder_configuration(
         "/DeleteEncoderConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -219,7 +219,7 @@ function delete_stage(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteStage",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_stage(
@@ -230,7 +230,7 @@ function delete_stage(
         "/DeleteStage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -255,7 +255,7 @@ function delete_storage_configuration(
         "/DeleteStorageConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_storage_configuration(
@@ -266,7 +266,7 @@ function delete_storage_configuration(
         "/DeleteStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -294,7 +294,7 @@ function disconnect_participant(
         "/DisconnectParticipant",
         Dict{String,Any}("participantId" => participantId, "stageArn" => stageArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disconnect_participant(
@@ -314,7 +314,7 @@ function disconnect_participant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +334,7 @@ function get_composition(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetComposition",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_composition(
@@ -345,7 +345,7 @@ function get_composition(
         "/GetComposition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -365,7 +365,7 @@ function get_encoder_configuration(arn; aws_config::AbstractAWSConfig=global_aws
         "/GetEncoderConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_encoder_configuration(
@@ -376,7 +376,7 @@ function get_encoder_configuration(
         "/GetEncoderConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -405,7 +405,7 @@ function get_participant(
             "stageArn" => stageArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_participant(
@@ -430,7 +430,7 @@ function get_participant(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -450,7 +450,7 @@ function get_stage(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetStage",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_stage(
@@ -461,7 +461,7 @@ function get_stage(
         "/GetStage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -484,7 +484,7 @@ function get_stage_session(
         "/GetStageSession",
         Dict{String,Any}("sessionId" => sessionId, "stageArn" => stageArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_stage_session(
@@ -504,7 +504,7 @@ function get_stage_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -524,7 +524,7 @@ function get_storage_configuration(arn; aws_config::AbstractAWSConfig=global_aws
         "/GetStorageConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_storage_configuration(
@@ -535,7 +535,7 @@ function get_storage_configuration(
         "/GetStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -557,7 +557,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_compositions(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs_realtime(
-        "POST", "/ListCompositions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListCompositions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_compositions(
@@ -568,7 +571,7 @@ function list_compositions(
         "/ListCompositions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -590,7 +593,7 @@ function list_encoder_configurations(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/ListEncoderConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_encoder_configurations(
@@ -601,7 +604,7 @@ function list_encoder_configurations(
         "/ListEncoderConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -635,7 +638,7 @@ function list_participant_events(
             "stageArn" => stageArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_participant_events(
@@ -660,7 +663,7 @@ function list_participant_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -701,7 +704,7 @@ function list_participants(
         "/ListParticipants",
         Dict{String,Any}("sessionId" => sessionId, "stageArn" => stageArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_participants(
@@ -721,7 +724,7 @@ function list_participants(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -746,7 +749,7 @@ function list_stage_sessions(stageArn; aws_config::AbstractAWSConfig=global_aws_
         "/ListStageSessions",
         Dict{String,Any}("stageArn" => stageArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_stage_sessions(
@@ -761,7 +764,7 @@ function list_stage_sessions(
             mergewith(_merge, Dict{String,Any}("stageArn" => stageArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -780,7 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_stages(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs_realtime(
-        "POST", "/ListStages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListStages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_stages(
@@ -791,7 +794,7 @@ function list_stages(
         "/ListStages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -814,7 +817,7 @@ function list_storage_configurations(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/ListStorageConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_storage_configurations(
@@ -825,7 +828,7 @@ function list_storage_configurations(
         "/ListStorageConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -846,7 +849,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -859,7 +862,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -900,7 +903,7 @@ function start_composition(
             "idempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_composition(
@@ -924,7 +927,7 @@ function start_composition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -945,7 +948,7 @@ function stop_composition(arn; aws_config::AbstractAWSConfig=global_aws_config()
         "/StopComposition",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_composition(
@@ -956,7 +959,7 @@ function stop_composition(
         "/StopComposition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -980,7 +983,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -994,7 +997,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1020,7 +1023,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1034,7 +1037,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1060,7 +1063,7 @@ function update_stage(arn; aws_config::AbstractAWSConfig=global_aws_config())
         "/UpdateStage",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_stage(
@@ -1071,6 +1074,6 @@ function update_stage(
         "/UpdateStage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

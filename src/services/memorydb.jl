@@ -25,7 +25,7 @@ function batch_update_cluster(
         "BatchUpdateCluster",
         Dict{String,Any}("ClusterNames" => ClusterNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_cluster(
@@ -39,7 +39,7 @@ function batch_update_cluster(
             mergewith(_merge, Dict{String,Any}("ClusterNames" => ClusterNames), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -77,7 +77,7 @@ function copy_snapshot(
             "TargetSnapshotName" => TargetSnapshotName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function copy_snapshot(
@@ -99,7 +99,7 @@ function copy_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -124,7 +124,7 @@ function create_acl(ACLName; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateACL",
         Dict{String,Any}("ACLName" => ACLName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_acl(
@@ -134,7 +134,7 @@ function create_acl(
         "CreateACL",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ACLName" => ACLName), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -198,7 +198,7 @@ function create_cluster(
             "ACLName" => ACLName, "ClusterName" => ClusterName, "NodeType" => NodeType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_cluster(
@@ -222,7 +222,7 @@ function create_cluster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -252,7 +252,7 @@ function create_parameter_group(
         "CreateParameterGroup",
         Dict{String,Any}("Family" => Family, "ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_parameter_group(
@@ -273,7 +273,7 @@ function create_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -300,7 +300,7 @@ function create_snapshot(
         "CreateSnapshot",
         Dict{String,Any}("ClusterName" => ClusterName, "SnapshotName" => SnapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_snapshot(
@@ -321,7 +321,7 @@ function create_snapshot(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -352,7 +352,7 @@ function create_subnet_group(
         "CreateSubnetGroup",
         Dict{String,Any}("SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_subnet_group(
@@ -373,7 +373,7 @@ function create_subnet_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -410,7 +410,7 @@ function create_user(
             "UserName" => UserName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user(
@@ -434,7 +434,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -455,7 +455,7 @@ function delete_acl(ACLName; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteACL",
         Dict{String,Any}("ACLName" => ACLName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_acl(
@@ -465,7 +465,7 @@ function delete_acl(
         "DeleteACL",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ACLName" => ACLName), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -489,7 +489,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_cluster(
@@ -503,7 +503,7 @@ function delete_cluster(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,7 +526,7 @@ function delete_parameter_group(
         "DeleteParameterGroup",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_parameter_group(
@@ -542,7 +542,7 @@ function delete_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -563,7 +563,7 @@ function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_
         "DeleteSnapshot",
         Dict{String,Any}("SnapshotName" => SnapshotName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_snapshot(
@@ -577,7 +577,7 @@ function delete_snapshot(
             mergewith(_merge, Dict{String,Any}("SnapshotName" => SnapshotName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -599,7 +599,7 @@ function delete_subnet_group(
         "DeleteSubnetGroup",
         Dict{String,Any}("SubnetGroupName" => SubnetGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_subnet_group(
@@ -615,7 +615,7 @@ function delete_subnet_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -635,7 +635,7 @@ function delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteUser",
         Dict{String,Any}("UserName" => UserName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user(
@@ -649,7 +649,7 @@ function delete_user(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -671,13 +671,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_acls(; aws_config::AbstractAWSConfig=global_aws_config())
-    return memorydb("DescribeACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return memorydb(
+        "DescribeACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function describe_acls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return memorydb(
-        "DescribeACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -703,14 +705,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return memorydb(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -737,7 +739,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_engine_versions(
@@ -747,7 +749,7 @@ function describe_engine_versions(
         "DescribeEngineVersions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -781,14 +783,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return memorydb(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -812,7 +814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_parameter_groups(
@@ -822,7 +824,7 @@ function describe_parameter_groups(
         "DescribeParameterGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -852,7 +854,7 @@ function describe_parameters(
         "DescribeParameters",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_parameters(
@@ -868,7 +870,7 @@ function describe_parameters(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -902,7 +904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_reserved_nodes(
@@ -912,7 +914,7 @@ function describe_reserved_nodes(
         "DescribeReservedNodes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -946,7 +948,7 @@ function describe_reserved_nodes_offerings(;
     return memorydb(
         "DescribeReservedNodesOfferings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_reserved_nodes_offerings(
@@ -956,7 +958,7 @@ function describe_reserved_nodes_offerings(
         "DescribeReservedNodesOfferings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -981,7 +983,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_service_updates(
@@ -991,7 +993,7 @@ function describe_service_updates(
         "DescribeServiceUpdates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1024,14 +1026,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return memorydb(
-        "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSnapshots",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1055,7 +1060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return memorydb(
-        "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_subnet_groups(
@@ -1065,7 +1070,7 @@ function describe_subnet_groups(
         "DescribeSubnetGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1088,13 +1093,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserName"`: The name of the user
 """
 function describe_users(; aws_config::AbstractAWSConfig=global_aws_config())
-    return memorydb("DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return memorydb(
+        "DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return memorydb(
-        "DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1119,7 +1126,7 @@ function failover_shard(
         "FailoverShard",
         Dict{String,Any}("ClusterName" => ClusterName, "ShardName" => ShardName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function failover_shard(
@@ -1138,7 +1145,7 @@ function failover_shard(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1163,7 +1170,7 @@ function list_allowed_node_type_updates(
         "ListAllowedNodeTypeUpdates",
         Dict{String,Any}("ClusterName" => ClusterName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_allowed_node_type_updates(
@@ -1177,7 +1184,7 @@ function list_allowed_node_type_updates(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1199,7 +1206,7 @@ function list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(
         "ListTags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags(
@@ -1213,7 +1220,7 @@ function list_tags(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1241,7 +1248,7 @@ function purchase_reserved_nodes_offering(
         "PurchaseReservedNodesOffering",
         Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function purchase_reserved_nodes_offering(
@@ -1259,7 +1266,7 @@ function purchase_reserved_nodes_offering(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1290,7 +1297,7 @@ function reset_parameter_group(
         "ResetParameterGroup",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reset_parameter_group(
@@ -1306,7 +1313,7 @@ function reset_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1335,7 +1342,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1354,7 +1361,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1377,7 +1384,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1396,7 +1403,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1419,7 +1426,7 @@ function update_acl(ACLName; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdateACL",
         Dict{String,Any}("ACLName" => ACLName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_acl(
@@ -1429,7 +1436,7 @@ function update_acl(
         "UpdateACL",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ACLName" => ACLName), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1474,7 +1481,7 @@ function update_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_co
         "UpdateCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_cluster(
@@ -1488,7 +1495,7 @@ function update_cluster(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1518,7 +1525,7 @@ function update_parameter_group(
             "ParameterNameValues" => ParameterNameValues,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_parameter_group(
@@ -1540,7 +1547,7 @@ function update_parameter_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1565,7 +1572,7 @@ function update_subnet_group(
         "UpdateSubnetGroup",
         Dict{String,Any}("SubnetGroupName" => SubnetGroupName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_subnet_group(
@@ -1581,7 +1588,7 @@ function update_subnet_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1605,7 +1612,7 @@ function update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()
         "UpdateUser",
         Dict{String,Any}("UserName" => UserName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_user(
@@ -1619,6 +1626,6 @@ function update_user(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

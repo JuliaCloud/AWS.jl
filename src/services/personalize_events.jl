@@ -31,7 +31,7 @@ function put_action_interactions(
             "actionInteractions" => actionInteractions, "trackingId" => trackingId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_action_interactions(
@@ -53,7 +53,7 @@ function put_action_interactions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -76,7 +76,7 @@ function put_actions(actions, datasetArn; aws_config::AbstractAWSConfig=global_a
         "/actions",
         Dict{String,Any}("actions" => actions, "datasetArn" => datasetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_actions(
@@ -96,7 +96,7 @@ function put_actions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -130,7 +130,7 @@ function put_events(
             "eventList" => eventList, "sessionId" => sessionId, "trackingId" => trackingId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_events(
@@ -155,7 +155,7 @@ function put_events(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -178,7 +178,7 @@ function put_items(datasetArn, items; aws_config::AbstractAWSConfig=global_aws_c
         "/items",
         Dict{String,Any}("datasetArn" => datasetArn, "items" => items);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_items(
@@ -198,7 +198,7 @@ function put_items(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -221,7 +221,7 @@ function put_users(datasetArn, users; aws_config::AbstractAWSConfig=global_aws_c
         "/users",
         Dict{String,Any}("datasetArn" => datasetArn, "users" => users);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_users(
@@ -241,6 +241,6 @@ function put_users(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

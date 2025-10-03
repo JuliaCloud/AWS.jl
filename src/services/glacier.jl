@@ -37,7 +37,7 @@ function abort_multipart_upload(
         "DELETE",
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function abort_multipart_upload(
@@ -52,7 +52,7 @@ function abort_multipart_upload(
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -88,7 +88,7 @@ function abort_vault_lock(
         "DELETE",
         "/$(accountId)/vaults/$(vaultName)/lock-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function abort_vault_lock(
@@ -102,7 +102,7 @@ function abort_vault_lock(
         "/$(accountId)/vaults/$(vaultName)/lock-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -135,7 +135,7 @@ function add_tags_to_vault(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/tags?operation=add";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_tags_to_vault(
@@ -149,7 +149,7 @@ function add_tags_to_vault(
         "/$(accountId)/vaults/$(vaultName)/tags?operation=add",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -211,7 +211,7 @@ function complete_multipart_upload(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function complete_multipart_upload(
@@ -226,7 +226,7 @@ function complete_multipart_upload(
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -262,7 +262,7 @@ function complete_vault_lock(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function complete_vault_lock(
@@ -277,7 +277,7 @@ function complete_vault_lock(
         "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -313,7 +313,7 @@ function create_vault(
         "PUT",
         "/$(accountId)/vaults/$(vaultName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vault(
@@ -327,7 +327,7 @@ function create_vault(
         "/$(accountId)/vaults/$(vaultName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -366,7 +366,7 @@ function delete_archive(
         "DELETE",
         "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_archive(
@@ -381,7 +381,7 @@ function delete_archive(
         "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -418,7 +418,7 @@ function delete_vault(
         "DELETE",
         "/$(accountId)/vaults/$(vaultName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vault(
@@ -432,7 +432,7 @@ function delete_vault(
         "/$(accountId)/vaults/$(vaultName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -463,7 +463,7 @@ function delete_vault_access_policy(
         "DELETE",
         "/$(accountId)/vaults/$(vaultName)/access-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vault_access_policy(
@@ -477,7 +477,7 @@ function delete_vault_access_policy(
         "/$(accountId)/vaults/$(vaultName)/access-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -511,7 +511,7 @@ function delete_vault_notifications(
         "DELETE",
         "/$(accountId)/vaults/$(vaultName)/notification-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vault_notifications(
@@ -525,7 +525,7 @@ function delete_vault_notifications(
         "/$(accountId)/vaults/$(vaultName)/notification-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -563,7 +563,7 @@ function describe_job(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_job(
@@ -578,7 +578,7 @@ function describe_job(
         "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -616,7 +616,7 @@ function describe_vault(
         "GET",
         "/$(accountId)/vaults/$(vaultName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vault(
@@ -630,7 +630,7 @@ function describe_vault(
         "/$(accountId)/vaults/$(vaultName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -657,7 +657,7 @@ function get_data_retrieval_policy(
         "GET",
         "/$(accountId)/policies/data-retrieval";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_retrieval_policy(
@@ -670,7 +670,7 @@ function get_data_retrieval_policy(
         "/$(accountId)/policies/data-retrieval",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -742,7 +742,7 @@ function get_job_output(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_job_output(
@@ -757,7 +757,7 @@ function get_job_output(
         "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -786,7 +786,7 @@ function get_vault_access_policy(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/access-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vault_access_policy(
@@ -800,7 +800,7 @@ function get_vault_access_policy(
         "/$(accountId)/vaults/$(vaultName)/access-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -834,7 +834,7 @@ function get_vault_lock(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/lock-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vault_lock(
@@ -848,7 +848,7 @@ function get_vault_lock(
         "/$(accountId)/vaults/$(vaultName)/lock-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -883,7 +883,7 @@ function get_vault_notifications(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/notification-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vault_notifications(
@@ -897,7 +897,7 @@ function get_vault_notifications(
         "/$(accountId)/vaults/$(vaultName)/notification-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -927,7 +927,7 @@ function initiate_job(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function initiate_job(
@@ -941,7 +941,7 @@ function initiate_job(
         "/$(accountId)/vaults/$(vaultName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -994,7 +994,7 @@ function initiate_multipart_upload(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function initiate_multipart_upload(
@@ -1008,7 +1008,7 @@ function initiate_multipart_upload(
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1053,7 +1053,7 @@ function initiate_vault_lock(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/lock-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function initiate_vault_lock(
@@ -1067,7 +1067,7 @@ function initiate_vault_lock(
         "/$(accountId)/vaults/$(vaultName)/lock-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1125,7 +1125,7 @@ function list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/$(accountId)/vaults/$(vaultName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_jobs(
@@ -1139,7 +1139,7 @@ function list_jobs(
         "/$(accountId)/vaults/$(vaultName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1190,7 +1190,7 @@ function list_multipart_uploads(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_multipart_uploads(
@@ -1204,7 +1204,7 @@ function list_multipart_uploads(
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1254,7 +1254,7 @@ function list_parts(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_parts(
@@ -1269,7 +1269,7 @@ function list_parts(
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1293,7 +1293,7 @@ function list_provisioned_capacity(
         "GET",
         "/$(accountId)/provisioned-capacity";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_provisioned_capacity(
@@ -1306,7 +1306,7 @@ function list_provisioned_capacity(
         "/$(accountId)/provisioned-capacity",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1333,7 +1333,7 @@ function list_tags_for_vault(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/tags";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_vault(
@@ -1347,7 +1347,7 @@ function list_tags_for_vault(
         "/$(accountId)/vaults/$(vaultName)/tags",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1389,7 +1389,7 @@ function list_vaults(accountId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/$(accountId)/vaults";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_vaults(
@@ -1402,7 +1402,7 @@ function list_vaults(
         "/$(accountId)/vaults",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1426,7 +1426,7 @@ function purchase_provisioned_capacity(
         "POST",
         "/$(accountId)/provisioned-capacity";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function purchase_provisioned_capacity(
@@ -1439,7 +1439,7 @@ function purchase_provisioned_capacity(
         "/$(accountId)/provisioned-capacity",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1470,7 +1470,7 @@ function remove_tags_from_vault(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/tags?operation=remove";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_tags_from_vault(
@@ -1484,7 +1484,7 @@ function remove_tags_from_vault(
         "/$(accountId)/vaults/$(vaultName)/tags?operation=remove",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1516,7 +1516,7 @@ function set_data_retrieval_policy(
         "PUT",
         "/$(accountId)/policies/data-retrieval";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_data_retrieval_policy(
@@ -1529,7 +1529,7 @@ function set_data_retrieval_policy(
         "/$(accountId)/policies/data-retrieval",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1562,7 +1562,7 @@ function set_vault_access_policy(
         "PUT",
         "/$(accountId)/vaults/$(vaultName)/access-policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_vault_access_policy(
@@ -1576,7 +1576,7 @@ function set_vault_access_policy(
         "/$(accountId)/vaults/$(vaultName)/access-policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1623,7 +1623,7 @@ function set_vault_notifications(
         "PUT",
         "/$(accountId)/vaults/$(vaultName)/notification-configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_vault_notifications(
@@ -1637,7 +1637,7 @@ function set_vault_notifications(
         "/$(accountId)/vaults/$(vaultName)/notification-configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1689,7 +1689,7 @@ function upload_archive(
         "POST",
         "/$(accountId)/vaults/$(vaultName)/archives";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function upload_archive(
@@ -1703,7 +1703,7 @@ function upload_archive(
         "/$(accountId)/vaults/$(vaultName)/archives",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1762,7 +1762,7 @@ function upload_multipart_part(
         "PUT",
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function upload_multipart_part(
@@ -1777,6 +1777,6 @@ function upload_multipart_part(
         "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

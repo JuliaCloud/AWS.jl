@@ -66,7 +66,7 @@ function create_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_co
         "/v20210603/Monitors",
         Dict{String,Any}("MonitorName" => MonitorName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_monitor(
@@ -87,7 +87,7 @@ function create_monitor(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -106,7 +106,7 @@ function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_co
         "DELETE",
         "/v20210603/Monitors/$(MonitorName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_monitor(
@@ -119,7 +119,7 @@ function delete_monitor(
         "/v20210603/Monitors/$(MonitorName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -154,7 +154,7 @@ function get_health_event(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/HealthEvents/$(EventId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_health_event(
@@ -168,7 +168,7 @@ function get_health_event(
         "/v20210603/Monitors/$(MonitorName)/HealthEvents/$(EventId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -192,7 +192,7 @@ function get_internet_event(EventId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/v20210603/InternetEvents/$(EventId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_internet_event(
@@ -203,7 +203,7 @@ function get_internet_event(
         "/v20210603/InternetEvents/$(EventId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -230,7 +230,7 @@ function get_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/v20210603/Monitors/$(MonitorName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_monitor(
@@ -243,7 +243,7 @@ function get_monitor(
         "/v20210603/Monitors/$(MonitorName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -275,7 +275,7 @@ function get_query_results(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Results";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_results(
@@ -289,7 +289,7 @@ function get_query_results(
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Results",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -317,7 +317,7 @@ function get_query_status(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Status";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_status(
@@ -331,7 +331,7 @@ function get_query_status(
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Status",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -367,7 +367,7 @@ function list_health_events(MonitorName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/v20210603/Monitors/$(MonitorName)/HealthEvents";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_health_events(
@@ -380,7 +380,7 @@ function list_health_events(
         "/v20210603/Monitors/$(MonitorName)/HealthEvents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -416,7 +416,7 @@ function list_internet_events(; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/v20210603/InternetEvents";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_internet_events(
@@ -427,7 +427,7 @@ function list_internet_events(
         "/v20210603/InternetEvents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -454,7 +454,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
     return internetmonitor(
-        "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/v20210603/Monitors";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_monitors(
@@ -465,7 +468,7 @@ function list_monitors(
         "/v20210603/Monitors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -487,7 +490,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -500,7 +503,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -559,7 +562,7 @@ function start_query(
             "EndTime" => EndTime, "QueryType" => QueryType, "StartTime" => StartTime
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_query(
@@ -583,7 +586,7 @@ function start_query(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -604,7 +607,7 @@ function stop_query(MonitorName, QueryId; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_query(
@@ -618,7 +621,7 @@ function stop_query(
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -644,7 +647,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -658,7 +661,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -681,7 +684,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -695,7 +698,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -755,7 +758,7 @@ function update_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_co
         "/v20210603/Monitors/$(MonitorName)",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_monitor(
@@ -770,6 +773,6 @@ function update_monitor(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

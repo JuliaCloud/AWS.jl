@@ -29,7 +29,7 @@ function clone_receipt_rule_set(
             "OriginalRuleSetName" => OriginalRuleSetName, "RuleSetName" => RuleSetName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function clone_receipt_rule_set(
@@ -51,7 +51,7 @@ function clone_receipt_rule_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -74,7 +74,7 @@ function create_configuration_set(
         "CreateConfigurationSet",
         Dict{String,Any}("ConfigurationSet" => ConfigurationSet);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configuration_set(
@@ -90,7 +90,7 @@ function create_configuration_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -125,7 +125,7 @@ function create_configuration_set_event_destination(
             "EventDestination" => EventDestination,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configuration_set_event_destination(
@@ -147,7 +147,7 @@ function create_configuration_set_event_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -177,7 +177,7 @@ function create_configuration_set_tracking_options(
             "TrackingOptions" => TrackingOptions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_configuration_set_tracking_options(
@@ -199,7 +199,7 @@ function create_configuration_set_tracking_options(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -245,7 +245,7 @@ function create_custom_verification_email_template(
             "TemplateSubject" => TemplateSubject,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_custom_verification_email_template(
@@ -275,7 +275,7 @@ function create_custom_verification_email_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -296,7 +296,7 @@ function create_receipt_filter(Filter; aws_config::AbstractAWSConfig=global_aws_
         "CreateReceiptFilter",
         Dict{String,Any}("Filter" => Filter);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_receipt_filter(
@@ -306,7 +306,7 @@ function create_receipt_filter(
         "CreateReceiptFilter",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filter" => Filter), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -334,7 +334,7 @@ function create_receipt_rule(
         "CreateReceiptRule",
         Dict{String,Any}("Rule" => Rule, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_receipt_rule(
@@ -353,7 +353,7 @@ function create_receipt_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -377,7 +377,7 @@ function create_receipt_rule_set(
         "CreateReceiptRuleSet",
         Dict{String,Any}("RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_receipt_rule_set(
@@ -391,7 +391,7 @@ function create_receipt_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetName" => RuleSetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -413,7 +413,7 @@ function create_template(Template; aws_config::AbstractAWSConfig=global_aws_conf
         "CreateTemplate",
         Dict{String,Any}("Template" => Template);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_template(
@@ -427,7 +427,7 @@ function create_template(
             mergewith(_merge, Dict{String,Any}("Template" => Template), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -450,7 +450,7 @@ function delete_configuration_set(
         "DeleteConfigurationSet",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_set(
@@ -468,7 +468,7 @@ function delete_configuration_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -499,7 +499,7 @@ function delete_configuration_set_event_destination(
             "EventDestinationName" => EventDestinationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_set_event_destination(
@@ -521,7 +521,7 @@ function delete_configuration_set_event_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -548,7 +548,7 @@ function delete_configuration_set_tracking_options(
         "DeleteConfigurationSetTrackingOptions",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_configuration_set_tracking_options(
@@ -566,7 +566,7 @@ function delete_configuration_set_tracking_options(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -589,7 +589,7 @@ function delete_custom_verification_email_template(
         "DeleteCustomVerificationEmailTemplate",
         Dict{String,Any}("TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_custom_verification_email_template(
@@ -603,7 +603,7 @@ function delete_custom_verification_email_template(
             mergewith(_merge, Dict{String,Any}("TemplateName" => TemplateName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,7 +624,7 @@ function delete_identity(Identity; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteIdentity",
         Dict{String,Any}("Identity" => Identity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_identity(
@@ -638,7 +638,7 @@ function delete_identity(
             mergewith(_merge, Dict{String,Any}("Identity" => Identity), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -669,7 +669,7 @@ function delete_identity_policy(
         "DeleteIdentityPolicy",
         Dict{String,Any}("Identity" => Identity, "PolicyName" => PolicyName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_identity_policy(
@@ -688,7 +688,7 @@ function delete_identity_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -711,7 +711,7 @@ function delete_receipt_filter(
         "DeleteReceiptFilter",
         Dict{String,Any}("FilterName" => FilterName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_receipt_filter(
@@ -725,7 +725,7 @@ function delete_receipt_filter(
             mergewith(_merge, Dict{String,Any}("FilterName" => FilterName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -749,7 +749,7 @@ function delete_receipt_rule(
         "DeleteReceiptRule",
         Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_receipt_rule(
@@ -768,7 +768,7 @@ function delete_receipt_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -792,7 +792,7 @@ function delete_receipt_rule_set(
         "DeleteReceiptRuleSet",
         Dict{String,Any}("RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_receipt_rule_set(
@@ -806,7 +806,7 @@ function delete_receipt_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetName" => RuleSetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -825,7 +825,7 @@ function delete_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_
         "DeleteTemplate",
         Dict{String,Any}("TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_template(
@@ -839,7 +839,7 @@ function delete_template(
             mergewith(_merge, Dict{String,Any}("TemplateName" => TemplateName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function delete_verified_email_address(
         "DeleteVerifiedEmailAddress",
         Dict{String,Any}("EmailAddress" => EmailAddress);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_verified_email_address(
@@ -874,7 +874,7 @@ function delete_verified_email_address(
             mergewith(_merge, Dict{String,Any}("EmailAddress" => EmailAddress), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -893,7 +893,7 @@ function describe_active_receipt_rule_set(;
     return ses(
         "DescribeActiveReceiptRuleSet";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_active_receipt_rule_set(
@@ -903,7 +903,7 @@ function describe_active_receipt_rule_set(
         "DescribeActiveReceiptRuleSet",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -929,7 +929,7 @@ function describe_configuration_set(
         "DescribeConfigurationSet",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_configuration_set(
@@ -947,7 +947,7 @@ function describe_configuration_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -971,7 +971,7 @@ function describe_receipt_rule(
         "DescribeReceiptRule",
         Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_receipt_rule(
@@ -990,7 +990,7 @@ function describe_receipt_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1013,7 +1013,7 @@ function describe_receipt_rule_set(
         "DescribeReceiptRuleSet",
         Dict{String,Any}("RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_receipt_rule_set(
@@ -1027,7 +1027,7 @@ function describe_receipt_rule_set(
             mergewith(_merge, Dict{String,Any}("RuleSetName" => RuleSetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1041,7 +1041,7 @@ execute this operation no more than once per second.
 """
 function get_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config())
     return ses(
-        "GetAccountSendingEnabled"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetAccountSendingEnabled"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_account_sending_enabled(
@@ -1051,7 +1051,7 @@ function get_account_sending_enabled(
         "GetAccountSendingEnabled",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1075,7 +1075,7 @@ function get_custom_verification_email_template(
         "GetCustomVerificationEmailTemplate",
         Dict{String,Any}("TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_custom_verification_email_template(
@@ -1089,7 +1089,7 @@ function get_custom_verification_email_template(
             mergewith(_merge, Dict{String,Any}("TemplateName" => TemplateName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1122,7 +1122,7 @@ function get_identity_dkim_attributes(
         "GetIdentityDkimAttributes",
         Dict{String,Any}("Identities" => Identities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_dkim_attributes(
@@ -1136,7 +1136,7 @@ function get_identity_dkim_attributes(
             mergewith(_merge, Dict{String,Any}("Identities" => Identities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1159,7 +1159,7 @@ function get_identity_mail_from_domain_attributes(
         "GetIdentityMailFromDomainAttributes",
         Dict{String,Any}("Identities" => Identities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_mail_from_domain_attributes(
@@ -1173,7 +1173,7 @@ function get_identity_mail_from_domain_attributes(
             mergewith(_merge, Dict{String,Any}("Identities" => Identities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1200,7 +1200,7 @@ function get_identity_notification_attributes(
         "GetIdentityNotificationAttributes",
         Dict{String,Any}("Identities" => Identities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_notification_attributes(
@@ -1214,7 +1214,7 @@ function get_identity_notification_attributes(
             mergewith(_merge, Dict{String,Any}("Identities" => Identities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1247,7 +1247,7 @@ function get_identity_policies(
         "GetIdentityPolicies",
         Dict{String,Any}("Identity" => Identity, "PolicyNames" => PolicyNames);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_policies(
@@ -1266,7 +1266,7 @@ function get_identity_policies(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1301,7 +1301,7 @@ function get_identity_verification_attributes(
         "GetIdentityVerificationAttributes",
         Dict{String,Any}("Identities" => Identities);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_verification_attributes(
@@ -1315,7 +1315,7 @@ function get_identity_verification_attributes(
             mergewith(_merge, Dict{String,Any}("Identities" => Identities), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1328,13 +1328,13 @@ more than once per second.
 
 """
 function get_send_quota(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("GetSendQuota"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ses("GetSendQuota"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function get_send_quota(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ses(
-        "GetSendQuota", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSendQuota", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1349,13 +1349,18 @@ operation no more than once per second.
 
 """
 function get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("GetSendStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ses(
+        "GetSendStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function get_send_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ses(
-        "GetSendStatistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSendStatistics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1375,7 +1380,7 @@ function get_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_con
         "GetTemplate",
         Dict{String,Any}("TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_template(
@@ -1389,7 +1394,7 @@ function get_template(
             mergewith(_merge, Dict{String,Any}("TemplateName" => TemplateName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1414,7 +1419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return ses(
-        "ListConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_configuration_sets(
@@ -1424,7 +1429,7 @@ function list_configuration_sets(
         "ListConfigurationSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1451,7 +1456,7 @@ function list_custom_verification_email_templates(;
     return ses(
         "ListCustomVerificationEmailTemplates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_custom_verification_email_templates(
@@ -1461,7 +1466,7 @@ function list_custom_verification_email_templates(
         "ListCustomVerificationEmailTemplates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1490,13 +1495,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use for pagination.
 """
 function list_identities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("ListIdentities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ses("ListIdentities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ses(
-        "ListIdentities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListIdentities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1525,7 +1530,7 @@ function list_identity_policies(Identity; aws_config::AbstractAWSConfig=global_a
         "ListIdentityPolicies",
         Dict{String,Any}("Identity" => Identity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_policies(
@@ -1539,7 +1544,7 @@ function list_identity_policies(
             mergewith(_merge, Dict{String,Any}("Identity" => Identity), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1553,13 +1558,18 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function list_receipt_filters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("ListReceiptFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ses(
+        "ListReceiptFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_receipt_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ses(
-        "ListReceiptFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListReceiptFilters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1581,7 +1591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_receipt_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return ses(
-        "ListReceiptRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListReceiptRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_receipt_rule_sets(
@@ -1591,7 +1601,7 @@ function list_receipt_rule_sets(
         "ListReceiptRuleSets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1611,13 +1621,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   position in the list of email templates.
 """
 function list_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("ListTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ses("ListTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ses(
-        "ListTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1631,7 +1641,9 @@ associated with your account.
 """
 function list_verified_email_addresses(; aws_config::AbstractAWSConfig=global_aws_config())
     return ses(
-        "ListVerifiedEmailAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVerifiedEmailAddresses";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_verified_email_addresses(
@@ -1641,7 +1653,7 @@ function list_verified_email_addresses(
         "ListVerifiedEmailAddresses",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1666,7 +1678,7 @@ function put_configuration_set_delivery_options(
         "PutConfigurationSetDeliveryOptions",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_configuration_set_delivery_options(
@@ -1684,7 +1696,7 @@ function put_configuration_set_delivery_options(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1720,7 +1732,7 @@ function put_identity_policy(
             "Identity" => Identity, "Policy" => Policy, "PolicyName" => PolicyName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_identity_policy(
@@ -1742,7 +1754,7 @@ function put_identity_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1768,7 +1780,7 @@ function reorder_receipt_rule_set(
         "ReorderReceiptRuleSet",
         Dict{String,Any}("RuleNames" => RuleNames, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reorder_receipt_rule_set(
@@ -1787,7 +1799,7 @@ function reorder_receipt_rule_set(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1834,7 +1846,7 @@ function send_bounce(
             "OriginalMessageId" => OriginalMessageId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_bounce(
@@ -1858,7 +1870,7 @@ function send_bounce(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1950,7 +1962,7 @@ function send_bulk_templated_email(
             "Destinations" => Destinations, "Source" => Source, "Template" => Template
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_bulk_templated_email(
@@ -1974,7 +1986,7 @@ function send_bulk_templated_email(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2007,7 +2019,7 @@ function send_custom_verification_email(
         "SendCustomVerificationEmail",
         Dict{String,Any}("EmailAddress" => EmailAddress, "TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_custom_verification_email(
@@ -2028,7 +2040,7 @@ function send_custom_verification_email(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2115,7 +2127,7 @@ function send_email(
             "Destination" => Destination, "Message" => Message, "Source" => Source
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_email(
@@ -2137,7 +2149,7 @@ function send_email(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2257,7 +2269,7 @@ function send_raw_email(RawMessage; aws_config::AbstractAWSConfig=global_aws_con
         "SendRawEmail",
         Dict{String,Any}("RawMessage" => RawMessage);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_raw_email(
@@ -2271,7 +2283,7 @@ function send_raw_email(
             mergewith(_merge, Dict{String,Any}("RawMessage" => RawMessage), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2374,7 +2386,7 @@ function send_templated_email(
             "TemplateData" => TemplateData,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_templated_email(
@@ -2400,7 +2412,7 @@ function send_templated_email(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2420,7 +2432,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config())
     return ses(
-        "SetActiveReceiptRuleSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SetActiveReceiptRuleSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function set_active_receipt_rule_set(
@@ -2430,7 +2442,7 @@ function set_active_receipt_rule_set(
         "SetActiveReceiptRuleSet",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2462,7 +2474,7 @@ function set_identity_dkim_enabled(
         "SetIdentityDkimEnabled",
         Dict{String,Any}("DkimEnabled" => DkimEnabled, "Identity" => Identity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_dkim_enabled(
@@ -2481,7 +2493,7 @@ function set_identity_dkim_enabled(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2515,7 +2527,7 @@ function set_identity_feedback_forwarding_enabled(
         "SetIdentityFeedbackForwardingEnabled",
         Dict{String,Any}("ForwardingEnabled" => ForwardingEnabled, "Identity" => Identity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_feedback_forwarding_enabled(
@@ -2536,7 +2548,7 @@ function set_identity_feedback_forwarding_enabled(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2572,7 +2584,7 @@ function set_identity_headers_in_notifications_enabled(
             "NotificationType" => NotificationType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_headers_in_notifications_enabled(
@@ -2596,7 +2608,7 @@ function set_identity_headers_in_notifications_enabled(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2635,7 +2647,7 @@ function set_identity_mail_from_domain(
         "SetIdentityMailFromDomain",
         Dict{String,Any}("Identity" => Identity);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_mail_from_domain(
@@ -2649,7 +2661,7 @@ function set_identity_mail_from_domain(
             mergewith(_merge, Dict{String,Any}("Identity" => Identity), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2687,7 +2699,7 @@ function set_identity_notification_topic(
         "SetIdentityNotificationTopic",
         Dict{String,Any}("Identity" => Identity, "NotificationType" => NotificationType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_identity_notification_topic(
@@ -2708,7 +2720,7 @@ function set_identity_notification_topic(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2736,7 +2748,7 @@ function set_receipt_rule_position(
         "SetReceiptRulePosition",
         Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_receipt_rule_position(
@@ -2755,7 +2767,7 @@ function set_receipt_rule_position(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2780,7 +2792,7 @@ function test_render_template(
         "TestRenderTemplate",
         Dict{String,Any}("TemplateData" => TemplateData, "TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function test_render_template(
@@ -2801,7 +2813,7 @@ function test_render_template(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2825,7 +2837,7 @@ function update_account_sending_enabled(; aws_config::AbstractAWSConfig=global_a
     return ses(
         "UpdateAccountSendingEnabled";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_account_sending_enabled(
@@ -2835,7 +2847,7 @@ function update_account_sending_enabled(
         "UpdateAccountSendingEnabled",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2870,7 +2882,7 @@ function update_configuration_set_event_destination(
             "EventDestination" => EventDestination,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configuration_set_event_destination(
@@ -2892,7 +2904,7 @@ function update_configuration_set_event_destination(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2921,7 +2933,7 @@ function update_configuration_set_reputation_metrics_enabled(
             "ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configuration_set_reputation_metrics_enabled(
@@ -2942,7 +2954,7 @@ function update_configuration_set_reputation_metrics_enabled(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2971,7 +2983,7 @@ function update_configuration_set_sending_enabled(
             "ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configuration_set_sending_enabled(
@@ -2992,7 +3004,7 @@ function update_configuration_set_sending_enabled(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3021,7 +3033,7 @@ function update_configuration_set_tracking_options(
             "TrackingOptions" => TrackingOptions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_configuration_set_tracking_options(
@@ -3043,7 +3055,7 @@ function update_configuration_set_tracking_options(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3078,7 +3090,7 @@ function update_custom_verification_email_template(
         "UpdateCustomVerificationEmailTemplate",
         Dict{String,Any}("TemplateName" => TemplateName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_custom_verification_email_template(
@@ -3092,7 +3104,7 @@ function update_custom_verification_email_template(
             mergewith(_merge, Dict{String,Any}("TemplateName" => TemplateName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3115,7 +3127,7 @@ function update_receipt_rule(
         "UpdateReceiptRule",
         Dict{String,Any}("Rule" => Rule, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_receipt_rule(
@@ -3134,7 +3146,7 @@ function update_receipt_rule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3155,7 +3167,7 @@ function update_template(Template; aws_config::AbstractAWSConfig=global_aws_conf
         "UpdateTemplate",
         Dict{String,Any}("Template" => Template);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_template(
@@ -3169,7 +3181,7 @@ function update_template(
             mergewith(_merge, Dict{String,Any}("Template" => Template), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3203,7 +3215,7 @@ function verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=global_aws_con
         "VerifyDomainDkim",
         Dict{String,Any}("Domain" => Domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_domain_dkim(
@@ -3213,7 +3225,7 @@ function verify_domain_dkim(
         "VerifyDomainDkim",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Domain" => Domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3235,7 +3247,7 @@ function verify_domain_identity(Domain; aws_config::AbstractAWSConfig=global_aws
         "VerifyDomainIdentity",
         Dict{String,Any}("Domain" => Domain);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_domain_identity(
@@ -3245,7 +3257,7 @@ function verify_domain_identity(
         "VerifyDomainIdentity",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Domain" => Domain), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3266,7 +3278,7 @@ function verify_email_address(
         "VerifyEmailAddress",
         Dict{String,Any}("EmailAddress" => EmailAddress);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_email_address(
@@ -3280,7 +3292,7 @@ function verify_email_address(
             mergewith(_merge, Dict{String,Any}("EmailAddress" => EmailAddress), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3304,7 +3316,7 @@ function verify_email_identity(
         "VerifyEmailIdentity",
         Dict{String,Any}("EmailAddress" => EmailAddress);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function verify_email_identity(
@@ -3318,6 +3330,6 @@ function verify_email_identity(
             mergewith(_merge, Dict{String,Any}("EmailAddress" => EmailAddress), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -27,7 +27,7 @@ function associate_user_to_permission_group(
         "/permission-group/$(permissionGroupId)/users/$(userId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_user_to_permission_group(
@@ -43,7 +43,7 @@ function associate_user_to_permission_group(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -103,7 +103,7 @@ function create_changeset(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_changeset(
@@ -130,7 +130,7 @@ function create_changeset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -165,7 +165,7 @@ function create_data_view(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_data_view(
@@ -188,7 +188,7 @@ function create_data_view(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -228,7 +228,7 @@ function create_dataset(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_dataset(
@@ -254,7 +254,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -297,7 +297,7 @@ function create_permission_group(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_permission_group(
@@ -321,7 +321,7 @@ function create_permission_group(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -361,7 +361,7 @@ function create_user(emailAddress, type; aws_config::AbstractAWSConfig=global_aw
             "emailAddress" => emailAddress, "type" => type, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user(
@@ -385,7 +385,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -408,7 +408,7 @@ function delete_dataset(datasetId; aws_config::AbstractAWSConfig=global_aws_conf
         "/datasetsv2/$(datasetId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_dataset(
@@ -423,7 +423,7 @@ function delete_dataset(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -449,7 +449,7 @@ function delete_permission_group(
         "/permission-group/$(permissionGroupId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_permission_group(
@@ -464,7 +464,7 @@ function delete_permission_group(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -487,7 +487,7 @@ function disable_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
         "/user/$(userId)/disable",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_user(
@@ -500,7 +500,7 @@ function disable_user(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,7 +526,7 @@ function disassociate_user_from_permission_group(
         "/permission-group/$(permissionGroupId)/users/$(userId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_user_from_permission_group(
@@ -542,7 +542,7 @@ function disassociate_user_from_permission_group(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -565,7 +565,7 @@ function enable_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
         "/user/$(userId)/enable",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_user(
@@ -578,7 +578,7 @@ function enable_user(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -601,7 +601,7 @@ function get_changeset(
         "GET",
         "/datasets/$(datasetId)/changesetsv2/$(changesetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_changeset(
@@ -615,7 +615,7 @@ function get_changeset(
         "/datasets/$(datasetId)/changesetsv2/$(changesetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -637,7 +637,7 @@ function get_data_view(
         "GET",
         "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_data_view(
@@ -651,7 +651,7 @@ function get_data_view(
         "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -670,7 +670,7 @@ function get_dataset(datasetId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/datasetsv2/$(datasetId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_dataset(
@@ -683,7 +683,7 @@ function get_dataset(
         "/datasetsv2/$(datasetId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -707,7 +707,7 @@ function get_external_data_view_access_details(
         "POST",
         "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)/external-access-details";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_external_data_view_access_details(
@@ -721,7 +721,7 @@ function get_external_data_view_access_details(
         "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)/external-access-details",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -742,7 +742,7 @@ function get_permission_group(
         "GET",
         "/permission-group/$(permissionGroupId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_permission_group(
@@ -755,7 +755,7 @@ function get_permission_group(
         "/permission-group/$(permissionGroupId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -781,7 +781,7 @@ function get_programmatic_access_credentials(
         "/credentials/programmatic",
         Dict{String,Any}("environmentId" => environmentId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_programmatic_access_credentials(
@@ -796,7 +796,7 @@ function get_programmatic_access_credentials(
             mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -812,7 +812,7 @@ Retrieves details for a specific user.
 """
 function get_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace_data(
-        "GET", "/user/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/user/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_user(
@@ -823,7 +823,7 @@ function get_user(
         "/user/$(userId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -844,7 +844,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_working_location(; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace_data(
-        "POST", "/workingLocationV1"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/workingLocationV1";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_working_location(
@@ -855,7 +858,7 @@ function get_working_location(
         "/workingLocationV1",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +882,7 @@ function list_changesets(datasetId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/datasets/$(datasetId)/changesetsv2";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_changesets(
@@ -892,7 +895,7 @@ function list_changesets(
         "/datasets/$(datasetId)/changesetsv2",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -915,7 +918,7 @@ function list_data_views(datasetId; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/datasets/$(datasetId)/dataviewsv2";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_data_views(
@@ -928,7 +931,7 @@ function list_data_views(
         "/datasets/$(datasetId)/dataviewsv2",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -945,14 +948,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace_data(
-        "GET", "/datasetsv2"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datasetsv2"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return finspace_data(
-        "GET", "/datasetsv2", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/datasetsv2",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -977,7 +984,7 @@ function list_permission_groups(
         "/permission-group",
         Dict{String,Any}("maxResults" => maxResults);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_permission_groups(
@@ -992,7 +999,7 @@ function list_permission_groups(
             mergewith(_merge, Dict{String,Any}("maxResults" => maxResults), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1018,7 +1025,7 @@ function list_permission_groups_by_user(
         "/user/$(userId)/permission-groups",
         Dict{String,Any}("maxResults" => maxResults);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_permission_groups_by_user(
@@ -1034,7 +1041,7 @@ function list_permission_groups_by_user(
             mergewith(_merge, Dict{String,Any}("maxResults" => maxResults), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1057,7 +1064,7 @@ function list_users(maxResults; aws_config::AbstractAWSConfig=global_aws_config(
         "/user",
         Dict{String,Any}("maxResults" => maxResults);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_users(
@@ -1072,7 +1079,7 @@ function list_users(
             mergewith(_merge, Dict{String,Any}("maxResults" => maxResults), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1098,7 +1105,7 @@ function list_users_by_permission_group(
         "/permission-group/$(permissionGroupId)/users",
         Dict{String,Any}("maxResults" => maxResults);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_users_by_permission_group(
@@ -1114,7 +1121,7 @@ function list_users_by_permission_group(
             mergewith(_merge, Dict{String,Any}("maxResults" => maxResults), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1139,7 +1146,7 @@ function reset_user_password(userId; aws_config::AbstractAWSConfig=global_aws_co
         "/user/$(userId)/password",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function reset_user_password(
@@ -1152,7 +1159,7 @@ function reset_user_password(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1207,7 +1214,7 @@ function update_changeset(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_changeset(
@@ -1233,7 +1240,7 @@ function update_changeset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1267,7 +1274,7 @@ function update_dataset(
             "datasetTitle" => datasetTitle, "kind" => kind, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_dataset(
@@ -1292,7 +1299,7 @@ function update_dataset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1332,7 +1339,7 @@ function update_permission_group(
         "/permission-group/$(permissionGroupId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_permission_group(
@@ -1347,7 +1354,7 @@ function update_permission_group(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1383,7 +1390,7 @@ function update_user(userId; aws_config::AbstractAWSConfig=global_aws_config())
         "/user/$(userId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_user(
@@ -1396,6 +1403,6 @@ function update_user(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

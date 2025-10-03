@@ -30,7 +30,7 @@ function associate_license(
         "POST",
         "/workspaces/$(workspaceId)/licenses/$(licenseType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_license(
@@ -44,7 +44,7 @@ function associate_license(
         "/workspaces/$(workspaceId)/licenses/$(licenseType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -133,7 +133,7 @@ function create_workspace(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workspace(
@@ -159,7 +159,7 @@ function create_workspace(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -196,7 +196,7 @@ function create_workspace_api_key(
             "keyName" => keyName, "keyRole" => keyRole, "secondsToLive" => secondsToLive
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workspace_api_key(
@@ -222,7 +222,7 @@ function create_workspace_api_key(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -256,7 +256,7 @@ function create_workspace_service_account(
         "/workspaces/$(workspaceId)/serviceaccounts",
         Dict{String,Any}("grafanaRole" => grafanaRole, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workspace_service_account(
@@ -277,7 +277,7 @@ function create_workspace_service_account(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -314,7 +314,7 @@ function create_workspace_service_account_token(
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens",
         Dict{String,Any}("name" => name, "secondsToLive" => secondsToLive);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workspace_service_account_token(
@@ -336,7 +336,7 @@ function create_workspace_service_account_token(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -355,7 +355,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workspace(
@@ -368,7 +368,7 @@ function delete_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -392,7 +392,7 @@ function delete_workspace_api_key(
         "DELETE",
         "/workspaces/$(workspaceId)/apikeys/$(keyName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workspace_api_key(
@@ -406,7 +406,7 @@ function delete_workspace_api_key(
         "/workspaces/$(workspaceId)/apikeys/$(keyName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -431,7 +431,7 @@ function delete_workspace_service_account(
         "DELETE",
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workspace_service_account(
@@ -445,7 +445,7 @@ function delete_workspace_service_account(
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -474,7 +474,7 @@ function delete_workspace_service_account_token(
         "DELETE",
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens/$(tokenId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workspace_service_account_token(
@@ -489,7 +489,7 @@ function delete_workspace_service_account_token(
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens/$(tokenId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -508,7 +508,7 @@ function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_workspace(
@@ -521,7 +521,7 @@ function describe_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -543,7 +543,7 @@ function describe_workspace_authentication(
         "GET",
         "/workspaces/$(workspaceId)/authentication";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_workspace_authentication(
@@ -556,7 +556,7 @@ function describe_workspace_authentication(
         "/workspaces/$(workspaceId)/authentication",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -577,7 +577,7 @@ function describe_workspace_configuration(
         "GET",
         "/workspaces/$(workspaceId)/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_workspace_configuration(
@@ -590,7 +590,7 @@ function describe_workspace_configuration(
         "/workspaces/$(workspaceId)/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -612,7 +612,7 @@ function disassociate_license(
         "DELETE",
         "/workspaces/$(workspaceId)/licenses/$(licenseType)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_license(
@@ -626,7 +626,7 @@ function disassociate_license(
         "/workspaces/$(workspaceId)/licenses/$(licenseType)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -660,7 +660,7 @@ function list_permissions(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/workspaces/$(workspaceId)/permissions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_permissions(
@@ -673,7 +673,7 @@ function list_permissions(
         "/workspaces/$(workspaceId)/permissions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -696,7 +696,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -709,7 +709,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -730,14 +730,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     return grafana(
-        "GET", "/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return grafana(
-        "GET", "/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -767,7 +767,7 @@ function list_workspace_service_account_tokens(
         "GET",
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workspace_service_account_tokens(
@@ -781,7 +781,7 @@ function list_workspace_service_account_tokens(
         "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -808,7 +808,7 @@ function list_workspace_service_accounts(
         "GET",
         "/workspaces/$(workspaceId)/serviceaccounts";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workspace_service_accounts(
@@ -821,7 +821,7 @@ function list_workspace_service_accounts(
         "/workspaces/$(workspaceId)/serviceaccounts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -841,14 +841,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return grafana(
-        "GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return grafana(
-        "GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/workspaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -874,7 +878,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -888,7 +892,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -912,7 +916,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -926,7 +930,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -950,7 +954,7 @@ function update_permissions(
         "/workspaces/$(workspaceId)/permissions",
         Dict{String,Any}("updateInstructionBatch" => updateInstructionBatch);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_permissions(
@@ -970,7 +974,7 @@ function update_permissions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1051,7 @@ function update_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_
         "PUT",
         "/workspaces/$(workspaceId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workspace(
@@ -1060,7 +1064,7 @@ function update_workspace(
         "/workspaces/$(workspaceId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1098,7 @@ function update_workspace_authentication(
         "/workspaces/$(workspaceId)/authentication",
         Dict{String,Any}("authenticationProviders" => authenticationProviders);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workspace_authentication(
@@ -1114,7 +1118,7 @@ function update_workspace_authentication(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1145,7 +1149,7 @@ function update_workspace_configuration(
         "/workspaces/$(workspaceId)/configuration",
         Dict{String,Any}("configuration" => configuration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_workspace_configuration(
@@ -1161,6 +1165,6 @@ function update_workspace_configuration(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

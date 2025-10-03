@@ -27,7 +27,7 @@ function create_suite_definition(
         "/suiteDefinitions",
         Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_suite_definition(
@@ -48,7 +48,7 @@ function create_suite_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -70,7 +70,7 @@ function delete_suite_definition(
         "DELETE",
         "/suiteDefinitions/$(suiteDefinitionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_suite_definition(
@@ -83,7 +83,7 @@ function delete_suite_definition(
         "/suiteDefinitions/$(suiteDefinitionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -102,14 +102,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotdeviceadvisor(
-        "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotdeviceadvisor(
-        "GET", "/endpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/endpoint", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -134,7 +134,7 @@ function get_suite_definition(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_suite_definition(
@@ -147,7 +147,7 @@ function get_suite_definition(
         "/suiteDefinitions/$(suiteDefinitionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -170,7 +170,7 @@ function get_suite_run(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_suite_run(
@@ -184,7 +184,7 @@ function get_suite_run(
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -207,7 +207,7 @@ function get_suite_run_report(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_suite_run_report(
@@ -221,7 +221,7 @@ function get_suite_run_report(
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -239,7 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotdeviceadvisor(
-        "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_suite_definitions(
@@ -250,7 +250,7 @@ function list_suite_definitions(
         "/suiteDefinitions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -273,14 +273,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotdeviceadvisor(
-        "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_suite_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotdeviceadvisor(
-        "GET", "/suiteRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/suiteRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -303,7 +307,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -316,7 +320,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -346,7 +350,7 @@ function start_suite_run(
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns",
         Dict{String,Any}("suiteRunConfiguration" => suiteRunConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_suite_run(
@@ -366,7 +370,7 @@ function start_suite_run(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -389,7 +393,7 @@ function stop_suite_run(
         "POST",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_suite_run(
@@ -403,7 +407,7 @@ function stop_suite_run(
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -426,7 +430,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -440,7 +444,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -465,7 +469,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -479,7 +483,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -506,7 +510,7 @@ function update_suite_definition(
         "/suiteDefinitions/$(suiteDefinitionId)",
         Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_suite_definition(
@@ -528,6 +532,6 @@ function update_suite_definition(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

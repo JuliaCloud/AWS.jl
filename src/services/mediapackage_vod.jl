@@ -22,7 +22,7 @@ function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config())
         "PUT",
         "/packaging_groups/$(id)/configure_logs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function configure_logs(
@@ -33,7 +33,7 @@ function configure_logs(
         "/packaging_groups/$(id)/configure_logs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -71,7 +71,7 @@ function create_asset(
             "sourceRoleArn" => sourceRoleArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_asset(
@@ -98,7 +98,7 @@ function create_asset(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -128,7 +128,7 @@ function create_packaging_configuration(
         "/packaging_configurations",
         Dict{String,Any}("id" => id, "packagingGroupId" => packagingGroupId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_packaging_configuration(
@@ -148,7 +148,7 @@ function create_packaging_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -173,7 +173,7 @@ function create_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_con
         "/packaging_groups",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_packaging_group(
@@ -184,7 +184,7 @@ function create_packaging_group(
         "/packaging_groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -200,7 +200,7 @@ Deletes an existing MediaPackage VOD Asset resource.
 """
 function delete_asset(id; aws_config::AbstractAWSConfig=global_aws_config())
     return mediapackage_vod(
-        "DELETE", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_asset(
@@ -211,7 +211,7 @@ function delete_asset(
         "/assets/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -232,7 +232,7 @@ function delete_packaging_configuration(
         "DELETE",
         "/packaging_configurations/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_packaging_configuration(
@@ -243,7 +243,7 @@ function delete_packaging_configuration(
         "/packaging_configurations/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -262,7 +262,7 @@ function delete_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_con
         "DELETE",
         "/packaging_groups/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_packaging_group(
@@ -273,7 +273,7 @@ function delete_packaging_group(
         "/packaging_groups/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -289,7 +289,7 @@ Returns a description of a MediaPackage VOD Asset resource.
 """
 function describe_asset(id; aws_config::AbstractAWSConfig=global_aws_config())
     return mediapackage_vod(
-        "GET", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_asset(
@@ -300,7 +300,7 @@ function describe_asset(
         "/assets/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -321,7 +321,7 @@ function describe_packaging_configuration(
         "GET",
         "/packaging_configurations/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_packaging_configuration(
@@ -332,7 +332,7 @@ function describe_packaging_configuration(
         "/packaging_configurations/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -351,7 +351,7 @@ function describe_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/packaging_groups/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_packaging_group(
@@ -362,7 +362,7 @@ function describe_packaging_group(
         "/packaging_groups/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -380,14 +380,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_assets(; aws_config::AbstractAWSConfig=global_aws_config())
     return mediapackage_vod(
-        "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_assets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mediapackage_vod(
-        "GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -409,7 +409,7 @@ function list_packaging_configurations(; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/packaging_configurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_packaging_configurations(
@@ -420,7 +420,7 @@ function list_packaging_configurations(
         "/packaging_configurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -437,7 +437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_packaging_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return mediapackage_vod(
-        "GET", "/packaging_groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/packaging_groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_packaging_groups(
@@ -448,7 +448,7 @@ function list_packaging_groups(
         "/packaging_groups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -470,7 +470,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resource-arn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -483,7 +483,7 @@ function list_tags_for_resource(
         "/tags/$(resource-arn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +505,7 @@ function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_a
         "/tags/$(resource-arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -519,7 +519,7 @@ function tag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -543,7 +543,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -557,7 +557,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -580,7 +580,7 @@ function update_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_con
         "PUT",
         "/packaging_groups/$(id)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_packaging_group(
@@ -591,6 +591,6 @@ function update_packaging_group(
         "/packaging_groups/$(id)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

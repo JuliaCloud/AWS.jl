@@ -28,7 +28,7 @@ function cancel_image_creation(
             "clientToken" => clientToken, "imageBuildVersionArn" => imageBuildVersionArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_image_creation(
@@ -51,7 +51,7 @@ function cancel_image_creation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -78,7 +78,7 @@ function cancel_lifecycle_execution(
             "clientToken" => clientToken, "lifecycleExecutionId" => lifecycleExecutionId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_lifecycle_execution(
@@ -101,7 +101,7 @@ function cancel_lifecycle_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -167,7 +167,7 @@ function create_component(
             "semanticVersion" => semanticVersion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_component(
@@ -194,7 +194,7 @@ function create_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -264,7 +264,7 @@ function create_container_recipe(
             "targetRepository" => targetRepository,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_container_recipe(
@@ -297,7 +297,7 @@ function create_container_recipe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -329,7 +329,7 @@ function create_distribution_configuration(
             "clientToken" => clientToken, "distributions" => distributions, "name" => name
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_distribution_configuration(
@@ -354,7 +354,7 @@ function create_distribution_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -403,7 +403,7 @@ function create_image(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_image(
@@ -426,7 +426,7 @@ function create_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -481,7 +481,7 @@ function create_image_pipeline(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_image_pipeline(
@@ -506,7 +506,7 @@ function create_image_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -566,7 +566,7 @@ function create_image_recipe(
             "semanticVersion" => semanticVersion,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_image_recipe(
@@ -595,7 +595,7 @@ function create_image_recipe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -653,7 +653,7 @@ function create_infrastructure_configuration(
             "name" => name,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_infrastructure_configuration(
@@ -678,7 +678,7 @@ function create_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -726,7 +726,7 @@ function create_lifecycle_policy(
             "resourceType" => resourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_lifecycle_policy(
@@ -757,7 +757,7 @@ function create_lifecycle_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -816,7 +816,7 @@ function create_workflow(
             "type" => type,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_workflow(
@@ -843,7 +843,7 @@ function create_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -866,7 +866,7 @@ function delete_component(
         "/DeleteComponent",
         Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_component(
@@ -885,7 +885,7 @@ function delete_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -907,7 +907,7 @@ function delete_container_recipe(
         "/DeleteContainerRecipe",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_container_recipe(
@@ -924,7 +924,7 @@ function delete_container_recipe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -947,7 +947,7 @@ function delete_distribution_configuration(
         "/DeleteDistributionConfiguration",
         Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_distribution_configuration(
@@ -968,7 +968,7 @@ function delete_distribution_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -997,7 +997,7 @@ function delete_image(
         "/DeleteImage",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image(
@@ -1016,7 +1016,7 @@ function delete_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1038,7 +1038,7 @@ function delete_image_pipeline(
         "/DeleteImagePipeline",
         Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image_pipeline(
@@ -1055,7 +1055,7 @@ function delete_image_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1077,7 +1077,7 @@ function delete_image_recipe(
         "/DeleteImageRecipe",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_image_recipe(
@@ -1092,7 +1092,7 @@ function delete_image_recipe(
             mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1117,7 +1117,7 @@ function delete_infrastructure_configuration(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_infrastructure_configuration(
@@ -1138,7 +1138,7 @@ function delete_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1161,7 +1161,7 @@ function delete_lifecycle_policy(
         "/DeleteLifecyclePolicy",
         Dict{String,Any}("lifecyclePolicyArn" => lifecyclePolicyArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_lifecycle_policy(
@@ -1178,7 +1178,7 @@ function delete_lifecycle_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1201,7 +1201,7 @@ function delete_workflow(
         "/DeleteWorkflow",
         Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_workflow(
@@ -1220,7 +1220,7 @@ function delete_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1243,7 +1243,7 @@ function get_component(
         "/GetComponent",
         Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_component(
@@ -1262,7 +1262,7 @@ function get_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1285,7 +1285,7 @@ function get_component_policy(
         "/GetComponentPolicy",
         Dict{String,Any}("componentArn" => componentArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_component_policy(
@@ -1300,7 +1300,7 @@ function get_component_policy(
             mergewith(_merge, Dict{String,Any}("componentArn" => componentArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1323,7 +1323,7 @@ function get_container_recipe(
         "/GetContainerRecipe",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_container_recipe(
@@ -1340,7 +1340,7 @@ function get_container_recipe(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1363,7 +1363,7 @@ function get_container_recipe_policy(
         "/GetContainerRecipePolicy",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_container_recipe_policy(
@@ -1380,7 +1380,7 @@ function get_container_recipe_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1403,7 +1403,7 @@ function get_distribution_configuration(
         "/GetDistributionConfiguration",
         Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_distribution_configuration(
@@ -1424,7 +1424,7 @@ function get_distribution_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1445,7 +1445,7 @@ function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aw
         "/GetImage",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image(
@@ -1464,7 +1464,7 @@ function get_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1487,7 +1487,7 @@ function get_image_pipeline(
         "/GetImagePipeline",
         Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_pipeline(
@@ -1504,7 +1504,7 @@ function get_image_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1525,7 +1525,7 @@ function get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_con
         "/GetImagePolicy",
         Dict{String,Any}("imageArn" => imageArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_policy(
@@ -1540,7 +1540,7 @@ function get_image_policy(
             mergewith(_merge, Dict{String,Any}("imageArn" => imageArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1561,7 +1561,7 @@ function get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_a
         "/GetImageRecipe",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_recipe(
@@ -1576,7 +1576,7 @@ function get_image_recipe(
             mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1599,7 +1599,7 @@ function get_image_recipe_policy(
         "/GetImageRecipePolicy",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_image_recipe_policy(
@@ -1614,7 +1614,7 @@ function get_image_recipe_policy(
             mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1639,7 +1639,7 @@ function get_infrastructure_configuration(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_infrastructure_configuration(
@@ -1660,7 +1660,7 @@ function get_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1684,7 +1684,7 @@ function get_lifecycle_execution(
         "/GetLifecycleExecution",
         Dict{String,Any}("lifecycleExecutionId" => lifecycleExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lifecycle_execution(
@@ -1703,7 +1703,7 @@ function get_lifecycle_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1726,7 +1726,7 @@ function get_lifecycle_policy(
         "/GetLifecyclePolicy",
         Dict{String,Any}("lifecyclePolicyArn" => lifecyclePolicyArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_lifecycle_policy(
@@ -1743,7 +1743,7 @@ function get_lifecycle_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1766,7 +1766,7 @@ function get_workflow(
         "/GetWorkflow",
         Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow(
@@ -1785,7 +1785,7 @@ function get_workflow(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1808,7 +1808,7 @@ function get_workflow_execution(
         "/GetWorkflowExecution",
         Dict{String,Any}("workflowExecutionId" => workflowExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow_execution(
@@ -1827,7 +1827,7 @@ function get_workflow_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1851,7 +1851,7 @@ function get_workflow_step_execution(
         "/GetWorkflowStepExecution",
         Dict{String,Any}("stepExecutionId" => stepExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_workflow_step_execution(
@@ -1868,7 +1868,7 @@ function get_workflow_step_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1931,7 +1931,7 @@ function import_component(
             "type" => type,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_component(
@@ -1962,7 +1962,7 @@ function import_component(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2020,7 +2020,7 @@ function import_vm_image(
             "vmImportTaskId" => vmImportTaskId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_vm_image(
@@ -2049,7 +2049,7 @@ function import_vm_image(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2083,7 +2083,7 @@ function list_component_build_versions(
         "/ListComponentBuildVersions",
         Dict{String,Any}("componentVersionArn" => componentVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_component_build_versions(
@@ -2102,7 +2102,7 @@ function list_component_build_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2134,7 +2134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
     return imagebuilder(
-        "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_components(
@@ -2145,7 +2145,7 @@ function list_components(
         "/ListComponents",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2171,7 +2171,7 @@ function list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_confi
         "POST",
         "/ListContainerRecipes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_container_recipes(
@@ -2182,7 +2182,7 @@ function list_container_recipes(
         "/ListContainerRecipes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2206,7 +2206,7 @@ function list_distribution_configurations(;
         "POST",
         "/ListDistributionConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_distribution_configurations(
@@ -2217,7 +2217,7 @@ function list_distribution_configurations(
         "/ListDistributionConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2247,7 +2247,7 @@ function list_image_build_versions(
         "/ListImageBuildVersions",
         Dict{String,Any}("imageVersionArn" => imageVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_build_versions(
@@ -2264,7 +2264,7 @@ function list_image_build_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2293,7 +2293,7 @@ function list_image_packages(
         "/ListImagePackages",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_packages(
@@ -2312,7 +2312,7 @@ function list_image_packages(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2341,7 +2341,7 @@ function list_image_pipeline_images(
         "/ListImagePipelineImages",
         Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_pipeline_images(
@@ -2358,7 +2358,7 @@ function list_image_pipeline_images(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2382,7 +2382,7 @@ function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(
         "POST",
         "/ListImagePipelines";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_pipelines(
@@ -2393,7 +2393,7 @@ function list_image_pipelines(
         "/ListImagePipelines",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2417,7 +2417,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
     return imagebuilder(
-        "POST", "/ListImageRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListImageRecipes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_recipes(
@@ -2428,7 +2431,7 @@ function list_image_recipes(
         "/ListImageRecipes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2457,7 +2460,7 @@ function list_image_scan_finding_aggregations(;
         "POST",
         "/ListImageScanFindingAggregations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_scan_finding_aggregations(
@@ -2468,7 +2471,7 @@ function list_image_scan_finding_aggregations(
         "/ListImageScanFindingAggregations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2493,7 +2496,7 @@ function list_image_scan_findings(; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/ListImageScanFindings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_image_scan_findings(
@@ -2504,7 +2507,7 @@ function list_image_scan_findings(
         "/ListImageScanFindings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2531,7 +2534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_images(; aws_config::AbstractAWSConfig=global_aws_config())
     return imagebuilder(
-        "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_images(
@@ -2542,7 +2545,7 @@ function list_images(
         "/ListImages",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2566,7 +2569,7 @@ function list_infrastructure_configurations(;
         "POST",
         "/ListInfrastructureConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_infrastructure_configurations(
@@ -2577,7 +2580,7 @@ function list_infrastructure_configurations(
         "/ListInfrastructureConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2611,7 +2614,7 @@ function list_lifecycle_execution_resources(
         "/ListLifecycleExecutionResources",
         Dict{String,Any}("lifecycleExecutionId" => lifecycleExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lifecycle_execution_resources(
@@ -2630,7 +2633,7 @@ function list_lifecycle_execution_resources(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2658,7 +2661,7 @@ function list_lifecycle_executions(
         "/ListLifecycleExecutions",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lifecycle_executions(
@@ -2673,7 +2676,7 @@ function list_lifecycle_executions(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2695,7 +2698,7 @@ function list_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/ListLifecyclePolicies";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_lifecycle_policies(
@@ -2706,7 +2709,7 @@ function list_lifecycle_policies(
         "/ListLifecyclePolicies",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2728,7 +2731,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -2741,7 +2744,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2763,7 +2766,7 @@ function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/ListWaitingWorkflowSteps";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_waiting_workflow_steps(
@@ -2774,7 +2777,7 @@ function list_waiting_workflow_steps(
         "/ListWaitingWorkflowSteps",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2802,7 +2805,7 @@ function list_workflow_build_versions(
         "/ListWorkflowBuildVersions",
         Dict{String,Any}("workflowVersionArn" => workflowVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflow_build_versions(
@@ -2819,7 +2822,7 @@ function list_workflow_build_versions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2848,7 +2851,7 @@ function list_workflow_executions(
         "/ListWorkflowExecutions",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflow_executions(
@@ -2867,7 +2870,7 @@ function list_workflow_executions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2896,7 +2899,7 @@ function list_workflow_step_executions(
         "/ListWorkflowStepExecutions",
         Dict{String,Any}("workflowExecutionId" => workflowExecutionId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_workflow_step_executions(
@@ -2915,7 +2918,7 @@ function list_workflow_step_executions(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2937,7 +2940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
     return imagebuilder(
-        "POST", "/ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_workflows(
@@ -2948,7 +2951,7 @@ function list_workflows(
         "/ListWorkflows",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2975,7 +2978,7 @@ function put_component_policy(
         "/PutComponentPolicy",
         Dict{String,Any}("componentArn" => componentArn, "policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_component_policy(
@@ -2995,7 +2998,7 @@ function put_component_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3026,7 +3029,7 @@ function put_container_recipe_policy(
         "/PutContainerRecipePolicy",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn, "policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_container_recipe_policy(
@@ -3048,7 +3051,7 @@ function put_container_recipe_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3075,7 +3078,7 @@ function put_image_policy(
         "/PutImagePolicy",
         Dict{String,Any}("imageArn" => imageArn, "policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_image_policy(
@@ -3093,7 +3096,7 @@ function put_image_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3120,7 +3123,7 @@ function put_image_recipe_policy(
         "/PutImageRecipePolicy",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn, "policy" => policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_image_recipe_policy(
@@ -3140,7 +3143,7 @@ function put_image_recipe_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3180,7 +3183,7 @@ function send_workflow_step_action(
             "stepExecutionId" => stepExecutionId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_workflow_step_action(
@@ -3207,7 +3210,7 @@ function send_workflow_step_action(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3234,7 +3237,7 @@ function start_image_pipeline_execution(
             "clientToken" => clientToken, "imagePipelineArn" => imagePipelineArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_image_pipeline_execution(
@@ -3256,7 +3259,7 @@ function start_image_pipeline_execution(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3294,7 +3297,7 @@ function start_resource_state_update(
             "clientToken" => clientToken, "resourceArn" => resourceArn, "state" => state
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_resource_state_update(
@@ -3319,7 +3322,7 @@ function start_resource_state_update(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3340,7 +3343,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -3354,7 +3357,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3377,7 +3380,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -3391,7 +3394,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3428,7 +3431,7 @@ function update_distribution_configuration(
             "distributions" => distributions,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_distribution_configuration(
@@ -3453,7 +3456,7 @@ function update_distribution_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3511,7 +3514,7 @@ function update_image_pipeline(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_image_pipeline(
@@ -3536,7 +3539,7 @@ function update_image_pipeline(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3598,7 +3601,7 @@ function update_infrastructure_configuration(
             "instanceProfileName" => instanceProfileName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_infrastructure_configuration(
@@ -3623,7 +3626,7 @@ function update_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3670,7 +3673,7 @@ function update_lifecycle_policy(
             "resourceType" => resourceType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_lifecycle_policy(
@@ -3701,6 +3704,6 @@ function update_lifecycle_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

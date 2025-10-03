@@ -27,7 +27,7 @@ function associate_fraudster(
             "WatchlistId" => WatchlistId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_fraudster(
@@ -51,7 +51,7 @@ function associate_fraudster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -90,7 +90,7 @@ function create_domain(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain(
@@ -114,7 +114,7 @@ function create_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -142,7 +142,7 @@ function create_watchlist(DomainId, Name; aws_config::AbstractAWSConfig=global_a
             "DomainId" => DomainId, "Name" => Name, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_watchlist(
@@ -163,7 +163,7 @@ function create_watchlist(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -182,7 +182,7 @@ function delete_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteDomain",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain(
@@ -196,7 +196,7 @@ function delete_domain(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -219,7 +219,7 @@ function delete_fraudster(
         "DeleteFraudster",
         Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fraudster(
@@ -238,7 +238,7 @@ function delete_fraudster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -260,7 +260,7 @@ function delete_speaker(
         "DeleteSpeaker",
         Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_speaker(
@@ -279,7 +279,7 @@ function delete_speaker(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -304,7 +304,7 @@ function delete_watchlist(
         "DeleteWatchlist",
         Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_watchlist(
@@ -323,7 +323,7 @@ function delete_watchlist(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -342,7 +342,7 @@ function describe_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeDomain",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_domain(
@@ -356,7 +356,7 @@ function describe_domain(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -378,7 +378,7 @@ function describe_fraudster(
         "DescribeFraudster",
         Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fraudster(
@@ -397,7 +397,7 @@ function describe_fraudster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -419,7 +419,7 @@ function describe_fraudster_registration_job(
         "DescribeFraudsterRegistrationJob",
         Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fraudster_registration_job(
@@ -436,7 +436,7 @@ function describe_fraudster_registration_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -458,7 +458,7 @@ function describe_speaker(
         "DescribeSpeaker",
         Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_speaker(
@@ -477,7 +477,7 @@ function describe_speaker(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -499,7 +499,7 @@ function describe_speaker_enrollment_job(
         "DescribeSpeakerEnrollmentJob",
         Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_speaker_enrollment_job(
@@ -516,7 +516,7 @@ function describe_speaker_enrollment_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -538,7 +538,7 @@ function describe_watchlist(
         "DescribeWatchlist",
         Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_watchlist(
@@ -557,7 +557,7 @@ function describe_watchlist(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -587,7 +587,7 @@ function disassociate_fraudster(
             "WatchlistId" => WatchlistId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_fraudster(
@@ -611,7 +611,7 @@ function disassociate_fraudster(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -635,7 +635,7 @@ function evaluate_session(
         "EvaluateSession",
         Dict{String,Any}("DomainId" => DomainId, "SessionNameOrId" => SessionNameOrId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function evaluate_session(
@@ -656,7 +656,7 @@ function evaluate_session(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -677,13 +677,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours.
 """
 function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return voice_id(
-        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -715,7 +715,7 @@ function list_fraudster_registration_jobs(
         "ListFraudsterRegistrationJobs",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fraudster_registration_jobs(
@@ -729,7 +729,7 @@ function list_fraudster_registration_jobs(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -759,7 +759,7 @@ function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=global_aws_conf
         "ListFraudsters",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fraudsters(
@@ -773,7 +773,7 @@ function list_fraudsters(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -806,7 +806,7 @@ function list_speaker_enrollment_jobs(
         "ListSpeakerEnrollmentJobs",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_speaker_enrollment_jobs(
@@ -820,7 +820,7 @@ function list_speaker_enrollment_jobs(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -848,7 +848,7 @@ function list_speakers(DomainId; aws_config::AbstractAWSConfig=global_aws_config
         "ListSpeakers",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_speakers(
@@ -862,7 +862,7 @@ function list_speakers(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -884,7 +884,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -898,7 +898,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -926,7 +926,7 @@ function list_watchlists(DomainId; aws_config::AbstractAWSConfig=global_aws_conf
         "ListWatchlists",
         Dict{String,Any}("DomainId" => DomainId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_watchlists(
@@ -940,7 +940,7 @@ function list_watchlists(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -966,7 +966,7 @@ function opt_out_speaker(
         "OptOutSpeaker",
         Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function opt_out_speaker(
@@ -985,7 +985,7 @@ function opt_out_speaker(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1034,7 +1034,7 @@ function start_fraudster_registration_job(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_fraudster_registration_job(
@@ -1061,7 +1061,7 @@ function start_fraudster_registration_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1110,7 +1110,7 @@ function start_speaker_enrollment_job(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_speaker_enrollment_job(
@@ -1137,7 +1137,7 @@ function start_speaker_enrollment_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1157,7 +1157,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1176,7 +1176,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1199,7 +1199,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1218,7 +1218,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1258,7 +1258,7 @@ function update_domain(
             "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_domain(
@@ -1283,7 +1283,7 @@ function update_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1310,7 +1310,7 @@ function update_watchlist(
         "UpdateWatchlist",
         Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_watchlist(
@@ -1329,6 +1329,6 @@ function update_watchlist(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

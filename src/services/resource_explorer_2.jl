@@ -27,7 +27,7 @@ function associate_default_view(ViewArn; aws_config::AbstractAWSConfig=global_aw
         "/AssociateDefaultView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_default_view(
@@ -38,7 +38,7 @@ function associate_default_view(
         "/AssociateDefaultView",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ViewArn" => ViewArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -55,7 +55,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function batch_get_view(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
-        "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function batch_get_view(
@@ -66,7 +66,7 @@ function batch_get_view(
         "/BatchGetView",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -115,7 +115,7 @@ function create_index(; aws_config::AbstractAWSConfig=global_aws_config())
         "/CreateIndex",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_index(
@@ -128,7 +128,7 @@ function create_index(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -176,7 +176,7 @@ function create_view(ViewName; aws_config::AbstractAWSConfig=global_aws_config()
         "/CreateView",
         Dict{String,Any}("ViewName" => ViewName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_view(
@@ -195,7 +195,7 @@ function create_view(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -223,7 +223,7 @@ function delete_index(Arn; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteIndex",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_index(
@@ -234,7 +234,7 @@ function delete_index(
         "/DeleteIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -256,7 +256,7 @@ function delete_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
         "/DeleteView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_view(
@@ -267,7 +267,7 @@ function delete_view(
         "/DeleteView",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ViewArn" => ViewArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -287,7 +287,7 @@ function disassociate_default_view(; aws_config::AbstractAWSConfig=global_aws_co
         "POST",
         "/DisassociateDefaultView";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_default_view(
@@ -298,7 +298,7 @@ function disassociate_default_view(
         "/DisassociateDefaultView",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -319,7 +319,7 @@ function get_account_level_service_configuration(;
         "POST",
         "/GetAccountLevelServiceConfiguration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_account_level_service_configuration(
@@ -330,7 +330,7 @@ function get_account_level_service_configuration(
         "/GetAccountLevelServiceConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -345,7 +345,7 @@ details of that view.
 """
 function get_default_view(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
-        "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_default_view(
@@ -356,7 +356,7 @@ function get_default_view(
         "/GetDefaultView",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -370,14 +370,18 @@ Services Region in which you invoked the operation.
 """
 function get_index(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
-        "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resource_explorer_2(
-        "POST", "/GetIndex", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/GetIndex",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -397,7 +401,7 @@ function get_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
         "/GetView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_view(
@@ -408,7 +412,7 @@ function get_view(
         "/GetView",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ViewArn" => ViewArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -440,7 +444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_indexes(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
-        "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_indexes(
@@ -451,7 +455,7 @@ function list_indexes(
         "/ListIndexes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -491,7 +495,7 @@ function list_indexes_for_members(
         "/ListIndexesForMembers",
         Dict{String,Any}("AccountIdList" => AccountIdList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_indexes_for_members(
@@ -506,7 +510,7 @@ function list_indexes_for_members(
             mergewith(_merge, Dict{String,Any}("AccountIdList" => AccountIdList), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -537,7 +541,7 @@ function list_supported_resource_types(; aws_config::AbstractAWSConfig=global_aw
         "POST",
         "/ListSupportedResourceTypes";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_supported_resource_types(
@@ -548,7 +552,7 @@ function list_supported_resource_types(
         "/ListSupportedResourceTypes",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -570,7 +574,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -583,7 +587,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,14 +618,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_views(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
-        "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_views(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resource_explorer_2(
-        "POST", "/ListViews", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/ListViews",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -674,7 +682,7 @@ function search(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
         "/Search",
         Dict{String,Any}("QueryString" => QueryString);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function search(
@@ -689,7 +697,7 @@ function search(
             mergewith(_merge, Dict{String,Any}("QueryString" => QueryString), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -714,7 +722,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -727,7 +735,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -753,7 +761,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -767,7 +775,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -821,7 +829,7 @@ function update_index_type(Arn, Type; aws_config::AbstractAWSConfig=global_aws_c
         "/UpdateIndexType",
         Dict{String,Any}("Arn" => Arn, "Type" => Type);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_index_type(
@@ -837,7 +845,7 @@ function update_index_type(
             mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Type" => Type), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -872,7 +880,7 @@ function update_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
         "/UpdateView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_view(
@@ -883,6 +891,6 @@ function update_view(
         "/UpdateView",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ViewArn" => ViewArn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

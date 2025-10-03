@@ -55,7 +55,7 @@ function add_permission(
             "QueueUrl" => QueueUrl,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_permission(
@@ -81,7 +81,7 @@ function add_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -109,7 +109,7 @@ function cancel_message_move_task(
         "CancelMessageMoveTask",
         Dict{String,Any}("TaskHandle" => TaskHandle);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_message_move_task(
@@ -123,7 +123,7 @@ function cancel_message_move_task(
             mergewith(_merge, Dict{String,Any}("TaskHandle" => TaskHandle), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -187,7 +187,7 @@ function change_message_visibility(
             "VisibilityTimeout" => VisibilityTimeout,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function change_message_visibility(
@@ -211,7 +211,7 @@ function change_message_visibility(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -240,7 +240,7 @@ function change_message_visibility_batch(
         "ChangeMessageVisibilityBatch",
         Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function change_message_visibility_batch(
@@ -259,7 +259,7 @@ function change_message_visibility_batch(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -400,7 +400,7 @@ function create_queue(QueueName; aws_config::AbstractAWSConfig=global_aws_config
         "CreateQueue",
         Dict{String,Any}("QueueName" => QueueName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_queue(
@@ -414,7 +414,7 @@ function create_queue(
             mergewith(_merge, Dict{String,Any}("QueueName" => QueueName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -451,7 +451,7 @@ function delete_message(
         "DeleteMessage",
         Dict{String,Any}("QueueUrl" => QueueUrl, "ReceiptHandle" => ReceiptHandle);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_message(
@@ -470,7 +470,7 @@ function delete_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -497,7 +497,7 @@ function delete_message_batch(
         "DeleteMessageBatch",
         Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_message_batch(
@@ -516,7 +516,7 @@ function delete_message_batch(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -544,7 +544,7 @@ function delete_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config(
         "DeleteQueue",
         Dict{String,Any}("QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_queue(
@@ -558,7 +558,7 @@ function delete_queue(
             mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -660,7 +660,7 @@ function get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=global_aws
         "GetQueueAttributes",
         Dict{String,Any}("QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_queue_attributes(
@@ -674,7 +674,7 @@ function get_queue_attributes(
             mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -703,7 +703,7 @@ function get_queue_url(QueueName; aws_config::AbstractAWSConfig=global_aws_confi
         "GetQueueUrl",
         Dict{String,Any}("QueueName" => QueueName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_queue_url(
@@ -717,7 +717,7 @@ function get_queue_url(
             mergewith(_merge, Dict{String,Any}("QueueName" => QueueName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -751,7 +751,7 @@ function list_dead_letter_source_queues(
         "ListDeadLetterSourceQueues",
         Dict{String,Any}("QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_dead_letter_source_queues(
@@ -765,7 +765,7 @@ function list_dead_letter_source_queues(
             mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -795,7 +795,7 @@ function list_message_move_tasks(
         "ListMessageMoveTasks",
         Dict{String,Any}("SourceArn" => SourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_message_move_tasks(
@@ -809,7 +809,7 @@ function list_message_move_tasks(
             mergewith(_merge, Dict{String,Any}("SourceArn" => SourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -831,7 +831,7 @@ function list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=global_aws_conf
         "ListQueueTags",
         Dict{String,Any}("QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_queue_tags(
@@ -845,7 +845,7 @@ function list_queue_tags(
             mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -874,12 +874,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   case-sensitive.
 """
 function list_queues(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs("ListQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sqs("ListQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sqs("ListQueues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sqs(
+        "ListQueues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 
 """
@@ -903,7 +905,7 @@ function purge_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
         "PurgeQueue",
         Dict{String,Any}("QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function purge_queue(
@@ -917,7 +919,7 @@ function purge_queue(
             mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1043,7 +1045,7 @@ function receive_message(QueueUrl; aws_config::AbstractAWSConfig=global_aws_conf
         "ReceiveMessage",
         Dict{String,Any}("QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function receive_message(
@@ -1057,7 +1059,7 @@ function receive_message(
             mergewith(_merge, Dict{String,Any}("QueueUrl" => QueueUrl), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1086,7 +1088,7 @@ function remove_permission(
         "RemovePermission",
         Dict{String,Any}("Label" => Label, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_permission(
@@ -1103,7 +1105,7 @@ function remove_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1194,7 +1196,7 @@ function send_message(
         "SendMessage",
         Dict{String,Any}("MessageBody" => MessageBody, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_message(
@@ -1213,7 +1215,7 @@ function send_message(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1251,7 +1253,7 @@ function send_message_batch(
         "SendMessageBatch",
         Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function send_message_batch(
@@ -1270,7 +1272,7 @@ function send_message_batch(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1387,7 +1389,7 @@ function set_queue_attributes(
         "SetQueueAttributes",
         Dict{String,Any}("Attributes" => Attributes, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function set_queue_attributes(
@@ -1406,7 +1408,7 @@ function set_queue_attributes(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1448,7 +1450,7 @@ function start_message_move_task(
         "StartMessageMoveTask",
         Dict{String,Any}("SourceArn" => SourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_message_move_task(
@@ -1462,7 +1464,7 @@ function start_message_move_task(
             mergewith(_merge, Dict{String,Any}("SourceArn" => SourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1490,7 +1492,7 @@ function tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=global_aws_conf
         "TagQueue",
         Dict{String,Any}("QueueUrl" => QueueUrl, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_queue(
@@ -1507,7 +1509,7 @@ function tag_queue(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1530,7 +1532,7 @@ function untag_queue(QueueUrl, TagKeys; aws_config::AbstractAWSConfig=global_aws
         "UntagQueue",
         Dict{String,Any}("QueueUrl" => QueueUrl, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_queue(
@@ -1549,6 +1551,6 @@ function untag_queue(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

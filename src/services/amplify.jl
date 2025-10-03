@@ -68,7 +68,7 @@ function create_app(name; aws_config::AbstractAWSConfig=global_aws_config())
         "/apps",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_app(
@@ -79,7 +79,7 @@ function create_app(
         "/apps",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -110,7 +110,7 @@ function create_backend_environment(
         "/apps/$(appId)/backendenvironments",
         Dict{String,Any}("environmentName" => environmentName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backend_environment(
@@ -128,7 +128,7 @@ function create_backend_environment(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -178,7 +178,7 @@ function create_branch(appId, branchName; aws_config::AbstractAWSConfig=global_a
         "/apps/$(appId)/branches",
         Dict{String,Any}("branchName" => branchName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_branch(
@@ -194,7 +194,7 @@ function create_branch(
             mergewith(_merge, Dict{String,Any}("branchName" => branchName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -225,7 +225,7 @@ function create_deployment(
         "POST",
         "/apps/$(appId)/branches/$(branchName)/deployments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_deployment(
@@ -239,7 +239,7 @@ function create_deployment(
         "/apps/$(appId)/branches/$(branchName)/deployments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -276,7 +276,7 @@ function create_domain_association(
             "domainName" => domainName, "subDomainSettings" => subDomainSettings
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_domain_association(
@@ -299,7 +299,7 @@ function create_domain_association(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -325,7 +325,7 @@ function create_webhook(
         "/apps/$(appId)/webhooks",
         Dict{String,Any}("branchName" => branchName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_webhook(
@@ -341,7 +341,7 @@ function create_webhook(
             mergewith(_merge, Dict{String,Any}("branchName" => branchName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -357,7 +357,7 @@ Deletes an existing Amplify app specified by an app ID.
 """
 function delete_app(appId; aws_config::AbstractAWSConfig=global_aws_config())
     return amplify(
-        "DELETE", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function delete_app(
@@ -368,7 +368,7 @@ function delete_app(
         "/apps/$(appId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -394,7 +394,7 @@ function delete_backend_environment(
         "DELETE",
         "/apps/$(appId)/backendenvironments/$(environmentName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backend_environment(
@@ -408,7 +408,7 @@ function delete_backend_environment(
         "/apps/$(appId)/backendenvironments/$(environmentName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -428,7 +428,7 @@ function delete_branch(appId, branchName; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/apps/$(appId)/branches/$(branchName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_branch(
@@ -442,7 +442,7 @@ function delete_branch(
         "/apps/$(appId)/branches/$(branchName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -464,7 +464,7 @@ function delete_domain_association(
         "DELETE",
         "/apps/$(appId)/domains/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_domain_association(
@@ -478,7 +478,7 @@ function delete_domain_association(
         "/apps/$(appId)/domains/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -501,7 +501,7 @@ function delete_job(
         "DELETE",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_job(
@@ -516,7 +516,7 @@ function delete_job(
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -535,7 +535,7 @@ function delete_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_conf
         "DELETE",
         "/webhooks/$(webhookId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_webhook(
@@ -548,7 +548,7 @@ function delete_webhook(
         "/webhooks/$(webhookId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -577,7 +577,7 @@ function generate_access_logs(
         "/apps/$(appId)/accesslogs",
         Dict{String,Any}("domainName" => domainName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_access_logs(
@@ -593,7 +593,7 @@ function generate_access_logs(
             mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -609,7 +609,7 @@ Returns an existing Amplify app specified by an app ID.
 """
 function get_app(appId; aws_config::AbstractAWSConfig=global_aws_config())
     return amplify(
-        "GET", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_app(
@@ -620,7 +620,7 @@ function get_app(
         "/apps/$(appId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -639,7 +639,7 @@ function get_artifact_url(artifactId; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/artifacts/$(artifactId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_artifact_url(
@@ -652,7 +652,7 @@ function get_artifact_url(
         "/artifacts/$(artifactId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -678,7 +678,7 @@ function get_backend_environment(
         "GET",
         "/apps/$(appId)/backendenvironments/$(environmentName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend_environment(
@@ -692,7 +692,7 @@ function get_backend_environment(
         "/apps/$(appId)/backendenvironments/$(environmentName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -712,7 +712,7 @@ function get_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/apps/$(appId)/branches/$(branchName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_branch(
@@ -726,7 +726,7 @@ function get_branch(
         "/apps/$(appId)/branches/$(branchName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -748,7 +748,7 @@ function get_domain_association(
         "GET",
         "/apps/$(appId)/domains/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_domain_association(
@@ -762,7 +762,7 @@ function get_domain_association(
         "/apps/$(appId)/domains/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -785,7 +785,7 @@ function get_job(
         "GET",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_job(
@@ -800,7 +800,7 @@ function get_job(
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -819,7 +819,7 @@ function get_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/webhooks/$(webhookId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_webhook(
@@ -832,7 +832,7 @@ function get_webhook(
         "/webhooks/$(webhookId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -849,13 +849,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result. Pass its value in another request to retrieve more entries.
 """
 function list_apps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify("GET", "/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return amplify("GET", "/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[])
 end
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return amplify(
-        "GET", "/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -884,7 +884,7 @@ function list_artifacts(
         "GET",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_artifacts(
@@ -899,7 +899,7 @@ function list_artifacts(
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -929,7 +929,7 @@ function list_backend_environments(appId; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/apps/$(appId)/backendenvironments";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_backend_environments(
@@ -940,7 +940,7 @@ function list_backend_environments(
         "/apps/$(appId)/backendenvironments",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -965,7 +965,7 @@ function list_branches(appId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/apps/$(appId)/branches";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_branches(
@@ -976,7 +976,7 @@ function list_branches(
         "/apps/$(appId)/branches",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1001,7 +1001,7 @@ function list_domain_associations(appId; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/apps/$(appId)/domains";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_domain_associations(
@@ -1012,7 +1012,7 @@ function list_domain_associations(
         "/apps/$(appId)/domains",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1038,7 +1038,7 @@ function list_jobs(appId, branchName; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/apps/$(appId)/branches/$(branchName)/jobs";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_jobs(
@@ -1052,7 +1052,7 @@ function list_jobs(
         "/apps/$(appId)/branches/$(branchName)/jobs",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1073,7 +1073,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1086,7 +1086,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1111,7 +1111,7 @@ function list_webhooks(appId; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/apps/$(appId)/webhooks";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_webhooks(
@@ -1122,7 +1122,7 @@ function list_webhooks(
         "/apps/$(appId)/webhooks",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1153,7 +1153,7 @@ function start_deployment(
         "POST",
         "/apps/$(appId)/branches/$(branchName)/deployments/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_deployment(
@@ -1167,7 +1167,7 @@ function start_deployment(
         "/apps/$(appId)/branches/$(branchName)/deployments/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1203,7 +1203,7 @@ function start_job(
         "/apps/$(appId)/branches/$(branchName)/jobs",
         Dict{String,Any}("jobType" => jobType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_job(
@@ -1218,7 +1218,7 @@ function start_job(
         "/apps/$(appId)/branches/$(branchName)/jobs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobType" => jobType), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1241,7 +1241,7 @@ function stop_job(
         "DELETE",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_job(
@@ -1256,7 +1256,7 @@ function stop_job(
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1277,7 +1277,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1291,7 +1291,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1314,7 +1314,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1328,7 +1328,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1389,7 +1389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_app(appId; aws_config::AbstractAWSConfig=global_aws_config())
     return amplify(
-        "POST", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function update_app(
@@ -1400,7 +1400,7 @@ function update_app(
         "/apps/$(appId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1448,7 +1448,7 @@ function update_branch(appId, branchName; aws_config::AbstractAWSConfig=global_a
         "POST",
         "/apps/$(appId)/branches/$(branchName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_branch(
@@ -1462,7 +1462,7 @@ function update_branch(
         "/apps/$(appId)/branches/$(branchName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1493,7 +1493,7 @@ function update_domain_association(
         "POST",
         "/apps/$(appId)/domains/$(domainName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_domain_association(
@@ -1507,7 +1507,7 @@ function update_domain_association(
         "/apps/$(appId)/domains/$(domainName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1530,7 +1530,7 @@ function update_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_conf
         "POST",
         "/webhooks/$(webhookId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_webhook(
@@ -1543,6 +1543,6 @@ function update_webhook(
         "/webhooks/$(webhookId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

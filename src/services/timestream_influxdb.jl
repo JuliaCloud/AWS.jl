@@ -73,7 +73,7 @@ function create_db_instance(
             "vpcSubnetIds" => vpcSubnetIds,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_db_instance(
@@ -103,7 +103,7 @@ function create_db_instance(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -128,7 +128,7 @@ function create_db_parameter_group(name; aws_config::AbstractAWSConfig=global_aw
         "CreateDbParameterGroup",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_db_parameter_group(
@@ -138,7 +138,7 @@ function create_db_parameter_group(
         "CreateDbParameterGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -157,7 +157,7 @@ function delete_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws
         "DeleteDbInstance",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_db_instance(
@@ -171,7 +171,7 @@ function delete_db_instance(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -190,7 +190,7 @@ function get_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_co
         "GetDbInstance",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_db_instance(
@@ -204,7 +204,7 @@ function get_db_instance(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -225,7 +225,7 @@ function get_db_parameter_group(
         "GetDbParameterGroup",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_db_parameter_group(
@@ -239,7 +239,7 @@ function get_db_parameter_group(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -260,14 +260,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_db_instances(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_influxdb(
-        "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_db_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return timestream_influxdb(
-        "ListDbInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDbInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -288,7 +288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_db_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_influxdb(
-        "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_db_parameter_groups(
@@ -298,7 +298,7 @@ function list_db_parameter_groups(
         "ListDbParameterGroups",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -319,7 +319,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -333,7 +333,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -354,7 +354,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -373,7 +373,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -395,7 +395,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -414,7 +414,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -440,7 +440,7 @@ function update_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws
         "UpdateDbInstance",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_db_instance(
@@ -454,6 +454,6 @@ function update_db_instance(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

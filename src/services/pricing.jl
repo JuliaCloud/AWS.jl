@@ -27,14 +27,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_services(; aws_config::AbstractAWSConfig=global_aws_config())
     return pricing(
-        "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return pricing(
-        "DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -65,7 +65,7 @@ function get_attribute_values(
         "GetAttributeValues",
         Dict{String,Any}("AttributeName" => AttributeName, "ServiceCode" => ServiceCode);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_attribute_values(
@@ -86,7 +86,7 @@ function get_attribute_values(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -114,7 +114,7 @@ function get_price_list_file_url(
         "GetPriceListFileUrl",
         Dict{String,Any}("FileFormat" => FileFormat, "PriceListArn" => PriceListArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_price_list_file_url(
@@ -135,7 +135,7 @@ function get_price_list_file_url(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -163,7 +163,7 @@ function get_products(ServiceCode; aws_config::AbstractAWSConfig=global_aws_conf
         "GetProducts",
         Dict{String,Any}("ServiceCode" => ServiceCode);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_products(
@@ -177,7 +177,7 @@ function get_products(
             mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -230,7 +230,7 @@ function list_price_lists(
             "ServiceCode" => ServiceCode,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_price_lists(
@@ -254,6 +254,6 @@ function list_price_lists(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

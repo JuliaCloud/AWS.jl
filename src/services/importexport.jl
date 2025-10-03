@@ -23,7 +23,7 @@ function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
         "CancelJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_job(
@@ -33,7 +33,7 @@ function cancel_job(
         "CancelJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -66,7 +66,7 @@ function create_job(
             "JobType" => JobType, "Manifest" => Manifest, "ValidateOnly" => ValidateOnly
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_job(
@@ -90,7 +90,7 @@ function create_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -123,7 +123,7 @@ function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_con
         "GetShippingLabel",
         Dict{String,Any}("jobIds" => jobIds);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_shipping_label(
@@ -133,7 +133,7 @@ function get_shipping_label(
         "GetShippingLabel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobIds" => jobIds), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -157,7 +157,7 @@ function get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config())
         "GetStatus",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_status(
@@ -167,7 +167,7 @@ function get_status(
         "GetStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -187,13 +187,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxJobs"`:
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return importexport(
+        "ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return importexport(
-        "ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -232,7 +234,7 @@ function update_job(
             "ValidateOnly" => ValidateOnly,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_job(
@@ -258,6 +260,6 @@ function update_job(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

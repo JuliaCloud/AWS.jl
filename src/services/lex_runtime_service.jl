@@ -23,7 +23,7 @@ function delete_session(
         "DELETE",
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_session(
@@ -38,7 +38,7 @@ function delete_session(
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -67,7 +67,7 @@ function get_session(
         "GET",
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_session(
@@ -82,7 +82,7 @@ function get_session(
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -193,7 +193,7 @@ function post_content(
             "headers" => Dict{String,Any}("Content-Type" => Content_Type),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function post_content(
@@ -219,7 +219,7 @@ function post_content(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -293,7 +293,7 @@ function post_text(
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text",
         Dict{String,Any}("inputText" => inputText);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function post_text(
@@ -311,7 +311,7 @@ function post_text(
             mergewith(_merge, Dict{String,Any}("inputText" => inputText), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -367,7 +367,7 @@ function put_session(
         "POST",
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_session(
@@ -382,6 +382,6 @@ function put_session(
         "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -32,7 +32,7 @@ function join_storage_session(channelArn; aws_config::AbstractAWSConfig=global_a
         "/joinStorageSession",
         Dict{String,Any}("channelArn" => channelArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function join_storage_session(
@@ -47,6 +47,6 @@ function join_storage_session(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

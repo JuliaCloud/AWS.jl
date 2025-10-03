@@ -22,7 +22,7 @@ function associate_vehicle_fleet(
         "AssociateVehicleFleet",
         Dict{String,Any}("fleetId" => fleetId, "vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_vehicle_fleet(
@@ -41,7 +41,7 @@ function associate_vehicle_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -63,7 +63,7 @@ function batch_create_vehicle(vehicles; aws_config::AbstractAWSConfig=global_aws
         "BatchCreateVehicle",
         Dict{String,Any}("vehicles" => vehicles);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_create_vehicle(
@@ -77,7 +77,7 @@ function batch_create_vehicle(
             mergewith(_merge, Dict{String,Any}("vehicles" => vehicles), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -99,7 +99,7 @@ function batch_update_vehicle(vehicles; aws_config::AbstractAWSConfig=global_aws
         "BatchUpdateVehicle",
         Dict{String,Any}("vehicles" => vehicles);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function batch_update_vehicle(
@@ -113,7 +113,7 @@ function batch_update_vehicle(
             mergewith(_merge, Dict{String,Any}("vehicles" => vehicles), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -193,7 +193,7 @@ function create_campaign(
             "targetArn" => targetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_campaign(
@@ -219,7 +219,7 @@ function create_campaign(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -251,7 +251,7 @@ function create_decoder_manifest(
         "CreateDecoderManifest",
         Dict{String,Any}("modelManifestArn" => modelManifestArn, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_decoder_manifest(
@@ -270,7 +270,7 @@ function create_decoder_manifest(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -298,7 +298,7 @@ function create_fleet(
         "CreateFleet",
         Dict{String,Any}("fleetId" => fleetId, "signalCatalogArn" => signalCatalogArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -319,7 +319,7 @@ function create_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -350,7 +350,7 @@ function create_model_manifest(
             "name" => name, "nodes" => nodes, "signalCatalogArn" => signalCatalogArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_model_manifest(
@@ -372,7 +372,7 @@ function create_model_manifest(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -397,7 +397,7 @@ function create_signal_catalog(name; aws_config::AbstractAWSConfig=global_aws_co
         "CreateSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_signal_catalog(
@@ -407,7 +407,7 @@ function create_signal_catalog(
         "CreateSignalCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -451,7 +451,7 @@ function create_vehicle(
             "vehicleName" => vehicleName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vehicle(
@@ -475,7 +475,7 @@ function create_vehicle(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -495,7 +495,7 @@ function delete_campaign(name; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteCampaign",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_campaign(
@@ -505,7 +505,7 @@ function delete_campaign(
         "DeleteCampaign",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,7 +526,7 @@ function delete_decoder_manifest(name; aws_config::AbstractAWSConfig=global_aws_
         "DeleteDecoderManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_decoder_manifest(
@@ -536,7 +536,7 @@ function delete_decoder_manifest(
         "DeleteDecoderManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -558,7 +558,7 @@ function delete_fleet(fleetId; aws_config::AbstractAWSConfig=global_aws_config()
         "DeleteFleet",
         Dict{String,Any}("fleetId" => fleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -568,7 +568,7 @@ function delete_fleet(
         "DeleteFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fleetId" => fleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -588,7 +588,7 @@ function delete_model_manifest(name; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteModelManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_model_manifest(
@@ -598,7 +598,7 @@ function delete_model_manifest(
         "DeleteModelManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -618,7 +618,7 @@ function delete_signal_catalog(name; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_signal_catalog(
@@ -628,7 +628,7 @@ function delete_signal_catalog(
         "DeleteSignalCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -649,7 +649,7 @@ function delete_vehicle(vehicleName; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vehicle(
@@ -663,7 +663,7 @@ function delete_vehicle(
             mergewith(_merge, Dict{String,Any}("vehicleName" => vehicleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -687,7 +687,7 @@ function disassociate_vehicle_fleet(
         "DisassociateVehicleFleet",
         Dict{String,Any}("fleetId" => fleetId, "vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_vehicle_fleet(
@@ -706,7 +706,7 @@ function disassociate_vehicle_fleet(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -725,7 +725,7 @@ function get_campaign(name; aws_config::AbstractAWSConfig=global_aws_config())
         "GetCampaign",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_campaign(
@@ -735,7 +735,7 @@ function get_campaign(
         "GetCampaign",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -754,7 +754,7 @@ function get_decoder_manifest(name; aws_config::AbstractAWSConfig=global_aws_con
         "GetDecoderManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_decoder_manifest(
@@ -764,7 +764,7 @@ function get_decoder_manifest(
         "GetDecoderManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -778,7 +778,9 @@ FleetWise.
 """
 function get_encryption_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "GetEncryptionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetEncryptionConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_encryption_configuration(
@@ -788,7 +790,7 @@ function get_encryption_configuration(
         "GetEncryptionConfiguration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -807,7 +809,7 @@ function get_fleet(fleetId; aws_config::AbstractAWSConfig=global_aws_config())
         "GetFleet",
         Dict{String,Any}("fleetId" => fleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_fleet(
@@ -817,7 +819,7 @@ function get_fleet(
         "GetFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fleetId" => fleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -830,14 +832,17 @@ Retrieves the logging options.
 """
 function get_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "GetLoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetLoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "GetLoggingOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetLoggingOptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -856,7 +861,7 @@ function get_model_manifest(name; aws_config::AbstractAWSConfig=global_aws_confi
         "GetModelManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_model_manifest(
@@ -866,7 +871,7 @@ function get_model_manifest(
         "GetModelManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -883,7 +888,7 @@ operation doesn't require input parameters.
 """
 function get_register_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "GetRegisterAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetRegisterAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_register_account_status(
@@ -893,7 +898,7 @@ function get_register_account_status(
         "GetRegisterAccountStatus",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -912,7 +917,7 @@ function get_signal_catalog(name; aws_config::AbstractAWSConfig=global_aws_confi
         "GetSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_signal_catalog(
@@ -922,7 +927,7 @@ function get_signal_catalog(
         "GetSignalCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -941,7 +946,7 @@ function get_vehicle(vehicleName; aws_config::AbstractAWSConfig=global_aws_confi
         "GetVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vehicle(
@@ -955,7 +960,7 @@ function get_vehicle(
             mergewith(_merge, Dict{String,Any}("vehicleName" => vehicleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -982,7 +987,7 @@ function get_vehicle_status(vehicleName; aws_config::AbstractAWSConfig=global_aw
         "GetVehicleStatus",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_vehicle_status(
@@ -996,7 +1001,7 @@ function get_vehicle_status(
             mergewith(_merge, Dict{String,Any}("vehicleName" => vehicleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1020,7 +1025,7 @@ function import_decoder_manifest(
             "name" => name, "networkFileDefinitions" => networkFileDefinitions
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_decoder_manifest(
@@ -1041,7 +1046,7 @@ function import_decoder_manifest(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1066,7 +1071,7 @@ function import_signal_catalog(name; aws_config::AbstractAWSConfig=global_aws_co
         "ImportSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_signal_catalog(
@@ -1076,7 +1081,7 @@ function import_signal_catalog(
         "ImportSignalCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1101,14 +1106,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_campaigns(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_campaigns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "ListCampaigns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCampaigns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1138,7 +1143,7 @@ function list_decoder_manifest_network_interfaces(
         "ListDecoderManifestNetworkInterfaces",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_decoder_manifest_network_interfaces(
@@ -1148,7 +1153,7 @@ function list_decoder_manifest_network_interfaces(
         "ListDecoderManifestNetworkInterfaces",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1179,7 +1184,7 @@ function list_decoder_manifest_signals(
         "ListDecoderManifestSignals",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_decoder_manifest_signals(
@@ -1189,7 +1194,7 @@ function list_decoder_manifest_signals(
         "ListDecoderManifestSignals",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1213,7 +1218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_decoder_manifests(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "ListDecoderManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDecoderManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_decoder_manifests(
@@ -1223,7 +1228,7 @@ function list_decoder_manifests(
         "ListDecoderManifests",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1246,14 +1251,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1284,7 +1289,7 @@ function list_fleets_for_vehicle(
         "ListFleetsForVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_fleets_for_vehicle(
@@ -1298,7 +1303,7 @@ function list_fleets_for_vehicle(
             mergewith(_merge, Dict{String,Any}("vehicleName" => vehicleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1327,7 +1332,7 @@ function list_model_manifest_nodes(name; aws_config::AbstractAWSConfig=global_aw
         "ListModelManifestNodes",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_model_manifest_nodes(
@@ -1337,7 +1342,7 @@ function list_model_manifest_nodes(
         "ListModelManifestNodes",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1361,14 +1366,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_model_manifests(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "ListModelManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListModelManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_model_manifests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "ListModelManifests", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListModelManifests",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1398,7 +1406,7 @@ function list_signal_catalog_nodes(name; aws_config::AbstractAWSConfig=global_aw
         "ListSignalCatalogNodes",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_signal_catalog_nodes(
@@ -1408,7 +1416,7 @@ function list_signal_catalog_nodes(
         "ListSignalCatalogNodes",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1432,14 +1440,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_signal_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "ListSignalCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSignalCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_signal_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "ListSignalCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSignalCatalogs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1460,7 +1471,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1474,7 +1485,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1503,14 +1514,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_vehicles(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "ListVehicles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVehicles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_vehicles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "ListVehicles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVehicles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1539,7 +1550,7 @@ function list_vehicles_in_fleet(fleetId; aws_config::AbstractAWSConfig=global_aw
         "ListVehiclesInFleet",
         Dict{String,Any}("fleetId" => fleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_vehicles_in_fleet(
@@ -1549,7 +1560,7 @@ function list_vehicles_in_fleet(
         "ListVehiclesInFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fleetId" => fleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1577,7 +1588,7 @@ function put_encryption_configuration(
         "PutEncryptionConfiguration",
         Dict{String,Any}("encryptionType" => encryptionType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_encryption_configuration(
@@ -1591,7 +1602,7 @@ function put_encryption_configuration(
             mergewith(_merge, Dict{String,Any}("encryptionType" => encryptionType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1613,7 +1624,7 @@ function put_logging_options(
         "PutLoggingOptions",
         Dict{String,Any}("cloudWatchLogDelivery" => cloudWatchLogDelivery);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_logging_options(
@@ -1631,7 +1642,7 @@ function put_logging_options(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1665,14 +1676,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function register_account(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "RegisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RegisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function register_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "RegisterAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RegisterAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1693,7 +1704,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1712,7 +1723,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1734,7 +1745,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1753,7 +1764,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1783,7 +1794,7 @@ function update_campaign(action, name; aws_config::AbstractAWSConfig=global_aws_
         "UpdateCampaign",
         Dict{String,Any}("action" => action, "name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_campaign(
@@ -1798,7 +1809,7 @@ function update_campaign(
             mergewith(_merge, Dict{String,Any}("action" => action, "name" => name), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1835,7 +1846,7 @@ function update_decoder_manifest(name; aws_config::AbstractAWSConfig=global_aws_
         "UpdateDecoderManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_decoder_manifest(
@@ -1845,7 +1856,7 @@ function update_decoder_manifest(
         "UpdateDecoderManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1868,7 +1879,7 @@ function update_fleet(fleetId; aws_config::AbstractAWSConfig=global_aws_config()
         "UpdateFleet",
         Dict{String,Any}("fleetId" => fleetId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet(
@@ -1878,7 +1889,7 @@ function update_fleet(
         "UpdateFleet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("fleetId" => fleetId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1907,7 +1918,7 @@ function update_model_manifest(name; aws_config::AbstractAWSConfig=global_aws_co
         "UpdateModelManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_model_manifest(
@@ -1917,7 +1928,7 @@ function update_model_manifest(
         "UpdateModelManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1943,7 +1954,7 @@ function update_signal_catalog(name; aws_config::AbstractAWSConfig=global_aws_co
         "UpdateSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_signal_catalog(
@@ -1953,7 +1964,7 @@ function update_signal_catalog(
         "UpdateSignalCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1983,7 +1994,7 @@ function update_vehicle(vehicleName; aws_config::AbstractAWSConfig=global_aws_co
         "UpdateVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_vehicle(
@@ -1997,6 +2008,6 @@ function update_vehicle(
             mergewith(_merge, Dict{String,Any}("vehicleName" => vehicleName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

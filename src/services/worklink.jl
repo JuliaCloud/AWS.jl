@@ -35,7 +35,7 @@ function associate_domain(
             "FleetArn" => FleetArn,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_domain(
@@ -60,7 +60,7 @@ function associate_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -90,7 +90,7 @@ function associate_website_authorization_provider(
             "AuthorizationProviderType" => AuthorizationProviderType, "FleetArn" => FleetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_website_authorization_provider(
@@ -113,7 +113,7 @@ function associate_website_authorization_provider(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -140,7 +140,7 @@ function associate_website_certificate_authority(
         "/associateWebsiteCertificateAuthority",
         Dict{String,Any}("Certificate" => Certificate, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_website_certificate_authority(
@@ -160,7 +160,7 @@ function associate_website_certificate_authority(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -187,7 +187,7 @@ function create_fleet(FleetName; aws_config::AbstractAWSConfig=global_aws_config
         "/createFleet",
         Dict{String,Any}("FleetName" => FleetName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_fleet(
@@ -202,7 +202,7 @@ function create_fleet(
             mergewith(_merge, Dict{String,Any}("FleetName" => FleetName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -222,7 +222,7 @@ function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(
         "/deleteFleet",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_fleet(
@@ -237,7 +237,7 @@ function delete_fleet(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -259,7 +259,7 @@ function describe_audit_stream_configuration(
         "/describeAuditStreamConfiguration",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_audit_stream_configuration(
@@ -274,7 +274,7 @@ function describe_audit_stream_configuration(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -297,7 +297,7 @@ function describe_company_network_configuration(
         "/describeCompanyNetworkConfiguration",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_company_network_configuration(
@@ -312,7 +312,7 @@ function describe_company_network_configuration(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -335,7 +335,7 @@ function describe_device(
         "/describeDevice",
         Dict{String,Any}("DeviceId" => DeviceId, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_device(
@@ -355,7 +355,7 @@ function describe_device(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -377,7 +377,7 @@ function describe_device_policy_configuration(
         "/describeDevicePolicyConfiguration",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_device_policy_configuration(
@@ -392,7 +392,7 @@ function describe_device_policy_configuration(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -415,7 +415,7 @@ function describe_domain(
         "/describeDomain",
         Dict{String,Any}("DomainName" => DomainName, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_domain(
@@ -435,7 +435,7 @@ function describe_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -458,7 +458,7 @@ function describe_fleet_metadata(
         "/describeFleetMetadata",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_fleet_metadata(
@@ -473,7 +473,7 @@ function describe_fleet_metadata(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -495,7 +495,7 @@ function describe_identity_provider_configuration(
         "/describeIdentityProviderConfiguration",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_identity_provider_configuration(
@@ -510,7 +510,7 @@ function describe_identity_provider_configuration(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -533,7 +533,7 @@ function describe_website_certificate_authority(
         "/describeWebsiteCertificateAuthority",
         Dict{String,Any}("FleetArn" => FleetArn, "WebsiteCaId" => WebsiteCaId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_website_certificate_authority(
@@ -553,7 +553,7 @@ function describe_website_certificate_authority(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -577,7 +577,7 @@ function disassociate_domain(
         "/disassociateDomain",
         Dict{String,Any}("DomainName" => DomainName, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_domain(
@@ -597,7 +597,7 @@ function disassociate_domain(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,7 +624,7 @@ function disassociate_website_authorization_provider(
             "AuthorizationProviderId" => AuthorizationProviderId, "FleetArn" => FleetArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_website_authorization_provider(
@@ -647,7 +647,7 @@ function disassociate_website_authorization_provider(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -670,7 +670,7 @@ function disassociate_website_certificate_authority(
         "/disassociateWebsiteCertificateAuthority",
         Dict{String,Any}("FleetArn" => FleetArn, "WebsiteCaId" => WebsiteCaId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_website_certificate_authority(
@@ -690,7 +690,7 @@ function disassociate_website_certificate_authority(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -715,7 +715,7 @@ function list_devices(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(
         "/listDevices",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_devices(
@@ -730,7 +730,7 @@ function list_devices(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -755,7 +755,7 @@ function list_domains(FleetArn; aws_config::AbstractAWSConfig=global_aws_config(
         "/listDomains",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_domains(
@@ -770,7 +770,7 @@ function list_domains(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -788,7 +788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
     return worklink(
-        "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_fleets(
@@ -799,7 +799,7 @@ function list_fleets(
         "/listFleets",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -820,7 +820,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -833,7 +833,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function list_website_authorization_providers(
         "/listWebsiteAuthorizationProviders",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_website_authorization_providers(
@@ -875,7 +875,7 @@ function list_website_authorization_providers(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -902,7 +902,7 @@ function list_website_certificate_authorities(
         "/listWebsiteCertificateAuthorities",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_website_certificate_authorities(
@@ -917,7 +917,7 @@ function list_website_certificate_authorities(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -940,7 +940,7 @@ function restore_domain_access(
         "/restoreDomainAccess",
         Dict{String,Any}("DomainName" => DomainName, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_domain_access(
@@ -960,7 +960,7 @@ function restore_domain_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -983,7 +983,7 @@ function revoke_domain_access(
         "/revokeDomainAccess",
         Dict{String,Any}("DomainName" => DomainName, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function revoke_domain_access(
@@ -1003,7 +1003,7 @@ function revoke_domain_access(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1027,7 +1027,7 @@ function sign_out_user(
         "/signOutUser",
         Dict{String,Any}("FleetArn" => FleetArn, "Username" => Username);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function sign_out_user(
@@ -1047,7 +1047,7 @@ function sign_out_user(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1070,7 +1070,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1084,7 +1084,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1107,7 +1107,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1121,7 +1121,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1147,7 +1147,7 @@ function update_audit_stream_configuration(
         "/updateAuditStreamConfiguration",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_audit_stream_configuration(
@@ -1162,7 +1162,7 @@ function update_audit_stream_configuration(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1197,7 +1197,7 @@ function update_company_network_configuration(
             "VpcId" => VpcId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_company_network_configuration(
@@ -1224,7 +1224,7 @@ function update_company_network_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1250,7 +1250,7 @@ function update_device_policy_configuration(
         "/updateDevicePolicyConfiguration",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_device_policy_configuration(
@@ -1265,7 +1265,7 @@ function update_device_policy_configuration(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1291,7 +1291,7 @@ function update_domain_metadata(
         "/updateDomainMetadata",
         Dict{String,Any}("DomainName" => DomainName, "FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_domain_metadata(
@@ -1311,7 +1311,7 @@ function update_domain_metadata(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1337,7 +1337,7 @@ function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aw
         "/UpdateFleetMetadata",
         Dict{String,Any}("FleetArn" => FleetArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_fleet_metadata(
@@ -1352,7 +1352,7 @@ function update_fleet_metadata(
             mergewith(_merge, Dict{String,Any}("FleetArn" => FleetArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1381,7 +1381,7 @@ function update_identity_provider_configuration(
             "FleetArn" => FleetArn, "IdentityProviderType" => IdentityProviderType
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_identity_provider_configuration(
@@ -1403,6 +1403,6 @@ function update_identity_provider_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

@@ -23,7 +23,7 @@ function associate_browser_settings(
         "/portals/$(portalArn)/browserSettings",
         Dict{String,Any}("browserSettingsArn" => browserSettingsArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_browser_settings(
@@ -41,7 +41,7 @@ function associate_browser_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -64,7 +64,7 @@ function associate_ip_access_settings(
         "/portals/$(portalArn)/ipAccessSettings",
         Dict{String,Any}("ipAccessSettingsArn" => ipAccessSettingsArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_ip_access_settings(
@@ -84,7 +84,7 @@ function associate_ip_access_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -107,7 +107,7 @@ function associate_network_settings(
         "/portals/$(portalArn)/networkSettings",
         Dict{String,Any}("networkSettingsArn" => networkSettingsArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_network_settings(
@@ -125,7 +125,7 @@ function associate_network_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -148,7 +148,7 @@ function associate_trust_store(
         "/portals/$(portalArn)/trustStores",
         Dict{String,Any}("trustStoreArn" => trustStoreArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_trust_store(
@@ -164,7 +164,7 @@ function associate_trust_store(
             mergewith(_merge, Dict{String,Any}("trustStoreArn" => trustStoreArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -189,7 +189,7 @@ function associate_user_access_logging_settings(
         "/portals/$(portalArn)/userAccessLoggingSettings",
         Dict{String,Any}("userAccessLoggingSettingsArn" => userAccessLoggingSettingsArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_user_access_logging_settings(
@@ -211,7 +211,7 @@ function associate_user_access_logging_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -234,7 +234,7 @@ function associate_user_settings(
         "/portals/$(portalArn)/userSettings",
         Dict{String,Any}("userSettingsArn" => userSettingsArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function associate_user_settings(
@@ -252,7 +252,7 @@ function associate_user_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -290,7 +290,7 @@ function create_browser_settings(
             "browserPolicy" => browserPolicy, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_browser_settings(
@@ -311,7 +311,7 @@ function create_browser_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -367,7 +367,7 @@ function create_identity_provider(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_identity_provider(
@@ -395,7 +395,7 @@ function create_identity_provider(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -430,7 +430,7 @@ function create_ip_access_settings(
         "/ipAccessSettings",
         Dict{String,Any}("ipRules" => ipRules, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_ip_access_settings(
@@ -447,7 +447,7 @@ function create_ip_access_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -490,7 +490,7 @@ function create_network_settings(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_network_settings(
@@ -516,7 +516,7 @@ function create_network_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -556,7 +556,7 @@ function create_portal(; aws_config::AbstractAWSConfig=global_aws_config())
         "/portals",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_portal(
@@ -569,7 +569,7 @@ function create_portal(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -606,7 +606,7 @@ function create_trust_store(
             "certificateList" => certificateList, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_trust_store(
@@ -627,7 +627,7 @@ function create_trust_store(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -660,7 +660,7 @@ function create_user_access_logging_settings(
             "kinesisStreamArn" => kinesisStreamArn, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user_access_logging_settings(
@@ -681,7 +681,7 @@ function create_user_access_logging_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -746,7 +746,7 @@ function create_user_settings(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_user_settings(
@@ -776,7 +776,7 @@ function create_user_settings(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -797,7 +797,7 @@ function delete_browser_settings(
         "DELETE",
         "/browserSettings/$(browserSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_browser_settings(
@@ -810,7 +810,7 @@ function delete_browser_settings(
         "/browserSettings/$(browserSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -831,7 +831,7 @@ function delete_identity_provider(
         "DELETE",
         "/identityProviders/$(identityProviderArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_identity_provider(
@@ -844,7 +844,7 @@ function delete_identity_provider(
         "/identityProviders/$(identityProviderArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -865,7 +865,7 @@ function delete_ip_access_settings(
         "DELETE",
         "/ipAccessSettings/$(ipAccessSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_ip_access_settings(
@@ -878,7 +878,7 @@ function delete_ip_access_settings(
         "/ipAccessSettings/$(ipAccessSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -899,7 +899,7 @@ function delete_network_settings(
         "DELETE",
         "/networkSettings/$(networkSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_network_settings(
@@ -912,7 +912,7 @@ function delete_network_settings(
         "/networkSettings/$(networkSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -931,7 +931,7 @@ function delete_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_confi
         "DELETE",
         "/portals/$(portalArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_portal(
@@ -944,7 +944,7 @@ function delete_portal(
         "/portals/$(portalArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -965,7 +965,7 @@ function delete_trust_store(
         "DELETE",
         "/trustStores/$(trustStoreArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_trust_store(
@@ -978,7 +978,7 @@ function delete_trust_store(
         "/trustStores/$(trustStoreArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -999,7 +999,7 @@ function delete_user_access_logging_settings(
         "DELETE",
         "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user_access_logging_settings(
@@ -1012,7 +1012,7 @@ function delete_user_access_logging_settings(
         "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1033,7 +1033,7 @@ function delete_user_settings(
         "DELETE",
         "/userSettings/$(userSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_user_settings(
@@ -1046,7 +1046,7 @@ function delete_user_settings(
         "/userSettings/$(userSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1067,7 +1067,7 @@ function disassociate_browser_settings(
         "DELETE",
         "/portals/$(portalArn)/browserSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_browser_settings(
@@ -1080,7 +1080,7 @@ function disassociate_browser_settings(
         "/portals/$(portalArn)/browserSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1101,7 +1101,7 @@ function disassociate_ip_access_settings(
         "DELETE",
         "/portals/$(portalArn)/ipAccessSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_ip_access_settings(
@@ -1114,7 +1114,7 @@ function disassociate_ip_access_settings(
         "/portals/$(portalArn)/ipAccessSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1135,7 +1135,7 @@ function disassociate_network_settings(
         "DELETE",
         "/portals/$(portalArn)/networkSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_network_settings(
@@ -1148,7 +1148,7 @@ function disassociate_network_settings(
         "/portals/$(portalArn)/networkSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1169,7 +1169,7 @@ function disassociate_trust_store(
         "DELETE",
         "/portals/$(portalArn)/trustStores";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_trust_store(
@@ -1182,7 +1182,7 @@ function disassociate_trust_store(
         "/portals/$(portalArn)/trustStores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1203,7 +1203,7 @@ function disassociate_user_access_logging_settings(
         "DELETE",
         "/portals/$(portalArn)/userAccessLoggingSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_user_access_logging_settings(
@@ -1216,7 +1216,7 @@ function disassociate_user_access_logging_settings(
         "/portals/$(portalArn)/userAccessLoggingSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1237,7 +1237,7 @@ function disassociate_user_settings(
         "DELETE",
         "/portals/$(portalArn)/userSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disassociate_user_settings(
@@ -1250,7 +1250,7 @@ function disassociate_user_settings(
         "/portals/$(portalArn)/userSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1271,7 +1271,7 @@ function get_browser_settings(
         "GET",
         "/browserSettings/$(browserSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_browser_settings(
@@ -1284,7 +1284,7 @@ function get_browser_settings(
         "/browserSettings/$(browserSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1305,7 +1305,7 @@ function get_identity_provider(
         "GET",
         "/identityProviders/$(identityProviderArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_identity_provider(
@@ -1318,7 +1318,7 @@ function get_identity_provider(
         "/identityProviders/$(identityProviderArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1339,7 +1339,7 @@ function get_ip_access_settings(
         "GET",
         "/ipAccessSettings/$(ipAccessSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_ip_access_settings(
@@ -1352,7 +1352,7 @@ function get_ip_access_settings(
         "/ipAccessSettings/$(ipAccessSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1373,7 +1373,7 @@ function get_network_settings(
         "GET",
         "/networkSettings/$(networkSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_network_settings(
@@ -1386,7 +1386,7 @@ function get_network_settings(
         "/networkSettings/$(networkSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1405,7 +1405,7 @@ function get_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config()
         "GET",
         "/portals/$(portalArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_portal(
@@ -1418,7 +1418,7 @@ function get_portal(
         "/portals/$(portalArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1439,7 +1439,7 @@ function get_portal_service_provider_metadata(
         "GET",
         "/portalIdp/$(portalArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_portal_service_provider_metadata(
@@ -1452,7 +1452,7 @@ function get_portal_service_provider_metadata(
         "/portalIdp/$(portalArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1471,7 +1471,7 @@ function get_trust_store(trustStoreArn; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/trustStores/$(trustStoreArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_trust_store(
@@ -1484,7 +1484,7 @@ function get_trust_store(
         "/trustStores/$(trustStoreArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1507,7 +1507,7 @@ function get_trust_store_certificate(
         "/trustStores/$(trustStoreArn)/certificate",
         Dict{String,Any}("thumbprint" => thumbprint);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_trust_store_certificate(
@@ -1523,7 +1523,7 @@ function get_trust_store_certificate(
             mergewith(_merge, Dict{String,Any}("thumbprint" => thumbprint), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1544,7 +1544,7 @@ function get_user_access_logging_settings(
         "GET",
         "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_user_access_logging_settings(
@@ -1557,7 +1557,7 @@ function get_user_access_logging_settings(
         "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1578,7 +1578,7 @@ function get_user_settings(
         "GET",
         "/userSettings/$(userSettingsArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_user_settings(
@@ -1591,7 +1591,7 @@ function get_user_settings(
         "/userSettings/$(userSettingsArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1609,7 +1609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_browser_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_web(
-        "GET", "/browserSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/browserSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_browser_settings(
@@ -1620,7 +1620,7 @@ function list_browser_settings(
         "/browserSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1646,7 +1646,7 @@ function list_identity_providers(
         "GET",
         "/portals/$(portalArn)/identityProviders";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_identity_providers(
@@ -1659,7 +1659,7 @@ function list_identity_providers(
         "/portals/$(portalArn)/identityProviders",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1677,7 +1677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_ip_access_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_web(
-        "GET", "/ipAccessSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/ipAccessSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_ip_access_settings(
@@ -1688,7 +1688,7 @@ function list_ip_access_settings(
         "/ipAccessSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1706,7 +1706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_network_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_web(
-        "GET", "/networkSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/networkSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_network_settings(
@@ -1717,7 +1717,7 @@ function list_network_settings(
         "/networkSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1735,14 +1735,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_portals(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_web(
-        "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_portals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workspaces_web(
-        "GET", "/portals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/portals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1763,7 +1763,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1776,7 +1776,7 @@ function list_tags_for_resource(
         "/tags/$(resourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1802,7 +1802,7 @@ function list_trust_store_certificates(
         "GET",
         "/trustStores/$(trustStoreArn)/certificates";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_trust_store_certificates(
@@ -1815,7 +1815,7 @@ function list_trust_store_certificates(
         "/trustStores/$(trustStoreArn)/certificates",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1833,7 +1833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_trust_stores(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_web(
-        "GET", "/trustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/trustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_trust_stores(
@@ -1844,7 +1844,7 @@ function list_trust_stores(
         "/trustStores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1867,7 +1867,7 @@ function list_user_access_logging_settings(;
         "GET",
         "/userAccessLoggingSettings";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_user_access_logging_settings(
@@ -1878,7 +1878,7 @@ function list_user_access_logging_settings(
         "/userAccessLoggingSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1896,7 +1896,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_user_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces_web(
-        "GET", "/userSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/userSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_user_settings(
@@ -1907,7 +1907,7 @@ function list_user_settings(
         "/userSettings",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1936,7 +1936,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags, "clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1956,7 +1956,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1979,7 +1979,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1993,7 +1993,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2025,7 +2025,7 @@ function update_browser_settings(
         "/browserSettings/$(browserSettingsArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_browser_settings(
@@ -2040,7 +2040,7 @@ function update_browser_settings(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2085,7 +2085,7 @@ function update_identity_provider(
         "/identityProviders/$(identityProviderArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_identity_provider(
@@ -2100,7 +2100,7 @@ function update_identity_provider(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2133,7 +2133,7 @@ function update_ip_access_settings(
         "/ipAccessSettings/$(ipAccessSettingsArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_ip_access_settings(
@@ -2148,7 +2148,7 @@ function update_ip_access_settings(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2184,7 +2184,7 @@ function update_network_settings(
         "/networkSettings/$(networkSettingsArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_network_settings(
@@ -2199,7 +2199,7 @@ function update_network_settings(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2232,7 +2232,7 @@ function update_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_confi
         "PUT",
         "/portals/$(portalArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_portal(
@@ -2245,7 +2245,7 @@ function update_portal(
         "/portals/$(portalArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2277,7 +2277,7 @@ function update_trust_store(
         "/trustStores/$(trustStoreArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_trust_store(
@@ -2292,7 +2292,7 @@ function update_trust_store(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2323,7 +2323,7 @@ function update_user_access_logging_settings(
         "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_user_access_logging_settings(
@@ -2338,7 +2338,7 @@ function update_user_access_logging_settings(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2387,7 +2387,7 @@ function update_user_settings(
         "/userSettings/$(userSettingsArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_user_settings(
@@ -2402,6 +2402,6 @@ function update_user_settings(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

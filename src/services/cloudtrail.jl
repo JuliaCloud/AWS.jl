@@ -32,7 +32,7 @@ function add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=global_aws
         "AddTags",
         Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_tags(
@@ -51,7 +51,7 @@ function add_tags(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -78,7 +78,7 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()
         "CancelQuery",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function cancel_query(
@@ -88,7 +88,7 @@ function cancel_query(
         "CancelQuery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -123,7 +123,7 @@ function create_channel(
             "Destinations" => Destinations, "Name" => Name, "Source" => Source
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel(
@@ -145,7 +145,7 @@ function create_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -222,7 +222,7 @@ function create_event_data_store(Name; aws_config::AbstractAWSConfig=global_aws_
         "CreateEventDataStore",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_data_store(
@@ -232,7 +232,7 @@ function create_event_data_store(
         "CreateEventDataStore",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -300,7 +300,7 @@ function create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=global_a
         "CreateTrail",
         Dict{String,Any}("Name" => Name, "S3BucketName" => S3BucketName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_trail(
@@ -319,7 +319,7 @@ function create_trail(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -338,7 +338,7 @@ function delete_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteChannel",
         Dict{String,Any}("Channel" => Channel);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel(
@@ -348,7 +348,7 @@ function delete_channel(
         "DeleteChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -378,7 +378,7 @@ function delete_event_data_store(
         "DeleteEventDataStore",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_data_store(
@@ -392,7 +392,7 @@ function delete_event_data_store(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -415,7 +415,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_resource_policy(
@@ -429,7 +429,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -452,7 +452,7 @@ function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "DeleteTrail",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_trail(
@@ -462,7 +462,7 @@ function delete_trail(
         "DeleteTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -485,7 +485,7 @@ function deregister_organization_delegated_admin(
         "DeregisterOrganizationDelegatedAdmin",
         Dict{String,Any}("DelegatedAdminAccountId" => DelegatedAdminAccountId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function deregister_organization_delegated_admin(
@@ -503,7 +503,7 @@ function deregister_organization_delegated_admin(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -526,14 +526,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_query(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "DescribeQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -565,14 +565,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function describe_trails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -598,7 +598,7 @@ function disable_federation(
         "DisableFederation",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function disable_federation(
@@ -612,7 +612,7 @@ function disable_federation(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -650,7 +650,7 @@ function enable_federation(
             "EventDataStore" => EventDataStore, "FederationRoleArn" => FederationRoleArn
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function enable_federation(
@@ -672,7 +672,7 @@ function enable_federation(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -691,7 +691,7 @@ function get_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config())
         "GetChannel",
         Dict{String,Any}("Channel" => Channel);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel(
@@ -701,7 +701,7 @@ function get_channel(
         "GetChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -724,7 +724,7 @@ function get_event_data_store(
         "GetEventDataStore",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_data_store(
@@ -738,7 +738,7 @@ function get_event_data_store(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -769,7 +769,7 @@ function get_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws
         "GetEventSelectors",
         Dict{String,Any}("TrailName" => TrailName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_selectors(
@@ -783,7 +783,7 @@ function get_event_selectors(
             mergewith(_merge, Dict{String,Any}("TrailName" => TrailName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -802,7 +802,7 @@ function get_import(ImportId; aws_config::AbstractAWSConfig=global_aws_config())
         "GetImport",
         Dict{String,Any}("ImportId" => ImportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_import(
@@ -816,7 +816,7 @@ function get_import(
             mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -850,7 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_insight_selectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function get_insight_selectors(
@@ -860,7 +860,7 @@ function get_insight_selectors(
         "GetInsightSelectors",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -886,7 +886,7 @@ function get_query_results(QueryId; aws_config::AbstractAWSConfig=global_aws_con
         "GetQueryResults",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_query_results(
@@ -896,7 +896,7 @@ function get_query_results(
         "GetQueryResults",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -918,7 +918,7 @@ function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_a
         "GetResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_resource_policy(
@@ -932,7 +932,7 @@ function get_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -952,7 +952,7 @@ function get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "GetTrail",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_trail(
@@ -962,7 +962,7 @@ function get_trail(
         "GetTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -987,7 +987,7 @@ function get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config(
         "GetTrailStatus",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_trail_status(
@@ -997,7 +997,7 @@ function get_trail_status(
         "GetTrailStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1017,14 +1017,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListChannels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1041,7 +1041,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_event_data_stores(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_event_data_stores(
@@ -1051,7 +1051,7 @@ function list_event_data_stores(
         "ListEventDataStores",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1074,7 +1074,7 @@ function list_import_failures(ImportId; aws_config::AbstractAWSConfig=global_aws
         "ListImportFailures",
         Dict{String,Any}("ImportId" => ImportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_import_failures(
@@ -1088,7 +1088,7 @@ function list_import_failures(
             mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1107,13 +1107,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  A token you can use to get the next page of import results.
 """
 function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudtrail(
+        "ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListImports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1173,7 +1175,7 @@ function list_insights_metric_data(
             "InsightType" => InsightType,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_insights_metric_data(
@@ -1197,7 +1199,7 @@ function list_insights_metric_data(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1223,14 +1225,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_public_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1264,7 +1266,7 @@ function list_queries(EventDataStore; aws_config::AbstractAWSConfig=global_aws_c
         "ListQueries",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_queries(
@@ -1278,7 +1280,7 @@ function list_queries(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1306,7 +1308,7 @@ function list_tags(ResourceIdList; aws_config::AbstractAWSConfig=global_aws_conf
         "ListTags",
         Dict{String,Any}("ResourceIdList" => ResourceIdList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags(
@@ -1320,7 +1322,7 @@ function list_tags(
             mergewith(_merge, Dict{String,Any}("ResourceIdList" => ResourceIdList), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1338,13 +1340,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with a value of 'root', the call with NextToken should include those same parameters.
 """
 function list_trails(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail("ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudtrail(
+        "ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function list_trails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1386,14 +1390,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function lookup_events(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function lookup_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1454,7 +1458,7 @@ function put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws
         "PutEventSelectors",
         Dict{String,Any}("TrailName" => TrailName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_event_selectors(
@@ -1468,7 +1472,7 @@ function put_event_selectors(
             mergewith(_merge, Dict{String,Any}("TrailName" => TrailName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1524,7 +1528,7 @@ function put_insight_selectors(
         "PutInsightSelectors",
         Dict{String,Any}("InsightSelectors" => InsightSelectors);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_insight_selectors(
@@ -1540,7 +1544,7 @@ function put_insight_selectors(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1571,7 +1575,7 @@ function put_resource_policy(
         "PutResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_resource_policy(
@@ -1592,7 +1596,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1614,7 +1618,7 @@ function register_organization_delegated_admin(
         "RegisterOrganizationDelegatedAdmin",
         Dict{String,Any}("MemberAccountId" => MemberAccountId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function register_organization_delegated_admin(
@@ -1630,7 +1634,7 @@ function register_organization_delegated_admin(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1657,7 +1661,7 @@ function remove_tags(
         "RemoveTags",
         Dict{String,Any}("ResourceId" => ResourceId, "TagsList" => TagsList);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_tags(
@@ -1676,7 +1680,7 @@ function remove_tags(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1701,7 +1705,7 @@ function restore_event_data_store(
         "RestoreEventDataStore",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function restore_event_data_store(
@@ -1715,7 +1719,7 @@ function restore_event_data_store(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1739,7 +1743,7 @@ function start_event_data_store_ingestion(
         "StartEventDataStoreIngestion",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_event_data_store_ingestion(
@@ -1753,7 +1757,7 @@ function start_event_data_store_ingestion(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1794,13 +1798,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   import events.
 """
 function start_import(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudtrail(
+        "StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function start_import(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "StartImport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "StartImport", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1824,7 +1830,7 @@ function start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "StartLogging",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_logging(
@@ -1834,7 +1840,7 @@ function start_logging(
         "StartLogging",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1858,13 +1864,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryStatement"`: The SQL code of your query.
 """
 function start_query(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail("StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudtrail(
+        "StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
+    )
 end
 function start_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "StartQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "StartQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1888,7 +1896,7 @@ function stop_event_data_store_ingestion(
         "StopEventDataStoreIngestion",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_event_data_store_ingestion(
@@ -1902,7 +1910,7 @@ function stop_event_data_store_ingestion(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1921,7 +1929,7 @@ function stop_import(ImportId; aws_config::AbstractAWSConfig=global_aws_config()
         "StopImport",
         Dict{String,Any}("ImportId" => ImportId);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_import(
@@ -1935,7 +1943,7 @@ function stop_import(
             mergewith(_merge, Dict{String,Any}("ImportId" => ImportId), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1962,7 +1970,7 @@ function stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "StopLogging",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_logging(
@@ -1972,7 +1980,7 @@ function stop_logging(
         "StopLogging",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1996,7 +2004,7 @@ function update_channel(Channel; aws_config::AbstractAWSConfig=global_aws_config
         "UpdateChannel",
         Dict{String,Any}("Channel" => Channel);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel(
@@ -2006,7 +2014,7 @@ function update_channel(
         "UpdateChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2090,7 +2098,7 @@ function update_event_data_store(
         "UpdateEventDataStore",
         Dict{String,Any}("EventDataStore" => EventDataStore);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_event_data_store(
@@ -2104,7 +2112,7 @@ function update_event_data_store(
             mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2183,7 +2191,7 @@ function update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "UpdateTrail",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_trail(
@@ -2193,6 +2201,6 @@ function update_trail(
         "UpdateTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

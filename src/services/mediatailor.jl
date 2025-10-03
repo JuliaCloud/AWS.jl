@@ -23,7 +23,7 @@ function configure_logs_for_channel(
         "/configureLogs/channel",
         Dict{String,Any}("ChannelName" => ChannelName, "LogTypes" => LogTypes);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function configure_logs_for_channel(
@@ -43,7 +43,7 @@ function configure_logs_for_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -76,7 +76,7 @@ function configure_logs_for_playback_configuration(
             "PlaybackConfigurationName" => PlaybackConfigurationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function configure_logs_for_playback_configuration(
@@ -99,7 +99,7 @@ function configure_logs_for_playback_configuration(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -139,7 +139,7 @@ function create_channel(
         "/channel/$(ChannelName)",
         Dict{String,Any}("Outputs" => Outputs, "PlaybackMode" => PlaybackMode);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_channel(
@@ -160,7 +160,7 @@ function create_channel(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -193,7 +193,7 @@ function create_live_source(
         "/sourceLocation/$(SourceLocationName)/liveSource/$(LiveSourceName)",
         Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_live_source(
@@ -214,7 +214,7 @@ function create_live_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -257,7 +257,7 @@ function create_prefetch_schedule(
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
         Dict{String,Any}("Consumption" => Consumption, "Retrieval" => Retrieval);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_prefetch_schedule(
@@ -279,7 +279,7 @@ function create_prefetch_schedule(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -318,7 +318,7 @@ function create_program(
             "SourceLocationName" => SourceLocationName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_program(
@@ -343,7 +343,7 @@ function create_program(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -379,7 +379,7 @@ function create_source_location(
         "/sourceLocation/$(SourceLocationName)",
         Dict{String,Any}("HttpConfiguration" => HttpConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_source_location(
@@ -397,7 +397,7 @@ function create_source_location(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -430,7 +430,7 @@ function create_vod_source(
         "/sourceLocation/$(SourceLocationName)/vodSource/$(VodSourceName)",
         Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_vod_source(
@@ -451,7 +451,7 @@ function create_vod_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -471,7 +471,7 @@ function delete_channel(ChannelName; aws_config::AbstractAWSConfig=global_aws_co
         "DELETE",
         "/channel/$(ChannelName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel(
@@ -484,7 +484,7 @@ function delete_channel(
         "/channel/$(ChannelName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -505,7 +505,7 @@ function delete_channel_policy(
         "DELETE",
         "/channel/$(ChannelName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_channel_policy(
@@ -518,7 +518,7 @@ function delete_channel_policy(
         "/channel/$(ChannelName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -540,7 +540,7 @@ function delete_live_source(
         "DELETE",
         "/sourceLocation/$(SourceLocationName)/liveSource/$(LiveSourceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_live_source(
@@ -554,7 +554,7 @@ function delete_live_source(
         "/sourceLocation/$(SourceLocationName)/liveSource/$(LiveSourceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -576,7 +576,7 @@ function delete_playback_configuration(
         "DELETE",
         "/playbackConfiguration/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_playback_configuration(
@@ -587,7 +587,7 @@ function delete_playback_configuration(
         "/playbackConfiguration/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -614,7 +614,7 @@ function delete_prefetch_schedule(
         "DELETE",
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_prefetch_schedule(
@@ -628,7 +628,7 @@ function delete_prefetch_schedule(
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -651,7 +651,7 @@ function delete_program(
         "DELETE",
         "/channel/$(ChannelName)/program/$(ProgramName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_program(
@@ -665,7 +665,7 @@ function delete_program(
         "/channel/$(ChannelName)/program/$(ProgramName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -688,7 +688,7 @@ function delete_source_location(
         "DELETE",
         "/sourceLocation/$(SourceLocationName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_source_location(
@@ -701,7 +701,7 @@ function delete_source_location(
         "/sourceLocation/$(SourceLocationName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -723,7 +723,7 @@ function delete_vod_source(
         "DELETE",
         "/sourceLocation/$(SourceLocationName)/vodSource/$(VodSourceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_vod_source(
@@ -737,7 +737,7 @@ function delete_vod_source(
         "/sourceLocation/$(SourceLocationName)/vodSource/$(VodSourceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -757,7 +757,7 @@ function describe_channel(ChannelName; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/channel/$(ChannelName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_channel(
@@ -770,7 +770,7 @@ function describe_channel(
         "/channel/$(ChannelName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -792,7 +792,7 @@ function describe_live_source(
         "GET",
         "/sourceLocation/$(SourceLocationName)/liveSource/$(LiveSourceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_live_source(
@@ -806,7 +806,7 @@ function describe_live_source(
         "/sourceLocation/$(SourceLocationName)/liveSource/$(LiveSourceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -829,7 +829,7 @@ function describe_program(
         "GET",
         "/channel/$(ChannelName)/program/$(ProgramName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_program(
@@ -843,7 +843,7 @@ function describe_program(
         "/channel/$(ChannelName)/program/$(ProgramName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -866,7 +866,7 @@ function describe_source_location(
         "GET",
         "/sourceLocation/$(SourceLocationName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_source_location(
@@ -879,7 +879,7 @@ function describe_source_location(
         "/sourceLocation/$(SourceLocationName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -902,7 +902,7 @@ function describe_vod_source(
         "GET",
         "/sourceLocation/$(SourceLocationName)/vodSource/$(VodSourceName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function describe_vod_source(
@@ -916,7 +916,7 @@ function describe_vod_source(
         "/sourceLocation/$(SourceLocationName)/vodSource/$(VodSourceName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -935,7 +935,7 @@ function get_channel_policy(ChannelName; aws_config::AbstractAWSConfig=global_aw
         "GET",
         "/channel/$(ChannelName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_policy(
@@ -948,7 +948,7 @@ function get_channel_policy(
         "/channel/$(ChannelName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -982,7 +982,7 @@ function get_channel_schedule(
         "GET",
         "/channel/$(ChannelName)/schedule";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_channel_schedule(
@@ -995,7 +995,7 @@ function get_channel_schedule(
         "/channel/$(ChannelName)/schedule",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1015,7 +1015,7 @@ function get_playback_configuration(Name; aws_config::AbstractAWSConfig=global_a
         "GET",
         "/playbackConfiguration/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_playback_configuration(
@@ -1026,7 +1026,7 @@ function get_playback_configuration(
         "/playbackConfiguration/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1053,7 +1053,7 @@ function get_prefetch_schedule(
         "GET",
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_prefetch_schedule(
@@ -1067,7 +1067,7 @@ function get_prefetch_schedule(
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1094,7 +1094,7 @@ function list_alerts(resourceArn; aws_config::AbstractAWSConfig=global_aws_confi
         "/alerts",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_alerts(
@@ -1109,7 +1109,7 @@ function list_alerts(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1129,14 +1129,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
     return mediatailor(
-        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mediatailor(
-        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 
@@ -1166,7 +1166,7 @@ function list_live_sources(
         "GET",
         "/sourceLocation/$(SourceLocationName)/liveSources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_live_sources(
@@ -1179,7 +1179,7 @@ function list_live_sources(
         "/sourceLocation/$(SourceLocationName)/liveSources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1203,7 +1203,7 @@ function list_playback_configurations(; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/playbackConfigurations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_playback_configurations(
@@ -1214,7 +1214,7 @@ function list_playback_configurations(
         "/playbackConfigurations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1249,7 +1249,7 @@ function list_prefetch_schedules(
         "POST",
         "/prefetchSchedule/$(PlaybackConfigurationName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_prefetch_schedules(
@@ -1262,7 +1262,7 @@ function list_prefetch_schedules(
         "/prefetchSchedule/$(PlaybackConfigurationName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1283,7 +1283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_source_locations(; aws_config::AbstractAWSConfig=global_aws_config())
     return mediatailor(
-        "GET", "/sourceLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sourceLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_source_locations(
@@ -1294,7 +1294,7 @@ function list_source_locations(
         "/sourceLocations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1317,7 +1317,7 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags_for_resource(
@@ -1330,7 +1330,7 @@ function list_tags_for_resource(
         "/tags/$(ResourceArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1360,7 +1360,7 @@ function list_vod_sources(
         "GET",
         "/sourceLocation/$(SourceLocationName)/vodSources";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_vod_sources(
@@ -1373,7 +1373,7 @@ function list_vod_sources(
         "/sourceLocation/$(SourceLocationName)/vodSources",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1397,7 +1397,7 @@ function put_channel_policy(
         "/channel/$(ChannelName)/policy",
         Dict{String,Any}("Policy" => Policy);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_channel_policy(
@@ -1411,7 +1411,7 @@ function put_channel_policy(
         "/channel/$(ChannelName)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1479,7 +1479,7 @@ function put_playback_configuration(Name; aws_config::AbstractAWSConfig=global_a
         "/playbackConfiguration",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_playback_configuration(
@@ -1490,7 +1490,7 @@ function put_playback_configuration(
         "/playbackConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1510,7 +1510,7 @@ function start_channel(ChannelName; aws_config::AbstractAWSConfig=global_aws_con
         "PUT",
         "/channel/$(ChannelName)/start";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function start_channel(
@@ -1523,7 +1523,7 @@ function start_channel(
         "/channel/$(ChannelName)/start",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1543,7 +1543,7 @@ function stop_channel(ChannelName; aws_config::AbstractAWSConfig=global_aws_conf
         "PUT",
         "/channel/$(ChannelName)/stop";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function stop_channel(
@@ -1556,7 +1556,7 @@ function stop_channel(
         "/channel/$(ChannelName)/stop",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1581,7 +1581,7 @@ function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -1595,7 +1595,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1618,7 +1618,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -1632,7 +1632,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1664,7 +1664,7 @@ function update_channel(
         "/channel/$(ChannelName)",
         Dict{String,Any}("Outputs" => Outputs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_channel(
@@ -1678,7 +1678,7 @@ function update_channel(
         "/channel/$(ChannelName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Outputs" => Outputs), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1706,7 +1706,7 @@ function update_live_source(
         "/sourceLocation/$(SourceLocationName)/liveSource/$(LiveSourceName)",
         Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_live_source(
@@ -1727,7 +1727,7 @@ function update_live_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1758,7 +1758,7 @@ function update_program(
         "/channel/$(ChannelName)/program/$(ProgramName)",
         Dict{String,Any}("ScheduleConfiguration" => ScheduleConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_program(
@@ -1779,7 +1779,7 @@ function update_program(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1812,7 +1812,7 @@ function update_source_location(
         "/sourceLocation/$(SourceLocationName)",
         Dict{String,Any}("HttpConfiguration" => HttpConfiguration);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_source_location(
@@ -1830,7 +1830,7 @@ function update_source_location(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1858,7 +1858,7 @@ function update_vod_source(
         "/sourceLocation/$(SourceLocationName)/vodSource/$(VodSourceName)",
         Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_vod_source(
@@ -1879,6 +1879,6 @@ function update_vod_source(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

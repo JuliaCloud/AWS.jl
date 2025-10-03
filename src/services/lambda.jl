@@ -48,7 +48,7 @@ function add_layer_version_permission(
             "Action" => Action, "Principal" => Principal, "StatementId" => StatementId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_layer_version_permission(
@@ -75,7 +75,7 @@ function add_layer_version_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -150,7 +150,7 @@ function add_permission(
             "Action" => Action, "Principal" => Principal, "StatementId" => StatementId
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function add_permission(
@@ -176,7 +176,7 @@ function add_permission(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -211,7 +211,7 @@ function create_alias(
         "/2015-03-31/functions/$(FunctionName)/aliases",
         Dict{String,Any}("FunctionVersion" => FunctionVersion, "Name" => Name);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_alias(
@@ -232,7 +232,7 @@ function create_alias(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -261,7 +261,7 @@ function create_code_signing_config(
         "/2020-04-22/code-signing-configs/",
         Dict{String,Any}("AllowedPublishers" => AllowedPublishers);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_code_signing_config(
@@ -278,7 +278,7 @@ function create_code_signing_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -387,7 +387,7 @@ function create_event_source_mapping(
         "/2015-03-31/event-source-mappings/",
         Dict{String,Any}("FunctionName" => FunctionName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_event_source_mapping(
@@ -402,7 +402,7 @@ function create_event_source_mapping(
             mergewith(_merge, Dict{String,Any}("FunctionName" => FunctionName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -520,7 +520,7 @@ function create_function(
         "/2015-03-31/functions",
         Dict{String,Any}("Code" => Code, "FunctionName" => FunctionName, "Role" => Role);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_function(
@@ -543,7 +543,7 @@ function create_function(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -584,7 +584,7 @@ function create_function_url_config(
         "/2021-10-31/functions/$(FunctionName)/url",
         Dict{String,Any}("AuthType" => AuthType);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_function_url_config(
@@ -600,7 +600,7 @@ function create_function_url_config(
             mergewith(_merge, Dict{String,Any}("AuthType" => AuthType), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -624,7 +624,7 @@ function delete_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_a
         "DELETE",
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_alias(
@@ -638,7 +638,7 @@ function delete_alias(
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -661,7 +661,7 @@ function delete_code_signing_config(
         "DELETE",
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_code_signing_config(
@@ -674,7 +674,7 @@ function delete_code_signing_config(
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -697,7 +697,7 @@ function delete_event_source_mapping(
         "DELETE",
         "/2015-03-31/event-source-mappings/$(UUID)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_event_source_mapping(
@@ -708,7 +708,7 @@ function delete_event_source_mapping(
         "/2015-03-31/event-source-mappings/$(UUID)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -741,7 +741,7 @@ function delete_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_
         "DELETE",
         "/2015-03-31/functions/$(FunctionName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_function(
@@ -754,7 +754,7 @@ function delete_function(
         "/2015-03-31/functions/$(FunctionName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -779,7 +779,7 @@ function delete_function_code_signing_config(
         "DELETE",
         "/2020-06-30/functions/$(FunctionName)/code-signing-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_function_code_signing_config(
@@ -792,7 +792,7 @@ function delete_function_code_signing_config(
         "/2020-06-30/functions/$(FunctionName)/code-signing-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -817,7 +817,7 @@ function delete_function_concurrency(
         "DELETE",
         "/2017-10-31/functions/$(FunctionName)/concurrency";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_function_concurrency(
@@ -830,7 +830,7 @@ function delete_function_concurrency(
         "/2017-10-31/functions/$(FunctionName)/concurrency",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -860,7 +860,7 @@ function delete_function_event_invoke_config(
         "DELETE",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_function_event_invoke_config(
@@ -873,7 +873,7 @@ function delete_function_event_invoke_config(
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -902,7 +902,7 @@ function delete_function_url_config(
         "DELETE",
         "/2021-10-31/functions/$(FunctionName)/url";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_function_url_config(
@@ -915,7 +915,7 @@ function delete_function_url_config(
         "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -939,7 +939,7 @@ function delete_layer_version(
         "DELETE",
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_layer_version(
@@ -953,7 +953,7 @@ function delete_layer_version(
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -980,7 +980,7 @@ function delete_provisioned_concurrency_config(
         "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
         Dict{String,Any}("Qualifier" => Qualifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_provisioned_concurrency_config(
@@ -996,7 +996,7 @@ function delete_provisioned_concurrency_config(
             mergewith(_merge, Dict{String,Any}("Qualifier" => Qualifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1012,7 +1012,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config(
         "GET",
         "/2016-08-19/account-settings/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_account_settings(
@@ -1023,7 +1023,7 @@ function get_account_settings(
         "/2016-08-19/account-settings/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1047,7 +1047,7 @@ function get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_
         "GET",
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_alias(
@@ -1061,7 +1061,7 @@ function get_alias(
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1083,7 +1083,7 @@ function get_code_signing_config(
         "GET",
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_code_signing_config(
@@ -1096,7 +1096,7 @@ function get_code_signing_config(
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1116,7 +1116,7 @@ function get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/2015-03-31/event-source-mappings/$(UUID)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_event_source_mapping(
@@ -1127,7 +1127,7 @@ function get_event_source_mapping(
         "/2015-03-31/event-source-mappings/$(UUID)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1157,7 +1157,7 @@ function get_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/2015-03-31/functions/$(FunctionName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function(
@@ -1170,7 +1170,7 @@ function get_function(
         "/2015-03-31/functions/$(FunctionName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1195,7 +1195,7 @@ function get_function_code_signing_config(
         "GET",
         "/2020-06-30/functions/$(FunctionName)/code-signing-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function_code_signing_config(
@@ -1208,7 +1208,7 @@ function get_function_code_signing_config(
         "/2020-06-30/functions/$(FunctionName)/code-signing-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1234,7 +1234,7 @@ function get_function_concurrency(
         "GET",
         "/2019-09-30/functions/$(FunctionName)/concurrency";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function_concurrency(
@@ -1247,7 +1247,7 @@ function get_function_concurrency(
         "/2019-09-30/functions/$(FunctionName)/concurrency",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1280,7 +1280,7 @@ function get_function_configuration(
         "GET",
         "/2015-03-31/functions/$(FunctionName)/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function_configuration(
@@ -1293,7 +1293,7 @@ function get_function_configuration(
         "/2015-03-31/functions/$(FunctionName)/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1323,7 +1323,7 @@ function get_function_event_invoke_config(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function_event_invoke_config(
@@ -1336,7 +1336,7 @@ function get_function_event_invoke_config(
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1364,7 +1364,7 @@ function get_function_url_config(
         "GET",
         "/2021-10-31/functions/$(FunctionName)/url";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_function_url_config(
@@ -1377,7 +1377,7 @@ function get_function_url_config(
         "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1400,7 +1400,7 @@ function get_layer_version(
         "GET",
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_layer_version(
@@ -1414,7 +1414,7 @@ function get_layer_version(
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1435,7 +1435,7 @@ function get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=global_aws_
         "/2018-10-31/layers?find=LayerVersion",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_layer_version_by_arn(
@@ -1446,7 +1446,7 @@ function get_layer_version_by_arn(
         "/2018-10-31/layers?find=LayerVersion",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1469,7 +1469,7 @@ function get_layer_version_policy(
         "GET",
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_layer_version_policy(
@@ -1483,7 +1483,7 @@ function get_layer_version_policy(
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1510,7 +1510,7 @@ function get_policy(FunctionName; aws_config::AbstractAWSConfig=global_aws_confi
         "GET",
         "/2015-03-31/functions/$(FunctionName)/policy";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_policy(
@@ -1523,7 +1523,7 @@ function get_policy(
         "/2015-03-31/functions/$(FunctionName)/policy",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1550,7 +1550,7 @@ function get_provisioned_concurrency_config(
         "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency",
         Dict{String,Any}("Qualifier" => Qualifier);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_provisioned_concurrency_config(
@@ -1566,7 +1566,7 @@ function get_provisioned_concurrency_config(
             mergewith(_merge, Dict{String,Any}("Qualifier" => Qualifier), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1599,7 +1599,7 @@ function get_runtime_management_config(
         "GET",
         "/2021-07-20/functions/$(FunctionName)/runtime-management-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_runtime_management_config(
@@ -1612,7 +1612,7 @@ function get_runtime_management_config(
         "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1680,7 +1680,7 @@ function invoke(FunctionName; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/2015-03-31/functions/$(FunctionName)/invocations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invoke(
@@ -1693,7 +1693,7 @@ function invoke(
         "/2015-03-31/functions/$(FunctionName)/invocations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1723,7 +1723,7 @@ function invoke_async(
         "/2014-11-13/functions/$(FunctionName)/invoke-async/",
         Dict{String,Any}("InvokeArgs" => InvokeArgs);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invoke_async(
@@ -1739,7 +1739,7 @@ function invoke_async(
             mergewith(_merge, Dict{String,Any}("InvokeArgs" => InvokeArgs), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1782,7 +1782,7 @@ function invoke_with_response_stream(
         "POST",
         "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function invoke_with_response_stream(
@@ -1795,7 +1795,7 @@ function invoke_with_response_stream(
         "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1825,7 +1825,7 @@ function list_aliases(FunctionName; aws_config::AbstractAWSConfig=global_aws_con
         "GET",
         "/2015-03-31/functions/$(FunctionName)/aliases";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_aliases(
@@ -1838,7 +1838,7 @@ function list_aliases(
         "/2015-03-31/functions/$(FunctionName)/aliases",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1861,7 +1861,7 @@ function list_code_signing_configs(; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/2020-04-22/code-signing-configs/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_code_signing_configs(
@@ -1872,7 +1872,7 @@ function list_code_signing_configs(
         "/2020-04-22/code-signing-configs/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1907,7 +1907,7 @@ function list_event_source_mappings(; aws_config::AbstractAWSConfig=global_aws_c
         "GET",
         "/2015-03-31/event-source-mappings/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_event_source_mappings(
@@ -1918,7 +1918,7 @@ function list_event_source_mappings(
         "/2015-03-31/event-source-mappings/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1949,7 +1949,7 @@ function list_function_event_invoke_configs(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_function_event_invoke_configs(
@@ -1962,7 +1962,7 @@ function list_function_event_invoke_configs(
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1994,7 +1994,7 @@ function list_function_url_configs(
         "GET",
         "/2021-10-31/functions/$(FunctionName)/urls";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_function_url_configs(
@@ -2007,7 +2007,7 @@ function list_function_url_configs(
         "/2021-10-31/functions/$(FunctionName)/urls",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2042,7 +2042,7 @@ function list_functions(; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2015-03-31/functions/";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_functions(
@@ -2053,7 +2053,7 @@ function list_functions(
         "/2015-03-31/functions/",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2082,7 +2082,7 @@ function list_functions_by_code_signing_config(
         "GET",
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_functions_by_code_signing_config(
@@ -2095,7 +2095,7 @@ function list_functions_by_code_signing_config(
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2124,7 +2124,7 @@ function list_layer_versions(LayerName; aws_config::AbstractAWSConfig=global_aws
         "GET",
         "/2018-10-31/layers/$(LayerName)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_layer_versions(
@@ -2137,7 +2137,7 @@ function list_layer_versions(
         "/2018-10-31/layers/$(LayerName)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2160,7 +2160,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_layers(; aws_config::AbstractAWSConfig=global_aws_config())
     return lambda(
-        "GET", "/2018-10-31/layers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/2018-10-31/layers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_layers(
@@ -2171,7 +2174,7 @@ function list_layers(
         "/2018-10-31/layers",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2201,7 +2204,7 @@ function list_provisioned_concurrency_configs(
         "GET",
         "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_provisioned_concurrency_configs(
@@ -2214,7 +2217,7 @@ function list_provisioned_concurrency_configs(
         "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2234,7 +2237,7 @@ function list_tags(ARN; aws_config::AbstractAWSConfig=global_aws_config())
         "GET",
         "/2017-03-31/tags/$(ARN)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_tags(
@@ -2245,7 +2248,7 @@ function list_tags(
         "/2017-03-31/tags/$(ARN)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2277,7 +2280,7 @@ function list_versions_by_function(
         "GET",
         "/2015-03-31/functions/$(FunctionName)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_versions_by_function(
@@ -2290,7 +2293,7 @@ function list_versions_by_function(
         "/2015-03-31/functions/$(FunctionName)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2325,7 +2328,7 @@ function publish_layer_version(
         "/2018-10-31/layers/$(LayerName)/versions",
         Dict{String,Any}("Content" => Content);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function publish_layer_version(
@@ -2339,7 +2342,7 @@ function publish_layer_version(
         "/2018-10-31/layers/$(LayerName)/versions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2378,7 +2381,7 @@ function publish_version(FunctionName; aws_config::AbstractAWSConfig=global_aws_
         "POST",
         "/2015-03-31/functions/$(FunctionName)/versions";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function publish_version(
@@ -2391,7 +2394,7 @@ function publish_version(
         "/2015-03-31/functions/$(FunctionName)/versions",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2421,7 +2424,7 @@ function put_function_code_signing_config(
         "/2020-06-30/functions/$(FunctionName)/code-signing-config",
         Dict{String,Any}("CodeSigningConfigArn" => CodeSigningConfigArn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_function_code_signing_config(
@@ -2441,7 +2444,7 @@ function put_function_code_signing_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2479,7 +2482,7 @@ function put_function_concurrency(
         "/2017-10-31/functions/$(FunctionName)/concurrency",
         Dict{String,Any}("ReservedConcurrentExecutions" => ReservedConcurrentExecutions);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_function_concurrency(
@@ -2501,7 +2504,7 @@ function put_function_concurrency(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2549,7 +2552,7 @@ function put_function_event_invoke_config(
         "PUT",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_function_event_invoke_config(
@@ -2562,7 +2565,7 @@ function put_function_event_invoke_config(
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2597,7 +2600,7 @@ function put_provisioned_concurrency_config(
             "Qualifier" => Qualifier,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_provisioned_concurrency_config(
@@ -2621,7 +2624,7 @@ function put_provisioned_concurrency_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2668,7 +2671,7 @@ function put_runtime_management_config(
         "/2021-07-20/functions/$(FunctionName)/runtime-management-config",
         Dict{String,Any}("UpdateRuntimeOn" => UpdateRuntimeOn);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function put_runtime_management_config(
@@ -2686,7 +2689,7 @@ function put_runtime_management_config(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2714,7 +2717,7 @@ function remove_layer_version_permission(
         "DELETE",
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_layer_version_permission(
@@ -2729,7 +2732,7 @@ function remove_layer_version_permission(
         "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2764,7 +2767,7 @@ function remove_permission(
         "DELETE",
         "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_permission(
@@ -2778,7 +2781,7 @@ function remove_permission(
         "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2799,7 +2802,7 @@ function tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=global_aws_config
         "/2017-03-31/tags/$(ARN)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function tag_resource(
@@ -2813,7 +2816,7 @@ function tag_resource(
         "/2017-03-31/tags/$(ARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2834,7 +2837,7 @@ function untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_c
         "/2017-03-31/tags/$(ARN)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function untag_resource(
@@ -2848,7 +2851,7 @@ function untag_resource(
         "/2017-03-31/tags/$(ARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2879,7 +2882,7 @@ function update_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_a
         "PUT",
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_alias(
@@ -2893,7 +2896,7 @@ function update_alias(
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -2921,7 +2924,7 @@ function update_code_signing_config(
         "PUT",
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_code_signing_config(
@@ -2934,7 +2937,7 @@ function update_code_signing_config(
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3025,7 +3028,7 @@ function update_event_source_mapping(
         "PUT",
         "/2015-03-31/event-source-mappings/$(UUID)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_event_source_mapping(
@@ -3036,7 +3039,7 @@ function update_event_source_mapping(
         "/2015-03-31/event-source-mappings/$(UUID)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3096,7 +3099,7 @@ function update_function_code(
         "PUT",
         "/2015-03-31/functions/$(FunctionName)/code";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_function_code(
@@ -3109,7 +3112,7 @@ function update_function_code(
         "/2015-03-31/functions/$(FunctionName)/code",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3193,7 +3196,7 @@ function update_function_configuration(
         "PUT",
         "/2015-03-31/functions/$(FunctionName)/configuration";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_function_configuration(
@@ -3206,7 +3209,7 @@ function update_function_configuration(
         "/2015-03-31/functions/$(FunctionName)/configuration",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3244,7 +3247,7 @@ function update_function_event_invoke_config(
         "POST",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_function_event_invoke_config(
@@ -3257,7 +3260,7 @@ function update_function_event_invoke_config(
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -3296,7 +3299,7 @@ function update_function_url_config(
         "PUT",
         "/2021-10-31/functions/$(FunctionName)/url";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_function_url_config(
@@ -3309,6 +3312,6 @@ function update_function_url_config(
         "/2021-10-31/functions/$(FunctionName)/url",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end

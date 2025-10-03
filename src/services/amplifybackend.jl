@@ -27,7 +27,7 @@ function clone_backend(
         "/backend/$(appId)/environments/$(backendEnvironmentName)/clone",
         Dict{String,Any}("targetEnvironmentName" => targetEnvironmentName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function clone_backend(
@@ -48,7 +48,7 @@ function clone_backend(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -84,7 +84,7 @@ function create_backend(
             "backendEnvironmentName" => backendEnvironmentName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backend(
@@ -109,7 +109,7 @@ function create_backend(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -142,7 +142,7 @@ function create_backend_api(
             "resourceName" => resourceName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backend_api(
@@ -168,7 +168,7 @@ function create_backend_api(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -201,7 +201,7 @@ function create_backend_auth(
             "resourceName" => resourceName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backend_auth(
@@ -227,7 +227,7 @@ function create_backend_auth(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -249,7 +249,7 @@ function create_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/backend/$(appId)/config";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backend_config(
@@ -260,7 +260,7 @@ function create_backend_config(
         "/backend/$(appId)/config",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -293,7 +293,7 @@ function create_backend_storage(
             "resourceName" => resourceName,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_backend_storage(
@@ -319,7 +319,7 @@ function create_backend_storage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -338,7 +338,7 @@ function create_token(appId; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/backend/$(appId)/challenge";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function create_token(
@@ -349,7 +349,7 @@ function create_token(
         "/backend/$(appId)/challenge",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -371,7 +371,7 @@ function delete_backend(
         "POST",
         "/backend/$(appId)/environments/$(backendEnvironmentName)/remove";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backend(
@@ -385,7 +385,7 @@ function delete_backend(
         "/backend/$(appId)/environments/$(backendEnvironmentName)/remove",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -416,7 +416,7 @@ function delete_backend_api(
         "/backend/$(appId)/api/$(backendEnvironmentName)/remove",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backend_api(
@@ -433,7 +433,7 @@ function delete_backend_api(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -460,7 +460,7 @@ function delete_backend_auth(
         "/backend/$(appId)/auth/$(backendEnvironmentName)/remove",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backend_auth(
@@ -477,7 +477,7 @@ function delete_backend_auth(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -506,7 +506,7 @@ function delete_backend_storage(
         "/backend/$(appId)/storage/$(backendEnvironmentName)/remove",
         Dict{String,Any}("resourceName" => resourceName, "serviceName" => serviceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_backend_storage(
@@ -530,7 +530,7 @@ function delete_backend_storage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -550,7 +550,7 @@ function delete_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws
         "POST",
         "/backend/$(appId)/challenge/$(sessionId)/remove";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function delete_token(
@@ -564,7 +564,7 @@ function delete_token(
         "/backend/$(appId)/challenge/$(sessionId)/remove",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -591,7 +591,7 @@ function generate_backend_apimodels(
         "/backend/$(appId)/api/$(backendEnvironmentName)/generateModels",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function generate_backend_apimodels(
@@ -608,7 +608,7 @@ function generate_backend_apimodels(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -630,7 +630,7 @@ function get_backend(appId; aws_config::AbstractAWSConfig=global_aws_config())
         "POST",
         "/backend/$(appId)/details";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend(
@@ -641,7 +641,7 @@ function get_backend(
         "/backend/$(appId)/details",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -672,7 +672,7 @@ function get_backend_api(
         "/backend/$(appId)/api/$(backendEnvironmentName)/details",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend_api(
@@ -689,7 +689,7 @@ function get_backend_api(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -716,7 +716,7 @@ function get_backend_apimodels(
         "/backend/$(appId)/api/$(backendEnvironmentName)/getModels",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend_apimodels(
@@ -733,7 +733,7 @@ function get_backend_apimodels(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -760,7 +760,7 @@ function get_backend_auth(
         "/backend/$(appId)/auth/$(backendEnvironmentName)/details",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend_auth(
@@ -777,7 +777,7 @@ function get_backend_auth(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -800,7 +800,7 @@ function get_backend_job(
         "GET",
         "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend_job(
@@ -815,7 +815,7 @@ function get_backend_job(
         "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -842,7 +842,7 @@ function get_backend_storage(
         "/backend/$(appId)/storage/$(backendEnvironmentName)/details",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_backend_storage(
@@ -859,7 +859,7 @@ function get_backend_storage(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -879,7 +879,7 @@ function get_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws_co
         "GET",
         "/backend/$(appId)/challenge/$(sessionId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function get_token(
@@ -893,7 +893,7 @@ function get_token(
         "/backend/$(appId)/challenge/$(sessionId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -931,7 +931,7 @@ function import_backend_auth(
             "webClientId" => webClientId,
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_backend_auth(
@@ -958,7 +958,7 @@ function import_backend_auth(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -988,7 +988,7 @@ function import_backend_storage(
         "/backend/$(appId)/storage/$(backendEnvironmentName)/import",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function import_backend_storage(
@@ -1005,7 +1005,7 @@ function import_backend_storage(
             mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1036,7 +1036,7 @@ function list_backend_jobs(
         "POST",
         "/backend/$(appId)/job/$(backendEnvironmentName)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function list_backend_jobs(
@@ -1050,7 +1050,7 @@ function list_backend_jobs(
         "/backend/$(appId)/job/$(backendEnvironmentName)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1066,14 +1066,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_s3_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
     return amplifybackend(
-        "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET[]
     )
 end
 function list_s3_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return amplifybackend(
-        "POST", "/s3Buckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/s3Buckets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1095,7 +1099,7 @@ function remove_all_backends(appId; aws_config::AbstractAWSConfig=global_aws_con
         "POST",
         "/backend/$(appId)/remove";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_all_backends(
@@ -1106,7 +1110,7 @@ function remove_all_backends(
         "/backend/$(appId)/remove",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1125,7 +1129,7 @@ function remove_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/backend/$(appId)/config/remove";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function remove_backend_config(
@@ -1136,7 +1140,7 @@ function remove_backend_config(
         "/backend/$(appId)/config/remove",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1167,7 +1171,7 @@ function update_backend_api(
         "/backend/$(appId)/api/$(backendEnvironmentName)",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_backend_api(
@@ -1184,7 +1188,7 @@ function update_backend_api(
             mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1215,7 +1219,7 @@ function update_backend_auth(
             "resourceConfig" => resourceConfig, "resourceName" => resourceName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_backend_auth(
@@ -1239,7 +1243,7 @@ function update_backend_auth(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1261,7 +1265,7 @@ function update_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_c
         "POST",
         "/backend/$(appId)/config/update";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_backend_config(
@@ -1272,7 +1276,7 @@ function update_backend_config(
         "/backend/$(appId)/config/update",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1301,7 +1305,7 @@ function update_backend_job(
         "POST",
         "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)";
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_backend_job(
@@ -1316,7 +1320,7 @@ function update_backend_job(
         "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)",
         params;
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 
@@ -1347,7 +1351,7 @@ function update_backend_storage(
             "resourceConfig" => resourceConfig, "resourceName" => resourceName
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
 function update_backend_storage(
@@ -1371,6 +1375,6 @@ function update_backend_storage(
             ),
         );
         aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        feature_set=SERVICE_FEATURE_SET[],
     )
 end
