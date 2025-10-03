@@ -43,8 +43,6 @@ jobs:
       - name: Debug OIDC Claims
         # if: ${{ env.RUN_INTEGRATION_TESTS == 'true' && runner.os == 'Linux' }}
         uses: steve-todorov/oidc-debugger-action@v1
-        with:
-          audience: sts.amazonaws.com
       - name: Assume AWS role
         if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
         uses: aws-actions/configure-aws-credentials@v4
