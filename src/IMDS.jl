@@ -58,7 +58,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
     uri = URI(; scheme="http", host=IPv4_ADDRESS, path="/latest/api/token")
     r = try
-        _http_request("PUT", uri, headers; status_exception=false)
+        _http_request("PUT", uri, headers; status_exception=false, retry=false)
     catch e
         # The IMDSv2 uses a default Time To Live (TTL) of 1 (also known as the hop limit) at
         # the IP layer to ensure token requests occur on the instance. When this occurs we
@@ -71,6 +71,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
                 "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/" *
                 "instancedata-data-retrieval.html#imds-considerations"
 
+            session.token = ""
             session.duration = 0
             session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
             return session
@@ -86,6 +87,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         session.duration = duration
         session.expiration = t + duration
     elseif r.status == 404
+        session.token = ""
         session.duration = 0
         session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
     else
@@ -97,27 +99,58 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     return session
 end
 
-function request(session::Session, method::AbstractString, path::AbstractString; kwargs...)
+function request(
+    session::Session, method::AbstractString, path::AbstractString; status_exception=true
+)
+    # Only allow the token to be refreshed once per call to `IMDS.request`.
+    allow_refresh = true
+
     # Attempt to generate token for use with IMDSv2. If we're unable to generate a token
     # we'll fall back on using IMDSv1. We prefer using IMDSv2 as instances can be configured
     # to disable IMDSv1 access: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances
-    token_expired(session) && refresh_token!(session)
-    headers = Pair{String,String}[]
-    !isempty(session.token) && push!(headers, "X-aws-ec2-metadata-token" => session.token)
+    if token_expired(session)
+        refresh_token!(session)
+        allow_refresh = false
+    end
+    headers = HTTP.Header[]
+    if !isempty(session.token)
+        HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
+    end
 
     # Only using the IPv4 endpoint as the IPv6 endpoint has to be explicitly enabled and
     # does not disable IPv4 support.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ipv4-ipv6-endpoints
     uri = URI(; scheme="http", host=IPv4_ADDRESS, path)
-    return _http_request(method, uri, headers; kwargs...)
+
+    # Refresh the token and immediately retry if we encounter "HTTP 401 Unauthorized".
+    #
+    # > When token usage is set to `required` (IMDSv2), requests without a valid token or
+    # > with an expired token receive a `401 - Unauthorized` HTTP error code.
+    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-v2-how-it-works
+    retry_delays = [0]
+    function retry_check(s, e, request, response, response_body)
+        if allow_refresh && e isa StatusError && e.status == 401 && !isempty(session.token)
+            refresh_token!(session)
+            allow_refresh = false
+            HTTP.setheader(request.headers, "X-aws-ec2-metadata-token" => session.token)
+            return true
+        else
+            return false
+        end
+    end
+
+    return _http_request(method, uri, headers; retry_delays, retry_check, status_exception)
 end
 
 function _http_request(args...; status_exception=true, kwargs...)
     response = try
-        # Always throw status exceptions so we can determine if the IMDS service is available
-        @mock HTTP.request(
-            args...; connect_timeout=1, retry=false, kwargs..., status_exception=true
-        )
+        # Override the user's `status_exception` so we can consistently handle status
+        # exceptions. Additionally, by forcing `status_exception=true` this allows retries
+        # to work.
+        #
+        # Additionally, we set a low connect timeout to have faster responses when
+        # attempting to connect to IMDS outside of EC2.
+        @mock HTTP.request(args...; connect_timeout=1, kwargs..., status_exception=true)
     catch e
         # When running outside of an EC2 instance the link-local address will be unavailable
         # and connections will fail. On EC2 instances where IMDS is disabled a HTTP 403 is
