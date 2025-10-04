@@ -31,26 +31,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"tags"`: The tags to add to the deployment.
 """
-function create_deployment(
+create_deployment(
     deploymentPatternName,
     name,
     specifications,
     workloadName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = launch_wizard(
+    "POST",
+    "/createDeployment",
+    Dict{String,Any}(
+        "deploymentPatternName" => deploymentPatternName,
+        "name" => name,
+        "specifications" => specifications,
+        "workloadName" => workloadName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return launch_wizard(
-        "POST",
-        "/createDeployment",
-        Dict{String,Any}(
-            "deploymentPatternName" => deploymentPatternName,
-            "name" => name,
-            "specifications" => specifications,
-            "workloadName" => workloadName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_deployment(
     deploymentPatternName,
     name,
@@ -89,15 +87,14 @@ Deletes a deployment.
 - `deployment_id`: The ID of the deployment.
 
 """
-function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return launch_wizard(
+delete_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "POST",
         "/deleteDeployment",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -124,15 +121,14 @@ Returns information about the deployment.
 - `deployment_id`: The ID of the deployment.
 
 """
-function get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return launch_wizard(
+get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "POST",
         "/getDeployment",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -159,15 +155,14 @@ Returns information about a workload.
 - `workload_name`: The name of the workload.
 
 """
-function get_workload(workloadName; aws_config::AbstractAWSConfig=global_aws_config())
-    return launch_wizard(
+get_workload(workloadName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "POST",
         "/getWorkload",
         Dict{String,Any}("workloadName" => workloadName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_workload(
     workloadName,
     params::AbstractDict{String};
@@ -198,19 +193,17 @@ pattern names of a given workload.
 - `workload_name`: The name of the workload.
 
 """
-function get_workload_deployment_pattern(
+get_workload_deployment_pattern(
     deploymentPatternName, workloadName; aws_config::AbstractAWSConfig=global_aws_config()
+) = launch_wizard(
+    "POST",
+    "/getWorkloadDeploymentPattern",
+    Dict{String,Any}(
+        "deploymentPatternName" => deploymentPatternName, "workloadName" => workloadName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return launch_wizard(
-        "POST",
-        "/getWorkloadDeploymentPattern",
-        Dict{String,Any}(
-            "deploymentPatternName" => deploymentPatternName, "workloadName" => workloadName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_workload_deployment_pattern(
     deploymentPatternName,
     workloadName,
@@ -251,17 +244,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function list_deployment_events(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return launch_wizard(
+list_deployment_events(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "POST",
         "/listDeploymentEvents",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_deployment_events(
     deploymentId,
     params::AbstractDict{String};
@@ -295,11 +285,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return launch_wizard(
-        "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = launch_wizard(
+    "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -322,16 +310,13 @@ Lists the tags associated with a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return launch_wizard(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -363,17 +348,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function list_workload_deployment_patterns(
+list_workload_deployment_patterns(
     workloadName; aws_config::AbstractAWSConfig=global_aws_config()
+) = launch_wizard(
+    "POST",
+    "/listWorkloadDeploymentPatterns",
+    Dict{String,Any}("workloadName" => workloadName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return launch_wizard(
-        "POST",
-        "/listWorkloadDeploymentPatterns",
-        Dict{String,Any}("workloadName" => workloadName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_workload_deployment_patterns(
     workloadName,
     params::AbstractDict{String};
@@ -404,11 +387,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
-function list_workloads(; aws_config::AbstractAWSConfig=global_aws_config())
-    return launch_wizard(
-        "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_workloads(; aws_config::AbstractAWSConfig=global_aws_config()) = launch_wizard(
+    "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_workloads(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -432,15 +413,14 @@ Adds the specified tags to the given resource.
 - `tags`: One or more tags to attach to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return launch_wizard(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -467,17 +447,14 @@ Removes the specified tags from the given resource.
 - `tag_keys`: Keys identifying the tags to remove.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return launch_wizard(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    launch_wizard(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,

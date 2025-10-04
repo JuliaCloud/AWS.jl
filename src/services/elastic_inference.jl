@@ -28,17 +28,15 @@ continue using the service.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"acceleratorTypes"`:  The list of accelerator types to describe.
 """
-function describe_accelerator_offerings(
+describe_accelerator_offerings(
     locationType; aws_config::AbstractAWSConfig=global_aws_config()
+) = elastic_inference(
+    "POST",
+    "/describe-accelerator-offerings",
+    Dict{String,Any}("locationType" => locationType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return elastic_inference(
-        "POST",
-        "/describe-accelerator-offerings",
-        Dict{String,Any}("locationType" => locationType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_accelerator_offerings(
     locationType,
     params::AbstractDict{String};
@@ -69,14 +67,13 @@ who have used Amazon EI at least once during the past 30-day period are consider
 customers and will be able to continue using the service.
 
 """
-function describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_inference(
+describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    elastic_inference(
         "GET",
         "/describe-accelerator-types";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_accelerator_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -115,14 +112,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  A token to specify where to start paginating. This is the NextToken from
   a previously truncated response.
 """
-function describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_inference(
+describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    elastic_inference(
         "POST",
         "/describe-accelerators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_accelerators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -151,16 +147,13 @@ customers and will be able to continue using the service.
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to list the tags for.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elastic_inference(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    elastic_inference(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -192,15 +185,14 @@ customers and will be able to continue using the service.
 - `tags`:  The tags to add to the Elastic Inference Accelerator.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_inference(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    elastic_inference(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -233,17 +225,14 @@ considered current customers and will be able to continue using the service.
 - `tag_keys`:  The list of tags to remove from the Elastic Inference Accelerator.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elastic_inference(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    elastic_inference(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,

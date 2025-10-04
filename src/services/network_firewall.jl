@@ -35,16 +35,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function associate_firewall_policy(
+associate_firewall_policy(
     FirewallPolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "AssociateFirewallPolicy",
+    Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "AssociateFirewallPolicy",
-        Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_firewall_policy(
     FirewallPolicyArn,
     params::AbstractDict{String};
@@ -95,16 +93,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function associate_subnets(
-    SubnetMappings; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+associate_subnets(SubnetMappings; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "AssociateSubnets",
         Dict{String,Any}("SubnetMappings" => SubnetMappings);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function associate_subnets(
     SubnetMappings,
     params::AbstractDict{String};
@@ -166,25 +161,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create a firewall, the operation initializes this setting to TRUE.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-function create_firewall(
+create_firewall(
     FirewallName,
     FirewallPolicyArn,
     SubnetMappings,
     VpcId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = network_firewall(
+    "CreateFirewall",
+    Dict{String,Any}(
+        "FirewallName" => FirewallName,
+        "FirewallPolicyArn" => FirewallPolicyArn,
+        "SubnetMappings" => SubnetMappings,
+        "VpcId" => VpcId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "CreateFirewall",
-        Dict{String,Any}(
-            "FirewallName" => FirewallName,
-            "FirewallPolicyArn" => FirewallPolicyArn,
-            "SubnetMappings" => SubnetMappings,
-            "VpcId" => VpcId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_firewall(
     FirewallName,
     FirewallPolicyArn,
@@ -241,18 +234,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall policy resources.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-function create_firewall_policy(
+create_firewall_policy(
     FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "CreateFirewallPolicy",
+    Dict{String,Any}(
+        "FirewallPolicy" => FirewallPolicy, "FirewallPolicyName" => FirewallPolicyName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "CreateFirewallPolicy",
-        Dict{String,Any}(
-            "FirewallPolicy" => FirewallPolicy, "FirewallPolicyName" => FirewallPolicyName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_firewall_policy(
     FirewallPolicy,
     FirewallPolicyName,
@@ -342,18 +333,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the originating rule group.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-function create_rule_group(
+create_rule_group(
     Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "CreateRuleGroup",
+    Dict{String,Any}(
+        "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "CreateRuleGroup",
-        Dict{String,Any}(
-            "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_rule_group(
     Capacity,
     RuleGroupName,
@@ -381,17 +370,21 @@ end
     create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name)
     create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name, params::Dict{String,<:Any})
 
-Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration
-contains Certificate Manager certificate associations between and the scope configurations
-that Network Firewall uses to decrypt and re-encrypt traffic traveling through your
-firewall. After you create a TLS inspection configuration, you can associate it with a new
-firewall policy. To update the settings for a TLS inspection configuration, use
-UpdateTLSInspectionConfiguration. To manage a TLS inspection configuration's tags, use the
-standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource,
-and UntagResource. To retrieve information about TLS inspection configurations, use
-ListTLSInspectionConfigurations and DescribeTLSInspectionConfiguration.  For more
-information about TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
-inspection configurations in the Network Firewall Developer Guide.
+Creates an Network Firewall TLS inspection configuration. Network Firewall uses TLS
+inspection configurations to decrypt your firewall's inbound and outbound SSL/TLS traffic.
+After decryption, Network Firewall inspects the traffic according to your firewall policy's
+stateful rules, and then re-encrypts it before sending it to its destination. You can
+enable inspection of your firewall's inbound traffic, outbound traffic, or both. To use TLS
+inspection with your firewall, you must first import or provision certificates using ACM,
+create a TLS inspection configuration, add that configuration to a new firewall policy, and
+then associate that policy with your firewall. To update the settings for a TLS inspection
+configuration, use UpdateTLSInspectionConfiguration. To manage a TLS inspection
+configuration's tags, use the standard Amazon Web Services resource tagging operations,
+ListTagsForResource, TagResource, and UntagResource. To retrieve information about TLS
+inspection configurations, use ListTLSInspectionConfigurations and
+DescribeTLSInspectionConfiguration.  For more information about TLS inspection
+configurations, see Inspecting SSL/TLS traffic with TLS inspection configurations in the
+Network Firewall Developer Guide.
 
 # Arguments
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
@@ -416,21 +409,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionConfiguration"`:
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-function create_tlsinspection_configuration(
+create_tlsinspection_configuration(
     TLSInspectionConfiguration,
     TLSInspectionConfigurationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = network_firewall(
+    "CreateTLSInspectionConfiguration",
+    Dict{String,Any}(
+        "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+        "TLSInspectionConfigurationName" => TLSInspectionConfigurationName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "CreateTLSInspectionConfiguration",
-        Dict{String,Any}(
-            "TLSInspectionConfiguration" => TLSInspectionConfiguration,
-            "TLSInspectionConfigurationName" => TLSInspectionConfigurationName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_tlsinspection_configuration(
     TLSInspectionConfiguration,
     TLSInspectionConfigurationName,
@@ -476,11 +467,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
-function delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
-        "DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall(
+    "DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -503,11 +492,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
-function delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DeleteFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function delete_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -530,16 +518,13 @@ Deletes a resource policy that you created in a PutResourcePolicy request.
   resource policy you want to delete.
 
 """
-function delete_resource_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -572,11 +557,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-function delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
-        "DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall(
+    "DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -599,15 +582,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You can't change the name of a TLS inspection configuration after you create
   it. You must specify the ARN or the name, and you can specify both.
 """
-function delete_tlsinspection_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+delete_tlsinspection_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DeleteTLSInspectionConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_tlsinspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -633,11 +613,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
-function describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
-        "DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall(
+    "DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -660,11 +638,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
-function describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DescribeFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -690,13 +667,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
-function describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DescribeLoggingConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -719,16 +695,13 @@ Retrieves a resource policy that you created in a PutResourcePolicy request.
   resource policy you want to retrieve.
 
 """
-function describe_resource_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DescribeResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -764,11 +737,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-function describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
-        "DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall(
+    "DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -797,11 +768,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-function describe_rule_group_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+describe_rule_group_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DescribeRuleGroupMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_rule_group_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -827,15 +797,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You can't change the name of a TLS inspection configuration after you create
   it. You must specify the ARN or the name, and you can specify both.
 """
-function describe_tlsinspection_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+describe_tlsinspection_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DescribeTLSInspectionConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_tlsinspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -877,14 +844,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "DisassociateSubnets",
         Dict{String,Any}("SubnetIds" => SubnetIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_subnets(
     SubnetIds,
     params::AbstractDict{String};
@@ -918,11 +884,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "ListFirewallPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_firewall_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -955,11 +920,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcIds"`: The unique identifiers of the VPCs that you want Network Firewall to retrieve
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
-function list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
-        "ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall(
+    "ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_firewalls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -993,11 +956,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 """
-function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
-        "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall(
+    "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1030,16 +991,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1073,15 +1031,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_tlsinspection_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+list_tlsinspection_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "ListTLSInspectionConfigurations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tlsinspection_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1125,16 +1080,14 @@ sharing using RAM, see Resource Access Manager User Guide.
   groups and firewall policies with.
 
 """
-function put_resource_policy(
+put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "PutResourcePolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "PutResourcePolicy",
-        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -1171,14 +1124,13 @@ Firewall: firewalls, firewall policies, and rule groups.
 - `tags`:
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1215,16 +1167,13 @@ manage through Network Firewall: firewalls, firewall policies, and rule groups.
 - `tag_keys`:
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return network_firewall(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1278,16 +1227,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function update_firewall_delete_protection(
+update_firewall_delete_protection(
     DeleteProtection; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "UpdateFirewallDeleteProtection",
+    Dict{String,Any}("DeleteProtection" => DeleteProtection);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "UpdateFirewallDeleteProtection",
-        Dict{String,Any}("DeleteProtection" => DeleteProtection);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_firewall_delete_protection(
     DeleteProtection,
     params::AbstractDict{String};
@@ -1333,11 +1280,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "UpdateFirewallDescription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function update_firewall_description(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1373,15 +1319,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function update_firewall_encryption_configuration(;
+update_firewall_encryption_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "UpdateFirewallEncryptionConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "UpdateFirewallEncryptionConfiguration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_firewall_encryption_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1431,16 +1375,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
-function update_firewall_policy(
+update_firewall_policy(
     FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "UpdateFirewallPolicy",
+    Dict{String,Any}("FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "UpdateFirewallPolicy",
-        Dict{String,Any}("FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_firewall_policy(
     FirewallPolicy,
     UpdateToken,
@@ -1496,18 +1438,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function update_firewall_policy_change_protection(
+update_firewall_policy_change_protection(
     FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "UpdateFirewallPolicyChangeProtection",
+    Dict{String,Any}("FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "UpdateFirewallPolicyChangeProtection",
-        Dict{String,Any}(
-            "FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_firewall_policy_change_protection(
     FirewallPolicyChangeProtection,
     params::AbstractDict{String};
@@ -1556,11 +1494,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LoggingConfiguration"`: Defines how Network Firewall performs logging for a firewall.
   If you omit this setting, Network Firewall disables logging for the firewall.
 """
-function update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "UpdateLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function update_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1629,14 +1566,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall(
+update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    network_firewall(
         "UpdateRuleGroup",
         Dict{String,Any}("UpdateToken" => UpdateToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_rule_group(
     UpdateToken,
     params::AbstractDict{String};
@@ -1683,16 +1619,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-function update_subnet_change_protection(
+update_subnet_change_protection(
     SubnetChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()
+) = network_firewall(
+    "UpdateSubnetChangeProtection",
+    Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "UpdateSubnetChangeProtection",
-        Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_subnet_change_protection(
     SubnetChangeProtection,
     params::AbstractDict{String};
@@ -1758,21 +1692,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. You can't change the name of a TLS inspection configuration after you create
   it.
 """
-function update_tlsinspection_configuration(
+update_tlsinspection_configuration(
     TLSInspectionConfiguration,
     UpdateToken;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = network_firewall(
+    "UpdateTLSInspectionConfiguration",
+    Dict{String,Any}(
+        "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+        "UpdateToken" => UpdateToken,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return network_firewall(
-        "UpdateTLSInspectionConfiguration",
-        Dict{String,Any}(
-            "TLSInspectionConfiguration" => TLSInspectionConfiguration,
-            "UpdateToken" => UpdateToken,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_tlsinspection_configuration(
     TLSInspectionConfiguration,
     UpdateToken,

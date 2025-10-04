@@ -30,14 +30,13 @@ results of relevant APIs for only 30 days. After that, it's deleted.
   letters or digits.
 
 """
-function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "AcceptHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function accept_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -80,16 +79,13 @@ administrator for an Amazon Web Services service.
   letters or digits.
 
 """
-function attach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+attach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "AttachPolicy",
         Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function attach_policy(
     PolicyId,
     TargetId,
@@ -127,14 +123,13 @@ that, it's deleted.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "CancelHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -182,14 +177,12 @@ Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Gui
   API request.
 
 """
-function close_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "CloseAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+close_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "CloseAccount",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function close_account(
     AccountId,
     params::AbstractDict{String};
@@ -233,24 +226,23 @@ from the organization's management account. For more information about creating 
 see Creating a member account in your organization in the Organizations User Guide.    When
 you create an account in an organization using the Organizations console, API, or CLI
 commands, the information required for the account to operate as a standalone account, such
-as a payment method and signing the end user license agreement (EULA) is not automatically
-collected. If you must remove an account from your organization later, you can do so only
-after you provide the missing information. For more information, see Considerations before
-removing an account from an organization in the Organizations User Guide.   If you get an
-exception that indicates that you exceeded your account limits for the organization,
-contact Amazon Web Services Support.   If you get an exception that indicates that the
-operation failed because your organization is still initializing, wait one hour and then
-try again. If the error persists, contact Amazon Web Services Support.   Using
-CreateAccount to create multiple temporary accounts isn't recommended. You can only close
-an account from the Billing and Cost Management console, and you must be signed in as the
-root user. For information on the requirements and process for closing an account, see
-Closing a member account in your organization in the Organizations User Guide.     When you
-create a member account with this operation, you can choose whether to create the account
-with the IAM User and Role Access to Billing Information switch enabled. If you enable it,
-IAM users and roles that have appropriate permissions can view billing information for the
-account. If you disable it, only the account root user can access billing information. For
-information about how to disable this switch for an account, see Granting access to your
-billing information and tools.
+as a payment method is not automatically collected. If you must remove an account from your
+organization later, you can do so only after you provide the missing information. For more
+information, see Considerations before removing an account from an organization in the
+Organizations User Guide.   If you get an exception that indicates that you exceeded your
+account limits for the organization, contact Amazon Web Services Support.   If you get an
+exception that indicates that the operation failed because your organization is still
+initializing, wait one hour and then try again. If the error persists, contact Amazon Web
+Services Support.   Using CreateAccount to create multiple temporary accounts isn't
+recommended. You can only close an account from the Billing and Cost Management console,
+and you must be signed in as the root user. For information on the requirements and process
+for closing an account, see Closing a member account in your organization in the
+Organizations User Guide.     When you create a member account with this operation, you can
+choose whether to create the account with the IAM User and Role Access to Billing
+Information switch enabled. If you enable it, IAM users and roles that have appropriate
+permissions can view billing information for the account. If you disable it, only the
+account root user can access billing information. For information about how to disable this
+switch for an account, see Granting access to your billing information and tools.
 
 # Arguments
 - `account_name`: The friendly name of the member account.
@@ -294,16 +286,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the maximum allowed number of tags for an account, then the entire
   request fails and the account is not created.
 """
-function create_account(
-    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+create_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "CreateAccount",
         Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_account(
     AccountName,
     Email,
@@ -445,16 +434,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the maximum allowed number of tags for an account, then the entire
   request fails and the account is not created.
 """
-function create_gov_cloud_account(
+create_gov_cloud_account(
     AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "CreateGovCloudAccount",
+    Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "CreateGovCloudAccount",
-        Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_gov_cloud_account(
     AccountName,
     Email,
@@ -502,11 +489,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account in the organization. For more information, see All features in the Organizations
   User Guide.
 """
-function create_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+create_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function create_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -546,16 +531,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the allowed number of tags for an OU, then the entire request fails
   and the OU is not created.
 """
-function create_organizational_unit(
+create_organizational_unit(
     Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "CreateOrganizationalUnit",
+    Dict{String,Any}("Name" => Name, "ParentId" => ParentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "CreateOrganizationalUnit",
-        Dict{String,Any}("Name" => Name, "ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_organizational_unit(
     Name,
     ParentId,
@@ -605,21 +588,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the allowed number of tags for a policy, then the entire request
   fails and the policy is not created.
 """
-function create_policy(
+create_policy(
     Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "CreatePolicy",
+    Dict{String,Any}(
+        "Content" => Content,
+        "Description" => Description,
+        "Name" => Name,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "CreatePolicy",
-        Dict{String,Any}(
-            "Content" => Content,
-            "Description" => Description,
-            "Name" => Name,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_policy(
     Content,
     Description,
@@ -664,14 +645,13 @@ relevant APIs for only 30 days. After that, it's deleted.
   ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DeclineHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function decline_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -695,11 +675,9 @@ Deletes the organization. You can delete an organization only by using credentia
 management account. The organization must be empty of member accounts.
 
 """
-function delete_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -724,16 +702,14 @@ only from the organization's management account.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-function delete_organizational_unit(
+delete_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DeleteOrganizationalUnit",
+    Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DeleteOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -769,14 +745,12 @@ account that is a delegated administrator for an Amazon Web Services service.
   letters, digits, or the underscore character (_).
 
 """
-function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeletePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DeletePolicy",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -800,11 +774,9 @@ Deletes the resource policy from your organization. You can only call this opera
 the organization's management account.
 
 """
-function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -840,16 +812,14 @@ This operation can be called only from the organization's management account.
   administrator, the operation also revokes Organizations read action permissions.
 
 """
-function deregister_delegated_administrator(
+deregister_delegated_administrator(
     AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DeregisterDelegatedAdministrator",
+    Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DeregisterDelegatedAdministrator",
-        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_delegated_administrator(
     AccountId,
     ServicePrincipal,
@@ -886,14 +856,13 @@ delegated administrator for an Amazon Web Services service.
   operations. The regex pattern for an account ID string requires exactly 12 digits.
 
 """
-function describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeAccount",
         Dict{String,Any}("AccountId" => AccountId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_account(
     AccountId,
     params::AbstractDict{String};
@@ -925,16 +894,14 @@ account that is a delegated administrator for an Amazon Web Services service.
   lowercase letters or digits.
 
 """
-function describe_create_account_status(
+describe_create_account_status(
     CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DescribeCreateAccountStatus",
+    Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DescribeCreateAccountStatus",
-        Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_create_account_status(
     CreateAccountRequestId,
     params::AbstractDict{String};
@@ -976,16 +943,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want details about. Specifying an organization root or organizational unit
   (OU) as the target is not supported.
 """
-function describe_effective_policy(
-    PolicyType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+describe_effective_policy(PolicyType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeEffectivePolicy",
         Dict{String,Any}("PolicyType" => PolicyType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_effective_policy(
     PolicyType,
     params::AbstractDict{String};
@@ -1018,14 +982,13 @@ operation can be called from any account in the organization.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -1052,11 +1015,9 @@ with DisablePolicyType. Use ListRoots to see the status of policy types for a sp
 root.
 
 """
-function describe_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1084,16 +1045,14 @@ administrator for an Amazon Web Services service.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-function describe_organizational_unit(
+describe_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DescribeOrganizationalUnit",
+    Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DescribeOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -1128,14 +1087,13 @@ for an Amazon Web Services service.
   letters, digits, or the underscore character (_).
 
 """
-function describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribePolicy",
         Dict{String,Any}("PolicyId" => PolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -1160,11 +1118,10 @@ organization's management account or by a member account that is a delegated adm
 for an Amazon Web Services service.
 
 """
-function describe_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1209,16 +1166,13 @@ administrator for an Amazon Web Services service.
   letters or digits.
 
 """
-function detach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+detach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DetachPolicy",
         Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function detach_policy(
     PolicyId,
     TargetId,
@@ -1284,16 +1238,14 @@ operation can be called only from the organization's management account.
   of a URL, such as  service-abbreviation.amazonaws.com.
 
 """
-function disable_awsservice_access(
+disable_awsservice_access(
     ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DisableAWSServiceAccess",
+    Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DisableAWSServiceAccess",
-        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_awsservice_access(
     ServicePrincipal,
     params::AbstractDict{String};
@@ -1337,16 +1289,13 @@ organization, use DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-function disable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+disable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DisablePolicyType",
         Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disable_policy_type(
     PolicyType,
     RootId,
@@ -1393,11 +1342,9 @@ account administrators are aware of this. This operation can be called only from
 organization's management account.
 
 """
-function enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function enable_all_features(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1431,16 +1378,14 @@ enabled all features.
   of a URL, such as  service-abbreviation.amazonaws.com.
 
 """
-function enable_awsservice_access(
+enable_awsservice_access(
     ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "EnableAWSServiceAccess",
+    Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "EnableAWSServiceAccess",
-        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_awsservice_access(
     ServicePrincipal,
     params::AbstractDict{String};
@@ -1482,16 +1427,13 @@ DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-function enable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+enable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "EnablePolicyType",
         Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function enable_policy_type(
     PolicyType,
     RootId,
@@ -1558,16 +1500,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowed number of tags for an account, then the entire request fails and
   invitations are not sent.
 """
-function invite_account_to_organization(
-    Target; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+invite_account_to_organization(Target; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "InviteAccountToOrganization",
         Dict{String,Any}("Target" => Target);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function invite_account_to_organization(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1616,11 +1555,9 @@ multiple accounts, you can only do this up to 5 accounts per second in a single
 organization.
 
 """
-function leave_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+leave_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function leave_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1657,11 +1594,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations("ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1704,16 +1638,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_accounts_for_parent(
-    ParentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_accounts_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListAccountsForParent",
         Dict{String,Any}("ParentId" => ParentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_accounts_for_parent(
     ParentId,
     params::AbstractDict{String};
@@ -1757,15 +1688,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_awsservice_access_for_organization(;
+list_awsservice_access_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListAWSServiceAccessForOrganization";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListAWSServiceAccessForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_awsservice_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1814,16 +1743,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_children(
-    ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_children(ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListChildren",
         Dict{String,Any}("ChildType" => ChildType, "ParentId" => ParentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_children(
     ChildType,
     ParentId,
@@ -1873,11 +1799,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"States"`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
-function list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListCreateAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_create_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1917,13 +1842,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a service principal, the operation lists all delegated administrators for all
   services in your organization.
 """
-function list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListDelegatedAdministrators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_delegated_administrators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1962,16 +1886,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_delegated_services_for_account(
+list_delegated_services_for_account(
     AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListDelegatedServicesForAccount",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListDelegatedServicesForAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_delegated_services_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -2021,11 +1943,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListHandshakesForAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_handshakes_for_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2074,15 +1995,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_handshakes_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListHandshakesForOrganization";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_handshakes_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2129,16 +2047,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_organizational_units_for_parent(
+list_organizational_units_for_parent(
     ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListOrganizationalUnitsForParent",
+    Dict{String,Any}("ParentId" => ParentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListOrganizationalUnitsForParent",
-        Dict{String,Any}("ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_organizational_units_for_parent(
     ParentId,
     params::AbstractDict{String};
@@ -2191,14 +2107,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListParents",
-        Dict{String,Any}("ChildId" => ChildId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "ListParents",
+    Dict{String,Any}("ChildId" => ChildId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_parents(
     ChildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2242,14 +2156,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListPolicies",
-        Dict{String,Any}("Filter" => Filter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "ListPolicies",
+    Dict{String,Any}("Filter" => Filter);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_policies(
     Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2301,16 +2213,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_policies_for_target(
+list_policies_for_target(
     Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListPoliciesForTarget",
+    Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListPoliciesForTarget",
-        Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_policies_for_target(
     Filter,
     TargetId,
@@ -2359,11 +2269,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_roots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_roots(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations("ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_roots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2397,16 +2304,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListTagsForResource",
         Dict{String,Any}("ResourceId" => ResourceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -2454,16 +2358,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_targets_for_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_targets_for_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListTargetsForPolicy",
         Dict{String,Any}("PolicyId" => PolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_targets_for_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -2506,23 +2407,21 @@ organization's management account.
   lowercase letters or digits.
 
 """
-function move_account(
+move_account(
     AccountId,
     DestinationParentId,
     SourceParentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = organizations(
+    "MoveAccount",
+    Dict{String,Any}(
+        "AccountId" => AccountId,
+        "DestinationParentId" => DestinationParentId,
+        "SourceParentId" => SourceParentId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "MoveAccount",
-        Dict{String,Any}(
-            "AccountId" => AccountId,
-            "DestinationParentId" => DestinationParentId,
-            "SourceParentId" => SourceParentId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function move_account(
     AccountId,
     DestinationParentId,
@@ -2570,14 +2469,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one of the tags is not valid or if you exceed the allowed number of tags for the resource
   policy, then the entire request fails and the resource policy is not created.
 """
-function put_resource_policy(Content; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+put_resource_policy(Content; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "PutResourcePolicy",
         Dict{String,Any}("Content" => Content);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_resource_policy(
     Content, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2609,16 +2507,14 @@ from the organization's management account.
   you want to make the member account a delegated administrator.
 
 """
-function register_delegated_administrator(
+register_delegated_administrator(
     AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "RegisterDelegatedAdministrator",
+    Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "RegisterDelegatedAdministrator",
-        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_delegated_administrator(
     AccountId,
     ServicePrincipal,
@@ -2669,16 +2565,14 @@ deleted. Amazon Web Services accounts outside of an organization do not support 
   digits.
 
 """
-function remove_account_from_organization(
+remove_account_from_organization(
     AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "RemoveAccountFromOrganization",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "RemoveAccountFromOrganization",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_account_from_organization(
     AccountId,
     params::AbstractDict{String};
@@ -2717,14 +2611,13 @@ for an Amazon Web Services service.
   number of tags for a resource, then the entire request fails.
 
 """
-function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "TagResource",
         Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceId,
     Tags,
@@ -2763,16 +2656,13 @@ administrator for an Amazon Web Services service.
 - `tag_keys`: The list of keys for tags to remove from the specified resource.
 
 """
-function untag_resource(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+untag_resource(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "UntagResource",
         Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceId,
     TagKeys,
@@ -2814,16 +2704,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to validate this parameter is a string of any of the characters in the ASCII character
   range.
 """
-function update_organizational_unit(
+update_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "UpdateOrganizationalUnit",
+    Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "UpdateOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -2868,14 +2756,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: If provided, the new name for the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
-function update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "UpdatePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "UpdatePolicy",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_policy(
     PolicyId,
     params::AbstractDict{String};

@@ -15,17 +15,14 @@ Returns a list of requested findings from standard scans.
   scanName and a findingId. You retrieve the findingId when you call GetFindings.
 
 """
-function batch_get_findings(
-    findingIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguru_security(
+batch_get_findings(findingIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "POST",
         "/batchGetFindings",
         Dict{String,Any}("findingIdentifiers" => findingIdentifiers);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_findings(
     findingIdentifiers,
     params::AbstractDict{String};
@@ -74,10 +71,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Production, or a team name. Omitting the tag value is the same as using an empty string.
   Tag values are case sensitive.
 """
-function create_scan(
-    resourceId, scanName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguru_security(
+create_scan(resourceId, scanName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "POST",
         "/scans",
         Dict{String,Any}(
@@ -88,7 +83,6 @@ function create_scan(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_scan(
     resourceId,
     scanName,
@@ -128,15 +122,14 @@ with the request headers using any HTTP client.
   Use this scanName when you call CreateScan on the code resource you upload to this URL.
 
 """
-function create_upload_url(scanName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
+create_upload_url(scanName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "POST",
         "/uploadUrl",
         Dict{String,Any}("scanName" => scanName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_upload_url(
     scanName,
     params::AbstractDict{String};
@@ -160,14 +153,13 @@ end
 Use to get the encryption configuration for an account.
 
 """
-function get_account_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
+get_account_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "GET",
         "/accountConfiguration/get";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -201,14 +193,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first page.
 - `"status"`: The status of the findings you want to get. Pass either Open, Closed, or All.
 """
-function get_findings(scanName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
+get_findings(scanName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "GET",
         "/findings/$(scanName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_findings(
     scanName,
     params::AbstractDict{String};
@@ -236,15 +227,14 @@ with most open critical findings.
   The date must be within the past two years.
 
 """
-function get_metrics_summary(date; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
+get_metrics_summary(date; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "GET",
         "/metrics/summary",
         Dict{String,Any}("date" => date);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_metrics_summary(
     date, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -272,11 +262,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You retrieve this when you call the CreateScan operation. Defaults to the latest scan run
   if missing.
 """
-function get_scan(scanName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
-        "GET", "/scans/$(scanName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_scan(scanName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_security(
+    "GET", "/scans/$(scanName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_scan(
     scanName,
     params::AbstractDict{String};
@@ -314,17 +302,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the nextToken value returned from the previous request to continue listing results after
   the first page.
 """
-function list_findings_metrics(
+list_findings_metrics(
     endDate, startDate; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguru_security(
+    "GET",
+    "/metrics/findings",
+    Dict{String,Any}("endDate" => endDate, "startDate" => startDate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguru_security(
-        "GET",
-        "/metrics/findings",
-        Dict{String,Any}("endDate" => endDate, "startDate" => startDate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_findings_metrics(
     endDate,
     startDate,
@@ -363,11 +349,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the nextToken value returned from the previous request to continue listing results after
   the first page.
 """
-function list_scans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
-        "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_scans(; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_security(
+    "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -387,16 +371,13 @@ Returns a list of all tags associated with a scan.
   CreateScan, ListScans, or GetScan.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguru_security(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -427,15 +408,14 @@ Use to add one or more tags to an existing scan.
   empty string. Tag values are case sensitive.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_security(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -463,17 +443,14 @@ Use to remove one or more tags from an existing scan.
 - `tag_keys`: A list of keys for each tag you want to remove from a scan.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguru_security(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codeguru_security(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -502,17 +479,15 @@ Use to update the encryption configuration for an account.
   AWS-managed key for encryption instead, pass nothing.
 
 """
-function update_account_configuration(
+update_account_configuration(
     encryptionConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = codeguru_security(
+    "PUT",
+    "/updateAccountConfiguration",
+    Dict{String,Any}("encryptionConfig" => encryptionConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codeguru_security(
-        "PUT",
-        "/updateAccountConfiguration",
-        Dict{String,Any}("encryptionConfig" => encryptionConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_account_configuration(
     encryptionConfig,
     params::AbstractDict{String};

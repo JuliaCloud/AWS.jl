@@ -55,17 +55,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.You can specify only one of templateBody and templateUrl; otherwise an error
   results.
 """
-function create_application(
+create_application(
     author, description, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "POST",
+    "/applications",
+    Dict{String,Any}("author" => author, "description" => description, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications",
-        Dict{String,Any}("author" => author, "description" => description, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application(
     author,
     description,
@@ -109,16 +107,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateBody"`: The raw packaged AWS SAM template of your application.
 - `"templateUrl"`: A link to the packaged AWS SAM template of your application.
 """
-function create_application_version(
+create_application_version(
     applicationId, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "PUT",
+    "/applications/$(applicationId)/versions/$(semanticVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "PUT",
-        "/applications/$(applicationId)/versions/$(semanticVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application_version(
     applicationId,
     semanticVersion,
@@ -211,17 +207,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateId"`: The UUID returned by CreateCloudFormationTemplate.Pattern:
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 """
-function create_cloud_formation_change_set(
+create_cloud_formation_change_set(
     applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "POST",
+    "/applications/$(applicationId)/changesets",
+    Dict{String,Any}("stackName" => stackName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications/$(applicationId)/changesets",
-        Dict{String,Any}("stackName" => stackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_cloud_formation_change_set(
     applicationId,
     stackName,
@@ -253,16 +247,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"semanticVersion"`: The semantic version of the application:
  https://semver.org/
 """
-function create_cloud_formation_template(
+create_cloud_formation_template(
     applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "POST",
+    "/applications/$(applicationId)/templates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications/$(applicationId)/templates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_cloud_formation_template(
     applicationId,
     params::AbstractDict{String};
@@ -287,16 +279,13 @@ Deletes the specified application.
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 """
-function delete_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return serverlessapplicationrepository(
+delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    serverlessapplicationrepository(
         "DELETE",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -324,14 +313,13 @@ Gets the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"semanticVersion"`: The semantic version of the application to get.
 """
-function get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return serverlessapplicationrepository(
+get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    serverlessapplicationrepository(
         "GET",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -356,16 +344,13 @@ Retrieves the policy for the application.
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 """
-function get_application_policy(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return serverlessapplicationrepository(
+get_application_policy(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    serverlessapplicationrepository(
         "GET",
         "/applications/$(applicationId)/policy";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_application_policy(
     applicationId,
     params::AbstractDict{String};
@@ -392,16 +377,14 @@ Gets the specified AWS CloudFormation template.
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
 """
-function get_cloud_formation_template(
+get_cloud_formation_template(
     applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "GET",
+    "/applications/$(applicationId)/templates/$(templateId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/templates/$(templateId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_cloud_formation_template(
     applicationId,
     templateId,
@@ -432,16 +415,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating.
 - `"semanticVersion"`: The semantic version of the application to get.
 """
-function list_application_dependencies(
+list_application_dependencies(
     applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "GET",
+    "/applications/$(applicationId)/dependencies";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/dependencies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_application_dependencies(
     applicationId,
     params::AbstractDict{String};
@@ -470,16 +451,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxItems"`: The total number of items to return.
 - `"nextToken"`: A token to specify where to start paginating.
 """
-function list_application_versions(
+list_application_versions(
     applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "GET",
+    "/applications/$(applicationId)/versions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_application_versions(
     applicationId,
     params::AbstractDict{String};
@@ -505,11 +484,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxItems"`: The total number of items to return.
 - `"nextToken"`: A token to specify where to start paginating.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return serverlessapplicationrepository(
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    serverlessapplicationrepository(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -537,17 +515,15 @@ operation, see
 - `statements`: An array of policy statements applied to the application.
 
 """
-function put_application_policy(
+put_application_policy(
     applicationId, statements; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "PUT",
+    "/applications/$(applicationId)/policy",
+    Dict{String,Any}("statements" => statements);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "PUT",
-        "/applications/$(applicationId)/policy",
-        Dict{String,Any}("statements" => statements);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_application_policy(
     applicationId,
     statements,
@@ -577,17 +553,15 @@ organization's master account.
 - `organization_id`: The AWS Organization ID to unshare the application from.
 
 """
-function unshare_application(
+unshare_application(
     applicationId, organizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = serverlessapplicationrepository(
+    "POST",
+    "/applications/$(applicationId)/unshare",
+    Dict{String,Any}("organizationId" => organizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return serverlessapplicationrepository(
-        "POST",
-        "/applications/$(applicationId)/unshare",
-        Dict{String,Any}("organizationId" => organizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function unshare_application(
     applicationId,
     organizationId,
@@ -628,16 +602,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"readmeUrl"`: A link to the readme file in Markdown language that contains a more
   detailed description of the application and how it works.Maximum size 5 MB
 """
-function update_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return serverlessapplicationrepository(
+update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    serverlessapplicationrepository(
         "PATCH",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_application(
     applicationId,
     params::AbstractDict{String};

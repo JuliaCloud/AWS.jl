@@ -15,21 +15,24 @@ Copy an image set.
 - `datastore_id`: The data store identifier.
 - `source_image_set_id`: The source image set identifier.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"force"`: Setting this flag will force the CopyImageSet operation, even if Patient,
+  Study, or Series level metadata are mismatched across the sourceImageSet and
+  destinationImageSet.
 """
-function copy_image_set(
+copy_image_set(
     copyImageSetInformation,
     datastoreId,
     sourceImageSetId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = medical_imaging(
+    "POST",
+    "/datastore/$(datastoreId)/imageSet/$(sourceImageSetId)/copyImageSet",
+    Dict{String,Any}("copyImageSetInformation" => copyImageSetInformation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/datastore/$(datastoreId)/imageSet/$(sourceImageSetId)/copyImageSet",
-        Dict{String,Any}("copyImageSetInformation" => copyImageSetInformation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function copy_image_set(
     copyImageSetInformation,
     datastoreId,
@@ -68,15 +71,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (KMS) key for accessing encrypted data.
 - `"tags"`: The tags provided when creating a data store.
 """
-function create_datastore(clientToken; aws_config::AbstractAWSConfig=global_aws_config())
-    return medical_imaging(
+create_datastore(clientToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "POST",
         "/datastore",
         Dict{String,Any}("clientToken" => clientToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_datastore(
     clientToken,
     params::AbstractDict{String};
@@ -104,14 +106,13 @@ sets within it.
 - `datastore_id`: The data store identifier.
 
 """
-function delete_datastore(datastoreId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medical_imaging(
+delete_datastore(datastoreId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "DELETE",
         "/datastore/$(datastoreId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_datastore(
     datastoreId,
     params::AbstractDict{String};
@@ -137,16 +138,14 @@ Delete an image set.
 - `image_set_id`: The image set identifier.
 
 """
-function delete_image_set(
+delete_image_set(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = medical_imaging(
+    "POST",
+    "/datastore/$(datastoreId)/imageSet/$(imageSetId)/deleteImageSet";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/datastore/$(datastoreId)/imageSet/$(imageSetId)/deleteImageSet";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_image_set(
     datastoreId,
     imageSetId,
@@ -172,14 +171,13 @@ Get data store properties.
 - `datastore_id`: The data store identifier.
 
 """
-function get_datastore(datastoreId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medical_imaging(
+get_datastore(datastoreId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "GET",
         "/datastore/$(datastoreId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_datastore(
     datastoreId,
     params::AbstractDict{String};
@@ -209,16 +207,13 @@ to S3, as they provide details on the success or failure of individual P10 objec
 - `job_id`: The import job identifier.
 
 """
-function get_dicomimport_job(
-    datastoreId, jobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return medical_imaging(
+get_dicomimport_job(datastoreId, jobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "GET",
         "/getDICOMImportJob/datastore/$(datastoreId)/job/$(jobId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_dicomimport_job(
     datastoreId,
     jobId,
@@ -246,20 +241,18 @@ Get an image frame (pixel data) for an image set.
 - `image_set_id`: The image set identifier.
 
 """
-function get_image_frame(
+get_image_frame(
     datastoreId,
     imageFrameInformation,
     imageSetId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = medical_imaging(
+    "POST",
+    "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageFrame",
+    Dict{String,Any}("imageFrameInformation" => imageFrameInformation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageFrame",
-        Dict{String,Any}("imageFrameInformation" => imageFrameInformation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_image_frame(
     datastoreId,
     imageFrameInformation,
@@ -296,16 +289,13 @@ Get image set properties.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: The image set version identifier.
 """
-function get_image_set(
-    datastoreId, imageSetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return medical_imaging(
+get_image_set(datastoreId, imageSetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "POST",
         "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSet";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_image_set(
     datastoreId,
     imageSetId,
@@ -335,16 +325,14 @@ Get metadata attributes for an image set.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: The image set version identifier.
 """
-function get_image_set_metadata(
+get_image_set_metadata(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = medical_imaging(
+    "POST",
+    "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSetMetadata";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/datastore/$(datastoreId)/imageSet/$(imageSetId)/getImageSetMetadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_image_set_metadata(
     datastoreId,
     imageSetId,
@@ -373,11 +361,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to request the list of data stores on the next
   page.
 """
-function list_datastores(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medical_imaging(
-        "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_datastores(; aws_config::AbstractAWSConfig=global_aws_config()) = medical_imaging(
+    "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -402,16 +388,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to request the list of import jobs on the next
   page.
 """
-function list_dicomimport_jobs(
-    datastoreId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return medical_imaging(
+list_dicomimport_jobs(datastoreId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "GET",
         "/listDICOMImportJobs/datastore/$(datastoreId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_dicomimport_jobs(
     datastoreId,
     params::AbstractDict{String};
@@ -442,16 +425,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to request the list of image set versions on the
   next page.
 """
-function list_image_set_versions(
+list_image_set_versions(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = medical_imaging(
+    "POST",
+    "/datastore/$(datastoreId)/imageSet/$(imageSetId)/listImageSetVersions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/datastore/$(datastoreId)/imageSet/$(imageSetId)/listImageSetVersions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_image_set_versions(
     datastoreId,
     imageSetId,
@@ -478,16 +459,13 @@ Lists all tags associated with a medical imaging resource.
   tags for.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return medical_imaging(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -524,14 +502,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchCriteria"`: The search criteria that filters by applying a maximum of 1 item to
   SearchByAttribute.
 """
-function search_image_sets(datastoreId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medical_imaging(
+search_image_sets(datastoreId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "POST",
         "/datastore/$(datastoreId)/searchImageSets";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_image_sets(
     datastoreId,
     params::AbstractDict{String};
@@ -569,27 +546,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputOwnerAccountId"`: The account ID of the source S3 bucket owner.
 - `"jobName"`: The import job name.
 """
-function start_dicomimport_job(
+start_dicomimport_job(
     clientToken,
     dataAccessRoleArn,
     datastoreId,
     inputS3Uri,
     outputS3Uri;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = medical_imaging(
+    "POST",
+    "/startDICOMImportJob/datastore/$(datastoreId)",
+    Dict{String,Any}(
+        "clientToken" => clientToken,
+        "dataAccessRoleArn" => dataAccessRoleArn,
+        "inputS3Uri" => inputS3Uri,
+        "outputS3Uri" => outputS3Uri,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/startDICOMImportJob/datastore/$(datastoreId)",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "dataAccessRoleArn" => dataAccessRoleArn,
-            "inputS3Uri" => inputS3Uri,
-            "outputS3Uri" => outputS3Uri,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_dicomimport_job(
     clientToken,
     dataAccessRoleArn,
@@ -631,15 +606,14 @@ Adds a user-specifed key and value tag to a medical imaging resource.
 - `tags`: The user-specified key and value tag pairs added to a medical imaging resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return medical_imaging(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -667,17 +641,14 @@ Removes tags from a medical imaging resource.
 - `tag_keys`: The keys for the tags to be removed from the medical imaging resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return medical_imaging(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    medical_imaging(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -705,25 +676,29 @@ Update image set metadata attributes.
 - `latest_version`: The latest image set version identifier.
 - `update_image_set_metadata_updates`: Update image set metadata updates.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"force"`: Setting this flag will force the UpdateImageSetMetadata operation for the
+  following attributes:    Tag.StudyInstanceUID, Tag.SeriesInstanceUID, Tag.SOPInstanceUID,
+  and Tag.StudyID    Adding, removing, or updating private tags for an individual SOP
+  Instance
 """
-function update_image_set_metadata(
+update_image_set_metadata(
     datastoreId,
     imageSetId,
     latestVersion,
     updateImageSetMetadataUpdates;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = medical_imaging(
+    "POST",
+    "/datastore/$(datastoreId)/imageSet/$(imageSetId)/updateImageSetMetadata",
+    Dict{String,Any}(
+        "latestVersion" => latestVersion,
+        "updateImageSetMetadataUpdates" => updateImageSetMetadataUpdates,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return medical_imaging(
-        "POST",
-        "/datastore/$(datastoreId)/imageSet/$(imageSetId)/updateImageSetMetadata",
-        Dict{String,Any}(
-            "latestVersion" => latestVersion,
-            "updateImageSetMetadataUpdates" => updateImageSetMetadataUpdates,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_image_set_metadata(
     datastoreId,
     imageSetId,

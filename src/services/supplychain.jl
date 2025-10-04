@@ -23,17 +23,15 @@ Chain instance creation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: An idempotency token.
 """
-function create_bill_of_materials_import_job(
+create_bill_of_materials_import_job(
     instanceId, s3uri; aws_config::AbstractAWSConfig=global_aws_config()
+) = supplychain(
+    "POST",
+    "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs",
+    Dict{String,Any}("s3uri" => s3uri, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return supplychain(
-        "POST",
-        "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs",
-        Dict{String,Any}("s3uri" => s3uri, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_bill_of_materials_import_job(
     instanceId,
     s3uri,
@@ -66,16 +64,14 @@ Get status and details of a BillOfMaterialsImportJob.
 - `job_id`: The BillOfMaterialsImportJob identifier.
 
 """
-function get_bill_of_materials_import_job(
+get_bill_of_materials_import_job(
     instanceId, jobId; aws_config::AbstractAWSConfig=global_aws_config()
+) = supplychain(
+    "GET",
+    "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return supplychain(
-        "GET",
-        "/api/configuration/instances/$(instanceId)/bill-of-materials-import-jobs/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bill_of_materials_import_job(
     instanceId,
     jobId,
@@ -95,10 +91,14 @@ end
     send_data_integration_event(data, event_group_id, event_type, instance_id)
     send_data_integration_event(data, event_group_id, event_type, instance_id, params::Dict{String,<:Any})
 
-Send transactional data events with real-time data for analysis or monitoring.
+Send the transactional data payload for the event with real-time data for analysis or
+monitoring. The real-time data events are stored in an Amazon Web Services service before
+being processed and stored in data lake. New data events are synced with data lake at 5 PM
+GMT everyday. The updated transactional data is available in data lake after ingestion.
 
 # Arguments
-- `data`: The data payload of the event.
+- `data`: The data payload of the event. For more information on the data schema to use,
+  see Data entities supported in AWS Supply Chain .
 - `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
   sharing or partitioning.
 - `event_type`: The data event type.
@@ -109,26 +109,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotent client token.
 - `"eventTimestamp"`: The event timestamp (in epoch seconds).
 """
-function send_data_integration_event(
+send_data_integration_event(
     data,
     eventGroupId,
     eventType,
     instanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = supplychain(
+    "POST",
+    "/api-data/data-integration/instance/$(instanceId)/data-integration-events",
+    Dict{String,Any}(
+        "data" => data,
+        "eventGroupId" => eventGroupId,
+        "eventType" => eventType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return supplychain(
-        "POST",
-        "/api-data/data-integration/instance/$(instanceId)/data-integration-events",
-        Dict{String,Any}(
-            "data" => data,
-            "eventGroupId" => eventGroupId,
-            "eventType" => eventType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_data_integration_event(
     data,
     eventGroupId,

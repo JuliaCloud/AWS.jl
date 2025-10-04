@@ -19,22 +19,18 @@ administrator account that sent the invitation.
   member account.
 
 """
-function accept_administrator_invitation(
+accept_administrator_invitation(
     administratorId,
     detectorId,
     invitationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/administrator",
+    Dict{String,Any}("administratorId" => administratorId, "invitationId" => invitationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/administrator",
-        Dict{String,Any}(
-            "administratorId" => administratorId, "invitationId" => invitationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_administrator_invitation(
     administratorId,
     detectorId,
@@ -73,17 +69,15 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
   you're accepting.
 
 """
-function accept_invitation(
+accept_invitation(
     detectorId, invitationId, masterId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/master",
+    Dict{String,Any}("invitationId" => invitationId, "masterId" => masterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/master",
-        Dict{String,Any}("invitationId" => invitationId, "masterId" => masterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_invitation(
     detectorId,
     invitationId,
@@ -120,17 +114,15 @@ archive findings from their accounts.
 - `finding_ids`: The IDs of the findings that you want to archive.
 
 """
-function archive_findings(
+archive_findings(
     detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/findings/archive",
+    Dict{String,Any}("findingIds" => findingIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/findings/archive",
-        Dict{String,Any}("findingIds" => findingIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function archive_findings(
     detectorId,
     findingIds,
@@ -181,15 +173,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are exported.
 - `"tags"`: The tags to be added to a new detector resource.
 """
-function create_detector(enable; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "POST",
-        "/detector",
-        Dict{String,Any}("enable" => enable, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_detector(enable; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "POST",
+    "/detector",
+    Dict{String,Any}("enable" => enable, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_detector(
     enable, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -310,21 +300,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the order in which this filter is applied to the findings.
 - `"tags"`: The tags to be added to a new filter resource.
 """
-function create_filter(
+create_filter(
     detectorId, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/filter",
+    Dict{String,Any}(
+        "findingCriteria" => findingCriteria,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/filter",
-        Dict{String,Any}(
-            "findingCriteria" => findingCriteria,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_filter(
     detectorId,
     findingCriteria,
@@ -376,28 +364,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token for the create request.
 - `"tags"`: The tags to be added to a new IP set resource.
 """
-function create_ipset(
+create_ipset(
     activate,
     detectorId,
     format,
     location,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/ipset",
+    Dict{String,Any}(
+        "activate" => activate,
+        "format" => format,
+        "location" => location,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/ipset",
-        Dict{String,Any}(
-            "activate" => activate,
-            "format" => format,
-            "location" => location,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_ipset(
     activate,
     detectorId,
@@ -451,21 +437,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token for the create request.
 - `"tags"`: Tags added to the Malware Protection plan resource.
 """
-function create_malware_protection_plan(
+create_malware_protection_plan(
     protectedResource, role; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/malware-protection-plan",
+    Dict{String,Any}(
+        "protectedResource" => protectedResource,
+        "role" => role,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/malware-protection-plan",
-        Dict{String,Any}(
-            "protectedResource" => protectedResource,
-            "role" => role,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_malware_protection_plan(
     protectedResource,
     role,
@@ -521,17 +505,15 @@ member accounts again only by calling the CreateMembers API.
   associate member accounts with.
 
 """
-function create_members(
+create_members(
     accountDetails, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/member",
+    Dict{String,Any}("accountDetails" => accountDetails);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/member",
-        Dict{String,Any}("accountDetails" => accountDetails);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_members(
     accountDetails,
     detectorId,
@@ -568,24 +550,22 @@ must exist before you use this operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The idempotency token for the request.
 """
-function create_publishing_destination(
+create_publishing_destination(
     destinationProperties,
     destinationType,
     detectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/publishingDestination",
+    Dict{String,Any}(
+        "destinationProperties" => destinationProperties,
+        "destinationType" => destinationType,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/publishingDestination",
-        Dict{String,Any}(
-            "destinationProperties" => destinationProperties,
-            "destinationType" => destinationType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_publishing_destination(
     destinationProperties,
     destinationType,
@@ -627,16 +607,13 @@ types.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"findingTypes"`: The types of sample findings to generate.
 """
-function create_sample_findings(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+create_sample_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/findings/create";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_sample_findings(
     detectorId,
     params::AbstractDict{String};
@@ -674,28 +651,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token for the create request.
 - `"tags"`: The tags to be added to a new threat list resource.
 """
-function create_threat_intel_set(
+create_threat_intel_set(
     activate,
     detectorId,
     format,
     location,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/threatintelset",
+    Dict{String,Any}(
+        "activate" => activate,
+        "format" => format,
+        "location" => location,
+        "name" => name,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/threatintelset",
-        Dict{String,Any}(
-            "activate" => activate,
-            "format" => format,
-            "location" => location,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_threat_intel_set(
     activate,
     detectorId,
@@ -738,15 +713,14 @@ specified by their account IDs.
   invitations to the current member account that you want to decline invitations from.
 
 """
-function decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/invitation/decline",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function decline_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -773,14 +747,12 @@ Deletes an Amazon GuardDuty detector that is specified by the detector ID.
 - `detector_id`: The unique ID of the detector that you want to delete.
 
 """
-function delete_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "DELETE",
-        "/detector/$(detectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "DELETE",
+    "/detector/$(detectorId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_detector(
     detectorId,
     params::AbstractDict{String};
@@ -806,16 +778,13 @@ Deletes the filter specified by the filter name.
 - `filter_name`: The name of the filter that you want to delete.
 
 """
-function delete_filter(
-    detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+delete_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "DELETE",
         "/detector/$(detectorId)/filter/$(filterName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_filter(
     detectorId,
     filterName,
@@ -843,15 +812,14 @@ specified by their account IDs.
   invitations to the current member account that you want to delete invitations from.
 
 """
-function delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/invitation/delete",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -880,16 +848,13 @@ console user interface.
 - `ip_set_id`: The unique ID of the IPSet to delete.
 
 """
-function delete_ipset(
-    detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+delete_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "DELETE",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_ipset(
     detectorId,
     ipSetId,
@@ -918,16 +883,14 @@ this Malware Protection plan ID.
   resource.
 
 """
-function delete_malware_protection_plan(
+delete_malware_protection_plan(
     malwareProtectionPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "DELETE",
+    "/malware-protection-plan/$(malwareProtectionPlanId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "DELETE",
-        "/malware-protection-plan/$(malwareProtectionPlanId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
@@ -958,17 +921,14 @@ member account in your organization.
   want to delete.
 
 """
-function delete_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+delete_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/member/delete",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_members(
     accountIds,
     detectorId,
@@ -998,16 +958,14 @@ Deletes the publishing definition with the specified destinationId.
   to delete.
 
 """
-function delete_publishing_destination(
+delete_publishing_destination(
     destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "DELETE",
+    "/detector/$(detectorId)/publishingDestination/$(destinationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "DELETE",
-        "/detector/$(detectorId)/publishingDestination/$(destinationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_publishing_destination(
     destinationId,
     detectorId,
@@ -1034,16 +992,14 @@ Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
 - `threat_intel_set_id`: The unique ID of the threatIntelSet that you want to delete.
 
 """
-function delete_threat_intel_set(
+delete_threat_intel_set(
     detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "DELETE",
+    "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "DELETE",
-        "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_threat_intel_set(
     detectorId,
     threatIntelSetId,
@@ -1085,16 +1041,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: Represents the criteria used for sorting scan entries. The
   attributeName  is required and it must be scanStartTime.
 """
-function describe_malware_scans(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+describe_malware_scans(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/malware-scans";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_malware_scans(
     detectorId,
     params::AbstractDict{String};
@@ -1131,16 +1084,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function describe_organization_configuration(
+describe_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/admin";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/admin";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_organization_configuration(
     detectorId,
     params::AbstractDict{String};
@@ -1168,16 +1119,14 @@ destinationId.
   to retrieve.
 
 """
-function describe_publishing_destination(
+describe_publishing_destination(
     destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/publishingDestination/$(destinationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/publishingDestination/$(destinationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_publishing_destination(
     destinationId,
     detectorId,
@@ -1205,17 +1154,15 @@ organization's management account can run this API operation.
   be disabled as a GuardDuty delegated administrator.
 
 """
-function disable_organization_admin_account(
+disable_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/admin/disable",
+    Dict{String,Any}("adminAccountId" => adminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/admin/disable",
-        Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -1249,16 +1196,14 @@ receive an error if you attempt to disable GuardDuty in a member account.
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 
 """
-function disassociate_from_administrator_account(
+disassociate_from_administrator_account(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/administrator/disassociate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/administrator/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_from_administrator_account(
     detectorId,
     params::AbstractDict{String};
@@ -1288,16 +1233,14 @@ with a member account, the delegated administrator must invoke the DeleteMembers
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 
 """
-function disassociate_from_master_account(
+disassociate_from_master_account(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/master/disassociate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/master/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_from_master_account(
     detectorId,
     params::AbstractDict{String};
@@ -1341,17 +1284,15 @@ member accounts again only by calling the CreateMembers API.
   want to disassociate from the administrator account.
 
 """
-function disassociate_members(
+disassociate_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/member/disassociate",
+    Dict{String,Any}("accountIds" => accountIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/member/disassociate",
-        Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_members(
     accountIds,
     detectorId,
@@ -1382,17 +1323,15 @@ operation.
   enabled as a GuardDuty delegated administrator.
 
 """
-function enable_organization_admin_account(
+enable_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/admin/enable",
+    Dict{String,Any}("adminAccountId" => adminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/admin/enable",
-        Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -1421,16 +1360,13 @@ administrator runs this API, it will return success (HTTP 200) but no content.
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 
 """
-function get_administrator_account(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+get_administrator_account(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/detector/$(detectorId)/administrator";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_administrator_account(
     detectorId,
     params::AbstractDict{String};
@@ -1463,17 +1399,15 @@ security agent running on their resources.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filterCriteria"`: Represents the criteria used to filter the coverage statistics
 """
-function get_coverage_statistics(
+get_coverage_statistics(
     detectorId, statisticsType; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/coverage/statistics",
+    Dict{String,Any}("statisticsType" => statisticsType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/coverage/statistics",
-        Dict{String,Any}("statisticsType" => statisticsType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_coverage_statistics(
     detectorId,
     statisticsType,
@@ -1504,14 +1438,12 @@ endpoints.
 - `detector_id`: The unique ID of the detector that you want to get.
 
 """
-function get_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "GET",
+    "/detector/$(detectorId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_detector(
     detectorId,
     params::AbstractDict{String};
@@ -1537,16 +1469,13 @@ Returns the details of the filter specified by the filter name.
 - `filter_name`: The name of the filter you want to get.
 
 """
-function get_filter(
-    detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+get_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/detector/$(detectorId)/filter/$(filterName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_filter(
     detectorId,
     filterName,
@@ -1577,17 +1506,14 @@ Describes Amazon GuardDuty findings specified by finding IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
-function get_findings(
-    detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+get_findings(detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/findings/get",
         Dict{String,Any}("findingIds" => findingIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_findings(
     detectorId,
     findingIds,
@@ -1622,17 +1548,15 @@ GuardDuty is currently supported. For more information, see Regions and endpoint
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"findingCriteria"`: Represents the criteria that is used for querying findings.
 """
-function get_findings_statistics(
+get_findings_statistics(
     detectorId, findingStatisticTypes; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/findings/statistics",
+    Dict{String,Any}("findingStatisticTypes" => findingStatisticTypes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/findings/statistics",
-        Dict{String,Any}("findingStatisticTypes" => findingStatisticTypes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_findings_statistics(
     detectorId,
     findingStatisticTypes,
@@ -1662,11 +1586,9 @@ Returns the count of all GuardDuty membership invitations that were sent to the 
 member account except the currently accepted invitation.
 
 """
-function get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET", "/invitation/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "GET", "/invitation/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1690,14 +1612,13 @@ Retrieves the IPSet specified by the ipSetId.
 - `ip_set_id`: The unique ID of the IPSet to retrieve.
 
 """
-function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_ipset(
     detectorId,
     ipSetId,
@@ -1724,16 +1645,14 @@ Retrieves the Malware Protection plan details associated with a Malware Protecti
   resource.
 
 """
-function get_malware_protection_plan(
+get_malware_protection_plan(
     malwareProtectionPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "GET",
+    "/malware-protection-plan/$(malwareProtectionPlanId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "GET",
-        "/malware-protection-plan/$(malwareProtectionPlanId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
@@ -1760,16 +1679,13 @@ where GuardDuty is presently supported. For more information, see Regions and en
 - `detector_id`: The unique ID of the detector that the scan setting is associated with.
 
 """
-function get_malware_scan_settings(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+get_malware_scan_settings(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/detector/$(detectorId)/malware-scan-settings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_malware_scan_settings(
     detectorId,
     params::AbstractDict{String};
@@ -1795,14 +1711,13 @@ GuardDuty member account.
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 
 """
-function get_master_account(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+get_master_account(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/detector/$(detectorId)/master";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_master_account(
     detectorId,
     params::AbstractDict{String};
@@ -1831,17 +1746,15 @@ and endpoints.
 - `detector_id`: The detector ID for the administrator account.
 
 """
-function get_member_detectors(
+get_member_detectors(
     accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/member/detector/get",
+    Dict{String,Any}("accountIds" => accountIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/member/detector/get",
-        Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_member_detectors(
     accountIds,
     detectorId,
@@ -1873,17 +1786,14 @@ specified by the account IDs.
   want to retrieve.
 
 """
-function get_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+get_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/member/get",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_members(
     accountIds,
     detectorId,
@@ -1911,14 +1821,13 @@ new organization, it might take up to 24 hours to generate the statistics for th
 organization.
 
 """
-function get_organization_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+get_organization_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/organization/statistics";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_organization_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1944,16 +1853,14 @@ Provides the number of days left for each data source used in the free trial per
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountIds"`: A list of account identifiers of the GuardDuty member account.
 """
-function get_remaining_free_trial_days(
+get_remaining_free_trial_days(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/freeTrial/daysRemaining";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/freeTrial/daysRemaining";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_remaining_free_trial_days(
     detectorId,
     params::AbstractDict{String};
@@ -1979,16 +1886,14 @@ Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
 - `threat_intel_set_id`: The unique ID of the threatIntelSet that you want to get.
 
 """
-function get_threat_intel_set(
+get_threat_intel_set(
     detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_threat_intel_set(
     detectorId,
     threatIntelSetId,
@@ -2030,22 +1935,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"unit"`: The currency unit you would like to view your usage statistics in. Current
   valid values are USD.
 """
-function get_usage_statistics(
+get_usage_statistics(
     detectorId,
     usageCriteria,
     usageStatisticsType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/usage/statistics",
+    Dict{String,Any}(
+        "usageCriteria" => usageCriteria, "usageStatisticsType" => usageStatisticsType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/usage/statistics",
-        Dict{String,Any}(
-            "usageCriteria" => usageCriteria, "usageStatisticsType" => usageStatisticsType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_usage_statistics(
     detectorId,
     usageCriteria,
@@ -2112,17 +2015,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"message"`: The invitation message that you want to send to the accounts that you're
   inviting to GuardDuty as members.
 """
-function invite_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+invite_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/member/invite",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function invite_members(
     accountIds,
     detectorId,
@@ -2162,14 +2062,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 - `"sortCriteria"`: Represents the criteria used to sort the coverage details.
 """
-function list_coverage(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/coverage";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_coverage(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/coverage";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_coverage(
     detectorId,
     params::AbstractDict{String};
@@ -2199,11 +2097,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET", "/detector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_detectors(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty("GET", "/detector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2230,14 +2125,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_filters(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/filter";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_filters(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/filter";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_filters(
     detectorId,
     params::AbstractDict{String};
@@ -2311,14 +2204,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
-function list_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/findings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/findings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_findings(
     detectorId,
     params::AbstractDict{String};
@@ -2349,11 +2240,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET", "/invitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty("GET", "/invitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2382,14 +2270,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_ipsets(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/ipset";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_ipsets(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/ipset";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_ipsets(
     detectorId,
     params::AbstractDict{String};
@@ -2418,14 +2304,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_malware_protection_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+list_malware_protection_plans(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/malware-protection-plan";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_malware_protection_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2460,14 +2345,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts must have been previously associated with the GuardDuty administrator account
   using  Create Members .
 """
-function list_members(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/member";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_members(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/member";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_members(
     detectorId,
     params::AbstractDict{String};
@@ -2497,13 +2380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent calls, use the NextToken value returned from the previous request to continue
   listing results after the first page.
 """
-function list_organization_admin_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
-        "GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty("GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2529,16 +2407,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent calls, use the NextToken value returned from the previous request to continue
   listing results after the first page.
 """
-function list_publishing_destinations(
+list_publishing_destinations(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "GET",
+    "/detector/$(detectorId)/publishingDestination";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "GET",
-        "/detector/$(detectorId)/publishingDestination";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_publishing_destinations(
     detectorId,
     params::AbstractDict{String};
@@ -2565,16 +2441,13 @@ resource. When invoked, this operation returns all assigned tags for a given res
 - `resource_arn`: The Amazon Resource Name (ARN) for the given GuardDuty resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2609,16 +2482,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_threat_intel_sets(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+list_threat_intel_sets(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "GET",
         "/detector/$(detectorId)/threatintelset";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_threat_intel_sets(
     detectorId,
     params::AbstractDict{String};
@@ -2645,15 +2515,14 @@ scan ID to track the status of the scan. For more information, see DescribeMalwa
 - `resource_arn`: Amazon Resource Name (ARN) of the resource for which you invoked the API.
 
 """
-function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/malware-scan/start",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_malware_scan(
     resourceArn,
     params::AbstractDict{String};
@@ -2684,17 +2553,15 @@ operation.
   associated with the member accounts to monitor.
 
 """
-function start_monitoring_members(
+start_monitoring_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/member/start",
+    Dict{String,Any}("accountIds" => accountIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/member/start",
-        Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_monitoring_members(
     accountIds,
     detectorId,
@@ -2727,17 +2594,15 @@ receive an error if you attempt to stop monitoring the member accounts in your o
   account that is monitoring member accounts.
 
 """
-function stop_monitoring_members(
+stop_monitoring_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/member/stop",
+    Dict{String,Any}("accountIds" => accountIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/member/stop",
-        Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_monitoring_members(
     accountIds,
     detectorId,
@@ -2767,15 +2632,14 @@ Adds tags to a resource.
 - `tags`: The tags to be added to a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -2802,17 +2666,15 @@ Unarchives GuardDuty findings specified by the findingIds.
 - `finding_ids`: The IDs of the findings to unarchive.
 
 """
-function unarchive_findings(
+unarchive_findings(
     detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/findings/unarchive",
+    Dict{String,Any}("findingIds" => findingIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/findings/unarchive",
-        Dict{String,Any}("findingIds" => findingIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function unarchive_findings(
     detectorId,
     findingIds,
@@ -2841,17 +2703,14 @@ Removes tags from a resource.
 - `tag_keys`: The tag keys to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2893,14 +2752,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingPublishingFrequency"`: An enum value that specifies how frequently findings are
   exported, such as to CloudWatch Events.
 """
-function update_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty(
+    "POST",
+    "/detector/$(detectorId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_detector(
     detectorId,
     params::AbstractDict{String};
@@ -2939,16 +2796,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
   specifies the order in which this filter is applied to the findings.
 """
-function update_filter(
-    detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+update_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/filter/$(filterName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_filter(
     detectorId,
     filterName,
@@ -2979,17 +2833,15 @@ Marks the specified GuardDuty findings as useful or not useful.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"comments"`: Additional feedback about the GuardDuty findings.
 """
-function update_findings_feedback(
+update_findings_feedback(
     detectorId, feedback, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/findings/feedback",
+    Dict{String,Any}("feedback" => feedback, "findingIds" => findingIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/findings/feedback",
-        Dict{String,Any}("feedback" => feedback, "findingIds" => findingIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_findings_feedback(
     detectorId,
     feedback,
@@ -3029,16 +2881,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"location"`: The updated URI of the file that contains the IPSet.
 - `"name"`: The unique ID that specifies the IPSet that you want to update.
 """
-function update_ipset(
-    detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return guardduty(
+update_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    guardduty(
         "POST",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_ipset(
     detectorId,
     ipSetId,
@@ -3074,16 +2923,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"role"`: IAM role with permissions required to scan and add tags to the associated
   protected resource.
 """
-function update_malware_protection_plan(
+update_malware_protection_plan(
     malwareProtectionPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "PATCH",
+    "/malware-protection-plan/$(malwareProtectionPlanId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "PATCH",
-        "/malware-protection-plan/$(malwareProtectionPlanId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
@@ -3117,16 +2964,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scanResourceCriteria"`: Represents the criteria to be used in the filter for selecting
   resources to scan.
 """
-function update_malware_scan_settings(
+update_malware_scan_settings(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/malware-scan-settings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/malware-scan-settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_malware_scan_settings(
     detectorId,
     params::AbstractDict{String};
@@ -3162,17 +3007,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dataSources"`: Describes which data sources will be updated.
 - `"features"`: A list of features that will be updated for the specified member accounts.
 """
-function update_member_detectors(
+update_member_detectors(
     accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/member/detector/update",
+    Dict{String,Any}("accountIds" => accountIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/member/detector/update",
-        Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_member_detectors(
     accountIds,
     detectorId,
@@ -3230,16 +3073,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dataSources"`: Describes which data sources will be updated.
 - `"features"`: A list of features that will be configured for the organization.
 """
-function update_organization_configuration(
+update_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/admin";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/admin";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_organization_configuration(
     detectorId,
     params::AbstractDict{String};
@@ -3270,16 +3111,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"destinationProperties"`: A DestinationProperties object that includes the
   DestinationArn and KmsKeyArn of the publishing destination.
 """
-function update_publishing_destination(
+update_publishing_destination(
     destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/publishingDestination/$(destinationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/publishingDestination/$(destinationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_publishing_destination(
     destinationId,
     detectorId,
@@ -3314,16 +3153,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"location"`: The updated URI of the file that contains the ThreateIntelSet.
 - `"name"`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """
-function update_threat_intel_set(
+update_threat_intel_set(
     detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = guardduty(
+    "POST",
+    "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return guardduty(
-        "POST",
-        "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_threat_intel_set(
     detectorId,
     threatIntelSetId,
