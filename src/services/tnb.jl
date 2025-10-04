@@ -15,16 +15,14 @@ network, such as network instance instantiation or termination.
 - `ns_lcm_op_occ_id`: The identifier of the network operation.
 
 """
-function cancel_sol_network_operation(
+cancel_sol_network_operation(
     nsLcmOpOccId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "POST",
+    "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)/cancel";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "POST",
-        "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_sol_network_operation(
     nsLcmOpOccId,
     params::AbstractDict{String};
@@ -58,14 +56,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consists of a key and an optional value. You can use tags to search and filter your
   resources or track your Amazon Web Services costs.
 """
-function create_sol_function_package(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "POST",
-        "/sol/vnfpkgm/v1/vnf_packages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_sol_function_package(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "POST",
+    "/sol/vnfpkgm/v1/vnf_packages";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_sol_function_package(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -101,17 +97,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consists of a key and an optional value. You can use tags to search and filter your
   resources or track your Amazon Web Services costs.
 """
-function create_sol_network_instance(
+create_sol_network_instance(
     nsName, nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "POST",
+    "/sol/nslcm/v1/ns_instances",
+    Dict{String,Any}("nsName" => nsName, "nsdInfoId" => nsdInfoId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "POST",
-        "/sol/nslcm/v1/ns_instances",
-        Dict{String,Any}("nsName" => nsName, "nsdInfoId" => nsdInfoId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_sol_network_instance(
     nsName,
     nsdInfoId,
@@ -154,14 +148,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consists of a key and an optional value. You can use tags to search and filter your
   resources or track your Amazon Web Services costs.
 """
-function create_sol_network_package(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "POST",
-        "/sol/nsd/v1/ns_descriptors";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_sol_network_package(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "POST",
+    "/sol/nsd/v1/ns_descriptors";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_sol_network_package(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -188,16 +180,13 @@ must be in a disabled state. To disable a function package, see UpdateSolFunctio
 - `vnf_pkg_id`: ID of the function package.
 
 """
-function delete_sol_function_package(
-    vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return tnb(
+delete_sol_function_package(vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    tnb(
         "DELETE",
         "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_sol_function_package(
     vnfPkgId,
     params::AbstractDict{String};
@@ -226,16 +215,14 @@ TerminateSolNetworkInstance.
 - `ns_instance_id`: Network instance ID.
 
 """
-function delete_sol_network_instance(
+delete_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "DELETE",
+    "/sol/nslcm/v1/ns_instances/$(nsInstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "DELETE",
-        "/sol/nslcm/v1/ns_instances/$(nsInstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -263,16 +250,13 @@ in a disable state. To disable a network package, see UpdateSolNetworkPackage.
 - `nsd_info_id`: ID of the network service descriptor in the network package.
 
 """
-function delete_sol_network_package(
-    nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return tnb(
+delete_sol_network_package(nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    tnb(
         "DELETE",
         "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_sol_network_package(
     nsdInfoId,
     params::AbstractDict{String};
@@ -291,7 +275,7 @@ end
     get_sol_function_instance(vnf_instance_id)
     get_sol_function_instance(vnf_instance_id, params::Dict{String,<:Any})
 
-Gets the details of a network function instance, including the instantation state and
+Gets the details of a network function instance, including the instantiation state and
 metadata from the function package descriptor in the network function package. A network
 function instance is a function in a function package .
 
@@ -299,16 +283,14 @@ function instance is a function in a function package .
 - `vnf_instance_id`: ID of the network function.
 
 """
-function get_sol_function_instance(
+get_sol_function_instance(
     vnfInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "GET",
+    "/sol/vnflcm/v1/vnf_instances/$(vnfInstanceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/vnflcm/v1/vnf_instances/$(vnfInstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_function_instance(
     vnfInstanceId,
     params::AbstractDict{String};
@@ -337,16 +319,12 @@ the network functions should run on your network..
 - `vnf_pkg_id`: ID of the function package.
 
 """
-function get_sol_function_package(
-    vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
+get_sol_function_package(vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_function_package(
     vnfPkgId,
     params::AbstractDict{String};
@@ -375,17 +353,15 @@ to describe how the network functions should run on your network.
 - `vnf_pkg_id`: ID of the function package.
 
 """
-function get_sol_function_package_content(
+get_sol_function_package_content(
     Accept, vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "GET",
+    "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
+    Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
-        Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_function_package_content(
     Accept,
     vnfPkgId,
@@ -424,17 +400,15 @@ standard to describe how the network functions should run on your network.
 - `vnf_pkg_id`: ID of the function package.
 
 """
-function get_sol_function_package_descriptor(
+get_sol_function_package_descriptor(
     Accept, vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "GET",
+    "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/vnfd",
+    Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/vnfd",
-        Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_function_package_descriptor(
     Accept,
     vnfPkgId,
@@ -468,16 +442,13 @@ terminate, update, and delete) can be performed.
 - `ns_instance_id`: ID of the network instance.
 
 """
-function get_sol_network_instance(
-    nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return tnb(
+get_sol_network_instance(nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    tnb(
         "GET",
         "/sol/nslcm/v1/ns_instances/$(nsInstanceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -504,16 +475,13 @@ your network, such as network instance instantiation or termination.
 - `ns_lcm_op_occ_id`: The identifier of the network operation.
 
 """
-function get_sol_network_operation(
-    nsLcmOpOccId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return tnb(
+get_sol_network_operation(nsLcmOpOccId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    tnb(
         "GET",
         "/sol/nslcm/v1/ns_lcm_op_occs/$(nsLcmOpOccId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_sol_network_operation(
     nsLcmOpOccId,
     params::AbstractDict{String};
@@ -540,16 +508,12 @@ Services infrastructure you want to deploy them on.
 - `nsd_info_id`: ID of the network service descriptor in the network package.
 
 """
-function get_sol_network_package(
-    nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
+get_sol_network_package(nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_network_package(
     nsdInfoId,
     params::AbstractDict{String};
@@ -577,17 +541,15 @@ Services infrastructure you want to deploy them on.
 - `nsd_info_id`: ID of the network service descriptor in the network package.
 
 """
-function get_sol_network_package_content(
+get_sol_network_package_content(
     Accept, nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "GET",
+    "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
+    Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
-        Dict{String,Any}("headers" => Dict{String,Any}("Accept" => Accept));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_network_package_content(
     Accept,
     nsdInfoId,
@@ -622,16 +584,14 @@ network functions on.
 - `nsd_info_id`: ID of the network service descriptor in the network package.
 
 """
-function get_sol_network_package_descriptor(
+get_sol_network_package_descriptor(
     nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "GET",
+    "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "GET",
-        "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sol_network_package_descriptor(
     nsdInfoId,
     params::AbstractDict{String};
@@ -665,20 +625,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are transferred to
-  the network operation that is created. Use tags to search and filter your resources or
-  track your Amazon Web Services costs.
+  consists of a key and an optional value. When you use this API, the tags are only applied
+  to the network operation that is created. These tags are not applied to the network
+  instance. Use tags to search and filter your resources or track your Amazon Web Services
+  costs.
 """
-function instantiate_sol_network_instance(
+instantiate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "POST",
+    "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/instantiate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "POST",
-        "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/instantiate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function instantiate_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -705,14 +664,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
-function list_sol_function_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "GET",
-        "/sol/vnflcm/v1/vnf_instances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sol_function_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/vnflcm/v1/vnf_instances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_sol_function_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -739,14 +696,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
-function list_sol_function_packages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "GET",
-        "/sol/vnfpkgm/v1/vnf_packages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sol_function_packages(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/vnfpkgm/v1/vnf_packages";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_sol_function_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -772,14 +727,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
-function list_sol_network_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "GET",
-        "/sol/nslcm/v1/ns_instances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sol_network_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/nslcm/v1/ns_instances";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_sol_network_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -804,15 +757,15 @@ as network instance instantiation or termination.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
+- `"nsInstanceId"`: Network instance id filter, to retrieve network operations associated
+  to a network instance.
 """
-function list_sol_network_operations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "GET",
-        "/sol/nslcm/v1/ns_lcm_op_occs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sol_network_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/nslcm/v1/ns_lcm_op_occs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_sol_network_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -838,14 +791,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
-function list_sol_network_packages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "GET",
-        "/sol/nsd/v1/ns_descriptors";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sol_network_packages(; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "GET",
+    "/sol/nsd/v1/ns_descriptors";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_sol_network_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -868,16 +819,13 @@ Lists tags for AWS TNB resources.
 - `resource_arn`: Resource ARN.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return tnb(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    tnb(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -909,17 +857,15 @@ to describe how the network functions should run on your network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content-Type"`: Function package content type.
 """
-function put_sol_function_package_content(
+put_sol_function_package_content(
     file, vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "PUT",
+    "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
+    Dict{String,Any}("file" => file);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "PUT",
-        "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content",
-        Dict{String,Any}("file" => file);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_sol_function_package_content(
     file,
     vnfPkgId,
@@ -951,17 +897,15 @@ Services infrastructure you want to deploy them on.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content-Type"`: Network package content type.
 """
-function put_sol_network_package_content(
+put_sol_network_package_content(
     file, nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "PUT",
+    "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
+    Dict{String,Any}("file" => file);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "PUT",
-        "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content",
-        Dict{String,Any}("file" => file);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_sol_network_package_content(
     file,
     nsdInfoId,
@@ -992,15 +936,13 @@ filter your resources or track your Amazon Web Services costs.
   resources or track your Amazon Web Services costs.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return tnb(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = tnb(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -1031,20 +973,19 @@ delete it.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are transferred to
-  the network operation that is created. Use tags to search and filter your resources or
-  track your Amazon Web Services costs.
+  consists of a key and an optional value. When you use this API, the tags are only applied
+  to the network operation that is created. These tags are not applied to the network
+  instance. Use tags to search and filter your resources or track your Amazon Web Services
+  costs.
 """
-function terminate_sol_network_instance(
+terminate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "POST",
+    "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/terminate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "POST",
-        "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/terminate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function terminate_sol_network_instance(
     nsInstanceId,
     params::AbstractDict{String};
@@ -1072,17 +1013,14 @@ filter your resources or track your Amazon Web Services costs.
 - `tag_keys`: Tag keys.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return tnb(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    tnb(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1112,17 +1050,15 @@ to describe how the network functions should run on your network.
 - `vnf_pkg_id`: ID of the function package.
 
 """
-function update_sol_function_package(
+update_sol_function_package(
     operationalState, vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "PATCH",
+    "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)",
+    Dict{String,Any}("operationalState" => operationalState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "PATCH",
-        "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)",
-        Dict{String,Any}("operationalState" => operationalState);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sol_function_package(
     operationalState,
     vnfPkgId,
@@ -1148,32 +1084,38 @@ end
 
 Update a network instance. A network instance is a single network created in Amazon Web
 Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed.
+update, and delete) can be performed. Choose the updateType parameter to target the
+necessary update of the network instance.
 
 # Arguments
 - `ns_instance_id`: ID of the network instance.
-- `update_type`: The type of update.
+- `update_type`: The type of update.   Use the MODIFY_VNF_INFORMATION update type, to
+  update a specific network function configuration, in the network instance.   Use the
+  UPDATE_NS update type, to update the network instance to a new network service descriptor.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"modifyVnfInfoData"`: Identifies the network function information parameters and/or the
-  configurable properties of the network function to be modified.
+  configurable properties of the network function to be modified. Include this property only
+  if the update type is MODIFY_VNF_INFORMATION.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are transferred to
-  the network operation that is created. Use tags to search and filter your resources or
-  track your Amazon Web Services costs.
+  consists of a key and an optional value. When you use this API, the tags are only applied
+  to the network operation that is created. These tags are not applied to the network
+  instance. Use tags to search and filter your resources or track your Amazon Web Services
+  costs.
+- `"updateNs"`: Identifies the network service descriptor and the configurable properties
+  of the descriptor, to be used for the update. Include this property only if the update type
+  is UPDATE_NS.
 """
-function update_sol_network_instance(
+update_sol_network_instance(
     nsInstanceId, updateType; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "POST",
+    "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/update",
+    Dict{String,Any}("updateType" => updateType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "POST",
-        "/sol/nslcm/v1/ns_instances/$(nsInstanceId)/update",
-        Dict{String,Any}("updateType" => updateType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sol_network_instance(
     nsInstanceId,
     updateType,
@@ -1208,17 +1150,15 @@ want to deploy the network functions on.
   network package.
 
 """
-function update_sol_network_package(
+update_sol_network_package(
     nsdInfoId, nsdOperationalState; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "PATCH",
+    "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)",
+    Dict{String,Any}("nsdOperationalState" => nsdOperationalState);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "PATCH",
-        "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)",
-        Dict{String,Any}("nsdOperationalState" => nsdOperationalState);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sol_network_package(
     nsdInfoId,
     nsdOperationalState,
@@ -1258,17 +1198,15 @@ to describe how the network functions should run on your network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content-Type"`: Function package content type.
 """
-function validate_sol_function_package_content(
+validate_sol_function_package_content(
     file, vnfPkgId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "PUT",
+    "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content/validate",
+    Dict{String,Any}("file" => file);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "PUT",
-        "/sol/vnfpkgm/v1/vnf_packages/$(vnfPkgId)/package_content/validate",
-        Dict{String,Any}("file" => file);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function validate_sol_function_package_content(
     file,
     vnfPkgId,
@@ -1301,17 +1239,15 @@ Amazon Web Services infrastructure you want to deploy them on.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content-Type"`: Network package content type.
 """
-function validate_sol_network_package_content(
+validate_sol_network_package_content(
     file, nsdInfoId; aws_config::AbstractAWSConfig=global_aws_config()
+) = tnb(
+    "PUT",
+    "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content/validate",
+    Dict{String,Any}("file" => file);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return tnb(
-        "PUT",
-        "/sol/nsd/v1/ns_descriptors/$(nsdInfoId)/nsd_content/validate",
-        Dict{String,Any}("file" => file);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function validate_sol_network_package_content(
     file,
     nsdInfoId,

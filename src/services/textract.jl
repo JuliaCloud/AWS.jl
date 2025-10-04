@@ -51,16 +51,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueriesConfig"`: Contains Queries and the alias for those Queries, as determined by the
   input.
 """
-function analyze_document(
+analyze_document(
     Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "AnalyzeDocument",
+    Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "AnalyzeDocument",
-        Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function analyze_document(
     Document,
     FeatureTypes,
@@ -95,14 +93,12 @@ Contains all other information a receipt, such as header information or the vend
 - `document`:
 
 """
-function analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "AnalyzeExpense",
-        Dict{String,Any}("Document" => Document);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "AnalyzeExpense",
+    Dict{String,Any}("Document" => Document);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function analyze_expense(
     Document,
     params::AbstractDict{String};
@@ -131,14 +127,12 @@ Geometry data.
 - `document_pages`: The document being passed to AnalyzeID.
 
 """
-function analyze_id(DocumentPages; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "AnalyzeID",
-        Dict{String,Any}("DocumentPages" => DocumentPages);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+analyze_id(DocumentPages; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "AnalyzeID",
+    Dict{String,Any}("DocumentPages" => DocumentPages);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function analyze_id(
     DocumentPages,
     params::AbstractDict{String};
@@ -178,20 +172,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description to be assigned to the adapter being created.
 - `"Tags"`: A list of tags to be added to the adapter.
 """
-function create_adapter(
+create_adapter(
     AdapterName, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "CreateAdapter",
+    Dict{String,Any}(
+        "AdapterName" => AdapterName,
+        "FeatureTypes" => FeatureTypes,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "CreateAdapter",
-        Dict{String,Any}(
-            "AdapterName" => AdapterName,
-            "FeatureTypes" => FeatureTypes,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_adapter(
     AdapterName,
     FeatureTypes,
@@ -241,24 +233,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to encrypt your documents.
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the adapter version.
 """
-function create_adapter_version(
+create_adapter_version(
     AdapterId,
     DatasetConfig,
     OutputConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = textract(
+    "CreateAdapterVersion",
+    Dict{String,Any}(
+        "AdapterId" => AdapterId,
+        "DatasetConfig" => DatasetConfig,
+        "OutputConfig" => OutputConfig,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "CreateAdapterVersion",
-        Dict{String,Any}(
-            "AdapterId" => AdapterId,
-            "DatasetConfig" => DatasetConfig,
-            "OutputConfig" => OutputConfig,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_adapter_version(
     AdapterId,
     DatasetConfig,
@@ -296,14 +286,12 @@ the ID.
 - `adapter_id`: A string containing a unique ID for the adapter to be deleted.
 
 """
-function delete_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "DeleteAdapter",
-        Dict{String,Any}("AdapterId" => AdapterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "DeleteAdapter",
+    Dict{String,Any}("AdapterId" => AdapterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_adapter(
     AdapterId,
     params::AbstractDict{String};
@@ -333,16 +321,14 @@ AdapterVersion.
 - `adapter_version`: Specifies the adapter version to be deleted.
 
 """
-function delete_adapter_version(
+delete_adapter_version(
     AdapterId, AdapterVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "DeleteAdapterVersion",
+    Dict{String,Any}("AdapterId" => AdapterId, "AdapterVersion" => AdapterVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "DeleteAdapterVersion",
-        Dict{String,Any}("AdapterId" => AdapterId, "AdapterVersion" => AdapterVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_adapter_version(
     AdapterId,
     AdapterVersion,
@@ -386,14 +372,13 @@ see Document Text Detection.
   you might not need to base64-encode image bytes that are passed using the Bytes field.
 
 """
-function detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
+detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract(
         "DetectDocumentText",
         Dict{String,Any}("Document" => Document);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function detect_document_text(
     Document,
     params::AbstractDict{String};
@@ -420,14 +405,12 @@ information on AdapterName, Description, CreationTime, AutoUpdate status, and Fe
 - `adapter_id`: A string containing a unique ID for the adapter.
 
 """
-function get_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "GetAdapter",
-        Dict{String,Any}("AdapterId" => AdapterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "GetAdapter",
+    Dict{String,Any}("AdapterId" => AdapterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_adapter(
     AdapterId,
     params::AbstractDict{String};
@@ -458,16 +441,14 @@ Tags and EvaluationMetrics.
   information for.
 
 """
-function get_adapter_version(
+get_adapter_version(
     AdapterId, AdapterVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "GetAdapterVersion",
+    Dict{String,Any}("AdapterId" => AdapterId, "AdapterVersion" => AdapterVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "GetAdapterVersion",
-        Dict{String,Any}("AdapterId" => AdapterId, "AdapterVersion" => AdapterVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_adapter_version(
     AdapterId,
     AdapterVersion,
@@ -539,14 +520,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "GetDocumentAnalysis",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "GetDocumentAnalysis",
+    Dict{String,Any}("JobId" => JobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_document_analysis(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -595,16 +574,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_document_text_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return textract(
+get_document_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract(
         "GetDocumentTextDetection",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_document_text_detection(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -649,14 +625,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "GetExpenseAnalysis",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "GetExpenseAnalysis",
+    Dict{String,Any}("JobId" => JobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_expense_analysis(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -694,14 +668,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token in the response. You can use this pagination token to retrieve the next
   set of lending results.
 """
-function get_lending_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "GetLendingAnalysis",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lending_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "GetLendingAnalysis",
+    Dict{String,Any}("JobId" => JobId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_lending_analysis(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -734,16 +706,13 @@ the initial call to StartLendingAnalysis.
   returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
 
 """
-function get_lending_analysis_summary(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return textract(
+get_lending_analysis_summary(JobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract(
         "GetLendingAnalysisSummary",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_lending_analysis_summary(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -775,11 +744,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return when listing adapter
   versions.
 """
-function list_adapter_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "ListAdapterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_adapter_versions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract("ListAdapterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_adapter_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -806,9 +772,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return when listing adapters.
 - `"NextToken"`: Identifies the next page of results to return when listing adapters.
 """
-function list_adapters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract("ListAdapters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_adapters(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract("ListAdapters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_adapters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -828,16 +793,13 @@ Lists all tags for an Amazon Textract resource.
   for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return textract(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -898,18 +860,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 - `"QueriesConfig"`:
 """
-function start_document_analysis(
+start_document_analysis(
     DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "StartDocumentAnalysis",
+    Dict{String,Any}(
+        "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "StartDocumentAnalysis",
-        Dict{String,Any}(
-            "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_document_analysis(
     DocumentLocation,
     FeatureTypes,
@@ -970,16 +930,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Textract will save the results internally to be accessed with the
   GetDocumentTextDetection operation.
 """
-function start_document_text_detection(
+start_document_text_detection(
     DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "StartDocumentTextDetection",
+    Dict{String,Any}("DocumentLocation" => DocumentLocation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "StartDocumentTextDetection",
-        Dict{String,Any}("DocumentLocation" => DocumentLocation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_document_text_detection(
     DocumentLocation,
     params::AbstractDict{String};
@@ -1036,16 +994,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis
   operation.
 """
-function start_expense_analysis(
+start_expense_analysis(
     DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "StartExpenseAnalysis",
+    Dict{String,Any}("DocumentLocation" => DocumentLocation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "StartExpenseAnalysis",
-        Dict{String,Any}("DocumentLocation" => DocumentLocation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_expense_analysis(
     DocumentLocation,
     params::AbstractDict{String};
@@ -1104,16 +1060,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationChannel"`:
 - `"OutputConfig"`:
 """
-function start_lending_analysis(
+start_lending_analysis(
     DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+) = textract(
+    "StartLendingAnalysis",
+    Dict{String,Any}("DocumentLocation" => DocumentLocation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return textract(
-        "StartLendingAnalysis",
-        Dict{String,Any}("DocumentLocation" => DocumentLocation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_lending_analysis(
     DocumentLocation,
     params::AbstractDict{String};
@@ -1142,14 +1096,13 @@ Adds one or more tags to the specified resource.
 - `tags`: A set of tags (key-value pairs) that you want to assign to the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1182,16 +1135,13 @@ Removes any tags with the specified keys from the specified resource.
   ResourceARN.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return textract(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    textract(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1228,14 +1178,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoUpdate"`: The new auto-update status to be applied to the adapter.
 - `"Description"`: The new description to be applied to the adapter.
 """
-function update_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "UpdateAdapter",
-        Dict{String,Any}("AdapterId" => AdapterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_adapter(AdapterId; aws_config::AbstractAWSConfig=global_aws_config()) = textract(
+    "UpdateAdapter",
+    Dict{String,Any}("AdapterId" => AdapterId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_adapter(
     AdapterId,
     params::AbstractDict{String};

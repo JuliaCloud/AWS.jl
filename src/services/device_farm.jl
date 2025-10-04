@@ -24,16 +24,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might contain fewer devices than the value for this parameter. By specifying the maximum
   number of devices, you can control the costs that you incur by running tests.
 """
-function create_device_pool(
+create_device_pool(
     name, projectArn, rules; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "CreateDevicePool",
+    Dict{String,Any}("name" => name, "projectArn" => projectArn, "rules" => rules);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "CreateDevicePool",
-        Dict{String,Any}("name" => name, "projectArn" => projectArn, "rules" => rules);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_device_pool(
     name,
     projectArn,
@@ -77,14 +75,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rebootAfterUse"`: When set to true, Device Farm reboots the instance after a test run.
   The default value is true.
 """
-function create_instance_profile(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+create_instance_profile(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "CreateInstanceProfile",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_instance_profile(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -128,16 +125,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"uplinkLossPercent"`: Proportion of transmitted packets that fail to arrive from 0 to
   100 percent.
 """
-function create_network_profile(
+create_network_profile(
     name, projectArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "CreateNetworkProfile",
+    Dict{String,Any}("name" => name, "projectArn" => projectArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "CreateNetworkProfile",
-        Dict{String,Any}("name" => name, "projectArn" => projectArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_network_profile(
     name,
     projectArn,
@@ -172,14 +167,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overridden when scheduling a run.
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
-function create_project(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "CreateProject",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "CreateProject",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -233,16 +226,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connecting to remote devices in your remote debugging session. This key is required only if
   remoteDebugEnabled is set to true. Remote debugging is no longer supported.
 """
-function create_remote_access_session(
+create_remote_access_session(
     deviceArn, projectArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "CreateRemoteAccessSession",
+    Dict{String,Any}("deviceArn" => deviceArn, "projectArn" => projectArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "CreateRemoteAccessSession",
-        Dict{String,Any}("deviceArn" => deviceArn, "projectArn" => projectArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_remote_access_session(
     deviceArn,
     projectArn,
@@ -277,14 +268,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Human-readable description of the project.
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
-function create_test_grid_project(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+create_test_grid_project(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "CreateTestGridProject",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_test_grid_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -309,18 +299,14 @@ constructor.
   the short-term URL.
 
 """
-function create_test_grid_url(
+create_test_grid_url(
     expiresInSeconds, projectArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "CreateTestGridUrl",
+    Dict{String,Any}("expiresInSeconds" => expiresInSeconds, "projectArn" => projectArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "CreateTestGridUrl",
-        Dict{String,Any}(
-            "expiresInSeconds" => expiresInSeconds, "projectArn" => projectArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_test_grid_url(
     expiresInSeconds,
     projectArn,
@@ -360,9 +346,8 @@ Uploads an app or test scripts.
   APPIUM_JAVA_TESTNG_TEST_PACKAGE   APPIUM_PYTHON_TEST_PACKAGE   APPIUM_NODE_TEST_PACKAGE
   APPIUM_RUBY_TEST_PACKAGE   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE   APPIUM_WEB_PYTHON_TEST_PACKAGE
-  APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   CALABASH_TEST_PACKAGE
-  INSTRUMENTATION_TEST_PACKAGE   UIAUTOMATION_TEST_PACKAGE   UIAUTOMATOR_TEST_PACKAGE
-  XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC
+  APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   INSTRUMENTATION_TEST_PACKAGE
+   XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC
   APPIUM_JAVA_TESTNG_TEST_SPEC   APPIUM_PYTHON_TEST_SPEC   APPIUM_NODE_TEST_SPEC
   APPIUM_RUBY_TEST_SPEC   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
    APPIUM_WEB_PYTHON_TEST_SPEC   APPIUM_WEB_NODE_TEST_SPEC   APPIUM_WEB_RUBY_TEST_SPEC
@@ -373,16 +358,13 @@ Uploads an app or test scripts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"contentType"`: The upload's content type (for example, application/octet-stream).
 """
-function create_upload(
-    name, projectArn, type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+create_upload(name, projectArn, type; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "CreateUpload",
         Dict{String,Any}("name" => name, "projectArn" => projectArn, "type" => type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_upload(
     name,
     projectArn,
@@ -426,23 +408,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpceConfigurationDescription"`: An optional description that provides details about
   your VPC endpoint configuration.
 """
-function create_vpceconfiguration(
+create_vpceconfiguration(
     serviceDnsName,
     vpceConfigurationName,
     vpceServiceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = device_farm(
+    "CreateVPCEConfiguration",
+    Dict{String,Any}(
+        "serviceDnsName" => serviceDnsName,
+        "vpceConfigurationName" => vpceConfigurationName,
+        "vpceServiceName" => vpceServiceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "CreateVPCEConfiguration",
-        Dict{String,Any}(
-            "serviceDnsName" => serviceDnsName,
-            "vpceConfigurationName" => vpceConfigurationName,
-            "vpceServiceName" => vpceServiceName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_vpceconfiguration(
     serviceDnsName,
     vpceConfigurationName,
@@ -479,14 +459,12 @@ the system.
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
 
 """
-function delete_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "DeleteDevicePool",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "DeleteDevicePool",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -509,14 +487,13 @@ Deletes a profile that can be applied to one or more private device instances.
   delete.
 
 """
-function delete_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+delete_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "DeleteInstanceProfile",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -538,14 +515,13 @@ Deletes a network profile.
 - `arn`: The ARN of the network profile to delete.
 
 """
-function delete_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+delete_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "DeleteNetworkProfile",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -568,14 +544,12 @@ stop an in-progress run.
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
 
 """
-function delete_project(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "DeleteProject",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_project(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "DeleteProject",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -598,16 +572,13 @@ Deletes a completed remote access session and its results.
   access.
 
 """
-function delete_remote_access_session(
-    arn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+delete_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "DeleteRemoteAccessSession",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -630,14 +601,12 @@ run.
 - `arn`: The Amazon Resource Name (ARN) for the run to delete.
 
 """
-function delete_run(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "DeleteRun",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_run(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "DeleteRun",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -661,16 +630,13 @@ this operation.   You cannot delete a project if it has active sessions.
   ListTestGridProjects.
 
 """
-function delete_test_grid_project(
-    projectArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+delete_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "DeleteTestGridProject",
         Dict{String,Any}("projectArn" => projectArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -696,14 +662,12 @@ Deletes an upload given the upload ARN.
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
 
 """
-function delete_upload(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "DeleteUpload",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_upload(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "DeleteUpload",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -726,14 +690,13 @@ Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
   delete.
 
 """
-function delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "DeleteVPCEConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -753,11 +716,9 @@ Returns the number of unmetered iOS or unmetered Android devices that have been 
 by the account.
 
 """
-function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -776,14 +737,12 @@ Gets information about a unique device type.
 - `arn`: The device type's ARN.
 
 """
-function get_device(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetDevice",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_device(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetDevice",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_device(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -805,14 +764,12 @@ Returns information about a device instance that belongs to a private device fle
 - `arn`: The Amazon Resource Name (ARN) of the instance you're requesting information about.
 
 """
-function get_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetDeviceInstance",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetDeviceInstance",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_device_instance(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -834,14 +791,12 @@ Gets information about a device pool.
 - `arn`: The device pool's ARN.
 
 """
-function get_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetDevicePool",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetDevicePool",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -868,23 +823,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configuration"`: An object that contains information about the settings for a run.
 - `"test"`: Information about the uploaded test to be run against the device pool.
 - `"testType"`: The test type for the specified device pool. Allowed values include the
-  following:   BUILTIN_FUZZ.   BUILTIN_EXPLORER. For Android, an app explorer that traverses
-  an Android app, interacting with it and capturing screenshots at the same time.
-  APPIUM_JAVA_JUNIT.   APPIUM_JAVA_TESTNG.   APPIUM_PYTHON.   APPIUM_NODE.   APPIUM_RUBY.
-  APPIUM_WEB_JAVA_JUNIT.   APPIUM_WEB_JAVA_TESTNG.   APPIUM_WEB_PYTHON.   APPIUM_WEB_NODE.
-  APPIUM_WEB_RUBY.   CALABASH.   INSTRUMENTATION.   UIAUTOMATION.   UIAUTOMATOR.   XCTEST.
+  following:   BUILTIN_FUZZ.   APPIUM_JAVA_JUNIT.   APPIUM_JAVA_TESTNG.   APPIUM_PYTHON.
+  APPIUM_NODE.   APPIUM_RUBY.   APPIUM_WEB_JAVA_JUNIT.   APPIUM_WEB_JAVA_TESTNG.
+  APPIUM_WEB_PYTHON.   APPIUM_WEB_NODE.   APPIUM_WEB_RUBY.   INSTRUMENTATION.   XCTEST.
   XCTEST_UI.
 """
-function get_device_pool_compatibility(
+get_device_pool_compatibility(
     devicePoolArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "GetDevicePoolCompatibility",
+    Dict{String,Any}("devicePoolArn" => devicePoolArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "GetDevicePoolCompatibility",
-        Dict{String,Any}("devicePoolArn" => devicePoolArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_device_pool_compatibility(
     devicePoolArn,
     params::AbstractDict{String};
@@ -910,14 +861,12 @@ Returns information about the specified instance profile.
 - `arn`: The Amazon Resource Name (ARN) of an instance profile.
 
 """
-function get_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetInstanceProfile",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetInstanceProfile",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -939,14 +888,12 @@ Gets information about a job.
 - `arn`: The job's ARN.
 
 """
-function get_job(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetJob",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetJob",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_job(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -968,14 +915,12 @@ Returns information about a network profile.
 - `arn`: The ARN of the network profile to return information about.
 
 """
-function get_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetNetworkProfile",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetNetworkProfile",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1002,11 +947,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function get_offering_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetOfferingStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_offering_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm("GetOfferingStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_offering_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1025,14 +967,12 @@ Gets information about a project.
 - `arn`: The project's ARN.
 
 """
-function get_project(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetProject",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_project(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetProject",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1055,14 +995,13 @@ Returns a link to a currently running remote access session.
   to get session information.
 
 """
-function get_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+get_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "GetRemoteAccessSession",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1084,14 +1023,12 @@ Gets information about a run.
 - `arn`: The run's ARN.
 
 """
-function get_run(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetRun",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_run(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetRun",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1113,14 +1050,12 @@ Gets information about a suite.
 - `arn`: The suite's ARN.
 
 """
-function get_suite(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetSuite",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_suite(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetSuite",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_suite(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1142,14 +1077,12 @@ Gets information about a test.
 - `arn`: The test's ARN.
 
 """
-function get_test(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetTest",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_test(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetTest",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_test(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1172,16 +1105,13 @@ Retrieves information about a Selenium testing project.
   or ListTestGridProjects.
 
 """
-function get_test_grid_project(
-    projectArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+get_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "GetTestGridProject",
         Dict{String,Any}("projectArn" => projectArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -1213,11 +1143,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionArn"`: An ARN that uniquely identifies a TestGridSession.
 - `"sessionId"`: An ID associated with this session.
 """
-function get_test_grid_session(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetTestGridSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_test_grid_session(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetTestGridSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_test_grid_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1236,14 +1164,12 @@ Gets information about an upload.
 - `arn`: The upload's ARN.
 
 """
-function get_upload(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetUpload",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_upload(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetUpload",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1267,14 +1193,12 @@ Returns information about the configuration settings for your Amazon Virtual Pri
   describe.
 
 """
-function get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "GetVPCEConfiguration",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "GetVPCEConfiguration",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1299,18 +1223,16 @@ the file must be in .apk format. For iOS applications, the file must be in .ipa 
   about which you are requesting information.
 
 """
-function install_to_remote_access_session(
+install_to_remote_access_session(
     appArn, remoteAccessSessionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "InstallToRemoteAccessSession",
+    Dict{String,Any}(
+        "appArn" => appArn, "remoteAccessSessionArn" => remoteAccessSessionArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "InstallToRemoteAccessSession",
-        Dict{String,Any}(
-            "appArn" => appArn, "remoteAccessSessionArn" => remoteAccessSessionArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function install_to_remote_access_session(
     appArn,
     remoteAccessSessionArn,
@@ -1348,14 +1270,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_artifacts(arn, type; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListArtifacts",
-        Dict{String,Any}("arn" => arn, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_artifacts(arn, type; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListArtifacts",
+    Dict{String,Any}("arn" => arn, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_artifacts(
     arn,
     type,
@@ -1386,11 +1306,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_device_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListDeviceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_device_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListDeviceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_device_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1419,14 +1337,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and
   managed by the device pool developer.
 """
-function list_device_pools(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListDevicePools",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_device_pools(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListDevicePools",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_device_pools(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1475,11 +1391,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_devices(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm("ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1501,11 +1414,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_instance_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1531,14 +1442,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_jobs(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListJobs",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_jobs(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListJobs",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_jobs(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1567,14 +1476,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of network profile to return information about. Valid values are
   listed here.
 """
-function list_network_profiles(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListNetworkProfiles",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_network_profiles(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListNetworkProfiles",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_network_profiles(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1600,11 +1507,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_offering_promotions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListOfferingPromotions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_offering_promotions(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListOfferingPromotions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_offering_promotions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1631,11 +1536,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_offering_transactions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+list_offering_transactions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "ListOfferingTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_offering_transactions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1661,11 +1565,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm("ListOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1687,11 +1588,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1715,14 +1613,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_remote_access_sessions(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+list_remote_access_sessions(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "ListRemoteAccessSessions",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_remote_access_sessions(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1748,14 +1645,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_runs(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListRuns",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_runs(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListRuns",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_runs(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1781,14 +1676,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_samples(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListSamples",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_samples(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListSamples",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_samples(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1814,14 +1707,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_suites(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListSuites",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_suites(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListSuites",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_suites(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1846,16 +1737,13 @@ List the tags for an AWS Device Farm resource.
   VPCE_CONFIGURATION.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1882,11 +1770,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResult"`: Return no more than this number of results.
 - `"nextToken"`: From a response, used to continue a paginated listing.
 """
-function list_test_grid_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListTestGridProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_test_grid_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListTestGridProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_test_grid_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1912,16 +1798,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResult"`: The maximum number of sessions to return per response.
 - `"nextToken"`: Pagination token.
 """
-function list_test_grid_session_actions(
+list_test_grid_session_actions(
     sessionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "ListTestGridSessionActions",
+    Dict{String,Any}("sessionArn" => sessionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "ListTestGridSessionActions",
-        Dict{String,Any}("sessionArn" => sessionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_test_grid_session_actions(
     sessionArn,
     params::AbstractDict{String};
@@ -1952,16 +1836,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token.
 - `"type"`: Limit results to a specified type of artifact.
 """
-function list_test_grid_session_artifacts(
+list_test_grid_session_artifacts(
     sessionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = device_farm(
+    "ListTestGridSessionArtifacts",
+    Dict{String,Any}("sessionArn" => sessionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return device_farm(
-        "ListTestGridSessionArtifacts",
-        Dict{String,Any}("sessionArn" => sessionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_test_grid_session_artifacts(
     sessionArn,
     params::AbstractDict{String};
@@ -1996,16 +1878,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token.
 - `"status"`: Return only sessions in this state.
 """
-function list_test_grid_sessions(
-    projectArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+list_test_grid_sessions(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "ListTestGridSessions",
         Dict{String,Any}("projectArn" => projectArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_test_grid_sessions(
     projectArn,
     params::AbstractDict{String};
@@ -2035,14 +1914,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_tests(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListTests",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tests(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListTests",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_tests(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2072,14 +1949,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_unique_problems(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListUniqueProblems",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_unique_problems(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListUniqueProblems",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_unique_problems(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2109,22 +1984,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   APPIUM_JAVA_TESTNG_TEST_PACKAGE   APPIUM_PYTHON_TEST_PACKAGE   APPIUM_NODE_TEST_PACKAGE
   APPIUM_RUBY_TEST_PACKAGE   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE   APPIUM_WEB_PYTHON_TEST_PACKAGE
-  APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   CALABASH_TEST_PACKAGE
-  INSTRUMENTATION_TEST_PACKAGE   UIAUTOMATION_TEST_PACKAGE   UIAUTOMATOR_TEST_PACKAGE
-  XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC
+  APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   INSTRUMENTATION_TEST_PACKAGE
+   XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC
   APPIUM_JAVA_TESTNG_TEST_SPEC   APPIUM_PYTHON_TEST_SPEC   APPIUM_NODE_TEST_SPEC
   APPIUM_RUBY_TEST_SPEC   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
    APPIUM_WEB_PYTHON_TEST_SPEC   APPIUM_WEB_NODE_TEST_SPEC   APPIUM_WEB_RUBY_TEST_SPEC
   INSTRUMENTATION_TEST_SPEC   XCTEST_UI_TEST_SPEC
 """
-function list_uploads(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListUploads",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_uploads(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListUploads",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_uploads(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2150,11 +2022,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_vpceconfigurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "ListVPCEConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_vpceconfigurations(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "ListVPCEConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_vpceconfigurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2183,16 +2053,13 @@ to invoke this operation, contact aws-devicefarm-support@amazon.com.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"offeringPromotionId"`: The ID of the offering promotion to be applied to the purchase.
 """
-function purchase_offering(
-    offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+purchase_offering(offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "PurchaseOffering",
         Dict{String,Any}("offeringId" => offeringId, "quantity" => quantity);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function purchase_offering(
     offeringId,
     quantity,
@@ -2227,16 +2094,13 @@ aws-devicefarm-support@amazon.com.
 - `quantity`: The quantity requested in an offering renewal.
 
 """
-function renew_offering(
-    offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+renew_offering(offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "RenewOffering",
         Dict{String,Any}("offeringId" => offeringId, "quantity" => quantity);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function renew_offering(
     offeringId,
     quantity,
@@ -2280,14 +2144,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the execution timeout (in minutes).
 - `"name"`: The name for the run to be scheduled.
 """
-function schedule_run(projectArn, test; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+schedule_run(projectArn, test; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "ScheduleRun",
         Dict{String,Any}("projectArn" => projectArn, "test" => test);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function schedule_run(
     projectArn,
     test,
@@ -2320,14 +2183,12 @@ completed.
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
 
 """
-function stop_job(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "StopJob",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_job(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "StopJob",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_job(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2349,14 +2210,13 @@ Ends a specified remote access session.
 - `arn`: The Amazon Resource Name (ARN) of the remote access session to stop.
 
 """
-function stop_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+stop_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "StopRemoteAccessSession",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2382,14 +2242,12 @@ progress or already completed.
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
 
 """
-function stop_run(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "StopRun",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_run(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "StopRun",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2419,14 +2277,13 @@ a resource is deleted, the tags associated with that resource are also deleted.
   of 256 characters.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2461,16 +2318,13 @@ Deletes the specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2506,14 +2360,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileArn"`: The ARN of the profile that you want to associate with the device
   instance.
 """
-function update_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+update_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "UpdateDeviceInstance",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_device_instance(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2556,14 +2409,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rules"`: Represents the rules to modify for the device pool. Updating rules is
   optional. If you update rules for your request, the update replaces the existing rules.
 """
-function update_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "UpdateDevicePool",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "UpdateDevicePool",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2596,14 +2447,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rebootAfterUse"`: The updated choice for whether you want to reboot the device after
   use. The default value is true.
 """
-function update_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+update_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "UpdateInstanceProfile",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2649,14 +2499,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"uplinkLossPercent"`: Proportion of transmitted packets that fail to arrive from 0 to
   100 percent.
 """
-function update_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+update_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "UpdateNetworkProfile",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2684,14 +2533,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A string that represents the new name of the project that you are updating.
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
-function update_project(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "UpdateProject",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "UpdateProject",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2718,16 +2565,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Human-readable name for the project.
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
-function update_test_grid_project(
-    projectArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return device_farm(
+update_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "UpdateTestGridProject",
         Dict{String,Any}("projectArn" => projectArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -2760,14 +2604,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The upload's test spec file name. The name must not contain any forward slashes
   (/). The test spec file name must end with the .yaml or .yml file extension.
 """
-function update_upload(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
-        "UpdateUpload",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_upload(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm(
+    "UpdateUpload",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2800,14 +2642,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpceServiceName"`: The name of the VPC endpoint service running in your AWS account
   that you want Device Farm to test.
 """
-function update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return device_farm(
+update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    device_farm(
         "UpdateVPCEConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

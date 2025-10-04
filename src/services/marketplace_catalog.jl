@@ -15,17 +15,15 @@ DescribeEntity API and uses the same IAM permission action as DescribeEntity API
 - `entity_request_list`: List of entity IDs and the catalogs the entities are present in.
 
 """
-function batch_describe_entities(
+batch_describe_entities(
     EntityRequestList; aws_config::AbstractAWSConfig=global_aws_config()
+) = marketplace_catalog(
+    "POST",
+    "/BatchDescribeEntities",
+    Dict{String,Any}("EntityRequestList" => EntityRequestList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_catalog(
-        "POST",
-        "/BatchDescribeEntities",
-        Dict{String,Any}("EntityRequestList" => EntityRequestList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_describe_entities(
     EntityRequestList,
     params::AbstractDict{String};
@@ -58,17 +56,14 @@ change during the 60-day request history retention period for API calls.
   want to cancel.
 
 """
-function cancel_change_set(
-    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+cancel_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "PATCH",
         "/CancelChangeSet",
         Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_change_set(
     catalog,
     changeSetId,
@@ -101,17 +96,14 @@ Deletes a resource-based policy on an entity that is identified by its resource 
   with the resource policy.
 
 """
-function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "DELETE",
         "/DeleteResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -140,17 +132,15 @@ Provides information about a given change set.
   want to describe the details for.
 
 """
-function describe_change_set(
+describe_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = marketplace_catalog(
+    "GET",
+    "/DescribeChangeSet",
+    Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_catalog(
-        "GET",
-        "/DescribeChangeSet",
-        Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_change_set(
     catalog,
     changeSetId,
@@ -183,17 +173,14 @@ Returns the metadata and content of the entity.
 - `entity_id`: Required. The unique ID of the entity to describe.
 
 """
-function describe_entity(
-    catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+describe_entity(catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "GET",
         "/DescribeEntity",
         Dict{String,Any}("catalog" => catalog, "entityId" => entityId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_entity(
     catalog,
     entityId,
@@ -226,15 +213,14 @@ Gets a resource-based policy of an entity that is identified by its resource ARN
   with the resource policy.
 
 """
-function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return marketplace_catalog(
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "GET",
         "/GetResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -274,15 +260,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
-function list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config())
-    return marketplace_catalog(
+list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "POST",
         "/ListChangeSets",
         Dict{String,Any}("Catalog" => Catalog);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_change_sets(
     Catalog, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -327,17 +312,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation can't be discovered through the SHARED parameter.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
-function list_entities(
-    Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+list_entities(Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "POST",
         "/ListEntities",
         Dict{String,Any}("Catalog" => Catalog, "EntityType" => EntityType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_entities(
     Catalog,
     EntityType,
@@ -370,17 +352,14 @@ Lists all tags that have been added to a resource (either an entity or change se
   want to list tags on.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "POST",
         "/ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -410,17 +389,15 @@ and ContainerProduct.
   associate with a resource policy.
 
 """
-function put_resource_policy(
+put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = marketplace_catalog(
+    "POST",
+    "/PutResourcePolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return marketplace_catalog(
-        "POST",
-        "/PutResourcePolicy",
-        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -473,10 +450,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before applying changes to your entities, use VALIDATE. This feature is currently available
   for adding versions to single-AMI products. For more information, see Add a new version.
 """
-function start_change_set(
-    Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+start_change_set(Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "POST",
         "/StartChangeSet",
         Dict{String,Any}(
@@ -487,7 +462,6 @@ function start_change_set(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_change_set(
     Catalog,
     ChangeSet,
@@ -526,15 +500,14 @@ Tags a resource (either an entity or change set).
   allowed: 1-50.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return marketplace_catalog(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "POST",
         "/TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -569,17 +542,14 @@ Removes a tag or list of tags from a resource (either an entity or change set).
   allowed: 0-256.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_catalog(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_catalog(
         "POST",
         "/UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,

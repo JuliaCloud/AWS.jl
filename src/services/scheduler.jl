@@ -51,26 +51,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
-function create_schedule(
+create_schedule(
     FlexibleTimeWindow,
     Name,
     ScheduleExpression,
     Target;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = scheduler(
+    "POST",
+    "/schedules/$(Name)",
+    Dict{String,Any}(
+        "FlexibleTimeWindow" => FlexibleTimeWindow,
+        "ScheduleExpression" => ScheduleExpression,
+        "Target" => Target,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return scheduler(
-        "POST",
-        "/schedules/$(Name)",
-        Dict{String,Any}(
-            "FlexibleTimeWindow" => FlexibleTimeWindow,
-            "ScheduleExpression" => ScheduleExpression,
-            "Target" => Target,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_schedule(
     FlexibleTimeWindow,
     Name,
@@ -115,15 +113,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated token for the request to ensure idempotency.
 - `"Tags"`: The list of tags to associate with the schedule group.
 """
-function create_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "POST",
-        "/schedule-groups/$(Name)",
-        Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = scheduler(
+    "POST",
+    "/schedule-groups/$(Name)",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -155,15 +151,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, the default schedule group is used.
 """
-function delete_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "DELETE",
-        "/schedules/$(Name)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = scheduler(
+    "DELETE",
+    "/schedules/$(Name)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_schedule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -198,15 +192,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly
   generated token for the request to ensure idempotency.
 """
-function delete_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "DELETE",
-        "/schedule-groups/$(Name)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = scheduler(
+    "DELETE",
+    "/schedule-groups/$(Name)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -235,11 +227,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, EventBridge Scheduler assumes that the schedule is associated with the default group.
 """
-function get_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_schedule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = scheduler(
+    "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_schedule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -262,14 +252,12 @@ Retrieves the specified schedule group.
 - `name`: The name of the schedule group to retrieve.
 
 """
-function get_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "GET",
-        "/schedule-groups/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_schedule_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = scheduler(
+    "GET",
+    "/schedule-groups/$(Name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -297,11 +285,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schedule groups.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_schedule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_schedule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = scheduler(
+    "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_schedule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -332,11 +318,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: If specified, only lists the schedules whose current state matches the given
   filter.
 """
-function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
-        "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    scheduler("GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -356,16 +339,13 @@ Lists the tags associated with the Scheduler resource.
   tags.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return scheduler(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    scheduler(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -393,15 +373,14 @@ You can only assign tags to schedule groups.
 - `tags`: The list of tags to associate with the schedule group.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return scheduler(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    scheduler(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -429,17 +408,14 @@ Removes one or more tags from the specified EventBridge Scheduler schedule group
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return scheduler(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    scheduler(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -510,26 +486,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
-function update_schedule(
+update_schedule(
     FlexibleTimeWindow,
     Name,
     ScheduleExpression,
     Target;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = scheduler(
+    "PUT",
+    "/schedules/$(Name)",
+    Dict{String,Any}(
+        "FlexibleTimeWindow" => FlexibleTimeWindow,
+        "ScheduleExpression" => ScheduleExpression,
+        "Target" => Target,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return scheduler(
-        "PUT",
-        "/schedules/$(Name)",
-        Dict{String,Any}(
-            "FlexibleTimeWindow" => FlexibleTimeWindow,
-            "ScheduleExpression" => ScheduleExpression,
-            "Target" => Target,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_schedule(
     FlexibleTimeWindow,
     Name,
