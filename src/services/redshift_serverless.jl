@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An array of Tag objects to associate with the created snapshot.
 """
 function convert_recovery_point_to_snapshot(
-    recoveryPointId, snapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryPointId, snapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ConvertRecoveryPointToSnapshot",
@@ -36,7 +36,7 @@ function convert_recovery_point_to_snapshot(
     recoveryPointId,
     snapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "ConvertRecoveryPointToSnapshot",
@@ -71,7 +71,7 @@ function create_custom_domain_association(
     customDomainCertificateArn,
     customDomainName,
     workgroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateCustomDomainAssociation",
@@ -89,7 +89,7 @@ function create_custom_domain_association(
     customDomainName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateCustomDomainAssociation",
@@ -135,7 +135,7 @@ function create_endpoint_access(
     endpointName,
     subnetIds,
     workgroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateEndpointAccess",
@@ -153,7 +153,7 @@ function create_endpoint_access(
     subnetIds,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateEndpointAccess",
@@ -207,7 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM Identity Center.
 - `"tags"`: A list of tag instances.
 """
-function create_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_namespace(namespaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "CreateNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
@@ -218,7 +218,7 @@ end
 function create_namespace(
     namespaceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateNamespace",
@@ -273,7 +273,7 @@ function create_scheduled_action(
     schedule,
     scheduledActionName,
     targetAction;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateScheduledAction",
@@ -295,7 +295,7 @@ function create_scheduled_action(
     scheduledActionName,
     targetAction,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateScheduledAction",
@@ -334,7 +334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An array of Tag objects to associate with the snapshot.
 """
 function create_snapshot(
-    namespaceName, snapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+    namespaceName, snapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "CreateSnapshot",
@@ -347,7 +347,7 @@ function create_snapshot(
     namespaceName,
     snapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateSnapshot",
@@ -385,7 +385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination Amazon Web Services Region.
 """
 function create_snapshot_copy_configuration(
-    destinationRegion, namespaceName; aws_config::AbstractAWSConfig=global_aws_config()
+    destinationRegion, namespaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "CreateSnapshotCopyConfiguration",
@@ -400,7 +400,7 @@ function create_snapshot_copy_configuration(
     destinationRegion,
     namespaceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateSnapshotCopyConfiguration",
@@ -442,7 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is monthly.
 """
 function create_usage_limit(
-    amount, resourceArn, usageType; aws_config::AbstractAWSConfig=global_aws_config()
+    amount, resourceArn, usageType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "CreateUsageLimit",
@@ -458,7 +458,7 @@ function create_usage_limit(
     resourceArn,
     usageType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateUsageLimit",
@@ -512,7 +512,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A array of tag instances.
 """
 function create_workgroup(
-    namespaceName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    namespaceName, workgroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "CreateWorkgroup",
@@ -527,7 +527,7 @@ function create_workgroup(
     namespaceName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "CreateWorkgroup",
@@ -557,7 +557,7 @@ Deletes a custom domain association for Amazon Redshift Serverless.
 
 """
 function delete_custom_domain_association(
-    customDomainName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    customDomainName, workgroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "DeleteCustomDomainAssociation",
@@ -572,7 +572,7 @@ function delete_custom_domain_association(
     customDomainName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteCustomDomainAssociation",
@@ -601,7 +601,7 @@ Deletes an Amazon Redshift Serverless managed VPC endpoint.
 
 """
 function delete_endpoint_access(
-    endpointName; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "DeleteEndpointAccess",
@@ -613,7 +613,7 @@ end
 function delete_endpoint_access(
     endpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteEndpointAccess",
@@ -641,7 +641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deleted.
 - `"finalSnapshotRetentionPeriod"`: How long to retain the final snapshot.
 """
-function delete_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_namespace(namespaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "DeleteNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
@@ -652,7 +652,7 @@ end
 function delete_namespace(
     namespaceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteNamespace",
@@ -675,7 +675,7 @@ Deletes the specified resource policy.
 
 """
 function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "DeleteResourcePolicy",
@@ -687,7 +687,7 @@ end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteResourcePolicy",
@@ -710,7 +710,7 @@ Deletes a scheduled action.
 
 """
 function delete_scheduled_action(
-    scheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+    scheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "DeleteScheduledAction",
@@ -722,7 +722,7 @@ end
 function delete_scheduled_action(
     scheduledActionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteScheduledAction",
@@ -748,7 +748,7 @@ Deletes a snapshot from Amazon Redshift Serverless.
 - `snapshot_name`: The name of the snapshot to be deleted.
 
 """
-function delete_snapshot(snapshotName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_snapshot(snapshotName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "DeleteSnapshot",
         Dict{String,Any}("snapshotName" => snapshotName);
@@ -759,7 +759,7 @@ end
 function delete_snapshot(
     snapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteSnapshot",
@@ -782,7 +782,7 @@ Deletes a snapshot copy configuration
 
 """
 function delete_snapshot_copy_configuration(
-    snapshotCopyConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+    snapshotCopyConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "DeleteSnapshotCopyConfiguration",
@@ -794,7 +794,7 @@ end
 function delete_snapshot_copy_configuration(
     snapshotCopyConfigurationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteSnapshotCopyConfiguration",
@@ -822,7 +822,9 @@ Deletes a usage limit from Amazon Redshift Serverless.
 - `usage_limit_id`: The unique identifier of the usage limit to delete.
 
 """
-function delete_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_usage_limit(
+    usageLimitId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return redshift_serverless(
         "DeleteUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
@@ -833,7 +835,7 @@ end
 function delete_usage_limit(
     usageLimitId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteUsageLimit",
@@ -855,7 +857,7 @@ Deletes a workgroup.
 - `workgroup_name`: The name of the workgroup to be deleted.
 
 """
-function delete_workgroup(workgroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "DeleteWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
@@ -866,7 +868,7 @@ end
 function delete_workgroup(
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "DeleteWorkgroup",
@@ -905,13 +907,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The minimum is 900 seconds, and the maximum is 3600 seconds.
 - `"workgroupName"`: The name of the workgroup associated with the database.
 """
-function get_credentials(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_credentials(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "GetCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_credentials(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -930,7 +932,7 @@ Gets information about a specific custom domain association.
 
 """
 function get_custom_domain_association(
-    customDomainName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    customDomainName, workgroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetCustomDomainAssociation",
@@ -945,7 +947,7 @@ function get_custom_domain_association(
     customDomainName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetCustomDomainAssociation",
@@ -974,7 +976,7 @@ Returns information, such as the name, about a VPC endpoint.
 
 """
 function get_endpoint_access(
-    endpointName; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetEndpointAccess",
@@ -986,7 +988,7 @@ end
 function get_endpoint_access(
     endpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetEndpointAccess",
@@ -1008,7 +1010,7 @@ Returns information about a namespace in Amazon Redshift Serverless.
 - `namespace_name`: The name of the namespace to retrieve information for.
 
 """
-function get_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_namespace(namespaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "GetNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
@@ -1019,7 +1021,7 @@ end
 function get_namespace(
     namespaceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetNamespace",
@@ -1043,7 +1045,7 @@ Returns information about a recovery point.
 
 """
 function get_recovery_point(
-    recoveryPointId; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryPointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetRecoveryPoint",
@@ -1055,7 +1057,7 @@ end
 function get_recovery_point(
     recoveryPointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetRecoveryPoint",
@@ -1079,7 +1081,9 @@ Returns a resource policy.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to return.
 
 """
-function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return redshift_serverless(
         "GetResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
@@ -1090,7 +1094,7 @@ end
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetResourcePolicy",
@@ -1113,7 +1117,7 @@ Returns information about a scheduled action.
 
 """
 function get_scheduled_action(
-    scheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+    scheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetScheduledAction",
@@ -1125,7 +1129,7 @@ end
 function get_scheduled_action(
     scheduledActionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetScheduledAction",
@@ -1154,13 +1158,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"snapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to return.
 - `"snapshotName"`: The name of the snapshot to return.
 """
-function get_snapshot(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_snapshot(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "GetSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_snapshot(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1179,7 +1183,7 @@ Returns information about a TableRestoreStatus object.
 
 """
 function get_table_restore_status(
-    tableRestoreRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    tableRestoreRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "GetTableRestoreStatus",
@@ -1191,7 +1195,7 @@ end
 function get_table_restore_status(
     tableRestoreRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetTableRestoreStatus",
@@ -1217,7 +1221,7 @@ Returns information about a usage limit.
 - `usage_limit_id`: The unique identifier of the usage limit to return information for.
 
 """
-function get_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "GetUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
@@ -1228,7 +1232,7 @@ end
 function get_usage_limit(
     usageLimitId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetUsageLimit",
@@ -1250,7 +1254,7 @@ Returns information about a specific workgroup.
 - `workgroup_name`: The name of the workgroup to return information for.
 
 """
-function get_workgroup(workgroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "GetWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
@@ -1261,7 +1265,7 @@ end
 function get_workgroup(
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "GetWorkgroup",
@@ -1291,7 +1295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page.
 """
 function list_custom_domain_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListCustomDomainAssociations";
@@ -1300,7 +1304,7 @@ function list_custom_domain_associations(;
     )
 end
 function list_custom_domain_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListCustomDomainAssociations",
@@ -1329,13 +1333,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Redshift Serverless.
 - `"workgroupName"`: The name of the workgroup associated with the VPC endpoint to return.
 """
-function list_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_endpoint_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListEndpointAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1356,13 +1360,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in following ListNamespaces operations, which returns
   results in the next page.
 """
-function list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_namespaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_namespaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1388,13 +1392,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results in the next page.
 - `"startTime"`: The time when the recovery point's creation was initiated.
 """
-function list_recovery_points(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_recovery_points(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListRecoveryPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_recovery_points(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListRecoveryPoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1417,13 +1421,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page.
 """
-function list_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_scheduled_actions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListScheduledActions",
@@ -1449,7 +1453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page.
 """
 function list_snapshot_copy_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListSnapshotCopyConfigurations";
@@ -1458,7 +1462,7 @@ function list_snapshot_copy_configurations(;
     )
 end
 function list_snapshot_copy_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListSnapshotCopyConfigurations",
@@ -1488,13 +1492,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownerAccount"`: The owner Amazon Web Services account of the snapshot.
 - `"startTime"`: The time when the creation of the snapshot was initiated.
 """
-function list_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1519,13 +1523,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workgroupName"`: The workgroup from which to list all of the statuses of
   RestoreTableFromSnapshot operations.
 """
-function list_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_table_restore_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_table_restore_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListTableRestoreStatus",
@@ -1546,7 +1550,7 @@ Lists the tags assigned to a resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListTagsForResource",
@@ -1558,7 +1562,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "ListTagsForResource",
@@ -1587,13 +1591,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limits you want to list.
 - `"usageType"`: The Amazon Redshift Serverless feature whose limits you want to see.
 """
-function list_usage_limits(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_usage_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_usage_limits(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListUsageLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1616,13 +1620,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownerAccount"`: The owner Amazon Web Services account for the Amazon Redshift
   Serverless workgroup.
 """
-function list_workgroups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_workgroups(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "ListWorkgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_workgroups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "ListWorkgroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1646,7 +1650,7 @@ across Amazon Web Services accounts.
 
 """
 function put_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "PutResourcePolicy",
@@ -1659,7 +1663,7 @@ function put_resource_policy(
     policy,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "PutResourcePolicy",
@@ -1691,7 +1695,7 @@ function restore_from_recovery_point(
     namespaceName,
     recoveryPointId,
     workgroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreFromRecoveryPoint",
@@ -1709,7 +1713,7 @@ function restore_from_recovery_point(
     recoveryPointId,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreFromRecoveryPoint",
@@ -1757,7 +1761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same time as snapshotArn.
 """
 function restore_from_snapshot(
-    namespaceName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    namespaceName, workgroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "RestoreFromSnapshot",
@@ -1772,7 +1776,7 @@ function restore_from_snapshot(
     namespaceName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreFromSnapshot",
@@ -1823,7 +1827,7 @@ function restore_table_from_recovery_point(
     sourceDatabaseName,
     sourceTableName,
     workgroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreTableFromRecoveryPoint",
@@ -1847,7 +1851,7 @@ function restore_table_from_recovery_point(
     sourceTableName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreTableFromRecoveryPoint",
@@ -1903,7 +1907,7 @@ function restore_table_from_snapshot(
     sourceDatabaseName,
     sourceTableName,
     workgroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreTableFromSnapshot",
@@ -1927,7 +1931,7 @@ function restore_table_from_snapshot(
     sourceTableName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "RestoreTableFromSnapshot",
@@ -1961,7 +1965,7 @@ Assigns one or more tags to a resource.
 - `tags`: The map of the key-value pairs used to tag the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
@@ -1973,7 +1977,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "TagResource",
@@ -2001,7 +2005,7 @@ Removes a tag or set of tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "UntagResource",
@@ -2014,7 +2018,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UntagResource",
@@ -2047,7 +2051,7 @@ function update_custom_domain_association(
     customDomainCertificateArn,
     customDomainName,
     workgroupName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateCustomDomainAssociation",
@@ -2065,7 +2069,7 @@ function update_custom_domain_association(
     customDomainName,
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateCustomDomainAssociation",
@@ -2100,7 +2104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after the endpoint is modified.
 """
 function update_endpoint_access(
-    endpointName; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "UpdateEndpointAccess",
@@ -2112,7 +2116,7 @@ end
 function update_endpoint_access(
     endpointName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateEndpointAccess",
@@ -2160,7 +2164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword
   for the admin user account's password.
 """
-function update_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_namespace(namespaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "UpdateNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
@@ -2171,7 +2175,7 @@ end
 function update_namespace(
     namespaceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateNamespace",
@@ -2214,7 +2218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetAction"`:
 """
 function update_scheduled_action(
-    scheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+    scheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "UpdateScheduledAction",
@@ -2226,7 +2230,7 @@ end
 function update_scheduled_action(
     scheduledActionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateScheduledAction",
@@ -2255,7 +2259,7 @@ Updates a snapshot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"retentionPeriod"`: The new retention period of the snapshot.
 """
-function update_snapshot(snapshotName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_snapshot(snapshotName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "UpdateSnapshot",
         Dict{String,Any}("snapshotName" => snapshotName);
@@ -2266,7 +2270,7 @@ end
 function update_snapshot(
     snapshotName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateSnapshot",
@@ -2293,7 +2297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the destination Amazon Web Services Region.
 """
 function update_snapshot_copy_configuration(
-    snapshotCopyConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+    snapshotCopyConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
         "UpdateSnapshotCopyConfiguration",
@@ -2305,7 +2309,7 @@ end
 function update_snapshot_copy_configuration(
     snapshotCopyConfigurationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateSnapshotCopyConfiguration",
@@ -2341,7 +2345,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"breachAction"`: The new action that Amazon Redshift Serverless takes when the limit is
   reached.
 """
-function update_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_usage_limit(
+    usageLimitId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return redshift_serverless(
         "UpdateUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
@@ -2352,7 +2358,7 @@ end
 function update_usage_limit(
     usageLimitId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateUsageLimit",
@@ -2398,7 +2404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroupIds"`: An array of security group IDs to associate with the workgroup.
 - `"subnetIds"`: An array of VPC subnet IDs to associate with the workgroup.
 """
-function update_workgroup(workgroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
         "UpdateWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
@@ -2409,7 +2415,7 @@ end
 function update_workgroup(
     workgroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_serverless(
         "UpdateWorkgroup",

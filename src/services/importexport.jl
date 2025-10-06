@@ -18,7 +18,7 @@ fails if the job has already started or is complete.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"APIVersion"`:
 """
-function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport(
         "CancelJob",
         Dict{String,Any}("JobId" => JobId);
@@ -27,7 +27,7 @@ function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function cancel_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return importexport(
         "CancelJob",
@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ManifestAddendum"`:
 """
 function create_job(
-    JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config()
+    JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return importexport(
         "CreateJob",
@@ -74,7 +74,7 @@ function create_job(
     Manifest,
     ValidateOnly,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return importexport(
         "CreateJob",
@@ -118,7 +118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"street2"`:
 - `"street3"`:
 """
-function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_config())
+function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport(
         "GetShippingLabel",
         Dict{String,Any}("jobIds" => jobIds);
@@ -127,7 +127,7 @@ function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function get_shipping_label(
-    jobIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return importexport(
         "GetShippingLabel",
@@ -152,7 +152,7 @@ job. You can only return information about jobs you own.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"APIVersion"`:
 """
-function get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_status(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport(
         "GetStatus",
         Dict{String,Any}("JobId" => JobId);
@@ -161,7 +161,7 @@ function get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_status(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return importexport(
         "GetStatus",
@@ -186,11 +186,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`:
 - `"MaxJobs"`:
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return importexport(
         "ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -221,7 +221,7 @@ function update_job(
     JobType,
     Manifest,
     ValidateOnly;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return importexport(
         "UpdateJob",
@@ -241,7 +241,7 @@ function update_job(
     Manifest,
     ValidateOnly,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return importexport(
         "UpdateJob",

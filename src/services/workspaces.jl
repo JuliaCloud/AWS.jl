@@ -20,7 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotent creation.
 """
 function accept_account_link_invitation(
-    LinkId; aws_config::AbstractAWSConfig=global_aws_config()
+    LinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "AcceptAccountLinkInvitation",
@@ -30,7 +30,7 @@ function accept_account_link_invitation(
     )
 end
 function accept_account_link_invitation(
-    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "AcceptAccountLinkInvitation",
@@ -55,7 +55,7 @@ that the current state of the connection alias is CREATED.
 
 """
 function associate_connection_alias(
-    AliasId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "AssociateConnectionAlias",
@@ -68,7 +68,7 @@ function associate_connection_alias(
     AliasId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "AssociateConnectionAlias",
@@ -96,7 +96,7 @@ Associates the specified IP access control group with the specified directory.
 
 """
 function associate_ip_groups(
-    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "AssociateIpGroups",
@@ -109,7 +109,7 @@ function associate_ip_groups(
     DirectoryId,
     GroupIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "AssociateIpGroups",
@@ -137,7 +137,7 @@ Associates the specified application to the specified WorkSpace.
 
 """
 function associate_workspace_application(
-    ApplicationId, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationId, WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "AssociateWorkspaceApplication",
@@ -150,7 +150,7 @@ function associate_workspace_application(
     ApplicationId,
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "AssociateWorkspaceApplication",
@@ -181,7 +181,7 @@ permission to access their WorkSpaces from the CIDR address ranges specified in 
 
 """
 function authorize_ip_rules(
-    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, UserRules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "AuthorizeIpRules",
@@ -194,7 +194,7 @@ function authorize_ip_rules(
     GroupId,
     UserRules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "AuthorizeIpRules",
@@ -234,7 +234,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags for the image.
 """
 function copy_workspace_image(
-    Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CopyWorkspaceImage",
@@ -250,7 +250,7 @@ function copy_workspace_image(
     SourceImageId,
     SourceRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CopyWorkspaceImage",
@@ -285,7 +285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotent creation.
 """
 function create_account_link_invitation(
-    TargetAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CreateAccountLinkInvitation",
@@ -297,7 +297,7 @@ end
 function create_account_link_invitation(
     TargetAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateAccountLinkInvitation",
@@ -326,7 +326,7 @@ to seamlessly connect to Amazon Connect.
 
 """
 function create_connect_client_add_in(
-    Name, ResourceId, URL; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, ResourceId, URL; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CreateConnectClientAddIn",
@@ -340,7 +340,7 @@ function create_connect_client_add_in(
     ResourceId,
     URL,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateConnectClientAddIn",
@@ -375,7 +375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to associate with the connection alias.
 """
 function create_connection_alias(
-    ConnectionString; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionString; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CreateConnectionAlias",
@@ -387,7 +387,7 @@ end
 function create_connection_alias(
     ConnectionString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateConnectionAlias",
@@ -424,7 +424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 - `"UserRules"`: The rules to add to the group.
 """
-function create_ip_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_ip_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "CreateIpGroup",
         Dict{String,Any}("GroupName" => GroupName);
@@ -435,7 +435,7 @@ end
 function create_ip_group(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateIpGroup",
@@ -459,7 +459,7 @@ Creates a standby WorkSpace in a secondary Region.
 
 """
 function create_standby_workspaces(
-    PrimaryRegion, StandbyWorkspaces; aws_config::AbstractAWSConfig=global_aws_config()
+    PrimaryRegion, StandbyWorkspaces; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CreateStandbyWorkspaces",
@@ -474,7 +474,7 @@ function create_standby_workspaces(
     PrimaryRegion,
     StandbyWorkspaces,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateStandbyWorkspaces",
@@ -506,7 +506,7 @@ Creates the specified tags for the specified WorkSpaces resource.
 - `tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 
 """
-function create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "CreateTags",
         Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
@@ -518,7 +518,7 @@ function create_tags(
     ResourceId,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateTags",
@@ -557,7 +557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grants your IAM user permissions to use workspaces:CreateTags.
 """
 function create_updated_workspace_image(
-    Description, Name, SourceImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    Description, Name, SourceImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CreateUpdatedWorkspaceImage",
@@ -573,7 +573,7 @@ function create_updated_workspace_image(
     Name,
     SourceImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateUpdatedWorkspaceImage",
@@ -620,7 +620,7 @@ function create_workspace_bundle(
     ComputeType,
     ImageId,
     UserStorage;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateWorkspaceBundle",
@@ -642,7 +642,7 @@ function create_workspace_bundle(
     ImageId,
     UserStorage,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateWorkspaceBundle",
@@ -682,7 +682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permission to use workspaces:CreateTags.
 """
 function create_workspace_image(
-    Description, Name, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    Description, Name, WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "CreateWorkspaceImage",
@@ -698,7 +698,7 @@ function create_workspace_image(
     Name,
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateWorkspaceImage",
@@ -733,7 +733,7 @@ WorkSpaces are only supported by Amazon WorkSpaces Core.
 - `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
 
 """
-function create_workspaces(Workspaces; aws_config::AbstractAWSConfig=global_aws_config())
+function create_workspaces(Workspaces; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "CreateWorkspaces",
         Dict{String,Any}("Workspaces" => Workspaces);
@@ -744,7 +744,7 @@ end
 function create_workspaces(
     Workspaces,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "CreateWorkspaces",
@@ -771,7 +771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotent creation.
 """
 function delete_account_link_invitation(
-    LinkId; aws_config::AbstractAWSConfig=global_aws_config()
+    LinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeleteAccountLinkInvitation",
@@ -781,7 +781,7 @@ function delete_account_link_invitation(
     )
 end
 function delete_account_link_invitation(
-    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeleteAccountLinkInvitation",
@@ -808,7 +808,7 @@ the default client branding.
 
 """
 function delete_client_branding(
-    Platforms, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    Platforms, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeleteClientBranding",
@@ -821,7 +821,7 @@ function delete_client_branding(
     Platforms,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeleteClientBranding",
@@ -849,7 +849,7 @@ Deletes a client-add-in for Amazon Connect that is configured within a directory
 
 """
 function delete_connect_client_add_in(
-    AddInId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AddInId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeleteConnectClientAddIn",
@@ -862,7 +862,7 @@ function delete_connect_client_add_in(
     AddInId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeleteConnectClientAddIn",
@@ -896,7 +896,9 @@ is no longer shared with any accounts or associated with any directories.
 - `alias_id`: The identifier of the connection alias to delete.
 
 """
-function delete_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_connection_alias(
+    AliasId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return workspaces(
         "DeleteConnectionAlias",
         Dict{String,Any}("AliasId" => AliasId);
@@ -905,7 +907,9 @@ function delete_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_a
     )
 end
 function delete_connection_alias(
-    AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeleteConnectionAlias",
@@ -926,7 +930,7 @@ that is associated with a directory.
 - `group_id`: The identifier of the IP access control group.
 
 """
-function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DeleteIpGroup",
         Dict{String,Any}("GroupId" => GroupId);
@@ -935,7 +939,9 @@ function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function delete_ip_group(
-    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeleteIpGroup",
@@ -958,7 +964,9 @@ Deletes the specified tags from the specified WorkSpaces resource.
 - `tag_keys`: The tag keys.
 
 """
-function delete_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tags(
+    ResourceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return workspaces(
         "DeleteTags",
         Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
@@ -970,7 +978,7 @@ function delete_tags(
     ResourceId,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeleteTags",
@@ -997,13 +1005,13 @@ bundles, see  Delete a Custom WorkSpaces Bundle or Image.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BundleId"`: The identifier of the bundle.
 """
-function delete_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_workspace_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DeleteWorkspaceBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_workspace_bundle(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeleteWorkspaceBundle",
@@ -1025,7 +1033,7 @@ other accounts.
 - `image_id`: The identifier of the image.
 
 """
-function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DeleteWorkspaceImage",
         Dict{String,Any}("ImageId" => ImageId);
@@ -1034,7 +1042,9 @@ function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function delete_workspace_image(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeleteWorkspaceImage",
@@ -1059,7 +1069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the force flag is enabled, it allows previously failed deployments to be retried.
 """
 function deploy_workspace_applications(
-    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeployWorkspaceApplications",
@@ -1071,7 +1081,7 @@ end
 function deploy_workspace_applications(
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeployWorkspaceApplications",
@@ -1105,7 +1115,7 @@ WorkSpaces again.
 
 """
 function deregister_workspace_directory(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DeregisterWorkspaceDirectory",
@@ -1117,7 +1127,7 @@ end
 function deregister_workspace_directory(
     DirectoryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DeregisterWorkspaceDirectory",
@@ -1137,13 +1147,13 @@ Retrieves a list that describes the configuration of Bring Your Own License (BYO
 specified account.
 
 """
-function describe_account(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1162,7 +1172,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_account_modifications(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_account_modifications(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return workspaces(
         "DescribeAccountModifications";
         aws_config=aws_config,
@@ -1170,7 +1182,7 @@ function describe_account_modifications(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_account_modifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeAccountModifications",
@@ -1199,7 +1211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_application_associations(
     ApplicationId,
     AssociatedResourceTypes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeApplicationAssociations",
@@ -1215,7 +1227,7 @@ function describe_application_associations(
     ApplicationId,
     AssociatedResourceTypes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeApplicationAssociations",
@@ -1252,13 +1264,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OperatingSystemNames"`: The operating systems supported by the applications.
 - `"Owner"`: The owner of the applications.
 """
-function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeApplications",
@@ -1280,7 +1292,7 @@ Describes the associations between the applications and the specified bundle.
 
 """
 function describe_bundle_associations(
-    AssociatedResourceTypes, BundleId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociatedResourceTypes, BundleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeBundleAssociations",
@@ -1295,7 +1307,7 @@ function describe_bundle_associations(
     AssociatedResourceTypes,
     BundleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeBundleAssociations",
@@ -1330,7 +1342,7 @@ the response.
 
 """
 function describe_client_branding(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeClientBranding",
@@ -1342,7 +1354,7 @@ end
 function describe_client_branding(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeClientBranding",
@@ -1365,7 +1377,7 @@ Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
 
 """
 function describe_client_properties(
-    ResourceIds; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeClientProperties",
@@ -1377,7 +1389,7 @@ end
 function describe_client_properties(
     ResourceIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeClientProperties",
@@ -1405,7 +1417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 """
 function describe_connect_client_add_ins(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeConnectClientAddIns",
@@ -1417,7 +1429,7 @@ end
 function describe_connect_client_add_ins(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeConnectClientAddIns",
@@ -1447,7 +1459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 """
 function describe_connection_alias_permissions(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeConnectionAliasPermissions",
@@ -1457,7 +1469,9 @@ function describe_connection_alias_permissions(
     )
 end
 function describe_connection_alias_permissions(
-    AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeConnectionAliasPermissions",
@@ -1482,13 +1496,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 - `"ResourceId"`: The identifier of the directory associated with the connection alias.
 """
-function describe_connection_aliases(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_connection_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeConnectionAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_connection_aliases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeConnectionAliases",
@@ -1510,7 +1524,7 @@ Describes the associations between the applications and the specified image.
 
 """
 function describe_image_associations(
-    AssociatedResourceTypes, ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociatedResourceTypes, ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeImageAssociations",
@@ -1525,7 +1539,7 @@ function describe_image_associations(
     AssociatedResourceTypes,
     ImageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeImageAssociations",
@@ -1557,13 +1571,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_ip_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_ip_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeIpGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_ip_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeIpGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1582,7 +1596,7 @@ Describes the specified tags for the specified WorkSpaces resource.
   and connection aliases.
 
 """
-function describe_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeTags",
         Dict{String,Any}("ResourceId" => ResourceId);
@@ -1593,7 +1607,7 @@ end
 function describe_tags(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeTags",
@@ -1617,7 +1631,7 @@ Describes the associations betweens applications and the specified WorkSpace.
 
 """
 function describe_workspace_associations(
-    AssociatedResourceTypes, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociatedResourceTypes, WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaceAssociations",
@@ -1633,7 +1647,7 @@ function describe_workspace_associations(
     AssociatedResourceTypes,
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeWorkspaceAssociations",
@@ -1669,13 +1683,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter. To describe the bundles provided by Amazon Web Services, specify AMAZON. To
   describe the bundles that belong to your account, don't specify a value.
 """
-function describe_workspace_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_workspace_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeWorkspaceBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_workspace_bundles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaceBundles",
@@ -1699,7 +1713,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_workspace_directories(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_workspace_directories(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return workspaces(
         "DescribeWorkspaceDirectories";
         aws_config=aws_config,
@@ -1707,7 +1723,7 @@ function describe_workspace_directories(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_workspace_directories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaceDirectories",
@@ -1734,7 +1750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 """
 function describe_workspace_image_permissions(
-    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaceImagePermissions",
@@ -1744,7 +1760,9 @@ function describe_workspace_image_permissions(
     )
 end
 function describe_workspace_image_permissions(
-    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeWorkspaceImagePermissions",
@@ -1769,13 +1787,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-function describe_workspace_images(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_workspace_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeWorkspaceImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_workspace_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaceImages",
@@ -1796,7 +1814,7 @@ Describes the snapshots for the specified WorkSpace.
 
 """
 function describe_workspace_snapshots(
-    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaceSnapshots",
@@ -1808,7 +1826,7 @@ end
 function describe_workspace_snapshots(
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DescribeWorkspaceSnapshots",
@@ -1845,13 +1863,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeWorkspaces with this identifier, no information is returned.
 - `"WorkspaceName"`: The name of the user-decoupled WorkSpace.
 """
-function describe_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "DescribeWorkspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_workspaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1871,7 +1889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkspaceIds"`: The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
 """
 function describe_workspaces_connection_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspacesConnectionStatus";
@@ -1880,7 +1898,7 @@ function describe_workspaces_connection_status(;
     )
 end
 function describe_workspaces_connection_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DescribeWorkspacesConnectionStatus",
@@ -1905,7 +1923,7 @@ connection alias is CREATED.
 
 """
 function disassociate_connection_alias(
-    AliasId; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DisassociateConnectionAlias",
@@ -1915,7 +1933,9 @@ function disassociate_connection_alias(
     )
 end
 function disassociate_connection_alias(
-    AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DisassociateConnectionAlias",
@@ -1937,7 +1957,7 @@ Disassociates the specified IP access control group from the specified directory
 
 """
 function disassociate_ip_groups(
-    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DisassociateIpGroups",
@@ -1950,7 +1970,7 @@ function disassociate_ip_groups(
     DirectoryId,
     GroupIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DisassociateIpGroups",
@@ -1978,7 +1998,7 @@ Disassociates the specified application from a WorkSpace.
 
 """
 function disassociate_workspace_application(
-    ApplicationId, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationId, WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "DisassociateWorkspaceApplication",
@@ -1991,7 +2011,7 @@ function disassociate_workspace_application(
     ApplicationId,
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "DisassociateWorkspaceApplication",
@@ -2020,13 +2040,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LinkId"`: The identifier of the account to link.
 - `"LinkedAccountId"`: The identifier of the account link
 """
-function get_account_link(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_link(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "GetAccountLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_account_link(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "GetAccountLink", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2063,7 +2083,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceTypeWindows"`: The branding information to import for Windows devices.
 """
 function import_client_branding(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ImportClientBranding",
@@ -2075,7 +2095,7 @@ end
 function import_client_branding(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ImportClientBranding",
@@ -2124,7 +2144,7 @@ function import_workspace_image(
     ImageDescription,
     ImageName,
     IngestionProcess;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ImportWorkspaceImage",
@@ -2144,7 +2164,7 @@ function import_workspace_image(
     ImageName,
     IngestionProcess,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ImportWorkspaceImage",
@@ -2178,13 +2198,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
-function list_account_links(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_account_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "ListAccountLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_account_links(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ListAccountLinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2215,7 +2235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 """
 function list_available_management_cidr_ranges(
-    ManagementCidrRangeConstraint; aws_config::AbstractAWSConfig=global_aws_config()
+    ManagementCidrRangeConstraint; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ListAvailableManagementCidrRanges",
@@ -2227,7 +2247,7 @@ end
 function list_available_management_cidr_ranges(
     ManagementCidrRangeConstraint,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ListAvailableManagementCidrRanges",
@@ -2264,7 +2284,7 @@ happens during migration, and best practices, see Migrate a WorkSpace.
 
 """
 function migrate_workspace(
-    BundleId, SourceWorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    BundleId, SourceWorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "MigrateWorkspace",
@@ -2277,7 +2297,7 @@ function migrate_workspace(
     BundleId,
     SourceWorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "MigrateWorkspace",
@@ -2310,13 +2330,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as available by the ListAvailableManagementCidrRanges operation.
 - `"DedicatedTenancySupport"`: The status of BYOL.
 """
-function modify_account(; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "ModifyAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function modify_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifyAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2341,7 +2361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to delete.
 """
 function modify_certificate_based_auth_properties(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifyCertificateBasedAuthProperties",
@@ -2353,7 +2373,7 @@ end
 function modify_certificate_based_auth_properties(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyCertificateBasedAuthProperties",
@@ -2377,7 +2397,7 @@ Modifies the properties of the specified Amazon WorkSpaces clients.
 
 """
 function modify_client_properties(
-    ClientProperties, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientProperties, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifyClientProperties",
@@ -2392,7 +2412,7 @@ function modify_client_properties(
     ClientProperties,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyClientProperties",
@@ -2430,7 +2450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SamlProperties"`: The properties for configuring SAML 2.0 authentication.
 """
 function modify_saml_properties(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifySamlProperties",
@@ -2442,7 +2462,7 @@ end
 function modify_saml_properties(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifySamlProperties",
@@ -2467,7 +2487,7 @@ information, see Enable Self-Service WorkSpace Management Capabilities for Your 
 
 """
 function modify_selfservice_permissions(
-    ResourceId, SelfservicePermissions; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, SelfservicePermissions; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifySelfservicePermissions",
@@ -2482,7 +2502,7 @@ function modify_selfservice_permissions(
     ResourceId,
     SelfservicePermissions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifySelfservicePermissions",
@@ -2515,7 +2535,9 @@ more information, see  Control Device Access.
 
 """
 function modify_workspace_access_properties(
-    ResourceId, WorkspaceAccessProperties; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId,
+    WorkspaceAccessProperties;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceAccessProperties",
@@ -2531,7 +2553,7 @@ function modify_workspace_access_properties(
     ResourceId,
     WorkspaceAccessProperties,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceAccessProperties",
@@ -2564,7 +2586,7 @@ Modify the default properties used to create WorkSpaces.
 function modify_workspace_creation_properties(
     ResourceId,
     WorkspaceCreationProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceCreationProperties",
@@ -2580,7 +2602,7 @@ function modify_workspace_creation_properties(
     ResourceId,
     WorkspaceCreationProperties,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceCreationProperties",
@@ -2617,7 +2639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkspaceProperties"`: The properties of the WorkSpace.
 """
 function modify_workspace_properties(
-    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifyWorkspaceProperties",
@@ -2629,7 +2651,7 @@ end
 function modify_workspace_properties(
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceProperties",
@@ -2656,7 +2678,7 @@ this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTE
 
 """
 function modify_workspace_state(
-    WorkspaceId, WorkspaceState; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkspaceId, WorkspaceState; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "ModifyWorkspaceState",
@@ -2669,7 +2691,7 @@ function modify_workspace_state(
     WorkspaceId,
     WorkspaceState,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceState",
@@ -2702,7 +2724,7 @@ asynchronous and returns before the WorkSpaces have rebooted.
 
 """
 function reboot_workspaces(
-    RebootWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    RebootWorkspaceRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "RebootWorkspaces",
@@ -2714,7 +2736,7 @@ end
 function reboot_workspaces(
     RebootWorkspaceRequests,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "RebootWorkspaces",
@@ -2746,7 +2768,7 @@ completely rebuilt.
 
 """
 function rebuild_workspaces(
-    RebuildWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    RebuildWorkspaceRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "RebuildWorkspaces",
@@ -2758,7 +2780,7 @@ end
 function rebuild_workspaces(
     RebuildWorkspaceRequests,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "RebuildWorkspaces",
@@ -2810,7 +2832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BYOL images, see Bring Your Own Windows Desktop Images.
 """
 function register_workspace_directory(
-    DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "RegisterWorkspaceDirectory",
@@ -2823,7 +2845,7 @@ function register_workspace_directory(
     DirectoryId,
     EnableWorkDocs,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "RegisterWorkspaceDirectory",
@@ -2855,7 +2877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: The client token of the account link invitation to reject.
 """
 function reject_account_link_invitation(
-    LinkId; aws_config::AbstractAWSConfig=global_aws_config()
+    LinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "RejectAccountLinkInvitation",
@@ -2865,7 +2887,7 @@ function reject_account_link_invitation(
     )
 end
 function reject_account_link_invitation(
-    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "RejectAccountLinkInvitation",
@@ -2889,7 +2911,7 @@ WorkSpace is completely restored.
 - `workspace_id`: The identifier of the WorkSpace.
 
 """
-function restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config())
+function restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "RestoreWorkspace",
         Dict{String,Any}("WorkspaceId" => WorkspaceId);
@@ -2900,7 +2922,7 @@ end
 function restore_workspace(
     WorkspaceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "RestoreWorkspace",
@@ -2924,7 +2946,7 @@ Removes one or more rules from the specified IP access control group.
 
 """
 function revoke_ip_rules(
-    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, UserRules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "RevokeIpRules",
@@ -2937,7 +2959,7 @@ function revoke_ip_rules(
     GroupId,
     UserRules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "RevokeIpRules",
@@ -2965,7 +2987,7 @@ of AutoStop and a state of STOPPED.
 
 """
 function start_workspaces(
-    StartWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    StartWorkspaceRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "StartWorkspaces",
@@ -2977,7 +2999,7 @@ end
 function start_workspaces(
     StartWorkspaceRequests,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "StartWorkspaces",
@@ -3005,7 +3027,7 @@ of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
 
 """
 function stop_workspaces(
-    StopWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    StopWorkspaceRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "StopWorkspaces",
@@ -3017,7 +3039,7 @@ end
 function stop_workspaces(
     StopWorkspaceRequests,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "StopWorkspaces",
@@ -3060,7 +3082,7 @@ WorkSpaces again.
 
 """
 function terminate_workspaces(
-    TerminateWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    TerminateWorkspaceRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "TerminateWorkspaces",
@@ -3072,7 +3094,7 @@ end
 function terminate_workspaces(
     TerminateWorkspaceRequests,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "TerminateWorkspaces",
@@ -3107,7 +3129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"URL"`: The endpoint URL of the Amazon Connect client add-in.
 """
 function update_connect_client_add_in(
-    AddInId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AddInId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "UpdateConnectClientAddIn",
@@ -3120,7 +3142,7 @@ function update_connect_client_add_in(
     AddInId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "UpdateConnectClientAddIn",
@@ -3160,7 +3182,7 @@ any accounts or associated with any directories.
 
 """
 function update_connection_alias_permission(
-    AliasId, ConnectionAliasPermission; aws_config::AbstractAWSConfig=global_aws_config()
+    AliasId, ConnectionAliasPermission; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "UpdateConnectionAliasPermission",
@@ -3175,7 +3197,7 @@ function update_connection_alias_permission(
     AliasId,
     ConnectionAliasPermission,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "UpdateConnectionAliasPermission",
@@ -3207,7 +3229,7 @@ rules.
 
 """
 function update_rules_of_ip_group(
-    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, UserRules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "UpdateRulesOfIpGroup",
@@ -3220,7 +3242,7 @@ function update_rules_of_ip_group(
     GroupId,
     UserRules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "UpdateRulesOfIpGroup",
@@ -3251,13 +3273,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BundleId"`: The identifier of the bundle.
 - `"ImageId"`: The identifier of the image.
 """
-function update_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_workspace_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
         "UpdateWorkspaceBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_workspace_bundle(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
         "UpdateWorkspaceBundle",
@@ -3297,7 +3319,7 @@ function update_workspace_image_permission(
     AllowCopyImage,
     ImageId,
     SharedAccountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "UpdateWorkspaceImagePermission",
@@ -3315,7 +3337,7 @@ function update_workspace_image_permission(
     ImageId,
     SharedAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workspaces(
         "UpdateWorkspaceImagePermission",

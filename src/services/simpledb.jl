@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Items"`: A list of items on which to perform the operation.
 """
 function batch_delete_attributes(
-    DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simpledb(
         "BatchDeleteAttributes",
@@ -44,7 +44,7 @@ function batch_delete_attributes(
     DomainName,
     Item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "BatchDeleteAttributes",
@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Items"`: A list of items on which to perform the operation.
 """
 function batch_put_attributes(
-    DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simpledb(
         "BatchPutAttributes",
@@ -114,7 +114,7 @@ function batch_put_attributes(
     DomainName,
     Item,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "BatchPutAttributes",
@@ -144,7 +144,7 @@ additional domains, go to  http://aws.amazon.com/contact-us/simpledb-limit-reque
   characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
 
 """
-function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "CreateDomain",
         Dict{String,Any}("DomainName" => DomainName);
@@ -155,7 +155,7 @@ end
 function create_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "CreateDomain",
@@ -194,7 +194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to be processed and the attributes to be deleted.
 """
 function delete_attributes(
-    DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ItemName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simpledb(
         "DeleteAttributes",
@@ -207,7 +207,7 @@ function delete_attributes(
     DomainName,
     ItemName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "DeleteAttributes",
@@ -236,7 +236,7 @@ multiple times using the same domain name will not result in an error response.
 - `domain_name`: The name of the domain to delete.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "DeleteDomain",
         Dict{String,Any}("DomainName" => DomainName);
@@ -247,7 +247,7 @@ end
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "DeleteDomain",
@@ -270,7 +270,7 @@ items and attributes in the domain, and the size of the attribute names and valu
 - `domain_name`: The name of the domain for which to display the metadata of.
 
 """
-function domain_metadata(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function domain_metadata(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "DomainMetadata",
         Dict{String,Any}("DomainName" => DomainName);
@@ -281,7 +281,7 @@ end
 function domain_metadata(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "DomainMetadata",
@@ -317,7 +317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was written immediately before your read.
 """
 function get_attributes(
-    DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ItemName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simpledb(
         "GetAttributes",
@@ -330,7 +330,7 @@ function get_attributes(
     DomainName,
     ItemName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "GetAttributes",
@@ -363,11 +363,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string informing Amazon SimpleDB where to start the next list of domain
   names.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simpledb(
         "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -414,7 +414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to be processed and the attributes to be updated.
 """
 function put_attributes(
-    Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()
+    Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return simpledb(
         "PutAttributes",
@@ -430,7 +430,7 @@ function put_attributes(
     DomainName,
     ItemName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "PutAttributes",
@@ -475,7 +475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string informing Amazon SimpleDB where to start the next list of
   ItemNames.
 """
-function select(SelectExpression; aws_config::AbstractAWSConfig=global_aws_config())
+function select(SelectExpression; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "Select",
         Dict{String,Any}("SelectExpression" => SelectExpression);
@@ -486,7 +486,7 @@ end
 function select(
     SelectExpression,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return simpledb(
         "Select",

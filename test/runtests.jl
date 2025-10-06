@@ -90,25 +90,21 @@ end
     # Integration tests require access to an AWS account
     @testset "Integration Tests" begin
         if RUN_INTEGRATION_TESTS
-            config = AWSConfig()
-            backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
+            with_aws_config(AWSConfig()) do
+                backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
 
-            @testset "Backend: $(nameof(backend))" for backend in backends
-                AWS.DEFAULT_BACKEND[] = backend()
+                @testset "Backend: $(nameof(backend))" for backend in backends
+                    AWS.DEFAULT_BACKEND[] = backend()
+                    include("integration/AWS.jl")
+                    include("integration/AWSCredentials.jl")
+                    include("integration/role.jl")
+                    include("integration/issues.jl")
 
-                # Reset the default AWS configuration as the unit tests may have messed with
-                # the global default.
-                global_aws_config(config)
-
-                include("integration/AWS.jl")
-                include("integration/AWSCredentials.jl")
-                include("integration/role.jl")
-                include("integration/issues.jl")
-
-                if RUN_MINIO_INTEGRATION_TESTS
-                    include("integration/minio.jl")
-                else
-                    @warn "Skipping MinIO integration tests"
+                    if RUN_MINIO_INTEGRATION_TESTS
+                        include("integration/minio.jl")
+                    else
+                        @warn "Skipping MinIO integration tests"
+                    end
                 end
             end
         else

@@ -26,7 +26,7 @@ function complete_attachment_upload(
     AttachmentIds,
     ClientToken,
     X_Amz_Bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -45,7 +45,7 @@ function complete_attachment_upload(
     ClientToken,
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   along with marking participant as connected, pass CONNECTION_CREDENTIALS in Type.
 """
 function create_participant_connection(
-    X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connectparticipant(
         "POST",
@@ -113,7 +113,7 @@ end
 function create_participant_connection(
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -145,7 +145,7 @@ Retrieves the view for the specified view token.
 
 """
 function describe_view(
-    ViewToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    ViewToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connectparticipant(
         "GET",
@@ -159,7 +159,7 @@ function describe_view(
     ViewToken,
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "GET",
@@ -196,7 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function disconnect_participant(
-    X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connectparticipant(
         "POST",
@@ -212,7 +212,7 @@ end
 function disconnect_participant(
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -247,7 +247,7 @@ Version 4 authentication.
 
 """
 function get_attachment(
-    AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connectparticipant(
         "POST",
@@ -264,7 +264,7 @@ function get_attachment(
     AttachmentId,
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -316,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for the records. Default: DESCENDING.
 - `"StartPosition"`: A filtering option for where to start.
 """
-function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config())
+function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config())
     return connectparticipant(
         "POST",
         "/participant/transcript",
@@ -328,7 +328,7 @@ end
 function get_transcript(
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -378,7 +378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Content: \"{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}\"
 """
 function send_event(
-    ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connectparticipant(
         "POST",
@@ -396,7 +396,7 @@ function send_event(
     ContentType,
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -442,7 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function send_message(
-    Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connectparticipant(
         "POST",
@@ -462,7 +462,7 @@ function send_message(
     ContentType,
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -509,7 +509,7 @@ function start_attachment_upload(
     ClientToken,
     ContentType,
     X_Amz_Bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",
@@ -532,7 +532,7 @@ function start_attachment_upload(
     ContentType,
     X_Amz_Bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connectparticipant(
         "POST",

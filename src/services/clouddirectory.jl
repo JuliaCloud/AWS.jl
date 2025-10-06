@@ -25,7 +25,7 @@ function add_facet_to_object(
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -44,7 +44,7 @@ function add_facet_to_object(
     SchemaFacet,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -83,7 +83,7 @@ same name and version as that of the published schema.
 function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -100,7 +100,7 @@ function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -141,7 +141,7 @@ function attach_object(
     LinkName,
     ParentReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -162,7 +162,7 @@ function attach_object(
     ParentReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -204,7 +204,7 @@ function attach_policy(
     ObjectReference,
     PolicyReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -223,7 +223,7 @@ function attach_policy(
     PolicyReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -262,7 +262,7 @@ function attach_to_index(
     IndexReference,
     TargetReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -281,7 +281,7 @@ function attach_to_index(
     TargetReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -328,7 +328,7 @@ function attach_typed_link(
     TargetObjectReference,
     TypedLinkFacet,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -351,7 +351,7 @@ function attach_typed_link(
     TypedLinkFacet,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -393,7 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function batch_read(
-    Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -410,7 +410,7 @@ function batch_read(
     Operations,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -444,7 +444,7 @@ Performs all the write operations in a batch. Either all the operations succeed 
 
 """
 function batch_write(
-    Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -461,7 +461,7 @@ function batch_write(
     Operations,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -498,7 +498,7 @@ Cloud Directory Developer Guide.
 
 """
 function create_directory(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -515,7 +515,7 @@ function create_directory(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -561,7 +561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created with the Index API.
 """
 function create_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -578,7 +578,7 @@ function create_facet(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -621,7 +621,7 @@ function create_index(
     IsUnique,
     OrderedIndexedAttributeList,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -640,7 +640,7 @@ function create_index(
     OrderedIndexedAttributeList,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -686,7 +686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attached.
 """
 function create_object(
-    SchemaFacets, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    SchemaFacets, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -703,7 +703,7 @@ function create_object(
     SchemaFacets,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -741,7 +741,7 @@ directories.
   in each region.
 
 """
-function create_schema(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_schema(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/create",
@@ -751,7 +751,7 @@ function create_schema(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_schema(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -775,7 +775,7 @@ Creates a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function create_typed_link_facet(
-    Facet, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Facet, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -792,7 +792,7 @@ function create_typed_link_facet(
     Facet,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -825,7 +825,7 @@ be undone. Exercise extreme caution when deleting directories.
 
 """
 function delete_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -840,7 +840,7 @@ end
 function delete_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -874,7 +874,7 @@ deleted. Only development schema facets are allowed deletion.
 
 """
 function delete_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -891,7 +891,7 @@ function delete_facet(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -927,7 +927,9 @@ object deletion is 30. For more information, see Amazon Cloud Directory Limits.
 
 """
 function delete_object(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -944,7 +946,7 @@ function delete_object(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -977,7 +979,7 @@ Deletes a given schema. Schemas in a development and published state can only be
 
 """
 function delete_schema(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -992,7 +994,7 @@ end
 function delete_schema(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1025,7 +1027,7 @@ Deletes a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function delete_typed_link_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -1042,7 +1044,7 @@ function delete_typed_link_facet(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1080,7 +1082,7 @@ function detach_from_index(
     IndexReference,
     TargetReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1099,7 +1101,7 @@ function detach_from_index(
     TargetReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1140,7 +1142,7 @@ function detach_object(
     LinkName,
     ParentReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1159,7 +1161,7 @@ function detach_object(
     ParentReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1199,7 +1201,7 @@ function detach_policy(
     ObjectReference,
     PolicyReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1218,7 +1220,7 @@ function detach_policy(
     PolicyReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1256,7 +1258,7 @@ Typed Links.
 function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1273,7 +1275,7 @@ function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1306,7 +1308,7 @@ enabled directories can be disabled. Disabled directories may be reenabled.
 
 """
 function disable_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -1321,7 +1323,7 @@ end
 function disable_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1353,7 +1355,7 @@ the directory can then be read and written to.
 
 """
 function enable_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -1368,7 +1370,7 @@ end
 function enable_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -1399,7 +1401,7 @@ Returns current applied schema version ARN, including the minor version in use.
 
 """
 function get_applied_schema_version(
-    SchemaArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SchemaArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1412,7 +1414,7 @@ end
 function get_applied_schema_version(
     SchemaArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1436,7 +1438,7 @@ Retrieves metadata about a directory.
 
 """
 function get_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1451,7 +1453,7 @@ end
 function get_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1485,7 +1487,7 @@ call this on all kinds of schema facets -- published, development, or applied.
 
 """
 function get_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1502,7 +1504,7 @@ function get_facet(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1544,7 +1546,7 @@ function get_link_attributes(
     AttributeNames,
     TypedLinkSpecifier,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1563,7 +1565,7 @@ function get_link_attributes(
     TypedLinkSpecifier,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1610,7 +1612,7 @@ function get_object_attributes(
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1631,7 +1633,7 @@ function get_object_attributes(
     SchemaFacet,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1670,7 +1672,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information.
 """
 function get_object_information(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1687,7 +1691,7 @@ function get_object_information(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1719,7 +1723,7 @@ Retrieves a JSON representation of the schema. See JSON Schema Format for more i
 
 """
 function get_schema_as_json(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1734,7 +1738,7 @@ end
 function get_schema_as_json(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1768,7 +1772,7 @@ see Typed Links.
 
 """
 function get_typed_link_facet_information(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1785,7 +1789,7 @@ function get_typed_link_facet_information(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1824,7 +1828,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all minor version ARNs for a major version.
 """
 function list_applied_schema_arns(
-    DirectoryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1837,7 +1841,7 @@ end
 function list_applied_schema_arns(
     DirectoryArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1867,7 +1871,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-consistency-level"`: The consistency level to use for this operation.
 """
 function list_attached_indices(
-    TargetReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1884,7 +1890,7 @@ function list_attached_indices(
     TargetReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -1916,7 +1922,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-function list_development_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_development_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/development";
@@ -1925,7 +1931,7 @@ function list_development_schema_arns(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function list_development_schema_arns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1949,7 +1955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: The state of the directories in the list. Can be either Enabled, Disabled, or
   Deleted.
 """
-function list_directories(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_directories(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/directory/list";
@@ -1958,7 +1964,7 @@ function list_directories(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_directories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -1985,7 +1991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_facet_attributes(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2002,7 +2008,7 @@ function list_facet_attributes(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2038,7 +2044,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_facet_names(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2053,7 +2059,7 @@ end
 function list_facet_names(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2098,7 +2104,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_incoming_typed_links(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2115,7 +2123,7 @@ function list_incoming_typed_links(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2155,7 +2163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-consistency-level"`: The consistency level to execute the request at.
 """
 function list_index(
-    IndexReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexReference, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2172,7 +2180,7 @@ function list_index(
     IndexReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2207,7 +2215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaArn"`: The response for ListManagedSchemaArns. When this parameter is used, all
   minor version ARNs for a major version are listed.
 """
-function list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_managed_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/managed";
@@ -2216,7 +2224,7 @@ function list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_managed_schema_arns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2251,7 +2259,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_attributes(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2268,7 +2278,7 @@ function list_object_attributes(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2311,7 +2321,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_children(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2328,7 +2340,7 @@ function list_object_children(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2374,7 +2386,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_object_parent_paths(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2391,7 +2405,7 @@ function list_object_parent_paths(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2437,7 +2451,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_parents(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2454,7 +2470,7 @@ function list_object_parents(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2497,7 +2513,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_policies(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2514,7 +2532,7 @@ function list_object_policies(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2561,7 +2579,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_outgoing_typed_links(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2578,7 +2598,7 @@ function list_outgoing_typed_links(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2620,7 +2640,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_policy_attachments(
-    PolicyReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2637,7 +2659,7 @@ function list_policy_attachments(
     PolicyReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2672,7 +2694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaArn"`: The response for ListPublishedSchemaArns when this parameter is used will
   list all minor version ARNs for a major version.
 """
-function list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_published_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/published";
@@ -2681,7 +2703,7 @@ function list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function list_published_schema_arns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2712,7 +2734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported for tagging.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2725,7 +2747,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2756,7 +2778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_typed_link_facet_attributes(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2773,7 +2795,7 @@ function list_typed_link_facet_attributes(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2811,7 +2833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_typed_link_facet_names(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "POST",
@@ -2826,7 +2848,7 @@ end
 function list_typed_link_facet_names(
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2869,7 +2891,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of results.
 """
 function lookup_policy(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    ObjectReference,
+    x_amz_data_partition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2886,7 +2910,7 @@ function lookup_policy(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -2927,7 +2951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the development schema is considered.
 """
 function publish_schema(
-    Version, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Version, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -2944,7 +2968,7 @@ function publish_schema(
     Version,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -2978,7 +3002,7 @@ See JSON Schema Format for more information.
 
 """
 function put_schema_from_json(
-    Document, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Document, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -2995,7 +3019,7 @@ function put_schema_from_json(
     Document,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3032,7 +3056,7 @@ function remove_facet_from_object(
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3051,7 +3075,7 @@ function remove_facet_from_object(
     SchemaFacet,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3085,7 +3109,7 @@ An API operation for adding tags to a resource.
 - `tags`: A list of tag key-value pairs.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/tags/add",
@@ -3098,7 +3122,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3128,7 +3152,7 @@ An API operation for removing tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -3142,7 +3166,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3180,7 +3204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreateFacetRequestObjectType for more details.
 """
 function update_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -3197,7 +3221,7 @@ function update_facet(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3237,7 +3261,7 @@ function update_link_attributes(
     AttributeUpdates,
     TypedLinkSpecifier,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -3256,7 +3280,7 @@ function update_link_attributes(
     TypedLinkSpecifier,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "POST",
@@ -3295,7 +3319,7 @@ function update_object_attributes(
     AttributeUpdates,
     ObjectReference,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3314,7 +3338,7 @@ function update_object_attributes(
     ObjectReference,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3349,7 +3373,7 @@ Updates the schema name with a new name. Only development schema names can be up
 
 """
 function update_schema(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -3366,7 +3390,7 @@ function update_schema(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3412,7 +3436,7 @@ function update_typed_link_facet(
     IdentityAttributeOrder,
     Name,
     x_amz_data_partition;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3433,7 +3457,7 @@ function update_typed_link_facet(
     Name,
     x_amz_data_partition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3477,7 +3501,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   succeed but no changes will be saved. This parameter is optional.
 """
 function upgrade_applied_schema(
-    DirectoryArn, PublishedSchemaArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryArn, PublishedSchemaArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return clouddirectory(
         "PUT",
@@ -3493,7 +3517,7 @@ function upgrade_applied_schema(
     DirectoryArn,
     PublishedSchemaArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3538,7 +3562,7 @@ function upgrade_published_schema(
     DevelopmentSchemaArn,
     MinorVersion,
     PublishedSchemaArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",
@@ -3557,7 +3581,7 @@ function upgrade_published_schema(
     MinorVersion,
     PublishedSchemaArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return clouddirectory(
         "PUT",

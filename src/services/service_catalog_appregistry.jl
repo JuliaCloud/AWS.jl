@@ -19,7 +19,7 @@ user-defined details that are machine-readable, such as third-party integrations
 
 """
 function associate_attribute_group(
-    application, attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    application, attributeGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "PUT",
@@ -32,7 +32,7 @@ function associate_attribute_group(
     application,
     attributeGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "PUT",
@@ -68,7 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"options"`:  Determines whether an application tag is applied or skipped.
 """
 function associate_resource(
-    application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    application, resource, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "PUT",
@@ -82,7 +82,7 @@ function associate_resource(
     resource,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "PUT",
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Key-value pairs you can use to associate with the application.
 """
 function create_application(
-    clientToken, name; aws_config::AbstractAWSConfig=global_aws_config()
+    clientToken, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "POST",
@@ -129,7 +129,7 @@ function create_application(
     clientToken,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "POST",
@@ -171,7 +171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Key-value pairs you can use to associate with the attribute group.
 """
 function create_attribute_group(
-    attributes, clientToken, name; aws_config::AbstractAWSConfig=global_aws_config()
+    attributes, clientToken, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "POST",
@@ -188,7 +188,7 @@ function create_attribute_group(
     clientToken,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "POST",
@@ -219,7 +219,7 @@ application.
 - `application`:  The name, ID, or ARN of the application.
 
 """
-function delete_application(application; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_application(application; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "DELETE",
         "/applications/$(application)";
@@ -230,7 +230,7 @@ end
 function delete_application(
     application,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -253,7 +253,7 @@ Deletes an attribute group, specified either by its attribute group ID, name, or
 
 """
 function delete_attribute_group(
-    attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    attributeGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -265,7 +265,7 @@ end
 function delete_attribute_group(
     attributeGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -291,7 +291,7 @@ AssociateAttributeGroup.
 
 """
 function disassociate_attribute_group(
-    application, attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    application, attributeGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -304,7 +304,7 @@ function disassociate_attribute_group(
     application,
     attributeGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -338,7 +338,7 @@ see UntagResources in the Resource Groups Tagging API Reference.
 
 """
 function disassociate_resource(
-    application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    application, resource, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -352,7 +352,7 @@ function disassociate_resource(
     resource,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -377,7 +377,7 @@ avoiding the ABA addressing problem.
 - `application`:  The name, ID, or ARN of the application.
 
 """
-function get_application(application; aws_config::AbstractAWSConfig=global_aws_config())
+function get_application(application; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "GET",
         "/applications/$(application)";
@@ -388,7 +388,7 @@ end
 function get_application(
     application,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   process of being applied, or skipped.
 """
 function get_associated_resource(
-    application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    application, resource, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -434,7 +434,7 @@ function get_associated_resource(
     resource,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -458,7 +458,7 @@ by its ARN, ID, or name.
 
 """
 function get_attribute_group(
-    attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    attributeGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -470,7 +470,7 @@ end
 function get_attribute_group(
     attributeGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -488,13 +488,13 @@ end
  Retrieves a TagKey configuration from an account.
 
 """
-function get_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "GET", "/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -518,13 +518,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to use to get the next page of results after a previous API
   call.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -553,7 +553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 """
 function list_associated_attribute_groups(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -565,7 +565,7 @@ end
 function list_associated_attribute_groups(
     application,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -596,7 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 """
 function list_associated_resources(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -608,7 +608,7 @@ end
 function list_associated_resources(
     application,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -632,13 +632,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to use to get the next page of results after a previous API
   call.
 """
-function list_attribute_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_attribute_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "GET", "/attribute-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_attribute_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -666,7 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: This token retrieves the next page of results after a previous API call.
 """
 function list_attribute_groups_for_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -678,7 +678,7 @@ end
 function list_attribute_groups_for_application(
     application,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -700,7 +700,7 @@ Lists all of the tags on the resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "GET",
@@ -712,7 +712,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "GET",
@@ -733,7 +733,9 @@ end
 - `configuration`:  Associates a TagKey configuration to an account.
 
 """
-function put_configuration(configuration; aws_config::AbstractAWSConfig=global_aws_config())
+function put_configuration(
+    configuration; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return service_catalog_appregistry(
         "PUT",
         "/configuration",
@@ -745,7 +747,7 @@ end
 function put_configuration(
     configuration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "PUT",
@@ -774,7 +776,7 @@ permissions to read and update the resource.
 
 """
 function sync_resource(
-    resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resource, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "POST",
@@ -787,7 +789,7 @@ function sync_resource(
     resource,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "POST",
@@ -812,7 +814,7 @@ call was successful.
 - `tags`: The new or modified tags for the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "POST",
         "/tags/$(resourceArn)",
@@ -825,7 +827,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "POST",
@@ -849,7 +851,7 @@ successful.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -863,7 +865,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "DELETE",
@@ -890,7 +892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   region in which you are updating the application. Please do not use this field as we have
   stopped supporting name updates.
 """
-function update_application(application; aws_config::AbstractAWSConfig=global_aws_config())
+function update_application(application; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
         "PATCH",
         "/applications/$(application)";
@@ -901,7 +903,7 @@ end
 function update_application(
     application,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "PATCH",
@@ -932,7 +934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have stopped supporting name updates.
 """
 function update_attribute_group(
-    attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    attributeGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
         "PATCH",
@@ -944,7 +946,7 @@ end
 function update_attribute_group(
     attributeGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
         "PATCH",

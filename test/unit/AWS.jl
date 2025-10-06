@@ -99,62 +99,20 @@
 
     # These uses of the `@service` macro should not create a module
     @testset "invalid syntax" begin
-        ex = VERSION >= v"1.7" ? MethodError : LoadError
-        @test_throws ex @macroexpand @service()
+        @test_throws MethodError @macroexpand @service()
 
         # These tests should always fail and never actually load a service. Ensure that we
         # are using a service which has not already been loaded.
         @test !(:Lambda in names(@__MODULE__; all=true))
 
         # Service ID is an expression
-        ex = VERSION >= v"1.7" ? ArgumentError : LoadError
-        @test_throws ex @macroexpand @service Lambda.X
+        @test_throws ArgumentError @macroexpand @service Lambda.X
         @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
 
         # Module name is an expression
-        ex = VERSION >= v"1.7" ? ArgumentError : LoadError
-        @test_throws ex @macroexpand @service Lambda as Lambda.X
+        @test_throws ArgumentError @macroexpand @service Lambda as Lambda.X
         @test !(:Lambda in names(@__MODULE__; all=true))
         @test !(Symbol("Lambda.X") in names(@__MODULE__; all=true))
-    end
-end
-
-@testset "global config, kwargs" begin
-    # Fake AWS credentials as shown in the AWS documentation:
-    # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
-    access_key_id = "AKIAIOSFODNN7EXAMPLE"
-    secret_access_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-    creds = AWS.AWSCredentials(access_key_id, secret_access_key)
-    region = "us-example-1"
-
-    old_config = isassigned(AWS.aws_config) ? AWS.aws_config[] : nothing
-    try
-        AWS.global_aws_config(; creds, region)
-
-        result = AWS.global_aws_config()
-        @test result.region == region
-        @test result.credentials == creds
-    finally
-        if !isnothing(old_config)
-            AWS.aws_config[] = old_config
-        end
-    end
-end
-
-@testset "set global aws config" begin
-    config = AWSConfig(; creds=nothing, region="us-example-2")
-
-    old_config = isassigned(AWS.aws_config) ? AWS.aws_config[] : nothing
-    try
-        AWS.global_aws_config(config)
-
-        result = AWS.global_aws_config()
-        @test result.region == config.region
-        @test result.credentials == config.credentials
-    finally
-        if !isnothing(old_config)
-            AWS.aws_config[] = old_config
-        end
     end
 end
 

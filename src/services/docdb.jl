@@ -21,7 +21,7 @@ Adds a source identifier to an existing event notification subscription.
 
 """
 function add_source_identifier_to_subscription(
-    SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+    SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "AddSourceIdentifierToSubscription",
@@ -36,7 +36,7 @@ function add_source_identifier_to_subscription(
     SourceIdentifier,
     SubscriptionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "AddSourceIdentifierToSubscription",
@@ -74,7 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the Amazon DocumentDB resource.
 """
 function add_tags_to_resource(
-    ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, Tag; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "AddTagsToResource",
@@ -87,7 +87,7 @@ function add_tags_to_resource(
     ResourceName,
     Tag,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "AddTagsToResource",
@@ -126,7 +126,7 @@ function apply_pending_maintenance_action(
     ApplyAction,
     OptInType,
     ResourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ApplyPendingMaintenanceAction",
@@ -144,7 +144,7 @@ function apply_pending_maintenance_action(
     OptInType,
     ResourceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ApplyPendingMaintenanceAction",
@@ -194,7 +194,7 @@ function copy_dbcluster_parameter_group(
     SourceDBClusterParameterGroupIdentifier,
     TargetDBClusterParameterGroupDescription,
     TargetDBClusterParameterGroupIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CopyDBClusterParameterGroup",
@@ -215,7 +215,7 @@ function copy_dbcluster_parameter_group(
     TargetDBClusterParameterGroupDescription,
     TargetDBClusterParameterGroupIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CopyDBClusterParameterGroup",
@@ -303,7 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function copy_dbcluster_snapshot(
     SourceDBClusterSnapshotIdentifier,
     TargetDBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CopyDBClusterSnapshot",
@@ -319,7 +319,7 @@ function copy_dbcluster_snapshot(
     SourceDBClusterSnapshotIdentifier,
     TargetDBClusterSnapshotIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CopyDBClusterSnapshot",
@@ -417,7 +417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 function create_dbcluster(
-    DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "CreateDBCluster",
@@ -430,7 +430,7 @@ function create_dbcluster(
     DBClusterIdentifier,
     Engine,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBCluster",
@@ -478,7 +478,7 @@ function create_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     DBParameterGroupFamily,
     Description;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBClusterParameterGroup",
@@ -496,7 +496,7 @@ function create_dbcluster_parameter_group(
     DBParameterGroupFamily,
     Description,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBClusterParameterGroup",
@@ -538,7 +538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_dbcluster_snapshot(
     DBClusterIdentifier,
     DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBClusterSnapshot",
@@ -554,7 +554,7 @@ function create_dbcluster_snapshot(
     DBClusterIdentifier,
     DBClusterSnapshotIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBClusterSnapshot",
@@ -627,7 +627,7 @@ function create_dbinstance(
     DBInstanceClass,
     DBInstanceIdentifier,
     Engine;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBInstance",
@@ -647,7 +647,7 @@ function create_dbinstance(
     DBInstanceIdentifier,
     Engine,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBInstance",
@@ -691,7 +691,7 @@ function create_dbsubnet_group(
     DBSubnetGroupDescription,
     DBSubnetGroupName,
     SubnetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBSubnetGroup",
@@ -709,7 +709,7 @@ function create_dbsubnet_group(
     DBSubnetGroupName,
     SubnetIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateDBSubnetGroup",
@@ -777,7 +777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the event subscription.
 """
 function create_event_subscription(
-    SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+    SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "CreateEventSubscription",
@@ -792,7 +792,7 @@ function create_event_subscription(
     SnsTopicArn,
     SubscriptionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateEventSubscription",
@@ -840,7 +840,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StorageEncrypted"`: The storage encryption setting for the new global cluster.
 """
 function create_global_cluster(
-    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "CreateGlobalCluster",
@@ -852,7 +852,7 @@ end
 function create_global_cluster(
     GlobalClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "CreateGlobalCluster",
@@ -894,7 +894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: false
 """
 function delete_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteDBCluster",
@@ -906,7 +906,7 @@ end
 function delete_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteDBCluster",
@@ -936,7 +936,7 @@ can't be associated with any clusters.
 
 """
 function delete_dbcluster_parameter_group(
-    DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteDBClusterParameterGroup",
@@ -948,7 +948,7 @@ end
 function delete_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteDBClusterParameterGroup",
@@ -979,7 +979,7 @@ terminated.  The cluster snapshot must be in the available state to be deleted.
 
 """
 function delete_dbcluster_snapshot(
-    DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteDBClusterSnapshot",
@@ -991,7 +991,7 @@ end
 function delete_dbcluster_snapshot(
     DBClusterSnapshotIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteDBClusterSnapshot",
@@ -1022,7 +1022,7 @@ Deletes a previously provisioned instance.
 
 """
 function delete_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteDBInstance",
@@ -1034,7 +1034,7 @@ end
 function delete_dbinstance(
     DBInstanceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteDBInstance",
@@ -1064,7 +1064,7 @@ any DB instances.
 
 """
 function delete_dbsubnet_group(
-    DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    DBSubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteDBSubnetGroup",
@@ -1076,7 +1076,7 @@ end
 function delete_dbsubnet_group(
     DBSubnetGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteDBSubnetGroup",
@@ -1102,7 +1102,7 @@ Deletes an Amazon DocumentDB event notification subscription.
 
 """
 function delete_event_subscription(
-    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteEventSubscription",
@@ -1114,7 +1114,7 @@ end
 function delete_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteEventSubscription",
@@ -1141,7 +1141,7 @@ DocumentDB clusters.
 
 """
 function delete_global_cluster(
-    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DeleteGlobalCluster",
@@ -1153,7 +1153,7 @@ end
 function delete_global_cluster(
     GlobalClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DeleteGlobalCluster",
@@ -1191,13 +1191,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum: 20   Maximum: 100
 """
-function describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_certificates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeCertificates",
@@ -1230,7 +1230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 function describe_dbcluster_parameter_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBClusterParameterGroups";
@@ -1239,7 +1239,7 @@ function describe_dbcluster_parameter_groups(;
     )
 end
 function describe_dbcluster_parameter_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBClusterParameterGroups",
@@ -1274,7 +1274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Parameter sources can be engine, service, or customer.
 """
 function describe_dbcluster_parameters(
-    DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBClusterParameters",
@@ -1286,7 +1286,7 @@ end
 function describe_dbcluster_parameters(
     DBClusterParameterGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DescribeDBClusterParameters",
@@ -1322,7 +1322,7 @@ accounts.
 
 """
 function describe_dbcluster_snapshot_attributes(
-    DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBClusterSnapshotAttributes",
@@ -1334,7 +1334,7 @@ end
 function describe_dbcluster_snapshot_attributes(
     DBClusterSnapshotIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DescribeDBClusterSnapshotAttributes",
@@ -1397,13 +1397,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared
   parameter doesn't apply when SnapshotType is set to public.
 """
-function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeDBClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_dbcluster_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBClusterSnapshots",
@@ -1439,13 +1439,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
-function describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_dbclusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeDBClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_dbclusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1481,13 +1481,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
-function describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_dbengine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeDBEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_dbengine_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBEngineVersions",
@@ -1524,13 +1524,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
-function describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_dbinstances(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeDBInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_dbinstances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBInstances",
@@ -1559,13 +1559,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that the remaining results can be retrieved. Default: 100 Constraints:
   Minimum 20, maximum 100.
 """
-function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeDBSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_dbsubnet_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeDBSubnetGroups",
@@ -1597,7 +1597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 function describe_engine_default_cluster_parameters(
-    DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()
+    DBParameterGroupFamily; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeEngineDefaultClusterParameters",
@@ -1609,7 +1609,7 @@ end
 function describe_engine_default_cluster_parameters(
     DBParameterGroupFamily,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "DescribeEngineDefaultClusterParameters",
@@ -1638,13 +1638,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: The type of source that is generating the events. Valid values:
   db-instance, db-parameter-group, db-security-group
 """
-function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_event_categories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeEventCategories",
@@ -1676,13 +1676,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscriptionName"`: The name of the Amazon DocumentDB event notification subscription
   that you want to describe.
 """
-function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_event_subscriptions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeEventSubscriptions",
@@ -1729,11 +1729,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`:  The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format.  Example: 2009-07-08T18:00Z
 """
-function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1763,13 +1763,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a pagination token called a marker is included
   in the response so that you can retrieve the remaining results.
 """
-function describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_global_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "DescribeGlobalClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_global_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeGlobalClusters",
@@ -1808,7 +1808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only the available VPC or non-VPC offerings.
 """
 function describe_orderable_dbinstance_options(
-    Engine; aws_config::AbstractAWSConfig=global_aws_config()
+    Engine; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeOrderableDBInstanceOptions",
@@ -1818,7 +1818,7 @@ function describe_orderable_dbinstance_options(
     )
 end
 function describe_orderable_dbinstance_options(
-    Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribeOrderableDBInstanceOptions",
@@ -1853,7 +1853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceIdentifier"`: The ARN of a resource to return pending maintenance actions for.
 """
 function describe_pending_maintenance_actions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribePendingMaintenanceActions";
@@ -1862,7 +1862,7 @@ function describe_pending_maintenance_actions(;
     )
 end
 function describe_pending_maintenance_actions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "DescribePendingMaintenanceActions",
@@ -1890,13 +1890,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. You must specify the instance identifier for an Amazon DocumentDB replica in the
   cluster. For example, mydbcluster-replica1.
 """
-function failover_dbcluster(; aws_config::AbstractAWSConfig=global_aws_config())
+function failover_dbcluster(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb(
         "FailoverDBCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function failover_dbcluster(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "FailoverDBCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1918,7 +1918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: This parameter is not currently supported.
 """
 function list_tags_for_resource(
-    ResourceName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ListTagsForResource",
@@ -1930,7 +1930,7 @@ end
 function list_tags_for_resource(
     ResourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ListTagsForResource",
@@ -2015,7 +2015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster will belong to.
 """
 function modify_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ModifyDBCluster",
@@ -2027,7 +2027,7 @@ end
 function modify_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBCluster",
@@ -2070,7 +2070,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     Parameter;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBClusterParameterGroup",
@@ -2086,7 +2086,7 @@ function modify_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     Parameter,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBClusterParameterGroup",
@@ -2146,7 +2146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_dbcluster_snapshot_attribute(
     AttributeName,
     DBClusterSnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBClusterSnapshotAttribute",
@@ -2162,7 +2162,7 @@ function modify_dbcluster_snapshot_attribute(
     AttributeName,
     DBClusterSnapshotIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBClusterSnapshotAttribute",
@@ -2246,7 +2246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 1 Valid values: 0-15
 """
 function modify_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ModifyDBInstance",
@@ -2258,7 +2258,7 @@ end
 function modify_dbinstance(
     DBInstanceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBInstance",
@@ -2293,7 +2293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: The Amazon EC2 subnet IDs for the subnet group.
 """
 function modify_dbsubnet_group(
-    DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ModifyDBSubnetGroup",
@@ -2308,7 +2308,7 @@ function modify_dbsubnet_group(
     DBSubnetGroupName,
     SubnetIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyDBSubnetGroup",
@@ -2349,7 +2349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   db-parameter-group, db-security-group
 """
 function modify_event_subscription(
-    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ModifyEventSubscription",
@@ -2361,7 +2361,7 @@ end
 function modify_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyEventSubscription",
@@ -2399,7 +2399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or contain two consecutive hyphens   Example: my-cluster2
 """
 function modify_global_cluster(
-    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ModifyGlobalCluster",
@@ -2411,7 +2411,7 @@ end
 function modify_global_cluster(
     GlobalClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ModifyGlobalCluster",
@@ -2447,7 +2447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraint: You can't specify true if the instance is not configured for Multi-AZ.
 """
 function reboot_dbinstance(
-    DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "RebootDBInstance",
@@ -2459,7 +2459,7 @@ end
 function reboot_dbinstance(
     DBInstanceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RebootDBInstance",
@@ -2494,7 +2494,7 @@ clusters.
 function remove_from_global_cluster(
     DbClusterIdentifier,
     GlobalClusterIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RemoveFromGlobalCluster",
@@ -2510,7 +2510,7 @@ function remove_from_global_cluster(
     DbClusterIdentifier,
     GlobalClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RemoveFromGlobalCluster",
@@ -2544,7 +2544,7 @@ subscription.
 
 """
 function remove_source_identifier_from_subscription(
-    SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+    SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "RemoveSourceIdentifierFromSubscription",
@@ -2559,7 +2559,7 @@ function remove_source_identifier_from_subscription(
     SourceIdentifier,
     SubscriptionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RemoveSourceIdentifierFromSubscription",
@@ -2591,7 +2591,7 @@ Removes metadata tags from an Amazon DocumentDB resource.
 
 """
 function remove_tags_from_resource(
-    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "RemoveTagsFromResource",
@@ -2604,7 +2604,7 @@ function remove_tags_from_resource(
     ResourceName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RemoveTagsFromResource",
@@ -2644,7 +2644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter if there is a list of parameter names specified for the Parameters parameter.
 """
 function reset_dbcluster_parameter_group(
-    DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "ResetDBClusterParameterGroup",
@@ -2656,7 +2656,7 @@ end
 function reset_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "ResetDBClusterParameterGroup",
@@ -2740,7 +2740,7 @@ function restore_dbcluster_from_snapshot(
     DBClusterIdentifier,
     Engine,
     SnapshotIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RestoreDBClusterFromSnapshot",
@@ -2758,7 +2758,7 @@ function restore_dbcluster_from_snapshot(
     Engine,
     SnapshotIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RestoreDBClusterFromSnapshot",
@@ -2843,7 +2843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function restore_dbcluster_to_point_in_time(
     DBClusterIdentifier,
     SourceDBClusterIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RestoreDBClusterToPointInTime",
@@ -2859,7 +2859,7 @@ function restore_dbcluster_to_point_in_time(
     DBClusterIdentifier,
     SourceDBClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "RestoreDBClusterToPointInTime",
@@ -2891,7 +2891,7 @@ information, see Stopping and Starting an Amazon DocumentDB Cluster.
 
 """
 function start_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "StartDBCluster",
@@ -2903,7 +2903,7 @@ end
 function start_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "StartDBCluster",
@@ -2933,7 +2933,7 @@ Cluster.
 
 """
 function stop_dbcluster(
-    DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb(
         "StopDBCluster",
@@ -2945,7 +2945,7 @@ end
 function stop_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "StopDBCluster",
@@ -2985,7 +2985,7 @@ Amazon DocumentDB cluster in the global database cluster.
 function switchover_global_cluster(
     GlobalClusterIdentifier,
     TargetDbClusterIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "SwitchoverGlobalCluster",
@@ -3001,7 +3001,7 @@ function switchover_global_cluster(
     GlobalClusterIdentifier,
     TargetDbClusterIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb(
         "SwitchoverGlobalCluster",

@@ -24,7 +24,7 @@ more information about SLO error budgets, see  SLO concepts.
 
 """
 function batch_get_service_level_objective_budget_report(
-    SloIds, Timestamp; aws_config::AbstractAWSConfig=global_aws_config()
+    SloIds, Timestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -38,7 +38,7 @@ function batch_get_service_level_objective_budget_report(
     SloIds,
     Timestamp,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -102,7 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user permission to access or change only resources with certain tag values.
 """
 function create_service_level_objective(
-    Name, SliConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, SliConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -116,7 +116,7 @@ function create_service_level_objective(
     Name,
     SliConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -142,14 +142,14 @@ Deletes the specified service level objective.
 
 """
 function delete_service_level_objective(
-    Id; aws_config::AbstractAWSConfig=global_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "DELETE", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_service_level_objective(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "DELETE",
@@ -183,7 +183,7 @@ Returns information about a service discovered by Application Signals.
 
 """
 function get_service(
-    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -200,7 +200,7 @@ function get_service(
     KeyAttributes,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -232,13 +232,13 @@ Returns information about one SLO created in the account.
   find the ARNs of SLOs by using the ListServiceLevelObjectives operation.
 
 """
-function get_service_level_objective(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_service_level_objective(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "GET", "/slo/$(Id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -277,7 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service dependencies.
 """
 function list_service_dependencies(
-    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -294,7 +294,7 @@ function list_service_dependencies(
     KeyAttributes,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -346,7 +346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service dependents.
 """
 function list_service_dependents(
-    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -363,7 +363,7 @@ function list_service_dependents(
     KeyAttributes,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -407,13 +407,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service level objectives.
 - `"OperationName"`: The name of the operation that this SLO is associated with.
 """
-function list_service_level_objectives(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_service_level_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_service_level_objectives(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST", "/slos", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -450,7 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service operations.
 """
 function list_service_operations(
-    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -467,7 +467,7 @@ function list_service_operations(
     KeyAttributes,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -510,7 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of services.
 """
 function list_services(
-    EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+    EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "GET",
@@ -524,7 +524,7 @@ function list_services(
     EndTime,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "GET",
@@ -557,7 +557,7 @@ level objectives.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "GET",
@@ -570,7 +570,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "GET",
@@ -597,13 +597,13 @@ to send data to Application Signals. For more information, see  Enabling Applica
 Signals.
 
 """
-function start_discovery(; aws_config::AbstractAWSConfig=global_aws_config())
+function start_discovery(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function start_discovery(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -638,7 +638,7 @@ resource.
 - `tags`: The list of key-value pairs to associate with the alarm.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST",
         "/tag-resource",
@@ -651,7 +651,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -684,7 +684,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
@@ -698,7 +698,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
@@ -735,14 +735,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SLO will monitor.
 """
 function update_service_level_objective(
-    Id; aws_config::AbstractAWSConfig=global_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "PATCH", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_service_level_objective(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "PATCH",

@@ -59,7 +59,7 @@ function activate_gateway(
     GatewayName,
     GatewayRegion,
     GatewayTimezone;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ActivateGateway",
@@ -79,7 +79,7 @@ function activate_gateway(
     GatewayRegion,
     GatewayTimezone,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ActivateGateway",
@@ -116,7 +116,7 @@ you want to add cache, and one or more disk IDs that you want to configure as ca
 - `gateway_arn`:
 
 """
-function add_cache(DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function add_cache(DiskIds, GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "AddCache",
         Dict{String,Any}("DiskIds" => DiskIds, "GatewayARN" => GatewayARN);
@@ -128,7 +128,7 @@ function add_cache(
     DiskIds,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AddCache",
@@ -166,7 +166,7 @@ storage volumes that are recovered to a new gateway maintain their tags.
 
 """
 function add_tags_to_resource(
-    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "AddTagsToResource",
@@ -179,7 +179,7 @@ function add_tags_to_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AddTagsToResource",
@@ -212,7 +212,7 @@ buffer, and one or more disk IDs that you want to configure as upload buffer.
 
 """
 function add_upload_buffer(
-    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "AddUploadBuffer",
@@ -225,7 +225,7 @@ function add_upload_buffer(
     DiskIds,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AddUploadBuffer",
@@ -261,7 +261,7 @@ configure as working storage.
 
 """
 function add_working_storage(
-    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    DiskIds, GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "AddWorkingStorage",
@@ -274,7 +274,7 @@ function add_working_storage(
     DiskIds,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AddWorkingStorage",
@@ -316,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default for calls from the console. Valid values: TRUE | FALSE
 """
 function assign_tape_pool(
-    PoolId, TapeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolId, TapeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "AssignTapePool",
@@ -329,7 +329,7 @@ function assign_tape_pool(
     PoolId,
     TapeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AssignTapePool",
@@ -379,7 +379,7 @@ function associate_file_system(
     LocationARN,
     Password,
     UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AssociateFileSystem",
@@ -401,7 +401,7 @@ function associate_file_system(
     Password,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AssociateFileSystem",
@@ -458,7 +458,7 @@ function attach_volume(
     GatewayARN,
     NetworkInterfaceId,
     VolumeARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AttachVolume",
@@ -476,7 +476,7 @@ function attach_volume(
     NetworkInterfaceId,
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "AttachVolume",
@@ -510,7 +510,7 @@ process is initiated. This operation is only supported in the tape gateway type.
 
 """
 function cancel_archival(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "CancelArchival",
@@ -523,7 +523,7 @@ function cancel_archival(
     GatewayARN,
     TapeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CancelArchival",
@@ -554,7 +554,7 @@ is only supported in the tape gateway type.
 
 """
 function cancel_retrieval(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "CancelRetrieval",
@@ -567,7 +567,7 @@ function cancel_retrieval(
     GatewayARN,
     TapeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CancelRetrieval",
@@ -643,7 +643,7 @@ function create_cachedi_scsivolume(
     NetworkInterfaceId,
     TargetName,
     VolumeSizeInBytes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateCachediSCSIVolume",
@@ -665,7 +665,7 @@ function create_cachedi_scsivolume(
     TargetName,
     VolumeSizeInBytes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateCachediSCSIVolume",
@@ -783,7 +783,7 @@ function create_nfsfile_share(
     GatewayARN,
     LocationARN,
     Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateNFSFileShare",
@@ -803,7 +803,7 @@ function create_nfsfile_share(
     LocationARN,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateNFSFileShare",
@@ -941,7 +941,7 @@ function create_smbfile_share(
     GatewayARN,
     LocationARN,
     Role;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateSMBFileShare",
@@ -961,7 +961,7 @@ function create_smbfile_share(
     LocationARN,
     Role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateSMBFileShare",
@@ -1018,7 +1018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 256.
 """
 function create_snapshot(
-    SnapshotDescription, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    SnapshotDescription, VolumeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "CreateSnapshot",
@@ -1033,7 +1033,7 @@ function create_snapshot(
     SnapshotDescription,
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateSnapshot",
@@ -1085,7 +1085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 256.
 """
 function create_snapshot_from_volume_recovery_point(
-    SnapshotDescription, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    SnapshotDescription, VolumeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "CreateSnapshotFromVolumeRecoveryPoint",
@@ -1100,7 +1100,7 @@ function create_snapshot_from_volume_recovery_point(
     SnapshotDescription,
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateSnapshotFromVolumeRecoveryPoint",
@@ -1171,7 +1171,7 @@ function create_storedi_scsivolume(
     NetworkInterfaceId,
     PreserveExistingData,
     TargetName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateStorediSCSIVolume",
@@ -1193,7 +1193,7 @@ function create_storedi_scsivolume(
     PreserveExistingData,
     TargetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateStorediSCSIVolume",
@@ -1244,7 +1244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 256.
 """
 function create_tape_pool(
-    PoolName, StorageClass; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolName, StorageClass; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "CreateTapePool",
@@ -1257,7 +1257,7 @@ function create_tape_pool(
     PoolName,
     StorageClass,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateTapePool",
@@ -1315,7 +1315,7 @@ function create_tape_with_barcode(
     GatewayARN,
     TapeBarcode,
     TapeSizeInBytes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateTapeWithBarcode",
@@ -1333,7 +1333,7 @@ function create_tape_with_barcode(
     TapeBarcode,
     TapeSizeInBytes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateTapeWithBarcode",
@@ -1401,7 +1401,7 @@ function create_tapes(
     NumTapesToCreate,
     TapeBarcodePrefix,
     TapeSizeInBytes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateTapes",
@@ -1423,7 +1423,7 @@ function create_tapes(
     TapeBarcodePrefix,
     TapeSizeInBytes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "CreateTapes",
@@ -1458,7 +1458,7 @@ in your request to remove the policy.
 
 """
 function delete_automatic_tape_creation_policy(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DeleteAutomaticTapeCreationPolicy",
@@ -1470,7 +1470,7 @@ end
 function delete_automatic_tape_creation_policy(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteAutomaticTapeCreationPolicy",
@@ -1499,7 +1499,7 @@ for the stored volume, cached volume, and tape gateway types.
 
 """
 function delete_bandwidth_rate_limit(
-    BandwidthType, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    BandwidthType, GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DeleteBandwidthRateLimit",
@@ -1512,7 +1512,7 @@ function delete_bandwidth_rate_limit(
     BandwidthType,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteBandwidthRateLimit",
@@ -1546,7 +1546,7 @@ types.
 
 """
 function delete_chap_credentials(
-    InitiatorName, TargetARN; aws_config::AbstractAWSConfig=global_aws_config()
+    InitiatorName, TargetARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DeleteChapCredentials",
@@ -1559,7 +1559,7 @@ function delete_chap_credentials(
     InitiatorName,
     TargetARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteChapCredentials",
@@ -1595,7 +1595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data upload process, and the file share enters the FORCE_DELETING status. Valid Values:
   true | false
 """
-function delete_file_share(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_file_share(FileShareARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DeleteFileShare",
         Dict{String,Any}("FileShareARN" => FileShareARN);
@@ -1606,7 +1606,7 @@ end
 function delete_file_share(
     FileShareARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteFileShare",
@@ -1638,7 +1638,7 @@ Amazon EC2 console. For more information, see the Storage Gateway detail page.
 - `gateway_arn`:
 
 """
-function delete_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DeleteGateway",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -1649,7 +1649,7 @@ end
 function delete_gateway(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteGateway",
@@ -1678,7 +1678,7 @@ Amazon Elastic Compute Cloud API Reference.
 
 """
 function delete_snapshot_schedule(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    VolumeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DeleteSnapshotSchedule",
@@ -1690,7 +1690,7 @@ end
 function delete_snapshot_schedule(
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteSnapshotSchedule",
@@ -1722,7 +1722,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   governance can be deleted. Archived tapes with tape retention lock set to compliance can't
   be deleted.
 """
-function delete_tape(GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tape(
+    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return storage_gateway(
         "DeleteTape",
         Dict{String,Any}("GatewayARN" => GatewayARN, "TapeARN" => TapeARN);
@@ -1734,7 +1736,7 @@ function delete_tape(
     GatewayARN,
     TapeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteTape",
@@ -1768,7 +1770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   governance can be deleted. Archived tapes with tape retention lock set to compliance can't
   be deleted.
 """
-function delete_tape_archive(TapeARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tape_archive(TapeARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DeleteTapeArchive",
         Dict{String,Any}("TapeARN" => TapeARN);
@@ -1777,7 +1779,9 @@ function delete_tape_archive(TapeARN; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function delete_tape_archive(
-    TapeARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TapeARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteTapeArchive",
@@ -1799,7 +1803,7 @@ tape pool.
 - `pool_arn`: The Amazon Resource Name (ARN) of the custom tape pool to delete.
 
 """
-function delete_tape_pool(PoolARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tape_pool(PoolARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DeleteTapePool",
         Dict{String,Any}("PoolARN" => PoolARN);
@@ -1808,7 +1812,9 @@ function delete_tape_pool(PoolARN; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_tape_pool(
-    PoolARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteTapePool",
@@ -1839,7 +1845,7 @@ to delete.
   to return a list of gateway volumes.
 
 """
-function delete_volume(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_volume(VolumeARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DeleteVolume",
         Dict{String,Any}("VolumeARN" => VolumeARN);
@@ -1850,7 +1856,7 @@ end
 function delete_volume(
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DeleteVolume",
@@ -1875,7 +1881,7 @@ the response would be null.
 
 """
 function describe_availability_monitor_test(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeAvailabilityMonitorTest",
@@ -1887,7 +1893,7 @@ end
 function describe_availability_monitor_test(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeAvailabilityMonitorTest",
@@ -1916,7 +1922,7 @@ gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your r
 
 """
 function describe_bandwidth_rate_limit(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeBandwidthRateLimit",
@@ -1928,7 +1934,7 @@ end
 function describe_bandwidth_rate_limit(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeBandwidthRateLimit",
@@ -1963,7 +1969,7 @@ request.
 
 """
 function describe_bandwidth_rate_limit_schedule(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeBandwidthRateLimitSchedule",
@@ -1975,7 +1981,7 @@ end
 function describe_bandwidth_rate_limit_schedule(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeBandwidthRateLimitSchedule",
@@ -1999,7 +2005,7 @@ configured as cache, and it includes the amount of cache allocated and used.
 - `gateway_arn`:
 
 """
-function describe_cache(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_cache(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DescribeCache",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -2010,7 +2016,7 @@ end
 function describe_cache(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeCache",
@@ -2038,7 +2044,7 @@ information sorted by volume Amazon Resource Name (ARN).
 
 """
 function describe_cachedi_scsivolumes(
-    VolumeARNs; aws_config::AbstractAWSConfig=global_aws_config()
+    VolumeARNs; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeCachediSCSIVolumes",
@@ -2050,7 +2056,7 @@ end
 function describe_cachedi_scsivolumes(
     VolumeARNs,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeCachediSCSIVolumes",
@@ -2077,7 +2083,7 @@ operation is supported in the volume and tape gateway types.
 
 """
 function describe_chap_credentials(
-    TargetARN; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeChapCredentials",
@@ -2089,7 +2095,7 @@ end
 function describe_chap_credentials(
     TargetARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeChapCredentials",
@@ -2114,7 +2120,7 @@ Gateways.
 
 """
 function describe_file_system_associations(
-    FileSystemAssociationARNList; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemAssociationARNList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeFileSystemAssociations",
@@ -2126,7 +2132,7 @@ end
 function describe_file_system_associations(
     FileSystemAssociationARNList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeFileSystemAssociations",
@@ -2157,7 +2163,7 @@ and software version. To specify which gateway to describe, use the Amazon Resou
 
 """
 function describe_gateway_information(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeGatewayInformation",
@@ -2169,7 +2175,7 @@ end
 function describe_gateway_information(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeGatewayInformation",
@@ -2194,7 +2200,7 @@ apply. Time values returned are for the gateway's time zone.
 
 """
 function describe_maintenance_start_time(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeMaintenanceStartTime",
@@ -2206,7 +2212,7 @@ end
 function describe_maintenance_start_time(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeMaintenanceStartTime",
@@ -2231,7 +2237,7 @@ Gateway. This operation is only supported for S3 File Gateways.
 
 """
 function describe_nfsfile_shares(
-    FileShareARNList; aws_config::AbstractAWSConfig=global_aws_config()
+    FileShareARNList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeNFSFileShares",
@@ -2243,7 +2249,7 @@ end
 function describe_nfsfile_shares(
     FileShareARNList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeNFSFileShares",
@@ -2270,7 +2276,7 @@ Gateway. This operation is only supported for S3 File Gateways.
 
 """
 function describe_smbfile_shares(
-    FileShareARNList; aws_config::AbstractAWSConfig=global_aws_config()
+    FileShareARNList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeSMBFileShares",
@@ -2282,7 +2288,7 @@ end
 function describe_smbfile_shares(
     FileShareARNList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeSMBFileShares",
@@ -2307,7 +2313,9 @@ This operation is only supported for file gateways.
 - `gateway_arn`:
 
 """
-function describe_smbsettings(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_smbsettings(
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return storage_gateway(
         "DescribeSMBSettings",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -2318,7 +2326,7 @@ end
 function describe_smbsettings(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeSMBSettings",
@@ -2344,7 +2352,7 @@ volume. This operation is only supported in the cached volume and stored volume 
 
 """
 function describe_snapshot_schedule(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    VolumeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeSnapshotSchedule",
@@ -2356,7 +2364,7 @@ end
 function describe_snapshot_schedule(
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeSnapshotSchedule",
@@ -2384,7 +2392,7 @@ stored volume gateway type.
 
 """
 function describe_storedi_scsivolumes(
-    VolumeARNs; aws_config::AbstractAWSConfig=global_aws_config()
+    VolumeARNs; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeStorediSCSIVolumes",
@@ -2396,7 +2404,7 @@ end
 function describe_storedi_scsivolumes(
     VolumeARNs,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeStorediSCSIVolumes",
@@ -2426,13 +2434,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TapeARNs"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent
   the virtual tapes you want to describe.
 """
-function describe_tape_archives(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_tape_archives(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DescribeTapeArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_tape_archives(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeTapeArchives",
@@ -2463,7 +2471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   virtual tape recovery points.
 """
 function describe_tape_recovery_points(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeTapeRecoveryPoints",
@@ -2475,7 +2483,7 @@ end
 function describe_tape_recovery_points(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeTapeRecoveryPoints",
@@ -2514,7 +2522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the virtual tapes you want to describe. If this parameter is not specified, Tape gateway
   returns a description of all virtual tapes associated with the specified gateway.
 """
-function describe_tapes(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_tapes(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DescribeTapes",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -2525,7 +2533,7 @@ end
 function describe_tapes(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeTapes",
@@ -2551,7 +2559,7 @@ space allocated and used.
 
 """
 function describe_upload_buffer(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeUploadBuffer",
@@ -2563,7 +2571,7 @@ end
 function describe_upload_buffer(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeUploadBuffer",
@@ -2597,7 +2605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   gateway. If no VTL devices are specified, the result will contain all devices on the
   specified gateway.
 """
-function describe_vtldevices(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_vtldevices(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DescribeVTLDevices",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -2608,7 +2616,7 @@ end
 function describe_vtldevices(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeVTLDevices",
@@ -2637,7 +2645,7 @@ used.
 
 """
 function describe_working_storage(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DescribeWorkingStorage",
@@ -2649,7 +2657,7 @@ end
 function describe_working_storage(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DescribeWorkingStorage",
@@ -2680,7 +2688,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and detach the volume. The default is false. If this value is set to false, you must
   manually disconnect the iSCSI connection from the target volume. Valid Values: true | false
 """
-function detach_volume(VolumeARN; aws_config::AbstractAWSConfig=global_aws_config())
+function detach_volume(VolumeARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DetachVolume",
         Dict{String,Any}("VolumeARN" => VolumeARN);
@@ -2691,7 +2699,7 @@ end
 function detach_volume(
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DetachVolume",
@@ -2717,7 +2725,7 @@ enabled.
 - `gateway_arn`:
 
 """
-function disable_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "DisableGateway",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -2728,7 +2736,7 @@ end
 function disable_gateway(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DisableGateway",
@@ -2760,7 +2768,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file system does not disassociate until all data is uploaded.
 """
 function disassociate_file_system(
-    FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemAssociationARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "DisassociateFileSystem",
@@ -2772,7 +2780,7 @@ end
 function disassociate_file_system(
     FileSystemAssociationARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "DisassociateFileSystem",
@@ -2828,7 +2836,7 @@ function join_domain(
     GatewayARN,
     Password,
     UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "JoinDomain",
@@ -2848,7 +2856,7 @@ function join_domain(
     Password,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "JoinDomain",
@@ -2882,7 +2890,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GatewayARN"`:
 """
 function list_automatic_tape_creation_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListAutomaticTapeCreationPolicies";
@@ -2891,7 +2899,7 @@ function list_automatic_tape_creation_policies(;
     )
 end
 function list_automatic_tape_creation_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListAutomaticTapeCreationPolicies",
@@ -2919,13 +2927,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   present, Marker specifies where to continue the list from after a previous call to
   ListFileShares. Optional.
 """
-function list_file_shares(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_file_shares(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListFileShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_file_shares(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListFileShares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2948,13 +2956,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If present, Marker specifies where to continue the list from after a previous
   call to ListFileSystemAssociations. Optional.
 """
-function list_file_system_associations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_file_system_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListFileSystemAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_file_system_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListFileSystemAssociations",
@@ -2983,13 +2991,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: An opaque string that indicates the position at which to begin the returned
   list of gateways.
 """
-function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3012,7 +3020,7 @@ disk that has incorrect metadata or the disk content is corrupted).
 - `gateway_arn`:
 
 """
-function list_local_disks(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function list_local_disks(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListLocalDisks",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -3023,7 +3031,7 @@ end
 function list_local_disks(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ListLocalDisks",
@@ -3054,7 +3062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of tags.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListTagsForResource",
@@ -3066,7 +3074,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ListTagsForResource",
@@ -3099,13 +3107,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list. If you don't specify a custom tape pool ARN, the response lists all custom tape
   pools.
 """
-function list_tape_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tape_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListTapePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tape_pools(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListTapePools", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3133,13 +3141,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tapes.
 - `"TapeARNs"`:
 """
-function list_tapes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tapes(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListTapes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tapes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListTapes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3160,7 +3168,7 @@ cached volume and stored volume gateway types.
 
 """
 function list_volume_initiators(
-    VolumeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    VolumeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListVolumeInitiators",
@@ -3172,7 +3180,7 @@ end
 function list_volume_initiators(
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ListVolumeInitiators",
@@ -3200,7 +3208,7 @@ operation.
 
 """
 function list_volume_recovery_points(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListVolumeRecoveryPoints",
@@ -3212,7 +3220,7 @@ end
 function list_volume_recovery_points(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ListVolumeRecoveryPoints",
@@ -3246,13 +3254,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: A string that indicates the position at which to begin the returned list of
   volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
 """
-function list_volumes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ListVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_volumes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "ListVolumes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3278,7 +3286,7 @@ Getting file upload notification in the Amazon S3 File Gateway User Guide.
 
 """
 function notify_when_uploaded(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config()
+    FileShareARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "NotifyWhenUploaded",
@@ -3290,7 +3298,7 @@ end
 function notify_when_uploaded(
     FileShareARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "NotifyWhenUploaded",
@@ -3348,7 +3356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects that are in folders listed directly under FolderList are found and used for the
   update. The default is true. Valid Values: true | false
 """
-function refresh_cache(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config())
+function refresh_cache(FileShareARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "RefreshCache",
         Dict{String,Any}("FileShareARN" => FileShareARN);
@@ -3359,7 +3367,7 @@ end
 function refresh_cache(
     FileShareARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "RefreshCache",
@@ -3386,7 +3394,7 @@ storage gateways of all types.
 
 """
 function remove_tags_from_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "RemoveTagsFromResource",
@@ -3399,7 +3407,7 @@ function remove_tags_from_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "RemoveTagsFromResource",
@@ -3434,7 +3442,7 @@ properly.
 - `gateway_arn`:
 
 """
-function reset_cache(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function reset_cache(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ResetCache",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -3445,7 +3453,7 @@ end
 function reset_cache(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ResetCache",
@@ -3479,7 +3487,7 @@ is only supported in the tape gateway type.
 
 """
 function retrieve_tape_archive(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "RetrieveTapeArchive",
@@ -3492,7 +3500,7 @@ function retrieve_tape_archive(
     GatewayARN,
     TapeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "RetrieveTapeArchive",
@@ -3526,7 +3534,7 @@ retrieved to only a tape gateway. There is no charge for retrieving recovery poi
 
 """
 function retrieve_tape_recovery_point(
-    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, TapeARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "RetrieveTapeRecoveryPoint",
@@ -3539,7 +3547,7 @@ function retrieve_tape_recovery_point(
     GatewayARN,
     TapeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "RetrieveTapeRecoveryPoint",
@@ -3569,7 +3577,7 @@ new password. You don't need to know the default password to set a new password.
 
 """
 function set_local_console_password(
-    GatewayARN, LocalConsolePassword; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, LocalConsolePassword; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "SetLocalConsolePassword",
@@ -3584,7 +3592,7 @@ function set_local_console_password(
     GatewayARN,
     LocalConsolePassword,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "SetLocalConsolePassword",
@@ -3618,7 +3626,7 @@ supported for S3 File Gateways
 
 """
 function set_smbguest_password(
-    GatewayARN, Password; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, Password; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "SetSMBGuestPassword",
@@ -3631,7 +3639,7 @@ function set_smbguest_password(
     GatewayARN,
     Password,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "SetSMBGuestPassword",
@@ -3670,7 +3678,7 @@ ActivateGateway.  If do not intend to use the gateway again, you must delete the
 - `gateway_arn`:
 
 """
-function shutdown_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function shutdown_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "ShutdownGateway",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -3681,7 +3689,7 @@ end
 function shutdown_gateway(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "ShutdownGateway",
@@ -3708,7 +3716,7 @@ Starting this test will cause your gateway to go offline for a brief period.
 
 """
 function start_availability_monitor_test(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "StartAvailabilityMonitorTest",
@@ -3720,7 +3728,7 @@ end
 function start_availability_monitor_test(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "StartAvailabilityMonitorTest",
@@ -3749,7 +3757,7 @@ your request.
 - `gateway_arn`:
 
 """
-function start_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config())
+function start_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_config())
     return storage_gateway(
         "StartGateway",
         Dict{String,Any}("GatewayARN" => GatewayARN);
@@ -3760,7 +3768,7 @@ end
 function start_gateway(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "StartGateway",
@@ -3791,7 +3799,7 @@ tape creation policy.
 function update_automatic_tape_creation_policy(
     AutomaticTapeCreationRules,
     GatewayARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateAutomaticTapeCreationPolicy",
@@ -3807,7 +3815,7 @@ function update_automatic_tape_creation_policy(
     AutomaticTapeCreationRules,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateAutomaticTapeCreationPolicy",
@@ -3851,7 +3859,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   per second.
 """
 function update_bandwidth_rate_limit(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateBandwidthRateLimit",
@@ -3863,7 +3871,7 @@ end
 function update_bandwidth_rate_limit(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateBandwidthRateLimit",
@@ -3896,7 +3904,7 @@ limits.
 function update_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateBandwidthRateLimitSchedule",
@@ -3912,7 +3920,7 @@ function update_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateBandwidthRateLimitSchedule",
@@ -3960,7 +3968,7 @@ function update_chap_credentials(
     InitiatorName,
     SecretToAuthenticateInitiator,
     TargetARN;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateChapCredentials",
@@ -3978,7 +3986,7 @@ function update_chap_credentials(
     SecretToAuthenticateInitiator,
     TargetARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateChapCredentials",
@@ -4020,7 +4028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delegated admin user group.
 """
 function update_file_system_association(
-    FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemAssociationARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateFileSystemAssociation",
@@ -4032,7 +4040,7 @@ end
 function update_file_system_association(
     FileSystemAssociationARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateFileSystemAssociation",
@@ -4074,7 +4082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GatewayTimezone"`: A value that indicates the time zone of the gateway.
 """
 function update_gateway_information(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateGatewayInformation",
@@ -4086,7 +4094,7 @@ end
 function update_gateway_information(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateGatewayInformation",
@@ -4117,7 +4125,7 @@ respectively.
 
 """
 function update_gateway_software_now(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateGatewaySoftwareNow",
@@ -4129,7 +4137,7 @@ end
 function update_gateway_software_now(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateGatewaySoftwareNow",
@@ -4178,7 +4186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
 """
 function update_maintenance_start_time(
-    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateMaintenanceStartTime",
@@ -4190,7 +4198,7 @@ end
 function update_maintenance_start_time(
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateMaintenanceStartTime",
@@ -4261,7 +4269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   anonymous user.    AllSquash: Everyone is mapped to anonymous user.
 """
 function update_nfsfile_share(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config()
+    FileShareARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateNFSFileShare",
@@ -4273,7 +4281,7 @@ end
 function update_nfsfile_share(
     FileShareARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateNFSFileShare",
@@ -4369,7 +4377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is set to ActiveDirectory.
 """
 function update_smbfile_share(
-    FileShareARN; aws_config::AbstractAWSConfig=global_aws_config()
+    FileShareARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateSMBFileShare",
@@ -4381,7 +4389,7 @@ end
 function update_smbfile_share(
     FileShareARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateSMBFileShare",
@@ -4406,7 +4414,7 @@ The operation is only supported for S3 File Gateways.
 
 """
 function update_smbfile_share_visibility(
-    FileSharesVisible, GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSharesVisible, GatewayARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateSMBFileShareVisibility",
@@ -4421,7 +4429,7 @@ function update_smbfile_share_visibility(
     FileSharesVisible,
     GatewayARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateSMBFileShareVisibility",
@@ -4453,7 +4461,7 @@ file shares on the gateway.
 
 """
 function update_smblocal_groups(
-    GatewayARN, SMBLocalGroups; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, SMBLocalGroups; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateSMBLocalGroups",
@@ -4466,7 +4474,7 @@ function update_smblocal_groups(
     GatewayARN,
     SMBLocalGroups,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateSMBLocalGroups",
@@ -4513,7 +4521,7 @@ of the gateway.
 
 """
 function update_smbsecurity_strategy(
-    GatewayARN, SMBSecurityStrategy; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN, SMBSecurityStrategy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateSMBSecurityStrategy",
@@ -4528,7 +4536,7 @@ function update_smbsecurity_strategy(
     GatewayARN,
     SMBSecurityStrategy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateSMBSecurityStrategy",
@@ -4577,7 +4585,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 256.
 """
 function update_snapshot_schedule(
-    RecurrenceInHours, StartAt, VolumeARN; aws_config::AbstractAWSConfig=global_aws_config()
+    RecurrenceInHours,
+    StartAt,
+    VolumeARN;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateSnapshotSchedule",
@@ -4595,7 +4606,7 @@ function update_snapshot_schedule(
     StartAt,
     VolumeARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateSnapshotSchedule",
@@ -4631,7 +4642,7 @@ supported in the tape gateway type.
 
 """
 function update_vtldevice_type(
-    DeviceType, VTLDeviceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceType, VTLDeviceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return storage_gateway(
         "UpdateVTLDeviceType",
@@ -4644,7 +4655,7 @@ function update_vtldevice_type(
     DeviceType,
     VTLDeviceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return storage_gateway(
         "UpdateVTLDeviceType",

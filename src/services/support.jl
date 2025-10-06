@@ -32,7 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set, if it exists.
 """
 function add_attachments_to_set(
-    attachments; aws_config::AbstractAWSConfig=global_aws_config()
+    attachments; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "AddAttachmentsToSet",
@@ -44,7 +44,7 @@ end
 function add_attachments_to_set(
     attachments,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "AddAttachmentsToSet",
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support case.
 """
 function add_communication_to_case(
-    communicationBody; aws_config::AbstractAWSConfig=global_aws_config()
+    communicationBody; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "AddCommunicationToCase",
@@ -96,7 +96,7 @@ end
 function add_communication_to_case(
     communicationBody,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "AddCommunicationToCase",
@@ -164,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support plan for the Amazon Web Services account.
 """
 function create_case(
-    communicationBody, subject; aws_config::AbstractAWSConfig=global_aws_config()
+    communicationBody, subject; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "CreateCase",
@@ -177,7 +177,7 @@ function create_case(
     communicationBody,
     subject,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "CreateCase",
@@ -216,7 +216,7 @@ appears. For information about changing your support plan, see Amazon Web Servic
 
 """
 function describe_attachment(
-    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeAttachment",
@@ -228,7 +228,7 @@ end
 function describe_attachment(
     attachmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeAttachment",
@@ -278,11 +278,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return before paginating.
 - `"nextToken"`: A resumption point for pagination.
 """
-function describe_cases(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_cases(; aws_config::AbstractAWSConfig=current_aws_config())
     return support("DescribeCases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_cases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeCases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -320,7 +320,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return before paginating.
 - `"nextToken"`: A resumption point for pagination.
 """
-function describe_communications(caseId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_communications(caseId; aws_config::AbstractAWSConfig=current_aws_config())
     return support(
         "DescribeCommunications",
         Dict{String,Any}("caseId" => caseId);
@@ -329,7 +329,7 @@ function describe_communications(caseId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function describe_communications(
-    caseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    caseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeCommunications",
@@ -371,7 +371,7 @@ function describe_create_case_options(
     issueType,
     language,
     serviceCode;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeCreateCaseOptions",
@@ -391,7 +391,7 @@ function describe_create_case_options(
     language,
     serviceCode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeCreateCaseOptions",
@@ -439,13 +439,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodeList"`: A JSON-formatted list of service codes available for Amazon Web
   Services services.
 """
-function describe_services(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return support(
         "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_services(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -471,13 +471,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (\"ja\") and Korean (“ko”). You must specify the ISO 639-1 code for the language
   parameter if you want support in that language.
 """
-function describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_severity_levels(; aws_config::AbstractAWSConfig=current_aws_config())
     return support(
         "DescribeSeverityLevels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_severity_levels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeSeverityLevels",
@@ -511,7 +511,7 @@ appears. For information about changing your support plan, see Amazon Web Servic
 
 """
 function describe_supported_languages(
-    categoryCode, issueType, serviceCode; aws_config::AbstractAWSConfig=global_aws_config()
+    categoryCode, issueType, serviceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeSupportedLanguages",
@@ -529,7 +529,7 @@ function describe_supported_languages(
     issueType,
     serviceCode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeSupportedLanguages",
@@ -575,7 +575,7 @@ Support User Guide.
 
 """
 function describe_trusted_advisor_check_refresh_statuses(
-    checkIds; aws_config::AbstractAWSConfig=global_aws_config()
+    checkIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeTrustedAdvisorCheckRefreshStatuses",
@@ -587,7 +587,7 @@ end
 function describe_trusted_advisor_check_refresh_statuses(
     checkIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeTrustedAdvisorCheckRefreshStatuses",
@@ -632,7 +632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Korean - ko    Portuguese, Brazilian - pt_BR    Spanish - es
 """
 function describe_trusted_advisor_check_result(
-    checkId; aws_config::AbstractAWSConfig=global_aws_config()
+    checkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeTrustedAdvisorCheckResult",
@@ -642,7 +642,9 @@ function describe_trusted_advisor_check_result(
     )
 end
 function describe_trusted_advisor_check_result(
-    checkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    checkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeTrustedAdvisorCheckResult",
@@ -674,7 +676,7 @@ the Amazon Web Services Support User Guide.
 
 """
 function describe_trusted_advisor_check_summaries(
-    checkIds; aws_config::AbstractAWSConfig=global_aws_config()
+    checkIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeTrustedAdvisorCheckSummaries",
@@ -686,7 +688,7 @@ end
 function describe_trusted_advisor_check_summaries(
     checkIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeTrustedAdvisorCheckSummaries",
@@ -726,7 +728,7 @@ Web Services Support API in the Amazon Web Services Support User Guide.
 
 """
 function describe_trusted_advisor_checks(
-    language; aws_config::AbstractAWSConfig=global_aws_config()
+    language; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "DescribeTrustedAdvisorChecks",
@@ -738,7 +740,7 @@ end
 function describe_trusted_advisor_checks(
     language,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "DescribeTrustedAdvisorChecks",
@@ -775,7 +777,7 @@ About the Amazon Web Services Support API in the Amazon Web Services Support Use
 
 """
 function refresh_trusted_advisor_check(
-    checkId; aws_config::AbstractAWSConfig=global_aws_config()
+    checkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "RefreshTrustedAdvisorCheck",
@@ -785,7 +787,9 @@ function refresh_trusted_advisor_check(
     )
 end
 function refresh_trusted_advisor_check(
-    checkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    checkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return support(
         "RefreshTrustedAdvisorCheck",
@@ -812,11 +816,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alphanumeric string formatted as shown in this example:
   case-12345678910-2013-c4c1d2bf33c5cf47
 """
-function resolve_case(; aws_config::AbstractAWSConfig=global_aws_config())
+function resolve_case(; aws_config::AbstractAWSConfig=current_aws_config())
     return support("ResolveCase"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function resolve_case(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return support(
         "ResolveCase", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

@@ -20,7 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Regions.
 - `"tags"`:
 """
-function create_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "POST",
         "/cells",
@@ -32,7 +32,7 @@ end
 function create_cell(
     cellName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -58,7 +58,7 @@ status of resources in a separate account.
 
 """
 function create_cross_account_authorization(
-    crossAccountAuthorization; aws_config::AbstractAWSConfig=global_aws_config()
+    crossAccountAuthorization; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "POST",
@@ -71,7 +71,7 @@ end
 function create_cross_account_authorization(
     crossAccountAuthorization,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:
 """
 function create_readiness_check(
-    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "POST",
@@ -122,7 +122,7 @@ function create_readiness_check(
     readinessCheckName,
     resourceSetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -158,7 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:
 """
 function create_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "POST",
@@ -171,7 +171,7 @@ end
 function create_recovery_group(
     recoveryGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -214,7 +214,7 @@ function create_resource_set(
     resourceSetName,
     resourceSetType,
     resources;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -233,7 +233,7 @@ function create_resource_set(
     resourceSetType,
     resources,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -264,7 +264,7 @@ Delete a cell. When successful, the response code is 204, with no response body.
 - `cell_name`: The name of the cell.
 
 """
-function delete_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "DELETE",
         "/cells/$(cellName)";
@@ -275,7 +275,7 @@ end
 function delete_cell(
     cellName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -297,7 +297,7 @@ Deletes cross account readiness authorization.
 
 """
 function delete_cross_account_authorization(
-    crossAccountAuthorization; aws_config::AbstractAWSConfig=global_aws_config()
+    crossAccountAuthorization; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -309,7 +309,7 @@ end
 function delete_cross_account_authorization(
     crossAccountAuthorization,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -331,7 +331,7 @@ Deletes a readiness check.
 
 """
 function delete_readiness_check(
-    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -343,7 +343,7 @@ end
 function delete_readiness_check(
     readinessCheckName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -365,7 +365,7 @@ Deletes a recovery group.
 
 """
 function delete_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -377,7 +377,7 @@ end
 function delete_recovery_group(
     recoveryGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -399,7 +399,7 @@ Deletes a resource set.
 
 """
 function delete_resource_set(
-    resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -411,7 +411,7 @@ end
 function delete_resource_set(
     resourceSetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -438,7 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
 function get_architecture_recommendations(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -450,7 +450,7 @@ end
 function get_architecture_recommendations(
     recoveryGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -473,7 +473,7 @@ group ARNs.
 - `cell_name`: The name of the cell.
 
 """
-function get_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "GET", "/cells/$(cellName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
@@ -481,7 +481,7 @@ end
 function get_cell(
     cellName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -508,7 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
 function get_cell_readiness_summary(
-    cellName; aws_config::AbstractAWSConfig=global_aws_config()
+    cellName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -520,7 +520,7 @@ end
 function get_cell_readiness_summary(
     cellName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -542,7 +542,7 @@ Gets details about a readiness check.
 
 """
 function get_readiness_check(
-    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -554,7 +554,7 @@ end
 function get_readiness_check(
     readinessCheckName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -587,7 +587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_readiness_check_resource_status(
     readinessCheckName,
     resourceIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -600,7 +600,7 @@ function get_readiness_check_resource_status(
     readinessCheckName,
     resourceIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -628,7 +628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
 function get_readiness_check_status(
-    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -640,7 +640,7 @@ end
 function get_readiness_check_status(
     readinessCheckName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -662,7 +662,7 @@ Gets details about a recovery group, including a list of the cells that are incl
 
 """
 function get_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -674,7 +674,7 @@ end
 function get_recovery_group(
     recoveryGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -701,7 +701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
 function get_recovery_group_readiness_summary(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -713,7 +713,7 @@ end
 function get_recovery_group_readiness_summary(
     recoveryGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -735,7 +735,7 @@ Displays the details about a resource set, including a list of the resources in 
 
 """
 function get_resource_set(
-    resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -747,7 +747,7 @@ end
 function get_resource_set(
     resourceSetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -769,13 +769,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
-function list_cells(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_cells(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "GET", "/cells"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_cells(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET", "/cells", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -794,7 +794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
 function list_cross_account_authorizations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -804,7 +804,7 @@ function list_cross_account_authorizations(;
     )
 end
 function list_cross_account_authorizations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -826,13 +826,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
-function list_readiness_checks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_readiness_checks(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "GET", "/readinesschecks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_readiness_checks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -854,13 +854,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
-function list_recovery_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_recovery_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "GET", "/recoverygroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_recovery_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -882,13 +882,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
-function list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resource_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "GET", "/resourcesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resource_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -911,13 +911,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 - `"resourceType"`: The resource type that a readiness rule applies to.
 """
-function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET", "/rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -935,7 +935,7 @@ Lists the tags for a resource.
 
 """
 function list_tags_for_resources(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
@@ -947,7 +947,7 @@ end
 function list_tags_for_resources(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
@@ -969,7 +969,9 @@ Adds a tag to a resource.
 - `tags`:
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(
+    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return route53_recovery_readiness(
         "POST",
         "/tags/$(resource-arn)",
@@ -982,7 +984,7 @@ function tag_resource(
     resource_arn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
@@ -1005,7 +1007,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -1019,7 +1021,7 @@ function untag_resource(
     resource_arn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
@@ -1042,7 +1044,7 @@ Updates a cell to replace the list of nested cells with a new list of nested cel
   previous list.
 
 """
-function update_cell(cellName, cells; aws_config::AbstractAWSConfig=global_aws_config())
+function update_cell(cellName, cells; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "PUT",
         "/cells/$(cellName)",
@@ -1055,7 +1057,7 @@ function update_cell(
     cellName,
     cells,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
@@ -1078,7 +1080,7 @@ Updates a readiness check.
 
 """
 function update_readiness_check(
-    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "PUT",
@@ -1092,7 +1094,7 @@ function update_readiness_check(
     readinessCheckName,
     resourceSetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
@@ -1120,7 +1122,7 @@ Updates a recovery group.
 
 """
 function update_recovery_group(
-    cells, recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    cells, recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "PUT",
@@ -1134,7 +1136,7 @@ function update_recovery_group(
     cells,
     recoveryGroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
@@ -1168,7 +1170,7 @@ function update_resource_set(
     resourceSetName,
     resourceSetType,
     resources;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
@@ -1183,7 +1185,7 @@ function update_resource_set(
     resourceSetType,
     resources,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",

@@ -89,7 +89,7 @@ function create_broker(
     hostInstanceType,
     publiclyAccessible,
     users;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -119,7 +119,7 @@ function create_broker(
     publiclyAccessible,
     users,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -169,7 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Create tags when creating the configuration.
 """
 function create_configuration(
-    engineType, engineVersion, name; aws_config::AbstractAWSConfig=global_aws_config()
+    engineType, engineVersion, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "POST",
@@ -186,7 +186,7 @@ function create_configuration(
     engineVersion,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -220,7 +220,7 @@ Add a tag to a resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: The key-value pair for the resource tag.
 """
-function create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config())
+function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "POST",
         "/v1/tags/$(resource-arn)";
@@ -231,7 +231,7 @@ end
 function create_tags(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -269,7 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"replicationUser"`: Defines if this user is intended for CRDR replication purposes.
 """
 function create_user(
-    broker_id, password, username; aws_config::AbstractAWSConfig=global_aws_config()
+    broker_id, password, username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "POST",
@@ -284,7 +284,7 @@ function create_user(
     password,
     username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -307,7 +307,7 @@ Deletes a broker. Note: This API is asynchronous.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-function delete_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "DELETE",
         "/v1/brokers/$(broker-id)";
@@ -318,7 +318,7 @@ end
 function delete_broker(
     broker_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "DELETE",
@@ -341,7 +341,7 @@ Removes a tag from a resource.
 
 """
 function delete_tags(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "DELETE",
@@ -355,7 +355,7 @@ function delete_tags(
     resource_arn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "DELETE",
@@ -379,7 +379,9 @@ Deletes an ActiveMQ user.
   characters long.
 
 """
-function delete_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_user(
+    broker_id, username; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return mq(
         "DELETE",
         "/v1/brokers/$(broker-id)/users/$(username)";
@@ -391,7 +393,7 @@ function delete_user(
     broker_id,
     username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "DELETE",
@@ -412,7 +414,7 @@ Returns information about the specified broker.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-function describe_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "GET",
         "/v1/brokers/$(broker-id)";
@@ -423,7 +425,7 @@ end
 function describe_broker(
     broker_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -448,7 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that specifies the next page of results Amazon MQ should return.
   To request the first page, leave nextToken empty.
 """
-function describe_broker_engine_types(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_broker_engine_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "GET",
         "/v1/broker-engine-types";
@@ -457,7 +459,7 @@ function describe_broker_engine_types(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function describe_broker_engine_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -485,7 +487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"storageType"`: Filter response by storage type.
 """
 function describe_broker_instance_options(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -495,7 +497,7 @@ function describe_broker_instance_options(;
     )
 end
 function describe_broker_instance_options(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -517,7 +519,7 @@ Returns information about the specified configuration.
 
 """
 function describe_configuration(
-    configuration_id; aws_config::AbstractAWSConfig=global_aws_config()
+    configuration_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -529,7 +531,7 @@ end
 function describe_configuration(
     configuration_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -554,7 +556,7 @@ Returns the specified configuration revision for the specified configuration.
 function describe_configuration_revision(
     configuration_id,
     configuration_revision;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -567,7 +569,7 @@ function describe_configuration_revision(
     configuration_id,
     configuration_revision,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -592,7 +594,7 @@ Returns information about an ActiveMQ user.
 
 """
 function describe_user(
-    broker_id, username; aws_config::AbstractAWSConfig=global_aws_config()
+    broker_id, username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -605,7 +607,7 @@ function describe_user(
     broker_id,
     username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -629,11 +631,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that specifies the next page of results Amazon MQ should return.
   To request the first page, leave nextToken empty.
 """
-function list_brokers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_brokers(; aws_config::AbstractAWSConfig=current_aws_config())
     return mq("GET", "/v1/brokers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_brokers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET", "/v1/brokers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -657,7 +659,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To request the first page, leave nextToken empty.
 """
 function list_configuration_revisions(
-    configuration_id; aws_config::AbstractAWSConfig=global_aws_config()
+    configuration_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -669,7 +671,7 @@ end
 function list_configuration_revisions(
     configuration_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -693,13 +695,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that specifies the next page of results Amazon MQ should return.
   To request the first page, leave nextToken empty.
 """
-function list_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "GET", "/v1/configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
@@ -720,7 +722,7 @@ Lists tags for a resource.
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
 
 """
-function list_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "GET",
         "/v1/tags/$(resource-arn)";
@@ -731,7 +733,7 @@ end
 function list_tags(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -758,7 +760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that specifies the next page of results Amazon MQ should return.
   To request the first page, leave nextToken empty.
 """
-function list_users(broker_id; aws_config::AbstractAWSConfig=global_aws_config())
+function list_users(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "GET",
         "/v1/brokers/$(broker-id)/users";
@@ -769,7 +771,7 @@ end
 function list_users(
     broker_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
@@ -792,7 +794,7 @@ Promotes a data replication replica broker to the primary broker role.
   FAILOVER.
 
 """
-function promote(broker_id, mode; aws_config::AbstractAWSConfig=global_aws_config())
+function promote(broker_id, mode; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "POST",
         "/v1/brokers/$(broker-id)/promote",
@@ -805,7 +807,7 @@ function promote(
     broker_id,
     mode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -826,7 +828,7 @@ Reboots a broker. Note: This API is asynchronous.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-function reboot_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config())
+function reboot_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "POST",
         "/v1/brokers/$(broker-id)/reboot";
@@ -837,7 +839,7 @@ end
 function reboot_broker(
     broker_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
@@ -877,7 +879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroups"`: The list of security groups (1 minimum, 5 maximum) that authorizes
   connections to brokers.
 """
-function update_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "PUT",
         "/v1/brokers/$(broker-id)";
@@ -888,7 +890,7 @@ end
 function update_broker(
     broker_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "PUT",
@@ -915,7 +917,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the configuration.
 """
 function update_configuration(
-    configuration_id, data; aws_config::AbstractAWSConfig=global_aws_config()
+    configuration_id, data; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "PUT",
@@ -929,7 +931,7 @@ function update_configuration(
     configuration_id,
     data,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "PUT",
@@ -963,7 +965,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   signs (,:=).
 - `"replicationUser"`: Defines whether the user is intended for data replication.
 """
-function update_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config())
+function update_user(
+    broker_id, username; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return mq(
         "PUT",
         "/v1/brokers/$(broker-id)/users/$(username)";
@@ -975,7 +979,7 @@ function update_user(
     broker_id,
     username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "PUT",

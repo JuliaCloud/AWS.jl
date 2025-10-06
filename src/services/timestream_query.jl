@@ -18,7 +18,7 @@ indicating that the query has already been canceled. See code sample for details
   of the query result.
 
 """
-function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "CancelQuery",
         Dict{String,Any}("QueryId" => QueryId);
@@ -27,7 +27,9 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function cancel_query(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "CancelQuery",
@@ -90,7 +92,7 @@ function create_scheduled_query(
     QueryString,
     ScheduleConfiguration,
     ScheduledQueryExecutionRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "CreateScheduledQuery",
@@ -115,7 +117,7 @@ function create_scheduled_query(
     ScheduleConfiguration,
     ScheduledQueryExecutionRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "CreateScheduledQuery",
@@ -150,7 +152,7 @@ Deletes a given scheduled query. This is an irreversible operation.
 
 """
 function delete_scheduled_query(
-    ScheduledQueryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "DeleteScheduledQuery",
@@ -162,7 +164,7 @@ end
 function delete_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "DeleteScheduledQuery",
@@ -185,13 +187,13 @@ configured maximum TCUs the service can use for your query workload. You're char
 for the duration of compute units used for your workloads.
 
 """
-function describe_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "DescribeAccountSettings",
@@ -215,13 +217,13 @@ require better control over the client-side implementation   For detailed inform
 how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
 
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -239,7 +241,7 @@ Provides detailed information about a scheduled query.
 
 """
 function describe_scheduled_query(
-    ScheduledQueryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "DescribeScheduledQuery",
@@ -251,7 +253,7 @@ end
 function describe_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "DescribeScheduledQuery",
@@ -281,7 +283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Not used.
 """
 function execute_scheduled_query(
-    InvocationTime, ScheduledQueryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InvocationTime, ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "ExecuteScheduledQuery",
@@ -298,7 +300,7 @@ function execute_scheduled_query(
     InvocationTime,
     ScheduledQueryArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "ExecuteScheduledQuery",
@@ -333,13 +335,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListScheduledQueriesRequest.
 - `"NextToken"`:  A pagination token to resume pagination.
 """
-function list_scheduled_queries(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_scheduled_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_scheduled_queries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "ListScheduledQueries",
@@ -365,7 +367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token to resume pagination.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "ListTagsForResource",
@@ -377,7 +379,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "ListTagsForResource",
@@ -406,7 +408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidateOnly"`: By setting this value to true, Timestream will only validate that the
   query string is a valid Timestream query, and not store the prepared query for later use.
 """
-function prepare_query(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
+function prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "PrepareQuery",
         Dict{String,Any}("QueryString" => QueryString);
@@ -417,7 +419,7 @@ end
 function prepare_query(
     QueryString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "PrepareQuery",
@@ -488,7 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have the same query string in the query requests, the query will fail with an Invalid
   pagination token error.
 """
-function query(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
+function query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "Query",
         Dict{String,Any}("QueryString" => QueryString, "ClientToken" => string(uuid4()));
@@ -499,7 +501,7 @@ end
 function query(
     QueryString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "Query",
@@ -531,7 +533,7 @@ allocation tracking.
 - `tags`: The tags to be assigned to the Timestream resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -543,7 +545,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "TagResource",
@@ -573,7 +575,7 @@ Removes the association of tags from a Timestream query resource.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "UntagResource",
@@ -586,7 +588,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "UntagResource",
@@ -622,13 +624,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maxQueryTCU, see Default quotas.
 - `"QueryPricingModel"`: The pricing model for queries in an account.
 """
-function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "UpdateAccountSettings",
@@ -650,7 +652,7 @@ Update a scheduled query.
 
 """
 function update_scheduled_query(
-    ScheduledQueryArn, State; aws_config::AbstractAWSConfig=global_aws_config()
+    ScheduledQueryArn, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_query(
         "UpdateScheduledQuery",
@@ -663,7 +665,7 @@ function update_scheduled_query(
     ScheduledQueryArn,
     State,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_query(
         "UpdateScheduledQuery",

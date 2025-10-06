@@ -31,7 +31,7 @@ Developer Guide.
 
 """
 function abort_multipart_upload(
-    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "DELETE",
@@ -45,7 +45,7 @@ function abort_multipart_upload(
     uploadId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "DELETE",
@@ -82,7 +82,7 @@ associated with the vault.
 
 """
 function abort_vault_lock(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "DELETE",
@@ -95,7 +95,7 @@ function abort_vault_lock(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "DELETE",
@@ -129,7 +129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value can be an empty string.
 """
 function add_tags_to_vault(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -142,7 +142,7 @@ function add_tags_to_vault(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -205,7 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Glacier (Glacier), Glacier returns an error and the request fails.
 """
 function complete_multipart_upload(
-    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -219,7 +219,7 @@ function complete_multipart_upload(
     uploadId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -256,7 +256,7 @@ lock is in the InProgress state, the operation throws an InvalidParameter error.
 
 """
 function complete_vault_lock(
-    accountId, lockId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, lockId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -270,7 +270,7 @@ function complete_vault_lock(
     lockId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -307,7 +307,7 @@ Glacier and Create Vault  in the Amazon Glacier Developer Guide.
 
 """
 function create_vault(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "PUT",
@@ -320,7 +320,7 @@ function create_vault(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "PUT",
@@ -360,7 +360,7 @@ Developer Guide.
 
 """
 function delete_archive(
-    accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "DELETE",
@@ -374,7 +374,7 @@ function delete_archive(
     archiveId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "DELETE",
@@ -412,7 +412,7 @@ Glacier and Delete Vault  in the Amazon S3 Glacier Developer Guide.
 
 """
 function delete_vault(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "DELETE",
@@ -425,7 +425,7 @@ function delete_vault(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "DELETE",
@@ -457,7 +457,7 @@ Access Policies.
 
 """
 function delete_vault_access_policy(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "DELETE",
@@ -470,7 +470,7 @@ function delete_vault_access_policy(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "DELETE",
@@ -505,7 +505,7 @@ Amazon S3 Glacier Developer Guide.
 
 """
 function delete_vault_notifications(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "DELETE",
@@ -518,7 +518,7 @@ function delete_vault_notifications(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "DELETE",
@@ -557,7 +557,7 @@ Describe Job in the Amazon Glacier Developer Guide.
 
 """
 function describe_job(
-    accountId, jobId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -571,7 +571,7 @@ function describe_job(
     jobId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -610,7 +610,7 @@ Glacier Developer Guide.
 
 """
 function describe_vault(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -623,7 +623,7 @@ function describe_vault(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -651,7 +651,7 @@ Amazon Glacier Data Retrieval Policies.
 
 """
 function get_data_retrieval_policy(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -663,7 +663,7 @@ end
 function get_data_retrieval_policy(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -736,7 +736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure you have downloaded the entire archive content with no errors.
 """
 function get_job_output(
-    accountId, jobId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -750,7 +750,7 @@ function get_job_output(
     jobId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -780,7 +780,7 @@ Vault Access Policies.
 
 """
 function get_vault_access_policy(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -793,7 +793,7 @@ function get_vault_access_policy(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -828,7 +828,7 @@ about vault lock policies, Amazon Glacier Access Control with Vault Lock Policie
 
 """
 function get_vault_lock(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -841,7 +841,7 @@ function get_vault_lock(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -877,7 +877,7 @@ Configuration  in the Amazon Glacier Developer Guide.
 
 """
 function get_vault_notifications(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -890,7 +890,7 @@ function get_vault_notifications(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -921,7 +921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobParameters"`: Provides options for specifying job information.
 """
 function initiate_job(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -934,7 +934,7 @@ function initiate_job(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -988,7 +988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be smaller than this part size.
 """
 function initiate_multipart_upload(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -1001,7 +1001,7 @@ function initiate_multipart_upload(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -1047,7 +1047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character.
 """
 function initiate_vault_lock(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -1060,7 +1060,7 @@ function initiate_vault_lock(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -1120,7 +1120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statuscode"`: The type of job status to return. You can specify the following values:
   InProgress, Succeeded, or Failed.
 """
-function list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config())
     return glacier(
         "GET",
         "/$(accountId)/vaults/$(vaultName)/jobs";
@@ -1132,7 +1132,7 @@ function list_jobs(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -1184,7 +1184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results started in a previous List Uploads request.
 """
 function list_multipart_uploads(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -1197,7 +1197,7 @@ function list_multipart_uploads(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -1248,7 +1248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results started in a previous List Parts request.
 """
 function list_parts(
-    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -1262,7 +1262,7 @@ function list_parts(
     uploadId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -1287,7 +1287,7 @@ This operation lists the provisioned capacity units for the specified AWS accoun
 
 """
 function list_provisioned_capacity(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -1299,7 +1299,7 @@ end
 function list_provisioned_capacity(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -1327,7 +1327,7 @@ Resources.
 
 """
 function list_tags_for_vault(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "GET",
@@ -1340,7 +1340,7 @@ function list_tags_for_vault(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -1384,7 +1384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: A string used for pagination. The marker specifies the vault ARN after which
   the listing of vaults should begin.
 """
-function list_vaults(accountId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_vaults(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return glacier(
         "GET",
         "/$(accountId)/vaults";
@@ -1395,7 +1395,7 @@ end
 function list_vaults(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "GET",
@@ -1420,7 +1420,7 @@ This operation purchases a provisioned capacity unit for an AWS account.
 
 """
 function purchase_provisioned_capacity(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -1432,7 +1432,7 @@ end
 function purchase_provisioned_capacity(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -1464,7 +1464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagKeys"`: A list of tag keys. Each corresponding tag is removed from the vault.
 """
 function remove_tags_from_vault(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -1477,7 +1477,7 @@ function remove_tags_from_vault(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -1510,7 +1510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Policy"`: The data retrieval policy in JSON format.
 """
 function set_data_retrieval_policy(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "PUT",
@@ -1522,7 +1522,7 @@ end
 function set_data_retrieval_policy(
     accountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "PUT",
@@ -1556,7 +1556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policy"`: The vault access policy as a JSON string.
 """
 function set_vault_access_policy(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "PUT",
@@ -1569,7 +1569,7 @@ function set_vault_access_policy(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "PUT",
@@ -1617,7 +1617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vaultNotificationConfig"`: Provides options for specifying notification configuration.
 """
 function set_vault_notifications(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "PUT",
@@ -1630,7 +1630,7 @@ function set_vault_notifications(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "PUT",
@@ -1683,7 +1683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
 function upload_archive(
-    accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "POST",
@@ -1696,7 +1696,7 @@ function upload_archive(
     accountId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "POST",
@@ -1756,7 +1756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
 function upload_multipart_part(
-    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glacier(
         "PUT",
@@ -1770,7 +1770,7 @@ function upload_multipart_part(
     uploadId,
     vaultName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glacier(
         "PUT",

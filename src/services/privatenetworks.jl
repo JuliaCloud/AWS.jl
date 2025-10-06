@@ -15,7 +15,7 @@ Acknowledges that the specified network order was received.
 
 """
 function acknowledge_order_receipt(
-    orderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    orderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -28,7 +28,7 @@ end
 function acknowledge_order_receipt(
     orderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -56,7 +56,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see How to ensure idempotency.
 """
 function activate_device_identifier(
-    deviceIdentifierArn; aws_config::AbstractAWSConfig=global_aws_config()
+    deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -69,7 +69,7 @@ end
 function activate_device_identifier(
     deviceIdentifierArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -110,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   commitment period is set to 60-days.
 """
 function activate_network_site(
-    networkSiteArn, shippingAddress; aws_config::AbstractAWSConfig=global_aws_config()
+    networkSiteArn, shippingAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -126,7 +126,7 @@ function activate_network_site(
     networkSiteArn,
     shippingAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -169,7 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The position of the network resource.
 """
 function configure_access_point(
-    accessPointArn; aws_config::AbstractAWSConfig=global_aws_config()
+    accessPointArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -182,7 +182,7 @@ end
 function configure_access_point(
     accessPointArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -212,7 +212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the network.
 - `"tags"`:  The tags to apply to the network.
 """
-function create_network(networkName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_network(networkName; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "POST",
         "/v1/networks",
@@ -224,7 +224,7 @@ end
 function create_network(
     networkName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tags to apply to the network site.
 """
 function create_network_site(
-    networkArn, networkSiteName; aws_config::AbstractAWSConfig=global_aws_config()
+    networkArn, networkSiteName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -275,7 +275,7 @@ function create_network_site(
     networkArn,
     networkSiteName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -309,7 +309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see How to ensure idempotency.
 """
 function deactivate_device_identifier(
-    deviceIdentifierArn; aws_config::AbstractAWSConfig=global_aws_config()
+    deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -322,7 +322,7 @@ end
 function deactivate_device_identifier(
     deviceIdentifierArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see How to ensure idempotency.
 """
-function delete_network(networkArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "DELETE",
         "/v1/networks/$(networkArn)";
@@ -366,7 +366,7 @@ end
 function delete_network(
     networkArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "DELETE",
@@ -394,7 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see How to ensure idempotency.
 """
 function delete_network_site(
-    networkSiteArn; aws_config::AbstractAWSConfig=global_aws_config()
+    networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "DELETE",
@@ -406,7 +406,7 @@ end
 function delete_network_site(
     networkSiteArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "DELETE",
@@ -428,7 +428,7 @@ Gets the specified device identifier.
 
 """
 function get_device_identifier(
-    deviceIdentifierArn; aws_config::AbstractAWSConfig=global_aws_config()
+    deviceIdentifierArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "GET",
@@ -440,7 +440,7 @@ end
 function get_device_identifier(
     deviceIdentifierArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "GET",
@@ -461,7 +461,7 @@ Gets the specified network.
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 
 """
-function get_network(networkArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "GET",
         "/v1/networks/$(networkArn)";
@@ -472,7 +472,7 @@ end
 function get_network(
     networkArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "GET",
@@ -494,7 +494,7 @@ Gets the specified network resource.
 
 """
 function get_network_resource(
-    networkResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    networkResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "GET",
@@ -506,7 +506,7 @@ end
 function get_network_resource(
     networkResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "GET",
@@ -527,7 +527,9 @@ Gets the specified network site.
 - `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 
 """
-function get_network_site(networkSiteArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_network_site(
+    networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return privatenetworks(
         "GET",
         "/v1/network-sites/$(networkSiteArn)";
@@ -538,7 +540,7 @@ end
 function get_network_site(
     networkSiteArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "GET",
@@ -559,7 +561,7 @@ Gets the specified order.
 - `order_arn`: The Amazon Resource Name (ARN) of the order.
 
 """
-function get_order(orderArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_order(orderArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "GET",
         "/v1/orders/$(orderArn)";
@@ -570,7 +572,7 @@ end
 function get_order(
     orderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "GET",
@@ -605,7 +607,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startToken"`: The token for the next page of results.
 """
 function list_device_identifiers(
-    networkArn; aws_config::AbstractAWSConfig=global_aws_config()
+    networkArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -618,7 +620,7 @@ end
 function list_device_identifiers(
     networkArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -654,7 +656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startToken"`: The token for the next page of results.
 """
 function list_network_resources(
-    networkArn; aws_config::AbstractAWSConfig=global_aws_config()
+    networkArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -667,7 +669,7 @@ end
 function list_network_resources(
     networkArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -700,7 +702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-function list_network_sites(networkArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_network_sites(networkArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "POST",
         "/v1/network-sites/list",
@@ -712,7 +714,7 @@ end
 function list_network_sites(
     networkArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -741,13 +743,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-function list_networks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "POST", "/v1/networks/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_networks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -780,7 +782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
-function list_orders(networkArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_orders(networkArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "POST",
         "/v1/orders/list",
@@ -792,7 +794,7 @@ end
 function list_orders(
     networkArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -816,7 +818,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "GET",
@@ -828,7 +830,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "GET",
@@ -846,13 +848,13 @@ end
 Checks the health of the service.
 
 """
-function ping(; aws_config::AbstractAWSConfig=global_aws_config())
+function ping(; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "GET", "/ping"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function ping(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "GET", "/ping", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -901,7 +903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the network resource.
 """
 function start_network_resource_update(
-    networkResourceArn, updateType; aws_config::AbstractAWSConfig=global_aws_config()
+    networkResourceArn, updateType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "POST",
@@ -917,7 +919,7 @@ function start_network_resource_update(
     networkResourceArn,
     updateType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -947,7 +949,7 @@ end
 - `tags`: The tags to add to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
         "POST",
         "/tags/$(resourceArn)",
@@ -960,7 +962,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "POST",
@@ -983,7 +985,7 @@ Removes tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "DELETE",
@@ -997,7 +999,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "DELETE",
@@ -1024,7 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description.
 """
 function update_network_site(
-    networkSiteArn; aws_config::AbstractAWSConfig=global_aws_config()
+    networkSiteArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "PUT",
@@ -1037,7 +1039,7 @@ end
 function update_network_site(
     networkSiteArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "PUT",
@@ -1066,7 +1068,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see How to ensure idempotency.
 """
 function update_network_site_plan(
-    networkSiteArn, pendingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+    networkSiteArn, pendingPlan; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
         "PUT",
@@ -1080,7 +1082,7 @@ function update_network_site_plan(
     networkSiteArn,
     pendingPlan,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
         "PUT",
