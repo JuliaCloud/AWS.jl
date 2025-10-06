@@ -45,7 +45,7 @@ function create_link(
     LabelTemplate,
     ResourceTypes,
     SinkIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -64,7 +64,7 @@ function create_link(
     ResourceTypes,
     SinkIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -108,7 +108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information about using tags to control access, see Controlling access to Amazon Web
   Services resources using tags.
 """
-function create_sink(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_sink(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
         "/CreateSink",
@@ -118,7 +118,7 @@ function create_sink(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_sink(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "POST",
@@ -140,7 +140,7 @@ operation in the source account.
 - `identifier`: The ARN of the link to delete.
 
 """
-function delete_link(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_link(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
         "/DeleteLink",
@@ -152,7 +152,7 @@ end
 function delete_link(
     Identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -175,7 +175,7 @@ Deletes a sink. You must delete all links to a sink before you can delete that s
 - `identifier`: The ARN of the sink to delete.
 
 """
-function delete_sink(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_sink(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
         "/DeleteSink",
@@ -187,7 +187,7 @@ end
 function delete_sink(
     Identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -211,7 +211,7 @@ To retrieve a list of link ARNs, use ListLinks.
 - `identifier`: The ARN of the link to retrieve information for.
 
 """
-function get_link(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function get_link(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
         "/GetLink",
@@ -223,7 +223,7 @@ end
 function get_link(
     Identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -247,7 +247,7 @@ provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
 - `identifier`: The ARN of the sink to retrieve information for.
 
 """
-function get_sink(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function get_sink(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
         "/GetSink",
@@ -259,7 +259,7 @@ end
 function get_sink(
     Identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -283,7 +283,7 @@ accounts can attach to this sink as source accounts, and what types of data they
 - `sink_identifier`: The ARN of the sink to retrieve the policy of.
 
 """
-function get_sink_policy(SinkIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+function get_sink_policy(SinkIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
         "/GetSinkPolicy",
@@ -295,7 +295,7 @@ end
 function get_sink_policy(
     SinkIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -326,7 +326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.
 """
 function list_attached_links(
-    SinkIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    SinkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "POST",
@@ -339,7 +339,7 @@ end
 function list_attached_links(
     SinkIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -366,11 +366,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. You received this token
   from a previous call.
 """
-function list_links(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return oam("POST", "/ListLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_links(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "POST", "/ListLinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -390,11 +390,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. You received this token
   from a previous call.
 """
-function list_sinks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_sinks(; aws_config::AbstractAWSConfig=current_aws_config())
     return oam("POST", "/ListSinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_sinks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "POST", "/ListSinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -418,7 +418,7 @@ Displays the tags associated with a resource. Both sinks and links support taggi
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "GET",
@@ -430,7 +430,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "GET",
@@ -463,7 +463,7 @@ this section to see how to specify permitted source accounts and data types.
 
 """
 function put_sink_policy(
-    Policy, SinkIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, SinkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "POST",
@@ -477,7 +477,7 @@ function put_sink_policy(
     Policy,
     SinkIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",
@@ -519,7 +519,7 @@ allow you to tag and untag links and sinks.
 - `tags`: The list of key-value pairs to associate with the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "PUT",
         "/tags/$(ResourceArn)",
@@ -532,7 +532,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "PUT",
@@ -561,7 +561,7 @@ untag links and sinks.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "DELETE",
@@ -575,7 +575,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "DELETE",
@@ -609,7 +609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups are to be shared from the source account to the monitoring account.
 """
 function update_link(
-    Identifier, ResourceTypes; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, ResourceTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return oam(
         "POST",
@@ -623,7 +623,7 @@ function update_link(
     Identifier,
     ResourceTypes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return oam(
         "POST",

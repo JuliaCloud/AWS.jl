@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registry, the default public registry is assumed.
 """
 function batch_check_layer_availability(
-    layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    layerDigests, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "BatchCheckLayerAvailability",
@@ -42,7 +42,7 @@ function batch_check_layer_availability(
     layerDigests,
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "BatchCheckLayerAvailability",
@@ -82,7 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default public registry is assumed.
 """
 function batch_delete_image(
-    imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    imageIds, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "BatchDeleteImage",
@@ -95,7 +95,7 @@ function batch_delete_image(
     imageIds,
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "BatchDeleteImage",
@@ -141,7 +141,7 @@ function complete_layer_upload(
     layerDigests,
     repositoryName,
     uploadId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "CompleteLayerUpload",
@@ -159,7 +159,7 @@ function complete_layer_upload(
     repositoryName,
     uploadId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "CompleteLayerUpload",
@@ -202,7 +202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have a maximum length of 256 characters.
 """
 function create_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "CreateRepository",
@@ -214,7 +214,7 @@ end
 function create_repository(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "CreateRepository",
@@ -246,7 +246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default public registry is assumed.
 """
 function delete_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "DeleteRepository",
@@ -258,7 +258,7 @@ end
 function delete_repository(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "DeleteRepository",
@@ -287,7 +287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the default public registry is assumed.
 """
 function delete_repository_policy(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "DeleteRepositoryPolicy",
@@ -299,7 +299,7 @@ end
 function delete_repository_policy(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "DeleteRepositoryPolicy",
@@ -340,7 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registry, the default public registry is assumed.
 """
 function describe_image_tags(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "DescribeImageTags",
@@ -352,7 +352,7 @@ end
 function describe_image_tags(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "DescribeImageTags",
@@ -396,7 +396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registry that contains the repository where images are described. If you do not specify a
   registry, the default public registry is assumed.
 """
-function describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_images(repositoryName; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "DescribeImages",
         Dict{String,Any}("repositoryName" => repositoryName);
@@ -407,7 +407,7 @@ end
 function describe_images(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "DescribeImages",
@@ -441,13 +441,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be treated as an opaque identifier that is only used to retrieve the next items in a
   list and not for other programmatic purposes.
 """
-function describe_registries(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_registries(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "DescribeRegistries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_registries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "DescribeRegistries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -483,13 +483,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"repositoryNames"`: A list of repositories to describe. If this parameter is omitted,
   then all repositories in a registry are described.
 """
-function describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "DescribeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_repositories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "DescribeRepositories",
@@ -509,13 +509,13 @@ access to. The authorization token is valid for 12 hours. This API requires the
 ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
 
 """
-function get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_authorization_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "GetAuthorizationToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_authorization_token(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "GetAuthorizationToken",
@@ -532,13 +532,13 @@ end
 Retrieves catalog metadata for a public registry.
 
 """
-function get_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_registry_catalog_data(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "GetRegistryCatalogData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_registry_catalog_data(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "GetRegistryCatalogData",
@@ -565,7 +565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default public registry is assumed.
 """
 function get_repository_catalog_data(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "GetRepositoryCatalogData",
@@ -577,7 +577,7 @@ end
 function get_repository_catalog_data(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "GetRepositoryCatalogData",
@@ -605,7 +605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registry is assumed.
 """
 function get_repository_policy(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "GetRepositoryPolicy",
@@ -617,7 +617,7 @@ end
 function get_repository_policy(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "GetRepositoryPolicy",
@@ -650,7 +650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the default public registry is assumed.
 """
 function initiate_layer_upload(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "InitiateLayerUpload",
@@ -662,7 +662,7 @@ end
 function initiate_layer_upload(
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "InitiateLayerUpload",
@@ -686,7 +686,7 @@ List the tags for an Amazon ECR Public resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "ListTagsForResource",
@@ -698,7 +698,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "ListTagsForResource",
@@ -738,7 +738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a registry, the default public registry is assumed.
 """
 function put_image(
-    imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    imageManifest, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "PutImage",
@@ -753,7 +753,7 @@ function put_image(
     imageManifest,
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "PutImage",
@@ -783,13 +783,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository author in the Amazon ECR Public Gallery.  The registry display name is only
   publicly visible in the Amazon ECR Public Gallery for verified accounts.
 """
-function put_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config())
+function put_registry_catalog_data(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "PutRegistryCatalogData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function put_registry_catalog_data(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "PutRegistryCatalogData",
@@ -817,7 +817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registry is assumed.
 """
 function put_repository_catalog_data(
-    catalogData, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    catalogData, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "PutRepositoryCatalogData",
@@ -830,7 +830,7 @@ function put_repository_catalog_data(
     catalogData,
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "PutRepositoryCatalogData",
@@ -872,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is assumed.
 """
 function set_repository_policy(
-    policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    policyText, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "SetRepositoryPolicy",
@@ -885,7 +885,7 @@ function set_repository_policy(
     policyText,
     repositoryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "SetRepositoryPolicy",
@@ -919,7 +919,7 @@ resource is deleted, the tags associated with that resource are also deleted.
   length of 256 characters.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr_public(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
@@ -931,7 +931,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "TagResource",
@@ -960,7 +960,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr_public(
         "UntagResource",
@@ -973,7 +973,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "UntagResource",
@@ -1022,7 +1022,7 @@ function upload_layer_part(
     partLastByte,
     repositoryName,
     uploadId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "UploadLayerPart",
@@ -1044,7 +1044,7 @@ function upload_layer_part(
     repositoryName,
     uploadId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ecr_public(
         "UploadLayerPart",

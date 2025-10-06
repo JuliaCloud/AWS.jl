@@ -40,7 +40,7 @@ function associate_firewall_rule_group(
     Name,
     Priority,
     VpcId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "AssociateFirewallRuleGroup",
@@ -62,7 +62,7 @@ function associate_firewall_rule_group(
     Priority,
     VpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "AssociateFirewallRuleGroup",
@@ -102,7 +102,7 @@ DisassociateResolverEndpointIpAddress.
 
 """
 function associate_resolver_endpoint_ip_address(
-    IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "AssociateResolverEndpointIpAddress",
@@ -117,7 +117,7 @@ function associate_resolver_endpoint_ip_address(
     IpAddress,
     ResolverEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "AssociateResolverEndpointIpAddress",
@@ -155,7 +155,7 @@ DisassociateResolverQueryLogConfig.
 
 """
 function associate_resolver_query_log_config(
-    ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "AssociateResolverQueryLogConfig",
@@ -171,7 +171,7 @@ function associate_resolver_query_log_config(
     ResolverQueryLogConfigId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "AssociateResolverQueryLogConfig",
@@ -210,7 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC.
 """
 function associate_resolver_rule(
-    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "AssociateResolverRule",
@@ -223,7 +223,7 @@ function associate_resolver_rule(
     ResolverRuleId,
     VPCId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "AssociateResolverRule",
@@ -259,7 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list.
 """
 function create_firewall_domain_list(
-    CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CreatorRequestId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "CreateFirewallDomainList",
@@ -272,7 +272,7 @@ function create_firewall_domain_list(
     CreatorRequestId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateFirewallDomainList",
@@ -359,7 +359,7 @@ function create_firewall_rule(
     FirewallRuleGroupId,
     Name,
     Priority;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateFirewallRule",
@@ -383,7 +383,7 @@ function create_firewall_rule(
     Name,
     Priority,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateFirewallRule",
@@ -425,7 +425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 """
 function create_firewall_rule_group(
-    CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CreatorRequestId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "CreateFirewallRuleGroup",
@@ -438,7 +438,7 @@ function create_firewall_rule_group(
     CreatorRequestId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateFirewallRuleGroup",
@@ -482,7 +482,7 @@ function create_outpost_resolver(
     Name,
     OutpostArn,
     PreferredInstanceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateOutpostResolver",
@@ -502,7 +502,7 @@ function create_outpost_resolver(
     OutpostArn,
     PreferredInstanceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateOutpostResolver",
@@ -578,7 +578,7 @@ function create_resolver_endpoint(
     Direction,
     IpAddresses,
     SecurityGroupIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateResolverEndpoint",
@@ -598,7 +598,7 @@ function create_resolver_endpoint(
     IpAddresses,
     SecurityGroupIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateResolverEndpoint",
@@ -656,7 +656,7 @@ function create_resolver_query_log_config(
     CreatorRequestId,
     DestinationArn,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateResolverQueryLogConfig",
@@ -674,7 +674,7 @@ function create_resolver_query_log_config(
     DestinationArn,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateResolverQueryLogConfig",
@@ -731,7 +731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   space.  TargetIps is available only when the value of Rule type is FORWARD.
 """
 function create_resolver_rule(
-    CreatorRequestId, RuleType; aws_config::AbstractAWSConfig=global_aws_config()
+    CreatorRequestId, RuleType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "CreateResolverRule",
@@ -744,7 +744,7 @@ function create_resolver_rule(
     CreatorRequestId,
     RuleType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "CreateResolverRule",
@@ -773,7 +773,7 @@ Deletes the specified domain list.
 
 """
 function delete_firewall_domain_list(
-    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallDomainListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteFirewallDomainList",
@@ -785,7 +785,7 @@ end
 function delete_firewall_domain_list(
     FirewallDomainListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteFirewallDomainList",
@@ -829,7 +829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteFirewallRule",
@@ -845,7 +845,7 @@ function delete_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteFirewallRule",
@@ -876,7 +876,7 @@ Deletes the specified firewall rule group.
 
 """
 function delete_firewall_rule_group(
-    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteFirewallRuleGroup",
@@ -888,7 +888,7 @@ end
 function delete_firewall_rule_group(
     FirewallRuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteFirewallRuleGroup",
@@ -914,7 +914,7 @@ Deletes a Resolver on the Outpost.
 - `id`: A unique string that identifies the Resolver on the Outpost.
 
 """
-function delete_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_outpost_resolver(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "DeleteOutpostResolver",
         Dict{String,Any}("Id" => Id);
@@ -923,7 +923,7 @@ function delete_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function delete_outpost_resolver(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteOutpostResolver",
@@ -947,7 +947,7 @@ from a VPC are no longer routed to your network.
 
 """
 function delete_resolver_endpoint(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteResolverEndpoint",
@@ -959,7 +959,7 @@ end
 function delete_resolver_endpoint(
     ResolverEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteResolverEndpoint",
@@ -995,7 +995,7 @@ configuration, those VPCs are automatically disassociated from the configuration
 
 """
 function delete_resolver_query_log_config(
-    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteResolverQueryLogConfig",
@@ -1007,7 +1007,7 @@ end
 function delete_resolver_query_log_config(
     ResolverQueryLogConfigId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteResolverQueryLogConfig",
@@ -1036,7 +1036,7 @@ DisassociateResolverRule.
 
 """
 function delete_resolver_rule(
-    ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteResolverRule",
@@ -1048,7 +1048,7 @@ end
 function delete_resolver_rule(
     ResolverRuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DeleteResolverRule",
@@ -1071,7 +1071,7 @@ Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the V
 
 """
 function disassociate_firewall_rule_group(
-    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DisassociateFirewallRuleGroup",
@@ -1085,7 +1085,7 @@ end
 function disassociate_firewall_rule_group(
     FirewallRuleGroupAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DisassociateFirewallRuleGroup",
@@ -1119,7 +1119,7 @@ AssociateResolverEndpointIpAddress.
 
 """
 function disassociate_resolver_endpoint_ip_address(
-    IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DisassociateResolverEndpointIpAddress",
@@ -1134,7 +1134,7 @@ function disassociate_resolver_endpoint_ip_address(
     IpAddress,
     ResolverEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DisassociateResolverEndpointIpAddress",
@@ -1171,7 +1171,7 @@ configuration.   You can stop sharing the configuration.
 
 """
 function disassociate_resolver_query_log_config(
-    ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DisassociateResolverQueryLogConfig",
@@ -1187,7 +1187,7 @@ function disassociate_resolver_query_log_config(
     ResolverQueryLogConfigId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DisassociateResolverQueryLogConfig",
@@ -1221,7 +1221,7 @@ domain name that you specified in the Resolver rule.
 
 """
 function disassociate_resolver_rule(
-    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DisassociateResolverRule",
@@ -1234,7 +1234,7 @@ function disassociate_resolver_rule(
     ResolverRuleId,
     VPCId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "DisassociateResolverRule",
@@ -1261,7 +1261,7 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 - `resource_id`: The ID of the VPC from Amazon VPC that the configuration is for.
 
 """
-function get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "GetFirewallConfig",
         Dict{String,Any}("ResourceId" => ResourceId);
@@ -1272,7 +1272,7 @@ end
 function get_firewall_config(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetFirewallConfig",
@@ -1295,7 +1295,7 @@ Retrieves the specified firewall domain list.
 
 """
 function get_firewall_domain_list(
-    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallDomainListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetFirewallDomainList",
@@ -1307,7 +1307,7 @@ end
 function get_firewall_domain_list(
     FirewallDomainListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetFirewallDomainList",
@@ -1334,7 +1334,7 @@ Retrieves the specified firewall rule group.
 
 """
 function get_firewall_rule_group(
-    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetFirewallRuleGroup",
@@ -1346,7 +1346,7 @@ end
 function get_firewall_rule_group(
     FirewallRuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetFirewallRuleGroup",
@@ -1375,7 +1375,7 @@ can be associated with more than one VPC.
 
 """
 function get_firewall_rule_group_association(
-    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetFirewallRuleGroupAssociation",
@@ -1389,7 +1389,7 @@ end
 function get_firewall_rule_group_association(
     FirewallRuleGroupAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetFirewallRuleGroupAssociation",
@@ -1420,7 +1420,7 @@ Manager (RAM).
 
 """
 function get_firewall_rule_group_policy(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetFirewallRuleGroupPolicy",
@@ -1430,7 +1430,7 @@ function get_firewall_rule_group_policy(
     )
 end
 function get_firewall_rule_group_policy(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetFirewallRuleGroupPolicy",
@@ -1451,7 +1451,7 @@ type, name, and the current status of the Resolver.
 - `id`: The ID of the Resolver on the Outpost.
 
 """
-function get_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_outpost_resolver(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "GetOutpostResolver",
         Dict{String,Any}("Id" => Id);
@@ -1460,7 +1460,7 @@ function get_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_outpost_resolver(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetOutpostResolver",
@@ -1481,7 +1481,7 @@ Amazon Virtual Private Cloud.
 - `resource_id`: Resource ID of the Amazon VPC that you want to get information about.
 
 """
-function get_resolver_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resolver_config(ResourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "GetResolverConfig",
         Dict{String,Any}("ResourceId" => ResourceId);
@@ -1492,7 +1492,7 @@ end
 function get_resolver_config(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverConfig",
@@ -1515,7 +1515,7 @@ Gets DNSSEC validation information for a specified resource.
 
 """
 function get_resolver_dnssec_config(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverDnssecConfig",
@@ -1527,7 +1527,7 @@ end
 function get_resolver_dnssec_config(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverDnssecConfig",
@@ -1552,7 +1552,7 @@ outbound Resolver endpoint, and the current status of the endpoint.
 
 """
 function get_resolver_endpoint(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverEndpoint",
@@ -1564,7 +1564,7 @@ end
 function get_resolver_endpoint(
     ResolverEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverEndpoint",
@@ -1592,7 +1592,7 @@ to.
 
 """
 function get_resolver_query_log_config(
-    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverQueryLogConfig",
@@ -1604,7 +1604,7 @@ end
 function get_resolver_query_log_config(
     ResolverQueryLogConfigId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverQueryLogConfig",
@@ -1634,7 +1634,7 @@ configuration, Resolver logs DNS queries that originate in that VPC.
 
 """
 function get_resolver_query_log_config_association(
-    ResolverQueryLogConfigAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverQueryLogConfigAssociation",
@@ -1648,7 +1648,7 @@ end
 function get_resolver_query_log_config_association(
     ResolverQueryLogConfigAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverQueryLogConfigAssociation",
@@ -1681,7 +1681,7 @@ Services account to be able to use.
 
 """
 function get_resolver_query_log_config_policy(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverQueryLogConfigPolicy",
@@ -1691,7 +1691,7 @@ function get_resolver_query_log_config_policy(
     )
 end
 function get_resolver_query_log_config_policy(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverQueryLogConfigPolicy",
@@ -1714,7 +1714,7 @@ associated with.
 
 """
 function get_resolver_rule(
-    ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverRule",
@@ -1726,7 +1726,7 @@ end
 function get_resolver_rule(
     ResolverRuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverRule",
@@ -1751,7 +1751,7 @@ associate a Resolver rule and a VPC using AssociateResolverRule.
 
 """
 function get_resolver_rule_association(
-    ResolverRuleAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverRuleAssociation",
@@ -1763,7 +1763,7 @@ end
 function get_resolver_rule_association(
     ResolverRuleAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "GetResolverRuleAssociation",
@@ -1792,7 +1792,7 @@ to use.
 - `arn`: The ID of the Resolver rule that you want to get the Resolver rule policy for.
 
 """
-function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "GetResolverRulePolicy",
         Dict{String,Any}("Arn" => Arn);
@@ -1801,7 +1801,7 @@ function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function get_resolver_rule_policy(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "GetResolverRulePolicy",
@@ -1837,7 +1837,7 @@ function import_firewall_domains(
     DomainFileUrl,
     FirewallDomainListId,
     Operation;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "ImportFirewallDomains",
@@ -1855,7 +1855,7 @@ function import_firewall_domains(
     FirewallDomainListId,
     Operation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "ImportFirewallDomains",
@@ -1895,13 +1895,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To retrieve the next batch of objects, use the token that was returned for the
   prior request in your next request.
 """
-function list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_firewall_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListFirewallConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_firewall_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallConfigs",
@@ -1932,13 +1932,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To retrieve the next batch of objects, use the token that was returned for the
   prior request in your next request.
 """
-function list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_firewall_domain_lists(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListFirewallDomainLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_firewall_domain_lists(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallDomainLists",
@@ -1972,7 +1972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 function list_firewall_domains(
-    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallDomainListId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallDomains",
@@ -1984,7 +1984,7 @@ end
 function list_firewall_domains(
     FirewallDomainListId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "ListFirewallDomains",
@@ -2032,7 +2032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for. Leave this blank to retrieve associations for any VPC.
 """
 function list_firewall_rule_group_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallRuleGroupAssociations";
@@ -2041,7 +2041,7 @@ function list_firewall_rule_group_associations(;
     )
 end
 function list_firewall_rule_group_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallRuleGroupAssociations",
@@ -2071,13 +2071,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To retrieve the next batch of objects, use the token that was returned for the
   prior request in your next request.
 """
-function list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_firewall_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListFirewallRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_firewall_rule_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallRuleGroups",
@@ -2120,7 +2120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules in a rule group by order of priority, starting from the lowest setting.
 """
 function list_firewall_rules(
-    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListFirewallRules",
@@ -2132,7 +2132,7 @@ end
 function list_firewall_rules(
     FirewallRuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "ListFirewallRules",
@@ -2163,13 +2163,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: For the first ListOutpostResolver request, omit this value.
 - `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost.
 """
-function list_outpost_resolvers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_outpost_resolvers(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListOutpostResolvers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_outpost_resolvers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListOutpostResolvers",
@@ -2197,13 +2197,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent requests, get the value of NextToken from the previous response and specify that
   value for NextToken in the request.
 """
-function list_resolver_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resolver_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListResolverConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resolver_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverConfigs",
@@ -2232,13 +2232,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and subsequent requests, get the value of NextToken from the previous response and specify
   that value for NextToken in the request.
 """
-function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListResolverDnssecConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resolver_dnssec_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverDnssecConfigs",
@@ -2269,7 +2269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next request, specify the value of NextToken from the previous response.
 """
 function list_resolver_endpoint_ip_addresses(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverEndpointIpAddresses",
@@ -2281,7 +2281,7 @@ end
 function list_resolver_endpoint_ip_addresses(
     ResolverEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "ListResolverEndpointIpAddresses",
@@ -2316,13 +2316,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to get the next group of Resolver endpoints. In the next request, specify the value
   of NextToken from the previous response.
 """
-function list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resolver_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListResolverEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resolver_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverEndpoints",
@@ -2377,7 +2377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter, you must use the same value for SortOrder, if any, as in the previous request.
 """
 function list_resolver_query_log_config_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverQueryLogConfigAssociations";
@@ -2386,7 +2386,7 @@ function list_resolver_query_log_config_associations(;
     )
 end
 function list_resolver_query_log_config_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverQueryLogConfigAssociations",
@@ -2444,7 +2444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must use the same value for SortOrder, if any, as in the previous request.
 """
 function list_resolver_query_log_configs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverQueryLogConfigs";
@@ -2453,7 +2453,7 @@ function list_resolver_query_log_configs(;
     )
 end
 function list_resolver_query_log_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverQueryLogConfigs",
@@ -2485,7 +2485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request, specify the value of NextToken from the previous response.
 """
 function list_resolver_rule_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverRuleAssociations";
@@ -2494,7 +2494,7 @@ function list_resolver_rule_associations(;
     )
 end
 function list_resolver_rule_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverRuleAssociations",
@@ -2524,13 +2524,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next group of Resolver rules. In the next request, specify the value of NextToken from the
   previous response.
 """
-function list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resolver_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "ListResolverRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_resolver_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListResolverRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2558,7 +2558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the previous response.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "ListTagsForResource",
@@ -2570,7 +2570,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "ListTagsForResource",
@@ -2597,7 +2597,7 @@ rule group. You can use the policy to share the rule group using Resource Access
 
 """
 function put_firewall_rule_group_policy(
-    Arn, FirewallRuleGroupPolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, FirewallRuleGroupPolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "PutFirewallRuleGroupPolicy",
@@ -2612,7 +2612,7 @@ function put_firewall_rule_group_policy(
     Arn,
     FirewallRuleGroupPolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "PutFirewallRuleGroupPolicy",
@@ -2652,7 +2652,7 @@ operations that you want the account to be able to perform on the configuration.
 
 """
 function put_resolver_query_log_config_policy(
-    Arn, ResolverQueryLogConfigPolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, ResolverQueryLogConfigPolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "PutResolverQueryLogConfigPolicy",
@@ -2667,7 +2667,7 @@ function put_resolver_query_log_config_policy(
     Arn,
     ResolverQueryLogConfigPolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "PutResolverQueryLogConfigPolicy",
@@ -2708,7 +2708,7 @@ to be able to perform on the rule.
 
 """
 function put_resolver_rule_policy(
-    Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "PutResolverRulePolicy",
@@ -2721,7 +2721,7 @@ function put_resolver_rule_policy(
     Arn,
     ResolverRulePolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "PutResolverRulePolicy",
@@ -2751,7 +2751,7 @@ Adds one or more tags to a specified resource.
 - `tags`: The tags that you want to add to the specified resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
@@ -2763,7 +2763,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "TagResource",
@@ -2794,7 +2794,7 @@ Removes one or more tags from a specified resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UntagResource",
@@ -2807,7 +2807,7 @@ function untag_resource(
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UntagResource",
@@ -2843,7 +2843,7 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 """
 function update_firewall_config(
-    FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateFirewallConfig",
@@ -2858,7 +2858,7 @@ function update_firewall_config(
     FirewallFailOpen,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateFirewallConfig",
@@ -2899,7 +2899,7 @@ function update_firewall_domains(
     Domains,
     FirewallDomainListId,
     Operation;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateFirewallDomains",
@@ -2917,7 +2917,7 @@ function update_firewall_domains(
     FirewallDomainListId,
     Operation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateFirewallDomains",
@@ -2995,7 +2995,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateFirewallRule",
@@ -3011,7 +3011,7 @@ function update_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateFirewallRule",
@@ -3054,7 +3054,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create it.
 """
 function update_firewall_rule_group_association(
-    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateFirewallRuleGroupAssociation",
@@ -3068,7 +3068,7 @@ end
 function update_firewall_rule_group_association(
     FirewallRuleGroupAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateFirewallRuleGroupAssociation",
@@ -3102,7 +3102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: Name of the Resolver on the Outpost.
 - `"PreferredInstanceType"`:  Amazon EC2 instance type.
 """
-function update_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_outpost_resolver(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route53resolver(
         "UpdateOutpostResolver",
         Dict{String,Any}("Id" => Id);
@@ -3111,7 +3111,7 @@ function update_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function update_outpost_resolver(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateOutpostResolver",
@@ -3141,7 +3141,7 @@ Amazon Virtual Private Cloud.
 
 """
 function update_resolver_config(
-    AutodefinedReverseFlag, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AutodefinedReverseFlag, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateResolverConfig",
@@ -3156,7 +3156,7 @@ function update_resolver_config(
     AutodefinedReverseFlag,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateResolverConfig",
@@ -3191,7 +3191,7 @@ validation configuration, one is created.
 
 """
 function update_resolver_dnssec_config(
-    ResourceId, Validation; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, Validation; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateResolverDnssecConfig",
@@ -3204,7 +3204,7 @@ function update_resolver_dnssec_config(
     ResourceId,
     Validation,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateResolverDnssecConfig",
@@ -3251,7 +3251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   chosen from your subnet.
 """
 function update_resolver_endpoint(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateResolverEndpoint",
@@ -3263,7 +3263,7 @@ end
 function update_resolver_endpoint(
     ResolverEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateResolverEndpoint",
@@ -3290,7 +3290,7 @@ parameters are optional. If you don't specify a parameter, it retains its curren
 
 """
 function update_resolver_rule(
-    Config, ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    Config, ResolverRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateResolverRule",
@@ -3303,7 +3303,7 @@ function update_resolver_rule(
     Config,
     ResolverRuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53resolver(
         "UpdateResolverRule",

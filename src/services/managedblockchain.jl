@@ -35,7 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 function create_accessor(
-    AccessorType, ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessorType, ClientRequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "POST",
@@ -51,7 +51,7 @@ function create_accessor(
     AccessorType,
     ClientRequestToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -93,7 +93,7 @@ function create_member(
     InvitationId,
     MemberConfiguration,
     networkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -113,7 +113,7 @@ function create_member(
     MemberConfiguration,
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -172,7 +172,7 @@ function create_network(
     MemberConfiguration,
     Name,
     VotingPolicy;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -197,7 +197,7 @@ function create_network(
     Name,
     VotingPolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -251,7 +251,7 @@ function create_node(
     ClientRequestToken,
     NodeConfiguration,
     networkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -269,7 +269,7 @@ function create_node(
     NodeConfiguration,
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -325,7 +325,7 @@ function create_proposal(
     ClientRequestToken,
     MemberId,
     networkId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -345,7 +345,7 @@ function create_proposal(
     MemberId,
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -382,7 +382,7 @@ expire (up to 2 hours).
 - `accessor_id`: The unique identifier of the accessor.
 
 """
-function delete_accessor(AccessorId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "DELETE",
         "/accessors/$(AccessorId)";
@@ -393,7 +393,7 @@ end
 function delete_accessor(
     AccessorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "DELETE",
@@ -422,7 +422,7 @@ Hyperledger Fabric.
 
 """
 function delete_member(
-    memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()
+    memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "DELETE",
@@ -435,7 +435,7 @@ function delete_member(
     memberId,
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "DELETE",
@@ -463,7 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"memberId"`: The unique identifier of the member that owns this node. Applies only to
   Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-function delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "DELETE",
         "/networks/$(networkId)/nodes/$(nodeId)";
@@ -475,7 +475,7 @@ function delete_node(
     networkId,
     nodeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "DELETE",
@@ -497,7 +497,7 @@ the information required for token based access to your Ethereum nodes.
 - `accessor_id`: The unique identifier of the accessor.
 
 """
-function get_accessor(AccessorId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/accessors/$(AccessorId)";
@@ -508,7 +508,7 @@ end
 function get_accessor(
     AccessorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -530,7 +530,7 @@ Returns detailed information about a member. Applies only to Hyperledger Fabric.
 - `network_id`: The unique identifier of the network to which the member belongs.
 
 """
-function get_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_member(memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/members/$(memberId)";
@@ -542,7 +542,7 @@ function get_member(
     memberId,
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -563,7 +563,7 @@ Returns detailed information about a network. Applies to Hyperledger Fabric and 
 - `network_id`: The unique identifier of the network to get information about.
 
 """
-function get_network(networkId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_network(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/networks/$(networkId)";
@@ -574,7 +574,7 @@ end
 function get_network(
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -600,7 +600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"memberId"`: The unique identifier of the member that owns the node. Applies only to
   Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-function get_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/nodes/$(nodeId)";
@@ -612,7 +612,7 @@ function get_node(
     networkId,
     nodeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -635,7 +635,7 @@ Returns detailed information about a proposal. Applies only to Hyperledger Fabri
 
 """
 function get_proposal(
-    networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "GET",
@@ -648,7 +648,7 @@ function get_proposal(
     networkId,
     proposalId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -674,13 +674,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before the networkType property was introduced.
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
-function list_accessors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_accessors(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET", "/accessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_accessors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "GET", "/accessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -699,13 +699,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of invitations to return.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
-function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_invitations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "GET",
@@ -737,7 +737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: An optional status specifier. If provided, only members currently in this
   status are listed.
 """
-function list_members(networkId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_members(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/members";
@@ -748,7 +748,7 @@ end
 function list_members(
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -776,13 +776,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: An optional status specifier. If provided, only networks currently in this
   status are listed. Applies only to Hyperledger Fabric.
 """
-function list_networks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET", "/networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_networks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "GET", "/networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -808,7 +808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: An optional status specifier. If provided, only nodes currently in this
   status are listed.
 """
-function list_nodes(networkId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_nodes(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/nodes";
@@ -819,7 +819,7 @@ end
 function list_nodes(
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -847,7 +847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
 function list_proposal_votes(
-    networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()
+    networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "GET",
@@ -860,7 +860,7 @@ function list_proposal_votes(
     networkId,
     proposalId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -885,7 +885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:  The maximum number of proposals to return.
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
-function list_proposals(networkId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_proposals(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/proposals";
@@ -896,7 +896,7 @@ end
 function list_proposals(
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -923,7 +923,7 @@ Hyperledger Fabric Developer Guide.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "GET",
@@ -935,7 +935,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "GET",
@@ -958,7 +958,7 @@ network. Applies only to Hyperledger Fabric.
 - `invitation_id`: The unique identifier of the invitation to reject.
 
 """
-function reject_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config())
+function reject_invitation(invitationId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "DELETE",
         "/invitations/$(invitationId)";
@@ -969,7 +969,7 @@ end
 function reject_invitation(
     invitationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "DELETE",
@@ -1001,7 +1001,7 @@ Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
   General Reference.
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "POST",
         "/tags/$(resourceArn)",
@@ -1014,7 +1014,7 @@ function tag_resource(
     Tags,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -1042,7 +1042,7 @@ Developer Guide.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "DELETE",
@@ -1056,7 +1056,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "DELETE",
@@ -1084,7 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudWatch Logs.
 """
 function update_member(
-    memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()
+    memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
         "PATCH",
@@ -1097,7 +1097,7 @@ function update_member(
     memberId,
     networkId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "PATCH",
@@ -1125,7 +1125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MemberId"`: The unique identifier of the member that owns the node. Applies only to
   Hyperledger Fabric.
 """
-function update_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
         "PATCH",
         "/networks/$(networkId)/nodes/$(nodeId)";
@@ -1137,7 +1137,7 @@ function update_node(
     networkId,
     nodeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "PATCH",
@@ -1168,7 +1168,7 @@ function vote_on_proposal(
     VoterMemberId,
     networkId,
     proposalId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",
@@ -1184,7 +1184,7 @@ function vote_on_proposal(
     networkId,
     proposalId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
         "POST",

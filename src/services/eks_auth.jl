@@ -20,7 +20,7 @@ automatically.
 
 """
 function assume_role_for_pod_identity(
-    clusterName, token; aws_config::AbstractAWSConfig=global_aws_config()
+    clusterName, token; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks_auth(
         "POST",
@@ -34,7 +34,7 @@ function assume_role_for_pod_identity(
     clusterName,
     token,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks_auth(
         "POST",

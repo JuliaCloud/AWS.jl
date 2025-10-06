@@ -29,7 +29,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services use
 """
 function create_anomaly_monitor(
-    AnomalyMonitor; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyMonitor; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "CreateAnomalyMonitor",
@@ -41,7 +41,7 @@ end
 function create_anomaly_monitor(
     AnomalyMonitor,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "CreateAnomalyMonitor",
@@ -79,7 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services use
 """
 function create_anomaly_subscription(
-    AnomalySubscription; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalySubscription; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "CreateAnomalySubscription",
@@ -91,7 +91,7 @@ end
 function create_anomaly_subscription(
     AnomalySubscription,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "CreateAnomalySubscription",
@@ -139,7 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cost Category values.
 """
 function create_cost_category_definition(
-    Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "CreateCostCategoryDefinition",
@@ -153,7 +153,7 @@ function create_cost_category_definition(
     RuleVersion,
     Rules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "CreateCostCategoryDefinition",
@@ -182,7 +182,7 @@ Deletes a cost anomaly monitor.
 
 """
 function delete_anomaly_monitor(
-    MonitorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "DeleteAnomalyMonitor",
@@ -194,7 +194,7 @@ end
 function delete_anomaly_monitor(
     MonitorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "DeleteAnomalyMonitor",
@@ -218,7 +218,7 @@ Deletes a cost anomaly subscription.
 
 """
 function delete_anomaly_subscription(
-    SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "DeleteAnomalySubscription",
@@ -230,7 +230,7 @@ end
 function delete_anomaly_subscription(
     SubscriptionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "DeleteAnomalySubscription",
@@ -256,7 +256,7 @@ categorized with this Cost Category.
 
 """
 function delete_cost_category_definition(
-    CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CostCategoryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "DeleteCostCategoryDefinition",
@@ -268,7 +268,7 @@ end
 function delete_cost_category_definition(
     CostCategoryArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "DeleteCostCategoryDefinition",
@@ -300,7 +300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EffectiveOn"`: The date when the Cost Category was effective.
 """
 function describe_cost_category_definition(
-    CostCategoryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CostCategoryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "DescribeCostCategoryDefinition",
@@ -312,7 +312,7 @@ end
 function describe_cost_category_definition(
     CostCategoryArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "DescribeCostCategoryDefinition",
@@ -350,7 +350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an
   estimated dollar impact greater than 200.
 """
-function get_anomalies(DateInterval; aws_config::AbstractAWSConfig=global_aws_config())
+function get_anomalies(DateInterval; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_explorer(
         "GetAnomalies",
         Dict{String,Any}("DateInterval" => DateInterval);
@@ -361,7 +361,7 @@ end
 function get_anomalies(
     DateInterval,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetAnomalies",
@@ -388,13 +388,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
-function get_anomaly_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_anomaly_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_explorer(
         "GetAnomalyMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_anomaly_monitors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -417,13 +417,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size.
 - `"SubscriptionArnList"`: A list of cost anomaly subscription ARNs.
 """
-function get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_explorer(
         "GetAnomalySubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_anomaly_subscriptions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetAnomalySubscriptions",
@@ -453,7 +453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, all elements are returned.
 """
 function get_approximate_usage_records(
-    ApproximationDimension, Granularity; aws_config::AbstractAWSConfig=global_aws_config()
+    ApproximationDimension, Granularity; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetApproximateUsageRecords",
@@ -468,7 +468,7 @@ function get_approximate_usage_records(
     ApproximationDimension,
     Granularity,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetApproximateUsageRecords",
@@ -537,7 +537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size.
 """
 function get_cost_and_usage(
-    Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetCostAndUsage",
@@ -553,7 +553,7 @@ function get_cost_and_usage(
     Metrics,
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetCostAndUsage",
@@ -626,7 +626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size.
 """
 function get_cost_and_usage_with_resources(
-    Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetCostAndUsageWithResources",
@@ -642,7 +642,7 @@ function get_cost_and_usage_with_resources(
     Granularity,
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetCostAndUsageWithResources",
@@ -695,7 +695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING. When you use the SortBy value, the NextPageToken and SearchString key values
   aren't supported.
 """
-function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config())
+function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_explorer(
         "GetCostCategories",
         Dict{String,Any}("TimePeriod" => TimePeriod);
@@ -706,7 +706,7 @@ end
 function get_cost_categories(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetCostCategories",
@@ -752,7 +752,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prediction intervals.
 """
 function get_cost_forecast(
-    Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetCostForecast",
@@ -768,7 +768,7 @@ function get_cost_forecast(
     Metric,
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetCostForecast",
@@ -881,7 +881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Further, when using SortBy, NextPageToken and SearchString aren't supported.
 """
 function get_dimension_values(
-    Dimension, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    Dimension, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetDimensionValues",
@@ -894,7 +894,7 @@ function get_dimension_values(
     Dimension,
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetDimensionValues",
@@ -963,7 +963,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Time    Supported values for SortOrder are ASCENDING or DESCENDING.
 """
 function get_reservation_coverage(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetReservationCoverage",
@@ -975,7 +975,7 @@ end
 function get_reservation_coverage(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetReservationCoverage",
@@ -1030,7 +1030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TermInYears"`: The reservation term that you want recommendations for.
 """
 function get_reservation_purchase_recommendation(
-    Service; aws_config::AbstractAWSConfig=global_aws_config()
+    Service; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetReservationPurchaseRecommendation",
@@ -1040,7 +1040,9 @@ function get_reservation_purchase_recommendation(
     )
 end
 function get_reservation_purchase_recommendation(
-    Service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetReservationPurchaseRecommendation",
@@ -1093,7 +1095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SortOrder are ASCENDING and DESCENDING.
 """
 function get_reservation_utilization(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetReservationUtilization",
@@ -1105,7 +1107,7 @@ end
 function get_reservation_utilization(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetReservationUtilization",
@@ -1145,7 +1147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function get_rightsizing_recommendation(
-    Service; aws_config::AbstractAWSConfig=global_aws_config()
+    Service; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetRightsizingRecommendation",
@@ -1155,7 +1157,9 @@ function get_rightsizing_recommendation(
     )
 end
 function get_rightsizing_recommendation(
-    Service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetRightsizingRecommendation",
@@ -1178,7 +1182,7 @@ data-points that construct the cost, coverage, and utilization charts.
 
 """
 function get_savings_plan_purchase_recommendation_details(
-    RecommendationDetailId; aws_config::AbstractAWSConfig=global_aws_config()
+    RecommendationDetailId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetSavingsPlanPurchaseRecommendationDetails",
@@ -1190,7 +1194,7 @@ end
 function get_savings_plan_purchase_recommendation_details(
     RecommendationDetailId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetSavingsPlanPurchaseRecommendationDetails",
@@ -1247,7 +1251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are ASCENDING and DESCENDING.
 """
 function get_savings_plans_coverage(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetSavingsPlansCoverage",
@@ -1259,7 +1263,7 @@ end
 function get_savings_plans_coverage(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetSavingsPlansCoverage",
@@ -1311,7 +1315,7 @@ function get_savings_plans_purchase_recommendation(
     PaymentOption,
     SavingsPlansType,
     TermInYears;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetSavingsPlansPurchaseRecommendation",
@@ -1331,7 +1335,7 @@ function get_savings_plans_purchase_recommendation(
     SavingsPlansType,
     TermInYears,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetSavingsPlansPurchaseRecommendation",
@@ -1382,7 +1386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING.
 """
 function get_savings_plans_utilization(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetSavingsPlansUtilization",
@@ -1394,7 +1398,7 @@ end
 function get_savings_plans_utilization(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetSavingsPlansUtilization",
@@ -1443,7 +1447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING.
 """
 function get_savings_plans_utilization_details(
-    TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetSavingsPlansUtilizationDetails",
@@ -1455,7 +1459,7 @@ end
 function get_savings_plans_utilization_details(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetSavingsPlansUtilizationDetails",
@@ -1498,7 +1502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you use SortBy, NextPageToken and SearchString aren't supported.
 - `"TagKey"`: The key of the tag that you want to return values for.
 """
-function get_tags(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config())
+function get_tags(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_explorer(
         "GetTags",
         Dict{String,Any}("TimePeriod" => TimePeriod);
@@ -1509,7 +1513,7 @@ end
 function get_tags(
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetTags",
@@ -1557,7 +1561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   levels result in wider prediction intervals.
 """
 function get_usage_forecast(
-    Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()
+    Granularity, Metric, TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "GetUsageForecast",
@@ -1573,7 +1577,7 @@ function get_usage_forecast(
     Metric,
     TimePeriod,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "GetUsageForecast",
@@ -1607,7 +1611,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size.
 """
 function list_cost_allocation_tag_backfill_history(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListCostAllocationTagBackfillHistory";
@@ -1616,7 +1620,7 @@ function list_cost_allocation_tag_backfill_history(;
     )
 end
 function list_cost_allocation_tag_backfill_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListCostAllocationTagBackfillHistory",
@@ -1647,13 +1651,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services resources for cost allocation purposes. The UserDefined type tags are
   tags that you define, create, and apply to resources.
 """
-function list_cost_allocation_tags(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_cost_allocation_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_explorer(
         "ListCostAllocationTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_cost_allocation_tags(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListCostAllocationTags",
@@ -1683,7 +1687,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides the token when the response from a previous call has more results than the maximum
   page size.
 """
-function list_cost_category_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_cost_category_definitions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return cost_explorer(
         "ListCostCategoryDefinitions";
         aws_config=aws_config,
@@ -1691,7 +1697,7 @@ function list_cost_category_definitions(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function list_cost_category_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListCostCategoryDefinitions",
@@ -1716,7 +1722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecommendationIds"`: The IDs for each specific recommendation.
 """
 function list_savings_plans_purchase_recommendation_generation(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListSavingsPlansPurchaseRecommendationGeneration";
@@ -1725,7 +1731,7 @@ function list_savings_plans_purchase_recommendation_generation(;
     )
 end
 function list_savings_plans_purchase_recommendation_generation(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListSavingsPlansPurchaseRecommendationGeneration",
@@ -1748,7 +1754,7 @@ Resource Name (ARN).
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ListTagsForResource",
@@ -1760,7 +1766,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "ListTagsForResource",
@@ -1785,7 +1791,7 @@ Modifies the feedback property of a given cost anomaly.
 
 """
 function provide_anomaly_feedback(
-    AnomalyId, Feedback; aws_config::AbstractAWSConfig=global_aws_config()
+    AnomalyId, Feedback; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "ProvideAnomalyFeedback",
@@ -1798,7 +1804,7 @@ function provide_anomaly_feedback(
     AnomalyId,
     Feedback,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "ProvideAnomalyFeedback",
@@ -1829,7 +1835,7 @@ made. You can request a backfill once every 24 hours.
 
 """
 function start_cost_allocation_tag_backfill(
-    BackfillFrom; aws_config::AbstractAWSConfig=global_aws_config()
+    BackfillFrom; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "StartCostAllocationTagBackfill",
@@ -1841,7 +1847,7 @@ end
 function start_cost_allocation_tag_backfill(
     BackfillFrom,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "StartCostAllocationTagBackfill",
@@ -1866,7 +1872,7 @@ parameters are needed to support this operation.
 
 """
 function start_savings_plans_purchase_recommendation_generation(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "StartSavingsPlansPurchaseRecommendationGeneration";
@@ -1875,7 +1881,7 @@ function start_savings_plans_purchase_recommendation_generation(;
     )
 end
 function start_savings_plans_purchase_recommendation_generation(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "StartSavingsPlansPurchaseRecommendationGeneration",
@@ -1912,7 +1918,7 @@ Services use.
 
 """
 function tag_resource(
-    ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "TagResource",
@@ -1925,7 +1931,7 @@ function tag_resource(
     ResourceArn,
     ResourceTags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "TagResource",
@@ -1960,7 +1966,7 @@ specify the value.
 
 """
 function untag_resource(
-    ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "UntagResource",
@@ -1975,7 +1981,7 @@ function untag_resource(
     ResourceArn,
     ResourceTagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "UntagResource",
@@ -2008,7 +2014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MonitorName"`: The new name for the cost anomaly monitor.
 """
 function update_anomaly_monitor(
-    MonitorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "UpdateAnomalyMonitor",
@@ -2020,7 +2026,7 @@ end
 function update_anomaly_monitor(
     MonitorArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "UpdateAnomalyMonitor",
@@ -2076,7 +2082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Values\": [ \"100\" ] } } ] }
 """
 function update_anomaly_subscription(
-    SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "UpdateAnomalySubscription",
@@ -2088,7 +2094,7 @@ end
 function update_anomaly_subscription(
     SubscriptionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "UpdateAnomalySubscription",
@@ -2117,7 +2123,7 @@ tag).
 
 """
 function update_cost_allocation_tags_status(
-    CostAllocationTagsStatus; aws_config::AbstractAWSConfig=global_aws_config()
+    CostAllocationTagsStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "UpdateCostAllocationTagsStatus",
@@ -2129,7 +2135,7 @@ end
 function update_cost_allocation_tags_status(
     CostAllocationTagsStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "UpdateCostAllocationTagsStatus",
@@ -2169,7 +2175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cost Category values.
 """
 function update_cost_category_definition(
-    CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config()
+    CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_explorer(
         "UpdateCostCategoryDefinition",
@@ -2187,7 +2193,7 @@ function update_cost_category_definition(
     RuleVersion,
     Rules,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_explorer(
         "UpdateCostCategoryDefinition",

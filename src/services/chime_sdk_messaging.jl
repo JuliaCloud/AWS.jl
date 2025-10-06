@@ -24,7 +24,7 @@ function associate_channel_flow(
     ChannelFlowArn,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -42,7 +42,7 @@ function associate_channel_flow(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -89,7 +89,7 @@ function batch_create_channel_membership(
     MemberArns,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -107,7 +107,7 @@ function batch_create_channel_membership(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -152,7 +152,7 @@ function channel_flow_callback(
     CallbackId,
     ChannelMessage,
     channelArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -167,7 +167,7 @@ function channel_flow_callback(
     ChannelMessage,
     channelArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -226,7 +226,7 @@ function create_channel(
     ClientRequestToken,
     Name,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -247,7 +247,7 @@ function create_channel(
     Name,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -292,7 +292,7 @@ function create_channel_ban(
     MemberArn,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -310,7 +310,7 @@ function create_channel_ban(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -359,7 +359,7 @@ function create_channel_flow(
     ClientRequestToken,
     Name,
     Processors;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -380,7 +380,7 @@ function create_channel_flow(
     Name,
     Processors,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -434,7 +434,7 @@ function create_channel_membership(
     Type,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -454,7 +454,7 @@ function create_channel_membership(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -497,7 +497,7 @@ function create_channel_moderator(
     ChannelModeratorArn,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -515,7 +515,7 @@ function create_channel_moderator(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -552,7 +552,7 @@ the header.
 
 """
 function delete_channel(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -568,7 +568,7 @@ function delete_channel(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -607,7 +607,7 @@ function delete_channel_ban(
     channelArn,
     memberArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -624,7 +624,7 @@ function delete_channel_ban(
     memberArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -659,7 +659,7 @@ disassociate a channel flow from all channels.
 
 """
 function delete_channel_flow(
-    channelFlowArn; aws_config::AbstractAWSConfig=global_aws_config()
+    channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -671,7 +671,7 @@ end
 function delete_channel_flow(
     channelFlowArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -703,7 +703,7 @@ function delete_channel_membership(
     channelArn,
     memberArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -720,7 +720,7 @@ function delete_channel_membership(
     memberArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -764,7 +764,7 @@ function delete_channel_message(
     channelArn,
     messageId,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -781,7 +781,7 @@ function delete_channel_message(
     messageId,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -820,7 +820,7 @@ function delete_channel_moderator(
     channelArn,
     channelModeratorArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -837,7 +837,7 @@ function delete_channel_moderator(
     channelModeratorArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -869,7 +869,7 @@ Streaming messaging data in the Amazon Chime SDK Developer Guide.
 
 """
 function delete_messaging_streaming_configurations(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -881,7 +881,7 @@ end
 function delete_messaging_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -907,7 +907,7 @@ AppInstanceBot that makes the API call as the value in the header.
 
 """
 function describe_channel(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -923,7 +923,7 @@ function describe_channel(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -962,7 +962,7 @@ function describe_channel_ban(
     channelArn,
     memberArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -979,7 +979,7 @@ function describe_channel_ban(
     memberArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1011,7 +1011,7 @@ developer API.
 
 """
 function describe_channel_flow(
-    channelFlowArn; aws_config::AbstractAWSConfig=global_aws_config()
+    channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1023,7 +1023,7 @@ end
 function describe_channel_flow(
     channelFlowArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1058,7 +1058,7 @@ function describe_channel_membership(
     channelArn,
     memberArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1075,7 +1075,7 @@ function describe_channel_membership(
     memberArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1114,7 +1114,7 @@ function describe_channel_membership_for_app_instance_user(
     app_instance_user_arn,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1132,7 +1132,7 @@ function describe_channel_membership_for_app_instance_user(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1172,7 +1172,7 @@ function describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1190,7 +1190,7 @@ function describe_channel_moderated_by_app_instance_user(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1230,7 +1230,7 @@ function describe_channel_moderator(
     channelArn,
     channelModeratorArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1247,7 +1247,7 @@ function describe_channel_moderator(
     channelModeratorArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1287,7 +1287,7 @@ function disassociate_channel_flow(
     channelArn,
     channelFlowArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -1304,7 +1304,7 @@ function disassociate_channel_flow(
     channelFlowArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "DELETE",
@@ -1347,7 +1347,7 @@ function get_channel_membership_preferences(
     channelArn,
     memberArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1364,7 +1364,7 @@ function get_channel_membership_preferences(
     memberArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1407,7 +1407,7 @@ function get_channel_message(
     channelArn,
     messageId,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1424,7 +1424,7 @@ function get_channel_message(
     messageId,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1472,7 +1472,7 @@ function get_channel_message_status(
     channelArn,
     messageId,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1489,7 +1489,7 @@ function get_channel_message_status(
     messageId,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1516,7 +1516,9 @@ end
 The details of the endpoint for the messaging session.
 
 """
-function get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_messaging_session_endpoint(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return chime_sdk_messaging(
         "GET",
         "/endpoints/messaging-session";
@@ -1525,7 +1527,7 @@ function get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function get_messaging_session_endpoint(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1548,7 +1550,7 @@ Streaming messaging data in the Amazon Chime SDK Developer Guide.
 
 """
 function get_messaging_streaming_configurations(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1560,7 +1562,7 @@ end
 function get_messaging_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1591,7 +1593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_channel_bans(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1607,7 +1609,7 @@ function list_channel_bans(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1644,7 +1646,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are returned.
 """
 function list_channel_flows(
-    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1657,7 +1659,7 @@ end
 function list_channel_flows(
     app_instance_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1698,7 +1700,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the type filter in ListChannelMemberships equals HIDDEN.
 """
 function list_channel_memberships(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1714,7 +1716,7 @@ function list_channel_memberships(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1755,7 +1757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memberships is reached.
 """
 function list_channel_memberships_for_app_instance_user(
-    x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1770,7 +1772,7 @@ end
 function list_channel_memberships_for_app_instance_user(
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1819,7 +1821,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the messages in a SubChannel that the user belongs to.
 """
 function list_channel_messages(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1835,7 +1837,7 @@ function list_channel_messages(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1875,7 +1877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_channel_moderators(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1891,7 +1893,7 @@ function list_channel_moderators(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1936,7 +1938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 """
 function list_channels(
-    app_instance_arn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    app_instance_arn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -1953,7 +1955,7 @@ function list_channels(
     app_instance_arn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -1992,7 +1994,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_channels_associated_with_channel_flow(
-    channel_flow_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    channel_flow_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -2005,7 +2007,7 @@ end
 function list_channels_associated_with_channel_flow(
     channel_flow_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -2040,7 +2042,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channels moderated by the user is reached.
 """
 function list_channels_moderated_by_app_instance_user(
-    x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -2055,7 +2057,7 @@ end
 function list_channels_moderated_by_app_instance_user(
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -2093,7 +2095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are returned.
 """
 function list_sub_channels(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -2109,7 +2111,7 @@ function list_sub_channels(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "GET",
@@ -2139,7 +2141,7 @@ Lists the tags applied to an Amazon Chime SDK messaging resource.
 - `arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_messaging(
         "GET",
         "/tags",
@@ -2149,7 +2151,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "GET",
@@ -2182,7 +2184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API call.
 """
 function put_channel_expiration_settings(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2194,7 +2196,7 @@ end
 function put_channel_expiration_settings(
     channelArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2230,7 +2232,7 @@ function put_channel_membership_preferences(
     channelArn,
     memberArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2249,7 +2251,7 @@ function put_channel_membership_preferences(
     memberArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2285,7 +2287,7 @@ Streaming messaging data in the Amazon Chime SDK Developer Guide.
 function put_messaging_streaming_configurations(
     StreamingConfigurations,
     appInstanceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2299,7 +2301,7 @@ function put_messaging_streaming_configurations(
     StreamingConfigurations,
     appInstanceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2339,7 +2341,7 @@ function redact_channel_message(
     channelArn,
     messageId,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -2356,7 +2358,7 @@ function redact_channel_message(
     messageId,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -2395,7 +2397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channels is reached.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user making the API call.
 """
-function search_channels(Fields; aws_config::AbstractAWSConfig=global_aws_config())
+function search_channels(Fields; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_messaging(
         "POST",
         "/channels?operation=search",
@@ -2405,7 +2407,7 @@ function search_channels(Fields; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function search_channels(
-    Fields, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Fields, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "POST",
@@ -2460,7 +2462,7 @@ function send_channel_message(
     Type,
     channelArn,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -2484,7 +2486,7 @@ function send_channel_message(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -2519,7 +2521,7 @@ Applies the specified tags to the specified Amazon Chime SDK messaging resource.
 - `tags`: The tag key-value pairs.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_messaging(
         "POST",
         "/tags?operation=tag-resource",
@@ -2532,7 +2534,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -2561,7 +2563,7 @@ Removes the specified tags from the specified Amazon Chime SDK messaging resourc
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "POST",
@@ -2575,7 +2577,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "POST",
@@ -2612,7 +2614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the channel.
 """
 function update_channel(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2628,7 +2630,7 @@ function update_channel(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2661,7 +2663,7 @@ Updates channel flow attributes. This is a developer API.
 
 """
 function update_channel_flow(
-    Name, Processors, channelFlowArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Processors, channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2676,7 +2678,7 @@ function update_channel_flow(
     Processors,
     channelFlowArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2718,7 +2720,7 @@ function update_channel_message(
     channelArn,
     messageId,
     x_amz_chime_bearer;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2737,7 +2739,7 @@ function update_channel_message(
     messageId,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2773,7 +2775,7 @@ AppInstanceBot that makes the API call as the value in the header.
 
 """
 function update_channel_read_marker(
-    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_messaging(
         "PUT",
@@ -2789,7 +2791,7 @@ function update_channel_read_marker(
     channelArn,
     x_amz_chime_bearer,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_messaging(
         "PUT",

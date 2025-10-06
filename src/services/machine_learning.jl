@@ -20,7 +20,7 @@ AddTags updates the tag's value.
 
 """
 function add_tags(
-    ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "AddTags",
@@ -36,7 +36,7 @@ function add_tags(
     ResourceType,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "AddTags",
@@ -92,7 +92,7 @@ function create_batch_prediction(
     BatchPredictionId,
     MLModelId,
     OutputUri;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateBatchPrediction",
@@ -112,7 +112,7 @@ function create_batch_prediction(
     MLModelId,
     OutputUri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateBatchPrediction",
@@ -184,7 +184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSourceName"`: A user-supplied name or description of the DataSource.
 """
 function create_data_source_from_rds(
-    DataSourceId, RDSData, RoleARN; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceId, RDSData, RoleARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "CreateDataSourceFromRDS",
@@ -200,7 +200,7 @@ function create_data_source_from_rds(
     RDSData,
     RoleARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateDataSourceFromRDS",
@@ -276,7 +276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSourceName"`: A user-supplied name or description of the DataSource.
 """
 function create_data_source_from_redshift(
-    DataSourceId, DataSpec, RoleARN; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceId, DataSpec, RoleARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "CreateDataSourceFromRedshift",
@@ -292,7 +292,7 @@ function create_data_source_from_redshift(
     DataSpec,
     RoleARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateDataSourceFromRedshift",
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSourceName"`: A user-supplied name or description of the DataSource.
 """
 function create_data_source_from_s3(
-    DataSourceId, DataSpec; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceId, DataSpec; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "CreateDataSourceFromS3",
@@ -368,7 +368,7 @@ function create_data_source_from_s3(
     DataSourceId,
     DataSpec,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateDataSourceFromS3",
@@ -415,7 +415,7 @@ function create_evaluation(
     EvaluationDataSourceId,
     EvaluationId,
     MLModelId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateEvaluation",
@@ -433,7 +433,7 @@ function create_evaluation(
     EvaluationId,
     MLModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateEvaluation",
@@ -511,7 +511,7 @@ function create_mlmodel(
     MLModelId,
     MLModelType,
     TrainingDataSourceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateMLModel",
@@ -529,7 +529,7 @@ function create_mlmodel(
     MLModelType,
     TrainingDataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateMLModel",
@@ -561,7 +561,7 @@ that is, the location to send real-time prediction requests for the specified ML
 
 """
 function create_realtime_endpoint(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config()
+    MLModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "CreateRealtimeEndpoint",
@@ -573,7 +573,7 @@ end
 function create_realtime_endpoint(
     MLModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "CreateRealtimeEndpoint",
@@ -599,7 +599,7 @@ DeleteBatchPrediction operation is irreversible.
 
 """
 function delete_batch_prediction(
-    BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config()
+    BatchPredictionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DeleteBatchPrediction",
@@ -611,7 +611,7 @@ end
 function delete_batch_prediction(
     BatchPredictionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DeleteBatchPrediction",
@@ -638,7 +638,9 @@ operation are irreversible.
 - `data_source_id`: A user-supplied ID that uniquely identifies the DataSource.
 
 """
-function delete_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_data_source(
+    DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return machine_learning(
         "DeleteDataSource",
         Dict{String,Any}("DataSourceId" => DataSourceId);
@@ -649,7 +651,7 @@ end
 function delete_data_source(
     DataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DeleteDataSource",
@@ -674,7 +676,7 @@ operation are irreversible.
 - `evaluation_id`: A user-supplied ID that uniquely identifies the Evaluation to delete.
 
 """
-function delete_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_evaluation(EvaluationId; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "DeleteEvaluation",
         Dict{String,Any}("EvaluationId" => EvaluationId);
@@ -685,7 +687,7 @@ end
 function delete_evaluation(
     EvaluationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DeleteEvaluation",
@@ -710,7 +712,7 @@ irreversible.
 - `mlmodel_id`: A user-supplied ID that uniquely identifies the MLModel.
 
 """
-function delete_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_mlmodel(MLModelId; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "DeleteMLModel",
         Dict{String,Any}("MLModelId" => MLModelId);
@@ -721,7 +723,7 @@ end
 function delete_mlmodel(
     MLModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DeleteMLModel",
@@ -744,7 +746,7 @@ Deletes a real time endpoint of an MLModel.
 
 """
 function delete_realtime_endpoint(
-    MLModelId; aws_config::AbstractAWSConfig=global_aws_config()
+    MLModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DeleteRealtimeEndpoint",
@@ -756,7 +758,7 @@ end
 function delete_realtime_endpoint(
     MLModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DeleteRealtimeEndpoint",
@@ -783,7 +785,7 @@ it.
 
 """
 function delete_tags(
-    ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DeleteTags",
@@ -799,7 +801,7 @@ function delete_tags(
     ResourceType,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DeleteTags",
@@ -859,13 +861,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of MLModels.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges
   the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_batch_predictions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_batch_predictions(; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "DescribeBatchPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_batch_predictions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DescribeBatchPredictions",
@@ -912,13 +914,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of DataSource.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges
   the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_data_sources(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_data_sources(; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "DescribeDataSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_data_sources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DescribeDataSources",
@@ -967,13 +969,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of Evaluation.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges
   the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_evaluations(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_evaluations(; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "DescribeEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_evaluations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DescribeEvaluations",
@@ -1025,13 +1027,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of MLModel.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
-function describe_mlmodels(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_mlmodels(; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "DescribeMLModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_mlmodels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DescribeMLModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1050,7 +1052,7 @@ Describes one or more of the tags for your Amazon ML object.
 
 """
 function describe_tags(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "DescribeTags",
@@ -1063,7 +1065,7 @@ function describe_tags(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "DescribeTags",
@@ -1093,7 +1095,7 @@ information for a Batch Prediction request.
 
 """
 function get_batch_prediction(
-    BatchPredictionId; aws_config::AbstractAWSConfig=global_aws_config()
+    BatchPredictionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "GetBatchPrediction",
@@ -1105,7 +1107,7 @@ end
 function get_batch_prediction(
     BatchPredictionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "GetBatchPrediction",
@@ -1137,7 +1139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not
   returned.
 """
-function get_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_source(DataSourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "GetDataSource",
         Dict{String,Any}("DataSourceId" => DataSourceId);
@@ -1148,7 +1150,7 @@ end
 function get_data_source(
     DataSourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "GetDataSource",
@@ -1172,7 +1174,7 @@ Evaluation.
   recorded and cataloged. The ID provides the means to access the information.
 
 """
-function get_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_evaluation(EvaluationId; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "GetEvaluation",
         Dict{String,Any}("EvaluationId" => EvaluationId);
@@ -1183,7 +1185,7 @@ end
 function get_evaluation(
     EvaluationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "GetEvaluation",
@@ -1210,7 +1212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Verbose"`: Specifies whether the GetMLModel operation should return Recipe. If true,
   Recipe is returned. If false, Recipe is not returned.
 """
-function get_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_mlmodel(MLModelId; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "GetMLModel",
         Dict{String,Any}("MLModelId" => MLModelId);
@@ -1221,7 +1223,7 @@ end
 function get_mlmodel(
     MLModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "GetMLModel",
@@ -1248,7 +1250,7 @@ the type of model requested.
 
 """
 function predict(
-    MLModelId, PredictEndpoint, Record; aws_config::AbstractAWSConfig=global_aws_config()
+    MLModelId, PredictEndpoint, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "Predict",
@@ -1266,7 +1268,7 @@ function predict(
     PredictEndpoint,
     Record,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "Predict",
@@ -1301,7 +1303,7 @@ operation to view the contents of the updated data element.
 function update_batch_prediction(
     BatchPredictionId,
     BatchPredictionName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "UpdateBatchPrediction",
@@ -1317,7 +1319,7 @@ function update_batch_prediction(
     BatchPredictionId,
     BatchPredictionName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "UpdateBatchPrediction",
@@ -1350,7 +1352,7 @@ the contents of the updated data element.
 
 """
 function update_data_source(
-    DataSourceId, DataSourceName; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceId, DataSourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "UpdateDataSource",
@@ -1365,7 +1367,7 @@ function update_data_source(
     DataSourceId,
     DataSourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "UpdateDataSource",
@@ -1397,7 +1399,7 @@ view the contents of the updated data element.
 
 """
 function update_evaluation(
-    EvaluationId, EvaluationName; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationId, EvaluationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return machine_learning(
         "UpdateEvaluation",
@@ -1412,7 +1414,7 @@ function update_evaluation(
     EvaluationId,
     EvaluationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "UpdateEvaluation",
@@ -1449,7 +1451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true. Output values less than the ScoreThreshold receive a negative response from the
   MLModel, such as false.
 """
-function update_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_mlmodel(MLModelId; aws_config::AbstractAWSConfig=current_aws_config())
     return machine_learning(
         "UpdateMLModel",
         Dict{String,Any}("MLModelId" => MLModelId);
@@ -1460,7 +1462,7 @@ end
 function update_mlmodel(
     MLModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return machine_learning(
         "UpdateMLModel",

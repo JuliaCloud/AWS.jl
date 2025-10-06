@@ -17,7 +17,7 @@ Removes session information for a specified bot, alias, and user ID.
 
 """
 function delete_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_runtime_service(
         "DELETE",
@@ -31,7 +31,7 @@ function delete_session(
     botName,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_service(
         "DELETE",
@@ -61,7 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checkpointLabel field set to that string are returned.
 """
 function get_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_runtime_service(
         "GET",
@@ -75,7 +75,7 @@ function get_session(
     botName,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_service(
         "GET",
@@ -183,7 +183,7 @@ function post_content(
     botName,
     inputStream,
     userId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_service(
         "POST",
@@ -203,7 +203,7 @@ function post_content(
     inputStream,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_service(
         "POST",
@@ -286,7 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client application. For more information, see Setting Session Attributes.
 """
 function post_text(
-    botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_runtime_service(
         "POST",
@@ -302,7 +302,7 @@ function post_text(
     inputText,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_service(
         "POST",
@@ -361,7 +361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 """
 function put_session(
-    botAlias, botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_runtime_service(
         "POST",
@@ -375,7 +375,7 @@ function put_session(
     botName,
     userId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_service(
         "POST",

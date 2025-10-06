@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   partnerships, and so on) for any purpose.
 """
 function create_capability(
-    configuration, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    configuration, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "CreateCapability",
@@ -46,7 +46,7 @@ function create_capability(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "CreateCapability",
@@ -91,7 +91,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   partnerships, and so on) for any purpose.
 """
 function create_partnership(
-    capabilities, email, name, profileId; aws_config::AbstractAWSConfig=global_aws_config()
+    capabilities, email, name, profileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "CreatePartnership",
@@ -112,7 +112,7 @@ function create_partnership(
     name,
     profileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "CreatePartnership",
@@ -157,7 +157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   partnerships, and so on) for any purpose.
 """
 function create_profile(
-    businessName, logging, name, phone; aws_config::AbstractAWSConfig=global_aws_config()
+    businessName, logging, name, phone; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "CreateProfile",
@@ -178,7 +178,7 @@ function create_profile(
     name,
     phone,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "CreateProfile",
@@ -231,7 +231,7 @@ function create_transformer(
     fileFormat,
     mappingTemplate,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "CreateTransformer",
@@ -252,7 +252,7 @@ function create_transformer(
     mappingTemplate,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "CreateTransformer",
@@ -285,7 +285,7 @@ transform incoming EDI documents into JSON or XML outputs.
 - `capability_id`: Specifies a system-assigned unique identifier for the capability.
 
 """
-function delete_capability(capabilityId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "DeleteCapability",
         Dict{String,Any}("capabilityId" => capabilityId);
@@ -296,7 +296,7 @@ end
 function delete_capability(
     capabilityId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "DeleteCapability",
@@ -320,7 +320,7 @@ your trading partner. It ties together a profile and one or more trading capabil
 
 """
 function delete_partnership(
-    partnershipId; aws_config::AbstractAWSConfig=global_aws_config()
+    partnershipId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "DeletePartnership",
@@ -332,7 +332,7 @@ end
 function delete_partnership(
     partnershipId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "DeletePartnership",
@@ -355,7 +355,7 @@ private network.
 - `profile_id`: Specifies the unique, system-generated identifier for the profile.
 
 """
-function delete_profile(profileId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "DeleteProfile",
         Dict{String,Any}("profileId" => profileId);
@@ -366,7 +366,7 @@ end
 function delete_profile(
     profileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "DeleteProfile",
@@ -390,7 +390,7 @@ documents and extract the necessary information to the output file.
 
 """
 function delete_transformer(
-    transformerId; aws_config::AbstractAWSConfig=global_aws_config()
+    transformerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "DeleteTransformer",
@@ -402,7 +402,7 @@ end
 function delete_transformer(
     transformerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "DeleteTransformer",
@@ -425,7 +425,7 @@ information required to transform incoming EDI documents into JSON or XML output
 - `capability_id`: Specifies a system-assigned unique identifier for the capability.
 
 """
-function get_capability(capabilityId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "GetCapability",
         Dict{String,Any}("capabilityId" => capabilityId);
@@ -436,7 +436,7 @@ end
 function get_capability(
     capabilityId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "GetCapability",
@@ -460,7 +460,7 @@ together a profile and one or more trading capabilities.
 - `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 
 """
-function get_partnership(partnershipId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_partnership(partnershipId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "GetPartnership",
         Dict{String,Any}("partnershipId" => partnershipId);
@@ -471,7 +471,7 @@ end
 function get_partnership(
     partnershipId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "GetPartnership",
@@ -494,7 +494,7 @@ mechanism used to create the concept of a private network.
 - `profile_id`: Specifies the unique, system-generated identifier for the profile.
 
 """
-function get_profile(profileId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "GetProfile",
         Dict{String,Any}("profileId" => profileId);
@@ -505,7 +505,7 @@ end
 function get_profile(
     profileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "GetProfile",
@@ -529,7 +529,7 @@ to the output file.
 - `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 
 """
-function get_transformer(transformerId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_transformer(transformerId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "GetTransformer",
         Dict{String,Any}("transformerId" => transformerId);
@@ -540,7 +540,7 @@ end
 function get_transformer(
     transformerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "GetTransformer",
@@ -565,7 +565,7 @@ Returns the details of the transformer run, based on the Transformer job ID.
 
 """
 function get_transformer_job(
-    transformerId, transformerJobId; aws_config::AbstractAWSConfig=global_aws_config()
+    transformerId, transformerJobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "GetTransformerJob",
@@ -580,7 +580,7 @@ function get_transformer_job(
     transformerId,
     transformerJobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "GetTransformerJob",
@@ -613,11 +613,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the NextToken parameter in a
   subsequent command to continue listing additional resources.
 """
-function list_capabilities(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_capabilities(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListCapabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_capabilities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "ListCapabilities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -641,11 +641,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileId"`: Specifies the unique, system-generated identifier for the profile
   connected to this partnership.
 """
-function list_partnerships(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_partnerships(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListPartnerships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_partnerships(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "ListPartnerships", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -667,11 +667,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the NextToken parameter in a
   subsequent command to continue listing additional resources.
 """
-function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "ListProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -692,7 +692,7 @@ resource can be a capability, partnership, profile, or transformer.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "ListTagsForResource",
@@ -704,7 +704,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "ListTagsForResource",
@@ -730,11 +730,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the NextToken parameter in a
   subsequent command to continue listing additional resources.
 """
-function list_transformers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_transformers(; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi("ListTransformers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_transformers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "ListTransformers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -766,7 +766,7 @@ function start_transformer_job(
     inputFile,
     outputLocation,
     transformerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "StartTransformerJob",
@@ -785,7 +785,7 @@ function start_transformer_job(
     outputLocation,
     transformerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "StartTransformerJob",
@@ -822,7 +822,7 @@ no response returned from this call.
   partnerships, and so on) for any purpose.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -834,7 +834,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "TagResource",
@@ -871,7 +871,7 @@ function test_mapping(
     fileFormat,
     inputFileContent,
     mappingTemplate;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "TestMapping",
@@ -889,7 +889,7 @@ function test_mapping(
     inputFileContent,
     mappingTemplate,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "TestMapping",
@@ -927,7 +927,7 @@ limit of 250 KB.
 
 """
 function test_parsing(
-    ediType, fileFormat, inputFile; aws_config::AbstractAWSConfig=global_aws_config()
+    ediType, fileFormat, inputFile; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "TestParsing",
@@ -943,7 +943,7 @@ function test_parsing(
     fileFormat,
     inputFile,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "TestParsing",
@@ -979,7 +979,7 @@ Name (ARN). Resources are capability, partnership, profile, transformers and oth
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "UntagResource",
@@ -992,7 +992,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "UntagResource",
@@ -1027,7 +1027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket and the key, to identify the document's location.
 - `"name"`: Specifies a new name for the capability, to replace the existing name.
 """
-function update_capability(capabilityId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "UpdateCapability",
         Dict{String,Any}("capabilityId" => capabilityId);
@@ -1038,7 +1038,7 @@ end
 function update_capability(
     capabilityId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "UpdateCapability",
@@ -1067,7 +1067,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the partnership, used to identify it.
 """
 function update_partnership(
-    partnershipId; aws_config::AbstractAWSConfig=global_aws_config()
+    partnershipId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "UpdatePartnership",
@@ -1079,7 +1079,7 @@ end
 function update_partnership(
     partnershipId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "UpdatePartnership",
@@ -1108,7 +1108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the profile, used to identify it.
 - `"phone"`: Specifies the phone number associated with the profile.
 """
-function update_profile(profileId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "UpdateProfile",
         Dict{String,Any}("profileId" => profileId);
@@ -1119,7 +1119,7 @@ end
 function update_profile(
     profileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "UpdateProfile",
@@ -1157,7 +1157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transformer, from active to inactive, or inactive to active.
 """
 function update_transformer(
-    transformerId; aws_config::AbstractAWSConfig=global_aws_config()
+    transformerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "UpdateTransformer",
@@ -1169,7 +1169,7 @@ end
 function update_transformer(
     transformerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return b2bi(
         "UpdateTransformer",

@@ -22,7 +22,7 @@ provider.
 
 """
 function add_client_idto_open_idconnect_provider(
-    ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "AddClientIDToOpenIDConnectProvider",
@@ -37,7 +37,7 @@ function add_client_idto_open_idconnect_provider(
     ClientID,
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "AddClientIDToOpenIDConnectProvider",
@@ -81,7 +81,7 @@ instance profiles, see Using instance profiles in the IAM User Guide.
 
 """
 function add_role_to_instance_profile(
-    InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "AddRoleToInstanceProfile",
@@ -96,7 +96,7 @@ function add_role_to_instance_profile(
     InstanceProfileName,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "AddRoleToInstanceProfile",
@@ -130,7 +130,7 @@ Adds the specified user to the specified group.
 
 """
 function add_user_to_group(
-    GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "AddUserToGroup",
@@ -143,7 +143,7 @@ function add_user_to_group(
     GroupName,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "AddUserToGroup",
@@ -180,7 +180,7 @@ Managed policies and inline policies in the IAM User Guide.
 
 """
 function attach_group_policy(
-    GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, PolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "AttachGroupPolicy",
@@ -193,7 +193,7 @@ function attach_group_policy(
     GroupName,
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "AttachGroupPolicy",
@@ -234,7 +234,7 @@ the IAM User Guide.
 
 """
 function attach_role_policy(
-    PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "AttachRolePolicy",
@@ -247,7 +247,7 @@ function attach_role_policy(
     PolicyArn,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "AttachRolePolicy",
@@ -284,7 +284,7 @@ and inline policies in the IAM User Guide.
 
 """
 function attach_user_policy(
-    PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "AttachUserPolicy",
@@ -297,7 +297,7 @@ function attach_user_policy(
     PolicyArn,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "AttachUserPolicy",
@@ -338,7 +338,7 @@ IAM User Guide.
 
 """
 function change_password(
-    NewPassword, OldPassword; aws_config::AbstractAWSConfig=global_aws_config()
+    NewPassword, OldPassword; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ChangePassword",
@@ -351,7 +351,7 @@ function change_password(
     NewPassword,
     OldPassword,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ChangePassword",
@@ -393,11 +393,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function create_access_key(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_access_key(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("CreateAccessKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function create_access_key(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateAccessKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -419,7 +419,7 @@ Services account alias in the Amazon Web Services Sign-In User Guide.
 
 """
 function create_account_alias(
-    AccountAlias; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountAlias; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateAccountAlias",
@@ -431,7 +431,7 @@ end
 function create_account_alias(
     AccountAlias,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateAccountAlias",
@@ -466,7 +466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DEL character (u007F), including most punctuation characters, digits, and upper and
   lowercased letters.
 """
-function create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "CreateGroup",
         Dict{String,Any}("GroupName" => GroupName);
@@ -477,7 +477,7 @@ end
 function create_group(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateGroup",
@@ -520,7 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the resource is not created.
 """
 function create_instance_profile(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateInstanceProfile",
@@ -532,7 +532,7 @@ end
 function create_instance_profile(
     InstanceProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateInstanceProfile",
@@ -578,7 +578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on next sign-in.
 """
 function create_login_profile(
-    Password, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    Password, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateLoginProfile",
@@ -591,7 +591,7 @@ function create_login_profile(
     Password,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateLoginProfile",
@@ -676,7 +676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function create_open_idconnect_provider(
-    Url; aws_config::AbstractAWSConfig=global_aws_config()
+    Url; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateOpenIDConnectProvider",
@@ -686,7 +686,7 @@ function create_open_idconnect_provider(
     )
 end
 function create_open_idconnect_provider(
-    Url, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Url, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateOpenIDConnectProvider",
@@ -745,7 +745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the resource is not created.
 """
 function create_policy(
-    PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreatePolicy",
@@ -758,7 +758,7 @@ function create_policy(
     PolicyDocument,
     PolicyName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreatePolicy",
@@ -814,7 +814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for managed policies in the IAM User Guide.
 """
 function create_policy_version(
-    PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreatePolicyVersion",
@@ -827,7 +827,7 @@ function create_policy_version(
     PolicyArn,
     PolicyDocument,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreatePolicyVersion",
@@ -906,7 +906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function create_role(
-    AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateRole",
@@ -921,7 +921,7 @@ function create_role(
     AssumeRolePolicyDocument,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateRole",
@@ -978,7 +978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is not created.
 """
 function create_samlprovider(
-    Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateSAMLProvider",
@@ -991,7 +991,7 @@ function create_samlprovider(
     Name,
     SAMLMetadataDocument,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateSAMLProvider",
@@ -1042,7 +1042,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the role.
 """
 function create_service_linked_role(
-    AWSServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+    AWSServiceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateServiceLinkedRole",
@@ -1054,7 +1054,7 @@ end
 function create_service_linked_role(
     AWSServiceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateServiceLinkedRole",
@@ -1092,7 +1092,7 @@ keys in the IAM User Guide.
 
 """
 function create_service_specific_credential(
-    ServiceName, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceName, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateServiceSpecificCredential",
@@ -1105,7 +1105,7 @@ function create_service_specific_credential(
     ServiceName,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateServiceSpecificCredential",
@@ -1155,7 +1155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed maximum number of tags, then the entire request fails and the resource is not
   created.
 """
-function create_user(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "CreateUser",
         Dict{String,Any}("UserName" => UserName);
@@ -1166,7 +1166,7 @@ end
 function create_user(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateUser",
@@ -1214,7 +1214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is not created.
 """
 function create_virtual_mfadevice(
-    VirtualMFADeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+    VirtualMFADeviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "CreateVirtualMFADevice",
@@ -1226,7 +1226,7 @@ end
 function create_virtual_mfadevice(
     VirtualMFADeviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "CreateVirtualMFADevice",
@@ -1263,7 +1263,7 @@ IAM User Guide.
 
 """
 function deactivate_mfadevice(
-    SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    SerialNumber, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeactivateMFADevice",
@@ -1276,7 +1276,7 @@ function deactivate_mfadevice(
     SerialNumber,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeactivateMFADevice",
@@ -1315,7 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   lowercase alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "DeleteAccessKey",
         Dict{String,Any}("AccessKeyId" => AccessKeyId);
@@ -1326,7 +1326,7 @@ end
 function delete_access_key(
     AccessKeyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteAccessKey",
@@ -1353,7 +1353,7 @@ Services account alias in the Amazon Web Services Sign-In User Guide.
 
 """
 function delete_account_alias(
-    AccountAlias; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountAlias; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteAccountAlias",
@@ -1365,7 +1365,7 @@ end
 function delete_account_alias(
     AccountAlias,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteAccountAlias",
@@ -1384,7 +1384,9 @@ end
 Deletes the password policy for the Amazon Web Services account. There are no parameters.
 
 """
-function delete_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_account_password_policy(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return iam(
         "DeleteAccountPasswordPolicy";
         aws_config=aws_config,
@@ -1392,7 +1394,7 @@ function delete_account_password_policy(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function delete_account_password_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteAccountPasswordPolicy",
@@ -1415,7 +1417,7 @@ policies.
   characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function delete_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "DeleteGroup",
         Dict{String,Any}("GroupName" => GroupName);
@@ -1426,7 +1428,7 @@ end
 function delete_group(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteGroup",
@@ -1459,7 +1461,7 @@ inline policies in the IAM User Guide.
 
 """
 function delete_group_policy(
-    GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteGroupPolicy",
@@ -1472,7 +1474,7 @@ function delete_group_policy(
     GroupName,
     PolicyName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteGroupPolicy",
@@ -1506,7 +1508,7 @@ information about instance profiles, see Using instance profiles in the IAM User
 
 """
 function delete_instance_profile(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteInstanceProfile",
@@ -1518,7 +1520,7 @@ end
 function delete_instance_profile(
     InstanceProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteInstanceProfile",
@@ -1555,7 +1557,7 @@ DeleteAccessKey.
   characters: _+=,.@-
 
 """
-function delete_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "DeleteLoginProfile",
         Dict{String,Any}("UserName" => UserName);
@@ -1566,7 +1568,7 @@ end
 function delete_login_profile(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteLoginProfile",
@@ -1595,7 +1597,7 @@ operation for a provider that does not exist.
 
 """
 function delete_open_idconnect_provider(
-    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteOpenIDConnectProvider",
@@ -1607,7 +1609,7 @@ end
 function delete_open_idconnect_provider(
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteOpenIDConnectProvider",
@@ -1646,7 +1648,7 @@ policies, see Managed policies and inline policies in the IAM User Guide.
   General Reference.
 
 """
-function delete_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_policy(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "DeletePolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn);
@@ -1657,7 +1659,7 @@ end
 function delete_policy(
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeletePolicy",
@@ -1691,7 +1693,7 @@ Versioning for managed policies in the IAM User Guide.
 
 """
 function delete_policy_version(
-    PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, VersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeletePolicyVersion",
@@ -1704,7 +1706,7 @@ function delete_policy_version(
     PolicyArn,
     VersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeletePolicyVersion",
@@ -1741,7 +1743,7 @@ running on the instance.
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function delete_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "DeleteRole",
         Dict{String,Any}("RoleName" => RoleName);
@@ -1752,7 +1754,7 @@ end
 function delete_role(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteRole",
@@ -1779,7 +1781,7 @@ actions granted in its permissions policies.
 
 """
 function delete_role_permissions_boundary(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteRolePermissionsBoundary",
@@ -1791,7 +1793,7 @@ end
 function delete_role_permissions_boundary(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteRolePermissionsBoundary",
@@ -1824,7 +1826,7 @@ policies in the IAM User Guide.
 
 """
 function delete_role_policy(
-    PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyName, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteRolePolicy",
@@ -1837,7 +1839,7 @@ function delete_role_policy(
     PolicyName,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteRolePolicy",
@@ -1867,7 +1869,7 @@ resource ARN fails.   This operation requires Signature Version 4.
 
 """
 function delete_samlprovider(
-    SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SAMLProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteSAMLProvider",
@@ -1879,7 +1881,7 @@ end
 function delete_samlprovider(
     SAMLProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteSAMLProvider",
@@ -1916,7 +1918,7 @@ DeleteLoadBalancerListeners in the Elastic Load Balancing API Reference.
 
 """
 function delete_server_certificate(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerCertificateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteServerCertificate",
@@ -1928,7 +1930,7 @@ end
 function delete_server_certificate(
     ServerCertificateName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteServerCertificate",
@@ -1968,7 +1970,7 @@ terms and concepts: Amazon Web Services service-linked role in the IAM User Guid
 
 """
 function delete_service_linked_role(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteServiceLinkedRole",
@@ -1980,7 +1982,7 @@ end
 function delete_service_linked_role(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteServiceLinkedRole",
@@ -2013,7 +2015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 function delete_service_specific_credential(
-    ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteServiceSpecificCredential",
@@ -2025,7 +2027,7 @@ end
 function delete_service_specific_credential(
     ServiceSpecificCredentialId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteServiceSpecificCredential",
@@ -2067,7 +2069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 function delete_signing_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteSigningCertificate",
@@ -2079,7 +2081,7 @@ end
 function delete_signing_certificate(
     CertificateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteSigningCertificate",
@@ -2111,7 +2113,7 @@ CodeCommit for SSH connections in the CodeCommit User Guide.
 
 """
 function delete_sshpublic_key(
-    SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteSSHPublicKey",
@@ -2124,7 +2126,7 @@ function delete_sshpublic_key(
     SSHPublicKeyId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteSSHPublicKey",
@@ -2162,7 +2164,7 @@ authentication (MFA) device (DeactivateMFADevice, DeleteVirtualMFADevice)   Inli
   with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-function delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "DeleteUser",
         Dict{String,Any}("UserName" => UserName);
@@ -2173,7 +2175,7 @@ end
 function delete_user(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteUser",
@@ -2199,7 +2201,7 @@ actions granted in its permissions policies.
 
 """
 function delete_user_permissions_boundary(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteUserPermissionsBoundary",
@@ -2211,7 +2213,7 @@ end
 function delete_user_permissions_boundary(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteUserPermissionsBoundary",
@@ -2244,7 +2246,7 @@ policies in the IAM User Guide.
 
 """
 function delete_user_policy(
-    PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyName, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteUserPolicy",
@@ -2257,7 +2259,7 @@ function delete_user_policy(
     PolicyName,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteUserPolicy",
@@ -2288,7 +2290,7 @@ can delete it. For information about deactivating MFA devices, see DeactivateMFA
 
 """
 function delete_virtual_mfadevice(
-    SerialNumber; aws_config::AbstractAWSConfig=global_aws_config()
+    SerialNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeleteVirtualMFADevice",
@@ -2300,7 +2302,7 @@ end
 function delete_virtual_mfadevice(
     SerialNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeleteVirtualMFADevice",
@@ -2331,7 +2333,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 function detach_group_policy(
-    GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, PolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DetachGroupPolicy",
@@ -2344,7 +2346,7 @@ function detach_group_policy(
     GroupName,
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DetachGroupPolicy",
@@ -2379,7 +2381,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 function detach_role_policy(
-    PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DetachRolePolicy",
@@ -2392,7 +2394,7 @@ function detach_role_policy(
     PolicyArn,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DetachRolePolicy",
@@ -2427,7 +2429,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 function detach_user_policy(
-    PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DetachUserPolicy",
@@ -2440,7 +2442,7 @@ function detach_user_policy(
     PolicyArn,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DetachUserPolicy",
@@ -2492,7 +2494,7 @@ function enable_mfadevice(
     AuthenticationCode2,
     SerialNumber,
     UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "EnableMFADevice",
@@ -2512,7 +2514,7 @@ function enable_mfadevice(
     SerialNumber,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "EnableMFADevice",
@@ -2541,13 +2543,13 @@ end
 about the credential report, see Getting credential reports in the IAM User Guide.
 
 """
-function generate_credential_report(; aws_config::AbstractAWSConfig=global_aws_config())
+function generate_credential_report(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GenerateCredentialReport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function generate_credential_report(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GenerateCredentialReport",
@@ -2650,7 +2652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service.
 """
 function generate_organizations_access_report(
-    EntityPath; aws_config::AbstractAWSConfig=global_aws_config()
+    EntityPath; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GenerateOrganizationsAccessReport",
@@ -2662,7 +2664,7 @@ end
 function generate_organizations_access_report(
     EntityPath,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GenerateOrganizationsAccessReport",
@@ -2728,7 +2730,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include this optional parameter, the operation generates service data.
 """
 function generate_service_last_accessed_details(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GenerateServiceLastAccessedDetails",
@@ -2738,7 +2740,7 @@ function generate_service_last_accessed_details(
     )
 end
 function generate_service_last_accessed_details(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GenerateServiceLastAccessedDetails",
@@ -2763,7 +2765,7 @@ Region that were specified in the last request made with that key.
 
 """
 function get_access_key_last_used(
-    AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetAccessKeyLastUsed",
@@ -2775,7 +2777,7 @@ end
 function get_access_key_last_used(
     AccessKeyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetAccessKeyLastUsed",
@@ -2820,7 +2822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function get_account_authorization_details(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetAccountAuthorizationDetails";
@@ -2829,7 +2831,7 @@ function get_account_authorization_details(;
     )
 end
 function get_account_authorization_details(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetAccountAuthorizationDetails",
@@ -2849,13 +2851,13 @@ account. For more information about using a password policy, see Managing an IAM
 policy.
 
 """
-function get_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_password_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetAccountPasswordPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_account_password_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetAccountPasswordPolicy",
@@ -2873,11 +2875,11 @@ Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Se
 account.  For information about IAM quotas, see IAM and STS quotas in the IAM User Guide.
 
 """
-function get_account_summary(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("GetAccountSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_account_summary(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetAccountSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2910,7 +2912,7 @@ of a real HTML request.
 
 """
 function get_context_keys_for_custom_policy(
-    PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyInputList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetContextKeysForCustomPolicy",
@@ -2922,7 +2924,7 @@ end
 function get_context_keys_for_custom_policy(
     PolicyInputList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetContextKeysForCustomPolicy",
@@ -2974,7 +2976,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   
 """
 function get_context_keys_for_principal_policy(
-    PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicySourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetContextKeysForPrincipalPolicy",
@@ -2986,7 +2988,7 @@ end
 function get_context_keys_for_principal_policy(
     PolicySourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetContextKeysForPrincipalPolicy",
@@ -3008,13 +3010,13 @@ end
 about the credential report, see Getting credential reports in the IAM User Guide.
 
 """
-function get_credential_report(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_credential_report(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetCredentialReport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_credential_report(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetCredentialReport",
@@ -3049,7 +3051,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function get_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetGroup",
         Dict{String,Any}("GroupName" => GroupName);
@@ -3060,7 +3062,7 @@ end
 function get_group(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetGroup",
@@ -3097,7 +3099,7 @@ and inline policies in the IAM User Guide.
 
 """
 function get_group_policy(
-    GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetGroupPolicy",
@@ -3110,7 +3112,7 @@ function get_group_policy(
     GroupName,
     PolicyName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetGroupPolicy",
@@ -3142,7 +3144,7 @@ Using instance profiles in the IAM User Guide.
 
 """
 function get_instance_profile(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetInstanceProfile",
@@ -3154,7 +3156,7 @@ end
 function get_instance_profile(
     InstanceProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetInstanceProfile",
@@ -3191,7 +3193,7 @@ for the user to access the Amazon Web Services Management Console.
   characters: _+=,.@-
 
 """
-function get_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetLoginProfile",
         Dict{String,Any}("UserName" => UserName);
@@ -3202,7 +3204,7 @@ end
 function get_login_profile(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetLoginProfile",
@@ -3228,7 +3230,7 @@ Retrieves information about an MFA device for a specified user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"UserName"`: The friendly name identifying the user.
 """
-function get_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config())
+function get_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetMFADevice",
         Dict{String,Any}("SerialNumber" => SerialNumber);
@@ -3239,7 +3241,7 @@ end
 function get_mfadevice(
     SerialNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetMFADevice",
@@ -3266,7 +3268,7 @@ IAM.
 
 """
 function get_open_idconnect_provider(
-    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetOpenIDConnectProvider",
@@ -3278,7 +3280,7 @@ end
 function get_open_idconnect_provider(
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetOpenIDConnectProvider",
@@ -3333,7 +3335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sorted numerically by the date and time.
 """
 function get_organizations_access_report(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetOrganizationsAccessReport",
@@ -3343,7 +3345,7 @@ function get_organizations_access_report(
     )
 end
 function get_organizations_access_report(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetOrganizationsAccessReport",
@@ -3373,7 +3375,7 @@ Managed policies and inline policies in the IAM User Guide.
   Amazon Web Services General Reference.
 
 """
-function get_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_policy(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn);
@@ -3384,7 +3386,7 @@ end
 function get_policy(
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetPolicy",
@@ -3423,7 +3425,7 @@ managed policy versions, see Versioning for managed policies in the IAM User Gui
 
 """
 function get_policy_version(
-    PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, VersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetPolicyVersion",
@@ -3436,7 +3438,7 @@ function get_policy_version(
     PolicyArn,
     VersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetPolicyVersion",
@@ -3471,7 +3473,7 @@ similar functionality.
   characters: _+=,.@-
 
 """
-function get_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetRole",
         Dict{String,Any}("RoleName" => RoleName);
@@ -3482,7 +3484,7 @@ end
 function get_role(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetRole",
@@ -3520,7 +3522,7 @@ roles, see IAM roles in the IAM User Guide.
 
 """
 function get_role_policy(
-    PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyName, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetRolePolicy",
@@ -3533,7 +3535,7 @@ function get_role_policy(
     PolicyName,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetRolePolicy",
@@ -3563,7 +3565,7 @@ resource object was created or updated.  This operation requires Signature Versi
 
 """
 function get_samlprovider(
-    SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SAMLProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetSAMLProvider",
@@ -3575,7 +3577,7 @@ end
 function get_samlprovider(
     SAMLProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetSAMLProvider",
@@ -3606,7 +3608,7 @@ the server certificates that you manage with IAM.
 
 """
 function get_server_certificate(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerCertificateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetServerCertificate",
@@ -3618,7 +3620,7 @@ end
 function get_server_certificate(
     ServerCertificateName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetServerCertificate",
@@ -3685,7 +3687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function get_service_last_accessed_details(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetServiceLastAccessedDetails",
@@ -3695,7 +3697,7 @@ function get_service_last_accessed_details(
     )
 end
 function get_service_last_accessed_details(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetServiceLastAccessedDetails",
@@ -3747,7 +3749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function get_service_last_accessed_details_with_entities(
-    JobId, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId, ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetServiceLastAccessedDetailsWithEntities",
@@ -3760,7 +3762,7 @@ function get_service_last_accessed_details_with_entities(
     JobId,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetServiceLastAccessedDetailsWithEntities",
@@ -3793,7 +3795,7 @@ information is returned by the service.
 
 """
 function get_service_linked_role_deletion_status(
-    DeletionTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    DeletionTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetServiceLinkedRoleDeletionStatus",
@@ -3805,7 +3807,7 @@ end
 function get_service_linked_role_deletion_status(
     DeletionTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetServiceLinkedRoleDeletionStatus",
@@ -3841,7 +3843,7 @@ Guide.
 
 """
 function get_sshpublic_key(
-    Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetSSHPublicKey",
@@ -3859,7 +3861,7 @@ function get_sshpublic_key(
     SSHPublicKeyId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetSSHPublicKey",
@@ -3896,11 +3898,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function get_user(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_user(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("GetUser"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_user(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam("GetUser", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -3930,7 +3932,7 @@ and inline policies in the IAM User Guide.
 
 """
 function get_user_policy(
-    PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyName, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "GetUserPolicy",
@@ -3943,7 +3945,7 @@ function get_user_policy(
     PolicyName,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "GetUserPolicy",
@@ -3991,11 +3993,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: _+=,.@-
 """
-function list_access_keys(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_access_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListAccessKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_access_keys(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListAccessKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4024,11 +4026,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_account_aliases(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_account_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListAccountAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_account_aliases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListAccountAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4074,7 +4076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_group_policies(
-    GroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListAttachedGroupPolicies",
@@ -4086,7 +4088,7 @@ end
 function list_attached_group_policies(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListAttachedGroupPolicies",
@@ -4137,7 +4139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_role_policies(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListAttachedRolePolicies",
@@ -4149,7 +4151,7 @@ end
 function list_attached_role_policies(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListAttachedRolePolicies",
@@ -4200,7 +4202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most punctuation characters, digits, and upper and lowercased letters.
 """
 function list_attached_user_policies(
-    UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListAttachedUserPolicies",
@@ -4212,7 +4214,7 @@ end
 function list_attached_user_policies(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListAttachedUserPolicies",
@@ -4268,7 +4270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is optional. If it is not included, all policies are returned.
 """
 function list_entities_for_policy(
-    PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListEntitiesForPolicy",
@@ -4280,7 +4282,7 @@ end
 function list_entities_for_policy(
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListEntitiesForPolicy",
@@ -4321,7 +4323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_group_policies(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListGroupPolicies",
         Dict{String,Any}("GroupName" => GroupName);
@@ -4332,7 +4334,7 @@ end
 function list_group_policies(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListGroupPolicies",
@@ -4372,11 +4374,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character from the ! (u0021) through the DEL character (u007F), including most punctuation
   characters, digits, and upper and lowercased letters.
 """
-function list_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam("ListGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -4406,7 +4408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListGroupsForUser",
         Dict{String,Any}("UserName" => UserName);
@@ -4417,7 +4419,7 @@ end
 function list_groups_for_user(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListGroupsForUser",
@@ -4457,7 +4459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function list_instance_profile_tags(
-    InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListInstanceProfileTags",
@@ -4469,7 +4471,7 @@ end
 function list_instance_profile_tags(
     InstanceProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListInstanceProfileTags",
@@ -4518,13 +4520,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCII character from the ! (u0021) through the DEL character (u007F), including most
   punctuation characters, digits, and upper and lowercased letters.
 """
-function list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_instance_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListInstanceProfiles",
@@ -4563,7 +4565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function list_instance_profiles_for_role(
-    RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListInstanceProfilesForRole",
@@ -4575,7 +4577,7 @@ end
 function list_instance_profiles_for_role(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListInstanceProfilesForRole",
@@ -4616,7 +4618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function list_mfadevice_tags(
-    SerialNumber; aws_config::AbstractAWSConfig=global_aws_config()
+    SerialNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListMFADeviceTags",
@@ -4628,7 +4630,7 @@ end
 function list_mfadevice_tags(
     SerialNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListMFADeviceTags",
@@ -4667,11 +4669,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alphanumeric characters with no spaces. You can also include any of the following
   characters: _+=,.@-
 """
-function list_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_mfadevices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListMFADevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_mfadevices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4707,7 +4709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function list_open_idconnect_provider_tags(
-    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListOpenIDConnectProviderTags",
@@ -4719,7 +4721,7 @@ end
 function list_open_idconnect_provider_tags(
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListOpenIDConnectProviderTags",
@@ -4746,13 +4748,13 @@ even though they are an attribute of the returned object. To view all of the inf
 for an OIDC provider, see GetOpenIDConnectProvider.
 
 """
-function list_open_idconnect_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_open_idconnect_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListOpenIDConnectProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_open_idconnect_providers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListOpenIDConnectProviders",
@@ -4809,11 +4811,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not
   included, or if it is set to All, all policies are returned.
 """
-function list_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4861,7 +4863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element in the response that you received to indicate where the next call should start.
 """
 function list_policies_granting_service_access(
-    Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListPoliciesGrantingServiceAccess",
@@ -4874,7 +4876,7 @@ function list_policies_granting_service_access(
     Arn,
     ServiceNamespaces,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListPoliciesGrantingServiceAccess",
@@ -4917,7 +4919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListPolicyTags",
         Dict{String,Any}("PolicyArn" => PolicyArn);
@@ -4928,7 +4930,7 @@ end
 function list_policy_tags(
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListPolicyTags",
@@ -4966,7 +4968,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListPolicyVersions",
         Dict{String,Any}("PolicyArn" => PolicyArn);
@@ -4977,7 +4979,7 @@ end
 function list_policy_versions(
     PolicyArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListPolicyVersions",
@@ -5018,7 +5020,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_role_policies(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListRolePolicies",
         Dict{String,Any}("RoleName" => RoleName);
@@ -5029,7 +5031,7 @@ end
 function list_role_policies(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListRolePolicies",
@@ -5068,7 +5070,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_role_tags(RoleName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_role_tags(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListRoleTags",
         Dict{String,Any}("RoleName" => RoleName);
@@ -5079,7 +5081,7 @@ end
 function list_role_tags(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListRoleTags",
@@ -5124,11 +5126,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character from the ! (u0021) through the DEL character (u007F), including most punctuation
   characters, digits, and upper and lowercased letters.
 """
-function list_roles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_roles(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListRoles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_roles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam("ListRoles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -5162,7 +5164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function list_samlprovider_tags(
-    SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SAMLProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListSAMLProviderTags",
@@ -5174,7 +5176,7 @@ end
 function list_samlprovider_tags(
     SAMLProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListSAMLProviderTags",
@@ -5199,11 +5201,11 @@ returned object. To view all of the information for a SAML provider, see GetSAML
 This operation requires Signature Version 4.
 
 """
-function list_samlproviders(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_samlproviders(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListSAMLProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_samlproviders(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListSAMLProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -5241,7 +5243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 function list_server_certificate_tags(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerCertificateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListServerCertificateTags",
@@ -5253,7 +5255,7 @@ end
 function list_server_certificate_tags(
     ServerCertificateName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListServerCertificateTags",
@@ -5304,13 +5306,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character from the ! (u0021) through the DEL character (u007F), including most punctuation
   characters, digits, and upper and lowercased letters.
 """
-function list_server_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_server_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListServerCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_server_certificates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListServerCertificates",
@@ -5343,7 +5345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with no spaces. You can also include any of the following characters: _+=,.@-
 """
 function list_service_specific_credentials(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListServiceSpecificCredentials";
@@ -5352,7 +5354,7 @@ function list_service_specific_credentials(;
     )
 end
 function list_service_specific_credentials(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListServiceSpecificCredentials",
@@ -5392,13 +5394,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upper and lowercase alphanumeric characters with no spaces. You can also include any of the
   following characters: _+=,.@-
 """
-function list_signing_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_signing_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListSigningCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_signing_certificates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListSigningCertificates",
@@ -5438,11 +5440,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters consisting of upper and lowercase alphanumeric characters with no spaces. You
   can also include any of the following characters: _+=,.@-
 """
-function list_sshpublic_keys(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_sshpublic_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListSSHPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_sshpublic_keys(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListSSHPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -5478,7 +5480,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_user_policies(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListUserPolicies",
         Dict{String,Any}("UserName" => UserName);
@@ -5489,7 +5491,7 @@ end
 function list_user_policies(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListUserPolicies",
@@ -5528,7 +5530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_user_tags(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_user_tags(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListUserTags",
         Dict{String,Any}("UserName" => UserName);
@@ -5539,7 +5541,7 @@ end
 function list_user_tags(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ListUserTags",
@@ -5584,11 +5586,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character from the ! (u0021) through the DEL character (u007F), including most punctuation
   characters, digits, and upper and lowercased letters.
 """
-function list_users(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_users(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam("ListUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_users(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam("ListUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -5621,13 +5623,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Marker contains a value to include in the subsequent call that tells the service where to
   continue from.
 """
-function list_virtual_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_virtual_mfadevices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "ListVirtualMFADevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_virtual_mfadevices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ListVirtualMFADevices",
@@ -5669,7 +5671,10 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 function put_group_policy(
-    GroupName, PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName,
+    PolicyDocument,
+    PolicyName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "PutGroupPolicy",
@@ -5687,7 +5692,7 @@ function put_group_policy(
     PolicyDocument,
     PolicyName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "PutGroupPolicy",
@@ -5732,7 +5737,7 @@ IAM JSON policy evaluation logic in the IAM User Guide.
 
 """
 function put_role_permissions_boundary(
-    PermissionsBoundary, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PermissionsBoundary, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "PutRolePermissionsBoundary",
@@ -5747,7 +5752,7 @@ function put_role_permissions_boundary(
     PermissionsBoundary,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "PutRolePermissionsBoundary",
@@ -5801,7 +5806,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 function put_role_policy(
-    PolicyDocument, PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyDocument, PolicyName, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "PutRolePolicy",
@@ -5819,7 +5824,7 @@ function put_role_policy(
     PolicyName,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "PutRolePolicy",
@@ -5864,7 +5869,7 @@ Guide.
 
 """
 function put_user_permissions_boundary(
-    PermissionsBoundary, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    PermissionsBoundary, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "PutUserPermissionsBoundary",
@@ -5879,7 +5884,7 @@ function put_user_permissions_boundary(
     PermissionsBoundary,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "PutUserPermissionsBoundary",
@@ -5929,7 +5934,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 function put_user_policy(
-    PolicyDocument, PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyDocument, PolicyName, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "PutUserPolicy",
@@ -5947,7 +5952,7 @@ function put_user_policy(
     PolicyName,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "PutUserPolicy",
@@ -5986,7 +5991,7 @@ ID that does not exist.
 
 """
 function remove_client_idfrom_open_idconnect_provider(
-    ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "RemoveClientIDFromOpenIDConnectProvider",
@@ -6001,7 +6006,7 @@ function remove_client_idfrom_open_idconnect_provider(
     ClientID,
     OpenIDConnectProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "RemoveClientIDFromOpenIDConnectProvider",
@@ -6042,7 +6047,7 @@ instance profiles, see Using instance profiles in the IAM User Guide.
 
 """
 function remove_role_from_instance_profile(
-    InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "RemoveRoleFromInstanceProfile",
@@ -6057,7 +6062,7 @@ function remove_role_from_instance_profile(
     InstanceProfileName,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "RemoveRoleFromInstanceProfile",
@@ -6091,7 +6096,7 @@ Removes the specified user from the specified group.
 
 """
 function remove_user_from_group(
-    GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupName, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "RemoveUserFromGroup",
@@ -6104,7 +6109,7 @@ function remove_user_from_group(
     GroupName,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "RemoveUserFromGroup",
@@ -6143,7 +6148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 function reset_service_specific_credential(
-    ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "ResetServiceSpecificCredential",
@@ -6155,7 +6160,7 @@ end
 function reset_service_specific_credential(
     ServiceSpecificCredentialId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ResetServiceSpecificCredential",
@@ -6201,7 +6206,7 @@ function resync_mfadevice(
     AuthenticationCode2,
     SerialNumber,
     UserName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ResyncMFADevice",
@@ -6221,7 +6226,7 @@ function resync_mfadevice(
     SerialNumber,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "ResyncMFADevice",
@@ -6262,7 +6267,7 @@ inline policies in the IAM User Guide.
 
 """
 function set_default_policy_version(
-    PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyArn, VersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "SetDefaultPolicyVersion",
@@ -6275,7 +6280,7 @@ function set_default_policy_version(
     PolicyArn,
     VersionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "SetDefaultPolicyVersion",
@@ -6321,7 +6326,7 @@ GlobalEndpointTokenVersion entry in the response of the GetAccountSummary operat
 
 """
 function set_security_token_service_preferences(
-    GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "SetSecurityTokenServicePreferences",
@@ -6333,7 +6338,7 @@ end
 function set_security_token_service_preferences(
     GlobalEndpointTokenVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "SetSecurityTokenServicePreferences",
@@ -6479,7 +6484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Simulation of resource-based policies isn't supported for IAM roles.
 """
 function simulate_custom_policy(
-    ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()
+    ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "SimulateCustomPolicy",
@@ -6494,7 +6499,7 @@ function simulate_custom_policy(
     ActionNames,
     PolicyInputList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "SimulateCustomPolicy",
@@ -6651,7 +6656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Simulation of resource-based policies isn't supported for IAM roles.
 """
 function simulate_principal_policy(
-    ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "SimulatePrincipalPolicy",
@@ -6666,7 +6671,7 @@ function simulate_principal_policy(
     ActionNames,
     PolicySourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "SimulatePrincipalPolicy",
@@ -6714,7 +6719,7 @@ values in the string. However, you must interpret the value in your code.
 
 """
 function tag_instance_profile(
-    InstanceProfileName, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "TagInstanceProfile",
@@ -6727,7 +6732,7 @@ function tag_instance_profile(
     InstanceProfileName,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagInstanceProfile",
@@ -6777,7 +6782,7 @@ in your code.
 
 """
 function tag_mfadevice(
-    SerialNumber, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    SerialNumber, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "TagMFADevice",
@@ -6790,7 +6795,7 @@ function tag_mfadevice(
     SerialNumber,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagMFADevice",
@@ -6837,7 +6842,7 @@ comma-separated values in the string. However, you must interpret the value in y
 
 """
 function tag_open_idconnect_provider(
-    OpenIDConnectProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    OpenIDConnectProviderArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "TagOpenIDConnectProvider",
@@ -6852,7 +6857,7 @@ function tag_open_idconnect_provider(
     OpenIDConnectProviderArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagOpenIDConnectProvider",
@@ -6899,7 +6904,7 @@ comma-separated values in the string. However, you must interpret the value in y
   tag consists of a key name and an associated value.
 
 """
-function tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "TagPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "Tags" => Tags);
@@ -6911,7 +6916,7 @@ function tag_policy(
     PolicyArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagPolicy",
@@ -6958,7 +6963,7 @@ the IAM User Guide.
   key name and an associated value.
 
 """
-function tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "TagRole",
         Dict{String,Any}("RoleName" => RoleName, "Tags" => Tags);
@@ -6970,7 +6975,7 @@ function tag_role(
     RoleName,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagRole",
@@ -7015,7 +7020,7 @@ comma-separated values in the string. However, you must interpret the value in y
 
 """
 function tag_samlprovider(
-    SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "TagSAMLProvider",
@@ -7028,7 +7033,7 @@ function tag_samlprovider(
     SAMLProviderArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagSAMLProvider",
@@ -7079,7 +7084,7 @@ you must interpret the value in your code.
 
 """
 function tag_server_certificate(
-    ServerCertificateName, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerCertificateName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "TagServerCertificate",
@@ -7092,7 +7097,7 @@ function tag_server_certificate(
     ServerCertificateName,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagServerCertificate",
@@ -7142,7 +7147,7 @@ information about tagging, see Tagging IAM identities in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function tag_user(Tags, UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_user(Tags, UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "TagUser",
         Dict{String,Any}("Tags" => Tags, "UserName" => UserName);
@@ -7154,7 +7159,7 @@ function tag_user(
     Tags,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "TagUser",
@@ -7185,7 +7190,7 @@ tagging, see Tagging IAM resources in the IAM User Guide.
 
 """
 function untag_instance_profile(
-    InstanceProfileName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceProfileName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UntagInstanceProfile",
@@ -7200,7 +7205,7 @@ function untag_instance_profile(
     InstanceProfileName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagInstanceProfile",
@@ -7236,7 +7241,7 @@ For more information about tagging, see Tagging IAM resources in the IAM User Gu
 
 """
 function untag_mfadevice(
-    SerialNumber, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    SerialNumber, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UntagMFADevice",
@@ -7249,7 +7254,7 @@ function untag_mfadevice(
     SerialNumber,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagMFADevice",
@@ -7284,7 +7289,7 @@ Guide.
 
 """
 function untag_open_idconnect_provider(
-    OpenIDConnectProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    OpenIDConnectProviderArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UntagOpenIDConnectProvider",
@@ -7299,7 +7304,7 @@ function untag_open_idconnect_provider(
     OpenIDConnectProviderArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagOpenIDConnectProvider",
@@ -7334,7 +7339,9 @@ tagging, see Tagging IAM resources in the IAM User Guide.
   are removed from the specified policy.
 
 """
-function untag_policy(PolicyArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_policy(
+    PolicyArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return iam(
         "UntagPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "TagKeys" => TagKeys);
@@ -7346,7 +7353,7 @@ function untag_policy(
     PolicyArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagPolicy",
@@ -7378,7 +7385,7 @@ IAM resources in the IAM User Guide.
   are removed from the specified role.
 
 """
-function untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "UntagRole",
         Dict{String,Any}("RoleName" => RoleName, "TagKeys" => TagKeys);
@@ -7390,7 +7397,7 @@ function untag_role(
     RoleName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagRole",
@@ -7425,7 +7432,7 @@ IAM User Guide.
 
 """
 function untag_samlprovider(
-    SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UntagSAMLProvider",
@@ -7438,7 +7445,7 @@ function untag_samlprovider(
     SAMLProviderArn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagSAMLProvider",
@@ -7477,7 +7484,7 @@ IAM User Guide.
 
 """
 function untag_server_certificate(
-    ServerCertificateName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerCertificateName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UntagServerCertificate",
@@ -7492,7 +7499,7 @@ function untag_server_certificate(
     ServerCertificateName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagServerCertificate",
@@ -7526,7 +7533,7 @@ IAM resources in the IAM User Guide.
   characters: _+=,.@-
 
 """
-function untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "UntagUser",
         Dict{String,Any}("TagKeys" => TagKeys, "UserName" => UserName);
@@ -7538,7 +7545,7 @@ function untag_user(
     TagKeys,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UntagUser",
@@ -7584,7 +7591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 function update_access_key(
-    AccessKeyId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessKeyId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateAccessKey",
@@ -7597,7 +7604,7 @@ function update_access_key(
     AccessKeyId,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateAccessKey",
@@ -7672,7 +7679,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for this parameter, then the operation uses the default value of false. The
   result is that passwords do not require at least one uppercase character.
 """
-function update_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_account_password_policy(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return iam(
         "UpdateAccountPasswordPolicy";
         aws_config=aws_config,
@@ -7680,7 +7689,7 @@ function update_account_password_policy(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function update_account_password_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateAccountPasswordPolicy",
@@ -7715,7 +7724,7 @@ to delegate permissions and federate identities.
 
 """
 function update_assume_role_policy(
-    PolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyDocument, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateAssumeRolePolicy",
@@ -7728,7 +7737,7 @@ function update_assume_role_policy(
     PolicyDocument,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateAssumeRolePolicy",
@@ -7778,7 +7787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character (u007F), including most punctuation characters, digits, and upper and lowercased
   letters.
 """
-function update_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "UpdateGroup",
         Dict{String,Any}("GroupName" => GroupName);
@@ -7789,7 +7798,7 @@ end
 function update_group(
     GroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateGroup",
@@ -7830,7 +7839,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PasswordResetRequired"`: Allows this new password to be used only once by requiring the
   specified IAM user to set a new password on next sign-in.
 """
-function update_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "UpdateLoginProfile",
         Dict{String,Any}("UserName" => UserName);
@@ -7841,7 +7850,7 @@ end
 function update_login_profile(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateLoginProfile",
@@ -7886,7 +7895,7 @@ UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
 function update_open_idconnect_provider_thumbprint(
     OpenIDConnectProviderArn,
     ThumbprintList;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateOpenIDConnectProviderThumbprint",
@@ -7902,7 +7911,7 @@ function update_open_idconnect_provider_thumbprint(
     OpenIDConnectProviderArn,
     ThumbprintList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateOpenIDConnectProviderThumbprint",
@@ -7946,7 +7955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.  IAM role credentials provided by Amazon EC2 instances assigned to the role are
   not subject to the specified maximum session duration.
 """
-function update_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "UpdateRole",
         Dict{String,Any}("RoleName" => RoleName);
@@ -7957,7 +7966,7 @@ end
 function update_role(
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateRole",
@@ -7982,7 +7991,7 @@ the same function as the Description parameter in the UpdateRole operation.
 
 """
 function update_role_description(
-    Description, RoleName; aws_config::AbstractAWSConfig=global_aws_config()
+    Description, RoleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateRoleDescription",
@@ -7995,7 +8004,7 @@ function update_role_description(
     Description,
     RoleName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateRoleDescription",
@@ -8030,7 +8039,9 @@ operation requires Signature Version 4.
 
 """
 function update_samlprovider(
-    SAMLMetadataDocument, SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SAMLMetadataDocument,
+    SAMLProviderArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateSAMLProvider",
@@ -8046,7 +8057,7 @@ function update_samlprovider(
     SAMLMetadataDocument,
     SAMLProviderArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateSAMLProvider",
@@ -8103,7 +8114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 function update_server_certificate(
-    ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerCertificateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateServerCertificate",
@@ -8115,7 +8126,7 @@ end
 function update_server_certificate(
     ServerCertificateName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateServerCertificate",
@@ -8155,7 +8166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 function update_service_specific_credential(
-    ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateServiceSpecificCredential",
@@ -8170,7 +8181,7 @@ function update_service_specific_credential(
     ServiceSpecificCredentialId,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateServiceSpecificCredential",
@@ -8217,7 +8228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 function update_signing_certificate(
-    CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateSigningCertificate",
@@ -8230,7 +8241,7 @@ function update_signing_certificate(
     CertificateId,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateSigningCertificate",
@@ -8271,7 +8282,7 @@ repository, see Set up CodeCommit for SSH connections in the CodeCommit User Gui
 
 """
 function update_sshpublic_key(
-    SSHPublicKeyId, Status, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    SSHPublicKeyId, Status, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateSSHPublicKey",
@@ -8287,7 +8298,7 @@ function update_sshpublic_key(
     Status,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateSSHPublicKey",
@@ -8338,7 +8349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Names are not distinguished by case. For example, you cannot create resources named both
   \"MyResource\" and \"myresource\".
 """
-function update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "UpdateUser",
         Dict{String,Any}("UserName" => UserName);
@@ -8349,7 +8360,7 @@ end
 function update_user(
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UpdateUser",
@@ -8430,7 +8441,7 @@ function upload_server_certificate(
     CertificateBody,
     PrivateKey,
     ServerCertificateName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UploadServerCertificate",
@@ -8448,7 +8459,7 @@ function upload_server_certificate(
     PrivateKey,
     ServerCertificateName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UploadServerCertificate",
@@ -8503,7 +8514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 function upload_signing_certificate(
-    CertificateBody; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateBody; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UploadSigningCertificate",
@@ -8515,7 +8526,7 @@ end
 function upload_signing_certificate(
     CertificateBody,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UploadSigningCertificate",
@@ -8555,7 +8566,7 @@ Guide.
 
 """
 function upload_sshpublic_key(
-    SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UploadSSHPublicKey",
@@ -8568,7 +8579,7 @@ function upload_sshpublic_key(
     SSHPublicKeyBody,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "UploadSSHPublicKey",

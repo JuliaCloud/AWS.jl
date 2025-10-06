@@ -53,7 +53,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generating a response.   This field is only supported by Anthropic Claude 3, Cohere Command
   R, Cohere Command R+, and Mistral Large models.
 """
-function converse(messages, modelId; aws_config::AbstractAWSConfig=global_aws_config())
+function converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_runtime(
         "POST",
         "/model/$(modelId)/converse",
@@ -66,7 +66,7 @@ function converse(
     messages,
     modelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_runtime(
         "POST",
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generating a response.  This field is only supported by Anthropic Claude 3 models.
 """
 function converse_stream(
-    messages, modelId; aws_config::AbstractAWSConfig=global_aws_config()
+    messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_runtime(
         "POST",
@@ -144,7 +144,7 @@ function converse_stream(
     messages,
     modelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_runtime(
         "POST",
@@ -198,7 +198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-function invoke_model(body, modelId; aws_config::AbstractAWSConfig=global_aws_config())
+function invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_runtime(
         "POST",
         "/model/$(modelId)/invoke",
@@ -211,7 +211,7 @@ function invoke_model(
     body,
     modelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_runtime(
         "POST",
@@ -266,7 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled, you can see the full Bedrock trace.
 """
 function invoke_model_with_response_stream(
-    body, modelId; aws_config::AbstractAWSConfig=global_aws_config()
+    body, modelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_runtime(
         "POST",
@@ -280,7 +280,7 @@ function invoke_model_with_response_stream(
     body,
     modelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_runtime(
         "POST",

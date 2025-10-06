@@ -39,7 +39,7 @@ function create_gateway_route(
     meshName,
     spec,
     virtualGatewayName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -59,7 +59,7 @@ function create_gateway_route(
     spec,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -103,7 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you define. Tag keys can have a maximum character length of 128 characters, and tag
   values can have a maximum length of 256 characters.
 """
-function create_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "PUT",
         "/v20190125/meshes",
@@ -115,7 +115,7 @@ end
 function create_mesh(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -166,7 +166,7 @@ function create_route(
     routeName,
     spec,
     virtualRouterName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -184,7 +184,7 @@ function create_route(
     spec,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -235,7 +235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values can have a maximum length of 256 characters.
 """
 function create_virtual_gateway(
-    meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -254,7 +254,7 @@ function create_virtual_gateway(
     spec,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -316,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values can have a maximum length of 256 characters.
 """
 function create_virtual_node(
-    meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -335,7 +335,7 @@ function create_virtual_node(
     spec,
     virtualNodeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -386,7 +386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values can have a maximum length of 256 characters.
 """
 function create_virtual_router(
-    meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -405,7 +405,7 @@ function create_virtual_router(
     spec,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -456,7 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values can have a maximum length of 256 characters.
 """
 function create_virtual_service(
-    meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -475,7 +475,7 @@ function create_virtual_service(
     spec,
     virtualServiceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -517,7 +517,7 @@ function delete_gateway_route(
     gatewayRouteName,
     meshName,
     virtualGatewayName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -531,7 +531,7 @@ function delete_gateway_route(
     meshName,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -554,7 +554,7 @@ itself.
 - `mesh_name`: The name of the service mesh to delete.
 
 """
-function delete_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "DELETE",
         "/v20190125/meshes/$(meshName)";
@@ -565,7 +565,7 @@ end
 function delete_mesh(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -597,7 +597,7 @@ function delete_route(
     meshName,
     routeName,
     virtualRouterName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -611,7 +611,7 @@ function delete_route(
     routeName,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -640,7 +640,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_gateway(
-    meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "DELETE",
@@ -653,7 +653,7 @@ function delete_virtual_gateway(
     meshName,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -682,7 +682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_node(
-    meshName, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "DELETE",
@@ -695,7 +695,7 @@ function delete_virtual_node(
     meshName,
     virtualNodeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -724,7 +724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_router(
-    meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "DELETE",
@@ -737,7 +737,7 @@ function delete_virtual_router(
     meshName,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -765,7 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function delete_virtual_service(
-    meshName, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "DELETE",
@@ -778,7 +778,7 @@ function delete_virtual_service(
     meshName,
     virtualServiceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "DELETE",
@@ -811,7 +811,7 @@ function describe_gateway_route(
     gatewayRouteName,
     meshName,
     virtualGatewayName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -825,7 +825,7 @@ function describe_gateway_route(
     meshName,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -851,7 +851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with your
   account. For more information about mesh sharing, see Working with shared meshes.
 """
-function describe_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)";
@@ -862,7 +862,7 @@ end
 function describe_mesh(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -894,7 +894,7 @@ function describe_route(
     meshName,
     routeName,
     virtualRouterName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -908,7 +908,7 @@ function describe_route(
     routeName,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -936,7 +936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_gateway(
-    meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -949,7 +949,7 @@ function describe_virtual_gateway(
     meshName,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -977,7 +977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_node(
-    meshName, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -990,7 +990,7 @@ function describe_virtual_node(
     meshName,
     virtualNodeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1018,7 +1018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_router(
-    meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -1031,7 +1031,7 @@ function describe_virtual_router(
     meshName,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1059,7 +1059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function describe_virtual_service(
-    meshName, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -1072,7 +1072,7 @@ function describe_virtual_service(
     meshName,
     virtualServiceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1109,7 +1109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_gateway_routes(
-    meshName, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -1122,7 +1122,7 @@ function list_gateway_routes(
     meshName,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1153,13 +1153,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token should be treated as an opaque identifier that is used only to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-function list_meshes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_meshes(; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "GET", "/v20190125/meshes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_meshes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -1196,7 +1196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continues from the end of the previous results that returned the nextToken value.
 """
 function list_routes(
-    meshName, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -1209,7 +1209,7 @@ function list_routes(
     meshName,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1243,7 +1243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "GET",
@@ -1256,7 +1256,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1293,7 +1293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
-function list_virtual_gateways(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_virtual_gateways(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualGateways";
@@ -1304,7 +1304,7 @@ end
 function list_virtual_gateways(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1339,7 +1339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
-function list_virtual_nodes(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_virtual_nodes(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualNodes";
@@ -1350,7 +1350,7 @@ end
 function list_virtual_nodes(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1385,7 +1385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
-function list_virtual_routers(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_virtual_routers(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualRouters";
@@ -1396,7 +1396,7 @@ end
 function list_virtual_routers(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1431,7 +1431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request where limit was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
-function list_virtual_services(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_virtual_services(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualServices";
@@ -1442,7 +1442,7 @@ end
 function list_virtual_services(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "GET",
@@ -1468,7 +1468,7 @@ resource is deleted, the tags associated with that resource are also deleted.
   length of 256 characters.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "PUT",
         "/v20190125/tag",
@@ -1481,7 +1481,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1510,7 +1510,7 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -1524,7 +1524,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1568,7 +1568,7 @@ function update_gateway_route(
     meshName,
     spec,
     virtualGatewayName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1584,7 +1584,7 @@ function update_gateway_route(
     spec,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1616,7 +1616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `"spec"`: The service mesh specification to apply.
 """
-function update_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
     return app_mesh(
         "PUT",
         "/v20190125/meshes/$(meshName)",
@@ -1628,7 +1628,7 @@ end
 function update_mesh(
     meshName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1666,7 +1666,7 @@ function update_route(
     routeName,
     spec,
     virtualRouterName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1682,7 +1682,7 @@ function update_route(
     spec,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1719,7 +1719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_gateway(
-    meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -1734,7 +1734,7 @@ function update_virtual_gateway(
     spec,
     virtualGatewayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1771,7 +1771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_node(
-    meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -1786,7 +1786,7 @@ function update_virtual_node(
     spec,
     virtualNodeName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1823,7 +1823,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_router(
-    meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -1838,7 +1838,7 @@ function update_virtual_router(
     spec,
     virtualRouterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",
@@ -1875,7 +1875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information about mesh sharing, see Working with shared meshes.
 """
 function update_virtual_service(
-    meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+    meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return app_mesh(
         "PUT",
@@ -1890,7 +1890,7 @@ function update_virtual_service(
     spec,
     virtualServiceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return app_mesh(
         "PUT",

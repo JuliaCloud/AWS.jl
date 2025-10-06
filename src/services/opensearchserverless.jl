@@ -20,13 +20,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"names"`: A list of collection names. You can't provide names and IDs in the same
   request.
 """
-function batch_get_collection(; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_get_collection(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "BatchGetCollection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function batch_get_collection(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "BatchGetCollection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -45,7 +45,7 @@ For more information, see Viewing data lifecycle policies.
 
 """
 function batch_get_effective_lifecycle_policy(
-    resourceIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "BatchGetEffectiveLifecyclePolicy",
@@ -57,7 +57,7 @@ end
 function batch_get_effective_lifecycle_policy(
     resourceIdentifiers,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "BatchGetEffectiveLifecyclePolicy",
@@ -85,7 +85,7 @@ information, see Viewing data lifecycle policies.
 
 """
 function batch_get_lifecycle_policy(
-    identifiers; aws_config::AbstractAWSConfig=global_aws_config()
+    identifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "BatchGetLifecyclePolicy",
@@ -97,7 +97,7 @@ end
 function batch_get_lifecycle_policy(
     identifiers,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "BatchGetLifecyclePolicy",
@@ -120,7 +120,7 @@ more information, see Access Amazon OpenSearch Serverless using an interface end
 - `ids`: A list of VPC endpoint identifiers.
 
 """
-function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "BatchGetVpcEndpoint",
         Dict{String,Any}("ids" => ids);
@@ -129,7 +129,7 @@ function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function batch_get_vpc_endpoint(
-    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "BatchGetVpcEndpoint",
@@ -160,7 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the permissions defined in the policy.
 """
 function create_access_policy(
-    name, policy, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policy, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "CreateAccessPolicy",
@@ -179,7 +179,7 @@ function create_access_policy(
     policy,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "CreateAccessPolicy",
@@ -219,7 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Serverless collection.
 - `"type"`: The type of collection.
 """
-function create_collection(name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_collection(name; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "CreateCollection",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
@@ -228,7 +228,7 @@ function create_collection(name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function create_collection(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "CreateCollection",
@@ -263,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the lifecycle policy.
 """
 function create_lifecycle_policy(
-    name, policy, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policy, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "CreateLifecyclePolicy",
@@ -282,7 +282,7 @@ function create_lifecycle_policy(
     policy,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "CreateLifecyclePolicy",
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required if you specify saml for the type parameter.
 """
 function create_security_config(
-    name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "CreateSecurityConfig",
@@ -335,7 +335,7 @@ function create_security_config(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "CreateSecurityConfig",
@@ -375,7 +375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the permissions defined in the policy.
 """
 function create_security_policy(
-    name, policy, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policy, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "CreateSecurityPolicy",
@@ -394,7 +394,7 @@ function create_security_policy(
     policy,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "CreateSecurityPolicy",
@@ -436,7 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint.
 """
 function create_vpc_endpoint(
-    name, subnetIds, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    name, subnetIds, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "CreateVpcEndpoint",
@@ -455,7 +455,7 @@ function create_vpc_endpoint(
     subnetIds,
     vpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "CreateVpcEndpoint",
@@ -491,7 +491,9 @@ control for Amazon OpenSearch Serverless.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
-function delete_access_policy(name, type; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_access_policy(
+    name, type; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return opensearchserverless(
         "DeleteAccessPolicy",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
@@ -503,7 +505,7 @@ function delete_access_policy(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "DeleteAccessPolicy",
@@ -536,7 +538,7 @@ managing Amazon OpenSearch Serverless collections.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
 """
-function delete_collection(id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_collection(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "DeleteCollection",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
@@ -545,7 +547,7 @@ function delete_collection(id; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_collection(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "DeleteCollection",
@@ -577,7 +579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_lifecycle_policy(
-    name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "DeleteLifecyclePolicy",
@@ -590,7 +592,7 @@ function delete_lifecycle_policy(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "DeleteLifecyclePolicy",
@@ -623,7 +625,7 @@ authentication for Amazon OpenSearch Serverless.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
-function delete_security_config(id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_security_config(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "DeleteSecurityConfig",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
@@ -632,7 +634,7 @@ function delete_security_config(id; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function delete_security_config(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "DeleteSecurityConfig",
@@ -663,7 +665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_security_policy(
-    name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "DeleteSecurityPolicy",
@@ -676,7 +678,7 @@ function delete_security_policy(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "DeleteSecurityPolicy",
@@ -708,7 +710,7 @@ Access Amazon OpenSearch Serverless using an interface endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
-function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "DeleteVpcEndpoint",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
@@ -717,7 +719,7 @@ function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_vpc_endpoint(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "DeleteVpcEndpoint",
@@ -745,7 +747,7 @@ control for Amazon OpenSearch Serverless.
 - `type`: Tye type of policy. Currently, the only supported value is data.
 
 """
-function get_access_policy(name, type; aws_config::AbstractAWSConfig=global_aws_config())
+function get_access_policy(name, type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetAccessPolicy",
         Dict{String,Any}("name" => name, "type" => type);
@@ -757,7 +759,7 @@ function get_access_policy(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "GetAccessPolicy",
@@ -776,13 +778,13 @@ end
 Returns account-level settings related to OpenSearch Serverless.
 
 """
-function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -797,13 +799,13 @@ Returns statistical information about your OpenSearch Serverless access policies
 configurations, and security policies.
 
 """
-function get_policies_stats(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_policies_stats(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetPoliciesStats"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_policies_stats(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "GetPoliciesStats", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -821,7 +823,7 @@ information, see SAML authentication for Amazon OpenSearch Serverless.
 - `id`: The unique identifier of the security configuration.
 
 """
-function get_security_config(id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_security_config(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetSecurityConfig",
         Dict{String,Any}("id" => id);
@@ -830,7 +832,7 @@ function get_security_config(id; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_security_config(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "GetSecurityConfig",
@@ -853,7 +855,7 @@ Amazon OpenSearch Serverless.
 - `type`: The type of security policy.
 
 """
-function get_security_policy(name, type; aws_config::AbstractAWSConfig=global_aws_config())
+function get_security_policy(name, type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetSecurityPolicy",
         Dict{String,Any}("name" => name, "type" => type);
@@ -865,7 +867,7 @@ function get_security_policy(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "GetSecurityPolicy",
@@ -895,7 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results in the next page.
 - `"resource"`: Resource filters (can be collections or indexes) that policies can apply to.
 """
-function list_access_policies(type; aws_config::AbstractAWSConfig=global_aws_config())
+function list_access_policies(type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListAccessPolicies",
         Dict{String,Any}("type" => type);
@@ -904,7 +906,7 @@ function list_access_policies(type; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_access_policies(
-    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListAccessPolicies",
@@ -931,13 +933,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in subsequent ListCollections operations, which returns
   results in the next page.
 """
-function list_collections(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_collections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_collections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -964,7 +966,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resources"`: Resource filters that policies can apply to. Currently, the only supported
   resource type is index.
 """
-function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=global_aws_config())
+function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListLifecyclePolicies",
         Dict{String,Any}("type" => type);
@@ -973,7 +975,7 @@ function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function list_lifecycle_policies(
-    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListLifecyclePolicies",
@@ -1001,7 +1003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in subsequent ListSecurityConfigs operations, which returns
   results in the next page.
 """
-function list_security_configs(type; aws_config::AbstractAWSConfig=global_aws_config())
+function list_security_configs(type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListSecurityConfigs",
         Dict{String,Any}("type" => type);
@@ -1010,7 +1012,7 @@ function list_security_configs(type; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_security_configs(
-    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListSecurityConfigs",
@@ -1038,7 +1040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 - `"resource"`: Resource filters (can be collection or indexes) that policies can apply to.
 """
-function list_security_policies(type; aws_config::AbstractAWSConfig=global_aws_config())
+function list_security_policies(type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListSecurityPolicies",
         Dict{String,Any}("type" => type);
@@ -1047,7 +1049,7 @@ function list_security_policies(type; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function list_security_policies(
-    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListSecurityPolicies",
@@ -1071,7 +1073,7 @@ Amazon OpenSearch Serverless collections.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListTagsForResource",
@@ -1083,7 +1085,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "ListTagsForResource",
@@ -1113,13 +1115,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcEndpointFilters"`: Filter the results according to the current status of the VPC
   endpoint. Possible statuses are CREATING, DELETING, UPDATING, ACTIVE, and FAILED.
 """
-function list_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_vpc_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "ListVpcEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1141,7 +1143,7 @@ Amazon OpenSearch Serverless collections.
   request must be unique.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
@@ -1153,7 +1155,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "TagResource",
@@ -1185,7 +1187,7 @@ see Tagging Amazon OpenSearch Serverless collections.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UntagResource",
@@ -1198,7 +1200,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "UntagResource",
@@ -1234,7 +1236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policy"`: The JSON policy document to use as the content for the policy.
 """
 function update_access_policy(
-    name, policyVersion, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policyVersion, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateAccessPolicy",
@@ -1253,7 +1255,7 @@ function update_access_policy(
     policyVersion,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "UpdateAccessPolicy",
@@ -1285,13 +1287,13 @@ more information, see Managing capacity limits for Amazon OpenSearch Serverless.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"capacityLimits"`:
 """
-function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateAccountSettings",
@@ -1315,7 +1317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the collection.
 """
-function update_collection(id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_collection(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "UpdateCollection",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
@@ -1324,7 +1326,7 @@ function update_collection(id; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function update_collection(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateCollection",
@@ -1359,7 +1361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policy"`: The JSON policy document to use as the content for the lifecycle policy.
 """
 function update_lifecycle_policy(
-    name, policyVersion, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policyVersion, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateLifecyclePolicy",
@@ -1378,7 +1380,7 @@ function update_lifecycle_policy(
     policyVersion,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "UpdateLifecyclePolicy",
@@ -1419,7 +1421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"samlOptions"`: SAML options in in the form of a key-value map.
 """
 function update_security_config(
-    configVersion, id; aws_config::AbstractAWSConfig=global_aws_config()
+    configVersion, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateSecurityConfig",
@@ -1434,7 +1436,7 @@ function update_security_config(
     configVersion,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "UpdateSecurityConfig",
@@ -1474,7 +1476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policy"`: The JSON policy document to use as the content for the new policy.
 """
 function update_security_policy(
-    name, policyVersion, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policyVersion, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateSecurityPolicy",
@@ -1493,7 +1495,7 @@ function update_security_policy(
     policyVersion,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearchserverless(
         "UpdateSecurityPolicy",
@@ -1535,7 +1537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the endpoint.
 - `"removeSubnetIds"`: The unique identifiers of the subnets to remove from the endpoint.
 """
-function update_vpc_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "UpdateVpcEndpoint",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
@@ -1544,7 +1546,7 @@ function update_vpc_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function update_vpc_endpoint(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
         "UpdateVpcEndpoint",

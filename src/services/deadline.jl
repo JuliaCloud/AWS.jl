@@ -24,7 +24,7 @@ function associate_member_to_farm(
     membershipLevel,
     principalId,
     principalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -45,7 +45,7 @@ function associate_member_to_farm(
     principalId,
     principalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -88,7 +88,7 @@ function associate_member_to_fleet(
     membershipLevel,
     principalId,
     principalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -110,7 +110,7 @@ function associate_member_to_fleet(
     principalId,
     principalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -155,7 +155,7 @@ function associate_member_to_job(
     principalId,
     principalType,
     queueId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -178,7 +178,7 @@ function associate_member_to_job(
     principalType,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -221,7 +221,7 @@ function associate_member_to_queue(
     principalId,
     principalType,
     queueId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -243,7 +243,7 @@ function associate_member_to_queue(
     principalType,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -277,7 +277,7 @@ credentials are scoped down to have read-only access.
 
 """
 function assume_fleet_role_for_read(
-    farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -290,7 +290,7 @@ function assume_fleet_role_for_read(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -314,7 +314,7 @@ Get credentials from the fleet role for a worker.
 
 """
 function assume_fleet_role_for_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -328,7 +328,7 @@ function assume_fleet_role_for_worker(
     fleetId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -352,7 +352,7 @@ credentials are scoped down to have read-only access.
 
 """
 function assume_queue_role_for_read(
-    farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -365,7 +365,7 @@ function assume_queue_role_for_read(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -388,7 +388,7 @@ Allows a user to assume a role for a queue.
 
 """
 function assume_queue_role_for_user(
-    farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -401,7 +401,7 @@ function assume_queue_role_for_user(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -426,7 +426,7 @@ Allows a worker to assume a queue role.
 
 """
 function assume_queue_role_for_worker(
-    farmId, fleetId, queueId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, queueId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -442,7 +442,7 @@ function assume_queue_role_for_worker(
     queueId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -473,7 +473,7 @@ function batch_get_job_entity(
     fleetId,
     identifiers,
     workerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -489,7 +489,7 @@ function batch_get_job_entity(
     identifiers,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -521,7 +521,7 @@ function copy_job_template(
     jobId,
     queueId,
     targetS3Location;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -537,7 +537,7 @@ function copy_job_template(
     queueId,
     targetS3Location,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -579,7 +579,7 @@ function create_budget(
     farmId,
     schedule,
     usageTrackingResource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -604,7 +604,7 @@ function create_budget(
     schedule,
     usageTrackingResource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -649,7 +649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
 """
-function create_farm(displayName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_farm(displayName; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "POST",
         "/2023-10-12/farms",
@@ -663,7 +663,7 @@ end
 function create_farm(
     displayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -713,7 +713,7 @@ function create_fleet(
     farmId,
     maxWorkerCount,
     roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -736,7 +736,7 @@ function create_fleet(
     maxWorkerCount,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -794,7 +794,7 @@ function create_job(
     queueId,
     template,
     templateType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -816,7 +816,7 @@ function create_job(
     template,
     templateType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -858,7 +858,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required, but tag values can be empty strings.
 """
 function create_license_endpoint(
-    securityGroupIds, subnetIds, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+    securityGroupIds, subnetIds, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -878,7 +878,7 @@ function create_license_endpoint(
     subnetIds,
     vpcId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -929,7 +929,7 @@ function create_monitor(
     identityCenterInstanceArn,
     roleArn,
     subdomain;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -951,7 +951,7 @@ function create_monitor(
     roleArn,
     subdomain,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -1003,7 +1003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required, but tag values can be empty strings.
 """
 function create_queue(
-    displayName, farmId; aws_config::AbstractAWSConfig=global_aws_config()
+    displayName, farmId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -1019,7 +1019,7 @@ function create_queue(
     displayName,
     farmId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -1064,7 +1064,7 @@ function create_queue_environment(
     queueId,
     template,
     templateType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -1086,7 +1086,7 @@ function create_queue_environment(
     template,
     templateType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -1121,7 +1121,7 @@ Creates an association between a queue and a fleet.
 
 """
 function create_queue_fleet_association(
-    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PUT",
@@ -1136,7 +1136,7 @@ function create_queue_fleet_association(
     fleetId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -1170,7 +1170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fileSystemLocations"`: File system paths to include in the storage profile.
 """
 function create_storage_profile(
-    displayName, farmId, osFamily; aws_config::AbstractAWSConfig=global_aws_config()
+    displayName, farmId, osFamily; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -1189,7 +1189,7 @@ function create_storage_profile(
     farmId,
     osFamily,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -1229,7 +1229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same request.
 - `"hostProperties"`: The IP address and host name of the worker.
 """
-function create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "POST",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers",
@@ -1242,7 +1242,7 @@ function create_worker(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -1268,7 +1268,7 @@ Deletes a budget.
 - `farm_id`: The farm ID of the farm to remove from the budget.
 
 """
-function delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)";
@@ -1280,7 +1280,7 @@ function delete_budget(
     budgetId,
     farmId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1301,7 +1301,7 @@ Deletes a farm.
 - `farm_id`: The farm ID of the farm to delete.
 
 """
-function delete_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "DELETE",
         "/2023-10-12/farms/$(farmId)";
@@ -1310,7 +1310,7 @@ function delete_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_farm(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1336,7 +1336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
@@ -1349,7 +1349,7 @@ function delete_fleet(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1375,7 +1375,7 @@ Deletes a license endpoint.
 
 """
 function delete_license_endpoint(
-    licenseEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1387,7 +1387,7 @@ end
 function delete_license_endpoint(
     licenseEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1411,7 +1411,7 @@ Deletes a metered product.
 
 """
 function delete_metered_product(
-    licenseEndpointId, productId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseEndpointId, productId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1424,7 +1424,7 @@ function delete_metered_product(
     licenseEndpointId,
     productId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1447,7 +1447,7 @@ attach farms to the monitor.
   CreateMonitor operation, and is included in the response to the GetMonitor operation.
 
 """
-function delete_monitor(monitorId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "DELETE",
         "/2023-10-12/monitors/$(monitorId)";
@@ -1458,7 +1458,7 @@ end
 function delete_monitor(
     monitorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1480,7 +1480,7 @@ Deletes a queue.
 - `queue_id`: The queue ID of the queue to delete.
 
 """
-function delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)";
@@ -1492,7 +1492,7 @@ function delete_queue(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1516,7 +1516,7 @@ Deletes a queue environment.
 
 """
 function delete_queue_environment(
-    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1530,7 +1530,7 @@ function delete_queue_environment(
     queueEnvironmentId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1554,7 +1554,7 @@ Deletes a queue-fleet association.
 
 """
 function delete_queue_fleet_association(
-    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1568,7 +1568,7 @@ function delete_queue_fleet_association(
     fleetId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1591,7 +1591,7 @@ Deletes a storage profile.
 
 """
 function delete_storage_profile(
-    farmId, storageProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1604,7 +1604,7 @@ function delete_storage_profile(
     farmId,
     storageProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1628,7 +1628,7 @@ Deletes a worker.
 
 """
 function delete_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1642,7 +1642,7 @@ function delete_worker(
     fleetId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1665,7 +1665,7 @@ Disassociates a member from a farm.
 
 """
 function disassociate_member_from_farm(
-    farmId, principalId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, principalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1678,7 +1678,7 @@ function disassociate_member_from_farm(
     farmId,
     principalId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1702,7 +1702,7 @@ Disassociates a member from a fleet.
 
 """
 function disassociate_member_from_fleet(
-    farmId, fleetId, principalId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, principalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1716,7 +1716,7 @@ function disassociate_member_from_fleet(
     fleetId,
     principalId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1741,7 +1741,7 @@ Disassociates a member from a job.
 
 """
 function disassociate_member_from_job(
-    farmId, jobId, principalId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, principalId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1756,7 +1756,7 @@ function disassociate_member_from_job(
     principalId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1780,7 +1780,7 @@ Disassociates a member from a queue.
 
 """
 function disassociate_member_from_queue(
-    farmId, principalId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, principalId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -1794,7 +1794,7 @@ function disassociate_member_from_queue(
     principalId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -1816,7 +1816,7 @@ Get a budget.
 - `farm_id`: The farm ID of the farm connected to the budget.
 
 """
-function get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)";
@@ -1828,7 +1828,7 @@ function get_budget(
     budgetId,
     farmId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -1849,7 +1849,7 @@ Get a farm.
 - `farm_id`: The farm ID of the farm.
 
 """
-function get_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)";
@@ -1858,7 +1858,7 @@ function get_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_farm(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -1880,7 +1880,7 @@ Get a fleet.
 - `fleet_id`: The fleet ID of the fleet to get.
 
 """
-function get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)";
@@ -1892,7 +1892,7 @@ function get_fleet(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -1915,7 +1915,7 @@ Gets a Deadline Cloud job.
 - `queue_id`: The queue ID associated with the job.
 
 """
-function get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)";
@@ -1928,7 +1928,7 @@ function get_job(
     jobId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -1950,7 +1950,7 @@ Gets a licence endpoint.
 
 """
 function get_license_endpoint(
-    licenseEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -1962,7 +1962,7 @@ end
 function get_license_endpoint(
     licenseEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -1984,7 +1984,7 @@ Gets information about the specified monitor.
   CreateMonitor operation.
 
 """
-function get_monitor(monitorId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/monitors/$(monitorId)";
@@ -1995,7 +1995,7 @@ end
 function get_monitor(
     monitorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2017,7 +2017,7 @@ Gets a queue.
 - `queue_id`: The queue ID for the queue to retrieve.
 
 """
-function get_queue(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)";
@@ -2029,7 +2029,7 @@ function get_queue(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2053,7 +2053,7 @@ Gets a queue environment.
 
 """
 function get_queue_environment(
-    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2067,7 +2067,7 @@ function get_queue_environment(
     queueEnvironmentId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2091,7 +2091,7 @@ Gets a queue-fleet association.
 
 """
 function get_queue_fleet_association(
-    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2105,7 +2105,7 @@ function get_queue_fleet_association(
     fleetId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2130,7 +2130,7 @@ Gets a session.
 
 """
 function get_session(
-    farmId, jobId, queueId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2145,7 +2145,7 @@ function get_session(
     queueId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2174,7 +2174,7 @@ function get_session_action(
     jobId,
     queueId,
     sessionActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2189,7 +2189,7 @@ function get_session_action(
     queueId,
     sessionActionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2222,7 +2222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function get_sessions_statistics_aggregation(
-    aggregationId, farmId; aws_config::AbstractAWSConfig=global_aws_config()
+    aggregationId, farmId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2236,7 +2236,7 @@ function get_sessions_statistics_aggregation(
     aggregationId,
     farmId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2263,7 +2263,7 @@ Gets a step.
 
 """
 function get_step(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2278,7 +2278,7 @@ function get_step(
     queueId,
     stepId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2301,7 +2301,7 @@ Gets a storage profile.
 
 """
 function get_storage_profile(
-    farmId, storageProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2314,7 +2314,7 @@ function get_storage_profile(
     farmId,
     storageProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2338,7 +2338,7 @@ Gets a storage profile for a queue.
 
 """
 function get_storage_profile_for_queue(
-    farmId, queueId, storageProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2352,7 +2352,7 @@ function get_storage_profile_for_queue(
     queueId,
     storageProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2383,7 +2383,7 @@ function get_task(
     queueId,
     stepId,
     taskId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2399,7 +2399,7 @@ function get_task(
     stepId,
     taskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2423,7 +2423,7 @@ Gets a worker.
 
 """
 function get_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2437,7 +2437,7 @@ function get_worker(
     fleetId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2461,7 +2461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_available_metered_products(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2471,7 +2471,7 @@ function list_available_metered_products(;
     )
 end
 function list_available_metered_products(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2498,7 +2498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 - `"status"`: The status to list for the budgets.
 """
-function list_budgets(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_budgets(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/budgets";
@@ -2507,7 +2507,7 @@ function list_budgets(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_budgets(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2533,7 +2533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
-function list_farm_members(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_farm_members(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/members";
@@ -2542,7 +2542,7 @@ function list_farm_members(farmId; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_farm_members(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2566,13 +2566,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 - `"principalId"`: The principal ID of the member to list on the farm.
 """
-function list_farms(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_farms(; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_farms(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2600,7 +2600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_fleet_members(
-    farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2613,7 +2613,7 @@ function list_fleet_members(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2642,7 +2642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principalId"`: The principal ID of the members to include in the fleet.
 - `"status"`: The status of the fleet.
 """
-function list_fleets(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_fleets(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets";
@@ -2651,7 +2651,7 @@ function list_fleets(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_fleets(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2680,7 +2680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_job_members(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2694,7 +2694,7 @@ function list_job_members(
     jobId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2722,7 +2722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 - `"principalId"`: The principal ID of the members on the jobs.
 """
-function list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs";
@@ -2734,7 +2734,7 @@ function list_jobs(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2757,7 +2757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
-function list_license_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_license_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/license-endpoints";
@@ -2766,7 +2766,7 @@ function list_license_endpoints(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_license_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2793,7 +2793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_metered_products(
-    licenseEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2805,7 +2805,7 @@ end
 function list_metered_products(
     licenseEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2828,7 +2828,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
-function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/monitors";
@@ -2837,7 +2837,7 @@ function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_monitors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2865,7 +2865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_queue_environments(
-    farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2878,7 +2878,7 @@ function list_queue_environments(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2907,7 +2907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"queueId"`: The queue ID for the queue-fleet association list.
 """
 function list_queue_fleet_associations(
-    farmId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2917,7 +2917,7 @@ function list_queue_fleet_associations(
     )
 end
 function list_queue_fleet_associations(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2945,7 +2945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_queue_members(
-    farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -2958,7 +2958,7 @@ function list_queue_members(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -2989,7 +2989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SCHEDULING–The queues are scheduling.    SCHEDULING_BLOCKED–The queue scheduling is
   blocked for these queues.
 """
-function list_queues(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_queues(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues";
@@ -2998,7 +2998,7 @@ function list_queues(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_queues(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3029,7 +3029,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskId"`: The task ID for the session actions list.
 """
 function list_session_actions(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3043,7 +3043,7 @@ function list_session_actions(
     jobId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3072,7 +3072,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_sessions(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3086,7 +3086,7 @@ function list_sessions(
     jobId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3115,7 +3115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_sessions_for_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3129,7 +3129,7 @@ function list_sessions_for_worker(
     fleetId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3159,7 +3159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_step_consumers(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3174,7 +3174,7 @@ function list_step_consumers(
     queueId,
     stepId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3204,7 +3204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_step_dependencies(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3219,7 +3219,7 @@ function list_step_dependencies(
     queueId,
     stepId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3248,7 +3248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_steps(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3262,7 +3262,7 @@ function list_steps(
     jobId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3288,7 +3288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
-function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/storage-profiles";
@@ -3297,7 +3297,7 @@ function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function list_storage_profiles(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3325,7 +3325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_storage_profiles_for_queue(
-    farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3338,7 +3338,7 @@ function list_storage_profiles_for_queue(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3360,7 +3360,7 @@ Lists tags for a resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3372,7 +3372,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3402,7 +3402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
 function list_tasks(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "GET",
@@ -3417,7 +3417,7 @@ function list_tasks(
     queueId,
     stepId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3444,7 +3444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
 """
-function list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers";
@@ -3456,7 +3456,7 @@ function list_workers(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "GET",
@@ -3479,7 +3479,7 @@ Adds a metered product.
 
 """
 function put_metered_product(
-    licenseEndpointId, productId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseEndpointId, productId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PUT",
@@ -3492,7 +3492,7 @@ function put_metered_product(
     licenseEndpointId,
     productId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PUT",
@@ -3523,7 +3523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_jobs(
-    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -3538,7 +3538,7 @@ function search_jobs(
     itemOffset,
     queueIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3576,7 +3576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_steps(
-    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -3591,7 +3591,7 @@ function search_steps(
     itemOffset,
     queueIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3629,7 +3629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_tasks(
-    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -3644,7 +3644,7 @@ function search_tasks(
     itemOffset,
     queueIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3681,7 +3681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_workers(
-    farmId, fleetIds, itemOffset; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetIds, itemOffset; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
@@ -3696,7 +3696,7 @@ function search_workers(
     fleetIds,
     itemOffset,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3742,7 +3742,7 @@ function start_sessions_statistics_aggregation(
     resourceIds,
     startTime,
     statistics;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3766,7 +3766,7 @@ function start_sessions_statistics_aggregation(
     startTime,
     statistics,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3803,7 +3803,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
-function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "POST",
         "/2023-10-12/tags/$(resourceArn)";
@@ -3814,7 +3814,7 @@ end
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "POST",
@@ -3837,7 +3837,7 @@ Removes a tag from a resource using the resource's ARN and tag to remove.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "DELETE",
@@ -3851,7 +3851,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "DELETE",
@@ -3888,7 +3888,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted
   statuses.
 """
-function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "PATCH",
         "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
@@ -3901,7 +3901,7 @@ function update_budget(
     budgetId,
     farmId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -3930,7 +3930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the farm to update.
 - `"displayName"`: The display name of the farm to update.
 """
-function update_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "PATCH",
         "/2023-10-12/farms/$(farmId)";
@@ -3939,7 +3939,7 @@ function update_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_farm(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -3971,7 +3971,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
 """
-function update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "PATCH",
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
@@ -3984,7 +3984,7 @@ function update_fleet(
     farmId,
     fleetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4022,7 +4022,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetTaskRunStatus"`: The task status to update the job's tasks to.
 """
 function update_job(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -4037,7 +4037,7 @@ function update_job(
     jobId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4068,7 +4068,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
-function update_monitor(monitorId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "PATCH",
         "/2023-10-12/monitors/$(monitorId)";
@@ -4079,7 +4079,7 @@ end
 function update_monitor(
     monitorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4117,7 +4117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remove from the queue.
 - `"roleArn"`: The IAM role ARN that's used to run jobs from this queue.
 """
-function update_queue(farmId, queueId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
     return deadline(
         "PATCH",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
@@ -4130,7 +4130,7 @@ function update_queue(
     farmId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4165,7 +4165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateType"`: The template type to update.
 """
 function update_queue_environment(
-    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -4180,7 +4180,7 @@ function update_queue_environment(
     queueEnvironmentId,
     queueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4209,7 +4209,7 @@ Updates a queue-fleet association.
 
 """
 function update_queue_fleet_association(
-    farmId, fleetId, queueId, status; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, queueId, status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -4225,7 +4225,7 @@ function update_queue_fleet_association(
     queueId,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4260,7 +4260,7 @@ function update_session(
     queueId,
     sessionId,
     targetLifecycleStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4280,7 +4280,7 @@ function update_session(
     sessionId,
     targetLifecycleStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4324,7 +4324,7 @@ function update_step(
     queueId,
     stepId,
     targetTaskRunStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4344,7 +4344,7 @@ function update_step(
     stepId,
     targetTaskRunStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4384,7 +4384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"osFamily"`: The OS system to update.
 """
 function update_storage_profile(
-    farmId, storageProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -4398,7 +4398,7 @@ function update_storage_profile(
     farmId,
     storageProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4439,7 +4439,7 @@ function update_task(
     stepId,
     targetRunStatus,
     taskId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4459,7 +4459,7 @@ function update_task(
     targetRunStatus,
     taskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4497,7 +4497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The worker status to update.
 """
 function update_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -4511,7 +4511,7 @@ function update_worker(
     fleetId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",
@@ -4539,7 +4539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 """
 function update_worker_schedule(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=global_aws_config()
+    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "PATCH",
@@ -4553,7 +4553,7 @@ function update_worker_schedule(
     fleetId,
     workerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return deadline(
         "PATCH",

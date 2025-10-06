@@ -21,7 +21,7 @@ Tag keys must be unique to each resource.
 
 """
 function add_tags_to_resource(
-    ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "AddTagsToResource",
@@ -34,7 +34,7 @@ function add_tags_to_resource(
     ResourceArn,
     TagList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "AddTagsToResource",
@@ -65,7 +65,7 @@ partitions that spans multiple physical HSMs.
 - `label`: The label of the new high-availability partition group.
 
 """
-function create_hapg(Label; aws_config::AbstractAWSConfig=global_aws_config())
+function create_hapg(Label; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateHapg",
         Dict{String,Any}("Label" => Label);
@@ -74,7 +74,7 @@ function create_hapg(Label; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_hapg(
-    Label, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Label, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "CreateHapg",
@@ -121,7 +121,7 @@ function create_hsm(
     SshKey,
     SubnetId,
     SubscriptionType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "CreateHsm",
@@ -141,7 +141,7 @@ function create_hsm(
     SubnetId,
     SubscriptionType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "CreateHsm",
@@ -179,7 +179,7 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Creates an HSM 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Label"`: The label for the client.
 """
-function create_luna_client(Certificate; aws_config::AbstractAWSConfig=global_aws_config())
+function create_luna_client(Certificate; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateLunaClient",
         Dict{String,Any}("Certificate" => Certificate);
@@ -190,7 +190,7 @@ end
 function create_luna_client(
     Certificate,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "CreateLunaClient",
@@ -216,7 +216,7 @@ high-availability partition group.
 - `hapg_arn`: The ARN of the high-availability partition group to delete.
 
 """
-function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHapg",
         Dict{String,Any}("HapgArn" => HapgArn);
@@ -225,7 +225,9 @@ function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_hapg(
-    HapgArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HapgArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "DeleteHapg",
@@ -249,7 +251,7 @@ completion, this operation cannot be undone and your key material cannot be reco
 - `hsm_arn`: The ARN of the HSM to delete.
 
 """
-function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHsm",
         Dict{String,Any}("HsmArn" => HsmArn);
@@ -258,7 +260,7 @@ function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_hsm(
-    HsmArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HsmArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "DeleteHsm",
@@ -281,7 +283,7 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes a clien
 - `client_arn`: The ARN of the client to delete.
 
 """
-function delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteLunaClient",
         Dict{String,Any}("ClientArn" => ClientArn);
@@ -292,7 +294,7 @@ end
 function delete_luna_client(
     ClientArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "DeleteLunaClient",
@@ -318,7 +320,7 @@ about a high-availability partition group.
 - `hapg_arn`: The ARN of the high-availability partition group to describe.
 
 """
-function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DescribeHapg",
         Dict{String,Any}("HapgArn" => HapgArn);
@@ -327,7 +329,9 @@ function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function describe_hapg(
-    HapgArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HapgArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "DescribeHapg",
@@ -354,11 +358,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HsmSerialNumber"`: The serial number of the HSM. Either the HsmArn or the
   HsmSerialNumber parameter must be specified.
 """
-function describe_hsm(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_hsm(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("DescribeHsm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_hsm(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "DescribeHsm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -380,13 +384,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateFingerprint"`: The certificate fingerprint.
 - `"ClientArn"`: The ARN of the client.
 """
-function describe_luna_client(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_luna_client(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DescribeLunaClient"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_luna_client(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "DescribeLunaClient", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -412,7 +416,7 @@ associated with.
 
 """
 function get_config(
-    ClientArn, ClientVersion, HapgList; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientArn, ClientVersion, HapgList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "GetConfig",
@@ -430,7 +434,7 @@ function get_config(
     ClientVersion,
     HapgList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "GetConfig",
@@ -461,13 +465,13 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the Avail
 Zones that have available AWS CloudHSM capacity.
 
 """
-function list_available_zones(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_available_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ListAvailableZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_available_zones(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ListAvailableZones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -492,11 +496,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value from a previous call to ListHapgs. Pass null if this
   is the first call.
 """
-function list_hapgs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_hapgs(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("ListHapgs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_hapgs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ListHapgs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -521,11 +525,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value from a previous call to ListHsms. Pass null if this is
   the first call.
 """
-function list_hsms(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_hsms(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("ListHsms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_hsms(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ListHsms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -549,13 +553,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value from a previous call to ListLunaClients. Pass null if
   this is the first call.
 """
-function list_luna_clients(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_luna_clients(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ListLunaClients"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_luna_clients(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ListLunaClients", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -577,7 +581,7 @@ for the specified AWS CloudHSM resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ListTagsForResource",
@@ -589,7 +593,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "ListTagsForResource",
@@ -620,7 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartitionSerialList"`: The list of partition serial numbers to make members of the
   high-availability partition group.
 """
-function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHapg",
         Dict{String,Any}("HapgArn" => HapgArn);
@@ -629,7 +633,9 @@ function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function modify_hapg(
-    HapgArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HapgArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "ModifyHapg",
@@ -667,7 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyslogIp"`: The new IP address for the syslog monitoring server. The AWS CloudHSM
   service only supports one syslog monitoring server.
 """
-function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config())
+function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHsm",
         Dict{String,Any}("HsmArn" => HsmArn);
@@ -676,7 +682,7 @@ function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function modify_hsm(
-    HsmArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HsmArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ModifyHsm",
@@ -703,7 +709,7 @@ certificate on the client's HSMs.
 
 """
 function modify_luna_client(
-    Certificate, ClientArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Certificate, ClientArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "ModifyLunaClient",
@@ -716,7 +722,7 @@ function modify_luna_client(
     Certificate,
     ClientArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "ModifyLunaClient",
@@ -750,7 +756,7 @@ remove (not the value). To overwrite the value for an existing tag, use AddTagsT
 
 """
 function remove_tags_from_resource(
-    ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
         "RemoveTagsFromResource",
@@ -763,7 +769,7 @@ function remove_tags_from_resource(
     ResourceArn,
     TagKeyList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudhsm(
         "RemoveTagsFromResource",

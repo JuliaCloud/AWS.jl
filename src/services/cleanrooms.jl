@@ -21,7 +21,7 @@ Retrieves multiple analysis templates within a collaboration by their Amazon Res
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -35,7 +35,7 @@ function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -65,7 +65,7 @@ Retrieves multiple schemas by their identifiers.
 
 """
 function batch_get_schema(
-    collaborationIdentifier, names; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier, names; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "POST",
@@ -79,7 +79,7 @@ function batch_get_schema(
     collaborationIdentifier,
     names,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -106,7 +106,7 @@ Retrieves multiple analysis rule schemas.
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -120,7 +120,7 @@ function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -166,7 +166,7 @@ function create_analysis_template(
     membershipIdentifier,
     name,
     source;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -182,7 +182,7 @@ function create_analysis_template(
     name,
     source,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -233,7 +233,7 @@ function create_collaboration(
     members,
     name,
     queryLogStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -258,7 +258,7 @@ function create_collaboration(
     name,
     queryLogStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -319,7 +319,7 @@ function create_configured_audience_model_association(
     configuredAudienceModelAssociationName,
     manageResourcePolicies,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -340,7 +340,7 @@ function create_configured_audience_model_association(
     manageResourcePolicies,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -389,7 +389,7 @@ function create_configured_table(
     analysisMethod,
     name,
     tableReference;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -410,7 +410,7 @@ function create_configured_table(
     name,
     tableReference,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -450,7 +450,7 @@ function create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
     configuredTableIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -468,7 +468,7 @@ function create_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -519,7 +519,7 @@ function create_configured_table_association(
     membershipIdentifier,
     name,
     roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -539,7 +539,7 @@ function create_configured_table_association(
     name,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -587,7 +587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_membership(
     collaborationIdentifier,
     queryLogStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -604,7 +604,7 @@ function create_membership(
     collaborationIdentifier,
     queryLogStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -657,7 +657,7 @@ function create_privacy_budget_template(
     membershipIdentifier,
     parameters,
     privacyBudgetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -677,7 +677,7 @@ function create_privacy_budget_template(
     parameters,
     privacyBudgetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -712,7 +712,7 @@ Deletes an analysis template.
 function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -725,7 +725,7 @@ function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -747,7 +747,7 @@ Deletes a collaboration. It can only be called by the collaboration owner.
 
 """
 function delete_collaboration(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "DELETE",
@@ -759,7 +759,7 @@ end
 function delete_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -786,7 +786,7 @@ Provides the information necessary to delete a configured audience model associa
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -799,7 +799,7 @@ function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -821,7 +821,7 @@ Deletes a configured table.
 
 """
 function delete_configured_table(
-    configuredTableIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "DELETE",
@@ -833,7 +833,7 @@ end
 function delete_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -860,7 +860,7 @@ Deletes a configured table analysis rule.
 function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -873,7 +873,7 @@ function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -900,7 +900,7 @@ Deletes a configured table association.
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -913,7 +913,7 @@ function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -938,7 +938,7 @@ inaccessible to active members of the collaboration.
 
 """
 function delete_member(
-    accountId, collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    accountId, collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "DELETE",
@@ -951,7 +951,7 @@ function delete_member(
     accountId,
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -973,7 +973,7 @@ Deletes a specified membership. All resources under a membership must be deleted
 
 """
 function delete_membership(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "DELETE",
@@ -985,7 +985,7 @@ end
 function delete_membership(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -1013,7 +1013,7 @@ Deletes a privacy budget template for a specified membership.
 function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -1026,7 +1026,7 @@ function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -1051,7 +1051,7 @@ Retrieves an analysis template.
 function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1064,7 +1064,7 @@ function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1086,7 +1086,7 @@ Returns metadata about a collaboration.
 
 """
 function get_collaboration(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1098,7 +1098,7 @@ end
 function get_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1125,7 +1125,7 @@ Retrieves an analysis template within a collaboration.
 function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1138,7 +1138,7 @@ function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1165,7 +1165,7 @@ Retrieves a configured audience model association within a collaboration.
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1178,7 +1178,7 @@ function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1204,7 +1204,7 @@ Returns details about a specified privacy budget template.
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1217,7 +1217,7 @@ function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1244,7 +1244,7 @@ Returns information about a configured audience model association.
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1257,7 +1257,7 @@ function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1279,7 +1279,7 @@ Retrieves a configured table.
 
 """
 function get_configured_table(
-    configuredTableIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1291,7 +1291,7 @@ end
 function get_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1318,7 +1318,7 @@ Retrieves a configured table analysis rule.
 function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1331,7 +1331,7 @@ function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1358,7 +1358,7 @@ Retrieves a configured table association.
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1371,7 +1371,7 @@ function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1393,7 +1393,7 @@ Retrieves a specified membership for an identifier.
 
 """
 function get_membership(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1405,7 +1405,7 @@ end
 function get_membership(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1433,7 +1433,7 @@ Returns details for a specified privacy budget template.
 function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1446,7 +1446,7 @@ function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1471,7 +1471,7 @@ Returns query processing metadata.
 function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1484,7 +1484,7 @@ function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1508,7 +1508,7 @@ Retrieves the schema for a relation within a collaboration.
 
 """
 function get_schema(
-    collaborationIdentifier, name; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1521,7 +1521,7 @@ function get_schema(
     collaborationIdentifier,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1547,7 +1547,7 @@ Retrieves a schema analysis rule.
 
 """
 function get_schema_analysis_rule(
-    collaborationIdentifier, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1561,7 +1561,7 @@ function get_schema_analysis_rule(
     name,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1588,7 +1588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_analysis_templates(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1600,7 +1600,7 @@ end
 function list_analysis_templates(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1628,7 +1628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_analysis_templates(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1640,7 +1640,7 @@ end
 function list_collaboration_analysis_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1668,7 +1668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_configured_audience_model_associations(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1680,7 +1680,7 @@ end
 function list_collaboration_configured_audience_model_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1709,7 +1709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_privacy_budget_templates(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1721,7 +1721,7 @@ end
 function list_collaboration_privacy_budget_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1755,7 +1755,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1769,7 +1769,7 @@ function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1799,13 +1799,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_collaborations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_collaborations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_collaborations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1835,7 +1835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_configured_audience_model_associations(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1847,7 +1847,7 @@ end
 function list_configured_audience_model_associations(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1875,7 +1875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_configured_table_associations(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1887,7 +1887,7 @@ end
 function list_configured_table_associations(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1910,13 +1910,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_configured_tables(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_configured_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_configured_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1944,7 +1944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_members(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -1956,7 +1956,7 @@ end
 function list_members(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -1980,13 +1980,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"status"`: A filter which will return only memberships in the specified status.
 """
-function list_memberships(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_memberships(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_memberships(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -2017,7 +2017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_privacy_budget_templates(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -2029,7 +2029,7 @@ end
 function list_privacy_budget_templates(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -2063,7 +2063,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -2077,7 +2077,7 @@ function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -2111,7 +2111,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: A filter on the status of the protected query.
 """
 function list_protected_queries(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -2123,7 +2123,7 @@ end
 function list_protected_queries(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -2153,7 +2153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently `TABLE`.
 """
 function list_schemas(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -2165,7 +2165,7 @@ end
 function list_schemas(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -2188,7 +2188,7 @@ Lists all of the tags that have been added to a resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "GET",
@@ -2200,7 +2200,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "GET",
@@ -2225,7 +2225,7 @@ given epsilon and noise parameters.
 
 """
 function preview_privacy_impact(
-    membershipIdentifier, parameters; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "POST",
@@ -2239,7 +2239,7 @@ function preview_privacy_impact(
     membershipIdentifier,
     parameters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -2272,7 +2272,7 @@ function start_protected_query(
     membershipIdentifier,
     sqlParameters,
     type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -2287,7 +2287,7 @@ function start_protected_query(
     sqlParameters,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -2316,7 +2316,7 @@ Tags a resource.
 - `tags`: A map of objects specifying each key name and value.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "POST",
         "/tags/$(resourceArn)",
@@ -2329,7 +2329,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "POST",
@@ -2353,7 +2353,7 @@ Removes a tag or list of tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "DELETE",
@@ -2367,7 +2367,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "DELETE",
@@ -2395,7 +2395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2408,7 +2408,7 @@ function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2435,7 +2435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are not unique.
 """
 function update_collaboration(
-    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "PATCH",
@@ -2447,7 +2447,7 @@ end
 function update_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2478,7 +2478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2491,7 +2491,7 @@ function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2518,7 +2518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A new name for the configured table.
 """
 function update_configured_table(
-    configuredTableIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "PATCH",
@@ -2530,7 +2530,7 @@ end
 function update_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2560,7 +2560,7 @@ function update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
     configuredTableIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2575,7 +2575,7 @@ function update_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2611,7 +2611,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2624,7 +2624,7 @@ function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2652,7 +2652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the membership.
 """
 function update_membership(
-    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cleanrooms(
         "PATCH",
@@ -2664,7 +2664,7 @@ end
 function update_membership(
     membershipIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2698,7 +2698,7 @@ function update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
     privacyBudgetType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2713,7 +2713,7 @@ function update_privacy_budget_template(
     privacyBudgetTemplateIdentifier,
     privacyBudgetType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2745,7 +2745,7 @@ function update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
     targetStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",
@@ -2760,7 +2760,7 @@ function update_protected_query(
     protectedQueryIdentifier,
     targetStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cleanrooms(
         "PATCH",

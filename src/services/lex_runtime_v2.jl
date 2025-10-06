@@ -29,7 +29,7 @@ function delete_session(
     botId,
     localeId,
     sessionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "DELETE",
@@ -44,7 +44,7 @@ function delete_session(
     localeId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "DELETE",
@@ -77,7 +77,7 @@ function get_session(
     botId,
     localeId,
     sessionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "GET",
@@ -92,7 +92,7 @@ function get_session(
     localeId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "GET",
@@ -136,7 +136,7 @@ function put_session(
     localeId,
     sessionId,
     sessionState;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "POST",
@@ -153,7 +153,7 @@ function put_session(
     sessionId,
     sessionState,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "POST",
@@ -204,7 +204,7 @@ function recognize_text(
     localeId,
     sessionId,
     text;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "POST",
@@ -221,7 +221,7 @@ function recognize_text(
     sessionId,
     text,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "POST",
@@ -298,7 +298,7 @@ function recognize_utterance(
     botId,
     localeId,
     sessionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "POST",
@@ -315,7 +315,7 @@ function recognize_utterance(
     localeId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_runtime_v2(
         "POST",

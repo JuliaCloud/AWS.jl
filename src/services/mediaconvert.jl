@@ -16,7 +16,7 @@ MediaConvert.
   resource.
 
 """
-function associate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
         "/2017-08-29/certificates",
@@ -26,7 +26,7 @@ function associate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function associate_certificate(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "POST",
@@ -47,7 +47,7 @@ Permanently cancel a job. Once you have canceled a job, you can't start it again
 - `id`: The Job ID of the job to be cancelled.
 
 """
-function cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
         "/2017-08-29/jobs/$(id)";
@@ -56,7 +56,7 @@ function cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function cancel_job(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "DELETE",
@@ -125,7 +125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you
   use standard AWS tags.
 """
-function create_job(role, settings; aws_config::AbstractAWSConfig=global_aws_config())
+function create_job(role, settings; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
         "/2017-08-29/jobs",
@@ -140,7 +140,7 @@ function create_job(
     role,
     settings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconvert(
         "POST",
@@ -198,7 +198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 function create_job_template(
-    name, settings; aws_config::AbstractAWSConfig=global_aws_config()
+    name, settings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "POST",
@@ -212,7 +212,7 @@ function create_job_template(
     name,
     settings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconvert(
         "POST",
@@ -245,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags that you want to add to the resource. You can tag resources with a
   key-value pair or with only a key.
 """
-function create_preset(name, settings; aws_config::AbstractAWSConfig=global_aws_config())
+function create_preset(name, settings; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
         "/2017-08-29/presets",
@@ -258,7 +258,7 @@ function create_preset(
     name,
     settings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconvert(
         "POST",
@@ -299,7 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags that you want to add to the resource. You can tag resources with a
   key-value pair or with only a key.
 """
-function create_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
         "/2017-08-29/queues",
@@ -309,7 +309,7 @@ function create_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_queue(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "POST",
@@ -330,7 +330,7 @@ Permanently delete a job template you have created.
 - `name`: The name of the job template to be deleted.
 
 """
-function delete_job_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_job_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
         "/2017-08-29/jobTemplates/$(name)";
@@ -339,7 +339,7 @@ function delete_job_template(name; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_job_template(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "DELETE",
@@ -357,7 +357,7 @@ end
 Permanently delete a policy that you created.
 
 """
-function delete_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
         "/2017-08-29/policy";
@@ -366,7 +366,7 @@ function delete_policy(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "DELETE",
@@ -387,7 +387,7 @@ Permanently delete a preset you have created.
 - `name`: The name of the preset to be deleted.
 
 """
-function delete_preset(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_preset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
         "/2017-08-29/presets/$(name)";
@@ -396,7 +396,7 @@ function delete_preset(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_preset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "DELETE",
@@ -417,7 +417,7 @@ Permanently delete a queue you have created.
 - `name`: The name of the queue that you want to delete.
 
 """
-function delete_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
         "/2017-08-29/queues/$(name)";
@@ -426,7 +426,7 @@ function delete_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_queue(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "DELETE",
@@ -456,7 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use this string, provided with the response to a previous request, to
   request the next batch of endpoints.
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
         "/2017-08-29/endpoints";
@@ -465,7 +465,7 @@ function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function describe_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "POST",
@@ -488,7 +488,7 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
   MediaConvert resource.
 
 """
-function disassociate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function disassociate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
         "/2017-08-29/certificates/$(arn)";
@@ -497,7 +497,7 @@ function disassociate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function disassociate_certificate(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "DELETE",
@@ -518,7 +518,7 @@ Retrieve the JSON for a specific transcoding job.
 - `id`: the job ID of the job.
 
 """
-function get_job(id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
         "/2017-08-29/jobs/$(id)";
@@ -527,7 +527,7 @@ function get_job(id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_job(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -548,7 +548,7 @@ Retrieve the JSON for a specific job template.
 - `name`: The name of the job template.
 
 """
-function get_job_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_job_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
         "/2017-08-29/jobTemplates/$(name)";
@@ -557,7 +557,7 @@ function get_job_template(name; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function get_job_template(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -575,13 +575,13 @@ end
 Retrieve the JSON for your policy.
 
 """
-function get_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -602,7 +602,7 @@ Retrieve the JSON for a specific preset.
 - `name`: The name of the preset.
 
 """
-function get_preset(name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_preset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
         "/2017-08-29/presets/$(name)";
@@ -611,7 +611,7 @@ function get_preset(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_preset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -632,7 +632,7 @@ Retrieve the JSON for a specific queue.
 - `name`: The name of the queue that you want information about.
 
 """
-function get_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
         "/2017-08-29/queues/$(name)";
@@ -641,7 +641,7 @@ function get_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_queue(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -674,7 +674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: Optional. When you request lists of resources, you can specify whether they
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-function list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
         "/2017-08-29/jobTemplates";
@@ -683,7 +683,7 @@ function list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_job_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -714,13 +714,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
   or ERROR.
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -753,13 +753,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: Optional. When you request lists of resources, you can specify whether they
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-function list_presets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_presets(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_presets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -790,13 +790,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: Optional. When you request lists of resources, you can specify whether they
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-function list_queues(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/queues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_queues(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -818,7 +818,7 @@ Retrieve the tags for a MediaConvert resource.
   get the ARN, send a GET request with the resource name.
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
         "/2017-08-29/tags/$(arn)";
@@ -827,7 +827,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -851,7 +851,7 @@ http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 """
-function put_policy(policy; aws_config::AbstractAWSConfig=global_aws_config())
+function put_policy(policy; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
         "/2017-08-29/policy",
@@ -861,7 +861,7 @@ function put_policy(policy; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function put_policy(
-    policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "PUT",
@@ -894,13 +894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
   or ERROR.
 """
-function search_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function search_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function search_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "GET",
@@ -926,7 +926,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
   key-value pair or with only a key.
 
 """
-function tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
         "/2017-08-29/tags",
@@ -939,7 +939,7 @@ function tag_resource(
     arn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconvert(
         "POST",
@@ -968,7 +968,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tagKeys"`: The keys of the tags that you want to remove from the resource.
 """
-function untag_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
         "/2017-08-29/tags/$(arn)";
@@ -977,7 +977,7 @@ function untag_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function untag_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "PUT",
@@ -1017,7 +1017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MediaConvert sends an update at this interval from the time the service begins processing
   your job to the time it completes the transcode or encounters an error.
 """
-function update_job_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_job_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
         "/2017-08-29/jobTemplates/$(name)";
@@ -1026,7 +1026,7 @@ function update_job_template(name; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function update_job_template(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "PUT",
@@ -1052,7 +1052,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The new description for the preset, if you are changing it.
 - `"settings"`: Settings for preset
 """
-function update_preset(name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_preset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
         "/2017-08-29/presets/$(name)";
@@ -1061,7 +1061,7 @@ function update_preset(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_preset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "PUT",
@@ -1093,7 +1093,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause
   the queue continue to run until they finish or result in an error.
 """
-function update_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
         "/2017-08-29/queues/$(name)";
@@ -1102,7 +1102,7 @@ function update_queue(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_queue(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconvert(
         "PUT",

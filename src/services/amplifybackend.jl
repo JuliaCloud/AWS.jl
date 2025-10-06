@@ -20,7 +20,7 @@ function clone_backend(
     appId,
     backendEnvironmentName,
     targetEnvironmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -35,7 +35,7 @@ function clone_backend(
     backendEnvironmentName,
     targetEnvironmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -73,7 +73,7 @@ function create_backend(
     appId,
     appName,
     backendEnvironmentName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -92,7 +92,7 @@ function create_backend(
     appName,
     backendEnvironmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -131,7 +131,7 @@ function create_backend_api(
     backendEnvironmentName,
     resourceConfig,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -151,7 +151,7 @@ function create_backend_api(
     resourceConfig,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -190,7 +190,7 @@ function create_backend_auth(
     backendEnvironmentName,
     resourceConfig,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -210,7 +210,7 @@ function create_backend_auth(
     resourceConfig,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -244,7 +244,7 @@ Creates a config object for a backend.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"backendManagerAppId"`: The app ID for the backend manager.
 """
-function create_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/config";
@@ -253,7 +253,7 @@ function create_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function create_backend_config(
-    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -282,7 +282,7 @@ function create_backend_storage(
     backendEnvironmentName,
     resourceConfig,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -302,7 +302,7 @@ function create_backend_storage(
     resourceConfig,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -333,7 +333,7 @@ Generates a one-time challenge code to authenticate a user into your Amplify Adm
 - `app_id`: The app ID.
 
 """
-function create_token(appId; aws_config::AbstractAWSConfig=global_aws_config())
+function create_token(appId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/challenge";
@@ -342,7 +342,7 @@ function create_token(appId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_token(
-    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -365,7 +365,7 @@ Removes an existing environment from your Amplify project.
 
 """
 function delete_backend(
-    appId, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, backendEnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -378,7 +378,7 @@ function delete_backend(
     appId,
     backendEnvironmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -409,7 +409,7 @@ function delete_backend_api(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -424,7 +424,7 @@ function delete_backend_api(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -453,7 +453,7 @@ function delete_backend_auth(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -468,7 +468,7 @@ function delete_backend_auth(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -499,7 +499,7 @@ function delete_backend_storage(
     backendEnvironmentName,
     resourceName,
     serviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -515,7 +515,7 @@ function delete_backend_storage(
     resourceName,
     serviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -545,7 +545,7 @@ Deletes the challenge token based on the given appId and sessionId.
 - `session_id`: The session ID.
 
 """
-function delete_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/challenge/$(sessionId)/remove";
@@ -557,7 +557,7 @@ function delete_token(
     appId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -584,7 +584,7 @@ function generate_backend_apimodels(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -599,7 +599,7 @@ function generate_backend_apimodels(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -625,7 +625,7 @@ Provides project-level details for your Amplify UI project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"backendEnvironmentName"`: The name of the backend environment.
 """
-function get_backend(appId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_backend(appId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/details";
@@ -634,7 +634,7 @@ function get_backend(appId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_backend(
-    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -665,7 +665,7 @@ function get_backend_api(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -680,7 +680,7 @@ function get_backend_api(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -709,7 +709,7 @@ function get_backend_apimodels(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -724,7 +724,7 @@ function get_backend_apimodels(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -753,7 +753,7 @@ function get_backend_auth(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -768,7 +768,7 @@ function get_backend_auth(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -794,7 +794,7 @@ Returns information about a specific job.
 
 """
 function get_backend_job(
-    appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "GET",
@@ -808,7 +808,7 @@ function get_backend_job(
     backendEnvironmentName,
     jobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "GET",
@@ -835,7 +835,7 @@ function get_backend_storage(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -850,7 +850,7 @@ function get_backend_storage(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -874,7 +874,7 @@ Gets the challenge token based on the given appId and sessionId.
 - `session_id`: The session ID.
 
 """
-function get_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "GET",
         "/backend/$(appId)/challenge/$(sessionId)";
@@ -886,7 +886,7 @@ function get_token(
     appId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "GET",
@@ -920,7 +920,7 @@ function import_backend_auth(
     nativeClientId,
     userPoolId,
     webClientId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -941,7 +941,7 @@ function import_backend_auth(
     userPoolId,
     webClientId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -981,7 +981,7 @@ function import_backend_storage(
     appId,
     backendEnvironmentName,
     serviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -996,7 +996,7 @@ function import_backend_storage(
     backendEnvironmentName,
     serviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1030,7 +1030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status.
 """
 function list_backend_jobs(
-    appId, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, backendEnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -1043,7 +1043,7 @@ function list_backend_jobs(
     appId,
     backendEnvironmentName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1064,13 +1064,13 @@ The list of S3 buckets in your account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: Reserved for future use.
 """
-function list_s3_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_s3_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_s3_buckets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST", "/s3Buckets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1090,7 +1090,7 @@ Removes all backend environments from your Amplify project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"cleanAmplifyApp"`: Cleans up the Amplify Console app if this value is set to true.
 """
-function remove_all_backends(appId; aws_config::AbstractAWSConfig=global_aws_config())
+function remove_all_backends(appId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/remove";
@@ -1099,7 +1099,7 @@ function remove_all_backends(appId; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function remove_all_backends(
-    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -1120,7 +1120,7 @@ Removes the AWS resources required to access the Amplify Admin UI.
 - `app_id`: The app ID.
 
 """
-function remove_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_config())
+function remove_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/config/remove";
@@ -1129,7 +1129,7 @@ function remove_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function remove_backend_config(
-    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -1160,7 +1160,7 @@ function update_backend_api(
     appId,
     backendEnvironmentName,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1175,7 +1175,7 @@ function update_backend_api(
     backendEnvironmentName,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1206,7 +1206,7 @@ function update_backend_auth(
     backendEnvironmentName,
     resourceConfig,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1224,7 +1224,7 @@ function update_backend_auth(
     resourceConfig,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1256,7 +1256,7 @@ Updates the AWS resources required to access the Amplify Admin UI.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"loginAuthConfig"`: Describes the Amazon Cognito configuration for Admin UI access.
 """
-function update_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifybackend(
         "POST",
         "/backend/$(appId)/config/update";
@@ -1265,7 +1265,7 @@ function update_backend_config(appId; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function update_backend_config(
-    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -1295,7 +1295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status.
 """
 function update_backend_job(
-    appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=global_aws_config()
+    appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifybackend(
         "POST",
@@ -1309,7 +1309,7 @@ function update_backend_job(
     backendEnvironmentName,
     jobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1338,7 +1338,7 @@ function update_backend_storage(
     backendEnvironmentName,
     resourceConfig,
     resourceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",
@@ -1356,7 +1356,7 @@ function update_backend_storage(
     resourceConfig,
     resourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifybackend(
         "POST",

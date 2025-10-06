@@ -12,13 +12,13 @@ Describes the status of the StartReportCreation operation.  You can call this op
 only from the organization's management account and from the us-east-1 Region.
 
 """
-function describe_report_creation(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_report_creation(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "DescribeReportCreation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_report_creation(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "DescribeReportCreation",
@@ -75,13 +75,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limit the output by. If you use this parameter, the count of returned noncompliant
   resources includes only resources with the specified target IDs.
 """
-function get_compliance_summary(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_compliance_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetComplianceSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_compliance_summary(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "GetComplianceSummary",
@@ -175,13 +175,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The third page displays the remaining 2 resources, each with its 10 tags. You can set
   TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
 """
-function get_resources(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_resources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "GetResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -206,13 +206,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate that you want the next page of results. Leave this parameter empty in your
   initial request.
 """
-function get_tag_keys(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_tag_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetTagKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_tag_keys(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "GetTagKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -241,7 +241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate that you want the next page of results. Leave this parameter empty in your
   initial request.
 """
-function get_tag_values(Key; aws_config::AbstractAWSConfig=global_aws_config())
+function get_tag_values(Key; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetTagValues",
         Dict{String,Any}("Key" => Key);
@@ -250,7 +250,7 @@ function get_tag_values(Key; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_tag_values(
-    Key, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Key, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "GetTagValues",
@@ -278,7 +278,7 @@ Region.
   example bucket policy, see the example S3 bucket policy on this page.
 
 """
-function start_report_creation(S3Bucket; aws_config::AbstractAWSConfig=global_aws_config())
+function start_report_creation(S3Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "StartReportCreation",
         Dict{String,Any}("S3Bucket" => S3Bucket);
@@ -289,7 +289,7 @@ end
 function start_report_creation(
     S3Bucket,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return resource_groups_tagging_api(
         "StartReportCreation",
@@ -334,7 +334,7 @@ TagResources operation, you must have both of the following permissions:    tag:
 
 """
 function tag_resources(
-    ResourceARNList, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARNList, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "TagResources",
@@ -347,7 +347,7 @@ function tag_resources(
     ResourceARNList,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return resource_groups_tagging_api(
         "TagResources",
@@ -390,7 +390,7 @@ permissions:    tag:UntagResource     ec2:DeleteTags
 
 """
 function untag_resources(
-    ResourceARNList, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARNList, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resource_groups_tagging_api(
         "UntagResources",
@@ -403,7 +403,7 @@ function untag_resources(
     ResourceARNList,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return resource_groups_tagging_api(
         "UntagResources",

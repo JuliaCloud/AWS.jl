@@ -18,7 +18,7 @@ Cost Management console instead.
 
 """
 function batch_delete_tax_registration(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
@@ -31,7 +31,7 @@ end
 function batch_delete_tax_registration(
     accountIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return taxsettings(
         "POST",
@@ -104,7 +104,7 @@ The sector valid values are Business and Individual.
 
 """
 function batch_put_tax_registration(
-    accountIds, taxRegistrationEntry; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, taxRegistrationEntry; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
@@ -120,7 +120,7 @@ function batch_put_tax_registration(
     accountIds,
     taxRegistrationEntry,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return taxsettings(
         "POST",
@@ -154,7 +154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deleted. If this isn't passed, the account ID corresponding to the credentials of the API
   caller will be used for this parameter.
 """
-function delete_tax_registration(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config())
     return taxsettings(
         "POST",
         "/DeleteTaxRegistration";
@@ -163,7 +163,7 @@ function delete_tax_registration(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_tax_registration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
@@ -184,7 +184,7 @@ Retrieves tax registration for a single account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountId"`: Your unique account identifier.
 """
-function get_tax_registration(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config())
     return taxsettings(
         "POST",
         "/GetTaxRegistration";
@@ -193,7 +193,7 @@ function get_tax_registration(; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function get_tax_registration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
@@ -219,7 +219,7 @@ Downloads your tax documents to the Amazon S3 bucket that you specify in your re
 function get_tax_registration_document(
     destinationS3Location,
     taxDocumentMetadata;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return taxsettings(
         "POST",
@@ -236,7 +236,7 @@ function get_tax_registration_document(
     destinationS3Location,
     taxDocumentMetadata,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return taxsettings(
         "POST",
@@ -268,7 +268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Number of accountDetails results you want in one response.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
-function list_tax_registrations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tax_registrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return taxsettings(
         "POST",
         "/ListTaxRegistrations";
@@ -277,7 +277,7 @@ function list_tax_registrations(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function list_tax_registrations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
@@ -349,7 +349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountId"`: Your unique account identifier.
 """
 function put_tax_registration(
-    taxRegistrationEntry; aws_config::AbstractAWSConfig=global_aws_config()
+    taxRegistrationEntry; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
@@ -362,7 +362,7 @@ end
 function put_tax_registration(
     taxRegistrationEntry,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return taxsettings(
         "POST",

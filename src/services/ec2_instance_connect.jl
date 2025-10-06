@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 0
 """
 function send_serial_console_sshpublic_key(
-    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2_instance_connect(
         "SendSerialConsoleSSHPublicKey",
@@ -37,7 +37,7 @@ function send_serial_console_sshpublic_key(
     InstanceId,
     SSHPublicKey,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2_instance_connect(
         "SendSerialConsoleSSHPublicKey",
@@ -78,7 +78,7 @@ function send_sshpublic_key(
     InstanceId,
     InstanceOSUser,
     SSHPublicKey;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2_instance_connect(
         "SendSSHPublicKey",
@@ -96,7 +96,7 @@ function send_sshpublic_key(
     InstanceOSUser,
     SSHPublicKey,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ec2_instance_connect(
         "SendSSHPublicKey",

@@ -26,7 +26,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about tagging, including naming and usage conventions, see Tagging Resources in
   MediaStore.
 """
-function create_container(ContainerName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_container(ContainerName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore(
         "CreateContainer",
         Dict{String,Any}("ContainerName" => ContainerName);
@@ -37,7 +37,7 @@ end
 function create_container(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "CreateContainer",
@@ -61,7 +61,7 @@ containers.
 - `container_name`: The name of the container to delete.
 
 """
-function delete_container(ContainerName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_container(ContainerName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore(
         "DeleteContainer",
         Dict{String,Any}("ContainerName" => ContainerName);
@@ -72,7 +72,7 @@ end
 function delete_container(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "DeleteContainer",
@@ -95,7 +95,7 @@ Deletes the access policy that is associated with the specified container.
 
 """
 function delete_container_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "DeleteContainerPolicy",
@@ -107,7 +107,7 @@ end
 function delete_container_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "DeleteContainerPolicy",
@@ -133,7 +133,7 @@ can grant this permission to others.
 
 """
 function delete_cors_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "DeleteCorsPolicy",
@@ -145,7 +145,7 @@ end
 function delete_cors_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "DeleteCorsPolicy",
@@ -169,7 +169,7 @@ change to take effect.
 
 """
 function delete_lifecycle_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "DeleteLifecyclePolicy",
@@ -181,7 +181,7 @@ end
 function delete_lifecycle_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "DeleteLifecyclePolicy",
@@ -206,7 +206,7 @@ metric policy associated with the container, MediaStore doesn't send metrics to 
 
 """
 function delete_metric_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "DeleteMetricPolicy",
@@ -218,7 +218,7 @@ end
 function delete_metric_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "DeleteMetricPolicy",
@@ -245,13 +245,13 @@ account, use ListContainers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ContainerName"`: The name of the container to query.
 """
-function describe_container(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_container(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore(
         "DescribeContainer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_container(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "DescribeContainer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -270,7 +270,7 @@ that is included in an access policy, see the AWS Identity and Access Management
 
 """
 function get_container_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "GetContainerPolicy",
@@ -282,7 +282,7 @@ end
 function get_container_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "GetContainerPolicy",
@@ -307,7 +307,7 @@ can grant it to others.
 - `container_name`: The name of the container that the policy is assigned to.
 
 """
-function get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore(
         "GetCorsPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
@@ -318,7 +318,7 @@ end
 function get_cors_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "GetCorsPolicy",
@@ -342,7 +342,7 @@ Retrieves the object lifecycle policy that is assigned to a container.
 
 """
 function get_lifecycle_policy(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "GetLifecyclePolicy",
@@ -354,7 +354,7 @@ end
 function get_lifecycle_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "GetLifecyclePolicy",
@@ -376,7 +376,9 @@ Returns the metric policy for the specified container.
 - `container_name`: The name of the container that is associated with the metric policy.
 
 """
-function get_metric_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_metric_policy(
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return mediastore(
         "GetMetricPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
@@ -387,7 +389,7 @@ end
 function get_metric_policy(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "GetMetricPolicy",
@@ -419,13 +421,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was included in the previous response) to obtain the next set of containers. This token is
   included in a response only if there actually are more containers to list.
 """
-function list_containers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_containers(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore(
         "ListContainers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_containers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "ListContainers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -442,7 +444,9 @@ Returns a list of the tags assigned to the specified container.
 - `resource`: The Amazon Resource Name (ARN) for the container.
 
 """
-function list_tags_for_resource(Resource; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(
+    Resource; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return mediastore(
         "ListTagsForResource",
         Dict{String,Any}("Resource" => Resource);
@@ -453,7 +457,7 @@ end
 function list_tags_for_resource(
     Resource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "ListTagsForResource",
@@ -482,7 +486,7 @@ command modifies the existing policy.
 
 """
 function put_container_policy(
-    ContainerName, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName, Policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "PutContainerPolicy",
@@ -495,7 +499,7 @@ function put_container_policy(
     ContainerName,
     Policy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "PutContainerPolicy",
@@ -532,7 +536,7 @@ MediaStore.
 
 """
 function put_cors_policy(
-    ContainerName, CorsPolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName, CorsPolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "PutCorsPolicy",
@@ -545,7 +549,7 @@ function put_cors_policy(
     ContainerName,
     CorsPolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "PutCorsPolicy",
@@ -579,7 +583,7 @@ object lifecycle policy, see Components of an Object Lifecycle Policy.
 
 """
 function put_lifecycle_policy(
-    ContainerName, LifecyclePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName, LifecyclePolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "PutLifecyclePolicy",
@@ -594,7 +598,7 @@ function put_lifecycle_policy(
     ContainerName,
     LifecyclePolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "PutLifecyclePolicy",
@@ -636,7 +640,7 @@ the new policy to take effect.
 
 """
 function put_metric_policy(
-    ContainerName, MetricPolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName, MetricPolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "PutMetricPolicy",
@@ -649,7 +653,7 @@ function put_metric_policy(
     ContainerName,
     MetricPolicy,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "PutMetricPolicy",
@@ -680,7 +684,7 @@ CloudWatch Logs.
 
 """
 function start_access_logging(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "StartAccessLogging",
@@ -692,7 +696,7 @@ end
 function start_access_logging(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "StartAccessLogging",
@@ -717,7 +721,7 @@ logs are not saved and are not retrievable.
 
 """
 function stop_access_logging(
-    ContainerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ContainerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "StopAccessLogging",
@@ -729,7 +733,7 @@ end
 function stop_access_logging(
     ContainerName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "StopAccessLogging",
@@ -761,7 +765,7 @@ including naming and usage conventions, see Tagging Resources in MediaStore.
   customer:CompanyA, priority:Medium, and type:Contract.
 
 """
-function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore(
         "TagResource",
         Dict{String,Any}("Resource" => Resource, "Tags" => Tags);
@@ -773,7 +777,7 @@ function tag_resource(
     Resource,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "TagResource",
@@ -802,7 +806,7 @@ Removes tags from the specified container. You can specify one or more tags to r
 
 """
 function untag_resource(
-    Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    Resource, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
         "UntagResource",
@@ -815,7 +819,7 @@ function untag_resource(
     Resource,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediastore(
         "UntagResource",

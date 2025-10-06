@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   --portfolio-share-type AWS_ORGANIZATIONS
 """
 function accept_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "AcceptPortfolioShare",
@@ -36,7 +36,7 @@ end
 function accept_portfolio_share(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AcceptPortfolioShare",
@@ -60,7 +60,7 @@ Associates the specified budget with the specified resource.
 
 """
 function associate_budget_with_resource(
-    BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    BudgetName, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "AssociateBudgetWithResource",
@@ -73,7 +73,7 @@ function associate_budget_with_resource(
     BudgetName,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociateBudgetWithResource",
@@ -145,7 +145,7 @@ function associate_principal_with_portfolio(
     PortfolioId,
     PrincipalARN,
     PrincipalType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociatePrincipalWithPortfolio",
@@ -163,7 +163,7 @@ function associate_principal_with_portfolio(
     PrincipalARN,
     PrincipalType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociatePrincipalWithPortfolio",
@@ -200,7 +200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourcePortfolioId"`: The identifier of the source portfolio.
 """
 function associate_product_with_portfolio(
-    PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId, ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "AssociateProductWithPortfolio",
@@ -213,7 +213,7 @@ function associate_product_with_portfolio(
     PortfolioId,
     ProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociateProductWithPortfolio",
@@ -252,7 +252,7 @@ function associate_service_action_with_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
     ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociateServiceActionWithProvisioningArtifact",
@@ -271,7 +271,7 @@ function associate_service_action_with_provisioning_artifact(
     ProvisioningArtifactId,
     ServiceActionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociateServiceActionWithProvisioningArtifact",
@@ -304,7 +304,7 @@ Associate the specified TagOption with the specified portfolio or product.
 
 """
 function associate_tag_option_with_resource(
-    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "AssociateTagOptionWithResource",
@@ -317,7 +317,7 @@ function associate_tag_option_with_resource(
     ResourceId,
     TagOptionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "AssociateTagOptionWithResource",
@@ -348,7 +348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function batch_associate_service_action_with_provisioning_artifact(
-    ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceActionAssociations; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "BatchAssociateServiceActionWithProvisioningArtifact",
@@ -360,7 +360,7 @@ end
 function batch_associate_service_action_with_provisioning_artifact(
     ServiceActionAssociations,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "BatchAssociateServiceActionWithProvisioningArtifact",
@@ -391,7 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function batch_disassociate_service_action_from_provisioning_artifact(
-    ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceActionAssociations; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "BatchDisassociateServiceActionFromProvisioningArtifact",
@@ -403,7 +403,7 @@ end
 function batch_disassociate_service_action_from_provisioning_artifact(
     ServiceActionAssociations,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "BatchDisassociateServiceActionFromProvisioningArtifact",
@@ -449,7 +449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source product.
 """
 function copy_product(
-    IdempotencyToken, SourceProductArn; aws_config::AbstractAWSConfig=global_aws_config()
+    IdempotencyToken, SourceProductArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "CopyProduct",
@@ -464,7 +464,7 @@ function copy_product(
     IdempotencyToken,
     SourceProductArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CopyProduct",
@@ -532,7 +532,7 @@ function create_constraint(
     PortfolioId,
     ProductId,
     Type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateConstraint",
@@ -554,7 +554,7 @@ function create_constraint(
     ProductId,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateConstraint",
@@ -599,7 +599,7 @@ function create_portfolio(
     DisplayName,
     IdempotencyToken,
     ProviderName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreatePortfolio",
@@ -617,7 +617,7 @@ function create_portfolio(
     IdempotencyToken,
     ProviderName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreatePortfolio",
@@ -684,7 +684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
 function create_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "CreatePortfolioShare",
@@ -696,7 +696,7 @@ end
 function create_portfolio_share(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreatePortfolioShare",
@@ -746,7 +746,7 @@ function create_product(
     Name,
     Owner,
     ProductType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateProduct",
@@ -766,7 +766,7 @@ function create_product(
     Owner,
     ProductType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateProduct",
@@ -831,7 +831,7 @@ function create_provisioned_product_plan(
     ProductId,
     ProvisionedProductName,
     ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateProvisionedProductPlan",
@@ -855,7 +855,7 @@ function create_provisioned_product_plan(
     ProvisionedProductName,
     ProvisioningArtifactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateProvisionedProductPlan",
@@ -903,7 +903,7 @@ function create_provisioning_artifact(
     IdempotencyToken,
     Parameters,
     ProductId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateProvisioningArtifact",
@@ -921,7 +921,7 @@ function create_provisioning_artifact(
     Parameters,
     ProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateProvisioningArtifact",
@@ -974,7 +974,7 @@ function create_service_action(
     DefinitionType,
     IdempotencyToken,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateServiceAction",
@@ -994,7 +994,7 @@ function create_service_action(
     IdempotencyToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateServiceAction",
@@ -1026,7 +1026,7 @@ Creates a TagOption.
 - `value`: The TagOption value.
 
 """
-function create_tag_option(Key, Value; aws_config::AbstractAWSConfig=global_aws_config())
+function create_tag_option(Key, Value; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "CreateTagOption",
         Dict{String,Any}("Key" => Key, "Value" => Value);
@@ -1038,7 +1038,7 @@ function create_tag_option(
     Key,
     Value,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "CreateTagOption",
@@ -1063,7 +1063,7 @@ Deletes the specified constraint. A delegated admin is authorized to invoke this
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function delete_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteConstraint",
         Dict{String,Any}("Id" => Id);
@@ -1072,7 +1072,7 @@ function delete_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_constraint(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteConstraint",
@@ -1097,7 +1097,7 @@ authorized to invoke this command.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function delete_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeletePortfolio",
         Dict{String,Any}("Id" => Id);
@@ -1106,7 +1106,7 @@ function delete_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_portfolio(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeletePortfolio",
@@ -1135,7 +1135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationNode"`: The organization node to whom you are going to stop sharing.
 """
 function delete_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeletePortfolioShare",
@@ -1147,7 +1147,7 @@ end
 function delete_portfolio_share(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DeletePortfolioShare",
@@ -1173,7 +1173,7 @@ associated with a portfolio. A delegated admin is authorized to invoke this comm
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function delete_product(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_product(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteProduct",
         Dict{String,Any}("Id" => Id);
@@ -1182,7 +1182,7 @@ function delete_product(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_product(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteProduct",
@@ -1208,7 +1208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provisioned product even if it cannot delete the underlying resources.
 """
 function delete_provisioned_product_plan(
-    PlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    PlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteProvisionedProductPlan",
@@ -1218,7 +1218,7 @@ function delete_provisioned_product_plan(
     )
 end
 function delete_provisioned_product_plan(
-    PlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteProvisionedProductPlan",
@@ -1246,7 +1246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function delete_provisioning_artifact(
-    ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteProvisioningArtifact",
@@ -1261,7 +1261,7 @@ function delete_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DeleteProvisioningArtifact",
@@ -1296,7 +1296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple requests from the same Amazon Web Services account use the same idempotency token,
   the same response is returned for each repeated request.
 """
-function delete_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_service_action(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteServiceAction",
         Dict{String,Any}("Id" => Id, "IdempotencyToken" => string(uuid4()));
@@ -1305,7 +1305,7 @@ function delete_service_action(Id; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_service_action(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteServiceAction",
@@ -1332,7 +1332,7 @@ product or portfolio.
 - `id`: The TagOption identifier.
 
 """
-function delete_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteTagOption",
         Dict{String,Any}("Id" => Id);
@@ -1341,7 +1341,7 @@ function delete_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_tag_option(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteTagOption",
@@ -1364,7 +1364,7 @@ Gets information about the specified constraint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function describe_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeConstraint",
         Dict{String,Any}("Id" => Id);
@@ -1373,7 +1373,7 @@ function describe_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function describe_constraint(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeConstraint",
@@ -1398,7 +1398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_copy_product_status(
-    CopyProductToken; aws_config::AbstractAWSConfig=global_aws_config()
+    CopyProductToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeCopyProductStatus",
@@ -1410,7 +1410,7 @@ end
 function describe_copy_product_status(
     CopyProductToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DescribeCopyProductStatus",
@@ -1438,7 +1438,7 @@ this command.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function describe_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribePortfolio",
         Dict{String,Any}("Id" => Id);
@@ -1447,7 +1447,7 @@ function describe_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function describe_portfolio(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribePortfolio",
@@ -1470,7 +1470,7 @@ the management account in the organization or by a delegated admin.
 
 """
 function describe_portfolio_share_status(
-    PortfolioShareToken; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioShareToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribePortfolioShareStatus",
@@ -1482,7 +1482,7 @@ end
 function describe_portfolio_share_status(
     PortfolioShareToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DescribePortfolioShareStatus",
@@ -1524,7 +1524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function describe_portfolio_shares(
-    PortfolioId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribePortfolioShares",
@@ -1537,7 +1537,7 @@ function describe_portfolio_shares(
     PortfolioId,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DescribePortfolioShares",
@@ -1566,13 +1566,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Id"`: The product identifier.
 - `"Name"`: The product name.
 """
-function describe_product(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_product(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProduct"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_product(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1597,13 +1597,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sharing is enabled in the portfolio share, the API returns both local and shared TagOptions
   associated with the product. Otherwise only local TagOptions will be returned.
 """
-function describe_product_as_admin(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_product_as_admin(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProductAsAdmin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_product_as_admin(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProductAsAdmin",
@@ -1626,7 +1626,7 @@ Gets information about the specified product.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function describe_product_view(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_product_view(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProductView",
         Dict{String,Any}("Id" => Id);
@@ -1635,7 +1635,7 @@ function describe_product_view(Id; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function describe_product_view(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProductView",
@@ -1661,13 +1661,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both. If you do not provide a name or ID, or you provide both name and ID, an
   InvalidParametersException will occur.
 """
-function describe_provisioned_product(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_provisioned_product(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProvisionedProduct"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_provisioned_product(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProvisionedProduct",
@@ -1694,7 +1694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function describe_provisioned_product_plan(
-    PlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    PlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProvisionedProductPlan",
@@ -1704,7 +1704,7 @@ function describe_provisioned_product_plan(
     )
 end
 function describe_provisioned_product_plan(
-    PlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProvisionedProductPlan",
@@ -1732,7 +1732,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningArtifactName"`: The provisioning artifact name.
 - `"Verbose"`: Indicates whether a verbose level of detail is enabled.
 """
-function describe_provisioning_artifact(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_provisioning_artifact(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return service_catalog(
         "DescribeProvisioningArtifact";
         aws_config=aws_config,
@@ -1740,7 +1742,7 @@ function describe_provisioning_artifact(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_provisioning_artifact(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProvisioningArtifact",
@@ -1778,7 +1780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name or ID, but not both.
 """
 function describe_provisioning_parameters(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProvisioningParameters";
@@ -1787,7 +1789,7 @@ function describe_provisioning_parameters(;
     )
 end
 function describe_provisioning_parameters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeProvisioningParameters",
@@ -1820,7 +1822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function describe_record(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_record(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeRecord",
         Dict{String,Any}("Id" => Id);
@@ -1829,7 +1831,7 @@ function describe_record(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function describe_record(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeRecord",
@@ -1852,7 +1854,7 @@ Describes a self-service action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
-function describe_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_service_action(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeServiceAction",
         Dict{String,Any}("Id" => Id);
@@ -1861,7 +1863,7 @@ function describe_service_action(Id; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function describe_service_action(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeServiceAction",
@@ -1887,7 +1889,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_service_action_execution_parameters(
-    ProvisionedProductId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProvisionedProductId,
+    ServiceActionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DescribeServiceActionExecutionParameters",
@@ -1903,7 +1907,7 @@ function describe_service_action_execution_parameters(
     ProvisionedProductId,
     ServiceActionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DescribeServiceActionExecutionParameters",
@@ -1932,7 +1936,7 @@ Gets information about the specified TagOption.
 - `id`: The TagOption identifier.
 
 """
-function describe_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeTagOption",
         Dict{String,Any}("Id" => Id);
@@ -1941,7 +1945,7 @@ function describe_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function describe_tag_option(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeTagOption",
@@ -1969,7 +1973,7 @@ disabling Service Catalog access will retain access to the previously shared por
 
 """
 function disable_awsorganizations_access(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisableAWSOrganizationsAccess";
@@ -1978,7 +1982,7 @@ function disable_awsorganizations_access(;
     )
 end
 function disable_awsorganizations_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisableAWSOrganizationsAccess",
@@ -2001,7 +2005,7 @@ Disassociates the specified budget from the specified resource.
 
 """
 function disassociate_budget_from_resource(
-    BudgetName, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    BudgetName, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisassociateBudgetFromResource",
@@ -2014,7 +2018,7 @@ function disassociate_budget_from_resource(
     BudgetName,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DisassociateBudgetFromResource",
@@ -2062,7 +2066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters.
 """
 function disassociate_principal_from_portfolio(
-    PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisassociatePrincipalFromPortfolio",
@@ -2075,7 +2079,7 @@ function disassociate_principal_from_portfolio(
     PortfolioId,
     PrincipalARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DisassociatePrincipalFromPortfolio",
@@ -2109,7 +2113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function disassociate_product_from_portfolio(
-    PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId, ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisassociateProductFromPortfolio",
@@ -2122,7 +2126,7 @@ function disassociate_product_from_portfolio(
     PortfolioId,
     ProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DisassociateProductFromPortfolio",
@@ -2162,7 +2166,7 @@ function disassociate_service_action_from_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
     ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DisassociateServiceActionFromProvisioningArtifact",
@@ -2181,7 +2185,7 @@ function disassociate_service_action_from_provisioning_artifact(
     ProvisioningArtifactId,
     ServiceActionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DisassociateServiceActionFromProvisioningArtifact",
@@ -2214,7 +2218,7 @@ Disassociates the specified TagOption from the specified resource.
 
 """
 function disassociate_tag_option_from_resource(
-    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisassociateTagOptionFromResource",
@@ -2227,7 +2231,7 @@ function disassociate_tag_option_from_resource(
     ResourceId,
     TagOptionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "DisassociateTagOptionFromResource",
@@ -2263,7 +2267,9 @@ Amazon Web Services resources when it is no longer authorized to do so. Amazon W
 is working to resolve this issue.
 
 """
-function enable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_awsorganizations_access(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return service_catalog(
         "EnableAWSOrganizationsAccess";
         aws_config=aws_config,
@@ -2271,7 +2277,7 @@ function enable_awsorganizations_access(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function enable_awsorganizations_access(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "EnableAWSOrganizationsAccess",
@@ -2298,7 +2304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function execute_provisioned_product_plan(
-    IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ExecuteProvisionedProductPlan",
@@ -2311,7 +2317,7 @@ function execute_provisioned_product_plan(
     IdempotencyToken,
     PlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ExecuteProvisionedProductPlan",
@@ -2353,7 +2359,7 @@ function execute_provisioned_product_service_action(
     ExecuteToken,
     ProvisionedProductId,
     ServiceActionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ExecuteProvisionedProductServiceAction",
@@ -2371,7 +2377,7 @@ function execute_provisioned_product_service_action(
     ProvisionedProductId,
     ServiceActionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ExecuteProvisionedProductServiceAction",
@@ -2400,7 +2406,7 @@ called by the management account in the organization or by a delegated admin.
 
 """
 function get_awsorganizations_access_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "GetAWSOrganizationsAccessStatus";
@@ -2409,7 +2415,7 @@ function get_awsorganizations_access_status(;
     )
 end
 function get_awsorganizations_access_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "GetAWSOrganizationsAccessStatus",
@@ -2440,7 +2446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from.
 """
 function get_provisioned_product_outputs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "GetProvisionedProductOutputs";
@@ -2449,7 +2455,7 @@ function get_provisioned_product_outputs(;
     )
 end
 function get_provisioned_product_outputs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "GetProvisionedProductOutputs",
@@ -2501,7 +2507,7 @@ function import_as_provisioned_product(
     ProductId,
     ProvisionedProductName,
     ProvisioningArtifactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ImportAsProvisionedProduct",
@@ -2523,7 +2529,7 @@ function import_as_provisioned_product(
     ProvisionedProductName,
     ProvisioningArtifactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ImportAsProvisionedProduct",
@@ -2565,7 +2571,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization.    AWS_SERVICECATALOG - Deprecated type.    IMPORTED - List imported
   portfolios that have been accepted and shared through account-to-account sharing.
 """
-function list_accepted_portfolio_shares(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_accepted_portfolio_shares(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return service_catalog(
         "ListAcceptedPortfolioShares";
         aws_config=aws_config,
@@ -2573,7 +2581,7 @@ function list_accepted_portfolio_shares(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function list_accepted_portfolio_shares(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListAcceptedPortfolioShares",
@@ -2600,7 +2608,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_budgets_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListBudgetsForResource",
@@ -2612,7 +2620,7 @@ end
 function list_budgets_for_resource(
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListBudgetsForResource",
@@ -2642,7 +2650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProductId"`: The product identifier.
 """
 function list_constraints_for_portfolio(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListConstraintsForPortfolio",
@@ -2654,7 +2662,7 @@ end
 function list_constraints_for_portfolio(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListConstraintsForPortfolio",
@@ -2687,7 +2695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_launch_paths(ProductId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_launch_paths(ProductId; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListLaunchPaths",
         Dict{String,Any}("ProductId" => ProductId);
@@ -2698,7 +2706,7 @@ end
 function list_launch_paths(
     ProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListLaunchPaths",
@@ -2733,7 +2741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_organization_portfolio_access(
-    OrganizationNodeType, PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationNodeType, PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListOrganizationPortfolioAccess",
@@ -2748,7 +2756,7 @@ function list_organization_portfolio_access(
     OrganizationNodeType,
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListOrganizationPortfolioAccess",
@@ -2788,7 +2796,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_portfolio_access(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListPortfolioAccess",
@@ -2800,7 +2808,7 @@ end
 function list_portfolio_access(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListPortfolioAccess",
@@ -2825,13 +2833,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_portfolios(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_portfolios(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListPortfolios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_portfolios(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListPortfolios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2855,7 +2863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_portfolios_for_product(
-    ProductId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListPortfoliosForProduct",
@@ -2867,7 +2875,7 @@ end
 function list_portfolios_for_product(
     ProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListPortfoliosForProduct",
@@ -2897,7 +2905,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_principals_for_portfolio(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListPrincipalsForPortfolio",
@@ -2909,7 +2917,7 @@ end
 function list_principals_for_portfolio(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListPrincipalsForPortfolio",
@@ -2937,7 +2945,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 - `"ProvisionProductId"`: The product identifier.
 """
-function list_provisioned_product_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_provisioned_product_plans(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return service_catalog(
         "ListProvisionedProductPlans";
         aws_config=aws_config,
@@ -2945,7 +2955,7 @@ function list_provisioned_product_plans(; aws_config::AbstractAWSConfig=global_a
     )
 end
 function list_provisioned_product_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListProvisionedProductPlans",
@@ -2969,7 +2979,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function list_provisioning_artifacts(
-    ProductId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListProvisioningArtifacts",
@@ -2981,7 +2991,7 @@ end
 function list_provisioning_artifacts(
     ProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListProvisioningArtifacts",
@@ -3011,7 +3021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_provisioning_artifacts_for_service_action(
-    ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceActionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListProvisioningArtifactsForServiceAction",
@@ -3023,7 +3033,7 @@ end
 function list_provisioning_artifacts_for_service_action(
     ServiceActionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListProvisioningArtifactsForServiceAction",
@@ -3052,13 +3062,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 - `"SearchFilter"`: The search filter to scope the results.
 """
-function list_record_history(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_record_history(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListRecordHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_record_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListRecordHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3082,7 +3092,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: The resource type.    Portfolio     Product
 """
 function list_resources_for_tag_option(
-    TagOptionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListResourcesForTagOption",
@@ -3094,7 +3104,7 @@ end
 function list_resources_for_tag_option(
     TagOptionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListResourcesForTagOption",
@@ -3119,13 +3129,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_service_actions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_service_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListServiceActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_service_actions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListServiceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3152,7 +3162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_service_actions_for_provisioning_artifact(
-    ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListServiceActionsForProvisioningArtifact",
@@ -3167,7 +3177,7 @@ function list_service_actions_for_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListServiceActionsForProvisioningArtifact",
@@ -3205,7 +3215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 """
 function list_stack_instances_for_provisioned_product(
-    ProvisionedProductId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProvisionedProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListStackInstancesForProvisionedProduct",
@@ -3217,7 +3227,7 @@ end
 function list_stack_instances_for_provisioned_product(
     ProvisionedProductId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListStackInstancesForProvisionedProduct",
@@ -3247,13 +3257,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function list_tag_options(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tag_options(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListTagOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tag_options(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListTagOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3286,7 +3296,7 @@ function notify_provision_product_engine_workflow_result(
     RecordId,
     Status,
     WorkflowToken;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "NotifyProvisionProductEngineWorkflowResult",
@@ -3306,7 +3316,7 @@ function notify_provision_product_engine_workflow_result(
     Status,
     WorkflowToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "NotifyProvisionProductEngineWorkflowResult",
@@ -3350,7 +3360,7 @@ function notify_terminate_provisioned_product_engine_workflow_result(
     RecordId,
     Status,
     WorkflowToken;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "NotifyTerminateProvisionedProductEngineWorkflowResult",
@@ -3370,7 +3380,7 @@ function notify_terminate_provisioned_product_engine_workflow_result(
     Status,
     WorkflowToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "NotifyTerminateProvisionedProductEngineWorkflowResult",
@@ -3414,7 +3424,7 @@ function notify_update_provisioned_product_engine_workflow_result(
     RecordId,
     Status,
     WorkflowToken;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "NotifyUpdateProvisionedProductEngineWorkflowResult",
@@ -3434,7 +3444,7 @@ function notify_update_provisioned_product_engine_workflow_result(
     Status,
     WorkflowToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "NotifyUpdateProvisionedProductEngineWorkflowResult",
@@ -3499,7 +3509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function provision_product(
     ProvisionToken,
     ProvisionedProductName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ProvisionProduct",
@@ -3515,7 +3525,7 @@ function provision_product(
     ProvisionToken,
     ProvisionedProductName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ProvisionProduct",
@@ -3554,7 +3564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   --portfolio-share-type AWS_ORGANIZATIONS
 """
 function reject_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "RejectPortfolioShare",
@@ -3566,7 +3576,7 @@ end
 function reject_portfolio_share(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "RejectPortfolioShare",
@@ -3593,13 +3603,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
-function scan_provisioned_products(; aws_config::AbstractAWSConfig=global_aws_config())
+function scan_provisioned_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ScanProvisionedProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function scan_provisioned_products(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ScanProvisionedProducts",
@@ -3626,13 +3636,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted.
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
-function search_products(; aws_config::AbstractAWSConfig=global_aws_config())
+function search_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "SearchProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function search_products(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "SearchProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3658,13 +3668,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted.
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
-function search_products_as_admin(; aws_config::AbstractAWSConfig=global_aws_config())
+function search_products_as_admin(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "SearchProductsAsAdmin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function search_products_as_admin(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "SearchProductsAsAdmin",
@@ -3696,13 +3706,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid values are arn, id, name, and lastRecordId.
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
-function search_provisioned_products(; aws_config::AbstractAWSConfig=global_aws_config())
+function search_provisioned_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "SearchProvisionedProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function search_provisioned_products(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "SearchProvisionedProducts",
@@ -3741,7 +3751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deleted provisioned product. The default value is false.
 """
 function terminate_provisioned_product(
-    TerminateToken; aws_config::AbstractAWSConfig=global_aws_config()
+    TerminateToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "TerminateProvisionedProduct",
@@ -3753,7 +3763,7 @@ end
 function terminate_provisioned_product(
     TerminateToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "TerminateProvisionedProduct",
@@ -3802,7 +3812,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stack set.  TEMPLATE  Specify the Rules property. For more information, see Template
   Constraint Rules.
 """
-function update_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateConstraint",
         Dict{String,Any}("Id" => Id);
@@ -3811,7 +3821,7 @@ function update_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function update_constraint(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdateConstraint",
@@ -3839,7 +3849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProviderName"`: The updated name of the portfolio provider.
 - `"RemoveTags"`: The tags to remove.
 """
-function update_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdatePortfolio",
         Dict{String,Any}("Id" => Id);
@@ -3848,7 +3858,7 @@ function update_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_portfolio(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdatePortfolio",
@@ -3898,7 +3908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will not be modified.
 """
 function update_portfolio_share(
-    PortfolioId; aws_config::AbstractAWSConfig=global_aws_config()
+    PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdatePortfolioShare",
@@ -3910,7 +3920,7 @@ end
 function update_portfolio_share(
     PortfolioId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "UpdatePortfolioShare",
@@ -3948,7 +3958,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SupportEmail"`: The updated support email for the product.
 - `"SupportUrl"`: The updated support URL for the product.
 """
-function update_product(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_product(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateProduct",
         Dict{String,Any}("Id" => Id);
@@ -3957,7 +3967,7 @@ function update_product(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function update_product(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdateProduct",
@@ -4005,7 +4015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
 """
 function update_provisioned_product(
-    UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()
+    UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdateProvisionedProduct",
@@ -4017,7 +4027,7 @@ end
 function update_provisioned_product(
     UpdateToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "UpdateProvisionedProduct",
@@ -4067,7 +4077,7 @@ function update_provisioned_product_properties(
     IdempotencyToken,
     ProvisionedProductId,
     ProvisionedProductProperties;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "UpdateProvisionedProductProperties",
@@ -4085,7 +4095,7 @@ function update_provisioned_product_properties(
     ProvisionedProductId,
     ProvisionedProductProperties,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "UpdateProvisionedProductProperties",
@@ -4131,7 +4141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The updated name of the provisioning artifact.
 """
 function update_provisioning_artifact(
-    ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdateProvisioningArtifact",
@@ -4146,7 +4156,7 @@ function update_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "UpdateProvisioningArtifact",
@@ -4181,7 +4191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The self-service action description.
 - `"Name"`: The self-service action name.
 """
-function update_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_service_action(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateServiceAction",
         Dict{String,Any}("Id" => Id);
@@ -4190,7 +4200,7 @@ function update_service_action(Id; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function update_service_action(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdateServiceAction",
@@ -4214,7 +4224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Active"`: The updated active state.
 - `"Value"`: The updated value.
 """
-function update_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateTagOption",
         Dict{String,Any}("Id" => Id);
@@ -4223,7 +4233,7 @@ function update_tag_option(Id; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function update_tag_option(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "UpdateTagOption",

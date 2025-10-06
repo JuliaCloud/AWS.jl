@@ -17,7 +17,7 @@ Amazon OpenSearch Service.
 
 """
 function accept_inbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "PUT",
@@ -29,7 +29,7 @@ end
 function accept_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the data source.
 """
 function add_data_source(
-    DataSourceType, DomainName, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceType, DomainName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -72,7 +72,7 @@ function add_data_source(
     DomainName,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -103,7 +103,7 @@ Tagging Amazon OpenSearch Service domains.
 - `tag_list`: List of resource tags.
 
 """
-function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config())
+function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/tags",
@@ -116,7 +116,7 @@ function add_tags(
     ARN,
     TagList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -143,7 +143,7 @@ Custom packages for Amazon OpenSearch Service.
 
 """
 function associate_package(
-    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -156,7 +156,7 @@ function associate_package(
     DomainName,
     PackageID,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -180,7 +180,7 @@ endpoint.
 
 """
 function authorize_vpc_endpoint_access(
-    Account, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -194,7 +194,7 @@ function authorize_vpc_endpoint_access(
     Account,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -220,7 +220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cancelled without actually cancelling the change.
 """
 function cancel_domain_config_change(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -232,7 +232,7 @@ end
 function cancel_domain_config_change(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -258,7 +258,7 @@ Amazon OpenSearch Service.
 
 """
 function cancel_service_software_update(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -271,7 +271,7 @@ end
 function cancel_service_software_update(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -348,7 +348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't specify these values, OpenSearch Service creates the domain with a public endpoint.
   For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
 """
-function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain",
@@ -360,7 +360,7 @@ end
 function create_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -395,7 +395,7 @@ function create_outbound_connection(
     ConnectionAlias,
     LocalDomainInfo,
     RemoteDomainInfo;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -414,7 +414,7 @@ function create_outbound_connection(
     LocalDomainInfo,
     RemoteDomainInfo,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -455,7 +455,7 @@ function create_package(
     PackageName,
     PackageSource,
     PackageType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -474,7 +474,7 @@ function create_package(
     PackageSource,
     PackageType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -510,7 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function create_vpc_endpoint(
-    DomainArn, VpcOptions; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainArn, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -524,7 +524,7 @@ function create_vpc_endpoint(
     DomainArn,
     VpcOptions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -554,7 +554,7 @@ Service data source with Amazon S3.
 
 """
 function delete_data_source(
-    DataSourceName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "DELETE",
@@ -567,7 +567,7 @@ function delete_data_source(
     DataSourceName,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
@@ -589,7 +589,7 @@ after you delete it.
 - `domain_name`: The name of the domain you want to permanently delete.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "DELETE",
         "/2021-01-01/opensearch/domain/$(DomainName)";
@@ -600,7 +600,7 @@ end
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
@@ -624,7 +624,7 @@ OpenSearch Service.
 
 """
 function delete_inbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "DELETE",
@@ -636,7 +636,7 @@ end
 function delete_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
@@ -660,7 +660,7 @@ OpenSearch Service.
 
 """
 function delete_outbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "DELETE",
@@ -672,7 +672,7 @@ end
 function delete_outbound_connection(
     ConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
@@ -695,7 +695,7 @@ Amazon OpenSearch Service.
   find this value.
 
 """
-function delete_package(PackageID; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "DELETE",
         "/2021-01-01/packages/$(PackageID)";
@@ -706,7 +706,7 @@ end
 function delete_package(
     PackageID,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
@@ -728,7 +728,7 @@ Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
 
 """
 function delete_vpc_endpoint(
-    VpcEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "DELETE",
@@ -740,7 +740,7 @@ end
 function delete_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
@@ -762,7 +762,7 @@ including the domain ID, domain service endpoint, and domain ARN.
 - `domain_name`: The name of the domain that you want information about.
 
 """
-function describe_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)";
@@ -773,7 +773,7 @@ end
 function describe_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -803,7 +803,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 """
 function describe_domain_auto_tunes(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -815,7 +815,7 @@ end
 function describe_domain_auto_tunes(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -843,7 +843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   omitted, the request returns information about the most recent configuration change.
 """
 function describe_domain_change_progress(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -855,7 +855,7 @@ end
 function describe_domain_change_progress(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -878,7 +878,7 @@ Returns the configuration of an Amazon OpenSearch Service domain.
 
 """
 function describe_domain_config(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -890,7 +890,7 @@ end
 function describe_domain_config(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -913,7 +913,7 @@ nodes per Availability Zone, and shard count per node.
 
 """
 function describe_domain_health(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -925,7 +925,7 @@ end
 function describe_domain_health(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -948,7 +948,7 @@ nodes, Availability Zone(s), standby nodes, node configurations, and node states
 
 """
 function describe_domain_nodes(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -960,7 +960,7 @@ end
 function describe_domain_nodes(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -983,7 +983,7 @@ domains.
   You must specify at least one domain name.
 
 """
-function describe_domains(DomainNames; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_domains(DomainNames; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain-info",
@@ -995,7 +995,7 @@ end
 function describe_domains(
     DomainNames,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -1027,7 +1027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain.
 """
 function describe_dry_run_progress(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1039,7 +1039,7 @@ end
 function describe_dry_run_progress(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1068,7 +1068,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned nextToken in subsequent DescribeInboundConnections operations,
   which returns results in the next page.
 """
-function describe_inbound_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_inbound_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/cc/inboundConnection/search";
@@ -1077,7 +1077,7 @@ function describe_inbound_connections(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function describe_inbound_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -1107,7 +1107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing domain.
 """
 function describe_instance_type_limits(
-    EngineVersion, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()
+    EngineVersion, InstanceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1120,7 +1120,7 @@ function describe_instance_type_limits(
     EngineVersion,
     InstanceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1148,7 +1148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can include the returned nextToken in subsequent DescribeOutboundConnections
   operations, which returns results in the next page.
 """
-function describe_outbound_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_outbound_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/cc/outboundConnection/search";
@@ -1157,7 +1157,7 @@ function describe_outbound_connections(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function describe_outbound_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -1184,7 +1184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can include the returned nextToken in subsequent DescribePackageFilters operations, which
   returns results in the next page.
 """
-function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/packages/describe";
@@ -1193,7 +1193,7 @@ function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function describe_packages(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -1222,7 +1222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only the available instance types that match the specified reservation identifier.
 """
 function describe_reserved_instance_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1232,7 +1232,7 @@ function describe_reserved_instance_offerings(;
     )
 end
 function describe_reserved_instance_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1260,7 +1260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
   show only the reservation that matches the specified reserved OpenSearch instance ID.
 """
-function describe_reserved_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/reservedInstances";
@@ -1269,7 +1269,7 @@ function describe_reserved_instances(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function describe_reserved_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1291,7 +1291,7 @@ Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
 
 """
 function describe_vpc_endpoints(
-    VpcEndpointIds; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcEndpointIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -1304,7 +1304,7 @@ end
 function describe_vpc_endpoints(
     VpcEndpointIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -1333,7 +1333,7 @@ packages for Amazon OpenSearch Service.
 
 """
 function dissociate_package(
-    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -1346,7 +1346,7 @@ function dissociate_package(
     DomainName,
     PackageID,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -1369,7 +1369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of an existing domain. Provide this parameter to limit the
   results to a single domain.
 """
-function get_compatible_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_compatible_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/compatibleVersions";
@@ -1378,7 +1378,7 @@ function get_compatible_versions(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function get_compatible_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1401,7 +1401,7 @@ Retrieves information about a direct query data source.
 
 """
 function get_data_source(
-    DataSourceName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1414,7 +1414,7 @@ function get_data_source(
     DataSourceName,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1437,7 +1437,7 @@ The status of the maintenance action.
 
 """
 function get_domain_maintenance_status(
-    DomainName, maintenanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, maintenanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1451,7 +1451,7 @@ function get_domain_maintenance_status(
     DomainName,
     maintenanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1484,7 +1484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which returns results in the next page.
 """
 function get_package_version_history(
-    PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1496,7 +1496,7 @@ end
 function get_package_version_history(
     PackageID,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1525,7 +1525,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in subsequent GetUpgradeHistory operations, which returns
   results in the next page.
 """
-function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history";
@@ -1536,7 +1536,7 @@ end
 function get_upgrade_history(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1558,7 +1558,7 @@ on an Amazon OpenSearch Service domain.
 - `domain_name`: The domain of the domain to get upgrade status information for.
 
 """
-function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status";
@@ -1569,7 +1569,7 @@ end
 function get_upgrade_status(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1591,7 +1591,7 @@ information, see Working with Amazon OpenSearch Service direct queries with Amaz
 - `domain_name`: The name of the domain.
 
 """
-function list_data_sources(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_sources(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)/dataSource";
@@ -1602,7 +1602,7 @@ end
 function list_data_sources(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1633,7 +1633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the action.
 """
 function list_domain_maintenances(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1645,7 +1645,7 @@ end
 function list_domain_maintenances(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1667,13 +1667,13 @@ active Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"engineType"`: Filters the output by domain engine type.
 """
-function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET", "/2021-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_domain_names(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1703,7 +1703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 """
 function list_domains_for_package(
-    PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1715,7 +1715,7 @@ end
 function list_domains_for_package(
     PackageID,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1750,7 +1750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain.
 """
 function list_instance_type_details(
-    EngineVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    EngineVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1762,7 +1762,7 @@ end
 function list_instance_type_details(
     EngineVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1792,7 +1792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 """
 function list_packages_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1804,7 +1804,7 @@ end
 function list_packages_for_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1834,7 +1834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 """
 function list_scheduled_actions(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1846,7 +1846,7 @@ end
 function list_scheduled_actions(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1868,7 +1868,7 @@ see Tagging Amazon OpenSearch Service domains.
 - `arn`: Amazon Resource Name (ARN) for the domain to view tags for.
 
 """
-function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/tags/",
@@ -1878,7 +1878,7 @@ function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_tags(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1903,7 +1903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in subsequent ListVersions operations, which returns results
   in the next page.
 """
-function list_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/versions";
@@ -1912,7 +1912,7 @@ function list_versions(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1941,7 +1941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 """
 function list_vpc_endpoint_access(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -1953,7 +1953,7 @@ end
 function list_vpc_endpoint_access(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -1977,7 +1977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in subsequent ListVpcEndpoints operations, which returns
   results in the next page.
 """
-function list_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/vpcEndpoints";
@@ -1986,7 +1986,7 @@ function list_vpc_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_vpc_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -2014,7 +2014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns results in the next page.
 """
 function list_vpc_endpoints_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
@@ -2026,7 +2026,7 @@ end
 function list_vpc_endpoints_for_domain(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
@@ -2054,7 +2054,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function purchase_reserved_instance_offering(
     ReservationName,
     ReservedInstanceOfferingId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2071,7 +2071,7 @@ function purchase_reserved_instance_offering(
     ReservationName,
     ReservedInstanceOfferingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2103,7 +2103,7 @@ connection request.
 
 """
 function reject_inbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "PUT",
@@ -2115,7 +2115,7 @@ end
 function reject_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
@@ -2139,7 +2139,7 @@ information, see  Tagging Amazon OpenSearch Service domains.
 - `tag_keys`: The list of tag keys to remove from the domain.
 
 """
-function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "POST",
         "/2021-01-01/tags-removal",
@@ -2152,7 +2152,7 @@ function remove_tags(
     ARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2178,7 +2178,7 @@ interface VPC endpoint.
 
 """
 function revoke_vpc_endpoint_access(
-    Account, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -2192,7 +2192,7 @@ function revoke_vpc_endpoint_access(
     Account,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2219,7 +2219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeId"`: The ID of the data node.
 """
 function start_domain_maintenance(
-    Action, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    Action, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -2233,7 +2233,7 @@ function start_domain_maintenance(
     Action,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2269,7 +2269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TIMESTAMP if you do.
 """
 function start_service_software_update(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -2282,7 +2282,7 @@ end
 function start_service_software_update(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2316,7 +2316,7 @@ function update_data_source(
     DataSourceName,
     DataSourceType,
     DomainName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
@@ -2331,7 +2331,7 @@ function update_data_source(
     DataSourceType,
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
@@ -2399,7 +2399,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
   For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
 """
-function update_domain_config(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_domain_config(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain/$(DomainName)/config";
@@ -2410,7 +2412,7 @@ end
 function update_domain_config(
     DomainName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2439,7 +2441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PackageDescription"`: A new description of the package.
 """
 function update_package(
-    PackageID, PackageSource; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID, PackageSource; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -2453,7 +2455,7 @@ function update_package(
     PackageID,
     PackageSource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2504,7 +2506,7 @@ function update_scheduled_action(
     ActionType,
     DomainName,
     ScheduleAt;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
@@ -2522,7 +2524,7 @@ function update_scheduled_action(
     DomainName,
     ScheduleAt,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
@@ -2555,7 +2557,7 @@ Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
 
 """
 function update_vpc_endpoint(
-    VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=global_aws_config()
+    VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -2569,7 +2571,7 @@ function update_vpc_endpoint(
     VpcEndpointId,
     VpcOptions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
@@ -2610,7 +2612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performed. Does not actually perform the upgrade.
 """
 function upgrade_domain(
-    DomainName, TargetVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, TargetVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
@@ -2624,7 +2626,7 @@ function upgrade_domain(
     DomainName,
     TargetVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "POST",
