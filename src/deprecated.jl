@@ -221,7 +221,7 @@ end
 @deprecate ec2_instance_metadata(path::AbstractString) IMDS.get(path)
 @deprecate ec2_instance_region() IMDS.region()
 
-# Binding has no user accessible replacement. User's were expected to use `global_aws_config`
+# Binding has no user accessible replacement. Users were expected to use `global_aws_config`
 # and not interact with this global directly. We'll include this during the deprecation
 # phase out of an abundance of caution.
 const aws_config = Ref{AbstractAWSConfig}()

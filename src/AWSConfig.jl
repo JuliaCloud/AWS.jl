@@ -120,11 +120,11 @@ Gets the default AWS configuration to use when calling
 `default_aws_config(::AbstractAWSConfig)` then the AWS configuration will be loaded using
 `AWSConfig()`.
 
-User's will typically want to use [`current_aws_config()](@ref current_aws_config) instead.
+Users will typically want to use [`current_aws_config()](@ref current_aws_config) instead.
 """
 function default_aws_config()
     # Load an initial default AWS configuration only if a user hasn't already loaded one.
-    # We'll  make use of a lock to avoid race conditions but only lock when necessary to
+    # We'll make use of a lock to avoid race conditions but only lock when necessary to
     # avoid unnecessary overhead.
     if !isassigned(_DEFAULT_AWS_CONFIG)
         @lock _DEFAULT_AWS_CONFIG_LOCK begin
