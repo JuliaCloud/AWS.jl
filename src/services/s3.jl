@@ -4,6 +4,8 @@ using AWS.AWSServices: s3
 using AWS.Compat
 using AWS.UUIDs
 
+const bucket_regions = Base.Lockable(Dict{String, String}())
+
 """
     s3_bucket_region_(bucket)
 
@@ -2714,8 +2716,6 @@ function get_bucket_location(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-
-const bucket_regions = Base.Lockable(Dict{String, String}())
 
 """
     get_bucket_logging(bucket)
