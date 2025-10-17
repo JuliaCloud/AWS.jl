@@ -5,7 +5,7 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    aws_s3_bucket_region_(bucket)
+    s3_bucket_region_(bucket)
 
 Get the region location for `bucket` and cache the result.
 """
