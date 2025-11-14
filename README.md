@@ -204,3 +204,5 @@ As well as some hand-written packages for specific AWS services:
 * [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia 0.6
 * [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia 0.6
 * [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia 0.6
+
+Do something!
