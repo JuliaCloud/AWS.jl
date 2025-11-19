@@ -401,7 +401,7 @@ function (service::JSONService)(
         use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
-        content=json(args),
+        content=JSON.json(args),
         url=generate_service_url(aws_config, service.endpoint_prefix, POST_RESOURCE),
     )
 
@@ -458,7 +458,7 @@ function (service::RestJSONService)(
     end
 
     request.headers["Content-Type"] = "application/json"
-    request.content = json(args)
+    request.content = JSON.json(args)
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
