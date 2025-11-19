@@ -46,7 +46,7 @@ include("deprecated.jl")
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
-const user_agent = Ref{String}("AWS.jl/$(pkgversion(@__MODULE__()))")
+const user_agent = Ref{String}()
 const aws_config = Ref{AbstractAWSConfig}()
 
 """
@@ -469,6 +469,10 @@ function (service::ServiceWrapper)(args...; feature_set=nothing, kwargs...)
 end
 
 function __init__()
+    pkg_module = @__MODULE__()
+    pkg_version = pkgversion(pkg_module)
+    user_agent[] = "$(nameof(pkg_module)).jl/$(pkg_version)"
+
     DEFAULT_BACKEND[] = HTTPBackend()
     return nothing
 end
