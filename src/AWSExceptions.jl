@@ -1,7 +1,7 @@
 module AWSExceptions
 
 using HTTP
-using JSON
+using JSON: JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
@@ -87,12 +87,12 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
         if !isempty(body)
             # Extract API error code from Lambda-style JSON error message...
             if endswith(content_type, "json")
-                info = JSON.parse(body)
+                info = JSON.parse(body; dicttype=Dict)
             end
 
             # Extract API error code from JSON error message...
             if occursin(r"^application/x-amz-json-1\.[01]$", content_type)
-                info = JSON.parse(body)
+                info = JSON.parse(body; dicttype=Dict)
                 if haskey(info, "__type")
                     code = rsplit(info["__type"], '#'; limit=2)[end]
                 end

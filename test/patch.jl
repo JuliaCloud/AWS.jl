@@ -4,7 +4,6 @@ using AWS
 using Dates
 using Downloads: Downloads
 using HTTP
-using JSON
 using GitHub
 using Mocking
 using OrderedCollections: LittleDict

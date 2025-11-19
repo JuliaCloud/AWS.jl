@@ -4,7 +4,7 @@
 
 using AWS
 using AWS: AWSException
-using JSON
+using JSON: JSON
 
 @service CloudFormation use_response_type = true
 @service IAM use_response_type = true
