@@ -1,7 +1,7 @@
 module AWSExceptions
 
 using HTTP
-using JSON
+using JSON: JSON
 using XMLDict
 using XMLDict: XMLDictElement
 

@@ -24,7 +24,7 @@ using Downloads
 using GitHub
 using HTTP
 using IniFile: Inifile, sections
-using JSON
+using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
 using MbedTLS: digest, MD_SHA256, MD_MD5
 using Mocking

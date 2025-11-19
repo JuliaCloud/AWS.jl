@@ -4,7 +4,7 @@ using Base64
 using ..AWSExceptions
 using GitHub
 using HTTP
-using JSON
+using JSON: JSON
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 

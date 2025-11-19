@@ -1,7 +1,6 @@
 using Dates
 using HTTP
 using IniFile
-using JSON
 using Mocking
 
 using ..AWSExceptions

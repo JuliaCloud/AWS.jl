@@ -5,6 +5,7 @@ using Base64
 using Dates
 using Downloads: Downloads, Downloader, Curl
 using HTTP
+using JSON: JSON
 using MbedTLS
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
