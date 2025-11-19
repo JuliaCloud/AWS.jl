@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Debug OIDC Claims
-        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
+        # if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
         uses: steve-todorov/oidc-debugger-action@v1
         with:
           audience: sts.amazonaws.com
