@@ -20,18 +20,14 @@ API Requests     Using the Amazon Cognito user pools API and user pool endpoints
   attributes.
 
 """
-function add_custom_attributes(
+add_custom_attributes(
     CustomAttributes, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AddCustomAttributes",
+    Dict{String,Any}("CustomAttributes" => CustomAttributes, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AddCustomAttributes",
-        Dict{String,Any}(
-            "CustomAttributes" => CustomAttributes, "UserPoolId" => UserPoolId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_custom_attributes(
     CustomAttributes,
     UserPoolId,
@@ -75,18 +71,16 @@ user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_add_user_to_group(
+admin_add_user_to_group(
     GroupName, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminAddUserToGroup",
+    Dict{String,Any}(
+        "GroupName" => GroupName, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminAddUserToGroup",
-        Dict{String,Any}(
-            "GroupName" => GroupName, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_add_user_to_group(
     GroupName,
     UserPoolId,
@@ -116,19 +110,16 @@ end
     admin_confirm_sign_up(user_pool_id, username)
     admin_confirm_sign_up(user_pool_id, username, params::Dict{String,<:Any})
 
-This IAM-authenticated API operation provides a code that Amazon Cognito sent to your user
-when they signed up in your user pool. After your user enters their code, they confirm
-ownership of the email address or phone number that they provided, and their user account
-becomes active. Depending on your user pool configuration, your users will receive their
-confirmation code in an email or SMS message. Local users who signed up in your user pool
-are the only type of user who can confirm sign-up with a code. Users who federate through
-an external identity provider (IdP) have already been confirmed by their IdP.
-Administrator-created users confirm their accounts when they respond to their invitation
-email message and choose a password.  Amazon Cognito evaluates Identity and Access
-Management (IAM) policies in requests for this API operation. For this operation, you must
-use IAM credentials to authorize requests, and you must grant yourself the corresponding
-IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
-Using the Amazon Cognito user pools API and user pool endpoints
+This IAM-authenticated API operation confirms user sign-up as an administrator. Unlike
+ConfirmSignUp, your IAM credentials authorize user account confirmation. No confirmation
+code is required. This request sets a user account active in a user pool that requires
+confirmation of new user accounts before they can sign in. You can configure your user pool
+to not send confirmation codes to new users and instead confirm them with this API
+operation on the back end.  Amazon Cognito evaluates Identity and Access Management (IAM)
+policies in requests for this API operation. For this operation, you must use IAM
+credentials to authorize requests, and you must grant yourself the corresponding IAM
+permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using
+the Amazon Cognito user pools API and user pool endpoints
 
 # Arguments
 - `user_pool_id`: The user pool ID for which you want to confirm user registration.
@@ -155,16 +146,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't
   use Amazon Cognito to provide sensitive information.
 """
-function admin_confirm_sign_up(
+admin_confirm_sign_up(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminConfirmSignUp",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminConfirmSignUp",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_confirm_sign_up(
     UserPoolId,
     Username,
@@ -196,17 +185,17 @@ phone number before you can send SMS messages to US phone numbers. If you use SM
 messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon
 Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
 receive SMS messages might not be able to sign up, activate their accounts, or sign in. If
-you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service,
-Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
-mode , you can send messages only to verified phone numbers. After you test your app while
-in the sandbox environment, you can move out of the sandbox and into production. For more
-information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
-Developer Guide.  This message is based on a template that you configured in your call to
-create or update a user pool. This template includes your custom sign-up instructions and
-placeholders for user name and temporary password. Alternatively, you can call
-AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito won't
-send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until
-they sign in and change their password.  Amazon Cognito evaluates Identity and Access
+you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services
+service, Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ sandbox mode , you can send messages only to verified phone numbers. After you test your
+app while in the sandbox environment, you can move out of the sandbox and into production.
+For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon
+Cognito Developer Guide.  This message is based on a template that you configured in your
+call to create or update a user pool. This template includes your custom sign-up
+instructions and placeholders for user name and temporary password. Alternatively, you can
+call AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito
+won't send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state
+until they sign in and change their password.  Amazon Cognito evaluates Identity and Access
 Management (IAM) policies in requests for this API operation. For this operation, you must
 use IAM credentials to authorize requests, and you must grant yourself the corresponding
 IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
@@ -287,16 +276,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cognito, like automatically confirming the user if they sign up from within your network.
   For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
 """
-function admin_create_user(
+admin_create_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminCreateUser",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminCreateUser",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_create_user(
     UserPoolId,
     Username,
@@ -335,16 +322,14 @@ API Requests     Using the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_delete_user(
+admin_delete_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminDeleteUser",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminDeleteUser",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_delete_user(
     UserPoolId,
     Username,
@@ -388,23 +373,21 @@ endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_delete_user_attributes(
+admin_delete_user_attributes(
     UserAttributeNames,
     UserPoolId,
     Username;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "AdminDeleteUserAttributes",
+    Dict{String,Any}(
+        "UserAttributeNames" => UserAttributeNames,
+        "UserPoolId" => UserPoolId,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminDeleteUserAttributes",
-        Dict{String,Any}(
-            "UserAttributeNames" => UserAttributeNames,
-            "UserPoolId" => UserPoolId,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_delete_user_attributes(
     UserAttributeNames,
     UserPoolId,
@@ -464,16 +447,14 @@ user pool endpoints
 - `user_pool_id`: The user pool ID for the user pool.
 
 """
-function admin_disable_provider_for_user(
+admin_disable_provider_for_user(
     User, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminDisableProviderForUser",
+    Dict{String,Any}("User" => User, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminDisableProviderForUser",
-        Dict{String,Any}("User" => User, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_disable_provider_for_user(
     User,
     UserPoolId,
@@ -512,16 +493,14 @@ endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_disable_user(
+admin_disable_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminDisableUser",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminDisableUser",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_disable_user(
     UserPoolId,
     Username,
@@ -561,16 +540,14 @@ Services API Requests     Using the Amazon Cognito user pools API and user pool 
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_enable_user(
+admin_enable_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminEnableUser",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminEnableUser",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_enable_user(
     UserPoolId,
     Username,
@@ -610,18 +587,16 @@ Using the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_forget_device(
+admin_forget_device(
     DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminForgetDevice",
+    Dict{String,Any}(
+        "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminForgetDevice",
-        Dict{String,Any}(
-            "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_forget_device(
     DeviceKey,
     UserPoolId,
@@ -666,18 +641,16 @@ Using the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_get_device(
+admin_get_device(
     DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminGetDevice",
+    Dict{String,Any}(
+        "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminGetDevice",
-        Dict{String,Any}(
-            "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_get_device(
     DeviceKey,
     UserPoolId,
@@ -723,16 +696,13 @@ user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_get_user(
-    UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+admin_get_user(UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "AdminGetUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function admin_get_user(
     UserPoolId,
     Username,
@@ -764,11 +734,11 @@ SMS text messages in Amazon Cognito, you must register a phone number with Amazo
 Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users
 who must receive SMS messages might not be able to sign up, activate their accounts, or
 sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon
-Web Service, Amazon Simple Notification Service might place your account in the SMS
-sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you
-test your app while in the sandbox environment, you can move out of the sandbox and into
-production. For more information, see  SMS message settings for Amazon Cognito user pools
-in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access
+Web Services service, Amazon Simple Notification Service might place your account in the
+SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After
+you test your app while in the sandbox environment, you can move out of the sandbox and
+into production. For more information, see  SMS message settings for Amazon Cognito user
+pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access
 Management (IAM) policies in requests for this API operation. For this operation, you must
 use IAM credentials to authorize requests, and you must grant yourself the corresponding
 IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
@@ -833,18 +803,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication event based on the context that your app generates and passes to Amazon
   Cognito when it makes API requests.
 """
-function admin_initiate_auth(
+admin_initiate_auth(
     AuthFlow, ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminInitiateAuth",
+    Dict{String,Any}(
+        "AuthFlow" => AuthFlow, "ClientId" => ClientId, "UserPoolId" => UserPoolId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminInitiateAuth",
-        Dict{String,Any}(
-            "AuthFlow" => AuthFlow, "ClientId" => ClientId, "UserPoolId" => UserPoolId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_initiate_auth(
     AuthFlow,
     ClientId,
@@ -924,23 +892,21 @@ Services API Requests     Using the Amazon Cognito user pools API and user pool 
 - `user_pool_id`: The user pool ID for the user pool.
 
 """
-function admin_link_provider_for_user(
+admin_link_provider_for_user(
     DestinationUser,
     SourceUser,
     UserPoolId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "AdminLinkProviderForUser",
+    Dict{String,Any}(
+        "DestinationUser" => DestinationUser,
+        "SourceUser" => SourceUser,
+        "UserPoolId" => UserPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminLinkProviderForUser",
-        Dict{String,Any}(
-            "DestinationUser" => DestinationUser,
-            "SourceUser" => SourceUser,
-            "UserPoolId" => UserPoolId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_link_provider_for_user(
     DestinationUser,
     SourceUser,
@@ -992,16 +958,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of items after the current list. Subsequent requests return a new pagination token. By
   use of this token, you can paginate through the full list of items.
 """
-function admin_list_devices(
+admin_list_devices(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminListDevices",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminListDevices",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_list_devices(
     UserPoolId,
     Username,
@@ -1045,16 +1009,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function admin_list_groups_for_user(
+admin_list_groups_for_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminListGroupsForUser",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminListGroupsForUser",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_list_groups_for_user(
     UserPoolId,
     Username,
@@ -1099,16 +1061,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if you set MaxResults to 0, or if you don't include a MaxResults parameter.
 - `"NextToken"`: A pagination token.
 """
-function admin_list_user_auth_events(
+admin_list_user_auth_events(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminListUserAuthEvents",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminListUserAuthEvents",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_list_user_auth_events(
     UserPoolId,
     Username,
@@ -1148,18 +1108,16 @@ Requests     Using the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_remove_user_from_group(
+admin_remove_user_from_group(
     GroupName, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminRemoveUserFromGroup",
+    Dict{String,Any}(
+        "GroupName" => GroupName, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminRemoveUserFromGroup",
-        Dict{String,Any}(
-            "GroupName" => GroupName, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_remove_user_from_group(
     GroupName,
     UserPoolId,
@@ -1198,19 +1156,19 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Deactivates a user's
-password, requiring them to change it. If a user tries to sign in after the API is called,
-Amazon Cognito responds with a PasswordResetRequiredException error. Your app must then
-perform the actions that reset your user's password: the forgot-password flow. In addition,
-if the user pool has phone verification selected and a verified phone number exists for the
-user, or if email verification is selected and a verified email exists for the user,
-calling this API will also result in sending a message to the end user with the code to
-change their password.  Amazon Cognito evaluates Identity and Access Management (IAM)
-policies in requests for this API operation. For this operation, you must use IAM
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Deactivates
+a user's password, requiring them to change it. If a user tries to sign in after the API is
+called, Amazon Cognito responds with a PasswordResetRequiredException error. Your app must
+then perform the actions that reset your user's password: the forgot-password flow. In
+addition, if the user pool has phone verification selected and a verified phone number
+exists for the user, or if email verification is selected and a verified email exists for
+the user, calling this API will also result in sending a message to the end user with the
+code to change their password.  Amazon Cognito evaluates Identity and Access Management
+(IAM) policies in requests for this API operation. For this operation, you must use IAM
 credentials to authorize requests, and you must grant yourself the corresponding IAM
 permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using
 the Amazon Cognito user pools API and user pool endpoints
@@ -1241,16 +1199,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt
   the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
 """
-function admin_reset_user_password(
+admin_reset_user_password(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminResetUserPassword",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminResetUserPassword",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_reset_user_password(
     UserPoolId,
     Username,
@@ -1287,15 +1243,15 @@ If you use SMS text messages in Amazon Cognito, you must register a phone number
 Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon
 Cognito users who must receive SMS messages might not be able to sign up, activate their
 accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any
-other Amazon Web Service, Amazon Simple Notification Service might place your account in
-the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers.
-After you test your app while in the sandbox environment, you can move out of the sandbox
-and into production. For more information, see  SMS message settings for Amazon Cognito
-user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and
-Access Management (IAM) policies in requests for this API operation. For this operation,
-you must use IAM credentials to authorize requests, and you must grant yourself the
-corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API
-Requests     Using the Amazon Cognito user pools API and user pool endpoints
+other Amazon Web Services service, Amazon Simple Notification Service might place your
+account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone
+numbers. After you test your app while in the sandbox environment, you can move out of the
+sandbox and into production. For more information, see  SMS message settings for Amazon
+Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates
+Identity and Access Management (IAM) policies in requests for this API operation. For this
+operation, you must use IAM credentials to authorize requests, and you must grant yourself
+the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services
+API Requests     Using the Amazon Cognito user pools API and user pool endpoints
 
 # Arguments
 - `challenge_name`: The challenge name. For more information, see AdminInitiateAuth.
@@ -1368,20 +1324,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   caller must pass another challenge, it returns a session with other challenge parameters.
   This session should be passed as it is to the next RespondToAuthChallenge API call.
 """
-function admin_respond_to_auth_challenge(
+admin_respond_to_auth_challenge(
     ChallengeName, ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminRespondToAuthChallenge",
+    Dict{String,Any}(
+        "ChallengeName" => ChallengeName,
+        "ClientId" => ClientId,
+        "UserPoolId" => UserPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminRespondToAuthChallenge",
-        Dict{String,Any}(
-            "ChallengeName" => ChallengeName,
-            "ClientId" => ClientId,
-            "UserPoolId" => UserPoolId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_respond_to_auth_challenge(
     ChallengeName,
     ClientId,
@@ -1434,16 +1388,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SoftwareTokenMfaSettings"`: The time-based one-time password software token MFA
   settings.
 """
-function admin_set_user_mfapreference(
+admin_set_user_mfapreference(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminSetUserMFAPreference",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminSetUserMFAPreference",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_set_user_mfapreference(
     UserPoolId,
     Username,
@@ -1502,18 +1454,16 @@ the Amazon Cognito user pools API and user pool endpoints
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Permanent"`:  True if the password is permanent, False if it is temporary.
 """
-function admin_set_user_password(
+admin_set_user_password(
     Password, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminSetUserPassword",
+    Dict{String,Any}(
+        "Password" => Password, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminSetUserPassword",
-        Dict{String,Any}(
-            "Password" => Password, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_set_user_password(
     Password,
     UserPoolId,
@@ -1562,18 +1512,16 @@ API Requests     Using the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_set_user_settings(
+admin_set_user_settings(
     MFAOptions, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminSetUserSettings",
+    Dict{String,Any}(
+        "MFAOptions" => MFAOptions, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminSetUserSettings",
-        Dict{String,Any}(
-            "MFAOptions" => MFAOptions, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_set_user_settings(
     MFAOptions,
     UserPoolId,
@@ -1625,25 +1573,23 @@ the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_update_auth_event_feedback(
+admin_update_auth_event_feedback(
     EventId,
     FeedbackValue,
     UserPoolId,
     Username;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "AdminUpdateAuthEventFeedback",
+    Dict{String,Any}(
+        "EventId" => EventId,
+        "FeedbackValue" => FeedbackValue,
+        "UserPoolId" => UserPoolId,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminUpdateAuthEventFeedback",
-        Dict{String,Any}(
-            "EventId" => EventId,
-            "FeedbackValue" => FeedbackValue,
-            "UserPoolId" => UserPoolId,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_update_auth_event_feedback(
     EventId,
     FeedbackValue,
@@ -1694,18 +1640,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceRememberedStatus"`: The status indicating whether a device has been remembered or
   not.
 """
-function admin_update_device_status(
+admin_update_device_status(
     DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminUpdateDeviceStatus",
+    Dict{String,Any}(
+        "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminUpdateDeviceStatus",
-        Dict{String,Any}(
-            "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_update_device_status(
     DeviceKey,
     UserPoolId,
@@ -1741,20 +1685,20 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the specified
-user's attributes, including developer attributes, as an administrator. Works on any user.
-To delete an attribute from your user, submit the attribute in your API request with a
-blank value. For custom attributes, you must prepend the custom: prefix to the attribute
-name. In addition to updating user attributes, this API can also be used to mark phone and
-email as verified.  Amazon Cognito evaluates Identity and Access Management (IAM) policies
-in requests for this API operation. For this operation, you must use IAM credentials to
-authorize requests, and you must grant yourself the corresponding IAM permission in a
-policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon
-Cognito user pools API and user pool endpoints
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the
+specified user's attributes, including developer attributes, as an administrator. Works on
+any user. To delete an attribute from your user, submit the attribute in your API request
+with a blank value. For custom attributes, you must prepend the custom: prefix to the
+attribute name. In addition to updating user attributes, this API can also be used to mark
+phone and email as verified.  Amazon Cognito evaluates Identity and Access Management (IAM)
+policies in requests for this API operation. For this operation, you must use IAM
+credentials to authorize requests, and you must grant yourself the corresponding IAM
+permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using
+the Amazon Cognito user pools API and user pool endpoints
 
 # Arguments
 - `user_attributes`: An array of name-value pairs representing user attributes. For custom
@@ -1794,20 +1738,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive
   information.
 """
-function admin_update_user_attributes(
+admin_update_user_attributes(
     UserAttributes, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminUpdateUserAttributes",
+    Dict{String,Any}(
+        "UserAttributes" => UserAttributes,
+        "UserPoolId" => UserPoolId,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminUpdateUserAttributes",
-        Dict{String,Any}(
-            "UserAttributes" => UserAttributes,
-            "UserPoolId" => UserPoolId,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_update_user_attributes(
     UserAttributes,
     UserPoolId,
@@ -1862,16 +1804,14 @@ the Amazon Cognito user pools API and user pool endpoints
   local user or the username of a user from a third-party IdP.
 
 """
-function admin_user_global_sign_out(
+admin_user_global_sign_out(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "AdminUserGlobalSignOut",
+    Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "AdminUserGlobalSignOut",
-        Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function admin_user_global_sign_out(
     UserPoolId,
     Username,
@@ -1904,7 +1844,7 @@ token, or a session string from a challenge response that you received from Amaz
  VerifySoftwareToken API request. If you don't verify the software token and your user pool
 doesn't require MFA, the user can then authenticate with user name and password credentials
 alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or
-SOFTWARE_TOKEN_SETUP challenge each time your user signs. Complete setup with
+SOFTWARE_TOKEN_SETUP challenge each time your user signs in. Complete setup with
 AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for
 your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate.
 Respond to this challenge with your user's TOTP.   Amazon Cognito doesn't evaluate Identity
@@ -1920,11 +1860,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Session"`: The session that should be passed both ways in challenge-response calls to
   the service. This allows authentication of the user as part of the MFA setup process.
 """
-function associate_software_token(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+associate_software_token(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "AssociateSoftwareToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function associate_software_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1955,23 +1894,21 @@ user pool endpoints.
 - `proposed_password`: The new password.
 
 """
-function change_password(
+change_password(
     AccessToken,
     PreviousPassword,
     ProposedPassword;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "ChangePassword",
+    Dict{String,Any}(
+        "AccessToken" => AccessToken,
+        "PreviousPassword" => PreviousPassword,
+        "ProposedPassword" => ProposedPassword,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "ChangePassword",
-        Dict{String,Any}(
-            "AccessToken" => AccessToken,
-            "PreviousPassword" => PreviousPassword,
-            "ProposedPassword" => ProposedPassword,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function change_password(
     AccessToken,
     PreviousPassword,
@@ -2020,16 +1957,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceName"`: The device name.
 - `"DeviceSecretVerifierConfig"`: The configuration of the device secret verifier.
 """
-function confirm_device(
-    AccessToken, DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+confirm_device(AccessToken, DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ConfirmDevice",
         Dict{String,Any}("AccessToken" => AccessToken, "DeviceKey" => DeviceKey);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function confirm_device(
     AccessToken,
     DeviceKey,
@@ -2097,25 +2031,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of an authentication event based on the context that your app generates and passes to
   Amazon Cognito when it makes API requests.
 """
-function confirm_forgot_password(
+confirm_forgot_password(
     ClientId,
     ConfirmationCode,
     Password,
     Username;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "ConfirmForgotPassword",
+    Dict{String,Any}(
+        "ClientId" => ClientId,
+        "ConfirmationCode" => ConfirmationCode,
+        "Password" => Password,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "ConfirmForgotPassword",
-        Dict{String,Any}(
-            "ClientId" => ClientId,
-            "ConfirmationCode" => ConfirmationCode,
-            "Password" => Password,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function confirm_forgot_password(
     ClientId,
     ConfirmationCode,
@@ -2203,20 +2135,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of an authentication event based on the context that your app generates and passes to
   Amazon Cognito when it makes API requests.
 """
-function confirm_sign_up(
+confirm_sign_up(
     ClientId, ConfirmationCode, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "ConfirmSignUp",
+    Dict{String,Any}(
+        "ClientId" => ClientId,
+        "ConfirmationCode" => ConfirmationCode,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "ConfirmSignUp",
-        Dict{String,Any}(
-            "ClientId" => ClientId,
-            "ConfirmationCode" => ConfirmationCode,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function confirm_sign_up(
     ClientId,
     ConfirmationCode,
@@ -2272,16 +2202,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   null. The maximum Precedence value is 2^31-1.
 - `"RoleArn"`: The role Amazon Resource Name (ARN) for the group.
 """
-function create_group(
-    GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+create_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "CreateGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_group(
     GroupName,
     UserPoolId,
@@ -2392,25 +2319,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes.
 - `"IdpIdentifiers"`: A list of IdP identifiers.
 """
-function create_identity_provider(
+create_identity_provider(
     ProviderDetails,
     ProviderName,
     ProviderType,
     UserPoolId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "CreateIdentityProvider",
+    Dict{String,Any}(
+        "ProviderDetails" => ProviderDetails,
+        "ProviderName" => ProviderName,
+        "ProviderType" => ProviderType,
+        "UserPoolId" => UserPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "CreateIdentityProvider",
-        Dict{String,Any}(
-            "ProviderDetails" => ProviderDetails,
-            "ProviderName" => ProviderName,
-            "ProviderType" => ProviderType,
-            "UserPoolId" => UserPoolId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_identity_provider(
     ProviderDetails,
     ProviderName,
@@ -2463,18 +2388,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Scopes"`: A list of scopes. Each scope is a key-value map with the keys name and
   description.
 """
-function create_resource_server(
+create_resource_server(
     Identifier, Name, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "CreateResourceServer",
+    Dict{String,Any}(
+        "Identifier" => Identifier, "Name" => Name, "UserPoolId" => UserPoolId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "CreateResourceServer",
-        Dict{String,Any}(
-            "Identifier" => Identifier, "Name" => Name, "UserPoolId" => UserPoolId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_resource_server(
     Identifier,
     Name,
@@ -2515,23 +2438,21 @@ the Amazon Cognito user pools API and user pool endpoints
 - `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
-function create_user_import_job(
+create_user_import_job(
     CloudWatchLogsRoleArn,
     JobName,
     UserPoolId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "CreateUserImportJob",
+    Dict{String,Any}(
+        "CloudWatchLogsRoleArn" => CloudWatchLogsRoleArn,
+        "JobName" => JobName,
+        "UserPoolId" => UserPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "CreateUserImportJob",
-        Dict{String,Any}(
-            "CloudWatchLogsRoleArn" => CloudWatchLogsRoleArn,
-            "JobName" => JobName,
-            "UserPoolId" => UserPoolId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_import_job(
     CloudWatchLogsRoleArn,
     JobName,
@@ -2567,17 +2488,18 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Creates a new Amazon
-Cognito user pool and sets the password policy for the pool.  If you don't provide a value
-for an attribute, Amazon Cognito sets it to its default value.   Amazon Cognito evaluates
-Identity and Access Management (IAM) policies in requests for this API operation. For this
-operation, you must use IAM credentials to authorize requests, and you must grant yourself
-the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services
-API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Creates a
+new Amazon Cognito user pool and sets the password policy for the pool.  If you don't
+provide a value for an attribute, Amazon Cognito sets it to its default value.   Amazon
+Cognito evaluates Identity and Access Management (IAM) policies in requests for this API
+operation. For this operation, you must use IAM credentials to authorize requests, and you
+must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing
+Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool
+endpoints
 
 # Arguments
 - `pool_name`: A string used to name the user pool.
@@ -2655,14 +2577,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerificationMessageTemplate"`: The template for the verification message that the user
   sees when the app requests permission to access the user's information.
 """
-function create_user_pool(PoolName; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+create_user_pool(PoolName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "CreateUserPool",
         Dict{String,Any}("PoolName" => PoolName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_user_pool(
     PoolName,
     params::AbstractDict{String};
@@ -2792,7 +2713,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException
   exception if the user doesn't exist in the user pool. Valid values include:    ENABLED -
   This prevents user existence-related errors.    LEGACY - This represents the early behavior
-  of Amazon Cognito where user existence related errors aren't prevented.
+  of Amazon Cognito where user existence related errors aren't prevented.   Defaults to
+  LEGACY when you don't provide a value.
 - `"ReadAttributes"`: The list of user attributes that you want your app client to have
   read-only access to. After your user authenticates in your app, their access token
   authorizes them to read their own attribute value for any attribute in this list. An
@@ -2835,16 +2757,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tries to update the attribute. For more information, see Specifying IdP Attribute Mappings
   for Your user pool.
 """
-function create_user_pool_client(
+create_user_pool_client(
     ClientName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "CreateUserPoolClient",
+    Dict{String,Any}("ClientName" => ClientName, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "CreateUserPoolClient",
-        Dict{String,Any}("ClientName" => ClientName, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_pool_client(
     ClientName,
     UserPoolId,
@@ -2889,16 +2809,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito hosted domain instead. For more information about the hosted domain and
   custom domains, see Configuring a User Pool Domain.
 """
-function create_user_pool_domain(
+create_user_pool_domain(
     Domain, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "CreateUserPoolDomain",
+    Dict{String,Any}("Domain" => Domain, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "CreateUserPoolDomain",
-        Dict{String,Any}("Domain" => Domain, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_pool_domain(
     Domain,
     UserPoolId,
@@ -2930,16 +2848,13 @@ Deletes a group. Calling this action requires developer credentials.
 - `user_pool_id`: The user pool ID for the user pool.
 
 """
-function delete_group(
-    GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+delete_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "DeleteGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_group(
     GroupName,
     UserPoolId,
@@ -2971,16 +2886,14 @@ Deletes an IdP for a user pool.
 - `user_pool_id`: The user pool ID.
 
 """
-function delete_identity_provider(
+delete_identity_provider(
     ProviderName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DeleteIdentityProvider",
+    Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DeleteIdentityProvider",
-        Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_identity_provider(
     ProviderName,
     UserPoolId,
@@ -3014,16 +2927,14 @@ Deletes a resource server.
 - `user_pool_id`: The user pool ID for the user pool that hosts the resource server.
 
 """
-function delete_resource_server(
+delete_resource_server(
     Identifier, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DeleteResourceServer",
+    Dict{String,Any}("Identifier" => Identifier, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DeleteResourceServer",
-        Dict{String,Any}("Identifier" => Identifier, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_resource_server(
     Identifier,
     UserPoolId,
@@ -3061,14 +2972,13 @@ endpoints.
   profile you want to delete.
 
 """
-function delete_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+delete_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "DeleteUser",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_user(
     AccessToken,
     params::AbstractDict{String};
@@ -3103,18 +3013,16 @@ Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoi
   front of the attribute name.
 
 """
-function delete_user_attributes(
+delete_user_attributes(
     AccessToken, UserAttributeNames; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DeleteUserAttributes",
+    Dict{String,Any}(
+        "AccessToken" => AccessToken, "UserAttributeNames" => UserAttributeNames
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DeleteUserAttributes",
-        Dict{String,Any}(
-            "AccessToken" => AccessToken, "UserAttributeNames" => UserAttributeNames
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_attributes(
     AccessToken,
     UserAttributeNames,
@@ -3147,14 +3055,13 @@ Deletes the specified Amazon Cognito user pool.
 - `user_pool_id`: The user pool ID for the user pool you want to delete.
 
 """
-function delete_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+delete_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "DeleteUserPool",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_user_pool(
     UserPoolId,
     params::AbstractDict{String};
@@ -3181,16 +3088,14 @@ Allows the developer to delete the user pool client.
 - `user_pool_id`: The user pool ID for the user pool where you want to delete the client.
 
 """
-function delete_user_pool_client(
+delete_user_pool_client(
     ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DeleteUserPoolClient",
+    Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DeleteUserPoolClient",
-        Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_pool_client(
     ClientId,
     UserPoolId,
@@ -3224,16 +3129,14 @@ Deletes a domain for a user pool.
 - `user_pool_id`: The user pool ID.
 
 """
-function delete_user_pool_domain(
+delete_user_pool_domain(
     Domain, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DeleteUserPoolDomain",
+    Dict{String,Any}("Domain" => Domain, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DeleteUserPoolDomain",
-        Dict{String,Any}("Domain" => Domain, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_pool_domain(
     Domain,
     UserPoolId,
@@ -3265,16 +3168,14 @@ Gets information about a specific IdP.
 - `user_pool_id`: The user pool ID.
 
 """
-function describe_identity_provider(
+describe_identity_provider(
     ProviderName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DescribeIdentityProvider",
+    Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DescribeIdentityProvider",
-        Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_identity_provider(
     ProviderName,
     UserPoolId,
@@ -3312,16 +3213,14 @@ Describes a resource server.
 - `user_pool_id`: The user pool ID for the user pool that hosts the resource server.
 
 """
-function describe_resource_server(
+describe_resource_server(
     Identifier, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DescribeResourceServer",
+    Dict{String,Any}("Identifier" => Identifier, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DescribeResourceServer",
-        Dict{String,Any}("Identifier" => Identifier, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_resource_server(
     Identifier,
     UserPoolId,
@@ -3355,16 +3254,14 @@ Describes the risk configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientId"`: The app client ID.
 """
-function describe_risk_configuration(
+describe_risk_configuration(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DescribeRiskConfiguration",
+    Dict{String,Any}("UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DescribeRiskConfiguration",
-        Dict{String,Any}("UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_risk_configuration(
     UserPoolId,
     params::AbstractDict{String};
@@ -3391,16 +3288,14 @@ Describes the user import job.
 - `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
-function describe_user_import_job(
+describe_user_import_job(
     JobId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DescribeUserImportJob",
+    Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DescribeUserImportJob",
-        Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_user_import_job(
     JobId,
     UserPoolId,
@@ -3436,14 +3331,13 @@ endpoints
 - `user_pool_id`: The user pool ID for the user pool you want to describe.
 
 """
-function describe_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+describe_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "DescribeUserPool",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user_pool(
     UserPoolId,
     params::AbstractDict{String};
@@ -3475,16 +3369,14 @@ the Amazon Cognito user pools API and user pool endpoints
 - `user_pool_id`: The user pool ID for the user pool you want to describe.
 
 """
-function describe_user_pool_client(
+describe_user_pool_client(
     ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "DescribeUserPoolClient",
+    Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "DescribeUserPoolClient",
-        Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_user_pool_client(
     ClientId,
     UserPoolId,
@@ -3517,16 +3409,13 @@ Gets information about a domain.
   as auth.
 
 """
-function describe_user_pool_domain(
-    Domain; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+describe_user_pool_domain(Domain; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "DescribeUserPoolDomain",
         Dict{String,Any}("Domain" => Domain);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user_pool_domain(
     Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3558,14 +3447,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessToken"`: A valid access token that Amazon Cognito issued to the user whose
   registered device you want to forget.
 """
-function forget_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+forget_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ForgetDevice",
         Dict{String,Any}("DeviceKey" => DeviceKey);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function forget_device(
     DeviceKey,
     params::AbstractDict{String};
@@ -3605,10 +3493,10 @@ number before you can send SMS messages to US phone numbers. If you use SMS text
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito
 uses the registered number automatically. Otherwise, Amazon Cognito users who must receive
 SMS messages might not be able to sign up, activate their accounts, or sign in. If you have
-never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon
-Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode ,
-you can send messages only to verified phone numbers. After you test your app while in the
-sandbox environment, you can move out of the sandbox and into production. For more
+never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
+mode , you can send messages only to verified phone numbers. After you test your app while
+in the sandbox environment, you can move out of the sandbox and into production. For more
 information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
 Developer Guide.
 
@@ -3646,16 +3534,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of an authentication event based on the context that your app generates and passes to
   Amazon Cognito when it makes API requests.
 """
-function forgot_password(
-    ClientId, Username; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+forgot_password(ClientId, Username; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ForgotPassword",
         Dict{String,Any}("ClientId" => ClientId, "Username" => Username);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function forgot_password(
     ClientId,
     Username,
@@ -3687,14 +3572,13 @@ for the user import job.
 - `user_pool_id`: The user pool ID for the user pool that the users are to be imported into.
 
 """
-function get_csvheader(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+get_csvheader(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetCSVHeader",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_csvheader(
     UserPoolId,
     params::AbstractDict{String};
@@ -3730,14 +3614,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessToken"`: A valid access token that Amazon Cognito issued to the user whose device
   information you want to request.
 """
-function get_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+get_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetDevice",
         Dict{String,Any}("DeviceKey" => DeviceKey);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_device(
     DeviceKey,
     params::AbstractDict{String};
@@ -3764,16 +3647,13 @@ Gets a group. Calling this action requires developer credentials.
 - `user_pool_id`: The user pool ID for the user pool.
 
 """
-function get_group(
-    GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+get_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_group(
     GroupName,
     UserPoolId,
@@ -3805,16 +3685,14 @@ Gets the specified IdP.
 - `user_pool_id`: The user pool ID.
 
 """
-function get_identity_provider_by_identifier(
+get_identity_provider_by_identifier(
     IdpIdentifier, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "GetIdentityProviderByIdentifier",
+    Dict{String,Any}("IdpIdentifier" => IdpIdentifier, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "GetIdentityProviderByIdentifier",
-        Dict{String,Any}("IdpIdentifier" => IdpIdentifier, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_identity_provider_by_identifier(
     IdpIdentifier,
     UserPoolId,
@@ -3841,23 +3719,21 @@ end
     get_log_delivery_configuration(user_pool_id)
     get_log_delivery_configuration(user_pool_id, params::Dict{String,<:Any})
 
-Gets the detailed activity logging configuration for a user pool.
+Gets the logging configuration of a user pool.
 
 # Arguments
-- `user_pool_id`: The ID of the user pool where you want to view detailed activity logging
-  configuration.
+- `user_pool_id`: The ID of the user pool that has the logging configuration that you want
+  to view.
 
 """
-function get_log_delivery_configuration(
+get_log_delivery_configuration(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "GetLogDeliveryConfiguration",
+    Dict{String,Any}("UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "GetLogDeliveryConfiguration",
-        Dict{String,Any}("UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_log_delivery_configuration(
     UserPoolId,
     params::AbstractDict{String};
@@ -3886,16 +3762,13 @@ GetSigningCertificate, but doesn't invalidate the original certificate.
 - `user_pool_id`: The user pool ID.
 
 """
-function get_signing_certificate(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+get_signing_certificate(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetSigningCertificate",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_signing_certificate(
     UserPoolId,
     params::AbstractDict{String};
@@ -3927,14 +3800,13 @@ that information is returned. If nothing is present, then an empty shape is retu
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientId"`: The client ID for the client app.
 """
-function get_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+get_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetUICustomization",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_uicustomization(
     UserPoolId,
     params::AbstractDict{String};
@@ -3967,14 +3839,13 @@ endpoints.
   query.
 
 """
-function get_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+get_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetUser",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_user(
     AccessToken,
     params::AbstractDict{String};
@@ -4007,12 +3878,12 @@ phone number before you can send SMS messages to US phone numbers. If you use SM
 messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon
 Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
 receive SMS messages might not be able to sign up, activate their accounts, or sign in. If
-you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service,
-Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
-mode , you can send messages only to verified phone numbers. After you test your app while
-in the sandbox environment, you can move out of the sandbox and into production. For more
-information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
-Developer Guide.
+you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services
+service, Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ sandbox mode , you can send messages only to verified phone numbers. After you test your
+app while in the sandbox environment, you can move out of the sandbox and into production.
+For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon
+Cognito Developer Guide.
 
 # Arguments
 - `access_token`: A non-expired access token for the user whose attribute verification code
@@ -4039,16 +3910,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't
   use Amazon Cognito to provide sensitive information.
 """
-function get_user_attribute_verification_code(
+get_user_attribute_verification_code(
     AccessToken, AttributeName; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "GetUserAttributeVerificationCode",
+    Dict{String,Any}("AccessToken" => AccessToken, "AttributeName" => AttributeName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "GetUserAttributeVerificationCode",
-        Dict{String,Any}("AccessToken" => AccessToken, "AttributeName" => AttributeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_user_attribute_verification_code(
     AccessToken,
     AttributeName,
@@ -4081,16 +3950,13 @@ Gets the user pool multi-factor authentication (MFA) configuration.
 - `user_pool_id`: The user pool ID.
 
 """
-function get_user_pool_mfa_config(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+get_user_pool_mfa_config(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GetUserPoolMfaConfig",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_user_pool_mfa_config(
     UserPoolId,
     params::AbstractDict{String};
@@ -4133,14 +3999,13 @@ Cognito user pools API and user pool endpoints.
   to sign out.
 
 """
-function global_sign_out(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+global_sign_out(AccessToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "GlobalSignOut",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function global_sign_out(
     AccessToken,
     params::AbstractDict{String};
@@ -4172,10 +4037,10 @@ number before you can send SMS messages to US phone numbers. If you use SMS text
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito
 uses the registered number automatically. Otherwise, Amazon Cognito users who must receive
 SMS messages might not be able to sign up, activate their accounts, or sign in. If you have
-never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon
-Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode ,
-you can send messages only to verified phone numbers. After you test your app while in the
-sandbox environment, you can move out of the sandbox and into production. For more
+never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
+mode , you can send messages only to verified phone numbers. After you test your app while
+in the sandbox environment, you can move out of the sandbox and into production. For more
 information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
 Developer Guide.
 
@@ -4236,16 +4101,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of an authentication event based on the context that your app generates and passes to
   Amazon Cognito when it makes API requests.
 """
-function initiate_auth(
-    AuthFlow, ClientId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+initiate_auth(AuthFlow, ClientId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "InitiateAuth",
         Dict{String,Any}("AuthFlow" => AuthFlow, "ClientId" => ClientId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function initiate_auth(
     AuthFlow,
     ClientId,
@@ -4292,14 +4154,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of items after the current list. Subsequent requests return a new pagination token. By
   use of this token, you can paginate through the full list of items.
 """
-function list_devices(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+list_devices(AccessToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListDevices",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_devices(
     AccessToken,
     params::AbstractDict{String};
@@ -4334,14 +4195,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_groups(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+list_groups(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListGroups",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_groups(
     UserPoolId,
     params::AbstractDict{String};
@@ -4375,16 +4235,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of IdPs to return.
 - `"NextToken"`: A pagination token.
 """
-function list_identity_providers(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+list_identity_providers(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListIdentityProviders",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_identity_providers(
     UserPoolId,
     params::AbstractDict{String};
@@ -4418,16 +4275,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of resource servers to return.
 - `"NextToken"`: A pagination token.
 """
-function list_resource_servers(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+list_resource_servers(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListResourceServers",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_resource_servers(
     UserPoolId,
     params::AbstractDict{String};
@@ -4457,16 +4311,13 @@ second, per account.
   assigned to.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -4504,16 +4355,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of items after the current list. Subsequent requests return a new pagination token. By
   use of this token, you can paginate through the full list of items.
 """
-function list_user_import_jobs(
+list_user_import_jobs(
     MaxResults, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "ListUserImportJobs",
+    Dict{String,Any}("MaxResults" => MaxResults, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "ListUserImportJobs",
-        Dict{String,Any}("MaxResults" => MaxResults, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_user_import_jobs(
     MaxResults,
     UserPoolId,
@@ -4556,16 +4405,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_user_pool_clients(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+list_user_pool_clients(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListUserPoolClients",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_user_pool_clients(
     UserPoolId,
     params::AbstractDict{String};
@@ -4601,14 +4447,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_user_pools(MaxResults; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+list_user_pools(MaxResults; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListUserPools",
         Dict{String,Any}("MaxResults" => MaxResults);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_user_pools(
     MaxResults,
     params::AbstractDict{String};
@@ -4676,14 +4521,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of items after the current list. Subsequent requests return a new pagination token. By
   use of this token, you can paginate through the full list of items.
 """
-function list_users(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+list_users(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "ListUsers",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_users(
     UserPoolId,
     params::AbstractDict{String};
@@ -4719,16 +4563,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_users_in_group(
+list_users_in_group(
     GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "ListUsersInGroup",
+    Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "ListUsersInGroup",
-        Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_users_in_group(
     GroupName,
     UserPoolId,
@@ -4764,7 +4606,7 @@ can send SMS messages to US phone numbers. If you use SMS text messages in Amazo
 you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered
 number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might
 not be able to sign up, activate their accounts, or sign in. If you have never used SMS
-text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple
+text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple
 Notification Service might place your account in the SMS sandbox. In  sandbox mode , you
 can send messages only to verified phone numbers. After you test your app while in the
 sandbox environment, you can move out of the sandbox and into production. For more
@@ -4804,16 +4646,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of an authentication event based on the context that your app generates and passes to
   Amazon Cognito when it makes API requests.
 """
-function resend_confirmation_code(
+resend_confirmation_code(
     ClientId, Username; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "ResendConfirmationCode",
+    Dict{String,Any}("ClientId" => ClientId, "Username" => Username);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "ResendConfirmationCode",
-        Dict{String,Any}("ClientId" => ClientId, "Username" => Username);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resend_confirmation_code(
     ClientId,
     Username,
@@ -4854,11 +4694,11 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `challenge_name`: The challenge name. For more information, see InitiateAuth.
@@ -4930,16 +4770,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of an authentication event based on the context that your app generates and passes to
   Amazon Cognito when it makes API requests.
 """
-function respond_to_auth_challenge(
+respond_to_auth_challenge(
     ChallengeName, ClientId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "RespondToAuthChallenge",
+    Dict{String,Any}("ChallengeName" => ChallengeName, "ClientId" => ClientId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "RespondToAuthChallenge",
-        Dict{String,Any}("ChallengeName" => ChallengeName, "ClientId" => ClientId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function respond_to_auth_challenge(
     ChallengeName,
     ClientId,
@@ -4981,14 +4819,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientSecret"`: The secret for the client ID. This is required only if the client ID
   has a secret.
 """
-function revoke_token(ClientId, Token; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+revoke_token(ClientId, Token; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "RevokeToken",
         Dict{String,Any}("ClientId" => ClientId, "Token" => Token);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function revoke_token(
     ClientId,
     Token,
@@ -5011,27 +4848,22 @@ end
     set_log_delivery_configuration(log_configurations, user_pool_id)
     set_log_delivery_configuration(log_configurations, user_pool_id, params::Dict{String,<:Any})
 
-Sets up or modifies the detailed activity logging configuration of a user pool.
+Sets up or modifies the logging configuration of a user pool. User pools can export user
+notification logs and advanced security features user activity logs.
 
 # Arguments
-- `log_configurations`: A collection of all of the detailed activity logging configurations
-  for a user pool.
-- `user_pool_id`: The ID of the user pool where you want to configure detailed activity
-  logging .
+- `log_configurations`: A collection of the logging configurations for a user pool.
+- `user_pool_id`: The ID of the user pool where you want to configure logging.
 
 """
-function set_log_delivery_configuration(
+set_log_delivery_configuration(
     LogConfigurations, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "SetLogDeliveryConfiguration",
+    Dict{String,Any}("LogConfigurations" => LogConfigurations, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "SetLogDeliveryConfiguration",
-        Dict{String,Any}(
-            "LogConfigurations" => LogConfigurations, "UserPoolId" => UserPoolId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_log_delivery_configuration(
     LogConfigurations,
     UserPoolId,
@@ -5078,16 +4910,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration.
 - `"RiskExceptionConfiguration"`: The configuration to override the risk decision.
 """
-function set_risk_configuration(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+set_risk_configuration(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "SetRiskConfiguration",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function set_risk_configuration(
     UserPoolId,
     params::AbstractDict{String};
@@ -5125,14 +4954,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientId"`: The client ID for the client app.
 - `"ImageFile"`: The uploaded logo image for the UI customization.
 """
-function set_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+set_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "SetUICustomization",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function set_uicustomization(
     UserPoolId,
     params::AbstractDict{String};
@@ -5177,16 +5005,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SoftwareTokenMfaSettings"`: The time-based one-time password (TOTP) software token MFA
   settings.
 """
-function set_user_mfapreference(
-    AccessToken; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+set_user_mfapreference(AccessToken; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "SetUserMFAPreference",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function set_user_mfapreference(
     AccessToken,
     params::AbstractDict{String};
@@ -5213,11 +5038,11 @@ If you use SMS text messages in Amazon Cognito, you must register a phone number
 Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon
 Cognito users who must receive SMS messages might not be able to sign up, activate their
 accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any
-other Amazon Web Service, Amazon Simple Notification Service might place your account in
-the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers.
-After you test your app while in the sandbox environment, you can move out of the sandbox
-and into production. For more information, see  SMS message settings for Amazon Cognito
-user pools in the Amazon Cognito Developer Guide.
+other Amazon Web Services service, Amazon Simple Notification Service might place your
+account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone
+numbers. After you test your app while in the sandbox environment, you can move out of the
+sandbox and into production. For more information, see  SMS message settings for Amazon
+Cognito user pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `user_pool_id`: The user pool ID.
@@ -5232,16 +5057,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SmsMfaConfiguration"`: The SMS text message MFA configuration.
 - `"SoftwareTokenMfaConfiguration"`: The software token MFA configuration.
 """
-function set_user_pool_mfa_config(
-    UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+set_user_pool_mfa_config(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "SetUserPoolMfaConfig",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function set_user_pool_mfa_config(
     UserPoolId,
     params::AbstractDict{String};
@@ -5278,16 +5100,14 @@ user pool endpoints.
   for delivery.
 
 """
-function set_user_settings(
+set_user_settings(
     AccessToken, MFAOptions; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "SetUserSettings",
+    Dict{String,Any}("AccessToken" => AccessToken, "MFAOptions" => MFAOptions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "SetUserSettings",
-        Dict{String,Any}("AccessToken" => AccessToken, "MFAOptions" => MFAOptions);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_user_settings(
     AccessToken,
     MFAOptions,
@@ -5323,7 +5143,7 @@ can send SMS messages to US phone numbers. If you use SMS text messages in Amazo
 you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered
 number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might
 not be able to sign up, activate their accounts, or sign in. If you have never used SMS
-text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple
+text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple
 Notification Service might place your account in the SMS sandbox. In  sandbox mode , you
 can send messages only to verified phone numbers. After you test your app while in the
 sandbox environment, you can move out of the sandbox and into production. For more
@@ -5373,10 +5193,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cognito, like automatically confirming the user if they sign up from within your network.
   For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
 """
-function sign_up(
-    ClientId, Password, Username; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+sign_up(ClientId, Password, Username; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "SignUp",
         Dict{String,Any}(
             "ClientId" => ClientId, "Password" => Password, "Username" => Username
@@ -5384,7 +5202,6 @@ function sign_up(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function sign_up(
     ClientId,
     Password,
@@ -5419,16 +5236,14 @@ Starts the user import.
 - `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
-function start_user_import_job(
+start_user_import_job(
     JobId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "StartUserImportJob",
+    Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "StartUserImportJob",
-        Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_user_import_job(
     JobId,
     UserPoolId,
@@ -5460,16 +5275,14 @@ Stops the user import job.
 - `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
-function stop_user_import_job(
+stop_user_import_job(
     JobId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "StopUserImportJob",
+    Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "StopUserImportJob",
-        Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_user_import_job(
     JobId,
     UserPoolId,
@@ -5512,14 +5325,13 @@ have as many as 50 tags.
 - `tags`: The tags to assign to the user pool.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -5553,16 +5365,13 @@ Removes the specified tags from an Amazon Cognito user pool. You can use this ac
 - `tag_keys`: The keys of the tags to remove from the user pool.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -5610,27 +5419,25 @@ Cognito user pools API and user pool endpoints.
   local user or the username of a user from a third-party IdP.
 
 """
-function update_auth_event_feedback(
+update_auth_event_feedback(
     EventId,
     FeedbackToken,
     FeedbackValue,
     UserPoolId,
     Username;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "UpdateAuthEventFeedback",
+    Dict{String,Any}(
+        "EventId" => EventId,
+        "FeedbackToken" => FeedbackToken,
+        "FeedbackValue" => FeedbackValue,
+        "UserPoolId" => UserPoolId,
+        "Username" => Username,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateAuthEventFeedback",
-        Dict{String,Any}(
-            "EventId" => EventId,
-            "FeedbackToken" => FeedbackToken,
-            "FeedbackValue" => FeedbackValue,
-            "UserPoolId" => UserPoolId,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_auth_event_feedback(
     EventId,
     FeedbackToken,
@@ -5681,16 +5488,14 @@ Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoi
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeviceRememberedStatus"`: The status of whether a device is remembered.
 """
-function update_device_status(
+update_device_status(
     AccessToken, DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "UpdateDeviceStatus",
+    Dict{String,Any}("AccessToken" => AccessToken, "DeviceKey" => DeviceKey);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateDeviceStatus",
-        Dict{String,Any}("AccessToken" => AccessToken, "DeviceKey" => DeviceKey);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_device_status(
     AccessToken,
     DeviceKey,
@@ -5733,16 +5538,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The new role Amazon Resource Name (ARN) for the group. This is used for
   setting the cognito:roles and cognito:preferred_role claims in the token.
 """
-function update_group(
-    GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cognito_identity_provider(
+update_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "UpdateGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_group(
     GroupName,
     UserPoolId,
@@ -5850,16 +5652,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"client_secret\": \"provider-app-client-secret\", \"token_request_method\": \"GET\",
   \"token_url\": \"https://graph.facebook.com/v17.0/oauth/access_token\" }
 """
-function update_identity_provider(
+update_identity_provider(
     ProviderName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "UpdateIdentityProvider",
+    Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateIdentityProvider",
-        Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_identity_provider(
     ProviderName,
     UserPoolId,
@@ -5907,18 +5707,16 @@ Services API Requests     Using the Amazon Cognito user pools API and user pool 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Scopes"`: The scope values to be set for the resource server.
 """
-function update_resource_server(
+update_resource_server(
     Identifier, Name, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "UpdateResourceServer",
+    Dict{String,Any}(
+        "Identifier" => Identifier, "Name" => Name, "UserPoolId" => UserPoolId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateResourceServer",
-        Dict{String,Any}(
-            "Identifier" => Identifier, "Name" => Name, "UserPoolId" => UserPoolId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_resource_server(
     Identifier,
     Name,
@@ -5961,12 +5759,12 @@ phone number before you can send SMS messages to US phone numbers. If you use SM
 messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon
 Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
 receive SMS messages might not be able to sign up, activate their accounts, or sign in. If
-you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service,
-Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
-mode , you can send messages only to verified phone numbers. After you test your app while
-in the sandbox environment, you can move out of the sandbox and into production. For more
-information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
-Developer Guide.
+you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services
+service, Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ sandbox mode , you can send messages only to verified phone numbers. After you test your
+app while in the sandbox environment, you can move out of the sandbox and into production.
+For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon
+Cognito Developer Guide.
 
 # Arguments
 - `access_token`: A valid access token that Amazon Cognito issued to the user whose user
@@ -5997,16 +5795,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt
   the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
 """
-function update_user_attributes(
+update_user_attributes(
     AccessToken, UserAttributes; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "UpdateUserAttributes",
+    Dict{String,Any}("AccessToken" => AccessToken, "UserAttributes" => UserAttributes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateUserAttributes",
-        Dict{String,Any}("AccessToken" => AccessToken, "UserAttributes" => UserAttributes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_attributes(
     AccessToken,
     UserAttributes,
@@ -6039,14 +5835,14 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the specified
-user pool with the specified attributes. You can get a list of the current user pool
-settings using DescribeUserPool.  If you don't provide a value for an attribute, Amazon
-Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the
+specified user pool with the specified attributes. You can get a list of the current user
+pool settings using DescribeUserPool.  If you don't provide a value for an attribute,
+Amazon Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access
 Management (IAM) policies in requests for this API operation. For this operation, you must
 use IAM credentials to authorize requests, and you must grant yourself the corresponding
 IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
@@ -6113,14 +5909,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner, environment, or other criteria.
 - `"VerificationMessageTemplate"`: The template for verification messages.
 """
-function update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "UpdateUserPool",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_user_pool(
     UserPoolId,
     params::AbstractDict{String};
@@ -6245,7 +6040,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException
   exception if the user doesn't exist in the user pool. Valid values include:    ENABLED -
   This prevents user existence-related errors.    LEGACY - This represents the early behavior
-  of Amazon Cognito where user existence related errors aren't prevented.
+  of Amazon Cognito where user existence related errors aren't prevented.   Defaults to
+  LEGACY when you don't provide a value.
 - `"ReadAttributes"`: The list of user attributes that you want your app client to have
   read-only access to. After your user authenticates in your app, their access token
   authorizes them to read their own attribute value for any attribute in this list. An
@@ -6288,16 +6084,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tries to update the attribute. For more information, see Specifying IdP Attribute Mappings
   for Your user pool.
 """
-function update_user_pool_client(
+update_user_pool_client(
     ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "UpdateUserPoolClient",
+    Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateUserPoolClient",
-        Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_pool_client(
     ClientId,
     UserPoolId,
@@ -6356,23 +6150,21 @@ endpoints
   certificate you're updating.
 
 """
-function update_user_pool_domain(
+update_user_pool_domain(
     CustomDomainConfig,
     Domain,
     UserPoolId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cognito_identity_provider(
+    "UpdateUserPoolDomain",
+    Dict{String,Any}(
+        "CustomDomainConfig" => CustomDomainConfig,
+        "Domain" => Domain,
+        "UserPoolId" => UserPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "UpdateUserPoolDomain",
-        Dict{String,Any}(
-            "CustomDomainConfig" => CustomDomainConfig,
-            "Domain" => Domain,
-            "UserPoolId" => UserPoolId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_pool_domain(
     CustomDomainConfig,
     Domain,
@@ -6422,14 +6214,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Session"`: The session that should be passed both ways in challenge-response calls to
   the service.
 """
-function verify_software_token(UserCode; aws_config::AbstractAWSConfig=current_aws_config())
-    return cognito_identity_provider(
+verify_software_token(UserCode; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cognito_identity_provider(
         "VerifySoftwareToken",
         Dict{String,Any}("UserCode" => UserCode);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function verify_software_token(
     UserCode,
     params::AbstractDict{String};
@@ -6466,18 +6257,16 @@ Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoi
 - `code`: The verification code in the request to verify user attributes.
 
 """
-function verify_user_attribute(
+verify_user_attribute(
     AccessToken, AttributeName, Code; aws_config::AbstractAWSConfig=current_aws_config()
+) = cognito_identity_provider(
+    "VerifyUserAttribute",
+    Dict{String,Any}(
+        "AccessToken" => AccessToken, "AttributeName" => AttributeName, "Code" => Code
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity_provider(
-        "VerifyUserAttribute",
-        Dict{String,Any}(
-            "AccessToken" => AccessToken, "AttributeName" => AttributeName, "Code" => Code
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function verify_user_attribute(
     AccessToken,
     AttributeName,
