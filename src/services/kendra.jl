@@ -19,16 +19,14 @@ experience with no code.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
 """
-function associate_entities_to_experience(
+associate_entities_to_experience(
     EntityList, Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "AssociateEntitiesToExperience",
+    Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "AssociateEntitiesToExperience",
-        Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_entities_to_experience(
     EntityList,
     Id,
@@ -69,16 +67,14 @@ application experience, see Building a search experience with no code.
   Viewer. For more information on these personas, see Providing access to your search page.
 
 """
-function associate_personas_to_entities(
+associate_personas_to_entities(
     Id, IndexId, Personas; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "AssociatePersonasToEntities",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId, "Personas" => Personas);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "AssociatePersonasToEntities",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId, "Personas" => Personas);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_personas_to_entities(
     Id,
     IndexId,
@@ -120,16 +116,14 @@ more, depending on the number of documents you want to delete.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataSourceSyncJobMetricTarget"`:
 """
-function batch_delete_document(
+batch_delete_document(
     DocumentIdList, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "BatchDeleteDocument",
+    Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "BatchDeleteDocument",
-        Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_document(
     DocumentIdList,
     IndexId,
@@ -164,18 +158,16 @@ specific documents are featured in the search results.
 - `index_id`: The identifier of the index used for featuring results.
 
 """
-function batch_delete_featured_results_set(
+batch_delete_featured_results_set(
     FeaturedResultsSetIds, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "BatchDeleteFeaturedResultsSet",
+    Dict{String,Any}(
+        "FeaturedResultsSetIds" => FeaturedResultsSetIds, "IndexId" => IndexId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "BatchDeleteFeaturedResultsSet",
-        Dict{String,Any}(
-            "FeaturedResultsSetIds" => FeaturedResultsSetIds, "IndexId" => IndexId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_featured_results_set(
     FeaturedResultsSetIds,
     IndexId,
@@ -217,16 +209,14 @@ document is deleted from the index, Amazon Kendra returns NOT_FOUND as the statu
   the CreateIndex  API.
 
 """
-function batch_get_document_status(
+batch_get_document_status(
     DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "BatchGetDocumentStatus",
+    Dict{String,Any}("DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "BatchGetDocumentStatus",
-        Dict{String,Any}("DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_document_status(
     DocumentInfoList,
     IndexId,
@@ -280,16 +270,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access your
   S3 bucket. For more information, see IAM access roles for Amazon Kendra.
 """
-function batch_put_document(
-    Documents, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+batch_put_document(Documents, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "BatchPutDocument",
         Dict{String,Any}("Documents" => Documents, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_put_document(
     Documents,
     IndexId,
@@ -325,16 +312,13 @@ supported in the Amazon Web Services GovCloud (US-West) region.
 - `index_id`: The identifier of the index you want to clear query suggestions from.
 
 """
-function clear_query_suggestions(
-    IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+clear_query_suggestions(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "ClearQuerySuggestions",
         Dict{String,Any}("IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function clear_query_suggestions(
     IndexId,
     params::AbstractDict{String};
@@ -387,18 +371,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HierarchicalAccessControlList"`: The list of principal lists that define the hierarchy
   for which documents users should have access to.
 """
-function create_access_control_configuration(
+create_access_control_configuration(
     IndexId, Name; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "CreateAccessControlConfiguration",
+    Dict{String,Any}(
+        "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "CreateAccessControlConfiguration",
-        Dict{String,Any}(
-            "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_access_control_configuration(
     IndexId,
     Name,
@@ -475,21 +457,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfiguration"`: Configuration information for an Amazon Virtual Private Cloud to
   connect to your data source. For more information, see Configuring a VPC.
 """
-function create_data_source(
+create_data_source(
     IndexId, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "CreateDataSource",
+    Dict{String,Any}(
+        "IndexId" => IndexId,
+        "Name" => Name,
+        "Type" => Type,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "CreateDataSource",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "Type" => Type,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_source(
     IndexId,
     Name,
@@ -543,10 +523,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permission to access IAM Identity Center that stores your user and group information. For
   more information, see IAM access roles for Amazon Kendra.
 """
-function create_experience(
-    IndexId, Name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+create_experience(IndexId, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "CreateExperience",
         Dict{String,Any}(
             "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
@@ -554,7 +532,6 @@ function create_experience(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_experience(
     IndexId,
     Name,
@@ -610,22 +587,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs that identify the FAQ. You can use the tags to
   identify and organize your resources and to control access to resources.
 """
-function create_faq(
+create_faq(
     IndexId, Name, RoleArn, S3Path; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "CreateFaq",
+    Dict{String,Any}(
+        "IndexId" => IndexId,
+        "Name" => Name,
+        "RoleArn" => RoleArn,
+        "S3Path" => S3Path,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "CreateFaq",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "S3Path" => S3Path,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_faq(
     IndexId,
     Name,
@@ -690,18 +665,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values can consist of Unicode letters, digits, white space, and any of the following
   symbols:_ . : / = + - @.
 """
-function create_featured_results_set(
+create_featured_results_set(
     FeaturedResultsSetName, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "CreateFeaturedResultsSet",
+    Dict{String,Any}(
+        "FeaturedResultsSetName" => FeaturedResultsSetName, "IndexId" => IndexId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "CreateFeaturedResultsSet",
-        Dict{String,Any}(
-            "FeaturedResultsSetName" => FeaturedResultsSetName, "IndexId" => IndexId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_featured_results_set(
     FeaturedResultsSetName,
     IndexId,
@@ -770,16 +743,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group access to documents.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
-function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "CreateIndex",
-        Dict{String,Any}(
-            "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_index(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "CreateIndex",
+    Dict{String,Any}(
+        "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_index(
     Name,
     RoleArn,
@@ -839,22 +810,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and values can consist of Unicode letters, digits, white space, and any of the following
   symbols: _ . : / = + - @.
 """
-function create_query_suggestions_block_list(
+create_query_suggestions_block_list(
     IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "CreateQuerySuggestionsBlockList",
+    Dict{String,Any}(
+        "IndexId" => IndexId,
+        "Name" => Name,
+        "RoleArn" => RoleArn,
+        "SourceS3Path" => SourceS3Path,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "CreateQuerySuggestionsBlockList",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "SourceS3Path" => SourceS3Path,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_query_suggestions_block_list(
     IndexId,
     Name,
@@ -909,22 +878,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also use tags to help control access to the thesaurus. Tag keys and values can consist of
   Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 """
-function create_thesaurus(
+create_thesaurus(
     IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "CreateThesaurus",
+    Dict{String,Any}(
+        "IndexId" => IndexId,
+        "Name" => Name,
+        "RoleArn" => RoleArn,
+        "SourceS3Path" => SourceS3Path,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "CreateThesaurus",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "SourceS3Path" => SourceS3Path,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_thesaurus(
     IndexId,
     Name,
@@ -967,16 +934,14 @@ access to documents.
 - `index_id`: The identifier of the index for an access control configuration.
 
 """
-function delete_access_control_configuration(
+delete_access_control_configuration(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DeleteAccessControlConfiguration",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DeleteAccessControlConfiguration",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_control_configuration(
     Id,
     IndexId,
@@ -1009,14 +974,13 @@ on the number of documents you want to delete.
 - `index_id`: The identifier of the index used with the data source connector.
 
 """
-function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
+delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "DeleteDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_data_source(
     Id,
     IndexId,
@@ -1045,14 +1009,12 @@ creating a search application experience, see Building a search experience with 
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
 """
-function delete_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "DeleteExperience",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "DeleteExperience",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_experience(
     Id,
     IndexId,
@@ -1080,14 +1042,12 @@ Removes an FAQ from an index.
 - `index_id`: The identifier of the index for the FAQ.
 
 """
-function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "DeleteFaq",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "DeleteFaq",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_faq(
     Id,
     IndexId,
@@ -1116,14 +1076,12 @@ DescribeIndex API is set to DELETING.
 - `id`: The identifier of the index you want to delete.
 
 """
-function delete_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "DeleteIndex",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_index(Id; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "DeleteIndex",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1175,16 +1133,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   yet to be processed. The default ordering ID is the current Unix time in milliseconds that
   the action was received by Amazon Kendra.
 """
-function delete_principal_mapping(
+delete_principal_mapping(
     GroupId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DeletePrincipalMapping",
+    Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DeletePrincipalMapping",
-        Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_principal_mapping(
     GroupId,
     IndexId,
@@ -1217,16 +1173,14 @@ currently not supported in the Amazon Web Services GovCloud (US-West) region.
 - `index_id`: The identifier of the index for the block list.
 
 """
-function delete_query_suggestions_block_list(
+delete_query_suggestions_block_list(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DeleteQuerySuggestionsBlockList",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DeleteQuerySuggestionsBlockList",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_query_suggestions_block_list(
     Id,
     IndexId,
@@ -1254,14 +1208,12 @@ Deletes an Amazon Kendra thesaurus.
 - `index_id`: The identifier of the index for the thesaurus.
 
 """
-function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "DeleteThesaurus",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "DeleteThesaurus",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_thesaurus(
     Id,
     IndexId,
@@ -1292,16 +1244,14 @@ their group access to documents.
 - `index_id`: The identifier of the index for an access control configuration.
 
 """
-function describe_access_control_configuration(
+describe_access_control_configuration(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DescribeAccessControlConfiguration",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DescribeAccessControlConfiguration",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_access_control_configuration(
     Id,
     IndexId,
@@ -1329,16 +1279,13 @@ Gets information about an Amazon Kendra data source connector.
 - `index_id`: The identifier of the index used with the data source connector.
 
 """
-function describe_data_source(
-    Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+describe_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "DescribeDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_data_source(
     Id,
     IndexId,
@@ -1368,16 +1315,13 @@ with no code.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
 """
-function describe_experience(
-    Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+describe_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "DescribeExperience",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_experience(
     Id,
     IndexId,
@@ -1405,14 +1349,12 @@ Gets information about an FAQ list.
 - `index_id`: The identifier of the index for the FAQ.
 
 """
-function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "DescribeFaq",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "DescribeFaq",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_faq(
     Id,
     IndexId,
@@ -1443,18 +1385,14 @@ specific documents are featured in the search results.
 - `index_id`: The identifier of the index used for featuring results.
 
 """
-function describe_featured_results_set(
+describe_featured_results_set(
     FeaturedResultsSetId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DescribeFeaturedResultsSet",
+    Dict{String,Any}("FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DescribeFeaturedResultsSet",
-        Dict{String,Any}(
-            "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_featured_results_set(
     FeaturedResultsSetId,
     IndexId,
@@ -1487,14 +1425,12 @@ Gets information about an Amazon Kendra index.
 - `id`: The identifier of the index you want to get information on.
 
 """
-function describe_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "DescribeIndex",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_index(Id; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "DescribeIndex",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1528,16 +1464,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSourceId"`: The identifier of the data source to check the processing of PUT and
   DELETE actions for mapping users to their groups.
 """
-function describe_principal_mapping(
+describe_principal_mapping(
     GroupId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DescribePrincipalMapping",
+    Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DescribePrincipalMapping",
-        Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_principal_mapping(
     GroupId,
     IndexId,
@@ -1570,16 +1504,14 @@ GovCloud (US-West) region.
 - `index_id`: The identifier of the index for the block list.
 
 """
-function describe_query_suggestions_block_list(
+describe_query_suggestions_block_list(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DescribeQuerySuggestionsBlockList",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DescribeQuerySuggestionsBlockList",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_query_suggestions_block_list(
     Id,
     IndexId,
@@ -1609,16 +1541,14 @@ currently not supported in the Amazon Web Services GovCloud (US-West) region.
   information on.
 
 """
-function describe_query_suggestions_config(
+describe_query_suggestions_config(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DescribeQuerySuggestionsConfig",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DescribeQuerySuggestionsConfig",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_query_suggestions_config(
     IndexId,
     params::AbstractDict{String};
@@ -1643,14 +1573,13 @@ Gets information about an Amazon Kendra thesaurus.
 - `index_id`: The identifier of the index for the thesaurus.
 
 """
-function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
+describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "DescribeThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_thesaurus(
     Id,
     IndexId,
@@ -1682,16 +1611,14 @@ a search experience with no code.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
 """
-function disassociate_entities_from_experience(
+disassociate_entities_from_experience(
     EntityList, Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DisassociateEntitiesFromExperience",
+    Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DisassociateEntitiesFromExperience",
-        Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_entities_from_experience(
     EntityList,
     Id,
@@ -1731,16 +1658,14 @@ application experience, see Building a search experience with no code.
 - `index_id`: The identifier of the index for your Amazon Kendra experience.
 
 """
-function disassociate_personas_from_entities(
+disassociate_personas_from_entities(
     EntityIds, Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "DisassociatePersonasFromEntities",
+    Dict{String,Any}("EntityIds" => EntityIds, "Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "DisassociatePersonasFromEntities",
-        Dict{String,Any}("EntityIds" => EntityIds, "Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_personas_from_entities(
     EntityIds,
     Id,
@@ -1792,16 +1717,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fields/attributes as your suggestions type, Amazon Kendra suggests queries relevant to your
   users based on the contents of document fields.
 """
-function get_query_suggestions(
+get_query_suggestions(
     IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "GetQuerySuggestions",
+    Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "GetQuerySuggestions",
-        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_query_suggestions(
     IndexId,
     QueryText,
@@ -1852,18 +1775,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of search metrics data.
 """
-function get_snapshots(
+get_snapshots(
     IndexId, Interval, MetricType; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "GetSnapshots",
+    Dict{String,Any}(
+        "IndexId" => IndexId, "Interval" => Interval, "MetricType" => MetricType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "GetSnapshots",
-        Dict{String,Any}(
-            "IndexId" => IndexId, "Interval" => Interval, "MetricType" => MetricType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_snapshots(
     IndexId,
     Interval,
@@ -1905,16 +1826,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of access control configurations.
 """
-function list_access_control_configurations(
+list_access_control_configurations(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "ListAccessControlConfigurations",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "ListAccessControlConfigurations",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_access_control_configurations(
     IndexId,
     params::AbstractDict{String};
@@ -1950,16 +1869,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusFilter"`: Only returns synchronization jobs with the Status field equal to the
   specified status.
 """
-function list_data_source_sync_jobs(
+list_data_source_sync_jobs(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "ListDataSourceSyncJobs",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "ListDataSourceSyncJobs",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_data_source_sync_jobs(
     Id,
     IndexId,
@@ -1992,14 +1909,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of data source connectors.
 """
-function list_data_sources(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "ListDataSources",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_data_sources(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "ListDataSources",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_data_sources(
     IndexId,
     params::AbstractDict{String};
@@ -2030,16 +1945,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of users or groups.
 """
-function list_entity_personas(
-    Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+list_entity_personas(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "ListEntityPersonas",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_entity_personas(
     Id,
     IndexId,
@@ -2075,16 +1987,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of users or groups.
 """
-function list_experience_entities(
-    Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+list_experience_entities(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "ListExperienceEntities",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_experience_entities(
     Id,
     IndexId,
@@ -2119,14 +2028,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of Amazon Kendra experiences.
 """
-function list_experiences(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "ListExperiences",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_experiences(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "ListExperiences",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_experiences(
     IndexId,
     params::AbstractDict{String};
@@ -2157,14 +2064,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of FAQs.
 """
-function list_faqs(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "ListFaqs",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_faqs(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "ListFaqs",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_faqs(
     IndexId,
     params::AbstractDict{String};
@@ -2196,16 +2101,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response. You can use this pagination token to retrieve the next set of featured
   results sets.
 """
-function list_featured_results_sets(
-    IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+list_featured_results_sets(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "ListFeaturedResultsSets",
         Dict{String,Any}("IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_featured_results_sets(
     IndexId,
     params::AbstractDict{String};
@@ -2244,16 +2146,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of groups that are mapped to users before a given
   ordering or timestamp identifier.
 """
-function list_groups_older_than_ordering_id(
+list_groups_older_than_ordering_id(
     IndexId, OrderingId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "ListGroupsOlderThanOrderingId",
+    Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "ListGroupsOlderThanOrderingId",
-        Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_groups_older_than_ordering_id(
     IndexId,
     OrderingId,
@@ -2287,9 +2187,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of indexes.
 """
-function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_indices(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2319,16 +2218,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of block lists (BlockListSummaryItems).
 """
-function list_query_suggestions_block_lists(
+list_query_suggestions_block_lists(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "ListQuerySuggestionsBlockLists",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "ListQuerySuggestionsBlockLists",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_query_suggestions_block_lists(
     IndexId,
     params::AbstractDict{String};
@@ -2354,16 +2251,13 @@ can have tags associated with them.
   list of tags for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2395,14 +2289,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
 """
-function list_thesauri(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "ListThesauri",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_thesauri(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "ListThesauri",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_thesauri(
     IndexId,
     params::AbstractDict{String};
@@ -2463,18 +2355,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains your list of users or sub groups that belong to a group. For more information, see
   IAM roles for Amazon Kendra.
 """
-function put_principal_mapping(
+put_principal_mapping(
     GroupId, GroupMembers, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "PutPrincipalMapping",
+    Dict{String,Any}(
+        "GroupId" => GroupId, "GroupMembers" => GroupMembers, "IndexId" => IndexId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "PutPrincipalMapping",
-        Dict{String,Any}(
-            "GroupId" => GroupId, "GroupMembers" => GroupMembers, "IndexId" => IndexId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_principal_mapping(
     GroupId,
     GroupMembers,
@@ -2577,14 +2467,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique identifier, such as a GUID. Don't use personally identifiable information, such as
   the user's email address, as the VisitorId.
 """
-function query(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "Query",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+query(IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "Query",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function query(
     IndexId,
     params::AbstractDict{String};
@@ -2652,14 +2540,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document fields are included in the response.
 - `"UserContext"`: The user context token or user and group information.
 """
-function retrieve(IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "Retrieve",
-        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+retrieve(IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "Retrieve",
+    Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function retrieve(
     IndexId,
     QueryText,
@@ -2695,16 +2581,14 @@ documents to sync.
 - `index_id`: The identifier of the index used with the data source connector.
 
 """
-function start_data_source_sync_job(
+start_data_source_sync_job(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "StartDataSourceSyncJob",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "StartDataSourceSyncJob",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_data_source_sync_job(
     Id,
     IndexId,
@@ -2734,16 +2618,13 @@ synchronization job.
 - `index_id`: The identifier of the index used with the data source connector.
 
 """
-function stop_data_source_sync_job(
-    Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+stop_data_source_sync_job(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "StopDataSourceSyncJob",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_data_source_sync_job(
     Id,
     IndexId,
@@ -2780,16 +2661,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RelevanceFeedbackItems"`: Provides Amazon Kendra with relevant or not relevant feedback
   for whether a particular item was relevant to the search.
 """
-function submit_feedback(
-    IndexId, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+submit_feedback(IndexId, QueryId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "SubmitFeedback",
         Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function submit_feedback(
     IndexId,
     QueryId,
@@ -2821,14 +2699,13 @@ already exists, the existing value is replaced with the new value.
   exists, the existing value is replaced with the new value.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2862,16 +2739,13 @@ Removes a tag from an index, FAQ, or a data source.
   key does not exist on the resource, it is ignored.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kendra(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2927,16 +2801,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hierarchy for which documents users should have access to.
 - `"Name"`: A new name for the access control configuration.
 """
-function update_access_control_configuration(
+update_access_control_configuration(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "UpdateAccessControlConfiguration",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "UpdateAccessControlConfiguration",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_access_control_configuration(
     Id,
     IndexId,
@@ -2984,14 +2856,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfiguration"`: Configuration information for an Amazon Virtual Private Cloud to
   connect to your data source. For more information, see Configuring a VPC.
 """
-function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
+update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    kendra(
         "UpdateDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_data_source(
     Id,
     IndexId,
@@ -3029,14 +2900,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your
   user and group information. For more information, see IAM roles for Amazon Kendra.
 """
-function update_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "UpdateExperience",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "UpdateExperience",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_experience(
     Id,
     IndexId,
@@ -3081,18 +2950,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the status to ACTIVE. The queries you specify for featured results must be unique per
   featured results set for each index, whether the status is ACTIVE or INACTIVE.
 """
-function update_featured_results_set(
+update_featured_results_set(
     FeaturedResultsSetId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "UpdateFeaturedResultsSet",
+    Dict{String,Any}("FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "UpdateFeaturedResultsSet",
-        Dict{String,Any}(
-            "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_featured_results_set(
     FeaturedResultsSetId,
     IndexId,
@@ -3144,14 +3009,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group access to documents.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
-function update_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "UpdateIndex",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_index(Id; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "UpdateIndex",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3193,16 +3056,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   refreshes all query suggestions with the latest content in the S3 file. This means changes
   might not take effect immediately.
 """
-function update_query_suggestions_block_list(
+update_query_suggestions_block_list(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "UpdateQuerySuggestionsBlockList",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "UpdateQuerySuggestionsBlockList",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_query_suggestions_block_list(
     Id,
     IndexId,
@@ -3265,16 +3126,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   window. The time window is the number of days from current day to past days. By default,
   Amazon Kendra sets this to 180.
 """
-function update_query_suggestions_config(
+update_query_suggestions_config(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
+) = kendra(
+    "UpdateQuerySuggestionsConfig",
+    Dict{String,Any}("IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kendra(
-        "UpdateQuerySuggestionsConfig",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_query_suggestions_config(
     IndexId,
     params::AbstractDict{String};
@@ -3306,14 +3165,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in SourceS3Path.
 - `"SourceS3Path"`:
 """
-function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra(
-        "UpdateThesaurus",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()) = kendra(
+    "UpdateThesaurus",
+    Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_thesaurus(
     Id,
     IndexId,
