@@ -39,7 +39,7 @@ jobs:
       # Integration tests require OIDC which will fail when running on a PR from a fork.
       RUN_INTEGRATION_TESTS: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Debug OIDC Claims
         if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
         continue-on-error: true
