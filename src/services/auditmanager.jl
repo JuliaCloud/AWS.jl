@@ -15,17 +15,15 @@ using AWS.UUIDs
 - `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 
 """
-function associate_assessment_report_evidence_folder(
+associate_assessment_report_evidence_folder(
     assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/associateToAssessmentReport",
+    Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/associateToAssessmentReport",
-        Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_assessment_report_evidence_folder(
     assessmentId,
     evidenceFolderId,
@@ -57,22 +55,18 @@ end
 - `evidence_ids`:  The list of evidence identifiers.
 
 """
-function batch_associate_assessment_report_evidence(
+batch_associate_assessment_report_evidence(
     assessmentId,
     evidenceFolderId,
     evidenceIds;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/batchAssociateToAssessmentReport",
+    Dict{String,Any}("evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchAssociateToAssessmentReport",
-        Dict{String,Any}(
-            "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_associate_assessment_report_evidence(
     assessmentId,
     evidenceFolderId,
@@ -109,19 +103,17 @@ end
   Manager.
 
 """
-function batch_create_delegation_by_assessment(
+batch_create_delegation_by_assessment(
     assessmentId,
     createDelegationRequests;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "POST",
+    "/assessments/$(assessmentId)/delegations",
+    Dict{String,Any}("createDelegationRequests" => createDelegationRequests);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}("createDelegationRequests" => createDelegationRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_create_delegation_by_assessment(
     assessmentId,
     createDelegationRequests,
@@ -154,17 +146,15 @@ end
 - `delegation_ids`:  The identifiers for the delegations.
 
 """
-function batch_delete_delegation_by_assessment(
+batch_delete_delegation_by_assessment(
     assessmentId, delegationIds; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/delegations",
+    Dict{String,Any}("delegationIds" => delegationIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}("delegationIds" => delegationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_delegation_by_assessment(
     assessmentId,
     delegationIds,
@@ -194,22 +184,18 @@ end
 - `evidence_ids`:  The list of evidence identifiers.
 
 """
-function batch_disassociate_assessment_report_evidence(
+batch_disassociate_assessment_report_evidence(
     assessmentId,
     evidenceFolderId,
     evidenceIds;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport",
+    Dict{String,Any}("evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport",
-        Dict{String,Any}(
-            "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_disassociate_assessment_report_evidence(
     assessmentId,
     evidenceFolderId,
@@ -255,21 +241,19 @@ Quotas and restrictions for Audit Manager.
 - `manual_evidence`:  The list of manual evidence objects.
 
 """
-function batch_import_evidence_to_assessment_control(
+batch_import_evidence_to_assessment_control(
     assessmentId,
     controlId,
     controlSetId,
     manualEvidence;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "POST",
+    "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence",
+    Dict{String,Any}("manualEvidence" => manualEvidence);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence",
-        Dict{String,Any}("manualEvidence" => manualEvidence);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_import_evidence_to_assessment_control(
     assessmentId,
     controlId,
@@ -309,28 +293,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  The optional description of the assessment to be created.
 - `"tags"`:  The tags that are associated with the assessment.
 """
-function create_assessment(
+create_assessment(
     assessmentReportsDestination,
     frameworkId,
     name,
     roles,
     scope;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "POST",
+    "/assessments",
+    Dict{String,Any}(
+        "assessmentReportsDestination" => assessmentReportsDestination,
+        "frameworkId" => frameworkId,
+        "name" => name,
+        "roles" => roles,
+        "scope" => scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessments",
-        Dict{String,Any}(
-            "assessmentReportsDestination" => assessmentReportsDestination,
-            "frameworkId" => frameworkId,
-            "name" => name,
-            "roles" => roles,
-            "scope" => scope,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_assessment(
     assessmentReportsDestination,
     frameworkId,
@@ -378,17 +360,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  An optional description for the new custom framework.
 - `"tags"`:  The tags that are associated with the framework.
 """
-function create_assessment_framework(
+create_assessment_framework(
     controlSets, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "POST",
+    "/assessmentFrameworks",
+    Dict{String,Any}("controlSets" => controlSets, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks",
-        Dict{String,Any}("controlSets" => controlSets, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_assessment_framework(
     controlSets,
     name,
@@ -433,17 +413,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validation exceptions, see Troubleshooting evidence finder issues in the Audit Manager User
   Guide.
 """
-function create_assessment_report(
+create_assessment_report(
     assessmentId, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "POST",
+    "/assessments/$(assessmentId)/reports",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/reports",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_assessment_report(
     assessmentId,
     name,
@@ -478,17 +456,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tags that are associated with the control.
 - `"testingInformation"`:  The steps to follow to determine if the control is satisfied.
 """
-function create_control(
+create_control(
     controlMappingSources, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "POST",
+    "/controls",
+    Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/controls",
-        Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_control(
     controlMappingSources,
     name,
@@ -522,14 +498,13 @@ end
 - `assessment_id`:  The identifier for the assessment.
 
 """
-function delete_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+delete_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "DELETE",
         "/assessments/$(assessmentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -554,16 +529,14 @@ end
 - `framework_id`:  The identifier for the custom framework.
 
 """
-function delete_assessment_framework(
+delete_assessment_framework(
     frameworkId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "DELETE",
+    "/assessmentFrameworks/$(frameworkId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworks/$(frameworkId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_assessment_framework(
     frameworkId,
     params::AbstractDict{String};
@@ -590,17 +563,15 @@ end
   request.
 
 """
-function delete_assessment_framework_share(
+delete_assessment_framework_share(
     requestId, requestType; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "DELETE",
+    "/assessmentFrameworkShareRequests/$(requestId)",
+    Dict{String,Any}("requestType" => requestType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}("requestType" => requestType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_assessment_framework_share(
     requestId,
     requestType,
@@ -642,16 +613,14 @@ Reference.
 - `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
-function delete_assessment_report(
+delete_assessment_report(
     assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "DELETE",
+    "/assessments/$(assessmentId)/reports/$(assessmentReportId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_assessment_report(
     assessmentId,
     assessmentReportId,
@@ -681,14 +650,13 @@ custom control.
 - `control_id`:  The unique identifier for the control.
 
 """
-function delete_control(controlId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+delete_control(controlId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "DELETE",
         "/controls/$(controlId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_control(
     controlId,
     params::AbstractDict{String};
@@ -714,14 +682,12 @@ DeregistrationPolicy attribute to request the deletion of your data.  For more i
 about data retention, see Data Protection in the Audit Manager User Guide.
 
 """
-function deregister_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "POST",
-        "/account/deregisterAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+deregister_account(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "POST",
+    "/account/deregisterAccount";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function deregister_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,16 +740,14 @@ account at the time of deregistration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"adminAccountId"`:  The identifier for the administrator account.
 """
-function deregister_organization_admin_account(;
+deregister_organization_admin_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "POST",
+    "/account/deregisterOrganizationAdminAccount";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/account/deregisterOrganizationAdminAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_organization_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,17 +772,15 @@ end
   in.
 
 """
-function disassociate_assessment_report_evidence_folder(
+disassociate_assessment_report_evidence_folder(
     assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/disassociateFromAssessmentReport",
+    Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/disassociateFromAssessmentReport",
-        Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_assessment_report_evidence_folder(
     assessmentId,
     evidenceFolderId,
@@ -845,11 +807,9 @@ end
  Gets the registration status of an account in Audit Manager.
 
 """
-function get_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/account/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_account_status(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "GET", "/account/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -872,14 +832,13 @@ Gets information about a specified assessment.
 - `assessment_id`: The unique identifier for the assessment.
 
 """
-function get_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+get_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/assessments/$(assessmentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -904,16 +863,13 @@ Gets information about a specified framework.
 - `framework_id`:  The identifier for the framework.
 
 """
-function get_assessment_framework(
-    frameworkId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+get_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/assessmentFrameworks/$(frameworkId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_assessment_framework(
     frameworkId,
     params::AbstractDict{String};
@@ -939,16 +895,14 @@ end
 - `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
-function get_assessment_report_url(
+get_assessment_report_url(
     assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_assessment_report_url(
     assessmentId,
     assessmentReportId,
@@ -981,14 +935,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_change_logs(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+get_change_logs(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/assessments/$(assessmentId)/changelogs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_change_logs(
     assessmentId,
     params::AbstractDict{String};
@@ -1013,14 +966,12 @@ end
 - `control_id`:  The identifier for the control.
 
 """
-function get_control(controlId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_control(controlId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "GET",
+    "/controls/$(controlId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_control(
     controlId,
     params::AbstractDict{String};
@@ -1047,11 +998,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_delegations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/delegations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_delegations(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "GET", "/delegations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_delegations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1078,20 +1027,18 @@ end
 - `evidence_id`:  The unique identifier for the evidence.
 
 """
-function get_evidence(
+get_evidence(
     assessmentId,
     controlSetId,
     evidenceFolderId,
     evidenceId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "GET",
+    "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_evidence(
     assessmentId,
     controlSetId,
@@ -1127,19 +1074,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_by_evidence_folder(
+get_evidence_by_evidence_folder(
     assessmentId,
     controlSetId,
     evidenceFolderId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "GET",
+    "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_evidence_by_evidence_folder(
     assessmentId,
     controlSetId,
@@ -1173,17 +1118,14 @@ see Quotas and restrictions for Audit Manager.
   Supported file types for manual evidence in the Audit Manager User Guide.
 
 """
-function get_evidence_file_upload_url(
-    fileName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+get_evidence_file_upload_url(fileName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/evidenceFileUploadUrl",
         Dict{String,Any}("fileName" => fileName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_evidence_file_upload_url(
     fileName,
     params::AbstractDict{String};
@@ -1213,19 +1155,17 @@ end
   in.
 
 """
-function get_evidence_folder(
+get_evidence_folder(
     assessmentId,
     controlSetId,
     evidenceFolderId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "GET",
+    "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_evidence_folder(
     assessmentId,
     controlSetId,
@@ -1257,16 +1197,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_folders_by_assessment(
+get_evidence_folders_by_assessment(
     assessmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/assessments/$(assessmentId)/evidenceFolders";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_evidence_folders_by_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -1299,19 +1237,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_folders_by_assessment_control(
+get_evidence_folders_by_assessment_control(
     assessmentId,
     controlId,
     controlSetId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "GET",
+    "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_evidence_folders_by_assessment_control(
     assessmentId,
     controlId,
@@ -1335,11 +1271,8 @@ end
 Gets the latest analytics data for all your current active assessments.
 
 """
-function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_insights(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager("GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1358,16 +1291,14 @@ Gets the latest analytics data for a specific active assessment.
 - `assessment_id`: The unique identifier for the assessment.
 
 """
-function get_insights_by_assessment(
+get_insights_by_assessment(
     assessmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/insights/assessments/$(assessmentId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/insights/assessments/$(assessmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_insights_by_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -1390,16 +1321,13 @@ end
 organization.
 
 """
-function get_organization_admin_account(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+get_organization_admin_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/account/organizationAdminAccount";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_organization_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1425,11 +1353,8 @@ services in scope manually, see I can't edit the services in scope for my assess
 Troubleshooting section of the Audit Manager user guide.
 
 """
-function get_services_in_scope(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_services_in_scope(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager("GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_services_in_scope(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1448,14 +1373,12 @@ end
 - `attribute`:  The list of setting attribute enum values.
 
 """
-function get_settings(attribute; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/settings/$(attribute)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_settings(attribute; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "GET",
+    "/settings/$(attribute)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_settings(
     attribute,
     params::AbstractDict{String};
@@ -1493,19 +1416,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_control_insights_by_control_domain(
+list_assessment_control_insights_by_control_domain(
     assessmentId, controlDomainId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/insights/controls-by-assessment",
+    Dict{String,Any}("assessmentId" => assessmentId, "controlDomainId" => controlDomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/insights/controls-by-assessment",
-        Dict{String,Any}(
-            "assessmentId" => assessmentId, "controlDomainId" => controlDomainId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_assessment_control_insights_by_control_domain(
     assessmentId,
     controlDomainId,
@@ -1545,17 +1464,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_framework_share_requests(
+list_assessment_framework_share_requests(
     requestType; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/assessmentFrameworkShareRequests",
+    Dict{String,Any}("requestType" => requestType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworkShareRequests",
-        Dict{String,Any}("requestType" => requestType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_assessment_framework_share_requests(
     requestType,
     params::AbstractDict{String};
@@ -1589,17 +1506,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_frameworks(
+list_assessment_frameworks(
     frameworkType; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/assessmentFrameworks",
+    Dict{String,Any}("frameworkType" => frameworkType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks",
-        Dict{String,Any}("frameworkType" => frameworkType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_assessment_frameworks(
     frameworkType,
     params::AbstractDict{String};
@@ -1628,11 +1543,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_reports(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+list_assessment_reports(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET", "/assessmentReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_assessment_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1658,11 +1572,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 - `"status"`:  The current status of the assessment.
 """
-function list_assessments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_assessments(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "GET", "/assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1693,14 +1605,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_control_domain_insights(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+list_control_domain_insights(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/insights/control-domains";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_control_domain_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1734,17 +1645,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_control_domain_insights_by_assessment(
+list_control_domain_insights_by_assessment(
     assessmentId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/insights/control-domains-by-assessment",
+    Dict{String,Any}("assessmentId" => assessmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/insights/control-domains-by-assessment",
-        Dict{String,Any}("assessmentId" => assessmentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_control_domain_insights_by_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -1783,17 +1692,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_control_insights_by_control_domain(
+list_control_insights_by_control_domain(
     controlDomainId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "GET",
+    "/insights/controls",
+    Dict{String,Any}("controlDomainId" => controlDomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "GET",
-        "/insights/controls",
-        Dict{String,Any}("controlDomainId" => controlDomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_control_insights_by_control_domain(
     controlDomainId,
     params::AbstractDict{String};
@@ -1837,15 +1744,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_controls(controlType; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+list_controls(controlType; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/controls",
         Dict{String,Any}("controlType" => controlType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_controls(
     controlType,
     params::AbstractDict{String};
@@ -1877,17 +1783,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_keywords_for_data_source(
-    source; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+list_keywords_for_data_source(source; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/dataSourceKeywords",
         Dict{String,Any}("source" => source);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_keywords_for_data_source(
     source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1912,11 +1815,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_notifications(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "GET", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1939,16 +1840,13 @@ end
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1974,14 +1872,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"delegatedAdminAccount"`:  The delegated administrator account for Audit Manager.
 - `"kmsKey"`:  The KMS key details.
 """
-function register_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "POST",
-        "/account/registerAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+register_account(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager(
+    "POST",
+    "/account/registerAccount";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function register_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2005,17 +1901,15 @@ administrator for Audit Manager.
 - `admin_account_id`:  The identifier for the delegated administrator account.
 
 """
-function register_organization_admin_account(
+register_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "POST",
+    "/account/registerOrganizationAdminAccount",
+    Dict{String,Any}("adminAccountId" => adminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/account/registerOrganizationAdminAccount",
-        Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -2066,23 +1960,21 @@ see Framework sharing eligibility in the Audit Manager User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"comment"`:  An optional comment from the sender about the share request.
 """
-function start_assessment_framework_share(
+start_assessment_framework_share(
     destinationAccount,
     destinationRegion,
     frameworkId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "POST",
+    "/assessmentFrameworks/$(frameworkId)/shareRequests",
+    Dict{String,Any}(
+        "destinationAccount" => destinationAccount,
+        "destinationRegion" => destinationRegion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks/$(frameworkId)/shareRequests",
-        Dict{String,Any}(
-            "destinationAccount" => destinationAccount,
-            "destinationRegion" => destinationRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_assessment_framework_share(
     destinationAccount,
     destinationRegion,
@@ -2119,15 +2011,14 @@ end
 - `tags`:  The tags that are associated with the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -2154,17 +2045,14 @@ end
 - `tag_keys`:  The name or key of the tag.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2198,17 +2086,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assessment that's being updated.
 - `"roles"`:  The list of roles for the assessment.
 """
-function update_assessment(
-    assessmentId, scope; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
+update_assessment(assessmentId, scope; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager(
         "PUT",
         "/assessments/$(assessmentId)",
         Dict{String,Any}("scope" => scope);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_assessment(
     assessmentId,
     scope,
@@ -2240,19 +2125,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"commentBody"`:  The comment body text for the control.
 - `"controlStatus"`:  The status of the control.
 """
-function update_assessment_control(
+update_assessment_control(
     assessmentId,
     controlId,
     controlSetId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_assessment_control(
     assessmentId,
     controlId,
@@ -2282,21 +2165,19 @@ end
 - `status`:  The status of the control set that's being updated.
 
 """
-function update_assessment_control_set_status(
+update_assessment_control_set_status(
     assessmentId,
     comment,
     controlSetId,
     status;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status",
+    Dict{String,Any}("comment" => comment, "status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status",
-        Dict{String,Any}("comment" => comment, "status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_assessment_control_set_status(
     assessmentId,
     comment,
@@ -2335,17 +2216,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CIS or HIPAA.
 - `"description"`:  The description of the updated framework.
 """
-function update_assessment_framework(
+update_assessment_framework(
     controlSets, frameworkId, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "PUT",
+    "/assessmentFrameworks/$(frameworkId)",
+    Dict{String,Any}("controlSets" => controlSets, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworks/$(frameworkId)",
-        Dict{String,Any}("controlSets" => controlSets, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_assessment_framework(
     controlSets,
     frameworkId,
@@ -2381,17 +2260,15 @@ end
   request.
 
 """
-function update_assessment_framework_share(
+update_assessment_framework_share(
     action, requestId, requestType; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "PUT",
+    "/assessmentFrameworkShareRequests/$(requestId)",
+    Dict{String,Any}("action" => action, "requestType" => requestType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}("action" => action, "requestType" => requestType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_assessment_framework_share(
     action,
     requestId,
@@ -2425,17 +2302,15 @@ end
 - `status`:  The current status of the assessment.
 
 """
-function update_assessment_status(
+update_assessment_status(
     assessmentId, status; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "PUT",
+    "/assessments/$(assessmentId)/status",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/status",
-        Dict{String,Any}("status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_assessment_status(
     assessmentId,
     status,
@@ -2471,20 +2346,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testingInformation"`:  The steps that you should follow to determine if the control is
   met.
 """
-function update_control(
+update_control(
     controlId,
     controlMappingSources,
     name;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = auditmanager(
+    "PUT",
+    "/controls/$(controlId)",
+    Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "PUT",
-        "/controls/$(controlId)",
-        Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_control(
     controlId,
     controlMappingSources,
@@ -2533,11 +2406,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"snsTopic"`:  The Amazon Simple Notification Service (Amazon SNS) topic that Audit
   Manager sends notifications to.
 """
-function update_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    auditmanager("PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2557,17 +2427,15 @@ end
   is stored in.
 
 """
-function validate_assessment_report_integrity(
+validate_assessment_report_integrity(
     s3RelativePath; aws_config::AbstractAWSConfig=current_aws_config()
+) = auditmanager(
+    "POST",
+    "/assessmentReports/integrity",
+    Dict{String,Any}("s3RelativePath" => s3RelativePath);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auditmanager(
-        "POST",
-        "/assessmentReports/integrity",
-        Dict{String,Any}("s3RelativePath" => s3RelativePath);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function validate_assessment_report_integrity(
     s3RelativePath,
     params::AbstractDict{String};
