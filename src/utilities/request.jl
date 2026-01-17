@@ -63,7 +63,7 @@ Base.@kwdef mutable struct Request
     request_method::String
 
     headers::AbstractDict{String,String} = LittleDict{String,String}()
-    content::Union{String,Vector{UInt8}} = ""
+    content::Union{String,Vector{UInt8},IO} = ""
     resource::String = ""
     url::String = ""
 
@@ -118,6 +118,12 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "EC2ThrottledException",
     ]
 
+    if isa(request.content, IO)
+        request.headers["x-amz-content-sha256"] = "UNSIGNED-PAYLOAD"
+    else
+        request.headers["Content-MD5"] = base64encode(
+            digest(MD_MD5, request.content))
+    end
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
     stream = @something request.response_stream IOBuffer()
