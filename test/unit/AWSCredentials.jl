@@ -1321,6 +1321,29 @@ end
             end
         end
 
+        # `AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE` should be preferred over
+        # `AWS_CONTAINER_AUTHORIZATION_TOKEN`.
+        mktempdir() do dir
+            token_file = joinpath(dir, "my_token")
+            token = "Basic abcd"
+            write(token_file, token)
+            withenv(
+                "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost/get-credentials",
+                "AWS_CONTAINER_AUTHORIZATION_TOKEN" => "Basic wxyz",
+                "AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE" => token_file,
+            ) do
+                apply(full_uri_patch) do
+                    result = ecs_instance_credentials()
+                    @test result.access_key_id == full_uri_json["AccessKeyId"]
+                    @test result.secret_key == full_uri_json["SecretAccessKey"]
+                    @test result.token == full_uri_json["Token"]
+                    @test result.user_arn == full_uri_json["RoleArn"]
+                    @test result.expiry == expiration
+                    @test result.renew == ecs_instance_credentials
+                end
+            end
+        end
+
         # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` should be preferred over
         # `AWS_CONTAINER_CREDENTIALS_FULL_URI`.
         withenv(

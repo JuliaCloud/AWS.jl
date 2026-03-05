@@ -320,7 +320,12 @@ function ecs_instance_credentials()
     end
 
     headers = Pair{String,String}[]
-    if haskey(ENV, "AWS_CONTAINER_AUTHORIZATION_TOKEN")
+    if haskey(ENV, "AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE")
+        push!(
+            headers,
+            "Authorization" => read(ENV["AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"], String),
+        )
+    elseif haskey(ENV, "AWS_CONTAINER_AUTHORIZATION_TOKEN")
         push!(headers, "Authorization" => ENV["AWS_CONTAINER_AUTHORIZATION_TOKEN"])
     end
 
