@@ -458,6 +458,18 @@ end
     end
 end
 
+# TODO: Tests no longer work as we cannot create new vaults. We should find another Rest
+# JSON to test against.
+#
+# > NOTICE: Amazon Glacier (original standalone vault-based service) will no longer
+# > accept new customers starting on December 15, 2025. Amazon Glacier stores data in
+# > vaults and is distinct from Amazon S3 and the S3 Glacier storage classes. Your
+# > existing data will remain secure and accessible in Amazon Glacier indefinitely.
+# > For enhanced archival storage, we recommend S3 Glacier storage classes which
+# > provide a superior experience with S3 APIs, full AWS Region availability, and
+# > lower costs. Learn about S3 Glacier storage classes.
+# – https://aws.amazon.com/s3/glacier/pricing/
+#=
 @testset "Rest JSON" begin
     @testset "Glacier" begin
         @test AWSServices.glacier isa RestJSONService
@@ -559,3 +571,4 @@ end
         end
     end
 end
+=#
