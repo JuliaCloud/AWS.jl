@@ -19,7 +19,7 @@ function _generate_low_level_wrappers(
     end
     """
 
-    open(services_path, "w") do f
+    open(LOW_LEVEL_SERVICES_FILE, "w") do f
         print(f, template)
     end
 

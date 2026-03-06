@@ -4,11 +4,9 @@ Generate the `src/services/{service}.jl` file.
 function _generate_high_level_wrapper(
     service_files::AbstractArray{ServiceFile}, auth::GitHub.OAuth2
 )
-    service_dir = joinpath(@__DIR__, "..", "services")
-
     # Remove old service files to ensure services that no longer exist are removed.
-    for file in readdir(service_dir)
-        path = joinpath(service_dir, file)
+    for file in readdir(HIGH_LEVEL_SERVICES_DIR)
+        path = joinpath(HIGH_LEVEL_SERVICES_DIR, file)
         if endswith(path, ".jl")
             rm(path)
         end
@@ -30,7 +28,7 @@ function _generate_high_level_wrapper(
             _generate_high_level_definitions(service_name, protocol, operations, shapes)
         )
 
-        service_path = joinpath(service_dir, "$service_name.jl")
+        service_path = joinpath(HIGH_LEVEL_SERVICES_DIR, "$service_name.jl")
         open(service_path, "w") do f
             println(
                 f,
