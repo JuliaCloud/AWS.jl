@@ -14,7 +14,7 @@ function _generate_high_level_wrapper(
 
     Threads.@threads for service_file in service_files
         service_name = service_file.name
-        @info "Generating high level wrapper for $service_name"
+        @info "Generating high-level wrapper for $service_name"
         service = service_definition(service_file; auth=auth)
 
         service_name = lowercase(service["metadata"]["serviceId"])
@@ -177,7 +177,7 @@ function _generate_high_level_definition(
     end
 
     """
-    Generate a JSON/Query high level definition.
+    Generate a JSON/Query high-level definition.
     """
     function _generate_json_query_opeation_definition(
         required_params::AbstractDict,

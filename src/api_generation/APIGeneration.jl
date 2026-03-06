@@ -19,10 +19,10 @@ include("low_level.jl")
 """
     parse_aws_metadata()
 
-Generate low and high level wrappers for each AWS Service based on their definitions in the
+Generate low and high-level wrappers for each AWS Service based on their definitions in the
 [aws-sdk-js GitHub Repository](https://github.com/aws/aws-sdk-js/tree/master/apis).
 
-Low level wrappers are written into `src/AWSServices.jl`, while high level wrappers API
+Low-level wrappers are written into `src/AWSServices.jl`, while high-level wrappers API
 wrappers are written into their respective files in `src/services/{service}.jl`.
 """
 function parse_aws_metadata()

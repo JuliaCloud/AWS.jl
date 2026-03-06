@@ -37,7 +37,7 @@ function _generate_low_level_definitions(
     Threads.@threads for i in eachindex(service_files)
         service_file = service_files[i]
         service_name = service_file.name
-        @info "Generating low level wrapper for $service_name"
+        @info "Generating low-level wrapper for $service_name"
 
         service = service_definition(service_file; auth=auth)
         service_metadata = service["metadata"]
