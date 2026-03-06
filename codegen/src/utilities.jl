@@ -34,28 +34,22 @@ end
 Get a list of all AWS service API definition files from the `aws-sdk-js-v3` GitHub repository.
 """
 function _get_service_files(auth::GitHub.Authorization)
-    # Navigate tree: main -> codegen -> sdk-codegen -> aws-models
+    # Navigating to: https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models
+    # via https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#get-a-tree
     github_repo = "aws/aws-sdk-js-v3"  # Owner and repository name
-    root_tree = @mock tree(github_repo, "main"; auth=auth)
+    subdir = "codegen/sdk-codegen/aws-models"
+    tree = @mock GitHub.tree(github_repo, "main"; auth)
 
-    codegen_sha = first(
-        t["sha"] for t in root_tree.tree if t["path"] == "codegen" && t["type"] == "tree"
-    )
-    codegen_tree = @mock tree(github_repo, codegen_sha; auth=auth)
+    function descend(tree::GitHub.Tree, dir)
+        sha = only(t["sha"] for t in tree.tree if t["type"] == "tree" && t["path"] == dir)
+        return @mock GitHub.tree(github_repo, sha; auth)
+    end
 
-    sdk_codegen_sha = first(
-        t["sha"] for t in codegen_tree.tree
-        if t["path"] == "sdk-codegen" && t["type"] == "tree"
-    )
-    sdk_codegen_tree = @mock tree(github_repo, sdk_codegen_sha; auth=auth)
+    for dir in split(subdir, '/')
+        tree = descend(tree, dir)
+    end
 
-    aws_models_sha = first(
-        t["sha"] for t in sdk_codegen_tree.tree
-        if t["path"] == "aws-models" && t["type"] == "tree"
-    )
-    models_tree = @mock tree(github_repo, aws_models_sha; auth=auth)
-
-    service_file_blobs = filter!(models_tree.tree) do t
+    service_file_blobs = filter!(tree.tree) do t
         t["type"] == "blob" && endswith(t["path"], ".json")
     end
 
