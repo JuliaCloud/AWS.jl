@@ -24,63 +24,220 @@ end
         service_files = _get_service_files(GitHub.OAuth2("foobar"))
 
         @test length(service_files) == 1
-        @test service_files[1] == ServiceFile(
-            "aws/aws-sdk-js", "test-2020-01-01.normal.json", "test-sha", nothing
+        @test service_files[1] == ServiceFile("aws/aws-sdk-js-v3", "test.json", "test-sha", nothing)
+    end
+end
+
+@testset "_shape_name" begin
+    @test _shape_name("com.amazonaws.s3#BucketName") == "BucketName"
+    @test _shape_name("smithy.api#Unit") == "Unit"
+end
+
+@testset "_smithy_protocol" begin
+    @test _smithy_protocol(Dict("aws.protocols#awsQuery" => Dict())) == ("query", nothing)
+    @test _smithy_protocol(Dict("aws.protocols#ec2Query" => Dict())) == ("ec2", nothing)
+    @test _smithy_protocol(Dict("aws.protocols#restXml" => Dict())) == ("rest-xml", nothing)
+    @test _smithy_protocol(Dict("aws.protocols#restJson1" => Dict())) == ("rest-json", nothing)
+    @test _smithy_protocol(Dict("aws.protocols#awsJson1_1" => Dict())) == ("json", "1.1")
+    @test _smithy_protocol(Dict("aws.protocols#awsJson1_0" => Dict())) == ("json", "1.0")
+
+    @testset "awsQuery takes priority over awsJson1_0 (awsQueryCompatible services)" begin
+        traits = Dict(
+            "aws.protocols#awsQuery" => Dict(),
+            "aws.protocols#awsQueryCompatible" => Dict(),
+            "aws.protocols#awsJson1_0" => Dict(),
+        )
+        @test _smithy_protocol(traits) == ("query", nothing)
+    end
+
+    @testset "unsupported protocol throws" begin
+        @test_throws ProtocolNotDefined _smithy_protocol(
+            Dict("smithy.protocols#rpcv2Cbor" => Dict())
         )
     end
 end
 
-@testset "_filter_latest_service_version" begin
-    migration_hub_v1 = Dict("path" => "AWSMigrationHub-2017-05-31.normal.json")
-    migration_hub_v2 = Dict("path" => "AWSMigrationHub-2020-01-01.normal.json")
+@testset "_parse_smithy_model" begin
+    # Minimal Smithy model for a restJson1 service
+    smithy = Dict(
+        "smithy" => "2.0",
+        "shapes" => Dict(
+            "com.example#MyService" => Dict(
+                "type" => "service",
+                "version" => "2021-01-01",
+                "operations" => [Dict("target" => "com.example#GetThing")],
+                "traits" => Dict(
+                    "aws.api#service" => Dict(
+                        "sdkId" => "My Service",
+                        "endpointPrefix" => "myservice",
+                    ),
+                    "aws.auth#sigv4" => Dict("name" => "myservice"),
+                    "aws.protocols#restJson1" => Dict(),
+                ),
+            ),
+            "com.example#GetThing" => Dict(
+                "type" => "operation",
+                "input" => Dict("target" => "com.example#GetThingRequest"),
+                "output" => Dict("target" => "smithy.api#Unit"),
+                "traits" => Dict(
+                    "smithy.api#http" => Dict("method" => "GET", "uri" => "/things/{id}"),
+                    "smithy.api#documentation" => "Gets a thing.",
+                ),
+            ),
+            "com.example#GetThingRequest" => Dict(
+                "type" => "structure",
+                "members" => Dict(
+                    "id" => Dict(
+                        "target" => "smithy.api#String",
+                        "traits" => Dict(
+                            "smithy.api#httpLabel" => Dict(),
+                            "smithy.api#required" => Dict(),
+                            "smithy.api#documentation" => "The thing ID.",
+                        ),
+                    ),
+                    "clientToken" => Dict(
+                        "target" => "smithy.api#String",
+                        "traits" => Dict("smithy.api#idempotencyToken" => Dict()),
+                    ),
+                ),
+            ),
+            "smithy.api#Unit" => Dict("type" => "structure", "members" => Dict()),
+        ),
+    )
 
-    access_analyzer_v1 = Dict("path" => "accessanalyzer-2019-11-01.normal.json")
-    access_analyzer_v2 = Dict("path" => "accessanalyzer-2020-01-01.normal.json")
+    result = _parse_smithy_model(smithy)
 
-    @testset "empty" begin
-        @test isempty(_filter_latest_service_version([]))
+    @testset "metadata" begin
+        meta = result["metadata"]
+        @test meta["protocol"] == "rest-json"
+        @test meta["endpointPrefix"] == "myservice"
+        @test meta["serviceId"] == "My Service"
+        @test meta["apiVersion"] == "2021-01-01"
+        @test !haskey(meta, "signingName")  # same as endpointPrefix, not included
     end
 
-    @testset "single service - single version" begin
-        result = _filter_latest_service_version([migration_hub_v1])
-        @test result == [migration_hub_v1]
+    @testset "operations" begin
+        ops = result["operations"]
+        @test haskey(ops, "GetThing")
+        op = ops["GetThing"]
+        @test op["name"] == "GetThing"
+        @test op["http"]["method"] == "GET"
+        @test op["http"]["requestUri"] == "/things/{id}"
+        @test op["documentation"] == "Gets a thing."
+        @test op["input"]["shape"] == "GetThingRequest"
     end
 
-    @testset "single service - multiple versions" begin
-        result = _filter_latest_service_version([migration_hub_v1, migration_hub_v2])
-        @test result == [migration_hub_v2]
-    end
-
-    @testset "multiple service - single version" begin
-        result = _filter_latest_service_version([migration_hub_v1, access_analyzer_v1])
-        @test result == [access_analyzer_v1, migration_hub_v1]
-    end
-
-    @testset "multiple services - multiple versions" begin
-        result = _filter_latest_service_version([
-            migration_hub_v1, migration_hub_v2, access_analyzer_v1, access_analyzer_v2
-        ])
-        @test result == [access_analyzer_v2, migration_hub_v2]
+    @testset "shapes" begin
+        shapes = result["shapes"]
+        @test haskey(shapes, "GetThingRequest")
+        req = shapes["GetThingRequest"]
+        @test req["required"] == ["id"]
+        @test req["members"]["id"]["location"] == "uri"
+        @test req["members"]["id"]["documentation"] == "The thing ID."
+        @test req["members"]["clientToken"]["idempotencyToken"] == true
     end
 end
 
-@testset "_get_service_and_version" begin
-    @testset "empty string" begin
-        filename = ""
-        @test_throws InvalidFileName _get_service_and_version(filename)
+@testset "_parse_smithy_model JSON service" begin
+    smithy = Dict(
+        "smithy" => "2.0",
+        "shapes" => Dict(
+            "com.example#MyJsonService" => Dict(
+                "type" => "service",
+                "version" => "2020-05-01",
+                "traits" => Dict(
+                    "aws.api#service" => Dict(
+                        "sdkId" => "MyJSON",
+                        "endpointPrefix" => "myjson",
+                    ),
+                    "aws.auth#sigv4" => Dict("name" => "myjson"),
+                    "aws.protocols#awsJson1_1" => Dict(),
+                ),
+            ),
+        ),
+    )
+
+    result = _parse_smithy_model(smithy)
+    meta = result["metadata"]
+    @test meta["protocol"] == "json"
+    @test meta["jsonVersion"] == "1.1"
+    @test meta["targetPrefix"] == "MyJsonService"
+end
+
+@testset "_parse_smithy_model signing name differs from endpoint prefix" begin
+    smithy = Dict(
+        "smithy" => "2.0",
+        "shapes" => Dict(
+            "com.example#MyService" => Dict(
+                "type" => "service",
+                "version" => "2020-01-01",
+                "traits" => Dict(
+                    "aws.api#service" => Dict(
+                        "sdkId" => "MyService",
+                        "endpointPrefix" => "myendpoint",
+                    ),
+                    "aws.auth#sigv4" => Dict("name" => "mysigning"),
+                    "aws.protocols#restJson1" => Dict(),
+                ),
+            ),
+        ),
+    )
+
+    meta = _parse_smithy_model(smithy)["metadata"]
+    @test meta["endpointPrefix"] == "myendpoint"
+    @test meta["signingName"] == "mysigning"
+end
+
+@testset "_parse_smithy_model version from docId" begin
+    smithy = Dict(
+        "smithy" => "2.0",
+        "shapes" => Dict(
+            "com.example#MyService" => Dict(
+                "type" => "service",
+                # no "version" key — must be extracted from docId
+                "traits" => Dict(
+                    "aws.api#service" => Dict(
+                        "sdkId" => "MyService",
+                        "endpointPrefix" => "myservice",
+                        "docId" => "myservice-2017-08-22",
+                    ),
+                    "aws.auth#sigv4" => Dict("name" => "myservice"),
+                    "aws.protocols#awsJson1_1" => Dict(),
+                ),
+            ),
+        ),
+    )
+
+    @test _parse_smithy_model(smithy)["metadata"]["apiVersion"] == "2017-08-22"
+end
+
+@testset "_convert_smithy_shape" begin
+    @testset "header member" begin
+        shape = Dict(
+            "type" => "structure",
+            "members" => Dict(
+                "ContentType" => Dict(
+                    "target" => "smithy.api#String",
+                    "traits" => Dict("smithy.api#httpHeader" => "Content-Type"),
+                ),
+            ),
+        )
+        result = _convert_smithy_shape(shape)
+        m = result["members"]["ContentType"]
+        @test m["location"] == "header"
+        @test m["locationName"] == "Content-Type"
     end
 
-    @testset "invalid filename" begin
-        filename = "This is an invalid file name."
-        @test_throws InvalidFileName _get_service_and_version(filename)
-    end
-
-    @testset "valid filename" begin
-        filename = "AWSMigrationHub-2017-05-31.normal.json"
-        service, version = _get_service_and_version(filename)
-
-        @test service == "AWSMigrationHub"
-        @test version == "2017-05-31"
+    @testset "list shape with xmlName" begin
+        shape = Dict(
+            "type" => "list",
+            "member" => Dict(
+                "target" => "smithy.api#String",
+                "traits" => Dict("smithy.api#xmlName" => "item"),
+            ),
+        )
+        result = _convert_smithy_shape(shape)
+        @test result["member"]["locationName"] == "item"
     end
 end
 

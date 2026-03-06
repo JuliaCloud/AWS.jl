@@ -2,16 +2,18 @@ using Codegen:
     InvalidFileName,
     ProtocolNotDefined,
     ServiceFile,
-    _filter_latest_service_version,
+    _convert_smithy_shape
     _format_name,
     _generate_low_level_definition,
     _generate_high_level_definition,
     _generate_high_level_definitions,
     get_markdown_indent,
     _get_service_files,
-    _get_service_and_version,
     _get_function_parameters,
     _html_to_markdown,
+    _parse_smithy_model,
+    _shape_name,
+    _smithy_protocol,
     _replace,
     _splitline,
     _wraplines,
@@ -29,18 +31,14 @@ using HTTP: HTTP
 using Mocking: @patch
 
 _github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
-    if tree_obj == "master"
-        tree = [Dict("path" => "apis", "sha" => "apis-sha", "type" => "tree")]
-        return GitHub.Tree("test-sha", HTTP.URI(), tree, false)
-    else
-        tree = [
-            Dict(
-                "path" => "test-2020-01-01.normal.json",
-                "sha" => "test-sha",
-                "type" => "blob",
-            ),
-        ]
-        return GitHub.Tree("test-sha", HTTP.URI(), tree, false)
+    if tree_obj == "main"
+        return GitHub.Tree("main-sha", HTTP.URI(), [Dict("path" => "codegen", "sha" => "codegen-sha", "type" => "tree")], false)
+    elseif tree_obj == "codegen-sha"
+        return GitHub.Tree("codegen-sha", HTTP.URI(), [Dict("path" => "sdk-codegen", "sha" => "sdk-codegen-sha", "type" => "tree")], false)
+    elseif tree_obj == "sdk-codegen-sha"
+        return GitHub.Tree("sdk-codegen-sha", HTTP.URI(), [Dict("path" => "aws-models", "sha" => "aws-models-sha", "type" => "tree")], false)
+    else  # aws-models-sha
+        return GitHub.Tree("aws-models-sha", HTTP.URI(), [Dict("path" => "test.json", "sha" => "test-sha", "type" => "blob")], false)
     end
 end
 
