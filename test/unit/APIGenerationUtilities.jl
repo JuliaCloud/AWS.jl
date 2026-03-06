@@ -11,8 +11,9 @@ end
         service_files = _get_service_files(GitHub.OAuth2("foobar"))
 
         @test length(service_files) == 1
-        @test service_files[1] ==
-            ServiceFile("aws/aws-sdk-js", "test-2020-01-01.normal.json", "test-sha", nothing)
+        @test service_files[1] == ServiceFile(
+            "aws/aws-sdk-js", "test-2020-01-01.normal.json", "test-sha", nothing
+        )
     end
 end
 
