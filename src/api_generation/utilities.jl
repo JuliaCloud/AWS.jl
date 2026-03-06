@@ -5,8 +5,8 @@ mutable struct ServiceFile
     definition::Union{AbstractDict,Nothing}
 end
 
-function ServiceFile(repo::String, tree_item::AbstractDict)
-    return ServiceFile(repo, tree_item["path"], tree_item["sha"], nothing)
+function ServiceFile(repo::String, blob::AbstractDict)
+    return ServiceFile(repo, blob["path"], blob["sha"], nothing)
 end
 
 function service_definition(
@@ -41,10 +41,12 @@ function _get_service_files(repo_name::String, auth::GitHub.Authorization)
     files = @mock tree(github_repo, apis_sha)
     tree_items = files.tree
 
-    filter!(f -> endswith(f["path"], ".normal.json"), tree_items)
-    tree_items = _filter_latest_service_version(tree_items)
+    service_file_blobs = filter!(tree_items) do t
+        t -> t["blob"] && endswith(t["path"], ".normal.json")
+    end
+    service_file_blobs = _filter_latest_service_version(service_file_blobs)
 
-    return [ServiceFile(github_repo, item) for item in tree_items]
+    return [ServiceFile(github_repo, blob) for blob in service_file_blobs]
 end
 
 """
