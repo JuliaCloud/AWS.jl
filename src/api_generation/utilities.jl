@@ -34,7 +34,7 @@ end
 """
 Get a list of all AWS service API definition files from the `aws-sdk-js` GitHub repository.
 """
-function _get_service_files(repo_name::String, auth::GitHub.Authorization)
+function _get_service_files(auth::GitHub.Authorization)
     github_repo = "aws/aws-sdk-js"  # Owner and repository name
     master_tree = @mock tree(github_repo, "master"; auth=auth)
     apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]

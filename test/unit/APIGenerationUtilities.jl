@@ -8,11 +8,11 @@ end
 
 @testset "_get_service_files" begin
     apply(Patches._github_tree_patch) do
-        service_files = _get_service_files("foobar", GitHub.OAuth2("foobar"))
+        service_files = _get_service_files(GitHub.OAuth2("foobar"))
 
         @test length(service_files) == 1
         @test service_files[1] ==
-            ServiceFile("foobar", "test-2020-01-01.normal.json", "test-sha", nothing)
+            ServiceFile("aws/aws-sdk-js", "test-2020-01-01.normal.json", "test-sha", nothing)
     end
 end
 
