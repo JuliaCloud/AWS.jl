@@ -32,18 +32,19 @@ function Base.:(==)(a::ServiceFile, b::ServiceFile)
 end
 
 """
-Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
+Get a list of all AWS service API definition files from the `aws-sdk-js` GitHub repository.
 """
 function _get_service_files(repo_name::String, auth::GitHub.Authorization)
-    master_tree = @mock tree(repo_name, "master"; auth=auth)
+    github_repo = "aws/aws-sdk-js"  # Owner and repository name
+    master_tree = @mock tree(github_repo, "master"; auth=auth)
     apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
-    files = @mock tree(repo_name, apis_sha)
+    files = @mock tree(github_repo, apis_sha)
     tree_items = files.tree
 
     filter!(f -> endswith(f["path"], ".normal.json"), tree_items)
     tree_items = _filter_latest_service_version(tree_items)
 
-    return [ServiceFile(repo_name, item) for item in tree_items]
+    return [ServiceFile(github_repo, item) for item in tree_items]
 end
 
 """
