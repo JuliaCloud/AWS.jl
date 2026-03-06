@@ -74,7 +74,7 @@ end
             ) do
                 include("unit/AWS.jl")
                 include("unit/AWSExceptions.jl")
-                include("unit/AWSMetadataUtilities.jl")
+                include("unit/APIGenerationUtilities.jl")
                 include("unit/test_pkg.jl")
                 include("unit/utilities.jl")
                 include("unit/AWSConfig.jl")
