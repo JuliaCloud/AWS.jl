@@ -42,7 +42,7 @@ function _get_service_files(auth::GitHub.Authorization)
     tree_items = files.tree
 
     service_file_blobs = filter!(tree_items) do t
-        t -> t["blob"] && endswith(t["path"], ".normal.json")
+        t["type"] == "blob" && endswith(t["path"], ".normal.json")
     end
     service_file_blobs = _filter_latest_service_version(service_file_blobs)
 
