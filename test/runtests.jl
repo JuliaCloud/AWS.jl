@@ -2,7 +2,7 @@ using AWS
 using AWS: AWSCredentials, AWSServices, assume_role_creds
 using AWS.AWSExceptions:
     AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
-using AWS.AWSMetadata:
+using AWS.APIGeneration:
     ServiceFile,
     _clean_documentation,
     _filter_latest_service_version,

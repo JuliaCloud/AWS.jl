@@ -1,4 +1,4 @@
-module AWSMetadata
+module APIGeneration
 
 using Base64
 using ..AWSExceptions
@@ -8,11 +8,11 @@ using JSON: JSON
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 
-const services_path = joinpath(@__DIR__, "AWSServices.jl")
+const services_path = joinpath(@__DIR__, "..", "AWSServices.jl")
 
-include(joinpath("api_generation", "utilities.jl"))
-include(joinpath("api_generation", "high_level.jl"))
-include(joinpath("api_generation", "low_level.jl"))
+include("utilities.jl")
+include("high_level.jl")
+include("low_level.jl")
 
 """
     parse_aws_metadata()
