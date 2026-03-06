@@ -28,7 +28,7 @@ high-level API wrappers are each defined separate files within the directory
 `$(relpath(HIGH_LEVEL_SERVICES_DIR, PKG_DIR))`.
 """
 function parse_aws_metadata()
-    auth = GitHub.authenticate(ENV["GITHUB_AUTH"])
+    auth = GitHub.authenticate(ENV["GITHUB_TOKEN"])
 
     service_files = _get_service_files(auth)
 
