@@ -21,7 +21,7 @@ include("low_level.jl")
     parse_aws_metadata()
 
 Generate low-level and high-level Julia wrappers for each AWS service definition found in
-[`aws-sdk-js-v3` GitHub Repository](https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models).
+[`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models).
 
 Low-level API wrappers are defined in `$(relpath(LOW_LEVEL_SERVICES_FILE, PKG_DIR))` and
 high-level API wrappers are each defined separate files within the directory
