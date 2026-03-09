@@ -58,11 +58,16 @@ end
 
 
 """
-Convert a Smithy 2.0 model (parsed from JSON) into the legacy aws-sdk-js format expected
-by the code generators.
+Convert a Smithy 2.0 model (parsed from JSON) into the legacy format which was used by
+`aws-sdk-js` and is expected by AWS.jl code generators.
 """
-function _parse_smithy_model(smithy::AbstractDict)
-    raw_shapes = smithy["shapes"]
+function _parse_smithy_model(model::AbstractDict)
+    smithy_version = get(model, "smithy", nothing)
+    if smithy_version != "2.0"
+        error("Model version is not Smithy 2.0 (found version \"$smithy_version\")")
+    end
+
+    raw_shapes = model["shapes"]
 
     # Find the service shape
     svc_key, svc_shape = first(
