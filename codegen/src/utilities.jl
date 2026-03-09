@@ -81,7 +81,7 @@ function _parse_smithy_model(model::AbstractDict)
         end
     end
 
-    protocol, json_version = _smithy_protocol(traits)
+    protocol, json_version = _preferred_protocol(traits)
 
     metadata = Dict{String,Any}(
         "protocol" => protocol,
@@ -150,11 +150,18 @@ Example: `"com.amazonaws.s3#BucketName"` => `"BucketName"`
 _shape_name(id::String) = split(id, "#")[2]
 
 """
-Determine the legacy protocol string and JSON version from Smithy protocol traits.
+    _preferred_protocol(traits::AbstractDict) -> Tuple{String,String}
 
-Priority order: awsQuery > ec2Query > restXml > restJson1 > awsJson1_1 > awsJson1_0
+Determine the preferred legacy protocol and JSON version from the available Smithy protocol
+traits.
 """
-function _smithy_protocol(traits::AbstractDict)
+function _preferred_protocol(traits::AbstractDict)
+    # Order mostly doesn't matter here as only two services utilize multiple primary
+    # protocols:
+    #
+    # - monitoring: awsJson1_0, awsQuery, awsQueryCompatible
+    # - sqs: awsJson1_0, awsQueryCompatible
+
     return if haskey(traits, "aws.protocols#awsQuery")
         ("query", nothing)
     elseif haskey(traits, "aws.protocols#ec2Query")
@@ -168,8 +175,12 @@ function _smithy_protocol(traits::AbstractDict)
     elseif haskey(traits, "aws.protocols#awsJson1_0")
         ("json", "1.0")
     else
-        proto_traits = filter(t -> occursin("protocol", lowercase(t)), collect(keys(traits)))
-        throw(ProtocolNotDefined("Unsupported Smithy protocol(s): $proto_traits"))
+        aws_protocol_traits = filter(startswith("aws.protocols#"), collect(keys(traits)))
+        if !isempty(aws_protocol_traits)
+            throw(ProtocolNotDefined("Service only uses unsupported AWS protocol(s): $(join(aws_protocol_traits, ", "))"))
+        else
+            throw(ProtocolNotDefined("Service does not define any AWS protocols"))
+        end
     end
 end
 

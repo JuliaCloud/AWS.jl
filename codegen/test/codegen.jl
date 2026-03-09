@@ -39,27 +39,32 @@ end
     @test _shape_name("smithy.api#Unit") == "Unit"
 end
 
-@testset "_smithy_protocol" begin
-    @test _smithy_protocol(Dict("aws.protocols#awsQuery" => Dict())) == ("query", nothing)
-    @test _smithy_protocol(Dict("aws.protocols#ec2Query" => Dict())) == ("ec2", nothing)
-    @test _smithy_protocol(Dict("aws.protocols#restXml" => Dict())) == ("rest-xml", nothing)
-    @test _smithy_protocol(Dict("aws.protocols#restJson1" => Dict())) == ("rest-json", nothing)
-    @test _smithy_protocol(Dict("aws.protocols#awsJson1_1" => Dict())) == ("json", "1.1")
-    @test _smithy_protocol(Dict("aws.protocols#awsJson1_0" => Dict())) == ("json", "1.0")
+@testset "_preferred_protocol" begin
+    @test _preferred_protocol(Dict("aws.protocols#awsQuery" => Dict())) == ("query", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#ec2Query" => Dict())) == ("ec2", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#restXml" => Dict())) == ("rest-xml", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#restJson1" => Dict())) == ("rest-json", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#awsJson1_1" => Dict())) == ("json", "1.1")
+    @test _preferred_protocol(Dict("aws.protocols#awsJson1_0" => Dict())) == ("json", "1.0")
 
-    @testset "awsQuery takes priority over awsJson1_0 (awsQueryCompatible services)" begin
+    @testset "\"query\" takes priority over \"json\" 1.0" begin
         traits = Dict(
             "aws.protocols#awsQuery" => Dict(),
-            "aws.protocols#awsQueryCompatible" => Dict(),
             "aws.protocols#awsJson1_0" => Dict(),
         )
-        @test _smithy_protocol(traits) == ("query", nothing)
+        @test _preferred_protocol(traits) == ("query", nothing)
     end
 
-    @testset "unsupported protocol throws" begin
-        @test_throws ProtocolNotDefined _smithy_protocol(
-            Dict("smithy.protocols#rpcv2Cbor" => Dict())
-        )
+    @testset "unsupported protocol" begin
+        traits = Dict("smithy.protocols#rpcv2Cbor" => Dict())
+        @test_throws ProtocolNotDefined _preferred_protocol(traits)
+
+        traits = Dict("aws.protocols#unknown" => Dict())
+        @test_throws ProtocolNotDefined _preferred_protocol(traits)
+
+        # Real protocol which we do not currently support
+        traits = Dict("aws.protocols#awsQueryCompatible" => Dict())
+        @test_throws ProtocolNotDefined _preferred_protocol(traits)
     end
 end
 
