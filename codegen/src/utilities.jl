@@ -83,12 +83,14 @@ function _parse_smithy_model(model::AbstractDict)
     service_id = get(service_info, "sdkId", _shape_name(service_shape_id))
 
     # Version is on the service shape; fall back to extracting from docId (e.g. acm-pca)
-    api_version = if haskey(service_shape, "version")
-        service_shape["version"]
-    else
-        doc_id = get(svc_info, "docId", "")
-        m = match(r"(\d{4}-\d{2}-\d{2})$", doc_id)
-        m === nothing ? "" : m.captures[1]
+    api_version = get(service_shape, "version") do
+        doc_id = get(service_info, "docId", "")
+        m = match(r"\d{4}-\d{2}-\d{2}$", doc_id)
+        if !isnothing(m)
+            m.match
+        else
+            error("Unable to determine API version model: \"$endpoint_prefix\"")
+        end
     end
 
     protocol, json_version = _smithy_protocol(traits)
