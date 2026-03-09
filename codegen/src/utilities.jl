@@ -151,11 +151,16 @@ function _parse_smithy_model(model::AbstractDict)
 end
 
 """
+    _shape_name(id::String) -> String
+
 Extract the short name from a Smithy shape ID by stripping the namespace.
 
 Example: `"com.amazonaws.s3#BucketName"` => `"BucketName"`
 """
-_shape_name(id::String) = split(id, "#")[2]
+function _shape_name(id::String)
+    # https://smithy.io/2.0/spec/model.html#shape-id
+    return String(last(split(id, '#'; limit=2)))
+end
 
 """
     _preferred_protocol(traits::AbstractDict) -> Tuple{String,String}
