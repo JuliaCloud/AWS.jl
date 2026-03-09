@@ -30,12 +30,21 @@ high-level API wrappers are each defined separate files within the directory
 function parse_aws_metadata()
     auth = GitHub.authenticate(ENV["GITHUB_TOKEN"])
 
-    service_files = _get_service_files(auth)
+    # Retrieve service definitions in parallel as otherwise this can be quite slow. Async
+    # network transfers seems to be slightly faster than threads in this scenario.
+    @info "Retrieving service definitions..."
+    retrieve_duration = @elapsed begin
+        trees = _get_service_model_trees(; auth)
+        service_files = asyncmap(trees) do tree
+            ServiceFile(tree; auth)
+        end
+    end
+    @info "Retrieved $(length(service_files)) service definitions in $(retrieve_duration) second(s)"
 
-    _generate_low_level_wrappers(service_files, auth)
+    _generate_low_level_wrappers(service_files)
     format_file(LOW_LEVEL_SERVICES_FILE)
 
-    _generate_high_level_wrapper(service_files, auth)
+    _generate_high_level_wrapper(service_files)
     format(HIGH_LEVEL_SERVICES_DIR; verbose=true)
 
     return nothing

@@ -1,39 +1,25 @@
-mutable struct ServiceFile
-    repo::String
-    name::String
-    sha::String
-    definition::Union{AbstractDict,Nothing}
+struct ServiceFile
+    file_name::String
+    content::Vector{UInt8}
 end
 
-function ServiceFile(repo::String, blob::AbstractDict)
-    return ServiceFile(repo, blob["path"], blob["sha"], nothing)
-end
-
-function Base.:(==)(a::ServiceFile, b::ServiceFile)
-    return (
-        a.repo == b.repo &&
-        a.name == b.name &&
-        a.sha == b.sha &&
-        a.definition == b.definition
-    )
-end
-
-function service_definition(
-    service_file::ServiceFile; auth::GitHub.Authorization=GitHub.AnonymousAuth()
-)
-    if service_file.definition === nothing
-        blob = GitHub.blob(service_file.repo, service_file.sha; auth)
-        def = JSON.parse(String(base64decode(blob.content)))
-        service_file.definition = _parse_smithy_model(def)
+function ServiceFile(tree::AbstractDict; auth::GitHub.Authorization)
+    m = match(r"^\Qhttps://api.github.com/repos/\E(?<repo>[^/]+/[^/]+)", tree["url"])
+    if isnothing(m)
+        throw(ArgumentError("Unable to determine GitHub repo from: \"$(tree["url"])\""))
     end
-
-    return service_file.definition
+    github_repo = m[:repo]
+    blob = GitHub.blob(github_repo, tree["sha"]; auth)
+    return ServiceFile(tree["path"], base64decode(blob.content))
 end
 
 """
-Get a list of all AWS service API definition files from the `aws-sdk-js-v3` GitHub repository.
+    _get_service_model_trees(; auth::GitHub.Authorization) -> Vector{Dict}
+
+List of all of the tree blobs pertaining to AWS service API definition files. These can be
+loaded by `ServiceFile`.
 """
-function _get_service_files(auth::GitHub.Authorization)
+function _get_service_model_trees(; auth::GitHub.Authorization)
     # Navigating to: https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models
     # via https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#get-a-tree
     github_repo = "aws/aws-sdk-js-v3"  # Owner and repository name
@@ -49,11 +35,13 @@ function _get_service_files(auth::GitHub.Authorization)
         tree = descend(tree, dir)
     end
 
-    service_file_blobs = filter!(tree.tree) do t
+    return filter!(tree.tree) do t
         t["type"] == "blob" && endswith(t["path"], ".json")
     end
+end
 
-    return [ServiceFile(github_repo, blob) for blob in service_file_blobs]
+function _parse_smithy_model(model::Vector{UInt8})
+    _parse_smithy_model(JSON.parse(String(model)))
 end
 
 

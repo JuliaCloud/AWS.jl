@@ -1,9 +1,7 @@
 """
 Generate the `src/services/{service}.jl` file.
 """
-function _generate_high_level_wrapper(
-    service_files::AbstractArray{ServiceFile}, auth::GitHub.OAuth2
-)
+function _generate_high_level_wrapper(service_files::AbstractArray{ServiceFile})
     # Remove old service files to ensure services that no longer exist are removed.
     for file in readdir(HIGH_LEVEL_SERVICES_DIR)
         path = joinpath(HIGH_LEVEL_SERVICES_DIR, file)
@@ -13,9 +11,8 @@ function _generate_high_level_wrapper(
     end
 
     Threads.@threads for service_file in service_files
-        service_name = service_file.name
-        @info "Generating high-level wrapper for $service_name"
-        service = service_definition(service_file; auth=auth)
+        @info "Generating high-level wrapper for $(service_file.file_name)"
+        service = _parse_smithy_model(service_file.content)
 
         service_name = lowercase(service["metadata"]["serviceId"])
         service_name = replace(service_name, ' ' => '_')

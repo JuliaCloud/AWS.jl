@@ -19,12 +19,18 @@ end
     end
 end
 
-@testset "_get_service_files" begin
+@testset "_get_service_model_trees" begin
     apply(Patches._github_tree_patch) do
-        service_files = _get_service_files(GitHub.OAuth2("foobar"))
+        trees = _get_service_model_trees(; auth=GitHub.OAuth2("foobar"))
 
-        @test length(service_files) == 1
-        @test service_files[1] == ServiceFile("aws/aws-sdk-js-v3", "test.json", "test-sha", nothing)
+        @test length(trees) == 1
+        tree = only(trees)
+
+        @test issubset(keys(tree), ["url", "type", "path", "sha"])
+        @test tree["url"] == "https://api.github.com/repos/aws/aws-sdk-js-v3/git/blobs/0"
+        @test tree["type"] == "blob"
+        @test tree["path"] == "test.json"
+        @test tree["sha"] == "test-sha"
     end
 end
 
