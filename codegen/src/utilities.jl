@@ -758,7 +758,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
         # Check to see if the nested shape has a locationName
         nested_shape = input_shape["members"][parameter]["shape"]
-        nested_member = get(shapes[nested_shape], "member", Dict())
+        nested_member = get(get(shapes, nested_shape, Dict()), "member", Dict())
 
         # If nested_shape[member] exists return locationName (if exists), otherwise return the original parameter name
         return get(nested_member, "locationName", parameter)
@@ -766,7 +766,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
     required_parameters = LittleDict{String,Any}()
     optional_parameters = LittleDict{String,Any}()
-    input_shape = shapes[input]
+    input_shape = get(shapes, input, Dict())
 
     if haskey(input_shape, "required")
         for parameter in input_shape["required"]
