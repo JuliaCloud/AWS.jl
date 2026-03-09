@@ -167,14 +167,22 @@ Determine the legacy protocol string and JSON version from Smithy protocol trait
 Priority order: awsQuery > ec2Query > restXml > restJson1 > awsJson1_1 > awsJson1_0
 """
 function _smithy_protocol(traits::AbstractDict)
-    haskey(traits, "aws.protocols#awsQuery") && return ("query", nothing)
-    haskey(traits, "aws.protocols#ec2Query") && return ("ec2", nothing)
-    haskey(traits, "aws.protocols#restXml") && return ("rest-xml", nothing)
-    haskey(traits, "aws.protocols#restJson1") && return ("rest-json", nothing)
-    haskey(traits, "aws.protocols#awsJson1_1") && return ("json", "1.1")
-    haskey(traits, "aws.protocols#awsJson1_0") && return ("json", "1.0")
-    proto_traits = filter(t -> occursin("protocol", lowercase(t)), collect(keys(traits)))
-    throw(ProtocolNotDefined("Unsupported Smithy protocol(s): $proto_traits"))
+    return if haskey(traits, "aws.protocols#awsQuery")
+        ("query", nothing)
+    elseif haskey(traits, "aws.protocols#ec2Query")
+        ("ec2", nothing)
+    elseif haskey(traits, "aws.protocols#restXml")
+        ("rest-xml", nothing)
+    elseif haskey(traits, "aws.protocols#restJson1")
+        ("rest-json", nothing)
+    elseif haskey(traits, "aws.protocols#awsJson1_1")
+        ("json", "1.1")
+    elseif haskey(traits, "aws.protocols#awsJson1_0")
+        ("json", "1.0")
+    else
+        proto_traits = filter(t -> occursin("protocol", lowercase(t)), collect(keys(traits)))
+        throw(ProtocolNotDefined("Unsupported Smithy protocol(s): $proto_traits"))
+    end
 end
 
 """
