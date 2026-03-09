@@ -1,6 +1,6 @@
 struct ServiceFile
     file_name::String
-    content::Vector{UInt8}
+    content::String
 end
 
 function ServiceFile(tree::AbstractDict; auth::GitHub.Authorization)
@@ -10,7 +10,7 @@ function ServiceFile(tree::AbstractDict; auth::GitHub.Authorization)
     end
     github_repo = m[:repo]
     blob = GitHub.blob(github_repo, tree["sha"]; auth)
-    return ServiceFile(tree["path"], base64decode(blob.content))
+    return ServiceFile(tree["path"], String(blob))
 end
 
 """
@@ -40,8 +40,8 @@ function _get_service_model_trees(; auth::GitHub.Authorization)
     end
 end
 
-function _parse_smithy_model(model::Vector{UInt8})
-    _parse_smithy_model(JSON.parse(String(model)))
+function _parse_smithy_model(model::AbstractString)
+    _parse_smithy_model(JSON.parse(model))
 end
 
 
