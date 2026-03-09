@@ -111,32 +111,33 @@ function _parse_smithy_model(model::AbstractDict)
     # Build operations dict
     operations = Dict{String,Any}()
     for (k, v) in raw_shapes
-        get(v, "type", "") == "operation" || continue
+        get(v, "type", nothing) == "operation" || continue
 
-        op_name = _shape_name(k)
-        op_traits = get(v, "traits", Dict())
-        http = get(op_traits, "smithy.api#http", nothing)
+        operation_name = _shape_name(k)
+        operation_traits = get(v, "traits", Dict())
+        http = get(operation_traits, "smithy.api#http", nothing)
 
-        op = Dict{String,Any}("name" => op_name)
+        operation = Dict{String,Any}("name" => operation_name)
 
-        if http !== nothing
-            op["http"] = Dict{String,Any}(
+        if haskey(operation_traits, "smithy.api#http")
+            http = operation_traits["smithy.api#http"]
+            operation["http"] = Dict{String,Any}(
                 "method" => http["method"], "requestUri" => http["uri"]
             )
         else
             # JSON/Query/EC2 protocol operations don't use HTTP routing
-            op["http"] = Dict{String,Any}("method" => "POST", "requestUri" => "/")
+            operation["http"] = Dict{String,Any}("method" => "POST", "requestUri" => "/")
         end
 
         if haskey(v, "input")
-            op["input"] = Dict{String,Any}("shape" => _shape_name(v["input"]["target"]))
+            operation["input"] = Dict{String,Any}("shape" => _shape_name(v["input"]["target"]))
         end
 
-        if haskey(op_traits, "smithy.api#documentation")
-            op["documentation"] = op_traits["smithy.api#documentation"]
+        if haskey(operation_traits, "smithy.api#documentation")
+            operation["documentation"] = operation_traits["smithy.api#documentation"]
         end
 
-        operations[op_name] = op
+        operations[operation_name] = operation
     end
 
     return Dict{String,Any}(
