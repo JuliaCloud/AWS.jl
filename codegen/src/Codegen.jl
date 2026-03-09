@@ -18,29 +18,38 @@ include("high_level.jl")
 include("low_level.jl")
 
 """
-    parse_aws_metadata()
+    retrieve_service_files() -> Vector{ServiceFile}
 
-Generate low-level and high-level Julia wrappers for each AWS service definition found in
-[`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models).
+Retrieve the AWS service definitions from [`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models).
 
-Low-level API wrappers are defined in `$(relpath(LOW_LEVEL_SERVICES_FILE, PKG_DIR))` and
-high-level API wrappers are each defined separate files within the directory
-`$(relpath(HIGH_LEVEL_SERVICES_DIR, PKG_DIR))`.
+When running interactively avoid calling this multiple times as doing so can cause you to
+become [rate limited by the GitHub API](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
 """
-function parse_aws_metadata()
-    auth = GitHub.authenticate(ENV["GITHUB_TOKEN"])
+function retrieve_service_files(; auth::GitHub.Authorization=GitHub.authenticate(ENV["GITHUB_TOKEN"]))
 
-    # Retrieve service definitions in parallel as otherwise this can be quite slow. Async
-    # network transfers seems to be slightly faster than threads in this scenario.
-    @info "Retrieving service definitions..."
-    retrieve_duration = @elapsed begin
+    duration = @elapsed begin
+        # Retrieve service definitions in parallel as otherwise this can be quite slow. Async
+        # network transfers seems to be slightly faster than threads in this scenario.
         trees = _get_service_model_trees(; auth)
         service_files = asyncmap(trees) do tree
             ServiceFile(tree; auth)
         end
     end
-    @info "Retrieved $(length(service_files)) service definitions in $(retrieve_duration) second(s)"
 
+    @info "Retrieved $(length(service_files)) service definitions in $(duration) second(s)"
+    return service_files
+end
+
+"""
+    generate_api(service_files) -> Nothing
+
+Generate low-level and high-level Julia wrappers for each AWS service definitions.
+
+Low-level API wrappers are defined in `$(relpath(LOW_LEVEL_SERVICES_FILE, PKG_DIR))` and
+high-level API wrappers are each defined separate files within the directory
+`$(relpath(HIGH_LEVEL_SERVICES_DIR, PKG_DIR))`.
+"""
+function generate_api(service_files)
     _generate_low_level_wrappers(service_files)
     format_file(LOW_LEVEL_SERVICES_FILE)
 
