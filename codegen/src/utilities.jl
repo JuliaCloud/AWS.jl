@@ -102,8 +102,10 @@ function _parse_smithy_model(model::AbstractDict)
 
     # Build shapes dict (strip namespaces, convert member traits to legacy format)
     shapes = Dict{String,Any}()
-    for (k, v) in raw_shapes
-        shapes[_shape_name(k)] = _convert_smithy_shape(v)
+    for (shape_id, shape) in raw_shapes
+        if get(shape, "type", nothing) in ("structure", "list", "set")
+            shapes[_shape_name(shape_id)] = _smithy_to_legacy_shape(shape)
+        end
     end
 
     # Build operations dict
@@ -185,79 +187,81 @@ function _preferred_protocol(traits::AbstractDict)
 end
 
 """
-Convert a Smithy shape into the legacy aws-sdk-js member format.
+Convert a Smithy shape into the legacy `aws-sdk-js` model format.
 """
-function _convert_smithy_shape(shape::AbstractDict)
-    shape_type = get(shape, "type", "")
+function _smithy_to_legacy_shape(shape::AbstractDict)
+    shape_type = get(shape, "type", nothing)
     if shape_type == "structure"
-        return _convert_smithy_structure(shape)
+        return _smithy_to_legacy_structure(shape)
     elseif shape_type in ("list", "set")
-        return _convert_smithy_list(shape)
+        return _smithy_to_legacy_list(shape)
+    elseif !isnothing(shape_type)
+        throw(ArgumentError("Unhandled Smithy shape type: $shape_type"))
     else
-        return shape
+        throw(ArgumentError("Smithy shape has no type"))
     end
 end
 
-function _convert_smithy_structure(shape::AbstractDict)
+function _smithy_to_legacy_structure(shape::AbstractDict)
     members = get(shape, "members", Dict())
     required_list = String[]
-    old_members = Dict{String,Any}()
+    legacy_members = Dict{String,Any}()
 
     for (member_name, member) in members
         member_traits = get(member, "traits", Dict())
-        old_member = Dict{String,Any}()
+        legacy_member = Dict{String,Any}()
 
         # Determine location and locationName from HTTP binding traits
         if haskey(member_traits, "smithy.api#httpLabel")
-            old_member["location"] = "uri"
-            old_member["locationName"] = get(
+            legacy_member["location"] = "uri"
+            legacy_member["locationName"] = get(
                 member_traits, "smithy.api#xmlName", member_name
             )
         elseif haskey(member_traits, "smithy.api#httpHeader")
-            old_member["location"] = "header"
-            old_member["locationName"] = member_traits["smithy.api#httpHeader"]
+            legacy_member["location"] = "header"
+            legacy_member["locationName"] = member_traits["smithy.api#httpHeader"]
         elseif haskey(member_traits, "smithy.api#httpQuery")
-            old_member["location"] = "querystring"
-            old_member["locationName"] = member_traits["smithy.api#httpQuery"]
+            legacy_member["location"] = "querystring"
+            legacy_member["locationName"] = member_traits["smithy.api#httpQuery"]
         elseif haskey(member_traits, "smithy.api#xmlName")
-            old_member["location"] = ""
-            old_member["locationName"] = member_traits["smithy.api#xmlName"]
+            legacy_member["location"] = ""
+            legacy_member["locationName"] = member_traits["smithy.api#xmlName"]
         else
-            old_member["location"] = ""
+            legacy_member["location"] = ""
         end
 
-        old_member["shape"] = _shape_name(member["target"])
+        legacy_member["shape"] = _shape_name(member["target"])
 
         if haskey(member_traits, "smithy.api#documentation")
-            old_member["documentation"] = member_traits["smithy.api#documentation"]
+            legacy_member["documentation"] = member_traits["smithy.api#documentation"]
         end
 
         if haskey(member_traits, "smithy.api#idempotencyToken")
-            old_member["idempotencyToken"] = true
+            legacy_member["idempotencyToken"] = true
         end
 
         if haskey(member_traits, "smithy.api#required")
             push!(required_list, member_name)
         end
 
-        old_members[member_name] = old_member
+        legacy_members[member_name] = legacy_member
     end
 
-    result = Dict{String,Any}("members" => old_members)
+    result = Dict{String,Any}("members" => legacy_members)
     isempty(required_list) || (result["required"] = required_list)
     return result
 end
 
-function _convert_smithy_list(shape::AbstractDict)
+function _smithy_to_legacy_list(shape::AbstractDict)
     member = get(shape, "member", Dict())
     member_traits = get(member, "traits", Dict())
-    old_member = Dict{String,Any}()
+    legacy_member = Dict{String,Any}()
 
     if haskey(member_traits, "smithy.api#xmlName")
-        old_member["locationName"] = member_traits["smithy.api#xmlName"]
+        legacy_member["locationName"] = member_traits["smithy.api#xmlName"]
     end
 
-    return Dict{String,Any}("member" => old_member)
+    return Dict{String,Any}("member" => legacy_member)
 end
 
 """

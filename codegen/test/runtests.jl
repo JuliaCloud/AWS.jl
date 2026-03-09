@@ -2,7 +2,6 @@ using Codegen:
     InvalidFileName,
     ProtocolNotDefined,
     ServiceFile,
-    _convert_smithy_shape
     _format_name,
     _generate_low_level_definition,
     _generate_high_level_definition,
@@ -14,6 +13,7 @@ using Codegen:
     _parse_smithy_model,
     _preferred_protocol,
     _shape_name,
+    _smithy_to_legacy_shape,
     _replace,
     _splitline,
     _wraplines,

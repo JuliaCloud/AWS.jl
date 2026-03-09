@@ -222,7 +222,7 @@ end
     @test _parse_smithy_model(smithy)["metadata"]["apiVersion"] == "2017-08-22"
 end
 
-@testset "_convert_smithy_shape" begin
+@testset "_smithy_to_legacy_shape" begin
     @testset "header member" begin
         shape = Dict(
             "type" => "structure",
@@ -233,7 +233,7 @@ end
                 ),
             ),
         )
-        result = _convert_smithy_shape(shape)
+        result = _smithy_to_legacy_shape(shape)
         m = result["members"]["ContentType"]
         @test m["location"] == "header"
         @test m["locationName"] == "Content-Type"
@@ -247,7 +247,7 @@ end
                 "traits" => Dict("smithy.api#xmlName" => "item"),
             ),
         )
-        result = _convert_smithy_shape(shape)
+        result = _smithy_to_legacy_shape(shape)
         @test result["member"]["locationName"] == "item"
     end
 end
