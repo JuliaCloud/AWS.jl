@@ -22,9 +22,9 @@ function service_definition(
     service_file::ServiceFile; auth::GitHub.Authorization=GitHub.AnonymousAuth()
 )
     if service_file.definition === nothing
-        service_blob = GitHub.blob(service_file.repo, service_file.sha; auth=auth)
-        smithy = JSON.parse(String(base64decode(service_blob.content)))
-        service_file.definition = _parse_smithy_model(smithy)
+        blob = GitHub.blob(service_file.repo, service_file.sha; auth)
+        def = JSON.parse(String(base64decode(blob.content)))
+        service_file.definition = _parse_smithy_model(def)
     end
 
     return service_file.definition
