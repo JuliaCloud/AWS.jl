@@ -33,7 +33,7 @@ include(joinpath("utilities", "utilities.jl"))
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
-include("AWSMetadata.jl")
+include(joinpath("api_generation", "APIGeneration.jl"))
 include("IMDS.jl")
 
 include(joinpath("utilities", "request.jl"))

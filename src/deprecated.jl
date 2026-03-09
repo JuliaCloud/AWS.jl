@@ -1,4 +1,4 @@
-using Base: Base, @deprecate
+using Base: Base, @deprecate, @deprecate_binding
 
 # Emulates the legacy `use_response_type=false` response behavior using the `AWS.Response`
 function legacy_response(
@@ -263,3 +263,5 @@ function global_aws_config(config::AbstractAWSConfig)
     aws_config[] = config
     return config
 end
+
+@deprecate_binding AWSMetadata APIGeneration false

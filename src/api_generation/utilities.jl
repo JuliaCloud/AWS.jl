@@ -5,8 +5,8 @@ mutable struct ServiceFile
     definition::Union{AbstractDict,Nothing}
 end
 
-function ServiceFile(repo::String, tree_item::AbstractDict)
-    return ServiceFile(repo, tree_item["path"], tree_item["sha"], nothing)
+function ServiceFile(repo::String, blob::AbstractDict)
+    return ServiceFile(repo, blob["path"], blob["sha"], nothing)
 end
 
 function service_definition(
@@ -32,18 +32,21 @@ function Base.:(==)(a::ServiceFile, b::ServiceFile)
 end
 
 """
-Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
+Get a list of all AWS service API definition files from the `aws-sdk-js` GitHub repository.
 """
-function _get_service_files(repo_name::String, auth::GitHub.Authorization)
-    master_tree = @mock tree(repo_name, "master"; auth=auth)
+function _get_service_files(auth::GitHub.Authorization)
+    github_repo = "aws/aws-sdk-js"  # Owner and repository name
+    master_tree = @mock tree(github_repo, "master"; auth=auth)
     apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
-    files = @mock tree(repo_name, apis_sha)
+    files = @mock tree(github_repo, apis_sha)
     tree_items = files.tree
 
-    filter!(f -> endswith(f["path"], ".normal.json"), tree_items)
-    tree_items = _filter_latest_service_version(tree_items)
+    service_file_blobs = filter!(tree_items) do t
+        t["type"] == "blob" && endswith(t["path"], ".normal.json")
+    end
+    service_file_blobs = _filter_latest_service_version(service_file_blobs)
 
-    return [ServiceFile(repo_name, item) for item in tree_items]
+    return [ServiceFile(github_repo, blob) for blob in service_file_blobs]
 end
 
 """

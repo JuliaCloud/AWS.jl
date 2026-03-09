@@ -29,7 +29,7 @@ jobs:
         shell: julia --threads=auto --project {0}
         run: |
           using AWS
-          AWS.AWSMetadata.parse_aws_metadata()
+          AWS.APIGeneration.parse_aws_metadata()
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
       - name: Format code
