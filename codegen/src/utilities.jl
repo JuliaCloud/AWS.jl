@@ -70,21 +70,21 @@ function _parse_smithy_model(model::AbstractDict)
     raw_shapes = model["shapes"]
 
     # Find the service shape
-    svc_key, svc_shape = first(
-        (k, v) for (k, v) in raw_shapes if get(v, "type", "") == "service"
+    service_shape_id, service_shape = only(
+        (k, v) for (k, v) in raw_shapes if get(v, "type", nothing) == "service"
     )
 
-    traits = get(svc_shape, "traits", Dict())
-    svc_info = get(traits, "aws.api#service", Dict())
+    traits = get(service_shape, "traits", Dict())
+    service_info = get(traits, "aws.api#service", Dict())
 
     # Extract service metadata
-    sigv4_name = get(get(traits, "aws.auth#sigv4", Dict()), "name", nothing)
-    endpoint_prefix = get(svc_info, "endpointPrefix", sigv4_name)
-    service_id = get(svc_info, "sdkId", _shape_name(svc_key))
+    signing_name = get(get(traits, "aws.auth#sigv4", Dict()), "name", nothing)
+    endpoint_prefix = get(service_info, "endpointPrefix", signing_name)
+    service_id = get(service_info, "sdkId", _shape_name(service_shape_id))
 
     # Version is on the service shape; fall back to extracting from docId (e.g. acm-pca)
-    api_version = if haskey(svc_shape, "version")
-        svc_shape["version"]
+    api_version = if haskey(service_shape, "version")
+        service_shape["version"]
     else
         doc_id = get(svc_info, "docId", "")
         m = match(r"(\d{4}-\d{2}-\d{2})$", doc_id)
@@ -100,13 +100,14 @@ function _parse_smithy_model(model::AbstractDict)
         "apiVersion" => api_version,
     )
 
-    if sigv4_name !== nothing && sigv4_name != endpoint_prefix
-        metadata["signingName"] = sigv4_name
+    # `signingName` only need to be defined when it differs from `endpointPrefix`
+    if signing_name !== nothing && signing_name != endpoint_prefix
+        metadata["signingName"] = signing_name
     end
 
     if protocol == "json"
         metadata["jsonVersion"] = json_version
-        metadata["targetPrefix"] = _shape_name(svc_key)
+        metadata["targetPrefix"] = _shape_name(service_shape_id)
     end
 
     # Build shapes dict (strip namespaces, convert member traits to legacy format)
