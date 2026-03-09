@@ -13,6 +13,11 @@ function ServiceFile(tree::AbstractDict; auth::GitHub.Authorization)
     return ServiceFile(tree["path"], String(blob))
 end
 
+# Avoid printing contents to the REPL as they can be quite large
+function Base.show(io::IO, sf::ServiceFile)
+    println(io, "ServiceFile($(repr(sf.file_name)), \"...\")")
+end
+
 """
     _get_service_model_trees(; auth::GitHub.Authorization) -> Vector{Dict}
 
