@@ -345,9 +345,12 @@ function _clean_documentation(documentation::String)
         documentation, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
     )
 
+    # Escape any backslashes
+    documentation = replace(documentation, "\\" => "\\\\")
+
     documentation = replace(documentation, r"(?<!\\)\$" => "\\\$")
     documentation = replace(documentation, "\"\"\"" => "\\\"\\\"\\\"")
-    # documentation = replace(documentation, '\\' => "")
+
     # documentation = replace(documentation, '"' => "\\\"")
     # documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
 
